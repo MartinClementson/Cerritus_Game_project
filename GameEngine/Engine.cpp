@@ -10,16 +10,18 @@ Engine::Engine()
 
 Engine::~Engine()
 {
+	delete graphics;
 }
 
 void Engine::Initialize(HWND* window)
 {
-
+	graphics->Initialize(window);
 
 }
 
 void Engine::Release()
 {
+	graphics->Release();
 }
 
 void Engine::Frame(double * deltaTime)
