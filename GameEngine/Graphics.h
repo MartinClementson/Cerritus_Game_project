@@ -4,16 +4,8 @@
 #
 
 #include "Constants.h"
+#include "LibIncluder.h"
 
-
-#include <windows.h>
-#include <d3d11.h>
-#include <d3dcompiler.h>
-#include <DirectXMath.h>
-#include <d3d11sdklayers.h>
-#pragma comment (lib, "d3d11.lib")
-#pragma comment (lib, "d3dcompiler.lib")
-#pragma comment(lib, "dxguid.lib")
 
 
 #pragma endregion
@@ -23,23 +15,30 @@ class Graphics
 
 private:
 	//Device and context
-	ID3D11Device* gDevice 					  = nullptr;
-	ID3D11DeviceContext* gDeviceContext		  = nullptr;
-	IDXGISwapChain* gSwapChain				  = nullptr;
-	ID3D11RenderTargetView* gBackBufferRTV	  = nullptr;
+	ID3D11Device* gDevice 					    = nullptr;
+	ID3D11DeviceContext* gDeviceContext		    = nullptr;
+	IDXGISwapChain* gSwapChain				    = nullptr;
+	ID3D11RenderTargetView* gBackBufferRTV	    = nullptr;
+	ID3D11Debug* debug; //Debug COM
 
 	//Depth stencil and buffer
-	ID3D11DepthStencilState* depthState		  = nullptr;
-	ID3D11DepthStencilView* depthStencilView  = nullptr;
-	ID3D11Texture2D* depthBuffer			  = nullptr;
+	ID3D11DepthStencilState* depthState		    = nullptr;
+	ID3D11DepthStencilView* depthStencilView    = nullptr;
+	ID3D11Texture2D* depthBuffer			    = nullptr;
 
 	//window handle
-	HWND* wndHandle							  = nullptr;
+	HWND* wndHandle							    = nullptr;
 
 	//Buffers
-	ID3D11Buffer* worldBuffer				  = nullptr; //world constBuffer
-	ID3D11Buffer* camBuffer					  = nullptr; //Camera constBuffer
-	ID3D11Buffer* lightBuffer				  = nullptr; //Light constBuffer
+	ID3D11Buffer* worldBuffer				    = nullptr; //world constBuffer
+	ID3D11Buffer* camBuffer					    = nullptr; //Camera constBuffer
+	ID3D11Buffer* lightBuffer				    = nullptr; //Light constBuffer
+
+
+	//Compute shader related
+
+	ID3D11UnorderedAccessView* gBackBufferUAV   = nullptr;
+	ID3D11ShaderResourceView *BackBufferTexture = nullptr;
 public:
 	Graphics();
 	~Graphics();
