@@ -5,14 +5,14 @@
 #include "Scene.h"
 #include "Player.h"
 #include "Input.h"
-//#include "GUI.h"
+#include "GUI.h"
 
 class GameState :
 	public StateClass
 {
 public:
 	GameState();
-	~GameState();
+	virtual ~GameState();
 	void Initialize();
 	void Release();
 	void Update(double deltaTime);
@@ -25,7 +25,7 @@ private:
 	Scene* room2;
 	Player player;
 	Input* input;
-	//GUI* GameUI;
+	GUI* GameUI;
 	MainPausedState* pause;
 	MainDeathState* death;
 

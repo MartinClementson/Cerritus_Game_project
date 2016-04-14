@@ -298,6 +298,15 @@
     <ClCompile Include="MainStateMachine.cpp">
       <Filter>GameLogic\StateMachines\StateClass\MainStateMachene</Filter>
     </ClCompile>
+    <ClCompile Include="GUI.cpp">
+      <Filter>GameLogic\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIElement.cpp">
+      <Filter>GameLogic\GUI\GuiElements</Filter>
+    </ClCompile>
+    <ClCompile Include="Trap.cpp">
+      <Filter>GameLogic\Scene\Traps</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -413,6 +422,15 @@
     </ClInclude>
     <ClInclude Include="MainStateMachine.h">
       <Filter>GameLogic\StateMachines\StateClass\MainStateMachene</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI.h">
+      <Filter>GameLogic\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIElement.h">
+      <Filter>GameLogic\GUI\GuiElements</Filter>
+    </ClInclude>
+    <ClInclude Include="Trap.h">
+      <Filter>GameLogic\Scene\Traps</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

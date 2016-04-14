@@ -9,7 +9,7 @@ class Player :
 {
 public:
 	Player();
-	~Player();
+	virtual ~Player();
 
 	void Initialize();
 	void Release();

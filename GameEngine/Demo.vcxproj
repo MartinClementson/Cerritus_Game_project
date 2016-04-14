@@ -89,6 +89,8 @@
     <ClCompile Include="GameOverState.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="GUI.cpp" />
+    <ClCompile Include="GUIElement.cpp" />
     <ClCompile Include="IdleState.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputHandler.cpp" />
@@ -111,6 +113,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="StateClass.cpp" />
+    <ClCompile Include="Trap.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -128,6 +131,8 @@
     <ClInclude Include="GameOverState.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="GUI.h" />
+    <ClInclude Include="GUIElement.h" />
     <ClInclude Include="IdleState.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputHandler.h" />
@@ -151,6 +156,7 @@
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="StateClass.h" />
     <ClInclude Include="LibIncluder.h" />
+    <ClInclude Include="Trap.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

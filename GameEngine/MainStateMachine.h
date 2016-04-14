@@ -6,7 +6,7 @@ class MainStateMachine
 {
 public:
 	MainStateMachine();
-	~MainStateMachine();
+	virtual ~MainStateMachine();
 	void Update(double deltaTime);
 	void Render();
 	void Initialize();

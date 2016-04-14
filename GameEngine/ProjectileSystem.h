@@ -6,7 +6,7 @@ class ProjectileSystem
 {
 public:
 	ProjectileSystem();
-	~ProjectileSystem();
+	virtual ~ProjectileSystem();
 	
 private:
 	std::vector<Projectile> projectiles;
