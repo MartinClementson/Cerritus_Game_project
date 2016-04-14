@@ -9,6 +9,8 @@ Graphics::Graphics()
 
 Graphics::~Graphics()
 {
+	if (gameObjects != nullptr)
+		delete gameObjects;
 }
 
 void Graphics::Initialize(HWND * window)
@@ -17,6 +19,8 @@ void Graphics::Initialize(HWND * window)
 	this->wndHandle = window;
 
 	hr = CreateDirect3DContext();
+
+	gameObjects = new std::vector<RenderInfoObject*>;
 
 
 
@@ -48,6 +52,38 @@ void Graphics::Release()
 		debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
 		SAFE_RELEASE(debug);
 	}
+}
+
+void Graphics::Render()
+{
+	float clearColor[] = { 0, 0, 0, 1 };
+
+	RenderScene();
+	
+
+
+}
+
+void Graphics::RenderScene()
+{
+
+	for (unsigned int i = 0; i < gameObjects->size(); i++)
+	{
+
+
+	}
+
+}
+
+void Graphics::FinishFrame() // this one clears the graphics for this frame. So that it can start a new cycle next frame
+{
+	gameObjects->clear(); //clear the queue
+
+}
+
+void Graphics::QueueRender(RenderInfoObject *object)
+{
+	this->gameObjects->push_back(object);
 }
 
 HRESULT Graphics::CreateDirect3DContext()
