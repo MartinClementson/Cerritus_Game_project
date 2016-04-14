@@ -1,18 +1,22 @@
 #pragma once
 #include "StateClass.h"
-class IdleState :
+#include "Scene.h"
+//#include "GUI.h"
+class GameOverState :
 	public StateClass
 {
 public:
-	IdleState();
-	~IdleState();
+	GameOverState();
+	~GameOverState();
 	void Initialize();
 	void Release();
 	void Update(double deltaTime);
 	void Render();
 private:
-	void AIPattern();
 	void OnEnter();
 	void OnExit();
+private:
+	Scene* GameOverScene;
+	//GUI* gameOverGUI
 };
 

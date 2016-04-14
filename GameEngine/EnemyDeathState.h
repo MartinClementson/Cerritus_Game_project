@@ -1,11 +1,11 @@
 #pragma once
 #include "StateClass.h"
-class IdleState :
+class EnemyDeathState :
 	public StateClass
 {
 public:
-	IdleState();
-	~IdleState();
+	EnemyDeathState();
+	~EnemyDeathState();
 	void Initialize();
 	void Release();
 	void Update(double deltaTime);

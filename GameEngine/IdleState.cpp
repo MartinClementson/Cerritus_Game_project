@@ -30,3 +30,11 @@ void IdleState::Render()
 void IdleState::AIPattern()
 {
 }
+
+void IdleState::OnEnter()
+{
+}
+
+void IdleState::OnExit()
+{
+}

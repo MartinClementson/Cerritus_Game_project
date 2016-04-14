@@ -30,3 +30,11 @@ void AttackState::Render()
 void AttackState::AIPattern()
 {
 }
+
+void AttackState::OnEnter()
+{
+}
+
+void AttackState::OnExit()
+{
+}

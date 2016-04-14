@@ -12,5 +12,7 @@ public:
 	void Render();
 private:
 	void AIPattern();
+	void OnEnter();
+	void OnExit();
 };
 

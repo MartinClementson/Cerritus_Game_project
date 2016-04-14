@@ -1,16 +1,17 @@
 #pragma once
 #include "StateClass.h"
-class DeathState :
+class MainPausedState :
 	public StateClass
 {
 public:
-	DeathState();
-	~DeathState();
+	MainPausedState();
+	~MainPausedState();
 	void Initialize();
 	void Release();
 	void Update(double deltaTime);
 	void Render();
 private:
-	void AIPattern();
+	void OnEnter();
+	void OnExit();
 };
 

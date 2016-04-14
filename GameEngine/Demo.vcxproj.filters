@@ -274,11 +274,29 @@
     <ClCompile Include="IdleState.cpp">
       <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\IdleState</Filter>
     </ClCompile>
-    <ClCompile Include="DeathState.cpp">
-      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\DeathState</Filter>
-    </ClCompile>
     <ClCompile Include="AttackState.cpp">
       <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\AttackState</Filter>
+    </ClCompile>
+    <ClCompile Include="MainPausedState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameState\PausedState</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyDeathState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\DeathState</Filter>
+    </ClCompile>
+    <ClCompile Include="MainDeathState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameState\DeathState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameOverState</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\MenuState</Filter>
+    </ClCompile>
+    <ClCompile Include="MainStateMachine.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -372,11 +390,29 @@
     <ClInclude Include="IdleState.h">
       <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\IdleState</Filter>
     </ClInclude>
-    <ClInclude Include="DeathState.h">
-      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\DeathState</Filter>
-    </ClInclude>
     <ClInclude Include="AttackState.h">
       <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\AttackState</Filter>
+    </ClInclude>
+    <ClInclude Include="MainPausedState.h">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameState\PausedState</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyDeathState.h">
+      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\DeathState</Filter>
+    </ClInclude>
+    <ClInclude Include="MainDeathState.h">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameState\DeathState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverState.h">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameOverState</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuState.h">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\MenuState</Filter>
+    </ClInclude>
+    <ClInclude Include="MainStateMachine.h">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
