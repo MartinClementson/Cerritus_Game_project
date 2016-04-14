@@ -211,6 +211,9 @@
     <ClCompile Include="Input.cpp">
       <Filter>GameLogic\InputHandler\Input</Filter>
     </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>GameLogic\Character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -233,6 +236,9 @@
     </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>GameLogic\InputHandler\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>GameLogic\Character</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,4 +1,6 @@
 #pragma once
+#include "LibIncluder.h"
+
 class InputHandler
 {
 public:
@@ -26,7 +28,7 @@ public:
 
 	//bool IsKeyPressed(InputKeys* key);
 	//bool IsKeyHeld(InputKeys* key);
-	//XMVECTOR2 GetMousePosition();
+	DirectX::XMFLOAT2 GetMousePosition();
 	//bool isMouseClicked(InputKeys* mouseKey;)
 	
 };
