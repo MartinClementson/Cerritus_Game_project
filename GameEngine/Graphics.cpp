@@ -106,8 +106,8 @@ HRESULT Graphics::CreateDirect3DContext()
 
 	ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
 
-	scd.BufferDesc.Width = WIN_WIDTH;
-	scd.BufferDesc.Height = WIN_HEIGHT;
+	scd.BufferDesc.Width = (UINT)WIN_WIDTH;
+	scd.BufferDesc.Height = (UINT)WIN_HEIGHT;
 	scd.BufferCount = 1;
 	scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT | DXGI_USAGE_SHADER_INPUT | DXGI_USAGE_UNORDERED_ACCESS;
@@ -152,8 +152,8 @@ HRESULT Graphics::CreateDirect3DContext()
 	//Here goes depth buffer
 	D3D11_TEXTURE2D_DESC desc;
 
-	desc.Width = WIN_WIDTH;
-	desc.Height = WIN_HEIGHT;
+	desc.Width = (UINT)WIN_WIDTH;
+	desc.Height = (UINT)WIN_HEIGHT;
 	desc.MipLevels = 1;
 	desc.ArraySize = 1;
 	desc.Format = DXGI_FORMAT_D32_FLOAT;
