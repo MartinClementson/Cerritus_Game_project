@@ -253,6 +253,12 @@
     <ClCompile Include="Particle.cpp">
       <Filter>GameLogic\Scene\GameObject\ParticleEmmiter\Particle</Filter>
     </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>GameLogic\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyStateMachine.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -323,6 +329,12 @@
     </ClInclude>
     <ClInclude Include="Particle.h">
       <Filter>GameLogic\Scene\GameObject\ParticleEmmiter\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>GameLogic\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyStateMachine.h">
+      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
