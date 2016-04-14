@@ -3,12 +3,7 @@
 HWND InitWindow(HINSTANCE hInstance);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
-/*
- Entry point for our program
- This part of the code uses extensively Windows Datatypes, please the following
- link for more detail about them,
- https://msdn.microsoft.com/en-us/library/windows/desktop/aa383751(v=vs.85).aspx
-*/
+
 int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow )
 {
 	MSG msg = { 0 };
