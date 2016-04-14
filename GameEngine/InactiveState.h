@@ -1,11 +1,11 @@
 #pragma once
 #include "StateClass.h"
-class InactiveClass :
+class InactiveState :
 	public StateClass
 {
 public:
-	InactiveClass();
-	virtual ~InactiveClass();
+	InactiveState();
+	virtual ~InactiveState();
 	void Initialize();
 	void Release();
 	void Render();

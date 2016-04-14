@@ -1,6 +1,6 @@
 #pragma once
 #include "ActiveState.h"
-#include "IdleState.h"
+#include "TrapIdleState.h"
 #include "InactiveState.h"
 class TrapStateMachine
 {
@@ -14,8 +14,8 @@ public:
 	void Render();
 private:
 	ActiveState* activeState;
-	InactiveState* activeState;
-	IdleState* idleState;
+	InactiveState* InactiveState;
+	TrapIdleState* idleState;
 	//TrapState activeState;//enum
 };
 

@@ -29,12 +29,12 @@ void Input::Release()
 //{
 //	return false;
 //}
-//
-//XMVECTOR2 Input::GetMousePosition()
-//{
-//	return XMVECTOR2();
-//}
-//
+
+DirectX::XMFLOAT2 Input::GetMousePosition()
+{
+	return DirectX::XMFLOAT2();
+}
+
 //bool Input::isMouseClicked(InputKeys * mouseKey)
 //{
 //	return false;

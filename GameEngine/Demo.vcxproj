@@ -95,7 +95,7 @@
     <ClCompile Include="GUI.cpp" />
     <ClCompile Include="GUIElement.cpp" />
     <ClCompile Include="EnemyIdleState.cpp" />
-    <ClCompile Include="InactiveClass.cpp" />
+    <ClCompile Include="InactiveState.cpp" />
     <ClCompile Include="TrapIdleState.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputHandler.cpp" />
@@ -144,7 +144,7 @@
     <ClInclude Include="GUI.h" />
     <ClInclude Include="GUIElement.h" />
     <ClInclude Include="EnemyIdleState.h" />
-    <ClInclude Include="InactiveClass.h" />
+    <ClInclude Include="InactiveState.h" />
     <ClInclude Include="TrapIdleState.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputHandler.h" />
