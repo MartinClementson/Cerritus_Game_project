@@ -79,11 +79,15 @@
   <ItemGroup>
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Graphics.cpp" />
+    <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="StateClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Graphics.h" />
+    <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="StateClass.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
