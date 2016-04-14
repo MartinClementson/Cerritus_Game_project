@@ -10,3 +10,7 @@ ResourceManager::ResourceManager()
 ResourceManager::~ResourceManager()
 {
 }
+
+void ResourceManager::Release()
+{
+}
