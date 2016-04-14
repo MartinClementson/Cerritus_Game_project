@@ -226,8 +226,32 @@
     <ClCompile Include="ResourceManager.cpp">
       <Filter>ResourceEngine\ResourceManager</Filter>
     </ClCompile>
-    <ClCompile Include="ParticleSystem.cpp">
+    <ClCompile Include="Scene.cpp">
+      <Filter>GameLogic\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>GameLogic\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectileSystem.cpp">
       <Filter>GameLogic\Character\ProjectileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>GameLogic\Scene\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>GameLogic\Scene\GameObject\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>GameLogic\Scene\GameObject\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySpawn.cpp">
+      <Filter>GameLogic\Scene\GameObject\EnemySpawn</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleEmmiter.cpp">
+      <Filter>GameLogic\Scene\GameObject\ParticleEmmiter</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>GameLogic\Scene\GameObject\ParticleEmmiter\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -264,9 +288,6 @@
     <ClInclude Include="ResourceManager.h">
       <Filter>ResourceEngine\ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="ParticleSystem.h">
-      <Filter>GameLogic\Character\ProjectileSystem</Filter>
-    </ClInclude>
     <ClInclude Include="RenderInfo.h">
       <Filter>Structs</Filter>
     </ClInclude>
@@ -275,6 +296,33 @@
     </ClInclude>
     <ClInclude Include="DataTypes.h">
       <Filter>Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>GameLogic\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>GameLogic\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileSystem.h">
+      <Filter>GameLogic\Character\ProjectileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>GameLogic\Scene\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>GameLogic\Scene\GameObject\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>GameLogic\Scene\GameObject\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySpawn.h">
+      <Filter>GameLogic\Scene\GameObject\EnemySpawn</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleEmmiter.h">
+      <Filter>GameLogic\Scene\GameObject\ParticleEmmiter</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>GameLogic\Scene\GameObject\ParticleEmmiter\Particle</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
