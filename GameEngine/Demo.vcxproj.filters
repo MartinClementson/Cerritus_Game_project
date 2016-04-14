@@ -235,6 +235,9 @@
     <ClCompile Include="ProjectileSystem.cpp">
       <Filter>GameLogic\Character\ProjectileSystem</Filter>
     </ClCompile>
+    <ClCompile Include="GameObject.cpp">
+      <Filter>GameLogic\Scene\GameObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -287,6 +290,9 @@
     </ClInclude>
     <ClInclude Include="ProjectileSystem.h">
       <Filter>GameLogic\Character\ProjectileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="GameObject.h">
+      <Filter>GameLogic\Scene\GameObject</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
