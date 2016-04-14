@@ -4,7 +4,7 @@
 
 #define WINDOWED true
 #define WIREFRAME false
-#define VSYNC 1 //1 == ON, 0 = OFF
+#define VSYNC 0 //1 == ON, 0 = OFF
 #define FPS_CAP 60
 
 #define DEBUG 2 /* 2 = debug,  or : D3D11_CREATE_DEVICE_DEBUG */

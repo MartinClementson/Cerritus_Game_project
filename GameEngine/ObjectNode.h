@@ -1,12 +1,14 @@
 #pragma once
 #include "LibIncluder.h"
 #include "Constants.h"
+#include "RenderInfo.h"
 
 class ObjectNode
 {
-private:
+protected:
 	ID3D11DeviceContext* gDeviceContext; //a pointer to the device. (not sure if it will be needed her in the end)
-	
+	ID3D11Device *gDevice;
+
 	unsigned int objectId = 0;
 	unsigned int parentId = 0;
 
@@ -17,8 +19,8 @@ public:
 	virtual ~ObjectNode();
 
 
-	//virtual void Initialize();
-	//virtual void Release();
+	virtual void Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext);
+	virtual void Release() {};
 	//virtual void Render();
 	//virtual void Update();
 };

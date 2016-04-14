@@ -18,7 +18,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	#endif
 
 	MSG msg = { 0 };
-
+	double tempDT = 10.0;
 	// create window
 	HWND wndHandle = InitWindow(hInstance);
 	
@@ -43,6 +43,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 			}
 			else
 			{
+				engine->Frame(&tempDT);
 				// update/render goes here
 			}
 		}
