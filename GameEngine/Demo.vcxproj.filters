@@ -220,6 +220,9 @@
     <ClCompile Include="Projectile.cpp">
       <Filter>GameLogic\Character\ProjectileSystem\Projectile</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>ResourceEngine\ResourceManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -251,6 +254,9 @@
     </ClInclude>
     <ClInclude Include="Projectile.h">
       <Filter>GameLogic\Character\ProjectileSystem\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>ResourceEngine\ResourceManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
