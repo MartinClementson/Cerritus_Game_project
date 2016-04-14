@@ -21,6 +21,13 @@ private:
 
 	//HWND hwndP;
 public:
+	void Initialize();
+	void Release();
 
+	//bool IsKeyPressed(InputKeys* key);
+	//bool IsKeyHeld(InputKeys* key);
+	//XMVECTOR2 GetMousePosition();
+	//bool isMouseClicked(InputKeys* mouseKey;)
+	
 };
 
