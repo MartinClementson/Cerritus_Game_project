@@ -244,6 +244,9 @@
     <ClCompile Include="Light.cpp">
       <Filter>GameLogic\Scene\GameObject\Light</Filter>
     </ClCompile>
+    <ClCompile Include="EnemySpawn.cpp">
+      <Filter>GameLogic\Scene\GameObject\EnemySpawn</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -305,6 +308,9 @@
     </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>GameLogic\Scene\GameObject\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySpawn.h">
+      <Filter>GameLogic\Scene\GameObject\EnemySpawn</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
