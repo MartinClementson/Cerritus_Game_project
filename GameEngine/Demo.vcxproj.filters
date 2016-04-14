@@ -71,6 +71,15 @@
     <Filter Include="GameLogick\Character\Player">
       <UniqueIdentifier>{7adf9807-8bd2-43bf-a3ac-6c2942053d2f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameLogick\Effects">
+      <UniqueIdentifier>{e2ebbf26-2669-4425-aaec-2ce88cb1708d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogick\Effects\ProjectileSystem">
+      <UniqueIdentifier>{aabb8c61-9ecd-46b1-9664-75644792183c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogick\Effects\ParticleSystem">
+      <UniqueIdentifier>{48e97308-6717-4325-9e21-241e55452456}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ResourceEngine\Graphics">
       <UniqueIdentifier>{4f9731d2-459d-4ff3-8c4a-7c53b9c1a47f}</UniqueIdentifier>
     </Filter>
@@ -79,108 +88,6 @@
     </Filter>
     <Filter Include="Source Files\EngineClass">
       <UniqueIdentifier>{df7a1c0f-cfb6-4226-b07e-5fb6fd7127ee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\Input\InputHandler">
-      <UniqueIdentifier>{a798f459-c9c7-43f3-b550-34cf8e151efe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\StateMachines\StateClass\MainStateMachene\GameState\PausedState">
-      <UniqueIdentifier>{1c2b2c4e-aba3-4b13-b149-c59ce121aa9f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\StateMachines\StateClass\MainStateMachene\GameState\DeathState">
-      <UniqueIdentifier>{2337014e-0e7f-4042-ba58-0dd529c91d23}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\Animation">
-      <UniqueIdentifier>{85c6d1cf-83d6-45ef-8617-c47c40899149}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\GUI">
-      <UniqueIdentifier>{00f0f59f-6476-428a-be5d-860ff416458d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\GUI\GuiElements">
-      <UniqueIdentifier>{933f9944-edf1-41f6-b8a5-caca33c6a3ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\GUI\GuiElements\GuiSprite">
-      <UniqueIdentifier>{46752a06-2081-4c6a-813a-e8e05b16e8e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\Scene">
-      <UniqueIdentifier>{eba0f830-8fe4-40f4-996f-9148fef5704f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\Scene\GameObject">
-      <UniqueIdentifier>{fb5ddab1-c46b-4074-a867-f71c6023d910}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\Scene\GameObject\Model">
-      <UniqueIdentifier>{789b6451-e469-4a58-9a54-45346c2af553}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\Scene\GameObject\Light">
-      <UniqueIdentifier>{3cb178a8-8c62-454c-92f1-38fd8b19ef0a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\Scene\GameObject\EnemySpawn">
-      <UniqueIdentifier>{72d771c9-cf0b-48ff-b96a-e25484b59edc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\Scene\GameObject\ParticleEmmiter">
-      <UniqueIdentifier>{b8d5b059-6bca-4f1e-b0bb-a701ad4579cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\Character\ProjectileSystem">
-      <UniqueIdentifier>{aabb8c61-9ecd-46b1-9664-75644792183c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\Character\ProjectileSystem\Projectile">
-      <UniqueIdentifier>{ca7ae40f-fbfb-40fe-9975-de2729589dfe}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\Scene\GameObject\ParticleEmmiter\Particle">
-      <UniqueIdentifier>{48e97308-6717-4325-9e21-241e55452456}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\Scene\Trap">
-      <UniqueIdentifier>{b4633353-8a8f-4b34-81f6-e3def7370737}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\Scene\Trap\BearTrap">
-      <UniqueIdentifier>{bc2f7ce1-3440-4f1a-a7d2-2f601cdc25f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\Scene\Trap\FireTrap">
-      <UniqueIdentifier>{5f0d1f89-33bb-4e97-bbc0-ac0c674bbc97}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ResourceEngine\ResourceManager">
-      <UniqueIdentifier>{ca8880b4-3e27-46c8-8dbb-352735abdf9a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ResourceEngine\ResourceManager\MaterialManager">
-      <UniqueIdentifier>{c96680f4-d053-4986-99a7-be1b3a787683}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ResourceEngine\ResourceManager\ShaderManager">
-      <UniqueIdentifier>{57a7a7a2-fff7-4e70-bc9c-ae4f9b96c165}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ResourceEngine\ResourceManager\MeshManager">
-      <UniqueIdentifier>{734cb5c9-0025-4634-8097-72692445e973}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ResourceEngine\ResourceManager\MeshManager\AnimationManager">
-      <UniqueIdentifier>{feb88a99-6d27-4097-ab1f-0064363de542}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ResourceEngine\ResourceManager\TextureManager">
-      <UniqueIdentifier>{fc9c308f-1725-46b8-9f42-b608713d736c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ResourceEngine\ResourceManager\TextureManager\TextureResource">
-      <UniqueIdentifier>{3b65fe9d-975f-4663-bb4d-de652b61c38b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ResourceEngine\ResourceManager\TextureManager\TextureResource\RenderTexture">
-      <UniqueIdentifier>{aae9c9d9-abe4-466b-85f1-b79b795bc5b9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ResourceEngine\ObjectNode">
-      <UniqueIdentifier>{8dd3f6f5-aa04-4634-80a1-9babea07067c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ResourceEngine\ObjectNode\Camera">
-      <UniqueIdentifier>{449a4295-8052-40b6-ab6d-43f69094cfd7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ResourceEngine\ObjectNode\Light">
-      <UniqueIdentifier>{1a329282-d6aa-478b-ae52-824466b74661}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ResourceEngine\ObjectNode\Mesh">
-      <UniqueIdentifier>{0f2edb97-95a0-4a91-af0e-b3313897eccc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ResourceEngine\ObjectNode\Camera\Frustrum">
-      <UniqueIdentifier>{a737e2e0-8dfc-4b2b-8dd9-d47248cf787c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Main\GameTimer">
-      <UniqueIdentifier>{ff22ab3d-d573-4a36-8f37-d9a36683ae30}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ResourceEngine\Material">
-      <UniqueIdentifier>{8bb12299-bdb1-44de-b11e-d0fa2e0a5bcd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -200,6 +107,12 @@
     </ClInclude>
     <ClInclude Include="Graphics.h">
       <Filter>ResourceEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LibIncluder.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
