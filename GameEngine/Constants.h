@@ -11,4 +11,10 @@
 #define DIRECTINPUT_VERSION 0x0800
 #define D3D_DEBUG_INFO
 
+
+//IMPORTANT! This is only to be used with directX COM objects
 #define SAFE_RELEASE(p) { if ( (p) ) { (p)->Release(); (p) = 0; } }
+
+
+#define _CRTDBG_MAP_ALLOC
+#define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
