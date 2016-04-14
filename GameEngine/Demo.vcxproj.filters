@@ -116,9 +116,6 @@
     <Filter Include="GameLogic\StateMachines\StateClass\EnemyStateMachine\AttackState">
       <UniqueIdentifier>{e77c53e5-9fde-4a29-b49e-881fc6d6a80d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogic\StateMachines\StateClass\EnemyStateMachine\DethState">
-      <UniqueIdentifier>{5245aa01-39e6-42d7-96ee-ed6db919092a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameLogic\Character">
       <UniqueIdentifier>{d4c8cf35-ecdf-4882-8042-d2463a9427dc}</UniqueIdentifier>
     </Filter>
@@ -167,15 +164,6 @@
     <Filter Include="GameLogic\Scene\GameObject\ParticleEmmiter\Particle">
       <UniqueIdentifier>{48e97308-6717-4325-9e21-241e55452456}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogic\Scene\Trap">
-      <UniqueIdentifier>{b4633353-8a8f-4b34-81f6-e3def7370737}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogic\Scene\Trap\BearTrap">
-      <UniqueIdentifier>{bc2f7ce1-3440-4f1a-a7d2-2f601cdc25f2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogic\Scene\Trap\FireTrap">
-      <UniqueIdentifier>{5f0d1f89-33bb-4e97-bbc0-ac0c674bbc97}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameLogic\InputHandler">
       <UniqueIdentifier>{a798f459-c9c7-43f3-b550-34cf8e151efe}</UniqueIdentifier>
     </Filter>
@@ -193,6 +181,18 @@
     </Filter>
     <Filter Include="Structs">
       <UniqueIdentifier>{a09811cd-6ac4-471d-9e8f-db6011a7652b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\StateMachines\StateClass\EnemyStateMachine\DeathState">
+      <UniqueIdentifier>{5245aa01-39e6-42d7-96ee-ed6db919092a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\Scene\Traps">
+      <UniqueIdentifier>{b4633353-8a8f-4b34-81f6-e3def7370737}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\Scene\Traps\BearTrap">
+      <UniqueIdentifier>{bc2f7ce1-3440-4f1a-a7d2-2f601cdc25f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\Scene\Traps\FireTrap">
+      <UniqueIdentifier>{5f0d1f89-33bb-4e97-bbc0-ac0c674bbc97}</UniqueIdentifier>
     </Filter>
     <Filter Include="ResourceEngine\ObjectNode\Renderer">
       <UniqueIdentifier>{d4e49cfc-aa90-41ca-83f8-90e046321ba9}</UniqueIdentifier>
@@ -274,8 +274,62 @@
     <ClCompile Include="ObjectNode.cpp">
       <Filter>ResourceEngine\ObjectNode</Filter>
     </ClCompile>
+    <ClCompile Include="AttackState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\AttackState</Filter>
+    </ClCompile>
+    <ClCompile Include="MainPausedState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameState\PausedState</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyDeathState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\DeathState</Filter>
+    </ClCompile>
+    <ClCompile Include="MainDeathState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameState\DeathState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameOverState</Filter>
+    </ClCompile>
+    <ClCompile Include="MenuState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\MenuState</Filter>
+    </ClCompile>
+    <ClCompile Include="MainStateMachine.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI.cpp">
+      <Filter>GameLogic\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUIElement.cpp">
+      <Filter>GameLogic\GUI\GuiElements</Filter>
+    </ClCompile>
+    <ClCompile Include="Trap.cpp">
+      <Filter>GameLogic\Scene\Traps</Filter>
+    </ClCompile>
+    <ClCompile Include="FireTrap.cpp">
+      <Filter>GameLogic\Scene\Traps\FireTrap</Filter>
+    </ClCompile>
+    <ClCompile Include="BearTrap.cpp">
+      <Filter>GameLogic\Scene\Traps\BearTrap</Filter>
+    </ClCompile>
+    <ClCompile Include="TrapStateMachine.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine</Filter>
+    </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>ResourceEngine\ObjectNode\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyIdleState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\IdleState</Filter>
+    </ClCompile>
+    <ClCompile Include="ActiveState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\ActiveState</Filter>
+    </ClCompile>
+    <ClCompile Include="TrapIdleState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\IdleState</Filter>
+    </ClCompile>
+    <ClCompile Include="InactiveClass.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\InactiveState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -366,8 +420,62 @@
     <ClInclude Include="Mesh.h">
       <Filter>ResourceEngine\ObjectNode\Mesh</Filter>
     </ClInclude>
+    <ClInclude Include="AttackState.h">
+      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\AttackState</Filter>
+    </ClInclude>
+    <ClInclude Include="MainPausedState.h">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameState\PausedState</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyDeathState.h">
+      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\DeathState</Filter>
+    </ClInclude>
+    <ClInclude Include="MainDeathState.h">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameState\DeathState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameState.h">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverState.h">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameOverState</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuState.h">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\MenuState</Filter>
+    </ClInclude>
+    <ClInclude Include="MainStateMachine.h">
+      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI.h">
+      <Filter>GameLogic\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUIElement.h">
+      <Filter>GameLogic\GUI\GuiElements</Filter>
+    </ClInclude>
+    <ClInclude Include="Trap.h">
+      <Filter>GameLogic\Scene\Traps</Filter>
+    </ClInclude>
+    <ClInclude Include="FireTrap.h">
+      <Filter>GameLogic\Scene\Traps\FireTrap</Filter>
+    </ClInclude>
+    <ClInclude Include="BearTrap.h">
+      <Filter>GameLogic\Scene\Traps\BearTrap</Filter>
+    </ClInclude>
+    <ClInclude Include="TrapStateMachine.h">
+      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine</Filter>
+    </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>ResourceEngine\ObjectNode\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyIdleState.h">
+      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\IdleState</Filter>
+    </ClInclude>
+    <ClInclude Include="ActiveState.h">
+      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\ActiveState</Filter>
+    </ClInclude>
+    <ClInclude Include="TrapIdleState.h">
+      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\IdleState</Filter>
+    </ClInclude>
+    <ClInclude Include="InactiveClass.h">
+      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\InactiveState</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

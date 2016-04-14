@@ -6,7 +6,7 @@ class Character
 {
 public:
 	Character();
-	~Character();
+	virtual ~Character();
 private:
 	DirectX::XMFLOAT3 position;
 	DirectX::XMFLOAT3 rotation;

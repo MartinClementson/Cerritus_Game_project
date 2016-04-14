@@ -4,7 +4,7 @@ class Projectile
 {
 public:
 	Projectile();
-	~Projectile();
+	virtual ~Projectile();
 private:
 	DirectX::XMFLOAT3 position;
 	DirectX::XMFLOAT3 direction;
