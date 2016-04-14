@@ -19,6 +19,7 @@ private:
 	ID3D11DeviceContext* gDeviceContext		  = nullptr;
 	IDXGISwapChain* gSwapChain				  = nullptr;
 	ID3D11RenderTargetView* gBackBufferRTV	  = nullptr;
+	ID3D11Debug* debug; //Debug COM
 
 	//Depth stencil and buffer
 	ID3D11DepthStencilState* depthState		  = nullptr;

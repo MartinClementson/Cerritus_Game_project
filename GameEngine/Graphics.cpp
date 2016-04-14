@@ -30,15 +30,15 @@ HRESULT Graphics::CreateDirect3DContext()
 
 	ZeroMemory(&scd, sizeof(DXGI_SWAP_CHAIN_DESC));
 
-	scd.BufferDesc.Width = WINDOW_WIDTH;
-	scd.BufferDesc.Height = WINDOW_HEIGHT;
+	scd.BufferDesc.Width = WIN_WIDTH;
+	scd.BufferDesc.Height = WIN_HEIGHT;
 	scd.BufferCount = 1;
 	scd.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 	scd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT | DXGI_USAGE_SHADER_INPUT | DXGI_USAGE_UNORDERED_ACCESS;
 	scd.OutputWindow = *wndHandle;
 	scd.SampleDesc.Count = 1;
 	scd.Windowed = WINDOWED;
-	scd.BufferDesc.RefreshRate.Numerator = 60; //fps cap
+	scd.BufferDesc.RefreshRate.Numerator = FPS_CAP; //fps cap
 	scd.BufferDesc.RefreshRate.Denominator = 1;
 
 	HRESULT hr = D3D11CreateDeviceAndSwapChain(
@@ -56,12 +56,15 @@ HRESULT Graphics::CreateDirect3DContext()
 		&this->gDeviceContext);
 
 	if (FAILED(hr))
-		errorMsg("Failed to create Swap Chain");
+		MessageBox(*wndHandle, L"Failed to create Swap Chain", L"Error", MB_ICONERROR | MB_OK);
+		
+
+
 
 	if (DEBUG == 2)
 	{
 		hr = gDevice->QueryInterface(__uuidof(ID3D11Debug), (void**)&debug);
-		if (FAILED(hr)) errorMsg("ERROR INITIALIZING DEBUG");
+		if (FAILED(hr))MessageBox(*wndHandle, L"ERROR INITIALIZING DEBUG", L"Error", MB_ICONERROR | MB_OK); 
 
 	}
 
