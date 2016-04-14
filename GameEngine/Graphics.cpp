@@ -13,12 +13,41 @@ Graphics::~Graphics()
 
 void Graphics::Initialize(HWND * window)
 {
+	HRESULT hr;
+	this->wndHandle = window;
+
+	hr = CreateDirect3DContext();
+
 
 
 }
 
 void Graphics::Release()
 {
+	SAFE_RELEASE(worldBuffer);
+	SAFE_RELEASE(camBuffer);
+	SAFE_RELEASE(lightBuffer);
+
+
+	SAFE_RELEASE(depthState);
+	SAFE_RELEASE(depthStencilView);
+	SAFE_RELEASE(depthBuffer);
+
+
+	SAFE_RELEASE(gBackBufferUAV);
+	SAFE_RELEASE(BackBufferTexture);
+
+
+	SAFE_RELEASE(gBackBufferRTV);
+	SAFE_RELEASE(gSwapChain);
+	SAFE_RELEASE(gDeviceContext);
+	SAFE_RELEASE(gDevice);
+	if (DEBUG == 2)
+	{
+	
+		debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+		SAFE_RELEASE(debug);
+	}
 }
 
 HRESULT Graphics::CreateDirect3DContext()
@@ -56,8 +85,11 @@ HRESULT Graphics::CreateDirect3DContext()
 		&this->gDeviceContext);
 
 	if (FAILED(hr))
+	{
+
 		MessageBox(*wndHandle, L"Failed to create Swap Chain", L"Error", MB_ICONERROR | MB_OK);
-		
+		return hr;
+	}
 
 
 
@@ -126,7 +158,11 @@ HRESULT Graphics::CreateDirect3DContext()
 
 		hr = this->gDevice->CreateRenderTargetView(pBackBuffer, NULL, &this->gBackBufferRTV);
 		if (FAILED(hr))
+		{
+
 			MessageBox(*wndHandle, L"FAILED to create Backbuffer RTV", L"Error", MB_ICONERROR | MB_OK);
+			return hr;
+		}
 		
 
 
@@ -145,7 +181,11 @@ HRESULT Graphics::CreateDirect3DContext()
 		hr = this->gDevice->CreateUnorderedAccessView(pBackBuffer, nullptr, &gBackBufferUAV);
 
 		if (FAILED(hr))
+		{
+
 			MessageBox(*wndHandle, L"Failed to create UAV", L"Error", MB_ICONERROR | MB_OK);
+			return hr;
+		}
 
 
 
@@ -153,7 +193,11 @@ HRESULT Graphics::CreateDirect3DContext()
 		hr = this->gDevice->CreateShaderResourceView(pBackBuffer, nullptr, &BackBufferTexture);
 
 		if (FAILED(hr))
+		{
+
 			MessageBox(*wndHandle, L"FAILED to create Backbuffer SRV", L"Error", MB_ICONERROR | MB_OK);
+			return hr;
+		}
 
 
 		pBackBuffer->Release();
@@ -164,5 +208,4 @@ HRESULT Graphics::CreateDirect3DContext()
 
 	return hr;
 
-	return E_NOTIMPL;
 }
