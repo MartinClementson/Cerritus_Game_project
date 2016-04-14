@@ -27,10 +27,10 @@ public:
 	void Initialize();
 	void Release();
 
-	//bool IsKeyPressed(InputKeys* key);
-	//bool IsKeyHeld(InputKeys* key);
+	//bool IsKeyPressed(InputKeys* key);//need enums
+	//bool IsKeyHeld(InputKeys* key);need enums
 	DirectX::XMFLOAT2 GetMousePosition();
-	//bool isMouseClicked(InputKeys* mouseKey;)
+	//bool isMouseClicked(InputKeys* mouseKey;)need enums
 	
 };
 

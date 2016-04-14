@@ -1,6 +1,7 @@
 #pragma once
 #include "LibIncluder.h"
 #include "Animation.h"
+#include "Model.h"
 
 class Character
 {
@@ -13,7 +14,7 @@ private:
 
 	float movementSpeed, health, damage;
 	Animation* animations;
-	//Model* meshes;
+	Model* meshes;
 public:
 	virtual void Initialize();
 	virtual void Release();

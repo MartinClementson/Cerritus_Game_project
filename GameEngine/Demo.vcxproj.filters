@@ -328,7 +328,7 @@
     <ClCompile Include="TrapIdleState.cpp">
       <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\IdleState</Filter>
     </ClCompile>
-    <ClCompile Include="InactiveClass.cpp">
+    <ClCompile Include="InactiveState.cpp">
       <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\InactiveState</Filter>
     </ClCompile>
   </ItemGroup>
@@ -474,7 +474,7 @@
     <ClInclude Include="TrapIdleState.h">
       <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\IdleState</Filter>
     </ClInclude>
-    <ClInclude Include="InactiveClass.h">
+    <ClInclude Include="InactiveState.h">
       <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\InactiveState</Filter>
     </ClInclude>
   </ItemGroup>

@@ -4,6 +4,7 @@
 #include "Input.h"
 #include "ProjectileSystem.h"
 
+
 class Player :
 	public Character
 {
@@ -20,7 +21,7 @@ public:
 	Input* userInput;
 
 private:
-	//Meshes meshID;
+	//Meshes meshID;//enum
 	ProjectileSystem* projectileSystem;
 
 	//Collision();
