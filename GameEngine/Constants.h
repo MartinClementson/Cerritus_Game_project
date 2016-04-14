@@ -1,6 +1,6 @@
 #pragma once
-#define WIN_WIDTH 800.0f
-#define WIN_HEIGHT 600.0f
+#define WIN_WIDTH 800.0
+#define WIN_HEIGHT 600.0
 
 #define WINDOWED true
 #define WIREFRAME false
@@ -8,7 +8,9 @@
 #define FPS_CAP 60
 
 #define DEBUG 2 /* 2 = debug,  or : D3D11_CREATE_DEVICE_DEBUG */
-#define DIRECTINPUT_VERSION 0x0800
+#ifndef DIRECTINPUT_VERSION
+	#define DIRECTINPUT_VERSION 0x0800
+#endif
 #define D3D_DEBUG_INFO
 
 
