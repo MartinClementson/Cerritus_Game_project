@@ -17,7 +17,7 @@ private:
 public:
 	virtual void Initialize();
 	virtual void Release();
-	virtual void Update();
+	virtual void Update(double deltaTime);
 	virtual void Render();
 
 	//Collision();
