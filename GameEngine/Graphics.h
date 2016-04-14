@@ -39,14 +39,17 @@ private:
 
 	//Compute shader related
 
-	ID3D11UnorderedAccessView* gBackBufferUAV   = nullptr;
-	ID3D11ShaderResourceView *BackBufferTexture = nullptr;
+	ID3D11UnorderedAccessView* gBackBufferUAV		 = nullptr;
+	ID3D11ShaderResourceView *BackBufferTexture		 = nullptr;
 #pragma endregion
 
 #pragma region Private members
-	ResourceManager * resourceManager			= nullptr;
-	std::vector<RenderInfoObject*>* gameObjects  = nullptr;
-
+	ResourceManager *				resourceManager	 = nullptr;
+	std::vector<RenderInfoObject*>* gameObjects		 = nullptr;
+	std::vector<RenderInfoUI*>*     uiObjects		 = nullptr;
+	std::vector<RenderInfoEnemy*>*  enemyObjects	 = nullptr;
+	std::vector<RenderInfoChar*>*   charObjects		 = nullptr;
+	std::vector<RenderInfoTrap*>*   trapObjects		 = nullptr;
 #pragma endregion
 
 private:
@@ -64,6 +67,12 @@ public:
 
 	void Render();
 	void QueueRender(RenderInfoObject *object);
+
+	
+	void QueueRender(RenderInfoUI* object);
+	void QueueRender(RenderInfoEnemy* object);
+	void QueueRender(RenderInfoChar* object);
+	void QueueRender(RenderInfoTrap* object);
 
 
 };
