@@ -11,8 +11,8 @@ Graphics::~Graphics()
 {
 	if (gameObjects != nullptr)
 		delete gameObjects;
-	if (resourceManager != nullptr)
-		delete resourceManager;
+	if (renderer != nullptr)
+		delete renderer;
 }
 
 void Graphics::Initialize(HWND * window)
@@ -23,8 +23,10 @@ void Graphics::Initialize(HWND * window)
 	hr = CreateDirect3DContext();
 
 	gameObjects = new std::vector<RenderInfoObject*>;
-	resourceManager = new ResourceManager();
+	renderer = new Renderer();
 
+	SetViewPort();
+	Render();
 
 }
 
@@ -33,16 +35,13 @@ void Graphics::Release()
 
 #pragma region Release custom classes
 
-	resourceManager->Release();
+	renderer->Release();
 #pragma endregion
 
 
 
 
-	SAFE_RELEASE(worldBuffer);
-	SAFE_RELEASE(camBuffer);
-	SAFE_RELEASE(lightBuffer);
-
+	
 
 	SAFE_RELEASE(depthState);
 	SAFE_RELEASE(depthStencilView);
@@ -65,12 +64,13 @@ void Graphics::Release()
 	}
 }
 
-void Graphics::Render()
+void Graphics::Render() //manage RenderPasses here
 {
-	float clearColor[] = { 0, 0, 0, 1 };
-
-	RenderScene();
 	
+	//this->gDeviceContext->OMSetRenderTargets(1, &this->gBackbufferRTV, depthStencilView);
+	RenderScene();
+
+	FinishFrame();
 
 
 }
@@ -80,7 +80,7 @@ void Graphics::RenderScene()
 
 	for (unsigned int i = 0; i < gameObjects->size(); i++)
 	{
-
+		renderer->Render(gameObjects->at(i));
 
 	}
 
@@ -89,6 +89,18 @@ void Graphics::RenderScene()
 void Graphics::FinishFrame() // this one clears the graphics for this frame. So that it can start a new cycle next frame
 {
 	gameObjects->clear(); //clear the queue
+
+}
+
+void Graphics::SetViewPort()
+{
+	vp.Width = (float)WIN_WIDTH;
+	vp.Height = (float)WIN_HEIGHT;
+	vp.MinDepth = 0.0f;
+	vp.MaxDepth = 1.0f;
+	vp.TopLeftX = 0;
+	vp.TopLeftY = 0;
+	this->gDeviceContext->RSSetViewports(1, &vp);
 
 }
 

@@ -6,7 +6,7 @@
 #include "Constants.h"
 #include "LibIncluder.h"
 #include "RenderInfo.h"
-#include "ResourceManager.h"
+#include "Renderer.h"
 
 
 #pragma endregion
@@ -31,10 +31,7 @@ private:
 	//window handle
 	HWND* wndHandle							    = nullptr;
 
-	//Buffers
-	ID3D11Buffer* worldBuffer				    = nullptr; //world constBuffer
-	ID3D11Buffer* camBuffer					    = nullptr; //Camera constBuffer
-	ID3D11Buffer* lightBuffer				    = nullptr; //Light constBuffer
+	
 
 
 	//Compute shader related
@@ -44,7 +41,8 @@ private:
 #pragma endregion
 
 #pragma region Private members
-	ResourceManager *				resourceManager	 = nullptr;
+	D3D11_VIEWPORT vp; //Viewport
+	Renderer*	renderer							 = nullptr;
 	std::vector<RenderInfoObject*>* gameObjects		 = nullptr;
 	std::vector<RenderInfoUI*>*     uiObjects		 = nullptr;
 	std::vector<RenderInfoEnemy*>*  enemyObjects	 = nullptr;
@@ -56,7 +54,7 @@ private:
 	HRESULT CreateDirect3DContext();
 	void RenderScene();
 	void FinishFrame();
-
+	void SetViewPort();
 
 public:
 	Graphics();
