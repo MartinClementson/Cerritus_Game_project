@@ -14,3 +14,4 @@ ResourceManager::~ResourceManager()
 void ResourceManager::Release()
 {
 }
+

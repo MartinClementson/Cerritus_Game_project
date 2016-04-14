@@ -21,7 +21,7 @@ void Engine::Initialize(HWND* window)
 
 void Engine::Release()
 {
-	SAFE_RELEASE(graphics);
+	graphics->Release();
 }
 
 void Engine::Frame(double * deltaTime)
