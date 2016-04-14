@@ -247,6 +247,12 @@
     <ClCompile Include="EnemySpawn.cpp">
       <Filter>GameLogic\Scene\GameObject\EnemySpawn</Filter>
     </ClCompile>
+    <ClCompile Include="ParticleEmmiter.cpp">
+      <Filter>GameLogic\Scene\GameObject\ParticleEmmiter</Filter>
+    </ClCompile>
+    <ClCompile Include="Particle.cpp">
+      <Filter>GameLogic\Scene\GameObject\ParticleEmmiter\Particle</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -311,6 +317,12 @@
     </ClInclude>
     <ClInclude Include="EnemySpawn.h">
       <Filter>GameLogic\Scene\GameObject\EnemySpawn</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleEmmiter.h">
+      <Filter>GameLogic\Scene\GameObject\ParticleEmmiter</Filter>
+    </ClInclude>
+    <ClInclude Include="Particle.h">
+      <Filter>GameLogic\Scene\GameObject\ParticleEmmiter\Particle</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

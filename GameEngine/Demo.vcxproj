@@ -88,6 +88,8 @@
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="ParticleEmmiter.cpp" />
     <ClCompile Include="ProjectileSystem.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Projectile.cpp" />
@@ -109,6 +111,8 @@
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleEmmiter.h" />
     <ClInclude Include="ProjectileSystem.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Projectile.h" />
