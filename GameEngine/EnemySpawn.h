@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include "Character
+#include "Enemy.h"
 class EnemySpawn :
 	public GameObject
 {
