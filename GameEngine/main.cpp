@@ -74,7 +74,7 @@ HWND InitWindow(HINSTANCE hInstance)
 		return false;
 
 	// define a struct for the window size
-	RECT rc = { 0, 0, WIN_WIDTH, WIN_HEIGHT };
+	RECT rc = { 0, 0, (LONG)WIN_WIDTH, (LONG)WIN_HEIGHT };
 	// create the window to this size and with additional properties
 	// (border, menu, etc)
 	AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
