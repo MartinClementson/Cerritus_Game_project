@@ -137,6 +137,51 @@
     <Filter Include="GameLogick\Scene\Trap\FireTrap">
       <UniqueIdentifier>{5f0d1f89-33bb-4e97-bbc0-ac0c674bbc97}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceEngine\ResourceManager">
+      <UniqueIdentifier>{ca8880b4-3e27-46c8-8dbb-352735abdf9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\MaterialManager">
+      <UniqueIdentifier>{c96680f4-d053-4986-99a7-be1b3a787683}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\ShaderManager">
+      <UniqueIdentifier>{57a7a7a2-fff7-4e70-bc9c-ae4f9b96c165}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\MeshManager">
+      <UniqueIdentifier>{734cb5c9-0025-4634-8097-72692445e973}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\MeshManager\AnimationManager">
+      <UniqueIdentifier>{feb88a99-6d27-4097-ab1f-0064363de542}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\TextureManager">
+      <UniqueIdentifier>{fc9c308f-1725-46b8-9f42-b608713d736c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\TextureManager\TextureResource">
+      <UniqueIdentifier>{3b65fe9d-975f-4663-bb4d-de652b61c38b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\TextureManager\TextureResource\RenderTexture">
+      <UniqueIdentifier>{aae9c9d9-abe4-466b-85f1-b79b795bc5b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ObjectNode">
+      <UniqueIdentifier>{8dd3f6f5-aa04-4634-80a1-9babea07067c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ObjectNode\Camera">
+      <UniqueIdentifier>{449a4295-8052-40b6-ab6d-43f69094cfd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ObjectNode\Light">
+      <UniqueIdentifier>{1a329282-d6aa-478b-ae52-824466b74661}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ObjectNode\Mesh">
+      <UniqueIdentifier>{0f2edb97-95a0-4a91-af0e-b3313897eccc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ObjectNode\Camera\Frustrum">
+      <UniqueIdentifier>{a737e2e0-8dfc-4b2b-8dd9-d47248cf787c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Main\GameTimer">
+      <UniqueIdentifier>{ff22ab3d-d573-4a36-8f37-d9a36683ae30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\Material">
+      <UniqueIdentifier>{8bb12299-bdb1-44de-b11e-d0fa2e0a5bcd}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
