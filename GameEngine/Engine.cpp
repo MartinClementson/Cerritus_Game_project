@@ -12,7 +12,7 @@ Engine::~Engine()
 {
 }
 
-void Engine::Initialize()0
+void Engine::Initialize(HWND* window)
 {
 
 

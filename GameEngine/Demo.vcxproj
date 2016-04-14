@@ -84,10 +84,12 @@
     <ClCompile Include="StateClass.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Constants.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="StateClass.h" />
+    <ClInclude Include="LibIncluder.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

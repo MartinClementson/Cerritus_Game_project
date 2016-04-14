@@ -181,6 +181,15 @@
     </Filter>
     <Filter Include="GameLogic\InputHandler\Input">
       <UniqueIdentifier>{8c877256-3e40-40e8-842f-78ce4c7265d9}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="ResourceEngine\Graphics">
+      <UniqueIdentifier>{4f9731d2-459d-4ff3-8c4a-7c53b9c1a47f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Main">
+      <UniqueIdentifier>{40d44298-1c7f-4b87-a44d-b3b8afb8e587}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\EngineClass">
+      <UniqueIdentifier>{df7a1c0f-cfb6-4226-b07e-5fb6fd7127ee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -212,6 +221,12 @@
     </ClInclude>
     <ClInclude Include="InputHandler.h">
       <Filter>GameLogic\InputHandler</Filter>
+	</ClInclude>
+    <ClInclude Include="Constants.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LibIncluder.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
