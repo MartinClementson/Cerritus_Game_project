@@ -5,9 +5,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="GameLogick">
-      <UniqueIdentifier>{0b86fd32-2851-4458-8a19-9a576f8bb4f1}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ResourceEngine">
       <UniqueIdentifier>{e6740563-e973-4a29-92d3-57199bb4c43c}</UniqueIdentifier>
     </Filter>
@@ -17,69 +14,174 @@
     <Filter Include="ResourceEngine\Shaders\BasicShader">
       <UniqueIdentifier>{6c2301a3-74d7-4408-a32c-b7ffa6988eac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogick\StateMachines">
+    <Filter Include="ResourceEngine\Graphics">
+      <UniqueIdentifier>{4f9731d2-459d-4ff3-8c4a-7c53b9c1a47f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Main">
+      <UniqueIdentifier>{40d44298-1c7f-4b87-a44d-b3b8afb8e587}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\EngineClass">
+      <UniqueIdentifier>{df7a1c0f-cfb6-4226-b07e-5fb6fd7127ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager">
+      <UniqueIdentifier>{ca8880b4-3e27-46c8-8dbb-352735abdf9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\MaterialManager">
+      <UniqueIdentifier>{c96680f4-d053-4986-99a7-be1b3a787683}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\ShaderManager">
+      <UniqueIdentifier>{57a7a7a2-fff7-4e70-bc9c-ae4f9b96c165}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\MeshManager">
+      <UniqueIdentifier>{734cb5c9-0025-4634-8097-72692445e973}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\MeshManager\AnimationManager">
+      <UniqueIdentifier>{feb88a99-6d27-4097-ab1f-0064363de542}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\TextureManager">
+      <UniqueIdentifier>{fc9c308f-1725-46b8-9f42-b608713d736c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\TextureManager\TextureResource">
+      <UniqueIdentifier>{3b65fe9d-975f-4663-bb4d-de652b61c38b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\TextureManager\TextureResource\RenderTexture">
+      <UniqueIdentifier>{aae9c9d9-abe4-466b-85f1-b79b795bc5b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ObjectNode">
+      <UniqueIdentifier>{8dd3f6f5-aa04-4634-80a1-9babea07067c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ObjectNode\Camera">
+      <UniqueIdentifier>{449a4295-8052-40b6-ab6d-43f69094cfd7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ObjectNode\Light">
+      <UniqueIdentifier>{1a329282-d6aa-478b-ae52-824466b74661}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ObjectNode\Mesh">
+      <UniqueIdentifier>{0f2edb97-95a0-4a91-af0e-b3313897eccc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ObjectNode\Camera\Frustrum">
+      <UniqueIdentifier>{a737e2e0-8dfc-4b2b-8dd9-d47248cf787c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Main\GameTimer">
+      <UniqueIdentifier>{ff22ab3d-d573-4a36-8f37-d9a36683ae30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\Material">
+      <UniqueIdentifier>{8bb12299-bdb1-44de-b11e-d0fa2e0a5bcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic">
+      <UniqueIdentifier>{0b86fd32-2851-4458-8a19-9a576f8bb4f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\StateMachines">
       <UniqueIdentifier>{7315bbdd-8889-4e0f-9f36-fbc630c98f92}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogick\Input">
-      <UniqueIdentifier>{8c877256-3e40-40e8-842f-78ce4c7265d9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\StateMachines\StateClass">
+    <Filter Include="GameLogic\StateMachines\StateClass">
       <UniqueIdentifier>{fc9ed7ca-c289-4cc7-9eed-d27ec869a13a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogick\StateMachines\StateClass\TrapStateMachine">
+    <Filter Include="GameLogic\StateMachines\StateClass\TrapStateMachine">
       <UniqueIdentifier>{57cb3a62-ef68-447f-9862-2da4971ca0c7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogick\StateMachines\StateClass\TrapStateMachine\ActiveState">
+    <Filter Include="GameLogic\StateMachines\StateClass\TrapStateMachine\ActiveState">
       <UniqueIdentifier>{551be78e-a8a4-4842-ae73-030e4dcf17fd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogick\StateMachines\StateClass\TrapStateMachine\IdleState">
+    <Filter Include="GameLogic\StateMachines\StateClass\TrapStateMachine\IdleState">
       <UniqueIdentifier>{666fc834-e9d2-4939-9d06-3e5895a5fb69}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogick\StateMachines\StateClass\TrapStateMachine\InactiveState">
+    <Filter Include="GameLogic\StateMachines\StateClass\TrapStateMachine\InactiveState">
       <UniqueIdentifier>{dfaf94b6-434d-4049-92f0-3f3d6e0a82c1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogick\StateMachines\StateClass\MainStateMachene">
+    <Filter Include="GameLogic\StateMachines\StateClass\MainStateMachene">
       <UniqueIdentifier>{dea8b801-b951-432a-9cae-a3b1da9167ba}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogick\StateMachines\StateClass\MainStateMachene\GameState">
+    <Filter Include="GameLogic\StateMachines\StateClass\MainStateMachene\GameState">
       <UniqueIdentifier>{fa7a08a9-d505-424c-82e7-1b9bffb12d81}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogick\StateMachines\StateClass\MainStateMachene\GameOverState">
+    <Filter Include="GameLogic\StateMachines\StateClass\MainStateMachene\GameState\PausedState">
+      <UniqueIdentifier>{1c2b2c4e-aba3-4b13-b149-c59ce121aa9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\StateMachines\StateClass\MainStateMachene\GameState\DeathState">
+      <UniqueIdentifier>{2337014e-0e7f-4042-ba58-0dd529c91d23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\StateMachines\StateClass\MainStateMachene\GameOverState">
       <UniqueIdentifier>{a9322120-8874-407c-ba11-cc3780479f04}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogick\StateMachines\StateClass\MainStateMachene\MenuState">
+    <Filter Include="GameLogic\StateMachines\StateClass\MainStateMachene\MenuState">
       <UniqueIdentifier>{887fe9b6-6a93-4236-9660-156c4d119423}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogick\StateMachines\StateClass\EnemyStateMachine">
+    <Filter Include="GameLogic\StateMachines\StateClass\EnemyStateMachine">
       <UniqueIdentifier>{44f8732c-596c-440a-8662-729a811db57c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogick\StateMachines\StateClass\EnemyStateMachine\IdleState">
+    <Filter Include="GameLogic\StateMachines\StateClass\EnemyStateMachine\IdleState">
       <UniqueIdentifier>{873d59c6-ac3f-49ce-89eb-60a28a5b0616}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogick\StateMachines\StateClass\EnemyStateMachine\AttackState">
+    <Filter Include="GameLogic\StateMachines\StateClass\EnemyStateMachine\AttackState">
       <UniqueIdentifier>{e77c53e5-9fde-4a29-b49e-881fc6d6a80d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogick\StateMachines\StateClass\EnemyStateMachine\DethState">
+    <Filter Include="GameLogic\StateMachines\StateClass\EnemyStateMachine\DethState">
       <UniqueIdentifier>{5245aa01-39e6-42d7-96ee-ed6db919092a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogick\Character">
+    <Filter Include="GameLogic\Character">
       <UniqueIdentifier>{d4c8cf35-ecdf-4882-8042-d2463a9427dc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogick\Character\Enemy">
+    <Filter Include="GameLogic\Character\Enemy">
       <UniqueIdentifier>{35c8e8d6-c87c-4b11-920a-eb43afe2db95}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogick\Character\Player">
+    <Filter Include="GameLogic\Character\Player">
       <UniqueIdentifier>{7adf9807-8bd2-43bf-a3ac-6c2942053d2f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogick\Effects">
-      <UniqueIdentifier>{e2ebbf26-2669-4425-aaec-2ce88cb1708d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\Effects\ProjectileSystem">
+    <Filter Include="GameLogic\Character\ProjectileSystem">
       <UniqueIdentifier>{aabb8c61-9ecd-46b1-9664-75644792183c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogick\Effects\ParticleSystem">
+    <Filter Include="GameLogic\Character\ProjectileSystem\Projectile">
+      <UniqueIdentifier>{ca7ae40f-fbfb-40fe-9975-de2729589dfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\Animation">
+      <UniqueIdentifier>{85c6d1cf-83d6-45ef-8617-c47c40899149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\GUI">
+      <UniqueIdentifier>{00f0f59f-6476-428a-be5d-860ff416458d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\GUI\GuiElements">
+      <UniqueIdentifier>{933f9944-edf1-41f6-b8a5-caca33c6a3ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\GUI\GuiElements\GuiSprite">
+      <UniqueIdentifier>{46752a06-2081-4c6a-813a-e8e05b16e8e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\Scene">
+      <UniqueIdentifier>{eba0f830-8fe4-40f4-996f-9148fef5704f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\Scene\GameObject">
+      <UniqueIdentifier>{fb5ddab1-c46b-4074-a867-f71c6023d910}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\Scene\GameObject\Model">
+      <UniqueIdentifier>{789b6451-e469-4a58-9a54-45346c2af553}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\Scene\GameObject\Light">
+      <UniqueIdentifier>{3cb178a8-8c62-454c-92f1-38fd8b19ef0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\Scene\GameObject\EnemySpawn">
+      <UniqueIdentifier>{72d771c9-cf0b-48ff-b96a-e25484b59edc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\Scene\GameObject\ParticleEmmiter">
+      <UniqueIdentifier>{b8d5b059-6bca-4f1e-b0bb-a701ad4579cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\Scene\GameObject\ParticleEmmiter\Particle">
       <UniqueIdentifier>{48e97308-6717-4325-9e21-241e55452456}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameLogic\Scene\Trap">
+      <UniqueIdentifier>{b4633353-8a8f-4b34-81f6-e3def7370737}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\Scene\Trap\BearTrap">
+      <UniqueIdentifier>{bc2f7ce1-3440-4f1a-a7d2-2f601cdc25f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\Scene\Trap\FireTrap">
+      <UniqueIdentifier>{5f0d1f89-33bb-4e97-bbc0-ac0c674bbc97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\InputHandler">
+      <UniqueIdentifier>{a798f459-c9c7-43f3-b550-34cf8e151efe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\InputHandler\Input">
+      <UniqueIdentifier>{8c877256-3e40-40e8-842f-78ce4c7265d9}</UniqueIdentifier>
+	</Filter>
     <Filter Include="ResourceEngine\Graphics">
       <UniqueIdentifier>{4f9731d2-459d-4ff3-8c4a-7c53b9c1a47f}</UniqueIdentifier>
     </Filter>
@@ -100,6 +202,12 @@
     <ClCompile Include="Graphics.cpp">
       <Filter>ResourceEngine\Graphics</Filter>
     </ClCompile>
+    <ClCompile Include="StateClass.cpp">
+      <Filter>GameLogic\StateMachines\StateClass</Filter>
+    </ClCompile>
+    <ClCompile Include="InputHandler.cpp">
+      <Filter>GameLogic\InputHandler</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -108,6 +216,12 @@
     <ClInclude Include="Graphics.h">
       <Filter>ResourceEngine\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="StateClass.h">
+      <Filter>GameLogic\StateMachines\StateClass</Filter>
+    </ClInclude>
+    <ClInclude Include="InputHandler.h">
+      <Filter>GameLogic\InputHandler</Filter>
+	</ClInclude>
     <ClInclude Include="Constants.h">
       <Filter>Source Files</Filter>
     </ClInclude>

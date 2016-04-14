@@ -2,8 +2,8 @@
 
 #pragma region Includes
 #
-#define DIRECTINPUT_VERSION 0x0800
 
+#include "Constants.h"
 
 
 #include <windows.h>
