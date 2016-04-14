@@ -274,9 +274,6 @@
     <ClCompile Include="ObjectNode.cpp">
       <Filter>ResourceEngine\ObjectNode</Filter>
     </ClCompile>
-    <ClCompile Include="IdleState.cpp">
-      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\IdleState</Filter>
-    </ClCompile>
     <ClCompile Include="AttackState.cpp">
       <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\AttackState</Filter>
     </ClCompile>
@@ -321,6 +318,18 @@
     </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>ResourceEngine\ObjectNode\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyIdleState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\IdleState</Filter>
+    </ClCompile>
+    <ClCompile Include="ActiveState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\ActiveState</Filter>
+    </ClCompile>
+    <ClCompile Include="TrapIdleState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\IdleState</Filter>
+    </ClCompile>
+    <ClCompile Include="InactiveClass.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\InactiveState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -411,9 +420,6 @@
     <ClInclude Include="Mesh.h">
       <Filter>ResourceEngine\ObjectNode\Mesh</Filter>
     </ClInclude>
-    <ClInclude Include="IdleState.h">
-      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\IdleState</Filter>
-    </ClInclude>
     <ClInclude Include="AttackState.h">
       <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\AttackState</Filter>
     </ClInclude>
@@ -458,6 +464,18 @@
     </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>ResourceEngine\ObjectNode\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyIdleState.h">
+      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\IdleState</Filter>
+    </ClInclude>
+    <ClInclude Include="ActiveState.h">
+      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\ActiveState</Filter>
+    </ClInclude>
+    <ClInclude Include="TrapIdleState.h">
+      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\IdleState</Filter>
+    </ClInclude>
+    <ClInclude Include="InactiveClass.h">
+      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\InactiveState</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

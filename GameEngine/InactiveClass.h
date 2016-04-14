@@ -1,17 +1,16 @@
 #pragma once
 #include "StateClass.h"
-class IdleState :
+class InactiveClass :
 	public StateClass
 {
 public:
-	IdleState();
-	~IdleState();
+	InactiveClass();
+	virtual ~InactiveClass();
 	void Initialize();
 	void Release();
-	void Update(double deltaTime);
 	void Render();
+	void Update(double deltaTime);
 private:
-	void AIPattern();
 	void OnEnter();
 	void OnExit();
 };
