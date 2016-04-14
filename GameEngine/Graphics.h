@@ -4,16 +4,8 @@
 #
 
 #include "Constants.h"
+#include "LibIncluder.h"
 
-
-#include <windows.h>
-#include <d3d11.h>
-#include <d3dcompiler.h>
-#include <DirectXMath.h>
-#include <d3d11sdklayers.h>
-#pragma comment (lib, "d3d11.lib")
-#pragma comment (lib, "d3dcompiler.lib")
-#pragma comment(lib, "dxguid.lib")
 
 
 #pragma endregion
@@ -27,6 +19,7 @@ private:
 	ID3D11DeviceContext* gDeviceContext		  = nullptr;
 	IDXGISwapChain* gSwapChain				  = nullptr;
 	ID3D11RenderTargetView* gBackBufferRTV	  = nullptr;
+	ID3D11Debug* debug; //Debug COM
 
 	//Depth stencil and buffer
 	ID3D11DepthStencilState* depthState		  = nullptr;
