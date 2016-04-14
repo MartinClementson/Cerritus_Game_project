@@ -79,6 +79,7 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemySpawn.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="GameObject.cpp" />
@@ -103,6 +104,7 @@
     <ClInclude Include="ConstantBufferStruct.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DataTypes.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemySpawn.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="GameObject.h" />

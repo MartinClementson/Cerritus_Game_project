@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "Character
 class EnemySpawn :
 	public GameObject
 {
@@ -11,6 +12,6 @@ public:
 	void Update(double deltaTime);
 	void Render();
 private:
-	//std::vector<Enemy>* enemies;
+	std::vector<Enemy>* enemies;
 };
 
