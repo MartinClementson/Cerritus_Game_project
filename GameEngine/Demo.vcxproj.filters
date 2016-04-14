@@ -214,6 +214,9 @@
     <ClCompile Include="Character.cpp">
       <Filter>GameLogic\Character</Filter>
     </ClCompile>
+    <ClCompile Include="Animation.cpp">
+      <Filter>GameLogic\Animation</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -239,6 +242,9 @@
     </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>GameLogic\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>GameLogic\Animation</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
