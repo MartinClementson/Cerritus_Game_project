@@ -29,6 +29,7 @@ void Engine::Release()
 
 void Engine::Frame(double * deltaTime)
 {
+	Render();
 }
 
 void Engine::Update()
@@ -37,4 +38,5 @@ void Engine::Update()
 
 void Engine::Render()
 {
+	graphics->Render();
 }

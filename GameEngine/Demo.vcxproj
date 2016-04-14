@@ -144,6 +144,7 @@
     <ClInclude Include="GUI.h" />
     <ClInclude Include="GUIElement.h" />
     <ClInclude Include="EnemyIdleState.h" />
+    <ClInclude Include="Enumerations.h" />
     <ClInclude Include="InactiveState.h" />
     <ClInclude Include="TrapIdleState.h" />
     <ClInclude Include="Input.h" />
@@ -171,6 +172,14 @@
     <ClInclude Include="LibIncluder.h" />
     <ClInclude Include="Trap.h" />
     <ClInclude Include="TrapStateMachine.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="PhongShaders.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_main</EntryPointName>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

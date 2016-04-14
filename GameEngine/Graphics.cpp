@@ -24,12 +24,15 @@ void Graphics::Initialize(HWND * window)
 
 	gameObjects = new std::vector<RenderInfoObject*>;
 	renderer = new Renderer();
-	renderer->Initialize(this->gDeviceContext);
+	renderer->Initialize(gDevice,this->gDeviceContext);
 
 	SetViewPort();
 	
 
-	Render();
+	//MOVE THIS DOWN ONCE IT WORKS
+	float clearColor[] = { 0, 0, 1, 1 };
+	this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
+	this->gDeviceContext->ClearRenderTargetView(gBackBufferRTV, clearColor);
 }
 
 void Graphics::Release()
@@ -68,9 +71,7 @@ void Graphics::Release()
 
 void Graphics::Render() //manage RenderPasses here
 {
-	float clearColor[] = { 0, 1, 0, 1 };
-	this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
-	this->gDeviceContext->ClearRenderTargetView(gBackBufferRTV, clearColor);
+	
 	
 	RenderScene();
 
