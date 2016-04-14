@@ -10,7 +10,7 @@ Engine::Engine()
 
 Engine::~Engine()
 {
-	delete graphics;
+	delete this->graphics;
 }
 
 void Engine::Initialize(HWND* window)
@@ -21,7 +21,7 @@ void Engine::Initialize(HWND* window)
 
 void Engine::Release()
 {
-	graphics->Release();
+	SAFE_RELEASE(graphics);
 }
 
 void Engine::Frame(double * deltaTime)

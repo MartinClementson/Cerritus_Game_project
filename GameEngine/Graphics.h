@@ -1,11 +1,12 @@
 #pragma once
 
 #pragma region Includes
-#
+
 
 #include "Constants.h"
 #include "LibIncluder.h"
-
+#include "RenderInfo.h"
+#include "ResourceManager.h"
 
 
 #pragma endregion
@@ -14,6 +15,7 @@ class Graphics
 {
 
 private:
+#pragma region DirectX Related
 	//Device and context
 	ID3D11Device* gDevice 					    = nullptr;
 	ID3D11DeviceContext* gDeviceContext		    = nullptr;
@@ -39,6 +41,20 @@ private:
 
 	ID3D11UnorderedAccessView* gBackBufferUAV   = nullptr;
 	ID3D11ShaderResourceView *BackBufferTexture = nullptr;
+#pragma endregion
+
+#pragma region Private members
+	ResourceManager * resourceManager			= nullptr;
+	std::vector<RenderInfoObject*>* gameObjects  = nullptr;
+
+#pragma endregion
+
+private:
+	HRESULT CreateDirect3DContext();
+	void RenderScene();
+	void FinishFrame();
+
+
 public:
 	Graphics();
 	~Graphics();
@@ -47,8 +63,8 @@ public:
 	void Release();
 
 	void Render();
+	void QueueRender(RenderInfoObject *object);
 
-	HRESULT CreateDirect3DContext();
 
 };
 
