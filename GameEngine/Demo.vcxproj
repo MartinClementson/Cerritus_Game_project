@@ -85,6 +85,7 @@
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="StateClass.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -96,6 +97,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="StateClass.h" />
     <ClInclude Include="LibIncluder.h" />
   </ItemGroup>
