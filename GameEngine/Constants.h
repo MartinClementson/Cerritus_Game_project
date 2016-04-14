@@ -7,7 +7,7 @@
 #define VSYNC 1 //1 == ON, 0 = OFF
 #define FPS_CAP 60
 
-#define DEBUG 0 /* 2 = debug,  or : D3D11_CREATE_DEVICE_DEBUG */
+#define DEBUG 2 /* 2 = debug,  or : D3D11_CREATE_DEVICE_DEBUG */
 #define DIRECTINPUT_VERSION 0x0800
 #define D3D_DEBUG_INFO
 
