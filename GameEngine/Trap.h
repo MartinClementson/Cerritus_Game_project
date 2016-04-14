@@ -15,6 +15,5 @@ private:
 	float damage;
 	Animation* animation;
 	Model* mesh;
-	
 };
 

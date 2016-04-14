@@ -307,6 +307,15 @@
     <ClCompile Include="Trap.cpp">
       <Filter>GameLogic\Scene\Traps</Filter>
     </ClCompile>
+    <ClCompile Include="FireTrap.cpp">
+      <Filter>GameLogic\Scene\Traps\FireTrap</Filter>
+    </ClCompile>
+    <ClCompile Include="BearTrap.cpp">
+      <Filter>GameLogic\Scene\Traps\BearTrap</Filter>
+    </ClCompile>
+    <ClCompile Include="TrapStateMachine.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -431,6 +440,15 @@
     </ClInclude>
     <ClInclude Include="Trap.h">
       <Filter>GameLogic\Scene\Traps</Filter>
+    </ClInclude>
+    <ClInclude Include="FireTrap.h">
+      <Filter>GameLogic\Scene\Traps\FireTrap</Filter>
+    </ClInclude>
+    <ClInclude Include="BearTrap.h">
+      <Filter>GameLogic\Scene\Traps\BearTrap</Filter>
+    </ClInclude>
+    <ClInclude Include="TrapStateMachine.h">
+      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
