@@ -12,6 +12,6 @@ public:
 	void Update(double deltaTime);
 	void Render();
 private:
-	//EnemyStateMachine* enemyState;
+	EnemyStateMachine* enemyState;
 };
 
