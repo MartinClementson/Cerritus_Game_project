@@ -191,6 +191,9 @@
     <Filter Include="Source Files\EngineClass">
       <UniqueIdentifier>{df7a1c0f-cfb6-4226-b07e-5fb6fd7127ee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Structs">
+      <UniqueIdentifier>{a09811cd-6ac4-471d-9e8f-db6011a7652b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -222,6 +225,9 @@
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>ResourceEngine\ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ParticleSystem.cpp">
+      <Filter>GameLogic\Character\ProjectileSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -257,6 +263,18 @@
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>ResourceEngine\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ParticleSystem.h">
+      <Filter>GameLogic\Character\ProjectileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderInfo.h">
+      <Filter>Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstantBufferStruct.h">
+      <Filter>Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="DataTypes.h">
+      <Filter>Structs</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
