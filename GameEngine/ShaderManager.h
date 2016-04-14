@@ -26,23 +26,57 @@ class ShaderManager
 {
 private:
 
+	// pointers to the main device and context
+	ID3D11Device *gDevice							 = nullptr;
+	ID3D11DeviceContext* gDeviceContext				 = nullptr;
+
+	//SamplerStates
+	ID3D11SamplerState* gSampleState				 = nullptr;
+
 
 	//Shaders for phong shading
-	ID3D11VertexShader*		PHONG_VS				= nullptr;
-	ID3D11GeometryShader*	PHONG_GS				= nullptr;
-	ID3D11PixelShader*		PHONG_PS				= nullptr;
-	ID3D11InputLayout*		gVertexLayoutPhong		= nullptr;
+	ID3D11VertexShader*		PHONG_VS				 = nullptr;
+	ID3D11GeometryShader*	PHONG_GS				 = nullptr;
+	ID3D11PixelShader*		PHONG_PS				 = nullptr;
+	ID3D11InputLayout*		gVertexLayoutPhong		 = nullptr;
 
 
 	//Shaders for the Animation
-	ID3D11VertexShader*		ANIMATION_VS			= nullptr;
-	ID3D11GeometryShader*	ANIMATION_GS			= nullptr;
-	ID3D11PixelShader*		ANIMATION_PS			= nullptr;
-	ID3D11InputLayout*		gVertexLayoutAnimation  = nullptr;
+	ID3D11VertexShader*		ANIMATION_VS			 = nullptr;
+	ID3D11GeometryShader*	ANIMATION_GS			 = nullptr;
+	ID3D11PixelShader*		ANIMATION_PS			 = nullptr;
+	ID3D11InputLayout*		gVertexLayoutAnimation   = nullptr;
+
+
+	//Shaders for particle shading
+	ID3D11VertexShader*		PARTICLE_VS				 = nullptr;
+	ID3D11GeometryShader*	PARTICLE_GS				 = nullptr;
+	ID3D11PixelShader*		PARTICLE_PS				 = nullptr;
+	ID3D11InputLayout*		gVertexLayoutParticle	 = nullptr;
+
+
+	//Shaders for billboard shading
+	ID3D11VertexShader*		BILLBOARD_VS			 = nullptr;
+	ID3D11GeometryShader*	BILLBOARD_GS			 = nullptr;
+	ID3D11PixelShader*		BILLBOARD_PS			 = nullptr;
+	ID3D11InputLayout*		gVertexLayoutBillboard	 = nullptr;
 
 
 public:
 	ShaderManager();
 	~ShaderManager();
+
+	void Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext);
+	void Release();
+
+private:
+
+	void CreateShaders();
+
+	bool CreatePhongShader();
+	bool CreateAnimationShader();
+	bool CreateParticleShader();
+	bool CreateBillboardShader();
+
 };
 
