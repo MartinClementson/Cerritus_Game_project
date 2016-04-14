@@ -181,7 +181,6 @@
     </Filter>
     <Filter Include="Structs">
       <UniqueIdentifier>{a09811cd-6ac4-471d-9e8f-db6011a7652b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameLogic\StateMachines\StateClass\EnemyStateMachine\DeathState">
       <UniqueIdentifier>{5245aa01-39e6-42d7-96ee-ed6db919092a}</UniqueIdentifier>
     </Filter>
@@ -193,6 +192,9 @@
     </Filter>
     <Filter Include="GameLogic\Scene\Traps\FireTrap">
       <UniqueIdentifier>{5f0d1f89-33bb-4e97-bbc0-ac0c674bbc97}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ObjectNode\Renderer">
+      <UniqueIdentifier>{d4e49cfc-aa90-41ca-83f8-90e046321ba9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -315,6 +317,9 @@
     </ClCompile>
     <ClCompile Include="TrapStateMachine.cpp">
       <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>ResourceEngine\ObjectNode\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -449,6 +454,9 @@
     </ClInclude>
     <ClInclude Include="TrapStateMachine.h">
       <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>ResourceEngine\ObjectNode\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

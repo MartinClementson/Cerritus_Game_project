@@ -3,6 +3,7 @@
 #pragma region Includes
 
 #include "Graphics.h"
+#include "InputHandler.h"
 #include <windows.h>
 
 
@@ -14,7 +15,7 @@ class Engine
 
 
 private:
-
+	InputHandler* input;
 	Graphics* graphics;
 
 public:
