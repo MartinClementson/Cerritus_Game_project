@@ -13,7 +13,6 @@
 #include <d3d11sdklayers.h>
 #pragma comment (lib, "d3d11.lib")
 #pragma comment (lib, "d3dcompiler.lib")
-#pragma comment(lib, "dinput8.lib")
 #pragma comment(lib, "dxguid.lib")
 
 
@@ -39,13 +38,16 @@ private:
 
 	//Buffers
 	ID3D11Buffer* worldBuffer				  = nullptr; //world constBuffer
-
-
+	ID3D11Buffer* camBuffer					  = nullptr; //Camera constBuffer
+	ID3D11Buffer* lightBuffer				  = nullptr; //Light constBuffer
 public:
 	Graphics();
 	~Graphics();
+
 	void Initialize(HWND* window);
 	void Release();
+
+	HRESULT CreateDirect3DContext();
 
 };
 
