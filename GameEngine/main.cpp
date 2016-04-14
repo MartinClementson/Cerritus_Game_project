@@ -1,5 +1,8 @@
 #include <windows.h>
 
+#define WIN_WIDTH 800.0f
+#define WIN_HEIGHT 600.0f
+
 HWND InitWindow(HINSTANCE hInstance);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
@@ -57,7 +60,7 @@ HWND InitWindow(HINSTANCE hInstance)
 		return false;
 
 	// define a struct for the window size
-	RECT rc = { 0, 0, 640, 480 };
+	RECT rc = { 0, 0, WIN_WIDTH, WIN_HEIGHT };
 	// create the window to this size and with additional properties
 	// (border, menu, etc)
 	AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
