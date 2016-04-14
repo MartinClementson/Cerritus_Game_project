@@ -11,7 +11,7 @@ StateClass::~StateClass()
 {
 }
 
-void StateClass::Update()
+void StateClass::Update(double deltaTime)
 {
 }
 

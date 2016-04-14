@@ -19,7 +19,7 @@ void Character::Release()
 {
 }
 
-void Character::Update()
+void Character::Update(double deltaTime)
 {
 }
 
