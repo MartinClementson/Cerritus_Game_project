@@ -92,10 +92,6 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 
 }
 
-void Graphics::QueueRender(RenderInfoObject *object)
-{
-	this->gameObjects->push_back(object);
-}
 
 HRESULT Graphics::CreateDirect3DContext()
 {
@@ -256,3 +252,31 @@ HRESULT Graphics::CreateDirect3DContext()
 	return hr;
 
 }
+
+
+
+
+#pragma region QueueRender functions
+
+void Graphics::QueueRender(RenderInfoObject *object)
+{
+	this->gameObjects->push_back(object);
+}
+
+void Graphics::QueueRender(RenderInfoUI * object)
+{
+}
+
+void Graphics::QueueRender(RenderInfoEnemy * object)
+{
+}
+
+void Graphics::QueueRender(RenderInfoChar * object)
+{
+}
+
+void Graphics::QueueRender(RenderInfoTrap * object)
+{
+}
+
+#pragma endregion
