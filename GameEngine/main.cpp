@@ -3,7 +3,7 @@
 
 #include "Constants.h"
 #include "LibIncluder.h"
-
+#include "Engine.h"
 #define _CRTDBG_MAP_ALLOC
 #define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
 
@@ -23,6 +23,10 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	// create window
 	HWND wndHandle = InitWindow(hInstance);
 	
+	//Create engine class
+	Engine* engine = new Engine();
+	engine->Initialize(&wndHandle);
+
 	// window is valid
 	if (wndHandle)
 	{
@@ -45,6 +49,8 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		}
 
 		// finish the program
+		engine->Release();
+		delete engine;
 		DestroyWindow(wndHandle);
 	}
 
@@ -97,6 +103,19 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;		
+	case WM_KEYDOWN:
+
+		switch (wParam)
+		{
+		case VK_ESCAPE:
+
+			#ifdef _DEBUG // This button function only works in debug mode. 
+				PostQuitMessage(0);
+			#endif
+			break;
+		}
+
+	
 	}
 
 	// if we do not handle the message here, simply call the Default handler function
