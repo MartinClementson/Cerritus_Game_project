@@ -29,7 +29,7 @@ void Graphics::Initialize(HWND * window)
 	SetViewPort();
 	
 
-
+	Render();
 }
 
 void Graphics::Release()
@@ -94,6 +94,7 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 {
 	gameObjects->clear(); //clear the queue
 
+	this->gSwapChain->Present(VSYNC, 0); //Change front and back buffer after rendering
 }
 
 void Graphics::SetViewPort()

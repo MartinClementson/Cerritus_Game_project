@@ -30,6 +30,7 @@ void Renderer::Release()
 }
 
 #pragma region Overloaded Render functions
+
 void Renderer::Render(RenderInfoObject * object)
 {
 	RenderInstructions* renderObject;
