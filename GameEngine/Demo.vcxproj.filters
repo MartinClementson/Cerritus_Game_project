@@ -259,8 +259,22 @@
     <ClCompile Include="EnemyStateMachine.cpp">
       <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine</Filter>
     </ClCompile>
+
     <ClCompile Include="IdleState.cpp">
       <Filter>Source Files</Filter>
+
+    <ClCompile Include="Mesh.cpp">
+      <Filter>ResourceEngine\ObjectNode\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="MeshManager.cpp">
+      <Filter>ResourceEngine\ResourceManager\MeshManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ShaderManager.cpp">
+      <Filter>ResourceEngine\ResourceManager\ShaderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectNode.cpp">
+      <Filter>ResourceEngine\ObjectNode</Filter>
+    </ClCompile>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -340,5 +354,18 @@
       <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine</Filter>
     </ClInclude>
     <ClInclude Include="IdleState.h" />
+    </ClInclude>
+    <ClInclude Include="ShaderManager.h">
+      <Filter>ResourceEngine\ResourceManager\ShaderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshManager.h">
+      <Filter>ResourceEngine\ResourceManager\MeshManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectNode.h">
+      <Filter>ResourceEngine\ObjectNode</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>ResourceEngine\ObjectNode\Mesh</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
