@@ -48,7 +48,7 @@ void InputHandler::Release()
 //	return XMVECTOR2();
 //}
 
-//bool InputHandler::isMouseClicked(InputKeys* mouseKey;)
+//bool InputHandler::isMouseClicked(InputKeys* mouseKey);
 //{
 //	return false;
 //}
