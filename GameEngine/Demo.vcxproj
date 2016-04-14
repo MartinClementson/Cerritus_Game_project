@@ -79,14 +79,22 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="EnemySpawn.cpp" />
     <ClCompile Include="Engine.cpp" />
+    <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputHandler.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ParticleSystem.cpp" />
+    <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Particle.cpp" />
+    <ClCompile Include="ParticleEmmiter.cpp" />
+    <ClCompile Include="ProjectileSystem.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
+    <ClCompile Include="Scene.cpp" />
     <ClCompile Include="StateClass.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -95,14 +103,22 @@
     <ClInclude Include="ConstantBufferStruct.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DataTypes.h" />
+    <ClInclude Include="EnemySpawn.h" />
     <ClInclude Include="Engine.h" />
+    <ClInclude Include="GameObject.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputHandler.h" />
-    <ClInclude Include="ParticleSystem.h" />
+    <ClInclude Include="Light.h" />
+    <ClInclude Include="Model.h" />
+    <ClInclude Include="Particle.h" />
+    <ClInclude Include="ParticleEmmiter.h" />
+    <ClInclude Include="ProjectileSystem.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="RenderInfo.h" />
     <ClInclude Include="ResourceManager.h" />
+    <ClInclude Include="Scene.h" />
     <ClInclude Include="StateClass.h" />
     <ClInclude Include="LibIncluder.h" />
   </ItemGroup>

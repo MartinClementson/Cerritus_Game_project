@@ -8,7 +8,7 @@ public:
 public:
 	StateClass();
 	~StateClass();
-	virtual void Update();
+	virtual void Update(double deltaTime);
 	virtual void Render();
 
 	virtual void Initialize();
