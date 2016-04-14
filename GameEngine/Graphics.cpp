@@ -33,7 +33,7 @@ void Graphics::Release()
 
 #pragma region Release custom classes
 
-	SAFE_RELEASE(resourceManager);
+	resourceManager->Release();
 #pragma endregion
 
 
