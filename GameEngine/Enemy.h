@@ -6,7 +6,7 @@ class Enemy :
 {
 public:
 	Enemy();
-	~Enemy();
+	virtual ~Enemy();
 	void Initialize();
 	void Release();
 	void Update(double deltaTime);
