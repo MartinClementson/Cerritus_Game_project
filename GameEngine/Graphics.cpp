@@ -11,6 +11,8 @@ Graphics::~Graphics()
 {
 	if (gameObjects != nullptr)
 		delete gameObjects;
+	if (resourceManager != nullptr)
+		delete resourceManager;
 }
 
 void Graphics::Initialize(HWND * window)
@@ -21,13 +23,22 @@ void Graphics::Initialize(HWND * window)
 	hr = CreateDirect3DContext();
 
 	gameObjects = new std::vector<RenderInfoObject*>;
-
+	resourceManager = new ResourceManager();
 
 
 }
 
 void Graphics::Release()
 {
+
+#pragma region Release custom classes
+
+	SAFE_RELEASE(resourceManager);
+#pragma endregion
+
+
+
+
 	SAFE_RELEASE(worldBuffer);
 	SAFE_RELEASE(camBuffer);
 	SAFE_RELEASE(lightBuffer);

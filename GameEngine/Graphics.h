@@ -6,6 +6,7 @@
 #include "Constants.h"
 #include "LibIncluder.h"
 #include "RenderInfo.h"
+#include "ResourceManager.h"
 
 
 #pragma endregion
@@ -43,10 +44,15 @@ private:
 #pragma endregion
 
 #pragma region Private members
-
-	std::vector<RenderInfoObject>* gameObjects  = nullptr;
+	ResourceManager * resourceManager			= nullptr;
+	std::vector<RenderInfoObject*>* gameObjects  = nullptr;
 
 #pragma endregion
+
+private:
+	HRESULT CreateDirect3DContext();
+	void RenderScene();
+	void FinishFrame();
 
 
 public:
@@ -57,8 +63,8 @@ public:
 	void Release();
 
 	void Render();
+	void QueueRender(RenderInfoObject *object);
 
-	HRESULT CreateDirect3DContext();
 
 };
 
