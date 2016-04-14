@@ -73,8 +73,8 @@ HRESULT Graphics::CreateDirect3DContext()
 	//Here goes depth buffer
 	D3D11_TEXTURE2D_DESC desc;
 
-	desc.Width = WINDOW_WIDTH;
-	desc.Height = WINDOW_HEIGHT;
+	desc.Width = WIN_WIDTH;
+	desc.Height = WIN_HEIGHT;
 	desc.MipLevels = 1;
 	desc.ArraySize = 1;
 	desc.Format = DXGI_FORMAT_D32_FLOAT;
@@ -121,19 +121,18 @@ HRESULT Graphics::CreateDirect3DContext()
 
 		this->gSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
 
-		//hr = gDevice->CreateTexture2D(&texDesc, 0, &pBackBuffer);
-		//if (FAILED(hr))
-		//	errorMsg("failed to init backbuffer rtv");
+	
 
 
-		hr = this->gDevice->CreateRenderTargetView(pBackBuffer, NULL, &this->gBackbufferRTV);
+		hr = this->gDevice->CreateRenderTargetView(pBackBuffer, NULL, &this->gBackBufferRTV);
 		if (FAILED(hr))
-			errorMsg("FAILED to create Backbuffer RTV");
+			MessageBox(*wndHandle, L"FAILED to create Backbuffer RTV", L"Error", MB_ICONERROR | MB_OK);
+		
 
 
 		/*
 
-		D3D11_UNORDERED_ACCESS_VIEW_DESC UAVdesc;
+		D3D11_UNORDERED_ACCESS_VIEW_DESC UAVdesc; //return to this when implementing compute shaders
 
 		ZeroMemory(&UAVdesc, sizeof(UAVdesc));
 		UAVdesc.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
@@ -144,8 +143,9 @@ HRESULT Graphics::CreateDirect3DContext()
 
 
 		hr = this->gDevice->CreateUnorderedAccessView(pBackBuffer, nullptr, &gBackBufferUAV);
+
 		if (FAILED(hr))
-			errorMsg("Failed to create UAV");
+			MessageBox(*wndHandle, L"Failed to create UAV", L"Error", MB_ICONERROR | MB_OK);
 
 
 
@@ -153,14 +153,12 @@ HRESULT Graphics::CreateDirect3DContext()
 		hr = this->gDevice->CreateShaderResourceView(pBackBuffer, nullptr, &BackBufferTexture);
 
 		if (FAILED(hr))
-			errorMsg("FAILD");
-
+			MessageBox(*wndHandle, L"FAILED to create Backbuffer SRV", L"Error", MB_ICONERROR | MB_OK);
 
 
 		pBackBuffer->Release();
 
-		this->gDeviceContext->OMSetRenderTargets(1, &this->gBackbufferRTV, depthStencilView);
-		currentRTV = &gBackbufferRTV;
+		this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
 
 	}
 
