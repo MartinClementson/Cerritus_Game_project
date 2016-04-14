@@ -239,7 +239,10 @@
       <Filter>GameLogic\Scene\GameObject</Filter>
     </ClCompile>
     <ClCompile Include="Model.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>GameLogic\Scene\GameObject\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>GameLogic\Scene\GameObject\Light</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -297,6 +300,11 @@
     <ClInclude Include="GameObject.h">
       <Filter>GameLogic\Scene\GameObject</Filter>
     </ClInclude>
-    <ClInclude Include="Model.h" />
+    <ClInclude Include="Light.h">
+      <Filter>GameLogic\Scene\GameObject\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>GameLogic\Scene\GameObject\Model</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
