@@ -43,10 +43,10 @@ void InputHandler::Release()
 //	return false;
 //}
 
-//XMVECTOR2 InputHandler::GetMousePosition()
-//{
-//	return XMVECTOR2();
-//}
+DirectX::XMFLOAT2 InputHandler::GetMousePosition()
+{
+	return DirectX::XMFLOAT2();
+}
 
 //bool InputHandler::isMouseClicked(InputKeys* mouseKey);
 //{
