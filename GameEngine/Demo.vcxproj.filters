@@ -194,6 +194,9 @@
     <Filter Include="Structs">
       <UniqueIdentifier>{a09811cd-6ac4-471d-9e8f-db6011a7652b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceEngine\ObjectNode\Renderer">
+      <UniqueIdentifier>{d4e49cfc-aa90-41ca-83f8-90e046321ba9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -270,6 +273,9 @@
     </ClCompile>
     <ClCompile Include="ObjectNode.cpp">
       <Filter>ResourceEngine\ObjectNode</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>ResourceEngine\ObjectNode\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -359,6 +365,9 @@
     </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>ResourceEngine\ObjectNode\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>ResourceEngine\ObjectNode\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
