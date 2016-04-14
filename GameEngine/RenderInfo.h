@@ -13,20 +13,20 @@ struct RenderInstructions
 
 	*/
 
-	bool* isAnimated					 = nullptr; //this is important to make sure we use the right vert struct
+	bool* isAnimated						 = nullptr; //this is important to make sure we use the right vert struct
 
-	XMFLOAT4X4* worldMatrix				 = nullptr;
-	XMFLOAT4X4* normalWorld				 = nullptr;
-	ID3D11Buffer* vertexBuffer			 = nullptr;
-	unsigned int* vertexCount			 = 0;
+	XMFLOAT4X4* worldMatrix					 = nullptr;
+	XMFLOAT4X4* normalWorld					 = nullptr;
+	ID3D11Buffer* vertexBuffer				 = nullptr;
+	UINT* vertexCount						 = 0;
 
-	ID3D11Buffer* indexBuffer			 = nullptr;
-	unsigned int* indexCount			 = 0;
+	ID3D11Buffer* indexBuffer				 = nullptr;
+	UINT* indexCount						 = 0;
 
-	ID3D11ShaderResourceView* diffuse	 = nullptr;
-	ID3D11ShaderResourceView* normal	 = nullptr;
-	ID3D11ShaderResourceView* specular	 = nullptr;
-	ID3D11ShaderResourceView* glow		 = nullptr;
+	ID3D11ShaderResourceView* diffuseMap	 = nullptr;
+	ID3D11ShaderResourceView* normalMap		 = nullptr;
+	ID3D11ShaderResourceView* specularMap	 = nullptr;
+	ID3D11ShaderResourceView* glowMap		 = nullptr;
 };
 
 struct RenderInfoObject {

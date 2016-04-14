@@ -1,6 +1,7 @@
 #pragma once
 #include "LibIncluder.h"
 #include "Constants.h"
+#include "Enumerations.h"
 
 
 
@@ -25,6 +26,7 @@ The parameter is a Enum. Look at Constants.h to see all available Enums.
 class ShaderManager
 {
 private:
+	Shaders currShader;
 
 	// pointers to the main device and context
 	ID3D11Device *gDevice							 = nullptr;
@@ -61,6 +63,12 @@ private:
 	ID3D11PixelShader*		BILLBOARD_PS			 = nullptr;
 	ID3D11InputLayout*		gVertexLayoutBillboard	 = nullptr;
 
+	//Shaders for UI 
+	ID3D11VertexShader*		UI_VS = nullptr;
+	ID3D11GeometryShader*	UI_GS = nullptr;
+	ID3D11PixelShader*		UI_PS = nullptr;
+	ID3D11InputLayout*		gVertexLayoutUI = nullptr;
+
 
 public:
 	ShaderManager();
@@ -68,6 +76,7 @@ public:
 
 	void Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext);
 	void Release();
+	void SetActiveShader(Shaders* shader);
 
 private:
 
@@ -77,6 +86,6 @@ private:
 	bool CreateAnimationShader();
 	bool CreateParticleShader();
 	bool CreateBillboardShader();
-
+	bool CreateUiShader();
 };
 

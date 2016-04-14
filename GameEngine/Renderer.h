@@ -27,7 +27,7 @@ public:
 	Renderer();
 	~Renderer();
 
-	void Initialize(ID3D11DeviceContext* gDeviceContext);
+	void Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext);
 	void Release();
 	
 	

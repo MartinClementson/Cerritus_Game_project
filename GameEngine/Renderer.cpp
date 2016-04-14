@@ -13,10 +13,10 @@ Renderer::~Renderer()
 	delete resourceManager;
 }
 
-void Renderer::Initialize(ID3D11DeviceContext * gDeviceContext)
+void Renderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext)
 {
 	this->gDeviceContext = gDeviceContext;
-	resourceManager->Initialize();
+	resourceManager->Initialize(gDevice,gDeviceContext);
 }
 
 void Renderer::Release()
@@ -61,17 +61,10 @@ void Renderer::Render(RenderInfoTrap * object)
 }
 void Renderer::Render()
 {
-	//This is used for testing, this is if we have no mesh in particular to render
-	//We define a standard mesh here
+	RenderInstructions * object;
+	object = this->resourceManager->GetPlaceHolderMesh();
 
-	RenderInstructions temp;
-	bool hej = false;
-	temp.isAnimated = &hej;
-
-	this->Render(&temp);
-
-
-
+	Render(object);
 
 }
 #pragma endregion
@@ -114,23 +107,23 @@ void Renderer::Render(RenderInstructions * object)
 
 #pragma region Set the objects texture maps to the shader
 
-	if (object->diffuse  != nullptr)
-		this->gDeviceContext->PSSetShaderResources(0, 1, &object->diffuse);
+	if (object->diffuseMap   != nullptr)
+		this->gDeviceContext->PSSetShaderResources(0, 1, &object->diffuseMap);
 
-	if (object->normal	 != nullptr)
-		this->gDeviceContext->PSSetShaderResources(1, 1, &object->normal);
+	if (object->normalMap	 != nullptr)
+		this->gDeviceContext->PSSetShaderResources(1, 1, &object->normalMap);
 	
-	if (object->specular != nullptr)
-		this->gDeviceContext->PSSetShaderResources(2, 1, &object->specular);
+	if (object->specularMap	 != nullptr)
+		this->gDeviceContext->PSSetShaderResources(2, 1, &object->specularMap);
 
-	if (object->glow	 != nullptr)
-		this->gDeviceContext->PSSetShaderResources(3, 1, &object->glow);
+	if (object->glowMap		 != nullptr)
+		this->gDeviceContext->PSSetShaderResources(3, 1, &object->glowMap);
 
 #pragma endregion
 	
 	
-	this->gDeviceContext->DrawIndexed((UINT)object->indexCount, 0, 0);
-	
+	//this->gDeviceContext->DrawIndexed((UINT)*object->indexCount, 0, 0);
+	this->gDeviceContext->Draw(*object->vertexCount, 0);
 
 }
 

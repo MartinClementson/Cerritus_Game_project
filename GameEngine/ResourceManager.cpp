@@ -16,13 +16,17 @@ ResourceManager::~ResourceManager()
 	delete shaderManager;
 }
 
-void ResourceManager::Initialize()
+void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext)
 {
-	
+	shaderManager->Initialize(gDevice, gDeviceContext);
+	meshManager->Initialize(gDevice, gDeviceContext);
 }
 
 void ResourceManager::Release()
 {
+	this->shaderManager->Release();
+	this->meshManager->Release();
+
 }
 
 
@@ -51,6 +55,12 @@ void ResourceManager::Release()
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoTrap * object)
 	{
 		return nullptr;
+	}
+
+	RenderInstructions * ResourceManager::GetPlaceHolderMesh()
+	{
+		meshManager->GetPlaceHolderMeshInfo(&currentMesh);
+		return &currentMesh;
 	}
 
 #pragma endregion
