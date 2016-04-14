@@ -238,6 +238,9 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>GameLogic\Scene\GameObject</Filter>
     </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Engine.h">
@@ -294,5 +297,6 @@
     <ClInclude Include="GameObject.h">
       <Filter>GameLogic\Scene\GameObject</Filter>
     </ClInclude>
+    <ClInclude Include="Model.h" />
   </ItemGroup>
 </Project>
