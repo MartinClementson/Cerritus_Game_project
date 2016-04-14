@@ -71,15 +71,6 @@
     <Filter Include="GameLogick\Character\Player">
       <UniqueIdentifier>{7adf9807-8bd2-43bf-a3ac-6c2942053d2f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogick\Effects">
-      <UniqueIdentifier>{e2ebbf26-2669-4425-aaec-2ce88cb1708d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\Effects\ProjectileSystem">
-      <UniqueIdentifier>{aabb8c61-9ecd-46b1-9664-75644792183c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogick\Effects\ParticleSystem">
-      <UniqueIdentifier>{48e97308-6717-4325-9e21-241e55452456}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ResourceEngine\Graphics">
       <UniqueIdentifier>{4f9731d2-459d-4ff3-8c4a-7c53b9c1a47f}</UniqueIdentifier>
     </Filter>
@@ -88,6 +79,63 @@
     </Filter>
     <Filter Include="Source Files\EngineClass">
       <UniqueIdentifier>{df7a1c0f-cfb6-4226-b07e-5fb6fd7127ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogick\Input\InputHandler">
+      <UniqueIdentifier>{a798f459-c9c7-43f3-b550-34cf8e151efe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogick\StateMachines\StateClass\MainStateMachene\GameState\PausedState">
+      <UniqueIdentifier>{1c2b2c4e-aba3-4b13-b149-c59ce121aa9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogick\StateMachines\StateClass\MainStateMachene\GameState\DeathState">
+      <UniqueIdentifier>{2337014e-0e7f-4042-ba58-0dd529c91d23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogick\Animation">
+      <UniqueIdentifier>{85c6d1cf-83d6-45ef-8617-c47c40899149}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogick\GUI">
+      <UniqueIdentifier>{00f0f59f-6476-428a-be5d-860ff416458d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogick\GUI\GuiElements">
+      <UniqueIdentifier>{933f9944-edf1-41f6-b8a5-caca33c6a3ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogick\GUI\GuiElements\GuiSprite">
+      <UniqueIdentifier>{46752a06-2081-4c6a-813a-e8e05b16e8e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogick\Scene">
+      <UniqueIdentifier>{eba0f830-8fe4-40f4-996f-9148fef5704f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogick\Scene\GameObject">
+      <UniqueIdentifier>{fb5ddab1-c46b-4074-a867-f71c6023d910}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogick\Scene\GameObject\Model">
+      <UniqueIdentifier>{789b6451-e469-4a58-9a54-45346c2af553}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogick\Scene\GameObject\Light">
+      <UniqueIdentifier>{3cb178a8-8c62-454c-92f1-38fd8b19ef0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogick\Scene\GameObject\EnemySpawn">
+      <UniqueIdentifier>{72d771c9-cf0b-48ff-b96a-e25484b59edc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogick\Scene\GameObject\ParticleEmmiter">
+      <UniqueIdentifier>{b8d5b059-6bca-4f1e-b0bb-a701ad4579cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogick\Character\ProjectileSystem">
+      <UniqueIdentifier>{aabb8c61-9ecd-46b1-9664-75644792183c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogick\Character\ProjectileSystem\Projectile">
+      <UniqueIdentifier>{ca7ae40f-fbfb-40fe-9975-de2729589dfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogick\Scene\GameObject\ParticleEmmiter\Particle">
+      <UniqueIdentifier>{48e97308-6717-4325-9e21-241e55452456}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogick\Scene\Trap">
+      <UniqueIdentifier>{b4633353-8a8f-4b34-81f6-e3def7370737}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogick\Scene\Trap\BearTrap">
+      <UniqueIdentifier>{bc2f7ce1-3440-4f1a-a7d2-2f601cdc25f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogick\Scene\Trap\FireTrap">
+      <UniqueIdentifier>{5f0d1f89-33bb-4e97-bbc0-ac0c674bbc97}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
