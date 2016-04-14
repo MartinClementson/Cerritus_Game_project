@@ -78,7 +78,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
+    <ClCompile Include="AttackState.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="DeathState.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemySpawn.cpp" />
     <ClCompile Include="EnemyStateMachine.cpp" />
@@ -106,10 +108,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
+    <ClInclude Include="AttackState.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="ConstantBufferStruct.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="DataTypes.h" />
+    <ClInclude Include="DeathState.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemySpawn.h" />
     <ClInclude Include="EnemyStateMachine.h" />

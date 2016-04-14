@@ -116,9 +116,6 @@
     <Filter Include="GameLogic\StateMachines\StateClass\EnemyStateMachine\AttackState">
       <UniqueIdentifier>{e77c53e5-9fde-4a29-b49e-881fc6d6a80d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogic\StateMachines\StateClass\EnemyStateMachine\DethState">
-      <UniqueIdentifier>{5245aa01-39e6-42d7-96ee-ed6db919092a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameLogic\Character">
       <UniqueIdentifier>{d4c8cf35-ecdf-4882-8042-d2463a9427dc}</UniqueIdentifier>
     </Filter>
@@ -193,6 +190,9 @@
     </Filter>
     <Filter Include="Structs">
       <UniqueIdentifier>{a09811cd-6ac4-471d-9e8f-db6011a7652b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\StateMachines\StateClass\EnemyStateMachine\DeathState">
+      <UniqueIdentifier>{5245aa01-39e6-42d7-96ee-ed6db919092a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -270,6 +270,15 @@
     </ClCompile>
     <ClCompile Include="ObjectNode.cpp">
       <Filter>ResourceEngine\ObjectNode</Filter>
+    </ClCompile>
+    <ClCompile Include="IdleState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\IdleState</Filter>
+    </ClCompile>
+    <ClCompile Include="DeathState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\DeathState</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackState.cpp">
+      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\AttackState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -359,6 +368,15 @@
     </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>ResourceEngine\ObjectNode\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="IdleState.h">
+      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\IdleState</Filter>
+    </ClInclude>
+    <ClInclude Include="DeathState.h">
+      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\DeathState</Filter>
+    </ClInclude>
+    <ClInclude Include="AttackState.h">
+      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\AttackState</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
