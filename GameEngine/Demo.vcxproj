@@ -84,6 +84,7 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ParticleSystem.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="StateClass.cpp" />
@@ -91,12 +92,16 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="ConstantBufferStruct.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="DataTypes.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="ParticleSystem.h" />
     <ClInclude Include="Projectile.h" />
+    <ClInclude Include="RenderInfo.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="StateClass.h" />
     <ClInclude Include="LibIncluder.h" />
