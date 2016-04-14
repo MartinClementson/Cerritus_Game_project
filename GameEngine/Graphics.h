@@ -46,6 +46,8 @@ public:
 	void Initialize(HWND* window);
 	void Release();
 
+	void Render();
+
 	HRESULT CreateDirect3DContext();
 
 };
