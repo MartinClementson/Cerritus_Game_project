@@ -1,6 +1,6 @@
 #pragma once
 #include "IdleState.h"
-#include "DeathState.h"
+#include "EnemyDeathState.h"
 #include "AttackState.h"
 class EnemyStateMachine
 {
@@ -13,7 +13,7 @@ public:
 private:
 	IdleState* idleState;
 	AttackState* attackState;
-	DeathState deathState;
+	EnemyDeathState deathState;
 	//EnemyState activeState;//enum
 };
 
