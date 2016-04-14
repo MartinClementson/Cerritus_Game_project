@@ -1,4 +1,7 @@
 #pragma once
+#include "EnemyDeathState.h"
+#include "EnemyIdleState.h"
+#include "AttackState.h"
 class EnemyStateMachine
 {
 public:
@@ -8,6 +11,9 @@ public:
 	void Release();
 	void Update(double deltaTime);
 private:
-	//IdleState
+	EnemyIdleState* idleState;
+	AttackState* attackState;
+	EnemyDeathState deathState;
+	//EnemyState activeState;//enum
 };
 

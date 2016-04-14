@@ -3,7 +3,7 @@ class Animation
 {
 public:
 	Animation();
-	~Animation();
+	virtual ~Animation();
 	void Initialize();
 	void Release();
 	void Update(double deltaTime);
