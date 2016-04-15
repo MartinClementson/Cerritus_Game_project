@@ -11,9 +11,6 @@
     <Filter Include="ResourceEngine\Shaders">
       <UniqueIdentifier>{69072bdb-a6e2-443c-94f2-1350d0652a5d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ResourceEngine\Shaders\BasicShader">
-      <UniqueIdentifier>{6c2301a3-74d7-4408-a32c-b7ffa6988eac}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ResourceEngine\Graphics">
       <UniqueIdentifier>{4f9731d2-459d-4ff3-8c4a-7c53b9c1a47f}</UniqueIdentifier>
     </Filter>
@@ -196,6 +193,21 @@
     </Filter>
     <Filter Include="ResourceEngine\ObjectNode\Renderer">
       <UniqueIdentifier>{d4e49cfc-aa90-41ca-83f8-90e046321ba9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\Shaders\PhongShader">
+      <UniqueIdentifier>{6c2301a3-74d7-4408-a32c-b7ffa6988eac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\Shaders\AnimationShader">
+      <UniqueIdentifier>{805a5c83-81bb-472e-9ca9-91e2a452fdd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\Shaders\ParticleShader">
+      <UniqueIdentifier>{83d7b072-5b3a-4edb-966e-7dd8a0460903}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\Shaders\BillboardShader">
+      <UniqueIdentifier>{92ce73d1-2363-431d-9b67-582e6d222fce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enumerations">
+      <UniqueIdentifier>{f12407b7-31c5-4c1d-b1ca-39dc6b333203}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -477,5 +489,13 @@
     <ClInclude Include="InactiveState.h">
       <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\InactiveState</Filter>
     </ClInclude>
+    <ClInclude Include="Enumerations.h">
+      <Filter>Enumerations</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="PhongShaders.hlsl">
+      <Filter>ResourceEngine\Shaders\PhongShader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

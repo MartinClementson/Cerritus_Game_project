@@ -27,7 +27,7 @@ public:
 	Renderer();
 	~Renderer();
 
-	void Initialize(ID3D11DeviceContext* gDeviceContext);
+	void Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext);
 	void Release();
 	
 	
@@ -36,7 +36,7 @@ public:
 	void Render(RenderInfoEnemy* object);
 	void Render(RenderInfoChar* object);
 	void Render(RenderInfoTrap* object);
-
+	void Render();
 private:
 	void Render(RenderInstructions* object);
 

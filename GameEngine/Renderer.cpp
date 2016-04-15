@@ -13,10 +13,10 @@ Renderer::~Renderer()
 	delete resourceManager;
 }
 
-void Renderer::Initialize(ID3D11DeviceContext * gDeviceContext)
+void Renderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext)
 {
 	this->gDeviceContext = gDeviceContext;
-	resourceManager->Initialize();
+	resourceManager->Initialize(gDevice,gDeviceContext);
 }
 
 void Renderer::Release()
@@ -30,6 +30,7 @@ void Renderer::Release()
 }
 
 #pragma region Overloaded Render functions
+
 void Renderer::Render(RenderInfoObject * object)
 {
 	RenderInstructions* renderObject;
@@ -38,7 +39,7 @@ void Renderer::Render(RenderInfoObject * object)
 	//The resource manager gathers all the rendering info and sends back a renderInstruction
 	renderObject = this->resourceManager->GetRenderInfo(object);
 
-	//Render using the given render instruction
+	//Render with the given render instruction
 	this->Render(renderObject);
 }
 
@@ -58,13 +59,21 @@ void Renderer::Render(RenderInfoChar * object)
 void Renderer::Render(RenderInfoTrap * object)
 {
 }
+void Renderer::Render()
+{
+	RenderInstructions * object;
+	object = this->resourceManager->GetPlaceHolderMesh();
+
+	Render(object);
+
+}
 #pragma endregion
 
 //Private rendering call
 void Renderer::Render(RenderInstructions * object)
 {
 
-	float clearColor[] = { 0, 0, 0, 1 };
+	
 
 #pragma region Check what vertex is to be used
 
@@ -84,7 +93,12 @@ void Renderer::Render(RenderInstructions * object)
 
 
 	UINT32 offset = 0;
+
+	//an exception handling can be implemented here to handle if there is no buffer
+	// to set. Then the handling can be to use a standard cube instead.
+
 	this->gDeviceContext->IASetVertexBuffers(0, 1, &object->vertexBuffer, &vertexSize, &offset);
+	
 	this->gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	this->gDeviceContext->IASetIndexBuffer(object->indexBuffer, DXGI_FORMAT_R32_UINT, 0);
@@ -93,22 +107,23 @@ void Renderer::Render(RenderInstructions * object)
 
 #pragma region Set the objects texture maps to the shader
 
-	if (object->diffuse  != nullptr)
-		this->gDeviceContext->PSSetShaderResources(0, 1, &object->diffuse);
+	if (object->diffuseMap   != nullptr)
+		this->gDeviceContext->PSSetShaderResources(0, 1, &object->diffuseMap);
 
-	if (object->normal	 != nullptr)
-		this->gDeviceContext->PSSetShaderResources(1, 1, &object->normal);
+	if (object->normalMap	 != nullptr)
+		this->gDeviceContext->PSSetShaderResources(1, 1, &object->normalMap);
 	
-	if (object->specular != nullptr)
-		this->gDeviceContext->PSSetShaderResources(2, 1, &object->specular);
+	if (object->specularMap	 != nullptr)
+		this->gDeviceContext->PSSetShaderResources(2, 1, &object->specularMap);
 
-	if (object->glow	 != nullptr)
-		this->gDeviceContext->PSSetShaderResources(3, 1, &object->glow);
+	if (object->glowMap		 != nullptr)
+		this->gDeviceContext->PSSetShaderResources(3, 1, &object->glowMap);
 
 #pragma endregion
 	
-	this->gDeviceContext->DrawIndexed((UINT)object->indexCount, 0, 0);
 	
+	//this->gDeviceContext->DrawIndexed((UINT)*object->indexCount, 0, 0);
+	this->gDeviceContext->Draw(*object->vertexCount, 0);
 
 }
 
