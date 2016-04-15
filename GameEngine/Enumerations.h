@@ -125,6 +125,18 @@ enum InputKeys
 	MOUSE_LEFT
 };
 
+#pragma region MovementDirection
+
+enum MovementDirection 
+{
+	UP,
+	DOWN,
+	LEFT,
+	RIGHT
+};
+
+#pragma endregion
+
 #pragma endregion
 
 #pragma region Texture

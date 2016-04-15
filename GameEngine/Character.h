@@ -8,7 +8,7 @@ class Character
 public:
 	Character();
 	virtual ~Character();
-private:
+protected:
 	DirectX::XMFLOAT3 position;
 	DirectX::XMFLOAT3 rotation;
 

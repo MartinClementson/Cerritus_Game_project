@@ -17,15 +17,17 @@ public:
 	void Release();
 	void Update(double deltaTime);
 	void Render();
+
 private:
 	void OnEnter();
 	void OnExit();
+	void ProcessInput(double deltaTime);
 private:
 	Scene* room1;
 	Scene* room2;
-	Player player;
+	Player* player;
 	Input* input;
-	GUI* GameUI;
+	GUI* gameUI;
 	MainPausedState* pause;
 	MainDeathState* death;
 

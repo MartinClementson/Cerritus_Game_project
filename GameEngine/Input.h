@@ -1,6 +1,7 @@
 #pragma once
 #include "InputHandler.h"
 #include "LibIncluder.h"
+#include "Enumerations.h"
 
 class Input
 {
@@ -12,10 +13,10 @@ private:
 public:
 	void Initialize();
 	void Release();
-	//bool IsKeyPressed(InputKeys* key;//need enums
-	//bool IsKeyHeld(InputKeys* key);//need enums
+	bool IsKeyPressed(InputKeys key);
+	bool IsKeyHeld(InputKeys key);
 	DirectX::XMFLOAT2 GetMousePosition();
-	//bool isMouseClicked(InputKeys* mouseKey);//need enums
+	bool isMouseClicked(InputKeys mouseKey);
 
 };
 

@@ -27,6 +27,10 @@ void MainPausedState::Render()
 {
 }
 
+void MainPausedState::ProcessInput()
+{
+}
+
 void MainPausedState::OnEnter()
 {
 }

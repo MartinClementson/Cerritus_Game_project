@@ -27,6 +27,10 @@ void MainDeathState::Render()
 {
 }
 
+void MainDeathState::ProcessInput()
+{
+}
+
 void MainDeathState::OnEnter()
 {
 }

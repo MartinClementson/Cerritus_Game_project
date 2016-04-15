@@ -10,6 +10,7 @@ public:
 	void Release();
 	void Update(double deltaTime);
 	void Render();
+	void ProcessInput();
 private:
 	void OnEnter();
 	void OnExit();

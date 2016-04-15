@@ -33,22 +33,22 @@ void InputHandler::Release()
 {
 }
 
-//bool InputHandler::IsKeyPressed(InputKeys * key)
-//{
-//	return false;
-//}
+bool InputHandler::IsKeyPressed(InputKeys* key)
+{
+	return false;
+}
 
-//bool InputHandler::IsKeyHeld(InputKeys * key)
-//{
-//	return false;
-//}
+bool InputHandler::IsKeyHeld(InputKeys* key)
+{
+	return false;
+}
 
 DirectX::XMFLOAT2 InputHandler::GetMousePosition()
 {
 	return DirectX::XMFLOAT2();
 }
 
-//bool InputHandler::isMouseClicked(InputKeys* mouseKey);
-//{
-//	return false;
-//}
+bool InputHandler::isMouseClicked(InputKeys* mouseKey)
+{
+	return false;
+}
