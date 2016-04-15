@@ -2,6 +2,7 @@
 #include "EnemyDeathState.h"
 #include "EnemyIdleState.h"
 #include "AttackState.h"
+#include "Enumerations.h"
 class EnemyStateMachine
 {
 public:
@@ -14,6 +15,6 @@ private:
 	EnemyIdleState* idleState;
 	AttackState* attackState;
 	EnemyDeathState deathState;
-	//EnemyState activeState;//enum
+	EnemyState activeState;//enum
 };
 

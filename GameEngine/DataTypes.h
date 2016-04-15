@@ -65,3 +65,9 @@ struct AnimVert
 {
 
 };
+
+struct Projectile
+{
+	Float3 position;
+	Float3 rotation;
+};
