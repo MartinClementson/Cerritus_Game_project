@@ -1,9 +1,9 @@
 #include <windows.h>
 
 
-#include "Constants.h"
-#include "LibIncluder.h"
-#include "Engine.h"
+#include "../Constants.h"
+#include "../LibIncluder.h"
+#include "../EngineClass/Engine.h"
 
 
 
