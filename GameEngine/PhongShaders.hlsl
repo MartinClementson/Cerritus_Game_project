@@ -47,31 +47,19 @@ void GS_main(
 	triangle VS_OUT input[3],
 	inout TriangleStream< GS_OUT > output)
 {
-	/*for (uint i = 0; i < 3; i++)
+	for (uint i = 0; i < 3; i++)
 	{
 		GS_OUT element;
 		element.Pos = input[i].Pos;
 	
 		output.Append(element);
-	}*/
+	}
 
 
-	/*GS_OUT element;
-	element.Pos = float4(-0.5, 0.5, 0.0, 1.0);
-	output.Append(element);
-
-	GS_OUT elementY;
-	elementY.Pos = float4(0.5, -0.5, 0.0, 1.0);
-	output.Append(elementY);
-
-	GS_OUT elementZ;
-	elementZ.Pos = float4(-0.5, -0.5, 0.0, 1.0);
-	output.Append(elementZ);
-*/
 }
 
 
-float4 PS_main(VS_OUT input) : SV_TARGET
+float4 PS_main(GS_OUT input) : SV_TARGET
 {
 
 float4 col = {1.0,0.0,0.0,1.0};

@@ -25,15 +25,6 @@ void Graphics::Initialize(HWND * window)
 	gameObjects = new std::vector<RenderInfoObject*>;
 	renderer = new Renderer();
 	renderer->Initialize(gDevice,this->gDeviceContext);
-
-	SetViewPort();
-	
-
-	//MOVE THIS DOWN ONCE IT WORKS
-	float clearColor[] = { 0, 0, 1, 1 };
-	this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
-	this->gDeviceContext->ClearDepthStencilView(this->depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-	this->gDeviceContext->ClearRenderTargetView(gBackBufferRTV, clearColor);
 }
 
 void Graphics::Release()
@@ -72,7 +63,13 @@ void Graphics::Release()
 
 void Graphics::Render() //manage RenderPasses here
 {
-	
+	SetViewPort();
+
+	//MOVE THIS DOWN ONCE IT WORKS
+	float clearColor[] = { 0, 0, 1, 1 };
+	this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
+	this->gDeviceContext->ClearDepthStencilView(this->depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	this->gDeviceContext->ClearRenderTargetView(gBackBufferRTV, clearColor);
 	
 	RenderScene();
 
@@ -97,6 +94,7 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 	gameObjects->clear(); //clear the queue
 
 	this->gSwapChain->Present(VSYNC, 0); //Change front and back buffer after rendering
+	gDeviceContext->ClearState();
 }
 
 void Graphics::SetViewPort()

@@ -26,7 +26,7 @@ The parameter is a Enum. Look at Constants.h to see all available Enums.
 class ShaderManager
 {
 private:
-	Shaders currShader;
+	
 
 	// pointers to the main device and context
 	ID3D11Device *gDevice							 = nullptr;

@@ -13,16 +13,12 @@ ShaderManager::~ShaderManager()
 
 void ShaderManager::Initialize(ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceContext)
 {
-	this->gDevice = gDevice;
-	this->gDeviceContext = gDeviceContext;
+	this->gDevice			 = gDevice;
+	this->gDeviceContext	 = gDeviceContext;
 	CreateShaders();
 
 
-	//SUPERFUL LÖSNING. Detta är för att inte undvika problem i början
-	currShader = UI_SHADER;
-	Shaders temp = PHONG_SHADER;
-	SetActiveShader(&temp);
-
+	
 }
 
 void ShaderManager::Release()
@@ -74,22 +70,20 @@ void ShaderManager::SetActiveShader(Shaders* shader)
 	switch (*shader)
 	{
 	case PHONG_SHADER:
-		if (currShader != PHONG_SHADER)
-		{
+		
 
 			this->gDeviceContext->VSSetShader(PHONG_VS, nullptr, 0);
 			this->gDeviceContext->HSSetShader(nullptr, nullptr, 0);
 			this->gDeviceContext->DSSetShader(nullptr, nullptr, 0);
-			this->gDeviceContext->GSSetShader(nullptr, nullptr, 0);
+			this->gDeviceContext->GSSetShader(PHONG_GS, nullptr, 0);
 			this->gDeviceContext->PSSetShader(PHONG_PS, nullptr, 0);
 			this->gDeviceContext->IASetInputLayout(gVertexLayoutPhong);
-			currShader = PHONG_SHADER;
-		}
+			
+		
 		break;
 
 	case ANIMATION_SHADER:
-		if (currShader != ANIMATION_SHADER)
-		{
+		
 
 			this->gDeviceContext->VSSetShader(ANIMATION_VS, nullptr, 0);
 			this->gDeviceContext->HSSetShader(nullptr, nullptr, 0);
@@ -97,13 +91,11 @@ void ShaderManager::SetActiveShader(Shaders* shader)
 			this->gDeviceContext->GSSetShader(ANIMATION_GS, nullptr, 0);
 			this->gDeviceContext->PSSetShader(ANIMATION_PS, nullptr, 0);
 			this->gDeviceContext->IASetInputLayout(gVertexLayoutAnimation);
-			currShader = ANIMATION_SHADER;
-		}
+			
 		break;
 
 	case PARTICLE_SHADER:
-		if (currShader != PARTICLE_SHADER)
-		{
+		
 
 			this->gDeviceContext->VSSetShader(PARTICLE_VS, nullptr, 0);
 			this->gDeviceContext->HSSetShader(nullptr, nullptr, 0);
@@ -111,13 +103,11 @@ void ShaderManager::SetActiveShader(Shaders* shader)
 			this->gDeviceContext->GSSetShader(PARTICLE_GS, nullptr, 0);
 			this->gDeviceContext->PSSetShader(PARTICLE_PS, nullptr, 0);
 			this->gDeviceContext->IASetInputLayout(gVertexLayoutParticle);
-			currShader = PARTICLE_SHADER;
-		}
+			
 		break;
 
 	case BILLBOARD_SHADER:
-		if (currShader != BILLBOARD_SHADER)
-		{
+		
 
 
 			this->gDeviceContext->VSSetShader(BILLBOARD_VS, nullptr, 0);
@@ -126,13 +116,11 @@ void ShaderManager::SetActiveShader(Shaders* shader)
 			this->gDeviceContext->GSSetShader(BILLBOARD_GS, nullptr, 0);
 			this->gDeviceContext->PSSetShader(BILLBOARD_PS, nullptr, 0);
 			this->gDeviceContext->IASetInputLayout(gVertexLayoutBillboard);
-			currShader = BILLBOARD_SHADER;
-		}
+			
 		break;
 
 	case UI_SHADER:
-		if (currShader != UI_SHADER)
-		{
+		
 
 			this->gDeviceContext->VSSetShader(UI_VS, nullptr, 0);
 			this->gDeviceContext->HSSetShader(nullptr, nullptr, 0);
@@ -140,8 +128,7 @@ void ShaderManager::SetActiveShader(Shaders* shader)
 			this->gDeviceContext->GSSetShader(UI_GS, nullptr, 0);
 			this->gDeviceContext->PSSetShader(UI_PS, nullptr, 0);
 			this->gDeviceContext->IASetInputLayout(gVertexLayoutUI);
-			currShader = UI_SHADER;
-		}
+			
 		break;
 	}
 
