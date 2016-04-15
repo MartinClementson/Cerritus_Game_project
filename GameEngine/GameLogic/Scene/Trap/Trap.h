@@ -1,6 +1,6 @@
 #pragma once
-#include "Animation.h"
-#include "Model.h"
+#include "../../Animation/Animation.h"
+#include "../GameObject/Model/Model.h"
 class Trap
 {
 public:

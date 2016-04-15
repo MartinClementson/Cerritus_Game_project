@@ -1,7 +1,7 @@
 #pragma once
-#include "LibIncluder.h"
-#include "Constants.h"
-#include "Enumerations.h"
+#include "../../../Source/LibIncluder.h"
+#include "../../../Source/Constants.h"
+#include "../../../Enumerations/Enumerations.h"
 
 
 

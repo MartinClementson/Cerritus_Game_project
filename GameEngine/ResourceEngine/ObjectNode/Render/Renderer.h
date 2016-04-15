@@ -1,11 +1,11 @@
 #pragma once
 
 #pragma region Includes
-#include "LibIncluder.h"
-#include "Constants.h"
-#include "RenderInfo.h"
-#include "DataTypes.h"
-#include "ResourceManager.h"
+#include "../../../Source/LibIncluder.h"
+#include "../../../Source/Constants.h"
+#include "../../../Structs/RenderInfo.h"
+#include "../../../Structs/DataTypes.h"
+#include "../../ResourceManager/ResourceManager.h"
 #pragma endregion
 
 

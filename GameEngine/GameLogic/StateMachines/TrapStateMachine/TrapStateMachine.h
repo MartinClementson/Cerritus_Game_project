@@ -1,8 +1,8 @@
 #pragma once
-#include "ActiveState.h"
-#include "TrapIdleState.h"
-#include "InactiveState.h"
-#include "Enumerations.h"
+#include "./ActiveState/ActiveState.h"
+#include "./IldeState/TrapIdleState.h"
+#include "./InactiveState/InactiveState.h"
+#include "../../../Enumerations/Enumerations.h"
 class TrapStateMachine
 {
 public:

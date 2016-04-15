@@ -1,7 +1,7 @@
 #pragma once
-#include "InputHandler.h"
-#include "LibIncluder.h"
-#include "Enumerations.h"
+#include "../InputHandler.h"
+#include "../../../Source/LibIncluder.h"
+#include "../../../Enumerations/Enumerations.h"
 
 class Input
 {

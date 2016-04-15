@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include "Character.h"
-#include "LibIncluder.h"
-#include "Input.h"
-#include "ProjectileSystem.h"
-#include "Enumerations.h"
+#include "../Character.h"
+#include "../../../Source/LibIncluder.h"
+#include "../../InputHandler/Input/Input.h"
+#include "../ProjectileSystem/ProjectileSystem.h"
+#include "../../../Enumerations/Enumerations.h"
 
 
 class Player :

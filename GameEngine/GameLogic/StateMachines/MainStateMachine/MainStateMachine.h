@@ -1,8 +1,8 @@
 #pragma once
-#include "GameState.h"
-#include "GameOverState.h"
-#include "MenuState.h"
-#include "Enumerations.h"
+#include "./GameState/GameState.h"
+#include "./GameOverState/GameOverState.h"
+#include "./MenuState/MenuState.h"
+#include "../../../Enumerations/Enumerations.h"
 class MainStateMachine
 {
 public:

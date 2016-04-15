@@ -1,10 +1,10 @@
 #pragma once
-#include "LibIncluder.h"
-#include "Model.h"
-#include "Light.h"
-#include "EnemySpawn.h"
-#include "BearTrap.h"
-#include "FireTrap.h"
+#include "../../Source/LibIncluder.h"
+#include "GameObject/Model/Model.h"
+#include "GameObject/Light/Light.h"
+#include "GameObject/EnemySpawn/EnemySpawn.h"
+#include "Trap/BearTrap/BearTrap.h"
+#include "Trap/FireTrap/FireTrap.h"
 
 class Scene
 {

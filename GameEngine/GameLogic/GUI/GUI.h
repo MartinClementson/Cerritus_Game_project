@@ -1,6 +1,6 @@
 #pragma once
-#include "LibIncluder.h"
-#include "GUIElement.h"
+#include "../../Source/LibIncluder.h"
+#include "./GUIElement/GUIElement.h"
 class GUI
 {
 public:

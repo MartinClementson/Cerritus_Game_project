@@ -1,6 +1,6 @@
 #pragma once
-#include "GameObject.h"
-#include "Particle.h"
+#include "../GameObject.h"
+#include "Particle/Particle.h"
 
 class ParticleEmmiter :
 	public GameObject

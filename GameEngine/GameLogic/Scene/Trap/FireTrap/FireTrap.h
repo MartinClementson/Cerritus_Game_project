@@ -1,6 +1,6 @@
 #pragma once
-#include "Trap.h"
-#include "TrapStateMachine.h"
+#include "../Trap.h"
+#include "../../../StateMachines/TrapStateMachine/TrapStateMachine.h"
 class FireTrap :
 	public Trap
 {

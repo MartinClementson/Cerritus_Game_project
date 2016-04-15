@@ -1,6 +1,6 @@
 #pragma once
-#include "LibIncluder.h"
-#include "Projectile.h"
+#include "../../../Source/LibIncluder.h"
+#include "../ProjectileSystem/Projectile/Projectile.h"
 
 class ProjectileSystem
 {

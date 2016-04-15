@@ -1,11 +1,11 @@
 #pragma once
-#include "StateClass.h"
-#include "MainDeathState.h"
-#include "MainPausedState.h"
-#include "Scene.h"
-#include "Player.h"
-#include "Input.h"
-#include "GUI.h"
+#include "../../StateClass/StateClass.h"
+#include "./DeathState/MainDeathState.h"
+#include "./PausedState/MainPausedState.h"
+#include "../../../Scene/Scene.h"
+#include "../../../Character/Player/Player.h"
+#include "../../../InputHandler/Input/Input.h"
+#include "../../../GUI/GUI.h"
 
 class GameState :
 	public StateClass

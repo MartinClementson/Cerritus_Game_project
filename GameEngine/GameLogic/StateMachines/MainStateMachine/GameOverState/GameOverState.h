@@ -1,7 +1,7 @@
 #pragma once
-#include "StateClass.h"
-#include "Scene.h"
-#include "GUI.h"
+#include "../../StateClass/StateClass.h"
+#include "../../../Scene/Scene.h"
+#include "../../../GUI/GUI.h"
 class GameOverState :
 	public StateClass
 {

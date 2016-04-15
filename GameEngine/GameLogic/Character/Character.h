@@ -1,7 +1,7 @@
 #pragma once
-#include "LibIncluder.h"
-#include "Animation.h"
-#include "Model.h"
+#include "../../Source/LibIncluder.h"
+#include "../Animation/Animation.h"
+#include "../Scene/GameObject/Model/Model.h"
 
 class Character
 {

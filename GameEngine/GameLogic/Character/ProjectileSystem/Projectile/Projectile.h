@@ -1,6 +1,6 @@
 #pragma once
-#include "LibIncluder.h"
-#include "Enumerations.h"
+#include "../../../../Source/LibIncluder.h"
+#include "../../../../Enumerations/Enumerations.h"
 class Projectile
 {
 public:

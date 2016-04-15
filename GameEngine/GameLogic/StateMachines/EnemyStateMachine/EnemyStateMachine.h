@@ -1,8 +1,8 @@
 #pragma once
-#include "EnemyDeathState.h"
-#include "EnemyIdleState.h"
-#include "AttackState.h"
-#include "Enumerations.h"
+#include "./DeathState/EnemyDeathState.h"
+#include "./IdleState/EnemyIdleState.h"
+#include "./AttackState/AttackState.h"
+#include "../../../Enumerations/Enumerations.h"
 class EnemyStateMachine
 {
 public:

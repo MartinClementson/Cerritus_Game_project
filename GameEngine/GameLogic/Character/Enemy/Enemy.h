@@ -1,6 +1,6 @@
 #pragma once
-#include "Character.h"
-#include "EnemyStateMachine.h"
+#include "../Character.h"
+#include "../../StateMachines/EnemyStateMachine/EnemyStateMachine.h"
 class Enemy :
 	public Character
 {

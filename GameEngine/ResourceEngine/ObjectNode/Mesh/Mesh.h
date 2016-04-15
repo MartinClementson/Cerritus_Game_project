@@ -1,6 +1,6 @@
 #pragma once
-#include "ObjectNode.h"
-#include "DataTypes.h"
+#include "../ObjectNode.h"
+#include "../../../Structs/DataTypes.h"
 
 
 class Mesh : public ObjectNode

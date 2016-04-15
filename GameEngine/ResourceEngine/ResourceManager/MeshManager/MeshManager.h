@@ -1,9 +1,9 @@
 #pragma once
-#include "RenderInfo.h"
-#include "LibIncluder.h"
-#include "Constants.h"
-#include "Mesh.h"
-#include "Enumerations.h"
+#include "../../../Structs/RenderInfo.h"
+#include "../../../Source/Constants.h"
+#include "../../../Source/LibIncluder.h"
+#include "../../ObjectNode/Mesh/Mesh.h"
+#include "../../../Enumerations/Enumerations.h"
 class MeshManager
 {
 

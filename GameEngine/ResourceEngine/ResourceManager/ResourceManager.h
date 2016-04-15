@@ -1,7 +1,7 @@
 #pragma once
-#include "MeshManager.h"
-#include "ShaderManager.h"
-#include "RenderInfo.h"
+#include "../ResourceManager/MeshManager/MeshManager.h"
+#include "../ResourceManager/ShaderManager/ShaderManager.h"
+#include "../../Structs/RenderInfo.h"
 class ResourceManager
 {
 

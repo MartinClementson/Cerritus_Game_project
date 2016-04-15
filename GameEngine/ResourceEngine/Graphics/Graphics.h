@@ -3,10 +3,10 @@
 #pragma region Includes
 
 
-#include "Constants.h"
-#include "LibIncluder.h"
-#include "RenderInfo.h"
-#include "Renderer.h"
+#include "../../Source/Constants.h"
+#include "../../Source/LibIncluder.h"
+#include "../../Structs/RenderInfo.h"
+#include "../ObjectNode/Render/Renderer.h"
 
 
 #pragma endregion
