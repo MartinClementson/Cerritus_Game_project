@@ -2,6 +2,7 @@
 #include "ActiveState.h"
 #include "TrapIdleState.h"
 #include "InactiveState.h"
+#include "Enumerations.h"
 class TrapStateMachine
 {
 public:
@@ -16,6 +17,6 @@ private:
 	ActiveState* activeState;
 	InactiveState* InactiveState;
 	TrapIdleState* idleState;
-	//TrapState activeState;//enum
+	TrapState activeState;//enum
 };
 

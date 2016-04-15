@@ -136,7 +136,6 @@
     <ClInclude Include="EnemySpawn.h" />
     <ClInclude Include="EnemyStateMachine.h" />
     <ClInclude Include="Engine.h" />
-    <ClInclude Include="LogicEnums.h" />
     <ClInclude Include="FireTrap.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="GameOverState.h" />
