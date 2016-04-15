@@ -53,6 +53,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Gaffel\Documents\GitHub\LitetSpel-Group1\GameEngine\Source\Main;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -112,6 +113,7 @@
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\IldeState\TrapIdleState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\InactiveState\InactiveState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\TrapStateMachine.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="ResourceEngine\Graphics\Graphics.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\Mesh\Mesh.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\ObjectNode.cpp" />
@@ -120,7 +122,6 @@
     <ClCompile Include="ResourceEngine\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\ShaderManager\ShaderManager.cpp" />
     <ClCompile Include="Source\EngineClass\Engine.cpp" />
-    <ClCompile Include="Source\Main\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enumerations\Enumerations.h" />
