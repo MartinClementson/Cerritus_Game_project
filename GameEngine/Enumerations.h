@@ -5,19 +5,19 @@
 #pragma region EnemyAnimation
 enum EnemyAnimations
 {
-	WALK,
-	DIE,
-	JUMP,
-	ATTACK
+	ENEMY_WALK,
+	ENEMY_DIE,
+	ENEMY_JUMP,
+	ENEMY_ATTACK
 };
 #pragma endregion
 
 #pragma region PlayerAnimation
 enum PlayerAnimation
 {
-	WALK,
-	DIE,
-	SHOOT
+	PLAYER_WALK,
+	PLAYER_DIE,
+	PLAYER_SHOOT
 };
 #pragma endregion
 
@@ -75,9 +75,9 @@ enum Shaders
 
 enum TrapState
 {
-	IDLE,
-	ACTIVE,
-	INACTIVE
+	TRAP_IDLE_STATE,
+	TRAP_ACTIVE_STATE,
+	TRAP_INACTIVE_STATE
 };
 
 #pragma endregion
@@ -86,9 +86,9 @@ enum TrapState
 
 enum EnemyState
 {
-	IDLE,
-	ATTACK,
-	DEATH
+	ENEMY_IDLE_STATE,
+	ENEMY_ATTACK_STATE,
+	ENEMY_DEATH_STATE
 };
 
 #pragma endregion
@@ -97,9 +97,9 @@ enum EnemyState
 
 enum MainStates
 {
-	MENU,
-	GAME,
-	GAMEOVER
+	MAIN_MENU_STATE,
+	MAIN_GAME_STATE,
+	MAIN_GAMEOVER_STATE
 };
 
 #pragma endregion

@@ -17,6 +17,6 @@ private:
 	ActiveState* activeState;
 	InactiveState* InactiveState;
 	TrapIdleState* idleState;
-	TrapState activeState;//enum
+	TrapState activeStateEnum;//enum
 };
 
