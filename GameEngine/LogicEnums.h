@@ -1,4 +1,8 @@
 ﻿#pragma once
+
+#pragma region Animations
+
+#pragma region EnemyAnimation
 enum EnemyAnimations
 {
 	WALK,
@@ -6,13 +10,20 @@ enum EnemyAnimations
 	JUMP,
 	ATTACK
 };
+#pragma endregion
 
+#pragma region PlayerAnimation
 enum PlayerAnimation
 {
 	WALK,
 	DIE,
 	SHOOT
 };
+#pragma endregion
+
+#pragma endregion
+
+#pragma region Meshes
 
 enum Meshes
 {
@@ -23,17 +34,29 @@ enum Meshes
 	TRAP_FIRE
 };
 
+#pragma endregion
+
+#pragma region UI
+
 enum UITextures
 {
 	HEALTHBAR,
 	WAVECOUNTER
 };
 
+#pragma endregion
+
+#pragma region Lights
+
 enum LightType
 {
 	POINTLIGHT,
 	AREALIGHT
 };
+
+#pragma endregion
+
+#pragma region Shaders
 
 enum Shaders
 {
@@ -44,12 +67,22 @@ enum Shaders
 	ANIMATION_SHADER
 };
 
+#pragma endregion
+
+#pragma region States
+
+#pragma region TrapState
+
 enum TrapState
 {
 	IDLE,
 	ACTIVE,
 	INACTIVE
 };
+
+#pragma endregion
+
+#pragma region EnemyState
 
 enum EnemyState
 {
@@ -58,12 +91,22 @@ enum EnemyState
 	DEATH
 };
 
-enum States
+#pragma endregion
+
+#pragma region MainState
+
+enum MainStates
 {
 	MENU,
 	GAME,
 	GAMEOVER
 };
+
+#pragma endregion
+
+#pragma endregion
+
+#pragma region Input
 
 enum InputKeys
 {
@@ -82,6 +125,10 @@ enum InputKeys
 	MOUSE_LEFT
 };
 
+#pragma endregion
+
+#pragma region Texture
+
 enum TextureType
 {
 	DIFFUSE,
@@ -89,3 +136,5 @@ enum TextureType
 	GLOW,
 	NORMAL
 };
+
+#pragma endregion
