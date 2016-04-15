@@ -2,6 +2,7 @@
 #include "GameState.h"
 #include "GameOverState.h"
 #include "MenuState.h"
+#include "Enumerations.h"
 class MainStateMachine
 {
 public:
@@ -15,7 +16,7 @@ private:
 	GameState* gameState;
 	GameOverState* gameOverState;
 	MenuState* menuState;
-	//States activeState;//enum
+	MainStates activeState;//enum
 
 };
 
