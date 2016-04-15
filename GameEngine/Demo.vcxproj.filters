@@ -209,6 +209,9 @@
     <Filter Include="Enumerations">
       <UniqueIdentifier>{f12407b7-31c5-4c1d-b1ca-39dc6b333203}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Enums">
+      <UniqueIdentifier>{450e577c-88c0-46ca-ab74-052b0542aabc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -491,6 +494,9 @@
     </ClInclude>
     <ClInclude Include="Enumerations.h">
       <Filter>Enumerations</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicEnums.h">
+      <Filter>Enums</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
