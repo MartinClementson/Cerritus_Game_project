@@ -36,7 +36,7 @@ public:
 	void Render(RenderInfoEnemy* object);
 	void Render(RenderInfoChar* object);
 	void Render(RenderInfoTrap* object);
-	void Render();
+	void RenderPlaceHolder();
 private:
 	void Render(RenderInstructions* object);
 

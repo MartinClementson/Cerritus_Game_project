@@ -59,7 +59,7 @@ void Renderer::Render(RenderInfoChar * object)
 void Renderer::Render(RenderInfoTrap * object)
 {
 }
-void Renderer::Render()
+void Renderer::RenderPlaceHolder()
 {
 	RenderInstructions * object;
 	object = this->resourceManager->GetPlaceHolderMesh();
