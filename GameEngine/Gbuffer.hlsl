@@ -101,15 +101,33 @@ struct GBUFFER_PS_OUT
 {
 	float4 diffuseRes	: SV_Target0;
 	float4 specularRes	: SV_Target1;
-	float4 normalRes	: SV_Target2;
-	float4 depthRes		: SV_Target3;
-	float4 shadowRes	: SV_Target4;
+	float4 glossRes		: SV_Target2;
+	float4 normalRes	: SV_Target3;
+	float4 depthRes		: SV_Target4;
+	float4 shadowRes	: SV_Target5;
 };
 GBUFFER_PS_OUT GBUFFER_PS_main(GS_OUT input)
 {
 	GBUFFER_PS_OUT output = (GBUFFER_PS_OUT)0;
+	float4 color = float4(1,1,1,1);
 
-	//DO STYFF
+
+	//diffuse
+	output.diffuseRes = diffuseTex.Sample(samplerTypeState, input.Uv);
+	output.diffuseRes = output.diffuseRes * color;
+	output.diffuseRes = saturate(output.diffuseRes);
+
+	//specular
+	output.specularRes = specularTex.Sample(samplerTypeState, input.Uv);
+	output.specularRes = saturate(output.specularRes);
+	
+	//gloss
+
+	//normal
+	
+	//depth
+	
+	//shadow
 
 	return output;
 }
