@@ -14,8 +14,10 @@ class Renderer
 
 private:
 	ID3D11DeviceContext* gDeviceContext	 = nullptr;
-
+	ID3D11Device * gDevice			     = nullptr;
 	ResourceManager* resourceManager	 = nullptr;
+
+	//Camera* sceneCam					 = nullptr;
 
 	//Buffers
 	ID3D11Buffer* worldBuffer			 = nullptr; //world constBuffer
@@ -36,9 +38,10 @@ public:
 	void Render(RenderInfoEnemy* object);
 	void Render(RenderInfoChar* object);
 	void Render(RenderInfoTrap* object);
-	void Render();
+	void RenderPlaceHolder();
 private:
 	void Render(RenderInstructions* object);
 
+	bool CreateConstantBuffers();
 
 };
