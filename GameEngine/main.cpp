@@ -44,6 +44,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 			else
 			{
 				engine->Frame(&tempDT);
+				engine->Update(&tempDT);
 				// update/render goes here
 			}
 		}
