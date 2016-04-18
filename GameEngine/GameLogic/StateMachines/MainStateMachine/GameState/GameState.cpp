@@ -21,6 +21,8 @@ GameState::~GameState()
 void GameState::Initialize()
 {
 	player->Initialize();
+	death->Initialize();
+	pause->Initialize();
 	death->isActive = false;
 	pause->isActive = false;
 }
@@ -31,14 +33,14 @@ void GameState::Release()
 
 void GameState::Update(double deltaTime)
 {
-	ProcessInput(deltaTime);
+	ProcessInput(&deltaTime);
 	player->Update(deltaTime);
 }
 
-void GameState::ProcessInput(double deltaTime)
+void GameState::ProcessInput(double* deltaTime)
 {
-	bool test = death->GetIsActive();
-	if (death->isActive)
+
+	/*if (death->isActive)
 	{
 
 	}
@@ -50,29 +52,28 @@ void GameState::ProcessInput(double deltaTime)
 		}
 	}
 	else
-	{
+	{*/
 		if (input->IsKeyHeld(KEY_W))
 		{
-			player->Move(UP, deltaTime);
+			player->Move(UP, deltaTime[0]);
 		}
 		else if (input->IsKeyHeld(KEY_S))
 		{
-			player->Move(DOWN, deltaTime);
+			player->Move(DOWN, deltaTime[0]);
 		}
 		else if (input->IsKeyHeld(KEY_A))
 		{
-			player->Move(LEFT, deltaTime);
+			player->Move(LEFT, deltaTime[0]);
 		}
 		else if (input->IsKeyHeld(KEY_D))
 		{
-			player->Move(RIGHT, deltaTime);
+			player->Move(RIGHT, deltaTime[0]);
 		}
 		else if (input->IsKeyPressed(KEY_ESC))
 		{
 			pause->isActive = true;
-
 		}
-	}
+	//}
 }
 
 void GameState::Render()

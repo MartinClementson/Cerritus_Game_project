@@ -19,18 +19,18 @@ MainStateMachine::~MainStateMachine()
 
 void MainStateMachine::Update(double deltaTime)
 {
-	if (gameState->isActive)
-	{
+	//if (gameState->isActive)
+	//{
 		gameState->Update(deltaTime);
-	}
-	else if (gameOverState->isActive)
-	{
-		gameOverState->Update(deltaTime);
-	}
-	else if (menuState->isActive)
-	{
-		menuState->Update(deltaTime);
-	}
+	//}
+	//else if (gameOverState->isActive)
+	//{
+	//	gameOverState->Update(deltaTime);
+	//}
+	//else if (menuState->isActive)
+	//{
+	//	menuState->Update(deltaTime);
+	//}
 }
 
 void MainStateMachine::Render()
