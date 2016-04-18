@@ -77,7 +77,7 @@ GBUFFER_SHADOWDEPTH_VS_OUT GBUFFER_SHADOWDEPTH_VS_main(VS_IN input)
 {
 	GBUFFER_SHADOWDEPTH_VS_OUT output = (GBUFFER_SHADOWDEPTH_VS_OUT)0;
 
-	output.position = float4(input.pos, 1);
+	output.position = float4(input.Pos, 1);
 
 	//mul with lights matrices
 	output.position = mul(output.position, worldMatrix);
