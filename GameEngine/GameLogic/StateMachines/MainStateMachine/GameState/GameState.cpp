@@ -4,15 +4,22 @@
 
 GameState::GameState()
 {
+	this->death = new MainDeathState();
+	this->pause = new MainPausedState();
+	this->player = new Player();
 }
 
 
 GameState::~GameState()
 {
+	delete this->death;
+	delete this->pause;
+	delete this->player;
 }
 
 void GameState::Initialize()
 {
+	player->Initialize();
 }
 
 void GameState::Release()

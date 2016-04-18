@@ -346,6 +346,9 @@
     <ClCompile Include="ResourceEngine\ObjectNode\Camera\Camera.cpp">
       <Filter>ResourceEngine\ObjectNode\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="GameLogic\Game.cpp">
+      <Filter>GameLogic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enumerations\Enumerations.h">
@@ -497,6 +500,9 @@
     </ClInclude>
     <ClInclude Include="ResourceEngine\ObjectNode\Camera\Camera.h">
       <Filter>ResourceEngine\ObjectNode\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Game.h">
+      <Filter>GameLogic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
