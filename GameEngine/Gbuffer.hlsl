@@ -18,7 +18,7 @@ struct VS_OUT
 
 };
 
-Vertex shader
+//Vertex shader
 VS_OUT VS_main(VS_IN input)
 {
 	VS_OUT output;
@@ -42,7 +42,7 @@ struct GS_OUT
 };
 
 [maxvertexcount(3)]
-Geometry shader!
+//Geometry shader!
 void GS_main(
 	triangle VS_OUT input[3],
 	inout TriangleStream< GS_OUT > output)
