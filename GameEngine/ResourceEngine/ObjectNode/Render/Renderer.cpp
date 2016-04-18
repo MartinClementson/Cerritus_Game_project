@@ -17,7 +17,7 @@ void Renderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCon
 {
 	this->gDeviceContext = gDeviceContext;
 	resourceManager->Initialize(gDevice, gDeviceContext);
-	this->CreateConstantBuffers();
+	//this->CreateConstantBuffers();
 }
 void Renderer::Release()
 {
@@ -145,7 +145,7 @@ bool Renderer::CreateConstantBuffers()
 	CD3D11_BUFFER_DESC bufferDesc;
 	ZeroMemory(&bufferDesc, sizeof(bufferDesc));
 
-	bufferDesc.ByteWidth			 = sizeof(cameraConstantBuffer);
+	bufferDesc.ByteWidth			 = sizeof(CamMatrices);
 	bufferDesc.BindFlags			 = D3D11_BIND_CONSTANT_BUFFER;
 	bufferDesc.Usage				 = D3D11_USAGE_DYNAMIC;
 	bufferDesc.CPUAccessFlags		 = D3D11_CPU_ACCESS_WRITE;
@@ -166,7 +166,7 @@ bool Renderer::CreateConstantBuffers()
 	CD3D11_BUFFER_DESC bufferDescWorld;
 	ZeroMemory(&bufferDescWorld, sizeof(bufferDescWorld));
 
-	bufferDescWorld.ByteWidth				 = sizeof(worldConstantBuffer);
+	bufferDescWorld.ByteWidth				 = sizeof(WorldMatrix);
 	bufferDescWorld.BindFlags				 = D3D11_BIND_CONSTANT_BUFFER;
 	bufferDescWorld.Usage					 = D3D11_USAGE_DYNAMIC;
 	bufferDescWorld.CPUAccessFlags			 = D3D11_CPU_ACCESS_WRITE;
@@ -184,7 +184,7 @@ bool Renderer::CreateConstantBuffers()
 	CD3D11_BUFFER_DESC bufferDescLight;
 	ZeroMemory(&bufferDescLight, sizeof(bufferDescLight));
 
-	bufferDescLight.ByteWidth				 = sizeof(lightConstantBuffer);
+	bufferDescLight.ByteWidth				 = sizeof(LightStruct);
 	bufferDescLight.BindFlags				 = D3D11_BIND_CONSTANT_BUFFER;
 	bufferDescLight.Usage					 = D3D11_USAGE_DYNAMIC;
 	bufferDescLight.CPUAccessFlags			 = D3D11_CPU_ACCESS_WRITE;

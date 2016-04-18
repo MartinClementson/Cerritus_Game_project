@@ -6,6 +6,8 @@
 #include "../../../Structs/RenderInfo.h"
 #include "../../../Structs/DataTypes.h"
 #include "../../ResourceManager/ResourceManager.h"
+#include "..\Camera\Camera.h"
+#include "../../../Structs/ConstantBufferStruct.h"
 #pragma endregion
 
 
