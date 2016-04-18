@@ -515,7 +515,7 @@
     <FxCompile Include="ResourceEngine\Shader\PhongShader\PhongShaders.hlsl">
       <Filter>ResourceEngine\Shaders\PhongShader</Filter>
     </FxCompile>
-    <FxCompile Include="Gbuffer.hlsl">
+    <FxCompile Include="ResourceEngine\Shader\GBufferShader\Gbuffer.hlsl">
       <Filter>ResourceEngine\Shaders\GBufferShader</Filter>
     </FxCompile>
   </ItemGroup>
