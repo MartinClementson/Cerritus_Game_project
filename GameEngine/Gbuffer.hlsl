@@ -133,6 +133,39 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GS_OUT input)
 	output.depthRes = depthTex.Sample(samplerTypeState, input.Uv).r;
 
 	//shadow
+	float bias = 0.001f;
+	float2 projectedTexCoord;
+	float shadowDepthValue;
+	float lightIntensity;
+	float lightDepthValue;
+	float4 lightPos;
+	float shadowMapSize = 1024.0f;
+	
+
+	lightPos = mul(input.wPos, lightView);
+	lightPos = mul(lightPos, lightProjection);
+
+	projectedTexCoord.x = lightPos.x / lightPos.w;
+	projectedTexCoord.y = lightPos.y / lightPos.w;
+	lightDepthValue = lightPos.z / lightPos.w;
+
+	projectedTexCoord.x = projectedTexCoord.x * 0.5f + 0.5f;
+	projectedTexCoord.y = projectedTexCoord.y * -0.5f + 0.5f;
+
+	shadowDepthValue = shadowTex.Sample(samplerTypeState, projectedTexCoord.xy).r + bias;
+	float dx = 1.0f / shadowMapSize; //the 1 here will become a dynamic variable
+
+	float s0 = (shadowDepthValue < lightDepthValue) ? 0.0f : 1.0f;
+	float s1 = (shadowTex.Sample(samplerTypeState, projectedTexCoord.xy + float2(dx, 0.0f)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
+	float s2 = (shadowTex.Sample(samplerTypeState, projectedTexCoord.xy + float2(0.0f, dx)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
+	float s3 = (shadowTex.Sample(samplerTypeState, projectedTexCoord.xy + float2(dx, dx)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
+	
+	float2 texelPos = projectedTexCoord * shadowMapSize;
+	float2 lerps = frac(texelPos);
+	float shadowCoefficient = lerp(lerp(s0, s1, lerps.x), lerp(s2, s3, lerps.x), lerps.y);
+
+	output.shadowRes = color * shadowCoefficient; //color will be replaced with ambient
+	
 
 	return output;
 }
