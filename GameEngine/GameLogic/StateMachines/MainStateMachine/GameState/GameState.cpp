@@ -8,6 +8,7 @@ GameState::GameState()
 	this->pause = new MainPausedState();
 	this->player = new Player();
 	this->input = Input::GetInstance();
+	this->enemy = new Enemy();
 }
 
 
@@ -16,6 +17,7 @@ GameState::~GameState()
 	delete this->death;
 	delete this->pause;
 	delete this->player;
+	delete this->enemy;
 }
 
 void GameState::Initialize()
@@ -25,6 +27,7 @@ void GameState::Initialize()
 	pause->Initialize();
 	death->isActive = false;
 	pause->isActive = false;
+	enemy->Initialize();
 }
 
 void GameState::Release()
@@ -35,6 +38,7 @@ void GameState::Update(double deltaTime)
 {
 	ProcessInput(&deltaTime);
 	player->Update(deltaTime);
+	enemy->Update(deltaTime);
 }
 
 void GameState::ProcessInput(double* deltaTime)
@@ -81,6 +85,7 @@ void GameState::Render()
 	room1->Render();
 	player->Render();
 	gameUI->Render();
+	enemy->Render();
 }
 
 void GameState::OnEnter()

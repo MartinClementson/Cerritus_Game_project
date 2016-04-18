@@ -6,7 +6,7 @@
 #include "../../../Character/Player/Player.h"
 #include "../../../InputHandler/Input/Input.h"
 #include "../../../GUI/GUI.h"
-
+#include "../../../Character/Enemy/Enemy.h"
 class GameState :
 	public StateClass
 {
@@ -27,6 +27,7 @@ private:
 	Scene* room1;
 	Scene* room2;
 	Player* player;
+	Enemy* enemy;
 	Input* input;
 	GUI* gameUI;
 	MainPausedState* pause;
