@@ -25,7 +25,7 @@ enum PlayerAnimation
 
 #pragma region Meshes
 
-enum Meshes
+enum MeshEnum
 {
 	MAIN_CHARACTER,
 	ENEMY_1,

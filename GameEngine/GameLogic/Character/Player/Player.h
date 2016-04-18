@@ -24,7 +24,7 @@ public:
 
 
 private:
-	Meshes meshID;//enum
+	MeshEnum meshID;//enum
 	ProjectileSystem* projectileSystem;
 
 	//Collision();
