@@ -60,6 +60,8 @@ void ResourceManager::Release()
 	RenderInstructions * ResourceManager::GetPlaceHolderMesh()
 	{
 		meshManager->GetPlaceHolderMeshInfo(&currentMesh);
+		Shaders temp = PHONG_SHADER;
+		this->shaderManager->SetActiveShader(&temp);
 		return &currentMesh;
 	}
 
