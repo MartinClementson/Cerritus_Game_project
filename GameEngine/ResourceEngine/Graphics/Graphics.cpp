@@ -296,4 +296,10 @@ void Graphics::QueueRender(RenderInfoTrap * object)
 {
 }
 
+Graphics * Graphics::GetInstance()
+{
+	static Graphics instance;
+	return &instance;
+}
+
 #pragma endregion
