@@ -59,7 +59,13 @@ void GS_main(
 }
 
 //GBUFFER
+Texture2D diffuseTex	: register(t0);
+Texture2D specularTex	: register(t1);
+Texture2D normalTex		: register(t2);
+Texture2D depthTex		: register(t3);
+Texture2D shadowTex		: register(t4);
 
+SamplerState samplerTypeState : register(s0);
 struct GBUFFER_SHADOWDEPTH_VS_OUT
 {
 	float4 position		: SV_POSITION;
