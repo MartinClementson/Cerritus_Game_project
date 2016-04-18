@@ -6,7 +6,6 @@
 class InputHandler
 {
 public:
-	InputHandler();
 	~InputHandler();
 private:
 	LPDIRECTINPUT8 input;
@@ -19,6 +18,7 @@ private:
 	float lastMouseX, lastMouseY;
 
 private:
+	InputHandler();
 	void ProcessInput();
 	bool ReadKeyboard();
 	bool ReadMouse();
@@ -32,6 +32,8 @@ public:
 	bool IsKeyHeld(InputKeys* key);
 	DirectX::XMFLOAT2 GetMousePosition();
 	bool isMouseClicked(InputKeys* mouseKey);
+
+	static InputHandler* GetInstance();
 	
 };
 

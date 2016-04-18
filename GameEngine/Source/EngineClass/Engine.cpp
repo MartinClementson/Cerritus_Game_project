@@ -4,7 +4,7 @@
 
 Engine::Engine()
 {
-	this->input = new InputHandler();
+	this->input = InputHandler::GetInstance();
 	this->graphics = Graphics::GetInstance();
 }
 
@@ -12,11 +12,11 @@ Engine::Engine()
 Engine::~Engine()
 {
 
-	delete this->input;
 }
 
 void Engine::Initialize(HWND* window)
 {
+	input->Initialize();
 	graphics->Initialize(window);
 
 }
