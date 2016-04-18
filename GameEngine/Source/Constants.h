@@ -8,9 +8,7 @@
 #define FPS_CAP 60
 
 #define DEBUG 2 /* 2 = debug,  or : D3D11_CREATE_DEVICE_DEBUG */
-#ifndef DIRECTINPUT_VERSION
-	#define DIRECTINPUT_VERSION 0x0800
-#endif
+
 #define D3D_DEBUG_INFO
 
 
