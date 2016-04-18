@@ -22,26 +22,44 @@ void GameState::Release()
 void GameState::Update(double deltaTime)
 {
 	ProcessInput(deltaTime);
-	
+	player->Update(deltaTime);
 }
 
 void GameState::ProcessInput(double deltaTime)
 {
-	if (input->IsKeyHeld(KEY_W))
+	if (death->isActive)
 	{
-		player->Move(UP, deltaTime);
+
 	}
-	else if (input->IsKeyHeld(KEY_S))
+	else if (pause->isActive)
 	{
-		player->Move(DOWN, deltaTime);
+		if (input->IsKeyPressed(KEY_ESC))
+		{
+			pause->isActive = false;
+		}
 	}
-	else if (input->IsKeyHeld(KEY_A))
+	else
 	{
-		player->Move(LEFT, deltaTime);
-	}
-	else if (input->IsKeyHeld(KEY_D))
-	{
-		player->Move(RIGHT, deltaTime);
+		if (input->IsKeyHeld(KEY_W))
+		{
+			player->Move(UP, deltaTime);
+		}
+		else if (input->IsKeyHeld(KEY_S))
+		{
+			player->Move(DOWN, deltaTime);
+		}
+		else if (input->IsKeyHeld(KEY_A))
+		{
+			player->Move(LEFT, deltaTime);
+		}
+		else if (input->IsKeyHeld(KEY_D))
+		{
+			player->Move(RIGHT, deltaTime);
+		}
+		else if (input->IsKeyPressed(KEY_ESC))
+		{
+			pause->isActive = true;
+		}
 	}
 }
 
