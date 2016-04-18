@@ -52,3 +52,9 @@ bool InputHandler::isMouseClicked(InputKeys* mouseKey)
 {
 	return false;
 }
+
+InputHandler * InputHandler::GetInstance()
+{
+	static InputHandler instance;
+	return &instance;
+}
