@@ -73,13 +73,17 @@ void Graphics::Render() //manage RenderPasses here
 {
 	SetViewPort();
 
-	//MOVE THIS DOWN ONCE IT WORKS
-	float clearColor[] = { 0, 0, 1, 1 };
-	this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
-	this->gDeviceContext->ClearDepthStencilView(this->depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-	this->gDeviceContext->ClearRenderTargetView(gBackBufferRTV, clearColor);
+
+	gBuffer->SetToRender(depthStencilView);		//Set The gbuffer pass
+
+	RenderScene();								//Render to the gBuffer
+												//Set the gBuffer as a subResource, send in the new RenderTarget
+	gBuffer->SetToRead(gBackBufferRTV); 
 	
-	RenderScene();
+	gBuffer->ClearGbuffer();
+										
+	
+	RenderScene();// TEMPORARY, REMOVE WHEN GBUFFER WORKS
 
 	FinishFrame();
 
@@ -101,8 +105,17 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 {
 	gameObjects->clear(); //clear the queue
 
+
 	this->gSwapChain->Present(VSYNC, 0); //Change front and back buffer after rendering
+	
+	float clearColor[] = { 0, 0, 1, 1 };
+	this->gDeviceContext->ClearDepthStencilView(this->depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	this->gDeviceContext->ClearRenderTargetView(gBackBufferRTV, clearColor);
 	gDeviceContext->ClearState();
+	
+
+
+
 }
 
 void Graphics::SetViewPort()
