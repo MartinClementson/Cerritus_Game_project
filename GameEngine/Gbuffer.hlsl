@@ -1,5 +1,15 @@
-
-
+cbuffer lightMatrices
+{
+	matrix lightWorldMatrix;
+	matrix lightView;
+	matrix lightProjection;
+};
+cbuffer cameraMatrices
+{
+	matrix camWorldMatrix;
+	matrix camView;
+	matrix camProjection;
+};
 struct VS_IN
 {
 	float3 Pos		: POSITION;
@@ -80,9 +90,9 @@ GBUFFER_SHADOWDEPTH_VS_OUT GBUFFER_SHADOWDEPTH_VS_main(VS_IN input)
 	output.position = float4(input.Pos, 1);
 
 	//mul with lights matrices
-	output.position = mul(output.position, worldMatrix);
-	output.position = mul(output.position, view);
-	output.position = mul(output.position, projection);
+	output.position = mul(output.position, lightWorldMatrix);
+	output.position = mul(output.position, lightView);
+	output.position = mul(output.position, lightProjection);
 
 	return output;
 }
