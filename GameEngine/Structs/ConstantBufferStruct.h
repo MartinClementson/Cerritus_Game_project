@@ -6,6 +6,7 @@ struct CamMatrices
 {
 	DirectX::XMMATRIX camView;
 	DirectX::XMMATRIX projection;
+	DirectX::XMFLOAT3 worldPos;
 };
 CamMatrices camMatrices;
 
