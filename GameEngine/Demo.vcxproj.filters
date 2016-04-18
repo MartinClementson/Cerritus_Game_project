@@ -209,6 +209,9 @@
     <Filter Include="GameLogic\StateMachines\MainStateMachene\MenuState">
       <UniqueIdentifier>{887fe9b6-6a93-4236-9660-156c4d119423}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceEngine\Shaders\GBuffer">
+      <UniqueIdentifier>{5b938f72-d005-4bee-a0a0-8692577c1011}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameLogic\Animation\Animation.cpp">
