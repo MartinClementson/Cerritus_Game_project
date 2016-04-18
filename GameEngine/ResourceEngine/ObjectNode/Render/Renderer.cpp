@@ -16,8 +16,9 @@ Renderer::~Renderer()
 void Renderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext)
 {
 	this->gDeviceContext = gDeviceContext;
+	this->gDevice = gDevice;
 	resourceManager->Initialize(gDevice, gDeviceContext);
-	//this->CreateConstantBuffers();
+	this->CreateConstantBuffers();
 }
 void Renderer::Release()
 {
@@ -153,9 +154,10 @@ bool Renderer::CreateConstantBuffers()
 	bufferDesc.StructureByteStride	 = 0;
 
 	hr = this->gDevice->CreateBuffer( &bufferDesc , nullptr , &camBuffer );
-
+	if (FAILED(hr))
+		MessageBox(NULL, L"Failed to create Camera buffer", L"Error", MB_ICONERROR | MB_OK);
 	if (SUCCEEDED(hr))
-		this->gDeviceContext->GSSetConstantBuffers( 1 , 1 , &camBuffer ); 
+		this->gDeviceContext->GSSetConstantBuffers( 0 , 1 , &camBuffer ); 
 
 
 //-----------------------------------------------------------------------------------------------------------------------------------
@@ -174,8 +176,12 @@ bool Renderer::CreateConstantBuffers()
 	bufferDescWorld.StructureByteStride		 = 0;
 
 	hr = this->gDevice->CreateBuffer( &bufferDescWorld , nullptr , &worldBuffer );
+
+	if (FAILED(hr))
+		MessageBox(NULL, L"Failed to create world buffer", L"Error", MB_ICONERROR | MB_OK);
+	
 	if (SUCCEEDED(hr))
-		this->gDeviceContext->GSSetConstantBuffers(0, 1, &worldBuffer); 
+		this->gDeviceContext->GSSetConstantBuffers(1, 1, &worldBuffer); 
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 		//LIGHT CONSTANT BUFFER
@@ -192,8 +198,10 @@ bool Renderer::CreateConstantBuffers()
 	bufferDescLight.StructureByteStride		 = 0;
 
 	hr = this->gDevice->CreateBuffer(&bufferDescLight, nullptr, &lightBuffer);
+	if (FAILED(hr))
+		MessageBox(NULL, L"Failed to create light buffer", L"Error", MB_ICONERROR | MB_OK);
 	if (SUCCEEDED(hr))
-		this->gDeviceContext->PSSetConstantBuffers(	0, 1, &lightBuffer);
+		this->gDeviceContext->PSSetConstantBuffers(	2, 1, &lightBuffer);
 
 
 	return true;
