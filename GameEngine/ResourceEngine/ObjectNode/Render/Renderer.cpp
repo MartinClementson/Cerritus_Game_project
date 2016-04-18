@@ -4,12 +4,14 @@
 
 Renderer::Renderer()
 {
-	this->resourceManager = new ResourceManager();
+	this->sceneCam			= new Camera();
+	this->resourceManager	= new ResourceManager();
 }
 
 
 Renderer::~Renderer()
 {
+	delete sceneCam;
 	delete resourceManager;
 }
 
@@ -23,6 +25,7 @@ void Renderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCon
 void Renderer::Release()
 {
 	resourceManager->Release();
+	sceneCam->Release();
 
 	SAFE_RELEASE(worldBuffer);
 	SAFE_RELEASE(camBuffer);

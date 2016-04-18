@@ -4,16 +4,15 @@
 
 struct CamMatrices
 {
-	DirectX::XMMATRIX camView;
-	DirectX::XMMATRIX projection;
-	DirectX::XMFLOAT3 worldPos;
-	float padding;
+	DirectX::XMFLOAT4X4 camView;
+	DirectX::XMFLOAT4X4 projection;
+	DirectX::XMFLOAT4 worldPos;
 };
 //CamMatrices camMatrices;
 
 struct WorldMatrix
 {
-	DirectX::XMMATRIX worldMatrix;
+	DirectX::XMFLOAT4X4 worldMatrix;
 };
 //WorldMatrix worldMatrix;
 

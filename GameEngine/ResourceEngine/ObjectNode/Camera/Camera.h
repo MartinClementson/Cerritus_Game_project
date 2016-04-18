@@ -11,6 +11,8 @@ using namespace DirectX;
 class Camera : ObjectNode
 {
 private:
+
+	XMFLOAT3 cameraOffset = { 0.0f,5.0f,0.0f }; //This is the offset from the players position!
 	XMFLOAT4X4 projection;
 	XMFLOAT4X4 view;
 
@@ -22,10 +24,9 @@ private:
 	CamMatrices camMatrices;
 	WorldMatrix worldMatrix;
 
-	XMVECTOR camPosition = XMVectorSet(0, 1, -1, 0);
-	XMVECTOR camTarget = XMVectorSet(0, 0, 0, 0);
-	XMVECTOR camUp = XMVectorSet(0, 1, 0, 0);
-private:
+	XMFLOAT4 camPosition	= { 0, 1, -1, 0  };
+	XMFLOAT4 camTarget		= { 0, 0, 0,  0  };
+	XMFLOAT4 camUp			= { 0, 1, 0,  0  };
 
 public:
 	Camera();
@@ -36,7 +37,7 @@ public:
 	void Initialize(ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceContext);
 	void Release();
 
-	void Updateview(ID3D11Buffer *constBuffer , ID3D11DeviceContext *gDevice);
+	void Updateview(ID3D11Buffer *constBuffer, DirectX::XMFLOAT2 playerPos);
 	void TranslateTo(XMFLOAT3 newPos);
 
 
