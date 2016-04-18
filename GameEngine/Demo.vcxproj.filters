@@ -74,45 +74,6 @@
     <Filter Include="GameLogic\StateMachines\StateClass">
       <UniqueIdentifier>{fc9ed7ca-c289-4cc7-9eed-d27ec869a13a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogic\StateMachines\StateClass\TrapStateMachine">
-      <UniqueIdentifier>{57cb3a62-ef68-447f-9862-2da4971ca0c7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogic\StateMachines\StateClass\TrapStateMachine\ActiveState">
-      <UniqueIdentifier>{551be78e-a8a4-4842-ae73-030e4dcf17fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogic\StateMachines\StateClass\TrapStateMachine\IdleState">
-      <UniqueIdentifier>{666fc834-e9d2-4939-9d06-3e5895a5fb69}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogic\StateMachines\StateClass\TrapStateMachine\InactiveState">
-      <UniqueIdentifier>{dfaf94b6-434d-4049-92f0-3f3d6e0a82c1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogic\StateMachines\StateClass\MainStateMachene">
-      <UniqueIdentifier>{dea8b801-b951-432a-9cae-a3b1da9167ba}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogic\StateMachines\StateClass\MainStateMachene\GameState">
-      <UniqueIdentifier>{fa7a08a9-d505-424c-82e7-1b9bffb12d81}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogic\StateMachines\StateClass\MainStateMachene\GameState\PausedState">
-      <UniqueIdentifier>{1c2b2c4e-aba3-4b13-b149-c59ce121aa9f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogic\StateMachines\StateClass\MainStateMachene\GameState\DeathState">
-      <UniqueIdentifier>{2337014e-0e7f-4042-ba58-0dd529c91d23}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogic\StateMachines\StateClass\MainStateMachene\GameOverState">
-      <UniqueIdentifier>{a9322120-8874-407c-ba11-cc3780479f04}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogic\StateMachines\StateClass\MainStateMachene\MenuState">
-      <UniqueIdentifier>{887fe9b6-6a93-4236-9660-156c4d119423}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogic\StateMachines\StateClass\EnemyStateMachine">
-      <UniqueIdentifier>{44f8732c-596c-440a-8662-729a811db57c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogic\StateMachines\StateClass\EnemyStateMachine\IdleState">
-      <UniqueIdentifier>{873d59c6-ac3f-49ce-89eb-60a28a5b0616}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameLogic\StateMachines\StateClass\EnemyStateMachine\AttackState">
-      <UniqueIdentifier>{e77c53e5-9fde-4a29-b49e-881fc6d6a80d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameLogic\Character">
       <UniqueIdentifier>{d4c8cf35-ecdf-4882-8042-d2463a9427dc}</UniqueIdentifier>
     </Filter>
@@ -179,9 +140,6 @@
     <Filter Include="Structs">
       <UniqueIdentifier>{a09811cd-6ac4-471d-9e8f-db6011a7652b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogic\StateMachines\StateClass\EnemyStateMachine\DeathState">
-      <UniqueIdentifier>{5245aa01-39e6-42d7-96ee-ed6db919092a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameLogic\Scene\Traps">
       <UniqueIdentifier>{b4633353-8a8f-4b34-81f6-e3def7370737}</UniqueIdentifier>
     </Filter>
@@ -209,292 +167,334 @@
     <Filter Include="Enumerations">
       <UniqueIdentifier>{f12407b7-31c5-4c1d-b1ca-39dc6b333203}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameLogic\StateMachines\TrapStateMachine">
+      <UniqueIdentifier>{57cb3a62-ef68-447f-9862-2da4971ca0c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\StateMachines\TrapStateMachine\ActiveState">
+      <UniqueIdentifier>{551be78e-a8a4-4842-ae73-030e4dcf17fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\StateMachines\TrapStateMachine\IdleState">
+      <UniqueIdentifier>{666fc834-e9d2-4939-9d06-3e5895a5fb69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\StateMachines\TrapStateMachine\InactiveState">
+      <UniqueIdentifier>{dfaf94b6-434d-4049-92f0-3f3d6e0a82c1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\StateMachines\EnemyStateMachine">
+      <UniqueIdentifier>{44f8732c-596c-440a-8662-729a811db57c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\StateMachines\EnemyStateMachine\IdleState">
+      <UniqueIdentifier>{873d59c6-ac3f-49ce-89eb-60a28a5b0616}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\StateMachines\EnemyStateMachine\AttackState">
+      <UniqueIdentifier>{e77c53e5-9fde-4a29-b49e-881fc6d6a80d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\StateMachines\EnemyStateMachine\DeathState">
+      <UniqueIdentifier>{5245aa01-39e6-42d7-96ee-ed6db919092a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\StateMachines\MainStateMachene">
+      <UniqueIdentifier>{dea8b801-b951-432a-9cae-a3b1da9167ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\StateMachines\MainStateMachene\GameState">
+      <UniqueIdentifier>{fa7a08a9-d505-424c-82e7-1b9bffb12d81}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\StateMachines\MainStateMachene\GameState\PausedState">
+      <UniqueIdentifier>{1c2b2c4e-aba3-4b13-b149-c59ce121aa9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\StateMachines\MainStateMachene\GameState\DeathState">
+      <UniqueIdentifier>{2337014e-0e7f-4042-ba58-0dd529c91d23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\StateMachines\MainStateMachene\GameOverState">
+      <UniqueIdentifier>{a9322120-8874-407c-ba11-cc3780479f04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\StateMachines\MainStateMachene\MenuState">
+      <UniqueIdentifier>{887fe9b6-6a93-4236-9660-156c4d119423}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="GameLogic\Animation\Animation.cpp">
+      <Filter>GameLogic\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Character\Character.cpp">
+      <Filter>GameLogic\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Character\Enemy\Enemy.cpp">
+      <Filter>GameLogic\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Character\Player\Player.cpp">
+      <Filter>GameLogic\Character\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Character\ProjectileSystem\ProjectileSystem.cpp">
+      <Filter>GameLogic\Character\ProjectileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Character\ProjectileSystem\Projectile\Projectile.cpp">
+      <Filter>GameLogic\Character\ProjectileSystem\Projectile</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\GUI\GUI.cpp">
+      <Filter>GameLogic\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\GUI\GUIElement\GUIElement.cpp">
+      <Filter>GameLogic\GUI\GuiElements</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\InputHandler\InputHandler.cpp">
+      <Filter>GameLogic\InputHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\InputHandler\Input\Input.cpp">
+      <Filter>GameLogic\InputHandler\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Scene\Scene.cpp">
+      <Filter>GameLogic\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Scene\Trap\Trap.cpp">
+      <Filter>GameLogic\Scene\Traps</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Scene\Trap\FireTrap\FireTrap.cpp">
+      <Filter>GameLogic\Scene\Traps\FireTrap</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Scene\Trap\BearTrap\BearTrap.cpp">
+      <Filter>GameLogic\Scene\Traps\BearTrap</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Scene\GameObject\GameObject.cpp">
+      <Filter>GameLogic\Scene\GameObject</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Scene\GameObject\EnemySpawn\EnemySpawn.cpp">
+      <Filter>GameLogic\Scene\GameObject\EnemySpawn</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Scene\GameObject\Light\Light.cpp">
+      <Filter>GameLogic\Scene\GameObject\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Scene\GameObject\Model\Model.cpp">
+      <Filter>GameLogic\Scene\GameObject\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Scene\GameObject\ParticleEmmiter\ParticleEmmiter.cpp">
+      <Filter>GameLogic\Scene\GameObject\ParticleEmmiter</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Scene\GameObject\ParticleEmmiter\Particle\Particle.cpp">
+      <Filter>GameLogic\Scene\GameObject\ParticleEmmiter\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\StateMachines\StateClass\StateClass.cpp">
+      <Filter>GameLogic\StateMachines\StateClass</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\EnemyStateMachine.cpp">
+      <Filter>GameLogic\StateMachines\EnemyStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\AttackState\AttackState.cpp">
+      <Filter>GameLogic\StateMachines\EnemyStateMachine\AttackState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\DeathState\EnemyDeathState.cpp">
+      <Filter>GameLogic\StateMachines\EnemyStateMachine\DeathState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\IdleState\EnemyIdleState.cpp">
+      <Filter>GameLogic\StateMachines\EnemyStateMachine\IdleState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\StateMachines\MainStateMachine\MainStateMachine.cpp">
+      <Filter>GameLogic\StateMachines\MainStateMachene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\StateMachines\MainStateMachine\GameOverState\GameOverState.cpp">
+      <Filter>GameLogic\StateMachines\MainStateMachene\GameOverState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\StateMachines\MainStateMachine\GameState\GameState.cpp">
+      <Filter>GameLogic\StateMachines\MainStateMachene\GameState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\StateMachines\MainStateMachine\GameState\DeathState\MainDeathState.cpp">
+      <Filter>GameLogic\StateMachines\MainStateMachene\GameState\DeathState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\StateMachines\MainStateMachine\GameState\PausedState\MainPausedState.cpp">
+      <Filter>GameLogic\StateMachines\MainStateMachene\GameState\PausedState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\StateMachines\MainStateMachine\MenuState\MenuState.cpp">
+      <Filter>GameLogic\StateMachines\MainStateMachene\MenuState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\TrapStateMachine.cpp">
+      <Filter>GameLogic\StateMachines\TrapStateMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\ActiveState\ActiveState.cpp">
+      <Filter>GameLogic\StateMachines\TrapStateMachine\ActiveState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\IldeState\TrapIdleState.cpp">
+      <Filter>GameLogic\StateMachines\TrapStateMachine\IdleState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\InactiveState\InactiveState.cpp">
+      <Filter>GameLogic\StateMachines\TrapStateMachine\InactiveState</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\Graphics\Graphics.cpp">
+      <Filter>ResourceEngine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ObjectNode\ObjectNode.cpp">
+      <Filter>ResourceEngine\ObjectNode</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ObjectNode\Render\Renderer.cpp">
+      <Filter>ResourceEngine\ObjectNode\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ObjectNode\Mesh\Mesh.cpp">
+      <Filter>ResourceEngine\ObjectNode\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ResourceManager\ResourceManager.cpp">
+      <Filter>ResourceEngine\ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ResourceManager\MeshManager\MeshManager.cpp">
+      <Filter>ResourceEngine\ResourceManager\MeshManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ResourceManager\ShaderManager\ShaderManager.cpp">
+      <Filter>ResourceEngine\ResourceManager\ShaderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EngineClass\Engine.cpp">
+      <Filter>Source Files\EngineClass</Filter>
+    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files\Main</Filter>
     </ClCompile>
-    <ClCompile Include="Engine.cpp">
-      <Filter>Source Files\EngineClass</Filter>
-    </ClCompile>
-    <ClCompile Include="Graphics.cpp">
-      <Filter>ResourceEngine\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="StateClass.cpp">
-      <Filter>GameLogic\StateMachines\StateClass</Filter>
-    </ClCompile>
-    <ClCompile Include="InputHandler.cpp">
-      <Filter>GameLogic\InputHandler</Filter>
-    </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>GameLogic\InputHandler\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>GameLogic\Character</Filter>
-    </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>GameLogic\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="Projectile.cpp">
-      <Filter>GameLogic\Character\ProjectileSystem\Projectile</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>ResourceEngine\ResourceManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>GameLogic\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>GameLogic\Character\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="ProjectileSystem.cpp">
-      <Filter>GameLogic\Character\ProjectileSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="GameObject.cpp">
-      <Filter>GameLogic\Scene\GameObject</Filter>
-    </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>GameLogic\Scene\GameObject\Model</Filter>
-    </ClCompile>
-    <ClCompile Include="Light.cpp">
-      <Filter>GameLogic\Scene\GameObject\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemySpawn.cpp">
-      <Filter>GameLogic\Scene\GameObject\EnemySpawn</Filter>
-    </ClCompile>
-    <ClCompile Include="ParticleEmmiter.cpp">
-      <Filter>GameLogic\Scene\GameObject\ParticleEmmiter</Filter>
-    </ClCompile>
-    <ClCompile Include="Particle.cpp">
-      <Filter>GameLogic\Scene\GameObject\ParticleEmmiter\Particle</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>GameLogic\Character\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyStateMachine.cpp">
-      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>ResourceEngine\ObjectNode\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="MeshManager.cpp">
-      <Filter>ResourceEngine\ResourceManager\MeshManager</Filter>
-    </ClCompile>
-    <ClCompile Include="ShaderManager.cpp">
-      <Filter>ResourceEngine\ResourceManager\ShaderManager</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjectNode.cpp">
-      <Filter>ResourceEngine\ObjectNode</Filter>
-    </ClCompile>
-    <ClCompile Include="AttackState.cpp">
-      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\AttackState</Filter>
-    </ClCompile>
-    <ClCompile Include="MainPausedState.cpp">
-      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameState\PausedState</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyDeathState.cpp">
-      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\DeathState</Filter>
-    </ClCompile>
-    <ClCompile Include="MainDeathState.cpp">
-      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameState\DeathState</Filter>
-    </ClCompile>
-    <ClCompile Include="GameState.cpp">
-      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameState</Filter>
-    </ClCompile>
-    <ClCompile Include="GameOverState.cpp">
-      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameOverState</Filter>
-    </ClCompile>
-    <ClCompile Include="MenuState.cpp">
-      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\MenuState</Filter>
-    </ClCompile>
-    <ClCompile Include="MainStateMachine.cpp">
-      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene</Filter>
-    </ClCompile>
-    <ClCompile Include="GUI.cpp">
-      <Filter>GameLogic\GUI</Filter>
-    </ClCompile>
-    <ClCompile Include="GUIElement.cpp">
-      <Filter>GameLogic\GUI\GuiElements</Filter>
-    </ClCompile>
-    <ClCompile Include="Trap.cpp">
-      <Filter>GameLogic\Scene\Traps</Filter>
-    </ClCompile>
-    <ClCompile Include="FireTrap.cpp">
-      <Filter>GameLogic\Scene\Traps\FireTrap</Filter>
-    </ClCompile>
-    <ClCompile Include="BearTrap.cpp">
-      <Filter>GameLogic\Scene\Traps\BearTrap</Filter>
-    </ClCompile>
-    <ClCompile Include="TrapStateMachine.cpp">
-      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>ResourceEngine\ObjectNode\Renderer</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyIdleState.cpp">
-      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\IdleState</Filter>
-    </ClCompile>
-    <ClCompile Include="ActiveState.cpp">
-      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\ActiveState</Filter>
-    </ClCompile>
-    <ClCompile Include="TrapIdleState.cpp">
-      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\IdleState</Filter>
-    </ClCompile>
-    <ClCompile Include="InactiveState.cpp">
-      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\InactiveState</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Engine.h">
-      <Filter>Source Files\EngineClass</Filter>
-    </ClInclude>
-    <ClInclude Include="Graphics.h">
-      <Filter>ResourceEngine\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="StateClass.h">
-      <Filter>GameLogic\StateMachines\StateClass</Filter>
-    </ClInclude>
-    <ClInclude Include="InputHandler.h">
-      <Filter>GameLogic\InputHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="Constants.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LibIncluder.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>GameLogic\InputHandler\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>GameLogic\Character</Filter>
-    </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>GameLogic\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="Projectile.h">
-      <Filter>GameLogic\Character\ProjectileSystem\Projectile</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>ResourceEngine\ResourceManager</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderInfo.h">
-      <Filter>Structs</Filter>
-    </ClInclude>
-    <ClInclude Include="ConstantBufferStruct.h">
-      <Filter>Structs</Filter>
-    </ClInclude>
-    <ClInclude Include="DataTypes.h">
-      <Filter>Structs</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>GameLogic\Scene</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>GameLogic\Character\Player</Filter>
-    </ClInclude>
-    <ClInclude Include="ProjectileSystem.h">
-      <Filter>GameLogic\Character\ProjectileSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="GameObject.h">
-      <Filter>GameLogic\Scene\GameObject</Filter>
-    </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>GameLogic\Scene\GameObject\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.h">
-      <Filter>GameLogic\Scene\GameObject\Model</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemySpawn.h">
-      <Filter>GameLogic\Scene\GameObject\EnemySpawn</Filter>
-    </ClInclude>
-    <ClInclude Include="ParticleEmmiter.h">
-      <Filter>GameLogic\Scene\GameObject\ParticleEmmiter</Filter>
-    </ClInclude>
-    <ClInclude Include="Particle.h">
-      <Filter>GameLogic\Scene\GameObject\ParticleEmmiter\Particle</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>GameLogic\Character\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyStateMachine.h">
-      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine</Filter>
-    </ClInclude>
-    <ClInclude Include="ShaderManager.h">
-      <Filter>ResourceEngine\ResourceManager\ShaderManager</Filter>
-    </ClInclude>
-    <ClInclude Include="MeshManager.h">
-      <Filter>ResourceEngine\ResourceManager\MeshManager</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjectNode.h">
-      <Filter>ResourceEngine\ObjectNode</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>ResourceEngine\ObjectNode\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="AttackState.h">
-      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\AttackState</Filter>
-    </ClInclude>
-    <ClInclude Include="MainPausedState.h">
-      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameState\PausedState</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyDeathState.h">
-      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\DeathState</Filter>
-    </ClInclude>
-    <ClInclude Include="MainDeathState.h">
-      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameState\DeathState</Filter>
-    </ClInclude>
-    <ClInclude Include="GameState.h">
-      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameState</Filter>
-    </ClInclude>
-    <ClInclude Include="GameOverState.h">
-      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\GameOverState</Filter>
-    </ClInclude>
-    <ClInclude Include="MenuState.h">
-      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene\MenuState</Filter>
-    </ClInclude>
-    <ClInclude Include="MainStateMachine.h">
-      <Filter>GameLogic\StateMachines\StateClass\MainStateMachene</Filter>
-    </ClInclude>
-    <ClInclude Include="GUI.h">
-      <Filter>GameLogic\GUI</Filter>
-    </ClInclude>
-    <ClInclude Include="GUIElement.h">
-      <Filter>GameLogic\GUI\GuiElements</Filter>
-    </ClInclude>
-    <ClInclude Include="Trap.h">
-      <Filter>GameLogic\Scene\Traps</Filter>
-    </ClInclude>
-    <ClInclude Include="FireTrap.h">
-      <Filter>GameLogic\Scene\Traps\FireTrap</Filter>
-    </ClInclude>
-    <ClInclude Include="BearTrap.h">
-      <Filter>GameLogic\Scene\Traps\BearTrap</Filter>
-    </ClInclude>
-    <ClInclude Include="TrapStateMachine.h">
-      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>ResourceEngine\ObjectNode\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyIdleState.h">
-      <Filter>GameLogic\StateMachines\StateClass\EnemyStateMachine\IdleState</Filter>
-    </ClInclude>
-    <ClInclude Include="ActiveState.h">
-      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\ActiveState</Filter>
-    </ClInclude>
-    <ClInclude Include="TrapIdleState.h">
-      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\IdleState</Filter>
-    </ClInclude>
-    <ClInclude Include="InactiveState.h">
-      <Filter>GameLogic\StateMachines\StateClass\TrapStateMachine\InactiveState</Filter>
-    </ClInclude>
-    <ClInclude Include="Enumerations.h">
+    <ClInclude Include="Enumerations\Enumerations.h">
       <Filter>Enumerations</Filter>
     </ClInclude>
+    <ClInclude Include="GameLogic\Animation\Animation.h">
+      <Filter>GameLogic\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Character\Character.h">
+      <Filter>GameLogic\Character</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Character\Enemy\Enemy.h">
+      <Filter>GameLogic\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Character\Player\Player.h">
+      <Filter>GameLogic\Character\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Character\ProjectileSystem\ProjectileSystem.h">
+      <Filter>GameLogic\Character\ProjectileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Character\ProjectileSystem\Projectile\Projectile.h">
+      <Filter>GameLogic\Character\ProjectileSystem\Projectile</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\GUI\GUI.h">
+      <Filter>GameLogic\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\GUI\GUIElement\GUIElement.h">
+      <Filter>GameLogic\GUI\GuiElements</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\InputHandler\InputHandler.h">
+      <Filter>GameLogic\InputHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\InputHandler\Input\Input.h">
+      <Filter>GameLogic\InputHandler\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Scene\Scene.h">
+      <Filter>GameLogic\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Scene\Trap\Trap.h">
+      <Filter>GameLogic\Scene\Traps</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Scene\Trap\FireTrap\FireTrap.h">
+      <Filter>GameLogic\Scene\Traps\FireTrap</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Scene\Trap\BearTrap\BearTrap.h">
+      <Filter>GameLogic\Scene\Traps\BearTrap</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Scene\GameObject\GameObject.h">
+      <Filter>GameLogic\Scene\GameObject</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Scene\GameObject\EnemySpawn\EnemySpawn.h">
+      <Filter>GameLogic\Scene\GameObject\EnemySpawn</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Scene\GameObject\Light\Light.h">
+      <Filter>GameLogic\Scene\GameObject\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Scene\GameObject\Model\Model.h">
+      <Filter>GameLogic\Scene\GameObject\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Scene\GameObject\ParticleEmmiter\ParticleEmmiter.h">
+      <Filter>GameLogic\Scene\GameObject\ParticleEmmiter</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Scene\GameObject\ParticleEmmiter\Particle\Particle.h">
+      <Filter>GameLogic\Scene\GameObject\ParticleEmmiter\Particle</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\StateMachines\StateClass\StateClass.h">
+      <Filter>GameLogic\StateMachines\StateClass</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\EnemyStateMachine.h">
+      <Filter>GameLogic\StateMachines\EnemyStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\AttackState\AttackState.h">
+      <Filter>GameLogic\StateMachines\EnemyStateMachine\AttackState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\DeathState\EnemyDeathState.h">
+      <Filter>GameLogic\StateMachines\EnemyStateMachine\DeathState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\IdleState\EnemyIdleState.h">
+      <Filter>GameLogic\StateMachines\EnemyStateMachine\IdleState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\StateMachines\MainStateMachine\MainStateMachine.h">
+      <Filter>GameLogic\StateMachines\MainStateMachene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\StateMachines\MainStateMachine\GameOverState\GameOverState.h">
+      <Filter>GameLogic\StateMachines\MainStateMachene\GameOverState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\StateMachines\MainStateMachine\GameState\GameState.h">
+      <Filter>GameLogic\StateMachines\MainStateMachene\GameState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\StateMachines\MainStateMachine\GameState\DeathState\MainDeathState.h">
+      <Filter>GameLogic\StateMachines\MainStateMachene\GameState\DeathState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\StateMachines\MainStateMachine\GameState\PausedState\MainPausedState.h">
+      <Filter>GameLogic\StateMachines\MainStateMachene\GameState\PausedState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\StateMachines\MainStateMachine\MenuState\MenuState.h">
+      <Filter>GameLogic\StateMachines\MainStateMachene\MenuState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\TrapStateMachine.h">
+      <Filter>GameLogic\StateMachines\TrapStateMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\ActiveState\ActiveState.h">
+      <Filter>GameLogic\StateMachines\TrapStateMachine\ActiveState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\IldeState\TrapIdleState.h">
+      <Filter>GameLogic\StateMachines\TrapStateMachine\IdleState</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\InactiveState\InactiveState.h">
+      <Filter>GameLogic\StateMachines\TrapStateMachine\InactiveState</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\Graphics\Graphics.h">
+      <Filter>ResourceEngine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ObjectNode\ObjectNode.h">
+      <Filter>ResourceEngine\ObjectNode</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ObjectNode\Render\Renderer.h">
+      <Filter>ResourceEngine\ObjectNode\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ObjectNode\Mesh\Mesh.h">
+      <Filter>ResourceEngine\ObjectNode\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ResourceManager\ResourceManager.h">
+      <Filter>ResourceEngine\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ResourceManager\MeshManager\MeshManager.h">
+      <Filter>ResourceEngine\ResourceManager\MeshManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ResourceManager\ShaderManager\ShaderManager.h">
+      <Filter>ResourceEngine\ResourceManager\ShaderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EngineClass\Engine.h">
+      <Filter>Source Files\EngineClass</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Constants.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LibIncluder.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Structs\ConstantBufferStruct.h">
+      <Filter>Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Structs\DataTypes.h">
+      <Filter>Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Structs\RenderInfo.h">
+      <Filter>Structs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="PhongShaders.hlsl">
+    <FxCompile Include="ResourceEngine\Shader\PhongShader\PhongShaders.hlsl">
       <Filter>ResourceEngine\Shaders\PhongShader</Filter>
     </FxCompile>
   </ItemGroup>
