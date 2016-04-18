@@ -32,6 +32,7 @@ void Graphics::Initialize(HWND * window)
 	//MOVE THIS DOWN ONCE IT WORKS
 	float clearColor[] = { 0, 0, 1, 1 };
 	this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
+	this->gDeviceContext->ClearDepthStencilView(this->depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 	this->gDeviceContext->ClearRenderTargetView(gBackBufferRTV, clearColor);
 }
 

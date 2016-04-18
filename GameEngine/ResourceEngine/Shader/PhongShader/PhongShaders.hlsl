@@ -56,7 +56,7 @@ void GS_main(
 	}*/
 
 
-	GS_OUT element;
+	/*GS_OUT element;
 	element.Pos = float4(-0.5, 0.5, 0.0, 1.0);
 	output.Append(element);
 
@@ -67,7 +67,7 @@ void GS_main(
 	GS_OUT elementZ;
 	elementZ.Pos = float4(-0.5, -0.5, 0.0, 1.0);
 	output.Append(elementZ);
-
+*/
 }
 
 

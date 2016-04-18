@@ -2,8 +2,8 @@
 
 #pragma region Includes
 
-#include "Graphics.h"
-#include "InputHandler.h"
+#include "../../ResourceEngine/Graphics/Graphics.h"
+#include "../../GameLogic/InputHandler/InputHandler.h"
 #include <windows.h>
 
 

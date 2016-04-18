@@ -37,13 +37,13 @@ struct Double3
 
 struct Vertex
 {
-	float x,y,z;
+	Float3 position;
 
 	Vertex(Float3 pos)
 	{
-		x = pos.x;
-		y = pos.y;
-		z = pos.z;
+		position.x = pos.x;
+		position.y = pos.y;
+		position.z = pos.z;
 	}
 	Vertex() {};
 

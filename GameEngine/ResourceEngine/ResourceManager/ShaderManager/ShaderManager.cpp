@@ -2,6 +2,7 @@
 
 
 
+
 ShaderManager::ShaderManager()
 {
 }
@@ -205,7 +206,7 @@ bool ShaderManager::CreatePhongShader()
 	ID3DBlob* pVS = nullptr;
 
 	D3DCompileFromFile(
-		L"PhongShaders.hlsl",
+		L"ResourceEngine/Shader/PhongShader/PhongShaders.hlsl",
 		nullptr,
 		nullptr,
 		"VS_main",
@@ -237,7 +238,7 @@ bool ShaderManager::CreatePhongShader()
 	//Geometry shader
 	ID3DBlob* pGS = nullptr;
 	D3DCompileFromFile(
-		L"PhongShaders.hlsl",
+		L"ResourceEngine/Shader/PhongShader/PhongShaders.hlsl",
 		nullptr,
 		nullptr,
 		"GS_main",
@@ -257,7 +258,7 @@ bool ShaderManager::CreatePhongShader()
 
 	ID3DBlob *pPs = nullptr;
 	D3DCompileFromFile(
-		L"PhongShaders.hlsl",
+		L"ResourceEngine/Shader/PhongShader/PhongShaders.hlsl",
 		nullptr,
 		nullptr,
 		"PS_main",

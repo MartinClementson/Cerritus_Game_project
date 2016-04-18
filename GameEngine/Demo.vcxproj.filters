@@ -340,7 +340,7 @@
     <ClCompile Include="Source\EngineClass\Engine.cpp">
       <Filter>Source Files\EngineClass</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Main\main.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Source Files\Main</Filter>
     </ClCompile>
   </ItemGroup>

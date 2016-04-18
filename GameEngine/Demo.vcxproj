@@ -53,6 +53,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Gaffel\Documents\GitHub\LitetSpel-Group1\GameEngine\Source\Main;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -112,6 +113,7 @@
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\IldeState\TrapIdleState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\InactiveState\InactiveState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\TrapStateMachine.cpp" />
+    <ClCompile Include="main.cpp" />
     <ClCompile Include="ResourceEngine\Graphics\Graphics.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\Mesh\Mesh.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\ObjectNode.cpp" />
@@ -120,7 +122,6 @@
     <ClCompile Include="ResourceEngine\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\ShaderManager\ShaderManager.cpp" />
     <ClCompile Include="Source\EngineClass\Engine.cpp" />
-    <ClCompile Include="Source\Main\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enumerations\Enumerations.h" />
@@ -174,7 +175,11 @@
     <ClInclude Include="Structs\RenderInfo.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="ResourceEngine\Shader\PhongShader\PhongShaders.hlsl" />
+    <FxCompile Include="ResourceEngine\Shader\PhongShader\PhongShaders.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_main</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS_main</EntryPointName>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
