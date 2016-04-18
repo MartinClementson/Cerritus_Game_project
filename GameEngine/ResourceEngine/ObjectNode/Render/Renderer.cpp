@@ -16,9 +16,9 @@ Renderer::~Renderer()
 void Renderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext)
 {
 	this->gDeviceContext = gDeviceContext;
-	resourceManager->Initialize(gDevice,gDeviceContext);
+	resourceManager->Initialize(gDevice, gDeviceContext);
+	//this->CreateConstantBuffers();
 }
-
 void Renderer::Release()
 {
 	resourceManager->Release();
@@ -59,7 +59,7 @@ void Renderer::Render(RenderInfoChar * object)
 void Renderer::Render(RenderInfoTrap * object)
 {
 }
-void Renderer::Render()
+void Renderer::RenderPlaceHolder()
 {
 	RenderInstructions * object;
 	object = this->resourceManager->GetPlaceHolderMesh();
@@ -74,7 +74,7 @@ void Renderer::Render(RenderInstructions * object)
 {
 
 	
-
+	
 #pragma region Check what vertex is to be used
 
 	//We need to make sure that we use the right kind of vertex when rendering
@@ -125,6 +125,78 @@ void Renderer::Render(RenderInstructions * object)
 	this->gDeviceContext->DrawIndexed((UINT)*object->indexCount, 0, 0);
 
 
+}
+
+bool Renderer::CreateConstantBuffers()
+{
+
+
+	/* NOTE!!!
+	
+	The camera and world buffer are set to the geometry shader, the light buffer is set to the pixel shader
+	*/
+	HRESULT hr;
+
+//-----------------------------------------------------------------------------------------------------------------------------------
+		//CAMERA CONSTANT BUFFER
+//-----------------------------------------------------------------------------------------------------------------------------------
+
+	//Creating the Camera constant buffer
+	CD3D11_BUFFER_DESC bufferDesc;
+	ZeroMemory(&bufferDesc, sizeof(bufferDesc));
+
+	bufferDesc.ByteWidth			 = sizeof(CamMatrices);
+	bufferDesc.BindFlags			 = D3D11_BIND_CONSTANT_BUFFER;
+	bufferDesc.Usage				 = D3D11_USAGE_DYNAMIC;
+	bufferDesc.CPUAccessFlags		 = D3D11_CPU_ACCESS_WRITE;
+	bufferDesc.MiscFlags			 = 0;
+	bufferDesc.StructureByteStride	 = 0;
+
+	hr = this->gDevice->CreateBuffer( &bufferDesc , nullptr , &camBuffer );
+
+	if (SUCCEEDED(hr))
+		this->gDeviceContext->GSSetConstantBuffers( 1 , 1 , &camBuffer ); 
+
+
+//-----------------------------------------------------------------------------------------------------------------------------------
+		//WORLD CONSTANT BUFFER
+//-----------------------------------------------------------------------------------------------------------------------------------
+
+ //Creating world constant buffer																 
+	CD3D11_BUFFER_DESC bufferDescWorld;
+	ZeroMemory(&bufferDescWorld, sizeof(bufferDescWorld));
+
+	bufferDescWorld.ByteWidth				 = sizeof(WorldMatrix);
+	bufferDescWorld.BindFlags				 = D3D11_BIND_CONSTANT_BUFFER;
+	bufferDescWorld.Usage					 = D3D11_USAGE_DYNAMIC;
+	bufferDescWorld.CPUAccessFlags			 = D3D11_CPU_ACCESS_WRITE;
+	bufferDescWorld.MiscFlags				 = 0;
+	bufferDescWorld.StructureByteStride		 = 0;
+
+	hr = this->gDevice->CreateBuffer( &bufferDescWorld , nullptr , &worldBuffer );
+	if (SUCCEEDED(hr))
+		this->gDeviceContext->GSSetConstantBuffers(0, 1, &worldBuffer); 
+
+//-----------------------------------------------------------------------------------------------------------------------------------
+		//LIGHT CONSTANT BUFFER
+//-----------------------------------------------------------------------------------------------------------------------------------
+
+	CD3D11_BUFFER_DESC bufferDescLight;
+	ZeroMemory(&bufferDescLight, sizeof(bufferDescLight));
+
+	bufferDescLight.ByteWidth				 = sizeof(LightStruct);
+	bufferDescLight.BindFlags				 = D3D11_BIND_CONSTANT_BUFFER;
+	bufferDescLight.Usage					 = D3D11_USAGE_DYNAMIC;
+	bufferDescLight.CPUAccessFlags			 = D3D11_CPU_ACCESS_WRITE;
+	bufferDescLight.MiscFlags				 = 0;
+	bufferDescLight.StructureByteStride		 = 0;
+
+	hr = this->gDevice->CreateBuffer(&bufferDescLight, nullptr, &lightBuffer);
+	if (SUCCEEDED(hr))
+		this->gDeviceContext->PSSetConstantBuffers(	0, 1, &lightBuffer);
+
+
+	return true;
 }
 
 
