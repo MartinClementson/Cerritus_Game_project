@@ -19,17 +19,17 @@ public:
 	void Update(double deltaTime);
 	void Render();
 	void Move(MovementDirection dir, double deltaTime);
-	
+	void Shoot(InputKeys input, double deltaTime);
+
 
 public:
 	Input* userInput;
-
+	
 
 private:
 	MeshEnum meshID;//enum
 	RenderInfoChar renderInfo;
 	ProjectileSystem* projectileSystem;
-
 	//Collision();
 };
 

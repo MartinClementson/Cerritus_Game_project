@@ -38,6 +38,7 @@ void GameState::Update(double deltaTime)
 
 void GameState::ProcessInput(double deltaTime)
 {
+
 	if (death->isActive)
 	{
 
