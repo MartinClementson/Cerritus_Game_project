@@ -23,7 +23,7 @@ public:
 	void Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext);
 	void Release();
 
-	void GetMeshRenderInfo(Meshes* meshEnum, RenderInstructions* toRender);
+	void GetMeshRenderInfo(MeshEnum* meshEnum, RenderInstructions* toRender);
 
 	void GetPlaceHolderMeshInfo(RenderInstructions* toRender);
 };

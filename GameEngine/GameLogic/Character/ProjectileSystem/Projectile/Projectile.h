@@ -11,7 +11,7 @@ private:
 	DirectX::XMFLOAT3 direction;
 	float age, speed, dmgMultiplier;
 	bool isFired, colided;
-	Meshes projectileModel;
+	MeshEnum projectileModel;
 public:
 	void Initialize();
 	void Release();

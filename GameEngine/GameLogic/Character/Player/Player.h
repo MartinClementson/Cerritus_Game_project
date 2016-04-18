@@ -4,6 +4,7 @@
 #include "../../InputHandler/Input/Input.h"
 #include "../ProjectileSystem/ProjectileSystem.h"
 #include "../../../Enumerations/Enumerations.h"
+#include "../../../Structs/RenderInfo.h"
 
 
 class Player :
@@ -18,13 +19,15 @@ public:
 	void Update(double deltaTime);
 	void Render();
 	void Move(MovementDirection dir, double deltaTime);
+	
 
 public:
 	Input* userInput;
 
 
 private:
-	Meshes meshID;//enum
+	MeshEnum meshID;//enum
+	RenderInfoChar renderInfo;
 	ProjectileSystem* projectileSystem;
 
 	//Collision();
