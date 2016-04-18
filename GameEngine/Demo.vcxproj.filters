@@ -343,7 +343,7 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files\Main</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
+    <ClCompile Include="ResourceEngine\ObjectNode\Camera\Camera.cpp">
       <Filter>ResourceEngine\ObjectNode\Camera</Filter>
     </ClCompile>
   </ItemGroup>
@@ -495,7 +495,7 @@
     <ClInclude Include="Structs\RenderInfo.h">
       <Filter>Structs</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
+    <ClInclude Include="ResourceEngine\ObjectNode\Camera\Camera.h">
       <Filter>ResourceEngine\ObjectNode\Camera</Filter>
     </ClInclude>
   </ItemGroup>

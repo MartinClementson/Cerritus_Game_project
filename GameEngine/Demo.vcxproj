@@ -78,7 +78,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="GameLogic\Animation\Animation.cpp" />
     <ClCompile Include="GameLogic\Character\Character.cpp" />
     <ClCompile Include="GameLogic\Character\Enemy\Enemy.cpp" />
@@ -116,6 +115,7 @@
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\TrapStateMachine.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ResourceEngine\Graphics\Graphics.cpp" />
+    <ClCompile Include="ResourceEngine\ObjectNode\Camera\Camera.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\Mesh\Mesh.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\ObjectNode.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\Render\Renderer.cpp" />
@@ -125,7 +125,6 @@
     <ClCompile Include="Source\EngineClass\Engine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera.h" />
     <ClInclude Include="Enumerations\Enumerations.h" />
     <ClInclude Include="GameLogic\Animation\Animation.h" />
     <ClInclude Include="GameLogic\Character\Character.h" />
@@ -163,6 +162,7 @@
     <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\InactiveState\InactiveState.h" />
     <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\TrapStateMachine.h" />
     <ClInclude Include="ResourceEngine\Graphics\Graphics.h" />
+    <ClInclude Include="ResourceEngine\ObjectNode\Camera\Camera.h" />
     <ClInclude Include="ResourceEngine\ObjectNode\Mesh\Mesh.h" />
     <ClInclude Include="ResourceEngine\ObjectNode\ObjectNode.h" />
     <ClInclude Include="ResourceEngine\ObjectNode\Render\Renderer.h" />
