@@ -44,7 +44,7 @@ void GameState::Update(double deltaTime)
 void GameState::ProcessInput(double* deltaTime)
 {
 
-	/*if (death->isActive)
+	if (death->isActive)
 	{
 
 	}
@@ -56,7 +56,7 @@ void GameState::ProcessInput(double* deltaTime)
 		}
 	}
 	else
-	{*/
+	{
 		if (input->IsKeyHeld(KEY_W))
 		{
 			player->Move(UP, deltaTime[0]);
@@ -77,7 +77,7 @@ void GameState::ProcessInput(double* deltaTime)
 		{
 			pause->isActive = true;
 		}
-	//}
+	}
 }
 
 void GameState::Render()
@@ -90,8 +90,10 @@ void GameState::Render()
 
 void GameState::OnEnter()
 {
+
 }
 
 void GameState::OnExit()
 {
+
 }

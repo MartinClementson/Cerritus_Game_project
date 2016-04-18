@@ -4,11 +4,13 @@
 
 Player::Player()
 {
+
 }
 
 
 Player::~Player()
 {
+
 }
 
 void Player::Initialize()
@@ -27,7 +29,6 @@ void Player::Update(double deltaTime)
 
 void Player::Render()
 {
-	
 	//graphics->QueueRender(renderInfo);
 }
 

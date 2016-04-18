@@ -6,10 +6,14 @@ class AttackState :
 public:
 	AttackState();
 	~AttackState();
+
 	void Initialize();
 	void Release();
 	void Update(double deltaTime);
 	void Render();
+
+private:
+
 private:
 	void AIPattern();
 	void OnEnter();

@@ -10,7 +10,7 @@ public:
 	Character();
 	virtual ~Character();
 protected:
-	DirectX::XMFLOAT3 position;
+	XMVECTOR position;
 	DirectX::XMFLOAT3 rotation;
 
 	float movementSpeed, health, damage;

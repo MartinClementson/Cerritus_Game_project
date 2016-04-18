@@ -10,23 +10,21 @@ ProjectileSystem::ProjectileSystem()
 
 ProjectileSystem::~ProjectileSystem()
 {
-
+	delete this->projectiles;
 }
 
 Projectile ProjectileSystem::FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction)
 {
 	//position where the projectiles are fired from is the position of the player and the aim of the mouse i guess.
-	//where are they shoot two 
+	//where are they shoot two
 
-	return Projectile();
+	projectiles->push_back();
+
 }
 
-void ProjectileSystem::UpdateParticle(double deltaTime)
+void ProjectileSystem::UpdateProjectiles(double deltaTime)
 {
 	//update misses and hits, and position.
-
-
-
 }
 
 void ProjectileSystem::Initialize()

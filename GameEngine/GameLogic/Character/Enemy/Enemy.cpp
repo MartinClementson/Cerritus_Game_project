@@ -11,7 +11,7 @@ Enemy::~Enemy()
 
 }
 
-void Enemy::Initialize()
+void Enemy::Initialize(XMVECTOR position)
 {
 	graphics = Graphics::GetInstance();
 	movementSpeed = 1.0f;
@@ -19,7 +19,6 @@ void Enemy::Initialize()
 	health = 100.0f;
 
 	damage = 22.0f;
-	position = { 0,0,0 };
 	rotation = { 0,0,0 };
 
 }
@@ -34,14 +33,15 @@ void Enemy::Update(double deltaTime)
 	//enemy basic movement
 	//position of the enemy to test the movement of the enemy we set the start value at 0,0,0 and if the x value is 0 we move in that direction untill we reach x = 5 then we tail backwards to zero,
 	//just to see if the movement of the enemys work. 
-	if (position.x == 0)
+	if (position.x < 5)
 	{
 		position.x = position.x + movementSpeed;
 	}
-	if (position.x == 5)
+	else
 	{
-		position.x = position.x - movementSpeed;
+		position.x = 0;
 	}
+
 	//just if we want to decrease the movement speed of the enemys when they are hurt. 
 	//if (health == 100)
 	//{

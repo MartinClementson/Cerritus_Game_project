@@ -1,20 +1,28 @@
 #pragma once
 #include "../../../../Source/LibIncluder.h"
 #include "../../../../Enumerations/Enumerations.h"
+
+using namespace DirectX;
+
 class Projectile
 {
 public:
 	Projectile();
+
 	virtual ~Projectile();
 private:
-	DirectX::XMFLOAT3 position;
-	DirectX::XMFLOAT3 direction;
+	XMFLOAT3 position;
+	XMFLOAT3 direction;
+	MeshEnum projectileModel;
+
 	float age, speed, dmgMultiplier;
 	bool isFired, colided;
-	MeshEnum projectileModel;
+
+private:
+
 public:
 	void Initialize();
 	void Release();
-	//Collission();
+	void Collision();
 };
 

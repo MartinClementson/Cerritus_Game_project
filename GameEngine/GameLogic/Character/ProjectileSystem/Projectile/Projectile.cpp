@@ -4,16 +4,18 @@
 
 Projectile::Projectile()
 {
+
 }
 
 
 Projectile::~Projectile()
 {
+
 }
 
 void Projectile::Initialize()
 {
-	/*this->age = 0.0f;
+	this->age = 0.0f;
 	this->speed = 3.0f;
 	this->dmgMultiplier = 2.0f;
 
@@ -22,12 +24,17 @@ void Projectile::Initialize()
 	
 	position = { 0,0,0 };
 	direction = { 0,0,0 };
-*/
-	//projection model
+
+	//projection model;
 
 }
 
 void Projectile::Release()
+{
+
+}
+
+void Projectile::Collision()
 {
 
 }
