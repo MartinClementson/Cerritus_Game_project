@@ -11,6 +11,9 @@
 
 #pragma endregion
 
+#define SHADOW_WIDTH 1024
+#define SHADOW_HEIGHT 1024
+
 class Graphics
 {
 
@@ -54,6 +57,9 @@ private:
 	void RenderScene();
 	void FinishFrame();
 	void SetViewPort();
+
+	void SetShadowViewPort();
+	void SetShadowMap();
 
 	Graphics();
 public:

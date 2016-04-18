@@ -120,14 +120,39 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 
 void Graphics::SetViewPort()
 {
-	vp.Width = (float)WIN_WIDTH;
-	vp.Height = (float)WIN_HEIGHT;
+	vp.Width	= (float)WIN_WIDTH;
+	vp.Height	= (float)WIN_HEIGHT;
 	vp.MinDepth = 0.0f;
 	vp.MaxDepth = 1.0f;
 	vp.TopLeftX = 0;
 	vp.TopLeftY = 0;
 	this->gDeviceContext->RSSetViewports(1, &vp);
 
+}
+void Graphics::SetShadowViewPort()
+{
+	vp.Width	=	(float)SHADOW_WIDTH;
+	vp.Height	=   (float)SHADOW_HEIGHT;
+	vp.MinDepth =	0.0f;
+	vp.MaxDepth =	1.0f;
+	vp.TopLeftX =	0;
+	vp.TopLeftY =	0;
+	this->gDeviceContext->RSSetViewports(1, &vp);
+
+}
+
+void Graphics::SetShadowMap()
+{
+	SetShadowViewPort();
+
+
+
+
+
+
+
+
+	SetViewPort();
 }
 
 
