@@ -58,6 +58,28 @@ void GS_main(
 
 }
 
+//GBUFFER
+
+struct GBUFFER_SHADOWDEPTH_VS_OUT
+{
+	float4 position		: SV_POSITION;
+};
+
+
+GBUFFER_SHADOWDEPTH_VS_OUT GBUFFER_SHADOWDEPTH_VS_main(VS_IN input)
+{
+	GBUFFER_SHADOWDEPTH_VS_OUT output = (GBUFFER_SHADOWDEPTH_VS_OUT)0;
+
+	output.position = float4(input.pos, 1);
+
+	//mul with lights matrices
+	output.position = mul(output.position, worldMatrix);
+	output.position = mul(output.position, view);
+	output.position = mul(output.position, projection);
+
+	return output;
+}
+
 struct GBUFFER_PS_OUT
 {
 	float4 diffuseRes	: SV_Target0;
