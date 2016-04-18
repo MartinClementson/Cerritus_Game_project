@@ -16,6 +16,7 @@ struct VS_IN
 	float2 Uv		: TEXCOORD0;
 	float3 Normal	: NORMAL;
 	float3 Tangent	: TANGENT;
+	float3 Binormal : BINORMAL;
 };
 
 struct VS_OUT
@@ -25,7 +26,7 @@ struct VS_OUT
 	float2 Uv		 : TEXCOORD0;
 	float3 Normal	 : NORMAL;
 	float3 Tangent	 : TANGENT;
-
+	float3 Binormal  : BINORMAL;
 };
 
 //Vertex shader
@@ -36,6 +37,7 @@ VS_OUT VS_main(VS_IN input)
 	output.Uv = input.Uv;
 	output.Normal = input.Normal;
 	output.Tangent = input.Tangent;
+	output.Binormal = input.Binormal;
 
 	return output;
 }
@@ -48,7 +50,7 @@ struct GS_OUT
 	float4 wPos			: WORLDPOS;
 	float3 camPos		: CAMERAPOS;
 	float3 Tangent		: TANGENT;
-
+	float3 Binormal		: BINORMAL;
 };
 
 [maxvertexcount(3)]

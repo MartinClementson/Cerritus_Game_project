@@ -35,6 +35,11 @@ private:
 	//SamplerStates
 	ID3D11SamplerState* gSampleState				 = nullptr;
 
+	//Shaders for Gbuffer
+	ID3D11VertexShader*		GBUFFER_VS				 = nullptr;
+	ID3D11GeometryShader*	GBUFFER_GS				 = nullptr;
+	ID3D11PixelShader*		GBUFFER_PS				 = nullptr;
+	ID3D11InputLayout*		gVertexLayoutGBuffer	 = nullptr;
 
 	//Shaders for phong shading
 	ID3D11VertexShader*		PHONG_VS				 = nullptr;
@@ -82,6 +87,7 @@ private:
 
 	void CreateShaders();
 
+	bool CreateGBufferShader();
 	bool CreatePhongShader();
 	bool CreateAnimationShader();
 	bool CreateParticleShader();
