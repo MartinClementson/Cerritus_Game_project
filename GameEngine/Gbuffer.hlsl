@@ -69,11 +69,14 @@ void GS_main(
 }
 
 //GBUFFER
+Texture2DArray GBufferTex	: register(t0);
+/*order
 Texture2D diffuseTex	: register(t0);
 Texture2D specularTex	: register(t1);
 Texture2D normalTex		: register(t2);
 Texture2D depthTex		: register(t3);
 Texture2D shadowTex		: register(t4);
+*/
 
 SamplerState samplerTypeState : register(s0);
 
@@ -102,7 +105,7 @@ struct GBUFFER_PS_OUT
 	float4 diffuseRes	: SV_Target0;
 	float4 specularRes	: SV_Target1;
 	float4 normalRes	: SV_Target2;
-	float depthRes		: SV_Target3;
+	float4 depthRes		: SV_Target3;
 	float4 shadowRes	: SV_Target4;
 };
 GBUFFER_PS_OUT GBUFFER_PS_main(GS_OUT input)
@@ -122,9 +125,11 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GS_OUT input)
 
 	//normal
 	output.normalRes = normalTex.Sample(samplerTypeState, input.Uv);
+	output.normalRes = saturate(output.normalRes);
 
 	//depth
-	output.depthRes = depthTex.Sample(samplerTypeState, input.Uv).r;
+	output.depthRes.r = depthTex.Sample(samplerTypeState, input.Uv).r;
+	output.depthRes.gba = float3(0, 0, 0);
 
 	//shadow
 	float bias = 0.001f;
