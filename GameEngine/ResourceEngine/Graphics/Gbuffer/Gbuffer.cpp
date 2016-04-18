@@ -139,5 +139,5 @@ void Gbuffer::ClearGbuffer()
 	//deviceContext->ClearDepthStencilView(depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 	//Might not be needed when only using one camera, 
 	return;
-	/////////////TESTTTTT
+	
 }

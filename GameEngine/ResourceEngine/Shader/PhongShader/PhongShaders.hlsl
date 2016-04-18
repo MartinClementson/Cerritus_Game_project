@@ -30,6 +30,20 @@ VS_OUT VS_main( VS_IN input)
 	return output;
 }
 
+
+cbuffer cameraConstantBuffer  : register(b0)
+{
+
+	matrix view;
+	matrix projection;
+	float4 camPos;
+	//float3 camLook;
+
+};
+cbuffer worldConstantBuffer : register(b1)
+{
+	matrix world;
+};
 struct GS_OUT
 {
 	float4 Pos			: SV_POSITION;
@@ -50,7 +64,7 @@ void GS_main(
 	for (uint i = 0; i < 3; i++)
 	{
 		GS_OUT element;
-		element.Pos = input[i].Pos;
+		element.Pos = mul(input[i].Pos,mul(view,projection));
 	
 		output.Append(element);
 	}

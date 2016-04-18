@@ -21,6 +21,7 @@ void Renderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCon
 	this->gDevice = gDevice;
 	resourceManager->Initialize(gDevice, gDeviceContext);
 	this->CreateConstantBuffers();
+	sceneCam->Initialize(gDevice, gDeviceContext);
 }
 void Renderer::Release()
 {
@@ -58,6 +59,12 @@ void Renderer::Render(RenderInfoEnemy * object)
 
 void Renderer::Render(RenderInfoChar * object)
 {
+
+	//Update the camera view matrix!
+	XMFLOAT2 tempPos = XMFLOAT2(object->position.x, object->position.z);
+
+	this->sceneCam->Updateview(this->camBuffer, tempPos);
+
 }
 
 void Renderer::Render(RenderInfoTrap * object)
@@ -67,6 +74,11 @@ void Renderer::RenderPlaceHolder()
 {
 	RenderInstructions * object;
 	object = this->resourceManager->GetPlaceHolderMesh();
+	
+
+	XMFLOAT2 tempPos = XMFLOAT2(0.0f, 1.5f);
+
+	this->sceneCam->Updateview(this->camBuffer, tempPos);
 
 	Render(object);
 

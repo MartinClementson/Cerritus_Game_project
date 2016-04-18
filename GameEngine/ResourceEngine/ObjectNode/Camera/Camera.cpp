@@ -80,6 +80,11 @@ void Camera::Updateview(ID3D11Buffer * constBuffer, DirectX::XMFLOAT2 playerPos)
 
 	//update the struct with the new position
 	this->camMatrices.worldPos = this->camPosition;
+
+	//update the look at
+	camTarget.x = playerPos.x;
+	camTarget.z = playerPos.y; //The z/y here is NOT a mistake.
+
 	
 	XMMATRIX tempView = XMMatrixLookAtLH(
 		(XMLoadFloat4(&camPosition)),

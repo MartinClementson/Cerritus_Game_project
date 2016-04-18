@@ -74,13 +74,13 @@ void Graphics::Render() //manage RenderPasses here
 	SetViewPort();
 
 
-	gBuffer->SetToRender(depthStencilView);		//Set The gbuffer pass
+	//gBuffer->SetToRender(depthStencilView);		//Set The gbuffer pass
 
-	RenderScene();								//Render to the gBuffer
+	//RenderScene();								//Render to the gBuffer
 												//Set the gBuffer as a subResource, send in the new RenderTarget
 	gBuffer->SetToRead(gBackBufferRTV); 
 	
-	gBuffer->ClearGbuffer();
+	//gBuffer->ClearGbuffer();
 										
 	
 	RenderScene();// TEMPORARY, REMOVE WHEN GBUFFER WORKS
@@ -92,6 +92,9 @@ void Graphics::Render() //manage RenderPasses here
 
 void Graphics::RenderScene()
 {
+	//Always render the char first! This is because we set the camera matrix with the characters position
+	//this->renderer->Render(this->charObjects->at(0));
+
 	this->renderer->RenderPlaceHolder();
 	for (unsigned int i = 0; i < gameObjects->size(); i++)
 	{
