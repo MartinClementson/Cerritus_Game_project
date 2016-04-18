@@ -123,7 +123,7 @@ void Renderer::Render(RenderInstructions * object)
 	
 	
 	this->gDeviceContext->DrawIndexed((UINT)*object->indexCount, 0, 0);
-	//this->gDeviceContext->Draw(*object->vertexCount, 0);
+
 
 }
 
