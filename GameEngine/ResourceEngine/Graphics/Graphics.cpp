@@ -11,8 +11,12 @@ Graphics::~Graphics()
 {
 	if (gameObjects != nullptr)
 		delete gameObjects;
+
 	if (renderer != nullptr)
 		delete renderer;
+
+	if (gBuffer != nullptr)
+		delete gBuffer;
 }
 
 void Graphics::Initialize(HWND * window)
@@ -23,8 +27,12 @@ void Graphics::Initialize(HWND * window)
 	hr = CreateDirect3DContext();
 
 	gameObjects = new std::vector<RenderInfoObject*>;
+
 	renderer = new Renderer();
 	renderer->Initialize(gDevice,this->gDeviceContext);
+	
+	gBuffer = new Gbuffer();
+	gBuffer->Initialize(this->gDevice,this->gDeviceContext);
 }
 
 void Graphics::Release()
@@ -38,7 +46,7 @@ void Graphics::Release()
 
 
 
-	
+	gBuffer->Release();
 
 	SAFE_RELEASE(depthState);
 	SAFE_RELEASE(depthStencilView);
