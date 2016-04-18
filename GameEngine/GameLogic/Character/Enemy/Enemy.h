@@ -11,6 +11,10 @@ public:
 	void Release();
 	void Update(double deltaTime);
 	void Render();
+protected:
+	
+	float movementSpeed, health, damage;
+
 private:
 	EnemyStateMachine* enemyState;
 };
