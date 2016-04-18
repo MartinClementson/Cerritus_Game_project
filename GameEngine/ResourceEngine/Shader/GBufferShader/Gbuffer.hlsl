@@ -73,11 +73,11 @@ void GS_main(
 //GBUFFER
 Texture2DArray GBufferTex	: register(t0);
 //order
-Texture2D diffuseTex	: register(t0);
-Texture2D specularTex	: register(t1);
-Texture2D normalTex		: register(t2);
-Texture2D depthTex		: register(t3);
-Texture2D shadowTex		: register(t4);
+//Texture2D diffuseTex	: register(t0);
+//Texture2D specularTex	: register(t1);
+//Texture2D normalTex		: register(t2);
+//Texture2D depthTex		: register(t3);
+//Texture2D shadowTex		: register(t4);
 
 
 SamplerState samplerTypeState : register(s0);
