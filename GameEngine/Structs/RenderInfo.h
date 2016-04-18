@@ -16,7 +16,7 @@ struct RenderInstructions
 	bool* isAnimated						 = nullptr; //this is important to make sure we use the right vert struct
 
 	XMFLOAT4X4* worldMatrix					 = nullptr;
-	XMFLOAT4X4* normalWorld					 = nullptr;
+	
 	ID3D11Buffer* vertexBuffer				 = nullptr;
 	UINT* vertexCount						 = 0;
 
