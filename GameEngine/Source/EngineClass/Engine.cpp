@@ -4,19 +4,19 @@
 
 Engine::Engine()
 {
-	this->input = new InputHandler();
-	this->graphics = new Graphics();
+	this->input = InputHandler::GetInstance();
+	this->graphics = Graphics::GetInstance();
 }
 
 
 Engine::~Engine()
 {
-	delete this->graphics;
-	delete this->input;
+
 }
 
 void Engine::Initialize(HWND* window)
 {
+	input->Initialize();
 	graphics->Initialize(window);
 
 }
