@@ -1,10 +1,10 @@
-cbuffer lightMatrices
+cbuffer lightMatrices : register(b0)
 {
 	matrix lightWorldMatrix;
 	matrix lightView;
 	matrix lightProjection;
 };
-cbuffer cameraMatrices
+cbuffer cameraMatrices : register(b1)
 {
 	matrix camWorldMatrix;
 	matrix camView;
