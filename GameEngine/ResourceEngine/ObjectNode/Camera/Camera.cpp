@@ -33,10 +33,10 @@ void Camera::Release()
 
 void Camera::Updateview(ID3D11Buffer * constBuffer)
 {
-	float fovangleY = DirectX::XM_PI * 0.45;
-	float aspectRatio = WIN_WIDTH / WIN_HEIGHT;
-	float nearZ = 0.01;
-	float farZ = 50.0;
+	float fovangleY = DirectX::XM_PI * 0.45f;
+	float aspectRatio = float(WIN_WIDTH / WIN_HEIGHT);
+	float nearZ = 0.01f;
+	float farZ = 50.0f;
 
 	//camMatrices.camView = DirectX::XMMatrixLookAtLH(
 		//()
