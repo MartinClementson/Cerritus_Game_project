@@ -53,6 +53,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Users\Gaffel\Documents\GitHub\LitetSpel-Group1\GameEngine\Source\Main;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -77,108 +78,107 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ActiveState.cpp" />
-    <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="AttackState.cpp" />
-    <ClCompile Include="BearTrap.cpp" />
-    <ClCompile Include="Character.cpp" />
-    <ClCompile Include="EnemyDeathState.cpp" />
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="EnemySpawn.cpp" />
-    <ClCompile Include="EnemyStateMachine.cpp" />
-    <ClCompile Include="Engine.cpp" />
-    <ClCompile Include="FireTrap.cpp" />
-    <ClCompile Include="GameObject.cpp" />
-    <ClCompile Include="GameOverState.cpp" />
-    <ClCompile Include="GameState.cpp" />
-    <ClCompile Include="Graphics.cpp" />
-    <ClCompile Include="GUI.cpp" />
-    <ClCompile Include="GUIElement.cpp" />
-    <ClCompile Include="EnemyIdleState.cpp" />
-    <ClCompile Include="InactiveState.cpp" />
-    <ClCompile Include="TrapIdleState.cpp" />
-    <ClCompile Include="Input.cpp" />
-    <ClCompile Include="InputHandler.cpp" />
-    <ClCompile Include="Light.cpp" />
+    <ClCompile Include="GameLogic\Animation\Animation.cpp" />
+    <ClCompile Include="GameLogic\Character\Character.cpp" />
+    <ClCompile Include="GameLogic\Character\Enemy\Enemy.cpp" />
+    <ClCompile Include="GameLogic\Character\Player\Player.cpp" />
+    <ClCompile Include="GameLogic\Character\ProjectileSystem\ProjectileSystem.cpp" />
+    <ClCompile Include="GameLogic\Character\ProjectileSystem\Projectile\Projectile.cpp" />
+    <ClCompile Include="GameLogic\GUI\GUI.cpp" />
+    <ClCompile Include="GameLogic\GUI\GUIElement\GUIElement.cpp" />
+    <ClCompile Include="GameLogic\InputHandler\InputHandler.cpp" />
+    <ClCompile Include="GameLogic\InputHandler\Input\Input.cpp" />
+    <ClCompile Include="GameLogic\Scene\GameObject\EnemySpawn\EnemySpawn.cpp" />
+    <ClCompile Include="GameLogic\Scene\GameObject\GameObject.cpp" />
+    <ClCompile Include="GameLogic\Scene\GameObject\Light\Light.cpp" />
+    <ClCompile Include="GameLogic\Scene\GameObject\Model\Model.cpp" />
+    <ClCompile Include="GameLogic\Scene\GameObject\ParticleEmmiter\ParticleEmmiter.cpp" />
+    <ClCompile Include="GameLogic\Scene\GameObject\ParticleEmmiter\Particle\Particle.cpp" />
+    <ClCompile Include="GameLogic\Scene\Scene.cpp" />
+    <ClCompile Include="GameLogic\Scene\Trap\BearTrap\BearTrap.cpp" />
+    <ClCompile Include="GameLogic\Scene\Trap\FireTrap\FireTrap.cpp" />
+    <ClCompile Include="GameLogic\Scene\Trap\Trap.cpp" />
+    <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\AttackState\AttackState.cpp" />
+    <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\DeathState\EnemyDeathState.cpp" />
+    <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\EnemyStateMachine.cpp" />
+    <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\IdleState\EnemyIdleState.cpp" />
+    <ClCompile Include="GameLogic\StateMachines\MainStateMachine\GameOverState\GameOverState.cpp" />
+    <ClCompile Include="GameLogic\StateMachines\MainStateMachine\GameState\DeathState\MainDeathState.cpp" />
+    <ClCompile Include="GameLogic\StateMachines\MainStateMachine\GameState\GameState.cpp" />
+    <ClCompile Include="GameLogic\StateMachines\MainStateMachine\GameState\PausedState\MainPausedState.cpp" />
+    <ClCompile Include="GameLogic\StateMachines\MainStateMachine\MainStateMachine.cpp" />
+    <ClCompile Include="GameLogic\StateMachines\MainStateMachine\MenuState\MenuState.cpp" />
+    <ClCompile Include="GameLogic\StateMachines\StateClass\StateClass.cpp" />
+    <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\ActiveState\ActiveState.cpp" />
+    <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\IldeState\TrapIdleState.cpp" />
+    <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\InactiveState\InactiveState.cpp" />
+    <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\TrapStateMachine.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MainDeathState.cpp" />
-    <ClCompile Include="MainStateMachine.cpp" />
-    <ClCompile Include="MenuState.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="MeshManager.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="ObjectNode.cpp" />
-    <ClCompile Include="Particle.cpp" />
-    <ClCompile Include="ParticleEmmiter.cpp" />
-    <ClCompile Include="MainPausedState.cpp" />
-    <ClCompile Include="ProjectileSystem.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Projectile.cpp" />
-    <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="ResourceManager.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="ShaderManager.cpp" />
-    <ClCompile Include="StateClass.cpp" />
-    <ClCompile Include="Trap.cpp" />
-    <ClCompile Include="TrapStateMachine.cpp" />
+    <ClCompile Include="ResourceEngine\Graphics\Graphics.cpp" />
+    <ClCompile Include="ResourceEngine\ObjectNode\Mesh\Mesh.cpp" />
+    <ClCompile Include="ResourceEngine\ObjectNode\ObjectNode.cpp" />
+    <ClCompile Include="ResourceEngine\ObjectNode\Render\Renderer.cpp" />
+    <ClCompile Include="ResourceEngine\ResourceManager\MeshManager\MeshManager.cpp" />
+    <ClCompile Include="ResourceEngine\ResourceManager\ResourceManager.cpp" />
+    <ClCompile Include="ResourceEngine\ResourceManager\ShaderManager\ShaderManager.cpp" />
+    <ClCompile Include="Source\EngineClass\Engine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ActiveState.h" />
-    <ClInclude Include="Animation.h" />
-    <ClInclude Include="AttackState.h" />
-    <ClInclude Include="BearTrap.h" />
-    <ClInclude Include="Character.h" />
-    <ClInclude Include="ConstantBufferStruct.h" />
-    <ClInclude Include="Constants.h" />
-    <ClInclude Include="DataTypes.h" />
-    <ClInclude Include="EnemyDeathState.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="EnemySpawn.h" />
-    <ClInclude Include="EnemyStateMachine.h" />
-    <ClInclude Include="Engine.h" />
-    <ClInclude Include="FireTrap.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="GameOverState.h" />
-    <ClInclude Include="GameState.h" />
-    <ClInclude Include="Graphics.h" />
-    <ClInclude Include="GUI.h" />
-    <ClInclude Include="GUIElement.h" />
-    <ClInclude Include="EnemyIdleState.h" />
-    <ClInclude Include="Enumerations.h" />
-    <ClInclude Include="InactiveState.h" />
-    <ClInclude Include="TrapIdleState.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="InputHandler.h" />
-    <ClInclude Include="Light.h" />
-    <ClInclude Include="MainDeathState.h" />
-    <ClInclude Include="MainStateMachine.h" />
-    <ClInclude Include="MenuState.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="MeshManager.h" />
-    <ClInclude Include="Model.h" />
-    <ClInclude Include="ObjectNode.h" />
-    <ClInclude Include="Particle.h" />
-    <ClInclude Include="ParticleEmmiter.h" />
-    <ClInclude Include="MainPausedState.h" />
-    <ClInclude Include="ProjectileSystem.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Projectile.h" />
-    <ClInclude Include="Renderer.h" />
-    <ClInclude Include="RenderInfo.h" />
-    <ClInclude Include="ResourceManager.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="ShaderManager.h" />
-    <ClInclude Include="StateClass.h" />
-    <ClInclude Include="LibIncluder.h" />
-    <ClInclude Include="Trap.h" />
-    <ClInclude Include="TrapStateMachine.h" />
+    <ClInclude Include="Enumerations\Enumerations.h" />
+    <ClInclude Include="GameLogic\Animation\Animation.h" />
+    <ClInclude Include="GameLogic\Character\Character.h" />
+    <ClInclude Include="GameLogic\Character\Enemy\Enemy.h" />
+    <ClInclude Include="GameLogic\Character\Player\Player.h" />
+    <ClInclude Include="GameLogic\Character\ProjectileSystem\ProjectileSystem.h" />
+    <ClInclude Include="GameLogic\Character\ProjectileSystem\Projectile\Projectile.h" />
+    <ClInclude Include="GameLogic\GUI\GUI.h" />
+    <ClInclude Include="GameLogic\GUI\GUIElement\GUIElement.h" />
+    <ClInclude Include="GameLogic\InputHandler\InputHandler.h" />
+    <ClInclude Include="GameLogic\InputHandler\Input\Input.h" />
+    <ClInclude Include="GameLogic\Scene\GameObject\EnemySpawn\EnemySpawn.h" />
+    <ClInclude Include="GameLogic\Scene\GameObject\GameObject.h" />
+    <ClInclude Include="GameLogic\Scene\GameObject\Light\Light.h" />
+    <ClInclude Include="GameLogic\Scene\GameObject\Model\Model.h" />
+    <ClInclude Include="GameLogic\Scene\GameObject\ParticleEmmiter\ParticleEmmiter.h" />
+    <ClInclude Include="GameLogic\Scene\GameObject\ParticleEmmiter\Particle\Particle.h" />
+    <ClInclude Include="GameLogic\Scene\Scene.h" />
+    <ClInclude Include="GameLogic\Scene\Trap\BearTrap\BearTrap.h" />
+    <ClInclude Include="GameLogic\Scene\Trap\FireTrap\FireTrap.h" />
+    <ClInclude Include="GameLogic\Scene\Trap\Trap.h" />
+    <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\AttackState\AttackState.h" />
+    <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\DeathState\EnemyDeathState.h" />
+    <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\EnemyStateMachine.h" />
+    <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\IdleState\EnemyIdleState.h" />
+    <ClInclude Include="GameLogic\StateMachines\MainStateMachine\GameOverState\GameOverState.h" />
+    <ClInclude Include="GameLogic\StateMachines\MainStateMachine\GameState\DeathState\MainDeathState.h" />
+    <ClInclude Include="GameLogic\StateMachines\MainStateMachine\GameState\GameState.h" />
+    <ClInclude Include="GameLogic\StateMachines\MainStateMachine\GameState\PausedState\MainPausedState.h" />
+    <ClInclude Include="GameLogic\StateMachines\MainStateMachine\MainStateMachine.h" />
+    <ClInclude Include="GameLogic\StateMachines\MainStateMachine\MenuState\MenuState.h" />
+    <ClInclude Include="GameLogic\StateMachines\StateClass\StateClass.h" />
+    <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\ActiveState\ActiveState.h" />
+    <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\IldeState\TrapIdleState.h" />
+    <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\InactiveState\InactiveState.h" />
+    <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\TrapStateMachine.h" />
+    <ClInclude Include="ResourceEngine\Graphics\Graphics.h" />
+    <ClInclude Include="ResourceEngine\ObjectNode\Mesh\Mesh.h" />
+    <ClInclude Include="ResourceEngine\ObjectNode\ObjectNode.h" />
+    <ClInclude Include="ResourceEngine\ObjectNode\Render\Renderer.h" />
+    <ClInclude Include="ResourceEngine\ResourceManager\MeshManager\MeshManager.h" />
+    <ClInclude Include="ResourceEngine\ResourceManager\ResourceManager.h" />
+    <ClInclude Include="ResourceEngine\ResourceManager\ShaderManager\ShaderManager.h" />
+    <ClInclude Include="Source\Constants.h" />
+    <ClInclude Include="Source\EngineClass\Engine.h" />
+    <ClInclude Include="Source\LibIncluder.h" />
+    <ClInclude Include="Structs\ConstantBufferStruct.h" />
+    <ClInclude Include="Structs\DataTypes.h" />
+    <ClInclude Include="Structs\RenderInfo.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="PhongShaders.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+    <FxCompile Include="ResourceEngine\Shader\PhongShader\PhongShaders.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_main</EntryPointName>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">VS_main</EntryPointName>
     </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
