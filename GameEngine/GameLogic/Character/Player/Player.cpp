@@ -13,6 +13,7 @@ Player::~Player()
 
 void Player::Initialize()
 {
+	//graphics = Graphics::GetInstance();
 }
 
 void Player::Release()
