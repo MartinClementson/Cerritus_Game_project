@@ -343,6 +343,9 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files\Main</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>ResourceEngine\ObjectNode\Camera</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enumerations\Enumerations.h">
@@ -491,6 +494,9 @@
     </ClInclude>
     <ClInclude Include="Structs\RenderInfo.h">
       <Filter>Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>ResourceEngine\ObjectNode\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
