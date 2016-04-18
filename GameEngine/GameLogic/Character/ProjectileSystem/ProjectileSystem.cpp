@@ -19,7 +19,7 @@ void ProjectileSystem::FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT
 		delete projectiles.at(0);
 	}
 	origin = { 0,0,0 };
-	direction = { 1,0,0 };
+	direction = { 0,0,0 };
 	projectiles.push_back(new Projectile(origin, direction));
 	
 }
