@@ -39,3 +39,9 @@ bool Input::isMouseClicked(InputKeys mouseKey)
 {
 	return false;
 }
+
+Input * Input::GetInstance()
+{
+	static Input instance;
+	return &instance;
+}

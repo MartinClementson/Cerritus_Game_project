@@ -7,6 +7,7 @@ GameState::GameState()
 	this->death = new MainDeathState();
 	this->pause = new MainPausedState();
 	this->player = new Player();
+	this->input = Input::GetInstance();
 }
 
 
@@ -30,12 +31,13 @@ void GameState::Release()
 
 void GameState::Update(double deltaTime)
 {
-	this->ProcessInput(deltaTime);
+	ProcessInput(deltaTime);
 	player->Update(deltaTime);
 }
 
 void GameState::ProcessInput(double deltaTime)
 {
+	bool test = death->GetIsActive();
 	if (death->isActive)
 	{
 
