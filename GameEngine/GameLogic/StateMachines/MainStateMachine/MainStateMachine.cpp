@@ -54,6 +54,8 @@ void MainStateMachine::Initialize()
 	gameState->Initialize();
 	this->activeState = MAIN_GAME_STATE;
 	this->gameState->isActive = true;
+	this->gameOverState->isActive = false;
+	this->menuState->isActive = false;
 }
 
 void MainStateMachine::Release()

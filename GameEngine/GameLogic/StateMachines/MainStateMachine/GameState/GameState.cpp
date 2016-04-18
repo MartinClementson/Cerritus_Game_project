@@ -20,6 +20,8 @@ GameState::~GameState()
 void GameState::Initialize()
 {
 	player->Initialize();
+	death->isActive = false;
+	pause->isActive = false;
 }
 
 void GameState::Release()
@@ -28,7 +30,7 @@ void GameState::Release()
 
 void GameState::Update(double deltaTime)
 {
-	ProcessInput(deltaTime);
+	this->ProcessInput(deltaTime);
 	player->Update(deltaTime);
 }
 
@@ -66,6 +68,7 @@ void GameState::ProcessInput(double deltaTime)
 		else if (input->IsKeyPressed(KEY_ESC))
 		{
 			pause->isActive = true;
+
 		}
 	}
 }
