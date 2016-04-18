@@ -209,8 +209,8 @@
     <Filter Include="GameLogic\StateMachines\MainStateMachene\MenuState">
       <UniqueIdentifier>{887fe9b6-6a93-4236-9660-156c4d119423}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ResourceEngine\Shaders\GBuffer">
-      <UniqueIdentifier>{5b938f72-d005-4bee-a0a0-8692577c1011}</UniqueIdentifier>
+    <Filter Include="ResourceEngine\Graphics\Gbuffer">
+      <UniqueIdentifier>{8a7ee06b-4d83-486c-885b-fd50cb04bb8f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -348,6 +348,9 @@
     </ClCompile>
     <ClCompile Include="ResourceEngine\ObjectNode\Camera\Camera.cpp">
       <Filter>ResourceEngine\ObjectNode\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Gbuffer.cpp">
+      <Filter>ResourceEngine\Graphics\Gbuffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -500,6 +503,9 @@
     </ClInclude>
     <ClInclude Include="ResourceEngine\ObjectNode\Camera\Camera.h">
       <Filter>ResourceEngine\ObjectNode\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Gbuffer.h">
+      <Filter>ResourceEngine\Graphics\Gbuffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
