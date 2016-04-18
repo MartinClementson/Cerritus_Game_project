@@ -72,13 +72,13 @@ void GS_main(
 
 //GBUFFER
 Texture2DArray GBufferTex	: register(t0);
-/*order
+//order
 Texture2D diffuseTex	: register(t0);
 Texture2D specularTex	: register(t1);
 Texture2D normalTex		: register(t2);
 Texture2D depthTex		: register(t3);
 Texture2D shadowTex		: register(t4);
-*/
+
 
 SamplerState samplerTypeState : register(s0);
 
@@ -115,22 +115,21 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GS_OUT input)
 	GBUFFER_PS_OUT output = (GBUFFER_PS_OUT)0;
 	float4 color = float4(1,1,1,1);
 
-
 	//diffuse
-	output.diffuseRes = diffuseTex.Sample(samplerTypeState, input.Uv);
+	output.diffuseRes = GBufferTex.Sample(samplerTypeState, float3(input.Uv, 0));
 	output.diffuseRes = output.diffuseRes * color;
 	output.diffuseRes = saturate(output.diffuseRes);
 
 	//specular
-	output.specularRes = specularTex.Sample(samplerTypeState, input.Uv);
+	output.specularRes = GBufferTex.Sample(samplerTypeState, float3(input.Uv, 1));
 	output.specularRes = saturate(output.specularRes);
 
 	//normal
-	output.normalRes = normalTex.Sample(samplerTypeState, input.Uv);
+	output.normalRes = GBufferTex.Sample(samplerTypeState, float3(input.Uv, 2));
 	output.normalRes = saturate(output.normalRes);
 
 	//depth
-	output.depthRes.r = depthTex.Sample(samplerTypeState, input.Uv).r;
+	output.depthRes.r = GBufferTex.Sample(samplerTypeState, float3(input.Uv, 3)).r;
 	output.depthRes.gba = float3(0, 0, 0);
 
 	//shadow
@@ -153,13 +152,13 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GS_OUT input)
 	projectedTexCoord.x = projectedTexCoord.x * 0.5f + 0.5f;
 	projectedTexCoord.y = projectedTexCoord.y * -0.5f + 0.5f;
 
-	shadowDepthValue = shadowTex.Sample(samplerTypeState, projectedTexCoord.xy).r + bias;
+	shadowDepthValue = GBufferTex.Sample(samplerTypeState, float3(projectedTexCoord.xy, 4)).r + bias;
 	float dx = 1.0f / shadowMapSize; //the 1 here will become a dynamic variable
 
 	float s0 = (shadowDepthValue < lightDepthValue) ? 0.0f : 1.0f;
-	float s1 = (shadowTex.Sample(samplerTypeState, projectedTexCoord.xy + float2(dx, 0.0f)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
-	float s2 = (shadowTex.Sample(samplerTypeState, projectedTexCoord.xy + float2(0.0f, dx)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
-	float s3 = (shadowTex.Sample(samplerTypeState, projectedTexCoord.xy + float2(dx, dx)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
+	float s1 = (GBufferTex.Sample(samplerTypeState, float3(projectedTexCoord.xy + float2(dx, 0.0f),4)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
+	float s2 = (GBufferTex.Sample(samplerTypeState, float3(projectedTexCoord.xy + float2(0.0f, dx),4)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
+	float s3 = (GBufferTex.Sample(samplerTypeState, float3(projectedTexCoord.xy + float2(dx, dx),4)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
 	
 	float2 texelPos = projectedTexCoord * shadowMapSize;
 	float2 lerps = frac(texelPos);
