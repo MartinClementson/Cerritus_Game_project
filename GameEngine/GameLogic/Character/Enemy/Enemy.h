@@ -1,6 +1,7 @@
 #pragma once
 #include "../Character.h"
 #include "../../StateMachines/EnemyStateMachine/EnemyStateMachine.h"
+
 class Enemy :
 	public Character
 {

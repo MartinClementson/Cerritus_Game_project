@@ -22,6 +22,7 @@ void Enemy::Initialize()
 
 	damage = 22.0f;
 
+
 }
 
 void Enemy::Release()
@@ -68,5 +69,5 @@ void Enemy::Update(double deltaTime)
 
 void Enemy::Render()
 {
-
+	
 }
