@@ -80,7 +80,7 @@ void Graphics::Render() //manage RenderPasses here
 
 void Graphics::RenderScene()
 {
-	this->renderer->Render();
+	this->renderer->RenderPlaceHolder();
 	for (unsigned int i = 0; i < gameObjects->size(); i++)
 	{
 		//renderer->Render(gameObjects->at(i));
@@ -294,6 +294,12 @@ void Graphics::QueueRender(RenderInfoChar * object)
 
 void Graphics::QueueRender(RenderInfoTrap * object)
 {
+}
+
+Graphics * Graphics::GetInstance()
+{
+	static Graphics instance;
+	return &instance;
 }
 
 #pragma endregion
