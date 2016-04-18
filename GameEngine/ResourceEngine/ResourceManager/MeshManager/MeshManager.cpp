@@ -23,7 +23,7 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 
 void MeshManager::Release()
 {
-	for (int i = 0; i < gameMeshes->size(); i++)
+	for (size_t i = 0; i < gameMeshes->size(); i++)
 	{
 		gameMeshes->at(i).Release();
 	}
