@@ -212,6 +212,9 @@
     <Filter Include="ResourceEngine\Graphics\Gbuffer">
       <UniqueIdentifier>{8a7ee06b-4d83-486c-885b-fd50cb04bb8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceEngine\Shaders\GBufferShader">
+      <UniqueIdentifier>{8cb80f1f-f67e-4089-899d-aad1345f70fb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameLogic\Animation\Animation.cpp">
@@ -513,7 +516,7 @@
       <Filter>ResourceEngine\Shaders\PhongShader</Filter>
     </FxCompile>
     <FxCompile Include="Gbuffer.hlsl">
-      <Filter>ResourceEngine\Shaders\GBuffer</Filter>
+      <Filter>ResourceEngine\Shaders\GBufferShader</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
