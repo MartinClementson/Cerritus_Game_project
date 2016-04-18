@@ -22,9 +22,6 @@ void ProjectileSystem::FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT
 	direction = { 1,0,0 };
 	projectiles.push_back(new Projectile(origin, direction));
 	
-	
-	
-	
 }
 
 void ProjectileSystem::UpdateParticle(double deltaTime)

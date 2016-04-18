@@ -9,6 +9,8 @@ Projectile::Projectile()
 Projectile::Projectile(DirectX::XMFLOAT3 origin,DirectX::XMFLOAT3 direction)
 {
 
+	// hmm, i sense a disturbance in the force..
+
 }
 
 
