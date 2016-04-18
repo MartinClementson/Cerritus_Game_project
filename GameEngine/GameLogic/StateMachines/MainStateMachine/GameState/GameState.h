@@ -17,7 +17,7 @@ public:
 	void Release();
 	void Update(double deltaTime);
 	void Render();
-	void ProcessInput(double* deltaTime);
+	void ProcessInput(double deltaTime);
 
 private:
 	void OnEnter();

@@ -1,7 +1,7 @@
 #pragma once
 #include "../../../Source/LibIncluder.h"
 #include "../ProjectileSystem/Projectile/Projectile.h"
-#include "../Player/Player.h"
+
 class ProjectileSystem
 {
 public:

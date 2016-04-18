@@ -36,12 +36,12 @@ void GameState::Release()
 
 void GameState::Update(double deltaTime)
 {
-	ProcessInput(&deltaTime);
+	ProcessInput(deltaTime);
 	player->Update(deltaTime);
 	enemy->Update(deltaTime);
 }
 
-void GameState::ProcessInput(double* deltaTime)
+void GameState::ProcessInput(double deltaTime)
 {
 
 	/*if (death->isActive)
@@ -59,19 +59,19 @@ void GameState::ProcessInput(double* deltaTime)
 	{*/
 		if (input->IsKeyHeld(KEY_W))
 		{
-			player->Move(UP, deltaTime[0]);
+			player->Move(UP, deltaTime);
 		}
 		else if (input->IsKeyHeld(KEY_S))
 		{
-			player->Move(DOWN, deltaTime[0]);
+			player->Move(DOWN, deltaTime);
 		}
 		else if (input->IsKeyHeld(KEY_A))
 		{
-			player->Move(LEFT, deltaTime[0]);
+			player->Move(LEFT, deltaTime);
 		}
 		else if (input->IsKeyHeld(KEY_D))
 		{
-			player->Move(RIGHT, deltaTime[0]);
+			player->Move(RIGHT, deltaTime);
 		}
 		else if (input->IsKeyPressed(KEY_ESC))
 		{
