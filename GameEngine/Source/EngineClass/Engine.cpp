@@ -5,13 +5,13 @@
 Engine::Engine()
 {
 	this->input = new InputHandler();
-	this->graphics = new Graphics();
+	this->graphics = Graphics::GetInstance();
 }
 
 
 Engine::~Engine()
 {
-	delete this->graphics;
+
 	delete this->input;
 }
 

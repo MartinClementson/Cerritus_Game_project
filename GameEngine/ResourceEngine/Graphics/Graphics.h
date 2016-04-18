@@ -56,8 +56,8 @@ private:
 	void FinishFrame();
 	void SetViewPort();
 
-public:
 	Graphics();
+public:
 	~Graphics();
 
 	void Initialize(HWND* window);
@@ -71,6 +71,9 @@ public:
 	void QueueRender(RenderInfoEnemy* object);
 	void QueueRender(RenderInfoChar* object);
 	void QueueRender(RenderInfoTrap* object);
+
+	//Singleton for the graphics class 
+	static Graphics* GetInstance();
 
 
 };
