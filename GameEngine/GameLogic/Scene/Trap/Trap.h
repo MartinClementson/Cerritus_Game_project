@@ -10,8 +10,13 @@ public:
 	virtual void Release();
 	virtual void Update(double deltaTime);
 	virtual void Render();
+	float GetDamage();
+	void SetDamage(float damage);
+	DirectX::XMFLOAT3 GetPosition();
+	void SetPosition(DirectX::XMFLOAT3 position);
 	//Collision();
 private:
+	DirectX::XMFLOAT3 position;
 	float damage;
 	Animation* animation;
 	Model* mesh;

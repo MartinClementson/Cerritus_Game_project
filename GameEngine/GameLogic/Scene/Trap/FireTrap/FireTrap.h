@@ -11,6 +11,9 @@ public:
 	void Release();
 	void Update(double deltaTime);
 	void Render();
+	float GetDot();
+	void SetDot(float dotDuration);
+
 	//Collision();
 private:
 	float dotDuration;
