@@ -1,3 +1,4 @@
+cbuffer cameraConstantBuffer  : register(b0)
 {
 
 	matrix view;
