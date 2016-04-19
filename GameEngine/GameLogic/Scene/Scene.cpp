@@ -4,22 +4,24 @@
 
 Scene::Scene()
 {
-	this->bearTraps = new std::vector<BearTrap>;
-	this->fireTraps = new std::vector<FireTrap>;
+	/*this->bearTraps = new std::vector<BearTrap>;
+	this->fireTraps = new std::vector<FireTrap>;*/
 }
 
 
 Scene::~Scene()
 {
-	delete this->bearTraps;
-	delete this->enemySpawns;
-	delete this->fireTraps;
+	//delete this->bearTraps;
+	//delete this->enemySpawns;
+	//delete this->fireTraps;
 }
 
 void Scene::Initialize()
 {
+	fireTraps.push_back(new FireTrap());
+	bearTraps.push_back(new BearTrap());
+}		
 
-}
 
 void Scene::Release()
 {
@@ -28,44 +30,47 @@ void Scene::Release()
 
 void Scene::Update(double deltaTime)
 {
-	for (int i = 0; i < fireTraps->size(); i++)
+	for (int i = 0; i < fireTraps.size(); i++)
 	{
-		//fireTraps->at(i).GetPosition();
-		fireTraps->at(i).Update(deltaTime);
-		if (fireTraps->at(i).GetDot() == 0)
+		fireTraps.at(i)->GetPosition();
+	
+		fireTraps.at(i)->Update(deltaTime);
+		if (fireTraps.at(i)->GetDot() == 0)
 		{
+
 		}
-		else if (fireTraps->at(i).GetDot() > 0)
+		else if (fireTraps.at(i)->GetDot() > 0)
 		{
-			fireTraps->at(i).GetDamage();
+			fireTraps.at(i)->GetDamage();
 		}	
+		//fireTraps.push_back(new FireTrap());
 	}
-	for (int i = 0; i < bearTraps->size(); i++)
+	for (int i = 0; i < bearTraps.size(); i++)
 	{
-		//bearTraps->at(i).GetPosition();
-		bearTraps->at(i).Update(deltaTime);
-		if (bearTraps->at(i).GetSlow() == 0)
+		bearTraps.at(i)->GetPosition();
+		bearTraps.at(i)->Update(deltaTime);
+		if (bearTraps.at(i)->GetSlow() == 0)
 		{
 
 		}
-		else if (bearTraps->at(i).GetSlow() > 0)
+		else if (bearTraps.at(i)->GetSlow() > 0)
 		{
-			bearTraps->at(i).GetDamage();
+			bearTraps.at(i)->GetDamage();
 		}
-
+		//bearTraps.push_back(new BearTrap());
 		
 	}
 }
 
 void Scene::Render()
 {
-	for (int i = 0; i < fireTraps->size(); i++)
+	for (int i = 0; i < fireTraps.size(); i++)
 	{
-		fireTraps->at(i).Render();
+		fireTraps.at(i)->Render();
 	}
-	for (int i = 0; i < bearTraps->size(); i++)
+	for (int i = 0; i < bearTraps.size(); i++)
 	{
-		bearTraps->at(i).Render();
+		bearTraps.at(i)->Render();
 	}
 	//skicka fire traps,beartraps och enemy spawn till render queue.
 	//graphichs = renderqueue(enemyspawn)

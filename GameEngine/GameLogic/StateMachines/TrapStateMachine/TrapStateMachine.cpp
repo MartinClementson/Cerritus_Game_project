@@ -24,6 +24,7 @@ void TrapStateMachine::Initialize()
 
 void TrapStateMachine::Release()
 {
+
 }
 
 void TrapStateMachine::Update(double deltaTime)
