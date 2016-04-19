@@ -57,22 +57,42 @@ void ResourceManager::Release()
 		return nullptr;
 	}
 
-	RenderInstructions * ResourceManager::GetPlaceHolderMesh()
+	RenderInstructions * ResourceManager::GetPlaceHolderMesh(XMFLOAT3 position)
 	{
 		////////////TEMPORARY////////////////////////////////
-		XMFLOAT3 tempPos = XMFLOAT3(0.0f, 0.0f, -1.5f);
+		
 		static float rotation = 0;
 		rotation += 0.1f;
 		XMFLOAT3 tempRotation = XMFLOAT3(0.0, rotation, 0.0);
 		////////////////////////////////////////////////////////////
 
-		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&tempPos, &tempRotation);
+		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&position, &tempRotation);
 
 
 		meshManager->GetPlaceHolderMeshInfo(&currentMesh);
 		Shaders temp = PHONG_SHADER;
 		this->shaderManager->SetActiveShader(&temp);
 		return &currentMesh;
+	}
+
+	RenderInstructions * ResourceManager::GetPlaceHolderPlane()
+	{
+
+
+		////////////TEMPORARY////////////////////////////////
+		XMFLOAT3 tempPos = XMFLOAT3(0.0f, 0.0f, -1.5f);
+		
+		XMFLOAT3 tempRotation = XMFLOAT3(0.0, 0.0, 0.0);
+		////////////////////////////////////////////////////////////
+
+		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&tempPos, &tempRotation);
+
+
+		meshManager->GetPlaceHolderPlaneInfo(&currentMesh);
+		Shaders temp = PHONG_SHADER;
+		this->shaderManager->SetActiveShader(&temp);
+		return &currentMesh;
+		
 	}
 
 	XMFLOAT4X4 ResourceManager::CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation)

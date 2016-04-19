@@ -47,7 +47,7 @@ struct GS_OUT
 	float4 Pos			: SV_POSITION;
 	//float2 Uv			: TEXCOORD0;
 	//float3 Normal		: NORMAL;
-	//float4 wPos			: WORLDPOS;
+	float4 wPos			: WORLDPOS;
 	//float3 camPos		: CAMERAPOS;
 	//float3 Tangent		: TANGENT;
 
@@ -66,7 +66,7 @@ void GS_main(
 	{
 		GS_OUT element;
 		element.Pos = mul(input[i].Pos,combinedMatrix);
-		//element.Pos = input[i].Pos;
+		element.wPos = mul(input[i].Pos,world);
 		output.Append(element);
 	}
 
@@ -78,6 +78,10 @@ float4 PS_main(GS_OUT input) : SV_TARGET
 {
 
 float4 col = {1.0,0.0,0.0,1.0};
+
+//col.x = saturate(col.x * cos(input.Pos.x));
+col.y = saturate(input.wPos.y);
+
 
 return col;
 }

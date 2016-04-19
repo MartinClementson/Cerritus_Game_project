@@ -14,8 +14,10 @@ private:
 	//This vector will be indexed with the enum "Meshes"
 	std::vector<Mesh>* gameMeshes		=	nullptr;
 	Mesh placeHolder;
+	Mesh placeHolderPlane;
 
 	void CreatePlaceHolder();
+	void CreatePlaceHolderPlane();
 public:
 	MeshManager();
 	~MeshManager();
@@ -26,5 +28,6 @@ public:
 	void GetMeshRenderInfo(Meshes* meshEnum, RenderInstructions* toRender);
 
 	void GetPlaceHolderMeshInfo(RenderInstructions* toRender);
+	void GetPlaceHolderPlaneInfo(RenderInstructions* toRender);
 };
 

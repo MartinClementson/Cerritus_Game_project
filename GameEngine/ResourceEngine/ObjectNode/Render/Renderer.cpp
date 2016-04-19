@@ -66,11 +66,17 @@ void Renderer::Render(RenderInfoEnemy * object)
 void Renderer::Render(RenderInfoChar * object)
 {
 
-	//Update the camera view matrix!
-	
+	RenderInstructions * objectInstruction;
+	objectInstruction = this->resourceManager->GetPlaceHolderMesh(object->position);
 
-	this->sceneCam->Updateview( object->position);
+	//Update the camera view matrix!
+	//this->sceneCam->Updateview( object->position);
 	this->UpdateCameraBuffer();
+
+	Render(objectInstruction);
+
+	RenderPlaceHolderPlane();
+
 }
 
 
@@ -80,18 +86,28 @@ void Renderer::Render(RenderInfoTrap * object)
 }
 
 
-//Render the placeholder mesh
+//Render the placeholder meshes
 void Renderer::RenderPlaceHolder()
 {
 	RenderInstructions * object;
-	object = this->resourceManager->GetPlaceHolderMesh();
+	object = this->resourceManager->GetPlaceHolderMesh( XMFLOAT3(0.0f, 0.0f, -1.5f));
 	
 
 	XMFLOAT3 tempPos		 = XMFLOAT3(0.0f,0.0f, -1.5f);
 	this->sceneCam->Updateview(tempPos); //This is temporary. The update of the cam should only be done in the "char" render
+	
 	this->UpdateCameraBuffer();
 
 	Render(object);
+
+	//RenderPlaceHolderPlane();
+
+}
+void Renderer::RenderPlaceHolderPlane()
+{
+	RenderInstructions * objectPlane;
+	objectPlane = this->resourceManager->GetPlaceHolderPlane();
+	Render(objectPlane);
 
 }
 #pragma endregion

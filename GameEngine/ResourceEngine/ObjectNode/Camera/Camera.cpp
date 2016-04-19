@@ -14,7 +14,7 @@ Camera::~Camera()
 
 void Camera::Update()
 {
-	// Vad behövs göras här ???
+	
 }
 
 void Camera::Initialize(ID3D11Device *gDevice,ID3D11DeviceContext *gDeviceContext)
@@ -39,6 +39,7 @@ void Camera::Initialize(ID3D11Device *gDevice,ID3D11DeviceContext *gDeviceContex
 		(nearZ),
 		(farZ)
 		);
+
 	//Transpose the Projcetion matrix
 	tempProj = XMMatrixTranspose(tempProj);
 
@@ -70,22 +71,19 @@ void Camera::Updateview( DirectX::XMFLOAT3 playerPos)
 {
 	//Update the position of the camera to follow the player
 	
-	static float translate = 0;
-	translate += 0.01f;
 
 
-
-	camPosition.x = playerPos.x + cameraOffset.x;
-	camPosition.y = cameraOffset.y;
-	camPosition.z = playerPos.z + cameraOffset.z;
+	camPosition.x		 = playerPos.x + cameraOffset.x;
+	camPosition.y	     = cameraOffset.y;
+	camPosition.z		 = playerPos.z + cameraOffset.z;
 
 	//update the struct with the new position
 	this->camMatrices.worldPos = this->camPosition;
 
 	//update the look at
-	camTarget.x = playerPos.x;
-	camTarget.y = playerPos.y;
-	camTarget.z = playerPos.z;
+	camTarget.x		= playerPos.x;
+	camTarget.y		= playerPos.y;
+	camTarget.z		= playerPos.z;
 
 	
 	XMMATRIX tempView = XMMatrixLookAtLH(

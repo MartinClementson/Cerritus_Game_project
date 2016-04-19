@@ -107,10 +107,27 @@ void Graphics::Render() //manage RenderPasses here
 
 void Graphics::RenderScene()
 {
+	
+	
+	RenderInfoChar tempInfo;//TEMPORARY
+	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 5.5f); //TEMPORARY
 	//Always render the char first! This is because we set the camera matrix with the characters position
-	//this->renderer->Render(this->charObjects->at(0));
+	this->renderer->Render(&tempInfo);
+	
+	
 
-	this->renderer->RenderPlaceHolder();
+	this->renderer->RenderPlaceHolder();//TEMPORARY
+	tempInfo.position = XMFLOAT3(0.0f, 0.0f, -5.5f);//TEMPORARY
+	this->renderer->Render(&tempInfo);//TEMPORARY
+
+	tempInfo.position = XMFLOAT3(-5.5f, 0.0f, 0.0f);//TEMPORARY
+	this->renderer->Render(&tempInfo);//TEMPORARY
+
+	tempInfo.position = XMFLOAT3(5.5f, 0.0f, 0.0f);//TEMPORARY
+	this->renderer->Render(&tempInfo);//TEMPORARY
+
+	
+
 	for (unsigned int i = 0; i < gameObjects->size(); i++)
 	{
 		//renderer->Render(gameObjects->at(i));
