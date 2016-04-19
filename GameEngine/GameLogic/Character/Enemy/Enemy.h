@@ -26,6 +26,7 @@ public:
 
 	void UpdateAttack(double deltaTime);
 	void UpdateIdle(double deltaTime);
+	bool IdleBool(bool idle);
 	void UpdateDead(double deltaTime);
 
 	bool DeadBool(bool dead);

@@ -81,7 +81,7 @@ void Enemy::UpdateDead(double deltaTime)
 	//Remove enemy from game and move to back of queue
 	//Trigger animation. Animation.death(true);
 
-	bool dead = true;
+	dead = true;
 	DeadBool(dead);
 
 	renderInfo = { position, rotation };
@@ -105,7 +105,17 @@ void Enemy::UpdateIdle(double deltaTime)
 
 	//If game gets paused put enemies in a idle state where position and rotation is
 	// set to 0 
+
+	idle = true;
+
 	renderInfo = { position, rotation };
+}
+
+bool Enemy::IdleBool(bool idle)
+{
+	idle = idle;
+
+	return idle;
 }
 
 

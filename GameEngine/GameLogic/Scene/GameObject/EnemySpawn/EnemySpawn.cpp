@@ -23,7 +23,7 @@ EnemySpawn::~EnemySpawn()
 
 void EnemySpawn::Initialize()
 {
-	
+	SpawnEnemy();
 }
 
 void EnemySpawn::Release()
@@ -33,27 +33,27 @@ void EnemySpawn::Release()
 
 void EnemySpawn::Update(double deltaTime)
 {
-	if (Queue.size() <= 20)
+	for (int i = 0; i < Alive.size(); i++)
 	{
-		SpawnEnemy();
-
-		if (Alive.size() <= 10)
+		if (Alive.at(i)->DeadBool == true)
 		{
-			Alive.push_back(Queue.at(0));
-			Queue.erase(Queue.begin());
+			if (Alive.size() <= 10)
+			{
+				Alive.push_back.at(i)(Queue);
+				Alive.push_back(Queue.at(0));
+				Queue.erase(Queue.begin());
+			}
 		}
-	}
-	else
-	{
-		return;
 	}
 }
 
 void EnemySpawn::SpawnEnemy()
 {
-	for (int i = 0; i < 19; i++)
+	unsigned int waveAmount = 19;
+
+	for (int i = 0; i < waveAmount; i++)
 	{
-		int spawnPointRandom = rand() % 3 + 1;
+		int spawnPointRandom = rand() % 4 + 1;
 
 		if (spawnPointRandom = 1)
 		{
@@ -81,6 +81,17 @@ void EnemySpawn::SpawnEnemy()
 		{
 			float spawnX = rand() % 150 + 100;
 			float spawnZ = rand() % 150 + 100;
+
+			XMFLOAT3 spawn;
+			spawn.x = spawnX;
+			spawn.z = spawnZ;
+
+			Queue.push_back(new Enemy(spawn));
+		}
+		if (spawnPointRandom = 4)
+		{
+			float spawnX = rand() % 200 + 150;
+			float spawnZ = rand() % 200 + 150;
 
 			XMFLOAT3 spawn;
 			spawn.x = spawnX;

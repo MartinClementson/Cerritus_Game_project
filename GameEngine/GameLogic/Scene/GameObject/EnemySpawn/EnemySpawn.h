@@ -22,7 +22,6 @@ public:
 	~EnemySpawn();
 
 	void Update(double deltaTime);
-	void MoveEnemyToPlay();
 	void SpawnEnemy();
 };
 
