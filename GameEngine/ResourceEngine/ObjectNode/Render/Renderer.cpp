@@ -71,11 +71,11 @@ void Renderer::Render(RenderInfoChar * object)
 
 	//Update the camera view matrix!
 	//this->sceneCam->Updateview( object->position);
-	this->UpdateCameraBuffer();
+	//this->UpdateCameraBuffer();
 
 	Render(objectInstruction);
 
-	RenderPlaceHolderPlane();
+	
 
 }
 
@@ -100,7 +100,7 @@ void Renderer::RenderPlaceHolder()
 
 	Render(object);
 
-	//RenderPlaceHolderPlane();
+	
 
 }
 void Renderer::RenderPlaceHolderPlane()

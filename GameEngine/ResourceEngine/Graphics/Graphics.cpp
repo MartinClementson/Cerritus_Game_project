@@ -112,11 +112,11 @@ void Graphics::RenderScene()
 	RenderInfoChar tempInfo;//TEMPORARY
 	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 5.5f); //TEMPORARY
 	//Always render the char first! This is because we set the camera matrix with the characters position
+	this->renderer->RenderPlaceHolder();//TEMPORARY
 	this->renderer->Render(&tempInfo);
 	
 	
 
-	this->renderer->RenderPlaceHolder();//TEMPORARY
 	tempInfo.position = XMFLOAT3(0.0f, 0.0f, -5.5f);//TEMPORARY
 	this->renderer->Render(&tempInfo);//TEMPORARY
 
@@ -126,6 +126,7 @@ void Graphics::RenderScene()
 	tempInfo.position = XMFLOAT3(5.5f, 0.0f, 0.0f);//TEMPORARY
 	this->renderer->Render(&tempInfo);//TEMPORARY
 
+	this->renderer->RenderPlaceHolderPlane();
 	
 
 	for (unsigned int i = 0; i < gameObjects->size(); i++)
