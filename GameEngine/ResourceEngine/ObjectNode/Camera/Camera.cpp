@@ -100,11 +100,6 @@ void Camera::Updateview( DirectX::XMFLOAT3 playerPos)
 
 }
 
-void Camera::TranslateTo(XMFLOAT3 newPos) // Förklaring : Translate to -> new pos
-{
-	// ???
-}
-
 CamMatrices * Camera::GetCameraMatrices()
 {
 
