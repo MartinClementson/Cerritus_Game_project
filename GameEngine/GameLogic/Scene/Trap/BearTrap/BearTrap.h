@@ -13,13 +13,12 @@ public:
 	void Render();
 	float GetSlow();
 	void SetSlow(float slow);
-
 	//Collision();
 private:
 	float slow;
 	TrapStateMachine* TrapState;
 	RenderInfoTrap renderinfo;
-	//RenderInfoTrap* renderinfo; unsure if & works instead of *
+	//RenderInfoTrap* renderinfo; 
 	Graphics*  grapichs;
 
 };

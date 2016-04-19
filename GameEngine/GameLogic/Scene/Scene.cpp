@@ -19,6 +19,7 @@ Scene::~Scene()
 void Scene::Initialize()
 {
 	fireTraps.push_back(new FireTrap());
+
 	bearTraps.push_back(new BearTrap());
 }		
 
@@ -33,7 +34,6 @@ void Scene::Update(double deltaTime)
 	for (int i = 0; i < fireTraps.size(); i++)
 	{
 		fireTraps.at(i)->GetPosition();
-	
 		fireTraps.at(i)->Update(deltaTime);
 		if (fireTraps.at(i)->GetDot() == 0)
 		{
@@ -61,6 +61,7 @@ void Scene::Update(double deltaTime)
 
 void Scene::Render()
 {
+
 	for (int i = 0; i < fireTraps.size(); i++)
 	{
 		fireTraps.at(i)->Render();
@@ -73,4 +74,5 @@ void Scene::Render()
 
 void Scene::load()
 {
+
 }

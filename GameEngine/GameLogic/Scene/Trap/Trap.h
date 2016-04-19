@@ -20,10 +20,7 @@ public:
 	virtual void SetPosition(DirectX::XMFLOAT3 position);  // la till virtual på get och set då de inte ska användas i denna klass
 	virtual void SetRotation(DirectX::XMFLOAT3 rotation);
 	//Collision();
-private:
-
-	
-	float damage;
+private:	
 	Animation* animation;
 	Model* mesh;
 	RenderInfoTrap renderInfo;
@@ -31,5 +28,6 @@ private:
 protected:
 	DirectX::XMFLOAT3 position;
 	DirectX::XMFLOAT3 rotation;
+	float damage;
 };
 
