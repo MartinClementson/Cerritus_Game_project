@@ -23,7 +23,7 @@ private:
 public:
 	Engine();
 	~Engine();
-	void Initialize(HWND* window);
+	void Initialize(HWND* window,HINSTANCE hInstance);
 	void Release();
 
 	void Frame(double* deltaTime);

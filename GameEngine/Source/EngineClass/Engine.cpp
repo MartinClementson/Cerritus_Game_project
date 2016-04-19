@@ -15,9 +15,9 @@ Engine::~Engine()
 	delete this->game;
 }
 
-void Engine::Initialize(HWND* window)
+void Engine::Initialize(HWND* window, HINSTANCE hInstance)
 {
-	input->Initialize();
+	input->Initialize(hInstance);
 	graphics->Initialize(window);
 	game->Initialize();
 
