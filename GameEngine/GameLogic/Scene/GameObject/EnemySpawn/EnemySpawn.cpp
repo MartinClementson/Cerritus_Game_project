@@ -47,7 +47,9 @@ void EnemySpawn::SpawnEnemy()
 			float spawnX = rand() % 50 + 1;
 			float spawnZ = rand() % 50 + 1;
 
-			XMVECTOR spawn = { spawnX, 0, spawnZ, 0 };
+			XMFLOAT3 spawn;
+			spawn.x = spawnX;
+			spawn.z = spawnZ;
 
 			enemies.push_back( new Enemy(spawn) );
 
@@ -57,9 +59,11 @@ void EnemySpawn::SpawnEnemy()
 			float spawnX = rand() % 100 + 50;
 			float spawnZ = rand() % 100 + 50;
 
-			XMVECTOR spawn = { spawnX, 0, spawnZ, 0 };
+			XMFLOAT3 spawn;
+			spawn.x = spawnX;
+			spawn.z = spawnZ;
 
-			enemies.push_back( new Enemy(spawn) );
+			enemies.push_back(new Enemy(spawn));
 
 		}
 		if (spawnPointRandom = 3)
@@ -67,9 +71,11 @@ void EnemySpawn::SpawnEnemy()
 			float spawnX = rand() % 150 + 100;
 			float spawnZ = rand() % 150 + 100;
 
-			XMVECTOR spawn = { spawnX, 0, spawnZ, 0 };
+			XMFLOAT3 spawn;
+			spawn.x = spawnX;
+			spawn.z = spawnZ;
 
-			enemies.push_back( new Enemy(spawn) );
+			enemies.push_back(new Enemy(spawn));
 
 		}
 	}

@@ -21,4 +21,5 @@ void EnemyStateMachine::Release()
 
 void EnemyStateMachine::Update(double deltaTime)
 {
+
 }

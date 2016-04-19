@@ -12,20 +12,22 @@ class Enemy :
 {
 protected:
 	float movementSpeed, health, damage;
-
 private:
 	EnemyStateMachine* enemyState;
 	RenderInfoEnemy renderInfo;
 private:
-
+	void Release();
 public:
-	Enemy(XMVECTOR spawn);
+	Enemy(XMFLOAT3 spawn);
 	Enemy();
 	virtual ~Enemy();
 
 	void Initialize(XMVECTOR position);
-	void Release();
-	void Update(double deltaTime);
+
+	void UpdateAttack(double deltaTime);
+	void UpdateIdle(double deltaTime);
+	void UpdateDead(double deltaTime);
+
 	void Render();
 };
 
