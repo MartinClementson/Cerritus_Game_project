@@ -77,13 +77,17 @@ void GS_main(
 float4 PS_main(GS_OUT input) : SV_TARGET
 {
 
-	float4 origin = {0.0,0.0,0.0,1.0};
+float4 origin = {camPos.x,0.0,camPos.z,1.0};
 float4 col = {1.0,0.0,0.0,1.0};
 
 float dist = distance(origin, input.wPos);
-//col.x -= saturate((abs(input.wPos.x) + abs(input.wPos.z))*0.006);
+
 col.x -= saturate(dist* 0.05);
+
 col.y = saturate(input.wPos.y);
+
+
+
 
 
 
