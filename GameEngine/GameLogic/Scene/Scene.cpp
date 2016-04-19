@@ -29,7 +29,7 @@ void Scene::Update(double deltaTime)
 {
 	for (int i = 0; i < fireTraps->size(); i++)
 	{
-		fireTraps->at(i).GetPosition();
+		//fireTraps->at(i).GetPosition();
 		//fireTraps->at(i).GetDamage();
 		if (fireTraps->at(i).GetDot() == 0)
 		{
