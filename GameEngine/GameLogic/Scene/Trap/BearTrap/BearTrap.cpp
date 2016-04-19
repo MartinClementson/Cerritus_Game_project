@@ -13,7 +13,7 @@ BearTrap::~BearTrap()
 
 void BearTrap::Initialize()
 {
-	slow = 2.5f; // 2.5 seconds slow
+	slow = 3.5f; // 2.5 seconds slow
 }
 
 void BearTrap::Release()
@@ -23,9 +23,9 @@ void BearTrap::Release()
 
 void BearTrap::Update(double deltaTime)
 {
-	if (slow >= 2.5)
+	if (slow > 0.0f)
 	{
-		//something i guess
+		slow = slow - 1;
 	}
 }
 

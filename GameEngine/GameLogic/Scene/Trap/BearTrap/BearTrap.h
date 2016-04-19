@@ -13,6 +13,7 @@ public:
 	void Render();
 	float GetSlow();
 	void SetSlow(float slow);
+
 	//Collision();
 private:
 	float slow;

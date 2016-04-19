@@ -29,8 +29,7 @@ void Scene::Update(double deltaTime)
 {
 	for (int i = 0; i < fireTraps->size(); i++)
 	{
-		//fireTraps->at(i).GetPosition();
-		//fireTraps->at(i).GetDamage();
+		fireTraps->at(i).Update(deltaTime);
 		if (fireTraps->at(i).GetDot() == 0)
 		{
 			//no dmg
@@ -44,9 +43,7 @@ void Scene::Update(double deltaTime)
 	}
 	for (int i = 0; i < bearTraps->size(); i++)
 	{
-		//bearTraps->at(i).GetDamage();
-		//duration of slow, damage during the slow time
-		
+		bearTraps->at(i).Update(deltaTime);
 		if (bearTraps->at(i).GetSlow() == 0)
 		{
 			//no damage

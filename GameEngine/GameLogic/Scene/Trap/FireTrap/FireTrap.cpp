@@ -13,20 +13,21 @@ FireTrap::~FireTrap()
 
 void FireTrap::Initialize()
 {
-	dotDuration = 2.5f; // 2.5 sec 
+	dotDuration = 2.5f;  
 	
 }
 
 void FireTrap::Release()
 {
+
 }
 
 void FireTrap::Update(double deltaTime)
 {
-	//dotduration 
-	if (dotDuration >= 2.5)
+	 
+	if (dotDuration > 0)
 	{
-		
+		dotDuration = dotDuration - 1;
 	}
 
 }
