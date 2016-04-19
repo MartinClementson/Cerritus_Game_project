@@ -4,7 +4,8 @@
 
 FireTrap::FireTrap()
 {
-	
+	Graphics* Grapichs;
+	RenderInfoTrap renderInfo;
 }
 
 
@@ -27,13 +28,15 @@ void FireTrap::Update(double deltaTime)
 { 
 	if (dotDuration > 0)
 	{
-		dotDuration = dotDuration - 1 * deltaTime; // la till deltaTime annars försvinner doten innan den gör något
+		dotDuration = dotDuration - 1 * deltaTime;
 	}
+
+	renderInfo = { position,rotation }; //must check this.. 
 }
 
 void FireTrap::Render()
 {
-	//hur ska render fungera i fire och bear trap? 
+	grapichs->QueueRender(&renderInfo);
 }
 
 float FireTrap::GetDot()

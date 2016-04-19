@@ -18,5 +18,8 @@ public:
 private:
 	float dotDuration;
 	TrapStateMachine* TrapState;
+	RenderInfoTrap renderInfo;
+	//RenderInfoTrap* renderInfo;
+	Graphics* grapichs;
 };
 

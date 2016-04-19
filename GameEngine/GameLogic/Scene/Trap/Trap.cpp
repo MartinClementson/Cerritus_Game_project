@@ -22,12 +22,15 @@ void Trap::Release()
 void Trap::Update(double deltaTime)
 {
 	renderInfo = { position,rotation };
+
 }
+
 void Trap::Render()
 {
 	//Tar inte scene hand om render för alla traps? jo
 	grapichs = Graphics::GetInstance();
 }
+
 float Trap::GetDamage()
 {
 	return damage;

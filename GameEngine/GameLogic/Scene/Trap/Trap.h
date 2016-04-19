@@ -22,12 +22,14 @@ public:
 	//Collision();
 private:
 
-	DirectX::XMFLOAT3 position;
-	DirectX::XMFLOAT3 rotation;
+	
 	float damage;
 	Animation* animation;
 	Model* mesh;
 	RenderInfoTrap renderInfo;
 	Graphics* grapichs;
+protected:
+	DirectX::XMFLOAT3 position;
+	DirectX::XMFLOAT3 rotation;
 };
 

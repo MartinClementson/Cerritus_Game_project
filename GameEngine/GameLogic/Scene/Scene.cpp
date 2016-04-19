@@ -60,9 +60,15 @@ void Scene::Update(double deltaTime)
 
 void Scene::Render()
 {
+	for (int i = 0; i < fireTraps->size(); i++)
+	{
+		fireTraps->at(i).Render();
+	}
+	for (int i = 0; i < bearTraps->size(); i++)
+	{
+		bearTraps->at(i).Render();
+	}
 	//skicka fire traps,beartraps och enemy spawn till render queue.
-	//graphichs = renderqueue(beartraps)
-	//graphichs = renderqueue(firetraps)
 	//graphichs = renderqueue(enemyspawn)
 }
 

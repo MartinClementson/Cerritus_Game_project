@@ -4,6 +4,7 @@
 
 BearTrap::BearTrap()
 {
+
 }
 
 
@@ -27,11 +28,15 @@ void BearTrap::Update(double deltaTime)
 	{
 		slow = slow - 1 * deltaTime;// la till delta time av samma anledning som i fire
 	}
+
+	renderinfo = { rotation, position }; // must check this
+
 }
 
 void BearTrap::Render()
 {
-
+	grapichs->QueueRender(&renderinfo);
+	//grapichs->QueueRender(renderinfo); Unsure if the other one works. will see
 }
 
 float BearTrap::GetSlow()

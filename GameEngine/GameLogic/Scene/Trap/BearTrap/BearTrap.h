@@ -18,5 +18,9 @@ public:
 private:
 	float slow;
 	TrapStateMachine* TrapState;
+	RenderInfoTrap renderinfo;
+	//RenderInfoTrap* renderinfo; unsure if & works instead of *
+	Graphics*  grapichs;
+
 };
 
