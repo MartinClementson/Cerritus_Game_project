@@ -4,7 +4,8 @@
 
 Scene::Scene()
 {
-
+	this->bearTraps = new std::vector<BearTrap>;
+	this->fireTraps = new std::vector<FireTrap>;
 }
 
 
@@ -29,21 +30,19 @@ void Scene::Update(double deltaTime)
 {
 	for (int i = 0; i < fireTraps->size(); i++)
 	{
-		fireTraps->at(i).GetPosition();
+		//fireTraps->at(i).GetPosition();
 		fireTraps->at(i).Update(deltaTime);
 		if (fireTraps->at(i).GetDot() == 0)
 		{
-
 		}
 		else if (fireTraps->at(i).GetDot() > 0)
 		{
 			fireTraps->at(i).GetDamage();
 		}	
-		
 	}
 	for (int i = 0; i < bearTraps->size(); i++)
 	{
-		bearTraps->at(i).GetPosition();
+		//bearTraps->at(i).GetPosition();
 		bearTraps->at(i).Update(deltaTime);
 		if (bearTraps->at(i).GetSlow() == 0)
 		{

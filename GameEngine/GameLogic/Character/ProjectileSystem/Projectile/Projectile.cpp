@@ -9,7 +9,6 @@ Projectile::Projectile()
 Projectile::Projectile(DirectX::XMFLOAT3 origin,DirectX::XMFLOAT3 direction)
 {
 
-	// hmm, i sense a disturbance in the force..
 
 }
 
@@ -32,6 +31,17 @@ void Projectile::Initialize()
 	collided = false;
 	
 }
+
+/*void Projectile::Update(double deltatime)
+{
+
+	if(isfired == true)
+	{
+		age = age + 1 * deltaTime;
+	}
+
+
+}*/
 
 void Projectile::Release()
 {

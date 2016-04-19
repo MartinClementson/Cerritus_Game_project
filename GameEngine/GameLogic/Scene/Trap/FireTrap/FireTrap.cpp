@@ -4,8 +4,6 @@
 
 FireTrap::FireTrap()
 {
-	Graphics* Grapichs;
-	RenderInfoTrap renderInfo;
 }
 
 
