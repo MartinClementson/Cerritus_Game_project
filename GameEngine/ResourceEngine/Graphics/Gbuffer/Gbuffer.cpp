@@ -114,7 +114,7 @@ void Gbuffer::SetToRender(ID3D11DepthStencilView* depthStencilView) ///Set the t
 	for (int i = 0; i < TEXTUREAMOUNT; i++)
 		tab[i] = NULL;
 
-	this->gDeviceContext->PSSetShaderResources(0, TEXTUREAMOUNT, tab);
+	this->gDeviceContext->PSSetShaderResources(0, TEXTUREAMOUNT, tab); //kan vara fel, debugga senare
 
 
 	gDeviceContext->OMSetRenderTargets(TEXTUREAMOUNT, this->textureRTVs, depthStencilView);
