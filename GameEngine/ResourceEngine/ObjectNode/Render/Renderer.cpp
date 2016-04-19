@@ -64,7 +64,7 @@ void Renderer::Render(RenderInfoChar * object)
 	XMFLOAT2 tempPos = XMFLOAT2(object->position.x, object->position.z);
 
 	this->sceneCam->Updateview(this->camBuffer, tempPos);
-
+	this->UpdateCameraBuffer();
 }
 
 void Renderer::Render(RenderInfoTrap * object)
@@ -77,8 +77,8 @@ void Renderer::RenderPlaceHolder()
 	
 
 	XMFLOAT2 tempPos = XMFLOAT2(0.0f, 1.5f);
-
-	this->sceneCam->Updateview(this->camBuffer, tempPos);
+	this->sceneCam->Updateview(this->camBuffer, tempPos); //This is temporary. The update of the cam should only be done in the "char" render
+	this->UpdateCameraBuffer();
 
 	Render(object);
 
@@ -146,7 +146,20 @@ void Renderer::Render(RenderInstructions * object)
 void Renderer::UpdateCameraBuffer()
 {
 
-	//this->sceneCam->
+	CamMatrices* tempCam			= this->sceneCam->GetCameraMatrices();
+
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+	gDeviceContext->Map(this->camBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+
+	CamMatrices* tempCamMatrices	= (CamMatrices*)mappedResource.pData;
+	tempCamMatrices					= tempCam;
+
+	gDeviceContext->Unmap(this->camBuffer, 0);
+	gDeviceContext->GSSetConstantBuffers(1, 1, &this->camBuffer);
+
 
 
 }

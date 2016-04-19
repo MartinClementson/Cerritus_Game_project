@@ -96,23 +96,17 @@ void Camera::Updateview(ID3D11Buffer * constBuffer, DirectX::XMFLOAT2 playerPos)
 
 	XMStoreFloat4x4(&camMatrices.camView, XMMatrixTranspose(tempView));
 
-
-
-	D3D11_MAPPED_SUBRESOURCE mappedResource;
-	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
-
-	gDeviceContext->Map(constBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
-
-	CamMatrices* tempCamMatrices = (CamMatrices*)mappedResource.pData;
-	tempCamMatrices = &camMatrices;
-
-	gDeviceContext->Unmap(constBuffer, 0);
-	gDeviceContext->GSSetConstantBuffers(1, 1, &constBuffer);
 }
 
 void Camera::TranslateTo(XMFLOAT3 newPos) // Förklaring : Translate to -> new pos
 {
 	// ???
+}
+
+CamMatrices * Camera::GetCameraMatrices()
+{
+
+	return &this->camMatrices;
 }
 
 void Camera::Release()
