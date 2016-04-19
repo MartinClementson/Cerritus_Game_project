@@ -13,7 +13,7 @@ BearTrap::~BearTrap()
 
 void BearTrap::Initialize()
 {
-	slow = 3.5f; // 2.5 seconds slow
+	slow = 3.5f; 
 }
 
 void BearTrap::Release()

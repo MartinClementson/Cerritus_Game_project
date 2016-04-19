@@ -29,12 +29,14 @@ void Trap::Update(double deltaTime)
 {
 	//uppdatera dmg och position för varje update. 
 
+	//animation toggle
+	//mesh toggle
 
-	if (position.x = 0 && position.z == 0)
-	{
-		position.x = rand() % 100 + 1;
-		position.y = rand() % 100 + 1;
-	}
+	//if (position.x = 0 && position.z == 0)
+	//{
+	//	position.x = rand() % 100 + 1;
+	//	position.y = rand() % 100 + 1;
+	//}
 
 
 	//randomize the placement of the traps ? 

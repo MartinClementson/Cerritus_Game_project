@@ -29,24 +29,27 @@ void Scene::Update(double deltaTime)
 {
 	for (int i = 0; i < fireTraps->size(); i++)
 	{
+		/*DirectX::XMFLOAT3 tmp =*/
+		fireTraps->at(i).GetPosition();
 		fireTraps->at(i).Update(deltaTime);
 		if (fireTraps->at(i).GetDot() == 0)
 		{
-			//no dmg
+
 		}
 		else if (fireTraps->at(i).GetDot() > 0)
 		{
 			fireTraps->at(i).GetDamage();
-		}
-	
+		}	
 		
 	}
 	for (int i = 0; i < bearTraps->size(); i++)
 	{
+		/*DirectX::XMFLOAT3 tmp =*/ 
+		bearTraps->at(i).GetPosition();
 		bearTraps->at(i).Update(deltaTime);
 		if (bearTraps->at(i).GetSlow() == 0)
 		{
-			//no damage
+
 		}
 		else if (bearTraps->at(i).GetSlow() > 0)
 		{
@@ -55,10 +58,10 @@ void Scene::Update(double deltaTime)
 
 		
 	}
-	for (int i = 0; i < enemySpawns->size(); i++)
-	{
-		// johans stuff. 
-	}
+	//for (int i = 0; i < enemySpawns->size(); i++)
+	//{
+	//	// johans stuff. 
+	//}
 
 	//renderbeartraps
 	//renderfiretraps
