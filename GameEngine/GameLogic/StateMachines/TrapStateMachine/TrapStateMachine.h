@@ -15,7 +15,7 @@ public:
 	void Render();
 private:
 	ActiveState* activeState;
-	InactiveState* InactiveState;
+	InactiveState* inactiveState;
 	TrapIdleState* idleState;
 	TrapState activeStateEnum;//enum
 };

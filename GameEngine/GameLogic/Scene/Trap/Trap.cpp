@@ -65,7 +65,17 @@ DirectX::XMFLOAT3 Trap::GetPosition()
 	return position;
 }
 
+DirectX::XMFLOAT3 Trap::GetRotation()
+{
+	return rotation;
+}
+
 void Trap::SetPosition(DirectX::XMFLOAT3 position)
 {
 	this->position = position;
+}
+
+void Trap::SetRotation(DirectX::XMFLOAT3 rotation)
+{
+	this->rotation = rotation;
 }
