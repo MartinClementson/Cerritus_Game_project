@@ -19,6 +19,7 @@ private:
 private:
 
 public:
+	Enemy(XMVECTOR spawn);
 	Enemy();
 	virtual ~Enemy();
 

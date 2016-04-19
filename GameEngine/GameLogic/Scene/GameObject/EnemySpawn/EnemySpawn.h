@@ -10,7 +10,8 @@ class EnemySpawn :
 	public GameObject
 {
 private:
-	std::vector<Enemy>* enemies;
+	std::vector<Enemy*> enemies;
+	Enemy enemy;
 
 private:
 	void Release();
@@ -21,5 +22,6 @@ public:
 
 	void Update(double deltaTime);
 	void Render();
+	void SpawnEnemy();
 };
 

@@ -4,28 +4,21 @@
 
 EnemySpawn::EnemySpawn()
 {
-	//this->enemies = new std::vector<Enemy>;
+	
 }
 
 
 EnemySpawn::~EnemySpawn()
 {
-	delete this->enemies;
+	for (int i = 0; i < enemies.size(); i ++)
+	{
+		delete enemies.at(i);
+	}
 }
 
 void EnemySpawn::Initialize()
 {
-	for (int i = 0; i < enemies->size(); i++)
-	{
-		float spawnX = rand() % 200 + 1;
-		float spawnZ = rand() % 200 + 1;
-
-		XMVECTOR spawn = { spawnX, 0, spawnZ, 0 };
-
-		Enemy enemy;
-
-		enemy.Initialize(spawn);
-	}
+	
 }
 
 void EnemySpawn::Release()
@@ -41,4 +34,43 @@ void EnemySpawn::Update(double deltaTime)
 void EnemySpawn::Render()
 {
 
+}
+
+void EnemySpawn::SpawnEnemy()
+{
+	for (int i = 0; i < enemies.size(); i++)
+	{
+		int spawnPointRandom = rand() % 3 + 1;
+
+		if (spawnPointRandom = 1)
+		{
+			float spawnX = rand() % 50 + 1;
+			float spawnZ = rand() % 50 + 1;
+
+			XMVECTOR spawn = { spawnX, 0, spawnZ, 0 };
+
+			enemies.push_back( new Enemy(spawn) );
+
+		}
+		if (spawnPointRandom = 2)
+		{
+			float spawnX = rand() % 100 + 50;
+			float spawnZ = rand() % 100 + 50;
+
+			XMVECTOR spawn = { spawnX, 0, spawnZ, 0 };
+
+			enemies.push_back( new Enemy(spawn) );
+
+		}
+		if (spawnPointRandom = 3)
+		{
+			float spawnX = rand() % 150 + 100;
+			float spawnZ = rand() % 150 + 100;
+
+			XMVECTOR spawn = { spawnX, 0, spawnZ, 0 };
+
+			enemies.push_back( new Enemy(spawn) );
+
+		}
+	}
 }
