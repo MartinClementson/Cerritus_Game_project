@@ -14,9 +14,9 @@ private:
 	ID3D11Device				*gDevice				 = nullptr;
 	ID3D11DeviceContext			*gDeviceContext			 = nullptr;
 
-	ID3D11RenderTargetView		*textureRTVs			[TEXTUREAMOUNT];
-	ID3D11ShaderResourceView	*shaderResourceViews	[TEXTUREAMOUNT];
-	ID3D11Texture2D				*gBufferTextures		[TEXTUREAMOUNT];
+	ID3D11RenderTargetView		*textureRTVs			[TEXTUREAMOUNT] = { nullptr	};
+	ID3D11ShaderResourceView	*shaderResourceViews	[TEXTUREAMOUNT] = { nullptr };
+	ID3D11Texture2D				*gBufferTextures		[TEXTUREAMOUNT] = { nullptr };
 public:
 	Gbuffer();
 	~Gbuffer();

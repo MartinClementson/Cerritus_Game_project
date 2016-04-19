@@ -17,6 +17,14 @@ Graphics::~Graphics()
 
 	if (gBuffer != nullptr)
 		delete gBuffer;
+
+	if (DEBUG == 2)
+	{
+
+		debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+		SAFE_RELEASE(debug);
+		
+	}
 }
 
 void Graphics::Initialize(HWND * window)
@@ -59,21 +67,17 @@ void Graphics::Release()
 
 	SAFE_RELEASE(gBackBufferRTV);
 	SAFE_RELEASE(gSwapChain);
+	gDeviceContext->ClearState();
 	SAFE_RELEASE(gDeviceContext);
 	SAFE_RELEASE(gDevice);
-	if (DEBUG == 2)
-	{
 	
-		debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
-		SAFE_RELEASE(debug);
-	}
 }
 
 void Graphics::Render() //manage RenderPasses here
 {
 	SetViewPort();
 
-
+	this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
 	//gBuffer->SetToRender(depthStencilView);		//Set The gbuffer pass
 
 	//RenderScene();								//Render to the gBuffer
@@ -151,7 +155,7 @@ void Graphics::SetShadowMap()
 
 
 
-
+	///Render shadow map
 
 
 

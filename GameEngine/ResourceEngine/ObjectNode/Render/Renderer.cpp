@@ -143,6 +143,14 @@ void Renderer::Render(RenderInstructions * object)
 
 }
 
+void Renderer::UpdateCameraBuffer()
+{
+
+	//this->sceneCam->
+
+
+}
+
 bool Renderer::CreateConstantBuffers()
 {
 

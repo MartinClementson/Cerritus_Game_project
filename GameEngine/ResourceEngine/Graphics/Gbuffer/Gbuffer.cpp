@@ -16,6 +16,8 @@ void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCont
 {
 	this->gDevice = gDevice;
 	this->gDeviceContext = gDeviceContext;
+
+
 	for (int i = 0; i < TEXTUREAMOUNT; i++)
 	{
 		HRESULT hr;
@@ -74,6 +76,7 @@ void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCont
 
 
 	}
+
 	for (int i = 0; i < TEXTUREAMOUNT; i++)
 	{
 

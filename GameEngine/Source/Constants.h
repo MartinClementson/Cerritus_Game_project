@@ -13,7 +13,7 @@
 
 
 //IMPORTANT! This is only to be used with directX COM objects
-#define SAFE_RELEASE(p) { if ( (p) ) { (p)->Release(); (p) = 0; } }
+#define SAFE_RELEASE(p) { if ( (p) && (p) != nullptr ) { (p)->Release(); (p) = 0; } }
 
 
 #define _CRTDBG_MAP_ALLOC

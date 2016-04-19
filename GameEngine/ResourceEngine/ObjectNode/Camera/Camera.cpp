@@ -107,7 +107,7 @@ void Camera::Updateview(ID3D11Buffer * constBuffer, DirectX::XMFLOAT2 playerPos)
 	tempCamMatrices = &camMatrices;
 
 	gDeviceContext->Unmap(constBuffer, 0);
-	gDeviceContext->GSGetConstantBuffers(1, 1, &constBuffer);
+	gDeviceContext->GSSetConstantBuffers(1, 1, &constBuffer);
 }
 
 void Camera::TranslateTo(XMFLOAT3 newPos) // Förklaring : Translate to -> new pos

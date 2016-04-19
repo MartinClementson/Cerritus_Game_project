@@ -43,9 +43,11 @@ public:
 	void Render(RenderInfoChar* object);
 	void Render(RenderInfoTrap* object);
 	void RenderPlaceHolder();
+
 private:
 	void Render(RenderInstructions* object);
 
+	void UpdateCameraBuffer();
 	bool CreateConstantBuffers();
 
 };
