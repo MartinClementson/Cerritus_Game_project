@@ -507,7 +507,7 @@
     <ClInclude Include="ResourceEngine\ObjectNode\Camera\Camera.h">
       <Filter>ResourceEngine\ObjectNode\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Gbuffer.h">
+    <ClInclude Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.h">
       <Filter>ResourceEngine\Graphics\Gbuffer</Filter>
     </ClInclude>
   </ItemGroup>
