@@ -38,7 +38,7 @@ public:
 	void Release();
 
 	void Updateview( DirectX::XMFLOAT3 playerPos);
-	void TranslateTo(XMFLOAT3 newPos);
+	
 	
 	CamMatrices* GetCameraMatrices();
 
