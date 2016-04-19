@@ -8,6 +8,7 @@
 #include "../../ResourceManager/ResourceManager.h"
 #include "..\Camera\Camera.h"
 #include "../../../Structs/ConstantBufferStruct.h"
+
 #pragma endregion
 
 
@@ -19,12 +20,13 @@ private:
 	ID3D11Device * gDevice			     = nullptr;
 	ResourceManager* resourceManager	 = nullptr;
 
-	//Camera* sceneCam					 = nullptr;
+	Camera* sceneCam					 = nullptr;
 
 	//Buffers
 	ID3D11Buffer* worldBuffer			 = nullptr; //world constBuffer
 	ID3D11Buffer* camBuffer				 = nullptr; //Camera constBuffer
 	ID3D11Buffer* lightBuffer			 = nullptr; //Light constBuffer
+
 
 
 public:
@@ -41,9 +43,11 @@ public:
 	void Render(RenderInfoChar* object);
 	void Render(RenderInfoTrap* object);
 	void RenderPlaceHolder();
+
 private:
 	void Render(RenderInstructions* object);
 
+	void UpdateCameraBuffer();
 	bool CreateConstantBuffers();
 
 };

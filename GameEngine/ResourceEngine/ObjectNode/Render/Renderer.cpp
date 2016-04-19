@@ -4,12 +4,14 @@
 
 Renderer::Renderer()
 {
-	this->resourceManager = new ResourceManager();
+	this->sceneCam			= new Camera();
+	this->resourceManager	= new ResourceManager();
 }
 
 
 Renderer::~Renderer()
 {
+	delete sceneCam;
 	delete resourceManager;
 }
 
@@ -19,10 +21,12 @@ void Renderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCon
 	this->gDevice = gDevice;
 	resourceManager->Initialize(gDevice, gDeviceContext);
 	this->CreateConstantBuffers();
+	sceneCam->Initialize(gDevice, gDeviceContext);
 }
 void Renderer::Release()
 {
 	resourceManager->Release();
+	sceneCam->Release();
 
 	SAFE_RELEASE(worldBuffer);
 	SAFE_RELEASE(camBuffer);
@@ -55,6 +59,12 @@ void Renderer::Render(RenderInfoEnemy * object)
 
 void Renderer::Render(RenderInfoChar * object)
 {
+
+	//Update the camera view matrix!
+	XMFLOAT2 tempPos = XMFLOAT2(object->position.x, object->position.z);
+
+	this->sceneCam->Updateview(this->camBuffer, tempPos);
+
 }
 
 void Renderer::Render(RenderInfoTrap * object)
@@ -64,6 +74,11 @@ void Renderer::RenderPlaceHolder()
 {
 	RenderInstructions * object;
 	object = this->resourceManager->GetPlaceHolderMesh();
+	
+
+	XMFLOAT2 tempPos = XMFLOAT2(0.0f, 1.5f);
+
+	this->sceneCam->Updateview(this->camBuffer, tempPos);
 
 	Render(object);
 
@@ -124,6 +139,14 @@ void Renderer::Render(RenderInstructions * object)
 	
 	
 	this->gDeviceContext->DrawIndexed((UINT)*object->indexCount, 0, 0);
+
+
+}
+
+void Renderer::UpdateCameraBuffer()
+{
+
+	//this->sceneCam->
 
 
 }

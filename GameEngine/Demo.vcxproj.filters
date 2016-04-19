@@ -352,7 +352,7 @@
     <ClCompile Include="ResourceEngine\ObjectNode\Camera\Camera.cpp">
       <Filter>ResourceEngine\ObjectNode\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Gbuffer.cpp">
+    <ClCompile Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.cpp">
       <Filter>ResourceEngine\Graphics\Gbuffer</Filter>
     </ClCompile>
   </ItemGroup>

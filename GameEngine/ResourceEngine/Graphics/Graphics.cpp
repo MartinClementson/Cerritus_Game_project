@@ -11,8 +11,20 @@ Graphics::~Graphics()
 {
 	if (gameObjects != nullptr)
 		delete gameObjects;
+
 	if (renderer != nullptr)
 		delete renderer;
+
+	if (gBuffer != nullptr)
+		delete gBuffer;
+
+	if (DEBUG == 2)
+	{
+
+		debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+		SAFE_RELEASE(debug);
+		
+	}
 }
 
 void Graphics::Initialize(HWND * window)
@@ -23,8 +35,12 @@ void Graphics::Initialize(HWND * window)
 	hr = CreateDirect3DContext();
 
 	gameObjects = new std::vector<RenderInfoObject*>;
+
 	renderer = new Renderer();
 	renderer->Initialize(gDevice,this->gDeviceContext);
+	
+	gBuffer = new Gbuffer();
+	gBuffer->Initialize(this->gDevice,this->gDeviceContext);
 }
 
 void Graphics::Release()
@@ -38,7 +54,7 @@ void Graphics::Release()
 
 
 
-	
+	gBuffer->Release();
 
 	SAFE_RELEASE(depthState);
 	SAFE_RELEASE(depthStencilView);
@@ -51,27 +67,27 @@ void Graphics::Release()
 
 	SAFE_RELEASE(gBackBufferRTV);
 	SAFE_RELEASE(gSwapChain);
+	gDeviceContext->ClearState();
 	SAFE_RELEASE(gDeviceContext);
 	SAFE_RELEASE(gDevice);
-	if (DEBUG == 2)
-	{
 	
-		debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
-		SAFE_RELEASE(debug);
-	}
 }
 
 void Graphics::Render() //manage RenderPasses here
 {
 	SetViewPort();
 
-	//MOVE THIS DOWN ONCE IT WORKS
-	float clearColor[] = { 0, 0, 1, 1 };
 	this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
-	this->gDeviceContext->ClearDepthStencilView(this->depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-	this->gDeviceContext->ClearRenderTargetView(gBackBufferRTV, clearColor);
+	//gBuffer->SetToRender(depthStencilView);		//Set The gbuffer pass
+
+	//RenderScene();								//Render to the gBuffer
+												//Set the gBuffer as a subResource, send in the new RenderTarget
+	gBuffer->SetToRead(gBackBufferRTV); 
 	
-	RenderScene();
+	//gBuffer->ClearGbuffer();
+										
+	
+	RenderScene();// TEMPORARY, REMOVE WHEN GBUFFER WORKS
 
 	FinishFrame();
 
@@ -80,6 +96,9 @@ void Graphics::Render() //manage RenderPasses here
 
 void Graphics::RenderScene()
 {
+	//Always render the char first! This is because we set the camera matrix with the characters position
+	//this->renderer->Render(this->charObjects->at(0));
+
 	this->renderer->RenderPlaceHolder();
 	for (unsigned int i = 0; i < gameObjects->size(); i++)
 	{
@@ -93,20 +112,54 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 {
 	gameObjects->clear(); //clear the queue
 
+
 	this->gSwapChain->Present(VSYNC, 0); //Change front and back buffer after rendering
+	
+	float clearColor[] = { 0, 0, 1, 1 };
+	this->gDeviceContext->ClearDepthStencilView(this->depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	this->gDeviceContext->ClearRenderTargetView(gBackBufferRTV, clearColor);
 	gDeviceContext->ClearState();
+	
+
+
+
 }
 
 void Graphics::SetViewPort()
 {
-	vp.Width = (float)WIN_WIDTH;
-	vp.Height = (float)WIN_HEIGHT;
+	vp.Width	= (float)WIN_WIDTH;
+	vp.Height	= (float)WIN_HEIGHT;
 	vp.MinDepth = 0.0f;
 	vp.MaxDepth = 1.0f;
 	vp.TopLeftX = 0;
 	vp.TopLeftY = 0;
 	this->gDeviceContext->RSSetViewports(1, &vp);
 
+}
+void Graphics::SetShadowViewPort()
+{
+	vp.Width	=	(float)SHADOW_WIDTH;
+	vp.Height	=   (float)SHADOW_HEIGHT;
+	vp.MinDepth =	0.0f;
+	vp.MaxDepth =	1.0f;
+	vp.TopLeftX =	0;
+	vp.TopLeftY =	0;
+	this->gDeviceContext->RSSetViewports(1, &vp);
+
+}
+
+void Graphics::SetShadowMap()
+{
+	SetShadowViewPort();
+
+
+
+
+	///Render shadow map
+
+
+
+	SetViewPort();
 }
 
 

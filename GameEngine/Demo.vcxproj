@@ -113,8 +113,8 @@
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\IldeState\TrapIdleState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\InactiveState\InactiveState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\TrapStateMachine.cpp" />
-    <ClCompile Include="Gbuffer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.cpp" />
     <ClCompile Include="ResourceEngine\Graphics\Graphics.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\Camera\Camera.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\Mesh\Mesh.cpp" />

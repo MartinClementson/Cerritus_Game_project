@@ -1,22 +1,32 @@
 #pragma once
 #ifndef  CAMERA_H
 #define CAMERA_H
+#include "../../ObjectNode/ObjectNode.h"
 #include "..\..\..\Source\LibIncluder.h"
 #include "..\..\..\Structs\ConstantBufferStruct.h"
 
 
-class Camera
+using namespace DirectX;
+
+class Camera : ObjectNode
 {
 private:
-	DirectX::XMFLOAT4X4 projection;
-	DirectX::XMFLOAT4X4 view;
 
-	DirectX::XMFLOAT3 viewUpDirection;
-	DirectX::XMFLOAT3 viewRightDirection;
-	DirectX::XMFLOAT3 viewPosition;
-	DirectX::XMFLOAT3 viewLookAt;
+	XMFLOAT3 cameraOffset = { 0.0f,5.0f,0.0f }; //This is the offset from the players position!
+	XMFLOAT4X4 projection;
+	XMFLOAT4X4 view;
 
-private:
+	XMFLOAT3 viewUpDirection;
+	XMFLOAT3 viewRightDirection;
+	XMFLOAT3 viewPosition;
+	XMFLOAT3 viewLookAt;
+
+	CamMatrices camMatrices;
+	WorldMatrix worldMatrix;
+
+	XMFLOAT4 camPosition	= { 0, 1, -1, 1  };
+	XMFLOAT4 camTarget		= { 0, 0, 0,  1  };
+	XMFLOAT4 camUp			= { 0, 1, 0,  0  };
 
 public:
 	Camera();
@@ -24,11 +34,11 @@ public:
 
 	void Render();
 	void Update();
-	void Initialize();
+	void Initialize(ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceContext);
 	void Release();
 
-	void Updateview(ID3D11Buffer *constBuffer);
-	void TranslateTo(DirectX::XMFLOAT3 newPos);
+	void Updateview(ID3D11Buffer *constBuffer, DirectX::XMFLOAT2 playerPos);
+	void TranslateTo(XMFLOAT3 newPos);
 
 
 

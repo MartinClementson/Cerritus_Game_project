@@ -160,3 +160,14 @@ enum ParticleType
 };
 
 #pragma endregion
+
+
+enum GbufferTextures
+{
+	G_DIFFUSE,
+	G_SPECULAR,
+	G_NORMAL,
+	G_DEPTH,
+	G_SHADOW
+
+};
