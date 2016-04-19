@@ -97,6 +97,7 @@ void InputHandler::Release()
 
 bool InputHandler::IsKeyPressed(InputKeys* key)
 {
+
 	keyboard->GetDeviceState(sizeof(keyboardState), (LPVOID)&keyboardState);
 
 	if (key[0] == KEY_W && keyboardState[DIK_W])

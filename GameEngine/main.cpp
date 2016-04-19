@@ -21,8 +21,6 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	double tempDT = 10.0;
 	// create window
 	HWND wndHandle = InitWindow(hInstance);
-	
-
 
 
 	// window is valid

@@ -21,11 +21,11 @@ private:
 	void ProcessInput();
 	bool ReadKeyboard();
 	bool ReadMouse();
+	InputHandler();
 
 	//HWND hwndP;
 public:
-	InputHandler();
-
+	
 	bool Initialize(HWND* hwndP, HINSTANCE* hInstance);
 	void Release();
 

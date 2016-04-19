@@ -15,7 +15,9 @@ Engine::~Engine()
 	delete this->game;
 }
 
+
 void Engine::Initialize(HWND* window, HINSTANCE *hInstance)
+
 {
 	if (!input->Initialize(window, hInstance))
 	{
