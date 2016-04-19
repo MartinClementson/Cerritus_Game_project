@@ -124,3 +124,4 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 	// if we do not handle the message here, simply call the Default handler function
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
+

@@ -9,8 +9,8 @@ InputHandler::InputHandler()
 
 InputHandler::~InputHandler()
 {
-	keyboard->Unacquire();
-	mouse->Unacquire();
+	//keyboard->Unacquire();
+	//mouse->Unacquire();
 	input->Release();
 }
 
@@ -36,19 +36,16 @@ bool InputHandler::Initialize(HWND* hwndP ,HINSTANCE hInstance)
 		IID_IDirectInput8,
 		(void**)&input,
 		NULL);
-	if (hr != S_OK)
-	{
-		return false;
-	}
-	
-	hr = input->CreateDevice(GUID_SysKeyboard,
-		&keyboard,
-		NULL);
 	if (FAILED(hr))
 	{
 		return false;
 	}
 
+	hr = input->CreateDevice(GUID_SysKeyboard, &this->keyboard, NULL);
+	if (FAILED(hr))
+	{
+		return false;
+	}
 	hr = input->CreateDevice(GUID_SysMouse,
 		&mouse,
 		NULL);
@@ -63,13 +60,13 @@ bool InputHandler::Initialize(HWND* hwndP ,HINSTANCE hInstance)
 		return false;
 	}
 
-	hr = keyboard->SetCooperativeLevel(*hwndP, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+	hr = mouse->SetDataFormat(&c_dfDIMouse);
 	if (FAILED(hr))
 	{
 		return false;
 	}
 
-	hr = mouse->SetDataFormat(&c_dfDIMouse);
+	hr = keyboard->SetCooperativeLevel(*hwndP, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
 	if (FAILED(hr))
 	{
 		return false;
@@ -81,6 +78,13 @@ bool InputHandler::Initialize(HWND* hwndP ,HINSTANCE hInstance)
 		return false;
 	}
 
+
+	hr = keyboard->Acquire();
+	if (FAILED(hr))
+	{
+		hr = keyboard->Acquire();
+		//Re-acquire helps
+	}
 	return true;
 }
 
@@ -91,12 +95,13 @@ void InputHandler::Release()
 
 bool InputHandler::IsKeyPressed(InputKeys* key)
 {
-	
+
 	HRESULT hr = keyboard->Acquire();
 	if (FAILED(hr))
 	{
 		keyboard->Acquire();
 	}
+	
 
 	keyboard->GetDeviceState(sizeof(keyboardState), (LPVOID)&keyboardState);
 

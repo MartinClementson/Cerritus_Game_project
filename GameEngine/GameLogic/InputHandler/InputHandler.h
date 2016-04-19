@@ -9,8 +9,8 @@ public:
 	~InputHandler();
 private:
 	LPDIRECTINPUT8 input;
-	IDirectInputDevice8* keyboard;
-	IDirectInputDevice8* mouse;
+	LPDIRECTINPUTDEVICE8 keyboard;
+	LPDIRECTINPUTDEVICE8 mouse;
 	unsigned char keyboardState[256];
 	DIMOUSESTATE mouseState;
 
