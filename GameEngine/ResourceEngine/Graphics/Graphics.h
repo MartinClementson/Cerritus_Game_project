@@ -7,9 +7,12 @@
 #include "../../Source/LibIncluder.h"
 #include "../../Structs/RenderInfo.h"
 #include "../ObjectNode/Render/Renderer.h"
-
+#include "Gbuffer\Gbuffer.h"
 
 #pragma endregion
+
+#define SHADOW_WIDTH 1024
+#define SHADOW_HEIGHT 1024
 
 class Graphics
 {
@@ -17,25 +20,24 @@ class Graphics
 private:
 #pragma region DirectX Related
 	//Device and context
-	ID3D11Device* gDevice 					    = nullptr;
-	ID3D11DeviceContext* gDeviceContext		    = nullptr;
-	IDXGISwapChain* gSwapChain				    = nullptr;
-	ID3D11RenderTargetView* gBackBufferRTV	    = nullptr;
+	ID3D11Device* gDevice 							 = nullptr;
+	ID3D11DeviceContext* gDeviceContext				 = nullptr;
+	IDXGISwapChain* gSwapChain						 = nullptr;
+	ID3D11RenderTargetView* gBackBufferRTV			 = nullptr;
 	ID3D11Debug* debug; //Debug COM
 
 	//Depth stencil and buffer
-	ID3D11DepthStencilState* depthState		    = nullptr;
-	ID3D11DepthStencilView* depthStencilView    = nullptr;
-	ID3D11Texture2D* depthBuffer			    = nullptr;
+	ID3D11DepthStencilState* depthState				 = nullptr;
+	ID3D11DepthStencilView* depthStencilView		 = nullptr;
+	ID3D11Texture2D* depthBuffer					 = nullptr;
 
 	//window handle
-	HWND* wndHandle							    = nullptr;
-
-	
+	HWND* wndHandle									 = nullptr;
+	//Gbuffer class, for deferred shading
+	Gbuffer* gBuffer								 = nullptr;
 
 
 	//Compute shader related
-
 	ID3D11UnorderedAccessView* gBackBufferUAV		 = nullptr;
 	ID3D11ShaderResourceView *BackBufferTexture		 = nullptr;
 #pragma endregion
@@ -55,6 +57,9 @@ private:
 	void RenderScene();
 	void FinishFrame();
 	void SetViewPort();
+
+	void SetShadowViewPort();
+	void SetShadowMap();
 
 	Graphics();
 public:
