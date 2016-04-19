@@ -18,42 +18,54 @@ void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCont
 	this->gDeviceContext = gDeviceContext;
 
 
+	HRESULT hr;
+
+	D3D11_TEXTURE2D_DESC textureDesc;
+	D3D11_RENDER_TARGET_VIEW_DESC renderTargetDesc;
+	D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
+
+
+	ZeroMemory(&textureDesc, sizeof(textureDesc));
+	//Set up the render texture desciption
+
+	textureDesc.Width = (UINT)WIN_WIDTH;
+	textureDesc.Height = (UINT)WIN_HEIGHT;
+	textureDesc.MipLevels = 1;
+	textureDesc.ArraySize = 1;
+	textureDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+	textureDesc.SampleDesc.Count = 1;
+	textureDesc.Usage = D3D11_USAGE_DEFAULT;
+	textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+	textureDesc.CPUAccessFlags = 0;
+	textureDesc.MiscFlags = 0;
+	textureDesc.ArraySize = TEXTUREAMOUNT; //assigning how big the array will be
+
+
+										   //set up description for render target view
+	renderTargetDesc.Format = textureDesc.Format;
+	renderTargetDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+	renderTargetDesc.Texture2D.MipSlice = 0;
+
+
+	//Set up the shader resource view
+
+	resourceViewDesc.Format = textureDesc.Format;
+	resourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
+	resourceViewDesc.Texture2DArray.ArraySize = TEXTUREAMOUNT;
+	resourceViewDesc.Texture2DArray.FirstArraySlice = 0;
+	resourceViewDesc.Texture2DArray.MipLevels = 1;
+	resourceViewDesc.Texture2DArray.MostDetailedMip = 0;
+
+
+
 	for (int i = 0; i < TEXTUREAMOUNT; i++)
 	{
-		HRESULT hr;
-
-		D3D11_TEXTURE2D_DESC textureDesc;
-		D3D11_RENDER_TARGET_VIEW_DESC renderTargetDesc;
-		D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
-
-
-		ZeroMemory(&textureDesc, sizeof(textureDesc));
-		//Set up the render texture desciption
-
-		textureDesc.Width  = (UINT) WIN_WIDTH;
-		textureDesc.Height = (UINT) WIN_HEIGHT;
-		textureDesc.MipLevels = 1;
-		textureDesc.ArraySize = 1;
-		textureDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
-		textureDesc.SampleDesc.Count = 1;
-		textureDesc.Usage = D3D11_USAGE_DEFAULT;
-		textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-		textureDesc.CPUAccessFlags = 0;
-		textureDesc.MiscFlags = 0;
-		textureDesc.ArraySize = 5; //assigning how big the array will be
-
+	
 		//Create the render target Texture
 
 		hr = gDevice->CreateTexture2D(&textureDesc, NULL, &gBufferTextures[i]);
 		if (FAILED(hr))
 			MessageBox(NULL, L"Failed to create  Gbuffer", L"Error", MB_ICONERROR | MB_OK);
-
-
-
-		//set up description for render target view
-		renderTargetDesc.Format = textureDesc.Format;
-		renderTargetDesc.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-		renderTargetDesc.Texture2D.MipSlice = 0;
 
 		//Create render target
 
@@ -61,21 +73,11 @@ void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCont
 		if (FAILED(hr))
 			MessageBox(NULL, L"Failed to create  Gbuffer", L"Error", MB_ICONERROR | MB_OK);
 
-		//Set up the shader resource view
-
-		resourceViewDesc.Format = textureDesc.Format;
-		resourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
-		resourceViewDesc.Texture2DArray.ArraySize = 5;
-		resourceViewDesc.Texture2DArray.FirstArraySlice = 0;
-		resourceViewDesc.Texture2DArray.MipLevels = 1;
-		resourceViewDesc.Texture2DArray.MostDetailedMip = 0;
-
 		//Create the resourceView;
 
 		hr = gDevice->CreateShaderResourceView(gBufferTextures[i], &resourceViewDesc, &shaderResourceViews[i]);
 		if (FAILED(hr))
 			MessageBox(NULL, L"Failed to create  Gbuffer", L"Error", MB_ICONERROR | MB_OK);
-	
 
 
 	}
