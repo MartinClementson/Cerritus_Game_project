@@ -22,7 +22,7 @@ public:
 protected:
 	
 	
-	float movementSpeed, health, damage;
+	//float movementSpeed, health, damage;
 
 private:
 	EnemyStateMachine* enemyState;
