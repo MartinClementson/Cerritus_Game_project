@@ -5,9 +5,9 @@
 #include <d3dcompiler.h>
 #include <DirectXMath.h>
 #include <d3d11sdklayers.h>
-#ifndef DIRECTINPUT_VERSION
-	#define DIRECTINPUT_VERSION 0x0800
-#endif
+//#ifndef DIRECTINPUT_VERSION
+//	#define DIRECTINPUT_VERSION 0x0800
+//#endif
 #include <dinput.h>
 #include <vector>
 #pragma comment(lib, "dinput8.lib")

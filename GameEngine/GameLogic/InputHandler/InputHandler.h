@@ -9,8 +9,8 @@ public:
 	~InputHandler();
 private:
 	LPDIRECTINPUT8 input;
-	LPDIRECTINPUTDEVICE8 keyboard;
-	LPDIRECTINPUTDEVICE8 mouse;
+	IDirectInputDevice8* keyboard;
+	IDirectInputDevice8* mouse;
 	unsigned char keyboardState[256];
 	DIMOUSESTATE mouseState;
 
@@ -23,9 +23,9 @@ private:
 	bool ReadKeyboard();
 	bool ReadMouse();
 
-	HWND hwndP;
+	//HWND hwndP;
 public:
-	void Initialize(HINSTANCE hInstance);
+	bool Initialize(HWND* hwndP, HINSTANCE hInstance);
 	void Release();
 
 	bool IsKeyPressed(InputKeys* key);

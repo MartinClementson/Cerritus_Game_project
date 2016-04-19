@@ -26,6 +26,8 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	Engine* engine = new Engine();
 	engine->Initialize(&wndHandle, hInstance);
 
+
+
 	// window is valid
 	if (wndHandle)
 	{
