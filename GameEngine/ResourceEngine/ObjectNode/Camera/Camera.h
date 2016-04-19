@@ -22,7 +22,7 @@ private:
 	XMFLOAT3 viewLookAt;
 
 	CamMatrices camMatrices;
-	WorldMatrix worldMatrix;
+
 
 	XMFLOAT4 camPosition	= { 0, 1, -1, 1  };
 	XMFLOAT4 camTarget		= { 0, 0, 0,  1  };
@@ -39,7 +39,8 @@ public:
 
 	void Updateview(ID3D11Buffer *constBuffer, DirectX::XMFLOAT2 playerPos);
 	void TranslateTo(XMFLOAT3 newPos);
-
+	
+	CamMatrices* GetCameraMatrices();
 
 
 
