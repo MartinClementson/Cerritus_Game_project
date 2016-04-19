@@ -13,34 +13,26 @@ Camera::~Camera()
 
 void Camera::Render()
 {
-
+	//???
 }
 
 void Camera::Update()
 {
-
+	// Vad behövs göras här ???
 }
 
-void Camera::Initialize()
+void Camera::Initialize(ID3D11Device *gDevice,ID3D11DeviceContext *gDeviceContext)
 {
-
-}
-
-void Camera::Release()
-{
-
+	this->gDevice = gDevice;
+	this->gDeviceContext = gDeviceContext;
 }
 
 void Camera::Updateview(ID3D11Buffer * constBuffer, ID3D11DeviceContext *gDeviceContext)
 {
-	XMVECTOR camPosition = XMVectorSet(0, 1, -5, 0);
-	XMVECTOR camTarget = XMVectorSet(0, 0, 0, 0);
-	XMVECTOR camUp = XMVectorSet(0, 1, 0, 0);
-
-	float fovangleY = DirectX::XM_PI * 0.45;
+	float fovangleY = XM_PI * 0.45f;
 	float aspectRatio = WIN_WIDTH / WIN_HEIGHT;
-	float nearZ = 0.01;
-	float farZ = 50.0;
+	float nearZ = 0.01f;
+	float farZ = 50.0f;
 
 	camMatrices.camView = XMMatrixLookAtLH(
 		(camPosition),
@@ -59,20 +51,24 @@ void Camera::Updateview(ID3D11Buffer * constBuffer, ID3D11DeviceContext *gDevice
 	camMatrices.projection = XMMatrixTranspose(camMatrices.projection);
 	worldMatrix.worldMatrix = XMMatrixIdentity();
 
-	gDeviceContext->UpdateSubresource(constBuffer, 0, 0, &camMatrices, 0, 0);
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
-	/*D3D11_MAPPED_SUBRESOURCE mappedResource;
-	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));*/
+	gDeviceContext->Map(constBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-	//gDeviceContext->Map(constBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	CamMatrices* tempCamMatrices = (CamMatrices*)mappedResource.pData;
+	tempCamMatrices = &camMatrices;
 
-	//memcpy(mappedResource.pData, &constBuffer,sizeof());
-	//gDeviceContext->Unmap(constBuffer, 0);
-
-	
+	gDeviceContext->Unmap(constBuffer, 0);
+	gDeviceContext->GSGetConstantBuffers(1, 1, &constBuffer);
 }
 
-void Camera::TranslateTo(DirectX::XMFLOAT3 newPos)
+void Camera::TranslateTo(XMFLOAT3 newPos) // Förklaring :
+{
+	// ???
+}
+
+void Camera::Release()
 {
 
 }

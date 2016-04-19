@@ -14,7 +14,7 @@ struct WorldMatrix
 {
 	DirectX::XMMATRIX worldMatrix;
 };
-WorldMatrix worldMatrix;
+//WorldMatrix worldMatrix;
 
 
 struct LightStruct
