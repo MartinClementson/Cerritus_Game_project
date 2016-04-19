@@ -2,6 +2,7 @@
 #include "../../Animation/Animation.h"
 #include "../GameObject/Model/Model.h"
 #include "../../../Structs/RenderInfo.h"
+#include "../../../ResourceEngine/Graphics/Graphics.h"
 class Trap
 {
 public:
@@ -27,6 +28,6 @@ private:
 	Animation* animation;
 	Model* mesh;
 	RenderInfoTrap renderInfo;
-	
+	Graphics* grapichs;
 };
 
