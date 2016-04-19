@@ -18,13 +18,7 @@ Graphics::~Graphics()
 	if (gBuffer != nullptr)
 		delete gBuffer;
 
-	if (DEBUG == 2)
-	{
-
-		debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
-		SAFE_RELEASE(debug);
-		
-	}
+	
 }
 
 void Graphics::Initialize(HWND * window)
@@ -36,11 +30,11 @@ void Graphics::Initialize(HWND * window)
 
 	gameObjects = new std::vector<RenderInfoObject*>;
 
-	renderer = new Renderer();
-	renderer->Initialize(gDevice,this->gDeviceContext);
+	//renderer = new Renderer();
+	//renderer->Initialize(gDevice,this->gDeviceContext);
 	
-	gBuffer = new Gbuffer();
-	gBuffer->Initialize(this->gDevice,this->gDeviceContext);
+	//gBuffer = new Gbuffer();
+	//gBuffer->Initialize(this->gDevice,this->gDeviceContext);
 }
 
 void Graphics::Release()
@@ -48,13 +42,13 @@ void Graphics::Release()
 
 #pragma region Release custom classes
 
-	renderer->Release();
+	//renderer->Release();
 #pragma endregion
 
 
 
 
-	gBuffer->Release();
+	//gBuffer->Release();
 
 	SAFE_RELEASE(depthState);
 	SAFE_RELEASE(depthStencilView);
@@ -69,7 +63,24 @@ void Graphics::Release()
 	SAFE_RELEASE(gSwapChain);
 	gDeviceContext->ClearState();
 	SAFE_RELEASE(gDeviceContext);
-	SAFE_RELEASE(gDevice);
+
+
+
+	if (DEBUG == 2)
+	{
+		/*if (debug)
+		{
+
+			debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+			SAFE_RELEASE(debug);
+		}*/
+
+	}
+
+
+	while (gDevice->Release() > 0);
+	//SAFE_RELEASE(gDevice);
+
 	
 }
 
@@ -82,7 +93,7 @@ void Graphics::Render() //manage RenderPasses here
 
 	//RenderScene();								//Render to the gBuffer
 												//Set the gBuffer as a subResource, send in the new RenderTarget
-	gBuffer->SetToRead(gBackBufferRTV); 
+	//gBuffer->SetToRead(gBackBufferRTV); 
 	
 	//gBuffer->ClearGbuffer();
 										
@@ -99,7 +110,7 @@ void Graphics::RenderScene()
 	//Always render the char first! This is because we set the camera matrix with the characters position
 	//this->renderer->Render(this->charObjects->at(0));
 
-	this->renderer->RenderPlaceHolder();
+	//this->renderer->RenderPlaceHolder();
 	for (unsigned int i = 0; i < gameObjects->size(); i++)
 	{
 		//renderer->Render(gameObjects->at(i));

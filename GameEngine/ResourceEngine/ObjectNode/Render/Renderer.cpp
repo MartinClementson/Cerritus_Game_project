@@ -36,6 +36,7 @@ void Renderer::Release()
 
 #pragma region Overloaded Render functions
 
+//Render scene objects, mostly static stuff
 void Renderer::Render(RenderInfoObject * object)
 {
 	RenderInstructions* renderObject;
@@ -48,39 +49,49 @@ void Renderer::Render(RenderInfoObject * object)
 	this->Render(renderObject);
 }
 
+//Render 2d textures for the ui
 void Renderer::Render(RenderInfoUI * object)
 {
 
 }
 
+//Render an enemy mesh
 void Renderer::Render(RenderInfoEnemy * object)
 {
+
 }
 
+
+//Render the character, Update the camera to follow the position of the character
 void Renderer::Render(RenderInfoChar * object)
 {
 
 	//Update the camera view matrix!
-	XMFLOAT2 tempPos = XMFLOAT2(object->position.x, object->position.z);
+	XMFLOAT2 tempPos				= XMFLOAT2( object->position.x , object->position.z );
 
 	this->sceneCam->Updateview(this->camBuffer, tempPos);
 	this->UpdateCameraBuffer();
 }
 
+
 void Renderer::Render(RenderInfoTrap * object)
 {
+
 }
+
+
+//Render the placeholder mesh
 void Renderer::RenderPlaceHolder()
 {
 	RenderInstructions * object;
 	object = this->resourceManager->GetPlaceHolderMesh();
 	
 
-	XMFLOAT2 tempPos = XMFLOAT2(0.0f, 1.5f);
+	XMFLOAT2 tempPos		 = XMFLOAT2(0.0f, 1.5f);
 	this->sceneCam->Updateview(this->camBuffer, tempPos); //This is temporary. The update of the cam should only be done in the "char" render
 	this->UpdateCameraBuffer();
 
-	Render(object);
+	//Render(object);
 
 }
 #pragma endregion
