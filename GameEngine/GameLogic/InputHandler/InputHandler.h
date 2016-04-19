@@ -25,7 +25,7 @@ private:
 
 	//HWND hwndP;
 public:
-	bool Initialize(HWND* hwndP, HINSTANCE hInstance);
+	bool Initialize(HWND* hwndP, HINSTANCE* hInstance);
 	void Release();
 
 	bool IsKeyPressed(InputKeys* key);
