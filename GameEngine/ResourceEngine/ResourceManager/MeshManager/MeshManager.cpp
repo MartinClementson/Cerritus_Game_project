@@ -87,13 +87,13 @@ void MeshManager::CreatePlaceHolderPlane()
 
 	Vertex planeVerts[4];
 
-	planeVerts[0].position = Float3(-20, 0.0, 20.0);		//0
+	planeVerts[0].position = Float3(-200, 0.0, 200.0);		//0
 	
-	planeVerts[1].position = Float3(20.0, 0.0, 20.0);		//3
+	planeVerts[1].position = Float3(200.0, 0.0, 200.0);		//3
 	
-	planeVerts[2].position = Float3(20.0, 0.0, -20.0);		//5
+	planeVerts[2].position = Float3(200.0, 0.0, -200.0);		//5
 
-	planeVerts[3].position = Float3(-20.0, 0.0, -20.0);		//7
+	planeVerts[3].position = Float3(-200.0, 0.0, -200.0);		//7
 
 
 	UINT indices[6] =
