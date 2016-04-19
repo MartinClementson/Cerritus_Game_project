@@ -43,14 +43,14 @@ void MeshManager::CreatePlaceHolder()
 
 	Vertex cubeVerts[8];
 
-	cubeVerts[0].position = Float3(-0.5, 0.5,	 1.5);		 //0
-	cubeVerts[1].position = Float3(-0.5, -0.5,	 1.5);			//1
-	cubeVerts[2].position = Float3(0.5, -0.5,	 1.5);		 //2
-	cubeVerts[3].position = Float3(0.5, 0.5,	 1.5);		 //3
-	cubeVerts[4].position = Float3(0.5 , -0.5  , 0.5);  //4
-	cubeVerts[5].position = Float3(0.5 , 0.5 ,	 0.5);		//5
-	cubeVerts[6].position = Float3(-0.5 , -0.5 , 0.5);  //6
-	cubeVerts[7].position = Float3(-0.5 , 0.5 ,  0.5);   //7
+	cubeVerts[0].position = Float3(-0.5,	  0.5,		  0.5);		//0
+	cubeVerts[1].position = Float3(-0.5,	 -0.5,		  0.5);		//1
+	cubeVerts[2].position = Float3(0.5,		 -0.5,		  0.5);		//2
+	cubeVerts[3].position = Float3(0.5,		  0.5,		  0.5);		//3
+	cubeVerts[4].position = Float3(0.5 ,	 -0.5  ,	 -0.5);		//4
+	cubeVerts[5].position = Float3(0.5 ,	  0.5 ,		 -0.5);		//5
+	cubeVerts[6].position = Float3(-0.5 ,	 -0.5 ,		 -0.5);		//6
+	cubeVerts[7].position = Float3(-0.5 ,	  0.5 ,		 -0.5);		//7
 
 
 
@@ -67,7 +67,7 @@ void MeshManager::CreatePlaceHolder()
 		7,6,1,
 		7,1,0,
 		0,3,5, 
-		0,3,7, 
+		0,5,7, 
 		1,4,2, 
 		1,6,4 };
 	

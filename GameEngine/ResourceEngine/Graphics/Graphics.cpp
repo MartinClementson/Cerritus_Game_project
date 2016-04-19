@@ -30,8 +30,8 @@ void Graphics::Initialize(HWND * window)
 
 	gameObjects = new std::vector<RenderInfoObject*>;
 
-	//renderer = new Renderer();
-	//renderer->Initialize(gDevice,this->gDeviceContext);
+	renderer = new Renderer();
+	renderer->Initialize(gDevice,this->gDeviceContext);
 	
 	//gBuffer = new Gbuffer();
 	//gBuffer->Initialize(this->gDevice,this->gDeviceContext);
@@ -42,7 +42,7 @@ void Graphics::Release()
 
 #pragma region Release custom classes
 
-	//renderer->Release();
+	renderer->Release();
 #pragma endregion
 
 
@@ -110,7 +110,7 @@ void Graphics::RenderScene()
 	//Always render the char first! This is because we set the camera matrix with the characters position
 	//this->renderer->Render(this->charObjects->at(0));
 
-	//this->renderer->RenderPlaceHolder();
+	this->renderer->RenderPlaceHolder();
 	for (unsigned int i = 0; i < gameObjects->size(); i++)
 	{
 		//renderer->Render(gameObjects->at(i));

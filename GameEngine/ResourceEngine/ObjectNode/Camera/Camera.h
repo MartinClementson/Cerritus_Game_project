@@ -5,14 +5,14 @@
 #include "..\..\..\Source\LibIncluder.h"
 #include "..\..\..\Structs\ConstantBufferStruct.h"
 
-
+#define ZOOM 5.0f
 using namespace DirectX;
 
 class Camera : ObjectNode
 {
 private:
 
-	XMFLOAT3 cameraOffset = { 0.0f,5.0f,0.0f }; //This is the offset from the players position!
+	XMFLOAT3 cameraOffset = { 0.0f, ZOOM ,-ZOOM }; //This is the offset from the players position!
 	XMFLOAT4X4 projection;
 	XMFLOAT4X4 view;
 
@@ -24,20 +24,20 @@ private:
 	CamMatrices camMatrices;
 
 
-	XMFLOAT4 camPosition	= { 0, 1, -1, 1  };
-	XMFLOAT4 camTarget		= { 0, 0, 0,  1  };
+	XMFLOAT4 camPosition	= { 0, 1, 1, 1  };
+	XMFLOAT4 camTarget		= { 1, 0, -1,  1  };
 	XMFLOAT4 camUp			= { 0, 1, 0,  0  };
 
 public:
 	Camera();
 	~Camera();
 
-	void Render();
+
 	void Update();
 	void Initialize(ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceContext);
 	void Release();
 
-	void Updateview(ID3D11Buffer *constBuffer, DirectX::XMFLOAT2 playerPos);
+	void Updateview( DirectX::XMFLOAT3 playerPos);
 	void TranslateTo(XMFLOAT3 newPos);
 	
 	CamMatrices* GetCameraMatrices();

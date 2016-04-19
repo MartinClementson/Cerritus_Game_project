@@ -1,5 +1,6 @@
 #pragma once
 #include "../Source/LibIncluder.h"
+#include "ConstantBufferStruct.h"
 
 using namespace DirectX;
 
@@ -15,7 +16,7 @@ struct RenderInstructions
 
 	bool* isAnimated						 = nullptr; //this is important to make sure we use the right vert struct
 
-	XMFLOAT4X4* worldMatrix					 = nullptr;
+	WorldMatrix worldBuffer;
 	
 	ID3D11Buffer* vertexBuffer				 = nullptr;
 	UINT* vertexCount						 = 0;

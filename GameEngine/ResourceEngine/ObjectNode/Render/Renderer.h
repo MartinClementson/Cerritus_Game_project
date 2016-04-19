@@ -48,6 +48,8 @@ private:
 	void Render(RenderInstructions* object);
 
 	void UpdateCameraBuffer();
+	void UpdateWorldBuffer(WorldMatrix* worldStruct);
+
 	bool CreateConstantBuffers();
 
 };
