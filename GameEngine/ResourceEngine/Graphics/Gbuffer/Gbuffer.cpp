@@ -40,6 +40,7 @@ void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCont
 		textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
 		textureDesc.CPUAccessFlags = 0;
 		textureDesc.MiscFlags = 0;
+		textureDesc.ArraySize = 5; //assigning how big the array will be
 
 		//Create the render target Texture
 
@@ -63,9 +64,11 @@ void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCont
 		//Set up the shader resource view
 
 		resourceViewDesc.Format = textureDesc.Format;
-		resourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-		resourceViewDesc.Texture2D.MostDetailedMip = 0;
-		resourceViewDesc.Texture2D.MipLevels = 1;
+		resourceViewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
+		resourceViewDesc.Texture2DArray.ArraySize = 5;
+		resourceViewDesc.Texture2DArray.FirstArraySlice = 0;
+		resourceViewDesc.Texture2DArray.MipLevels = 1;
+		resourceViewDesc.Texture2DArray.MostDetailedMip = 0;
 
 		//Create the resourceView;
 
