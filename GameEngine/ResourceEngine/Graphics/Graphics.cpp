@@ -294,6 +294,7 @@ void Graphics::QueueRender(RenderInfoChar * object)
 
 void Graphics::QueueRender(RenderInfoTrap * object)
 {
+	//this->trapObjects->push_back(object);
 }
 
 Graphics * Graphics::GetInstance()

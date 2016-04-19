@@ -43,7 +43,6 @@ void Scene::Update(double deltaTime)
 		{
 			fireTraps.at(i)->GetDamage();
 		}	
-		//fireTraps.push_back(new FireTrap());
 	}
 	for (int i = 0; i < bearTraps.size(); i++)
 	{
@@ -57,8 +56,6 @@ void Scene::Update(double deltaTime)
 		{
 			bearTraps.at(i)->GetDamage();
 		}
-		//bearTraps.push_back(new BearTrap());
-		
 	}
 }
 
@@ -72,11 +69,8 @@ void Scene::Render()
 	{
 		bearTraps.at(i)->Render();
 	}
-	//skicka fire traps,beartraps och enemy spawn till render queue.
-	//graphichs = renderqueue(enemyspawn)
 }
 
 void Scene::load()
 {
-	//load scene
 }
