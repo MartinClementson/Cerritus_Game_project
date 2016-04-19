@@ -10,18 +10,19 @@ class EnemySpawn :
 	public GameObject
 {
 private:
-	std::vector<Enemy*> enemies;
-	Enemy enemy;
-
+	//std::vector<Enemy*> enemies;
 private:
 	void Release();
 	void Initialize();
+
+	std::vector<Enemy*> Queue;
+	std::vector<Enemy*> Alive;
 public:
 	EnemySpawn();
 	~EnemySpawn();
 
 	void Update(double deltaTime);
-	void Render();
+	void MoveEnemyToPlay();
 	void SpawnEnemy();
 };
 

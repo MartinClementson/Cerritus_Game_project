@@ -1,5 +1,6 @@
 #pragma once
 #include "../../StateClass/StateClass.h"
+#include "../../../Character/Enemy/Enemy.h"
 class EnemyDeathState :
 	public StateClass
 {
@@ -9,10 +10,12 @@ public:
 	void Initialize();
 	void Release();
 	void Update(double deltaTime);
-	void Render();
+private:
+	Enemy* enemy;
 private:
 	void AIPattern();
 	void OnEnter();
 	void OnExit();
+
 };
 

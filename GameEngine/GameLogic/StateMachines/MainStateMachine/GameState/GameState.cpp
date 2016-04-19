@@ -8,7 +8,7 @@ GameState::GameState()
 	this->pause = new MainPausedState();
 	this->player = new Player();
 	this->input = Input::GetInstance();
-	this->enemy = new Enemy();
+	//this->enemy = new Enemy();
 	this->enemyState = new EnemyState();
 }
 
@@ -18,7 +18,7 @@ GameState::~GameState()
 	delete this->death;
 	delete this->pause;
 	delete this->player;
-	delete this->enemy;
+	//delete this->enemy;
 	delete this->enemyState;
 }
 

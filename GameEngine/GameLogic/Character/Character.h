@@ -14,6 +14,7 @@ protected:
 	XMFLOAT3 rotation;
 
 	float movementSpeed, health, damage;
+	bool dead, idle, active;
 	Graphics* graphics;
 	Animation* animations;
 	Model* meshes;

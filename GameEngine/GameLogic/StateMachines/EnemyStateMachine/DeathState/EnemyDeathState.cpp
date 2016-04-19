@@ -25,12 +25,7 @@ void EnemyDeathState::Release()
 
 void EnemyDeathState::Update(double deltaTime)
 {
-
-}
-
-void EnemyDeathState::Render()
-{
-
+	enemy->UpdateDead(deltaTime);
 }
 
 void EnemyDeathState::AIPattern()

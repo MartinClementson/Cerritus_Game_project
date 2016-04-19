@@ -1,8 +1,17 @@
 #pragma once
 #include "../../StateClass/StateClass.h"
+#include "../../../Character/Enemy/Enemy.h"
+
 class AttackState :
 	public StateClass
 {
+private:
+	Enemy* enemy;
+private:
+	void AIPattern();
+	void OnEnter();
+	void OnExit();
+
 public:
 	AttackState();
 	~AttackState();
@@ -10,13 +19,5 @@ public:
 	void Initialize();
 	void Release();
 	void Update(double deltaTime);
-	void Render();
-
-private:
-
-private:
-	void AIPattern();
-	void OnEnter();
-	void OnExit();
 };
 

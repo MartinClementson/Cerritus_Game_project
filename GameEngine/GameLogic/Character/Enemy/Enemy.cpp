@@ -3,6 +3,7 @@
 Enemy::Enemy(XMFLOAT3 spawn)
 {
 	this->position = spawn;
+	movementSpeed;
 }
 
 Enemy::Enemy()
@@ -15,7 +16,7 @@ Enemy::~Enemy()
 
 }
 
-void Enemy::Initialize(XMVECTOR position)
+void Enemy::Initialize(XMFLOAT3 position)
 {
 	graphics = Graphics::GetInstance();
 	movementSpeed = 1.0f;
@@ -24,7 +25,10 @@ void Enemy::Initialize(XMVECTOR position)
 
 	damage = 22.0f;
 	rotation = { 0,0,0 }; 
-
+	
+	dead = false;
+	idle = false;
+	active = true;
 }
 
 void Enemy::Release()
@@ -73,16 +77,34 @@ void Enemy::UpdateDead(double deltaTime)
 	rotation.x = 0;
 	rotation.y = 0;
 	rotation.z = 0;
-
-
-
+	
+	//Remove enemy from game and move to back of queue
 	//Trigger animation. Animation.death(true);
+
+	bool dead = true;
+	DeadBool(dead);
 
 	renderInfo = { position, rotation };
 }
 
+bool Enemy::DeadBool(bool dead)
+{
+	dead = dead;
+
+	return dead;
+}
+
 void Enemy::UpdateIdle(double deltaTime)
 {
+	position.x = 0;
+	position.z = 0;
+
+	rotation.x = 0;
+	rotation.y = 0;
+	rotation.z = 0;
+
+	//If game gets paused put enemies in a idle state where position and rotation is
+	// set to 0 
 	renderInfo = { position, rotation };
 }
 
