@@ -21,11 +21,18 @@ enum PlayerAnimation
 };
 #pragma endregion
 
+enum TrapAnimations
+{
+	TRAP_ACTIVATE,
+	TRAP_IDLE,
+	TRAP_USED
+};
+
 #pragma endregion
 
 #pragma region Meshes
 
-enum Meshes
+enum MeshEnum
 {
 	MAIN_CHARACTER,
 	ENEMY_1,
@@ -120,6 +127,7 @@ enum InputKeys
 	KEY_DOWN,
 	KEY_SPACE,
 	KEY_ENTER,
+	KEY_ESC,
 
 	MOUSE_RIGHT,
 	MOUSE_LEFT
@@ -160,3 +168,14 @@ enum ParticleType
 };
 
 #pragma endregion
+
+
+enum GbufferTextures
+{
+	G_DIFFUSE,
+	G_SPECULAR,
+	G_NORMAL,
+	G_DEPTH,
+	G_SHADOW
+
+};
