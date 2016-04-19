@@ -10,10 +10,10 @@ public:
 	virtual void Release();
 	virtual void Update(double deltaTime);
 	virtual void Render();
-	float GetDamage();
-	void SetDamage(float damage);
-	DirectX::XMFLOAT3 GetPosition();
-	void SetPosition(DirectX::XMFLOAT3 position);
+	virtual float GetDamage();
+	virtual void SetDamage(float damage);
+	virtual DirectX::XMFLOAT3 GetPosition();
+	virtual void SetPosition(DirectX::XMFLOAT3 position);  // la till virtual på get och set då de inte ska användas i denna klass
 	//Collision();
 private:
 	DirectX::XMFLOAT3 position;

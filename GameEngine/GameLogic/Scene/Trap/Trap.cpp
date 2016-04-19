@@ -47,7 +47,7 @@ void Trap::Update(double deltaTime)
 
 void Trap::Render()
 {
-	//Tar inte scene hand om render för alla traps ? 
+	//Tar inte scene hand om render för alla traps? jo
 }
 
 float Trap::GetDamage()

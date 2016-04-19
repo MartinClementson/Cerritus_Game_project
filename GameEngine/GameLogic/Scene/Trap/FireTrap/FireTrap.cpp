@@ -27,7 +27,7 @@ void FireTrap::Update(double deltaTime)
 	 
 	if (dotDuration > 0)
 	{
-		dotDuration = dotDuration - 1;
+		dotDuration = dotDuration - 1 * deltaTime; // la till deltaTime annars försvinner doten innan den gör något
 	}
 
 }

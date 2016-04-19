@@ -25,7 +25,7 @@ void BearTrap::Update(double deltaTime)
 {
 	if (slow > 0.0f)
 	{
-		slow = slow - 1;
+		slow = slow - 1 * deltaTime;// la till delta time av samma anledning som i fire
 	}
 }
 
