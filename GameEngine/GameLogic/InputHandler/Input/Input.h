@@ -6,10 +6,10 @@
 class Input
 {
 public:
-	Input();
-	~Input();
+	virtual ~Input();
 private:
 	InputHandler* inputHandling;
+	Input();
 public:
 	void Initialize();
 	void Release();
@@ -18,5 +18,6 @@ public:
 	DirectX::XMFLOAT2 GetMousePosition();
 	bool isMouseClicked(InputKeys mouseKey);
 
+	static Input* GetInstance();
 };
 

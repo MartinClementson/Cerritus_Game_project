@@ -84,6 +84,7 @@
     <ClCompile Include="GameLogic\Character\Player\Player.cpp" />
     <ClCompile Include="GameLogic\Character\ProjectileSystem\ProjectileSystem.cpp" />
     <ClCompile Include="GameLogic\Character\ProjectileSystem\Projectile\Projectile.cpp" />
+    <ClCompile Include="GameLogic\Game.cpp" />
     <ClCompile Include="GameLogic\GUI\GUI.cpp" />
     <ClCompile Include="GameLogic\GUI\GUIElement\GUIElement.cpp" />
     <ClCompile Include="GameLogic\InputHandler\InputHandler.cpp" />
@@ -133,6 +134,7 @@
     <ClInclude Include="GameLogic\Character\Player\Player.h" />
     <ClInclude Include="GameLogic\Character\ProjectileSystem\ProjectileSystem.h" />
     <ClInclude Include="GameLogic\Character\ProjectileSystem\Projectile\Projectile.h" />
+    <ClInclude Include="GameLogic\Game.h" />
     <ClInclude Include="GameLogic\GUI\GUI.h" />
     <ClInclude Include="GameLogic\GUI\GUIElement\GUIElement.h" />
     <ClInclude Include="GameLogic\InputHandler\InputHandler.h" />

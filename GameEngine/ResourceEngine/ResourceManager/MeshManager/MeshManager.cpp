@@ -36,7 +36,7 @@ void MeshManager::Release()
 
 }
 
-void MeshManager::GetMeshRenderInfo(Meshes * meshEnum, RenderInstructions * toRender)
+void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * toRender)
 {
 }
 
