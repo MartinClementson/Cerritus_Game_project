@@ -75,12 +75,16 @@ void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCont
 
 		//Create the resourceView;
 
-		hr = gDevice->CreateShaderResourceView(gBufferTextures[i], &resourceViewDesc, &shaderResourceViews[i]);
+
+
+	}
+
+	//This creates an array of All the textures, that's why we only do this once!
+		hr = gDevice->CreateShaderResourceView(*gBufferTextures, &resourceViewDesc, shaderResourceViews);
 		if (FAILED(hr))
 			MessageBox(NULL, L"Failed to create  Gbuffer", L"Error", MB_ICONERROR | MB_OK);
 
 
-	}
 
 	for (int i = 0; i < TEXTUREAMOUNT; i++)
 	{
