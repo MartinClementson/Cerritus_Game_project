@@ -16,7 +16,7 @@ Player::~Player()
 
 void Player::Initialize()
 {
-	//graphics = Graphics::GetInstance();
+	graphics = Graphics::GetInstance();
 	projectileSystem->Initialize();
 }
 
@@ -34,7 +34,7 @@ void Player::Update(double deltaTime)
 void Player::Render()
 {
 	
-	//graphics->QueueRender(renderInfo);
+	graphics->QueueRender(&renderInfo);
 }
 
 void Player::Move(MovementDirection dir, double deltaTime)
