@@ -26,7 +26,7 @@ void Projectile::Initialize()
 	this->dmgMultiplier = 2.0f;
 
 	this->isFired = false;
-	this->colided = false;
+	this->collided = false;
 	
 	position = { 0,0,0 };
 	direction = { 0,0,0 };

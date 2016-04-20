@@ -6,8 +6,6 @@ class AttackState :
 	public StateClass
 {
 private:
-	Enemy* enemy;
-private:
 	void AIPattern();
 	void OnEnter();
 	void OnExit();

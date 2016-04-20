@@ -13,19 +13,15 @@ public:
 	
 private:
 
-	std::vector<Projectile>* projectiles;
+	std::vector<Projectile*> projectiles;
 	float lifeSpan; //travel time
 	int maxProjectiles; // amout of projectiles
 	//Player* pos;
 
 public:
-	Projectile FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction);
+	void FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction);
 	void UpdateProjectiles(double deltaTime);
 
-	std::vector<Projectile*> projectiles;
-	float lifeSpan;
-	int maxProjectiles; 
-	
 	void Initialize();
 	void Release();
 };

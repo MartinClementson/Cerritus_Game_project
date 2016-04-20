@@ -34,7 +34,7 @@ void Player::Update(double deltaTime)
 {
 	renderInfo = { position,rotation };
 
-	projectileSystem->UpdateProjectile(deltaTime);
+	//projectileSystem->UpdateProjectile(deltaTime);
 }
 
 void Player::Render()

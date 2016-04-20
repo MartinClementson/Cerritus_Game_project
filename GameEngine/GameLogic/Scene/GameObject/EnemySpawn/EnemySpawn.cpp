@@ -28,18 +28,18 @@ void EnemySpawn::Release()
 }
 void EnemySpawn::Update(double deltaTime)
 {
-	for (int i = 0; i < Alive.size(); i++)
-	{
-	/*	if (Alive.at(i)->DeadBool == true)
-		{*/
-			if (Alive.size() <= 10)
-			{
-				Alive.push_back.at(i)(Queue);
-				Alive.push_back(Queue.at(0));
-				Queue.erase(Queue.begin());
-			}
-		/*}*/
-	}
+	//for (int i = 0; i < Alive.size(); i++)
+	//{
+	///*	if (Alive.at(i)->DeadBool == true)
+	//	{*/
+	//		if (Alive.size() <= 10)
+	//		{
+	//			Alive.push_back.at(i)(Queue);
+	//			Alive.push_back(Queue.at(0));
+	//			Queue.erase(Queue.begin());
+	//		}
+	//	/*}*/
+	//}
 }
 
 void EnemySpawn::SpawnEnemy()
@@ -52,8 +52,8 @@ void EnemySpawn::SpawnEnemy()
 
 		if (spawnPointRandom = 1)
 		{
-			float spawnX = rand() % 50 + 1;
-			float spawnZ = rand() % 50 + 1;
+			float spawnX = rand() % 50 + 1.0f;
+			float spawnZ = rand() % 50 + 1.0f;
 
 			XMFLOAT3 spawn;
 			spawn.x = spawnX;
@@ -63,8 +63,8 @@ void EnemySpawn::SpawnEnemy()
 		}
 		if (spawnPointRandom = 2)
 		{
-			float spawnX = rand() % 100 + 50;
-			float spawnZ = rand() % 100 + 50;
+			float spawnX = rand() % 100 + 50.0f;
+			float spawnZ = rand() % 100 + 50.0f;
 
 			XMFLOAT3 spawn;
 			spawn.x = spawnX;
@@ -74,8 +74,8 @@ void EnemySpawn::SpawnEnemy()
 		}
 		if (spawnPointRandom = 3)
 		{
-			float spawnX = rand() % 150 + 100;
-			float spawnZ = rand() % 150 + 100;
+			float spawnX = rand() % 150 + 100.0f;
+			float spawnZ = rand() % 150 + 100.0f;
 
 			XMFLOAT3 spawn;
 			spawn.x = spawnX;
@@ -85,8 +85,8 @@ void EnemySpawn::SpawnEnemy()
 		}
 		if (spawnPointRandom = 4)
 		{
-			float spawnX = rand() % 200 + 150;
-			float spawnZ = rand() % 200 + 150;
+			int spawnX = rand() % 200 + 150;
+			int spawnZ = rand() % 200 + 150;
 
 			XMFLOAT3 spawn;
 			spawn.x = spawnX;

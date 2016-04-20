@@ -11,8 +11,6 @@ public:
 	void Release();
 	void Update(double deltaTime);
 private:
-	Enemy* enemy;
-private:
 	void AIPattern();
 	void OnEnter();
 	void OnExit();

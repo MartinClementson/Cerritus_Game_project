@@ -1,6 +1,5 @@
 #pragma once
 #include "../Character.h"
-#include "../../StateMachines/EnemyStateMachine/EnemyStateMachine.h"
 #include "../../../Source//LibIncluder.h"
 #include "../../../Enumerations/Enumerations.h"
 #include "../../InputHandler/Input/Input.h"
@@ -14,7 +13,6 @@ protected:
 
 	float movementSpeed, health, damage;
 private:
-	EnemyStateMachine* enemyState;
 	RenderInfoEnemy renderInfo;
 private:
 	void Release();

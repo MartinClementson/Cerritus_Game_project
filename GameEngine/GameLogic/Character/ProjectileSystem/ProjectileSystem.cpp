@@ -7,11 +7,11 @@ ProjectileSystem::ProjectileSystem()
 
 ProjectileSystem::~ProjectileSystem()
 {
-	delete this->projectiles;
+	
 }
 
 
-void ProjectileSystem::FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction)
+void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 { 
 	
 	if (projectiles.size() == maxProjectiles)
@@ -26,7 +26,7 @@ void ProjectileSystem::FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT
 }
 
 
-void ProjectileSystem::UpdateProjectile(double deltaTime)
+void ProjectileSystem::UpdateProjectiles(double deltaTime)
 {
 	for (int i = 0; i < projectiles.size(); i++)
 	{

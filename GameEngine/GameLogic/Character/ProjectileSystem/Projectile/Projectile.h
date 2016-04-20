@@ -6,41 +6,35 @@ using namespace DirectX;
 
 class Projectile
 {
-public:
-	Projectile();
-	
-	Projectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction);
-	virtual ~Projectile();
 private:
 	XMFLOAT3 position;
 	XMFLOAT3 direction;
-	MeshEnum projectileModel;
 
 	float age, speed, dmgMultiplier;
+	bool isFired, collided;
 
-	bool isFired, colided;
-
-private:
 
 public:
 	void Initialize();
 	void Release();
 	void Collision();
 
-	bool isFired, collided;
 	MeshEnum projectileModel;
 	Projectile();
-public:
-	void Initialize();
+
 	void Update(double deltatime);
-	void Release();
 	float GetAge();
 	float GetSpeed();
-	DirectX::XMFLOAT3 GetPos();
-	DirectX::XMFLOAT3 GetDir();
+
+	XMFLOAT3 GetPos();
+	XMFLOAT3 GetDir();
+
+
+	Projectile(XMFLOAT3 origin, XMFLOAT3 direction);
+	virtual ~Projectile();
 
 	void SetAge(float age);
-	void SetPos(DirectX::XMFLOAT3 pos);
+	void SetPos(XMFLOAT3 pos);
 
 };
 

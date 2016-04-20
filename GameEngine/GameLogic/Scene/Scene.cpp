@@ -12,11 +12,11 @@ Scene::Scene()
 Scene::~Scene()
 {
 
-	delete this->sceneModels;
+	/*delete this->sceneModels;
 	delete this->sceneLights;
-	delete this->enemySpawns;
-	delete this->bearTraps;
-	delete this->fireTraps;
+	delete this->enemySpawns;*/
+	//delete this->bearTraps;
+	//delete this->fireTraps;
 }
 
 void Scene::Initialize()

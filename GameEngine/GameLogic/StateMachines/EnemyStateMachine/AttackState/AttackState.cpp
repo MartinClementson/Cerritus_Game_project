@@ -25,7 +25,7 @@ void AttackState::Release()
 
 void AttackState::Update(double deltaTime)
 {
-	enemy->UpdateAttack(deltaTime);
+	//enemy->UpdateAttack(deltaTime);
 }
 
 void AttackState::AIPattern()

@@ -31,7 +31,6 @@ private:
 	//Enemy* enemy;
 	Input* input;
 	GUI* gameUI;
-	EnemyStateMachine* enemyState;
 	MainPausedState* pause;
 	MainDeathState* death;
 
