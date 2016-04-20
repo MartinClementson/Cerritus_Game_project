@@ -13,6 +13,14 @@ Graphics::~Graphics()
 		delete gameObjects;
 	if (charObjects != nullptr)
 		delete charObjects;
+	if (uiObjects != nullptr)
+		delete uiObjects;
+	if (enemyObjects != nullptr)
+		delete enemyObjects;
+	if (trapObjects != nullptr)
+		delete trapObjects;
+
+
 
 	if (renderer != nullptr)
 		delete renderer;
@@ -26,12 +34,19 @@ Graphics::~Graphics()
 void Graphics::Initialize(HWND * window)
 {
 	HRESULT hr;
-	this->wndHandle = window;
+	this->wndHandle  = window;
 
-	hr = CreateDirect3DContext();
+	hr				 = CreateDirect3DContext();
 
-	gameObjects = new std::vector<RenderInfoObject*>;
-	charObjects = new std::vector<RenderInfoChar*>;
+	gameObjects		 = new std::vector<RenderInfoObject*>;
+	charObjects		 = new std::vector<RenderInfoChar*>;
+	uiObjects		 = new std::vector<RenderInfoUI*>;
+	enemyObjects	 = new std::vector<RenderInfoEnemy*>;
+	trapObjects		 = new std::vector<RenderInfoTrap*>;
+
+
+
+
 	renderer = new Renderer();
 	renderer->Initialize(gDevice,this->gDeviceContext);
 	
@@ -94,7 +109,7 @@ void Graphics::Render() //manage RenderPasses here
 	//gBuffer->SetToRender(depthStencilView);		//Set The gbuffer pass
 
 	//RenderScene();								//Render to the gBuffer
-												//Set the gBuffer as a subResource, send in the new RenderTarget
+													//Set the gBuffer as a subResource, send in the new RenderTarget
 	//gBuffer->SetToRead(gBackBufferRTV); 
 	
 	//gBuffer->ClearGbuffer();
@@ -112,34 +127,40 @@ void Graphics::RenderScene()
 	
 	
 	//Always render the char first! This is because we set the camera matrix with the characters position
-	for (unsigned int i = 0; i < this->charObjects->size(); i++)
-	{
-		renderer->Render(charObjects->at(i));
+	renderer->Render(charObjects->at(0));
+	
+	RenderInfoEnemy tempInfo;//TEMPORARY
+	static float z = 5.5f;
+	static float x = 5.5f;
+	tempInfo.position = XMFLOAT3(0.0f, 0.0f, z); //TEMPORARY
+	
+	this->renderer->Render(&tempInfo);
+	
+	
 
-	}
-	RenderInfoChar tempInfo;//TEMPORARY
-	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 5.5f); //TEMPORARY
-	//this->renderer->RenderPlaceHolder();//TEMPORARY
-	 //this->renderer->Render(&tempInfo);
-	//
-	//
+	tempInfo.position = XMFLOAT3(0.0f, 0.0f, -z);//TEMPORARY
+	this->renderer->Render(&tempInfo);//TEMPORARY
 
-	//tempInfo.position = XMFLOAT3(0.0f, 0.0f, -5.5f);//TEMPORARY
-	//this->renderer->Render(&tempInfo);//TEMPORARY
+	tempInfo.position = XMFLOAT3(-x, 0.0f, 0.0f);//TEMPORARY
+	this->renderer->Render(&tempInfo);//TEMPORARY
 
-	//tempInfo.position = XMFLOAT3(-5.5f, 0.0f, 0.0f);//TEMPORARY
-	//this->renderer->Render(&tempInfo);//TEMPORARY
-
-	//tempInfo.position = XMFLOAT3(5.5f, 0.0f, 0.0f);//TEMPORARY
-	//this->renderer->Render(&tempInfo);//TEMPORARY
+	tempInfo.position = XMFLOAT3(x, 0.0f, 0.0f);//TEMPORARY
+	this->renderer->Render(&tempInfo);//TEMPORARY
 
 	this->renderer->RenderPlaceHolderPlane();
 	
-
+	//x += sin(90)* 0.1;
+	//z +=  cos(90)* 0.1;
 
 	for (unsigned int i = 0; i < gameObjects->size(); i++)
 	{
 		//renderer->Render(gameObjects->at(i));
+
+	}
+
+	for (unsigned int i = 0; i < enemyObjects->size(); i++)
+	{
+		renderer->Render(enemyObjects->at(i));
 
 	}
 
