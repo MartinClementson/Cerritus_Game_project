@@ -11,9 +11,15 @@ public:
 	void Release();
 	void Update(double deltaTime);
 	void Render();
+	float GetSlow();
+	void SetSlow(float slow);
 	//Collision();
 private:
 	float slow;
 	TrapStateMachine* TrapState;
+	RenderInfoTrap renderinfo;
+	//RenderInfoTrap* renderinfo; 
+	Graphics*  grapichs;
+
 };
 

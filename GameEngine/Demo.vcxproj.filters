@@ -215,6 +215,9 @@
     <Filter Include="ResourceEngine\Shaders\GBufferShader">
       <UniqueIdentifier>{8cb80f1f-f67e-4089-899d-aad1345f70fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameLogic\Collision">
+      <UniqueIdentifier>{56761173-6038-415a-adf6-16361a84dd24}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameLogic\Animation\Animation.cpp">
@@ -360,6 +363,9 @@
     </ClCompile>
     <ClCompile Include="Source\GameTimer\GameTimer.cpp">
       <Filter>Source Files\Main\GameTimer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Collision\Collision.cpp">
+      <Filter>GameLogic\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -521,6 +527,9 @@
     </ClInclude>
     <ClInclude Include="Source\GameTimer\GameTimer.h">
       <Filter>Source Files\Main\GameTimer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Collision\Collision.h">
+      <Filter>GameLogic\Collision</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
