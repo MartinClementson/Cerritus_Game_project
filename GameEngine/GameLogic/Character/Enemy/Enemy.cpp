@@ -40,6 +40,7 @@ void Enemy::UpdateAttack(double deltaTime)
 {
 	//enemy basic movement
 	//position of the enemy to test the movement of the enemy we set the start value at 0,0,0 and if the x value is 0 we move in that direction untill we reach x = 5 then we tail backwards to zero,
+
 	//just to see if the movement of the enemies work. 
 #pragma region movement
 

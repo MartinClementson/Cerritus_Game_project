@@ -21,16 +21,16 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	double tempDT = 10.0;
 	// create window
 	HWND wndHandle = InitWindow(hInstance);
-	
-	//Create engine class
-	Engine* engine = new Engine();
-	engine->Initialize(&wndHandle);
+
 
 	// window is valid
 	if (wndHandle)
 	{
 		// display window
 		ShowWindow(wndHandle, nCmdShow);
+		//Create engine class
+		Engine* engine = new Engine();
+		engine->Initialize(&wndHandle, &hInstance);
 		// enter message loop, loop until the message WM_QUIT is received.
 		while (WM_QUIT != msg.message)
 		{
@@ -122,3 +122,4 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 	// if we do not handle the message here, simply call the Default handler function
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
+

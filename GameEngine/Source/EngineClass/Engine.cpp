@@ -15,9 +15,15 @@ Engine::~Engine()
 	delete this->game;
 }
 
-void Engine::Initialize(HWND* window)
+
+void Engine::Initialize(HWND* window, HINSTANCE *hInstance)
+
 {
-	input->Initialize();
+	if (!input->Initialize(window, hInstance))
+	{
+		MessageBox(0, L"DIRECT INPUT INITILIZATION - FAILED",
+			L"ERROR", MB_OK);
+	}
 	graphics->Initialize(window);
 	game->Initialize();
 

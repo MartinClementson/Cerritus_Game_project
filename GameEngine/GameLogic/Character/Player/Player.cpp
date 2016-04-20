@@ -5,11 +5,16 @@
 Player::Player()
 {
 
+	this->projectileSystem = new ProjectileSystem;
+
+
 }
 
 
 Player::~Player()
 {
+
+	delete this->projectileSystem;
 
 }
 
@@ -25,6 +30,9 @@ void Player::Release()
 void Player::Update(double deltaTime)
 {
 	renderInfo = { position,rotation };
+
+	projectileSystem->UpdateParticle(deltaTime);
+
 }
 
 void Player::Render()
@@ -50,4 +58,15 @@ void Player::Move(MovementDirection dir, double deltaTime)
 	{
 		position.x += position.x - 1 * (float)deltaTime;
 	}
+}
+
+void Player::Shoot(InputKeys input, double deltaTime)
+{
+	if (input == MOUSE_LEFT)
+	{
+		projectileSystem->FireProjectile(this->position, this->rotation);
+		
+	}
+
+
 }

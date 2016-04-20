@@ -11,6 +11,7 @@ class Enemy :
 	public Character
 {
 protected:
+
 	float movementSpeed, health, damage;
 private:
 	EnemyStateMachine* enemyState;

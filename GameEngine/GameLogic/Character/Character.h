@@ -18,6 +18,9 @@ protected:
 	Graphics* graphics;
 	Animation* animations;
 	Model* meshes;
+
+	
+
 public:
 	virtual void Initialize();
 	virtual void Release();
