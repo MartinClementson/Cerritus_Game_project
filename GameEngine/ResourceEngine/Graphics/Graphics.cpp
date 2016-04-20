@@ -193,6 +193,7 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 	enemyObjects ->clear();
 	trapObjects	 ->clear();
 	uiObjects	 ->clear();
+
 	this->gSwapChain->Present(VSYNC, 0); //Change front and back buffer after rendering
 	
 	float clearColor[] = { 0, 0, 1, 1 };
@@ -434,6 +435,24 @@ Graphics * Graphics::GetInstance()
 {
 	static Graphics instance;
 	return &instance;
+}
+
+XMFLOAT3 Graphics::GetPlayerDirection(XMFLOAT2 mousePos,XMFLOAT3 playerPos)
+{
+	//Here we do a picking algorithm
+	//We get the mouse position in NDC
+	//We convert it to world space. 
+	//Then get a vector to be used as direction vector
+
+
+
+
+	//We need
+	// inverse view matrix
+	// inverse projection matrix
+
+
+	return XMFLOAT3();
 }
 
 #pragma endregion
