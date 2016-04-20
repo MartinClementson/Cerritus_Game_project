@@ -145,40 +145,37 @@ XMFLOAT2 InputHandler::GetMousePosition()
 	POINT point;
 	ShowCursor(TRUE);
 
-	if (GetCursorPos( &point))
-	{
-		if (ScreenToClient(*this->hwndP, &point))
-		{
-			mouseX = (float)point.x;
-			mouseY = (float)point.y;
-		if (mouseX > WIN_WIDTH)
-			{
-				point.x = (LONG)WIN_WIDTH;
-				ClientToScreen(*this->hwndP, &point);
-				SetCursorPos(point.x, point.y);
-			}
-		if (mouseY > WIN_HEIGHT)
-			{
-				point.y = (LONG)WIN_HEIGHT;
-				ClientToScreen(*this->hwndP, &point);
-				SetCursorPos(point.x, point.y);
-			}
-
-		if (mouseX < 0)
-		{
-			point.x = 0;
-			ClientToScreen(*this->hwndP, &point);
-			SetCursorPos(point.x, point.y);
-		}
-		if (mouseY < 0)
-		{
-			point.y = 0;
-			ClientToScreen(*this->hwndP, &point);
-			SetCursorPos(point.x, point.y);
-		}
-		}
+	GetCursorPos(&point);
+	ScreenToClient(*this->hwndP, &point);
 		
+	mouseX = (float)point.x;
+	mouseY = (float)point.y;
+	if (mouseX > WIN_WIDTH)
+		{
+			point.x = (LONG)WIN_WIDTH;
+			ClientToScreen(*this->hwndP, &point);
+			SetCursorPos(point.x, point.y);
+		}
+	if (mouseY > WIN_HEIGHT)
+		{
+			point.y = (LONG)WIN_HEIGHT;
+			ClientToScreen(*this->hwndP, &point);
+			SetCursorPos(point.x, point.y);
+		}
+
+	if (mouseX < 0)
+	{
+		point.x = 0;
+		ClientToScreen(*this->hwndP, &point);
+		SetCursorPos(point.x, point.y);
 	}
+	if (mouseY < 0)
+	{
+		point.y = 0;
+		ClientToScreen(*this->hwndP, &point);
+		SetCursorPos(point.x, point.y);
+	}
+	
 	
 	return XMFLOAT2(mouseX, mouseY);
 }

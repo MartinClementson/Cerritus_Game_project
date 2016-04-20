@@ -11,9 +11,18 @@ private:
 
 private:
 	vector<Enemy*> enemyBox;
+	XMFLOAT3 center;
+	float radius;
+	Collision();
 
 public:
-	Collision();
+	//Collision(float radius);
+	//Collision(XMFLOAT3 center, float radius);
+
+	void AddEnemy(Enemy* enemy);
+	
+	static Collision* GetInstance();
+
 	~Collision();
 };
 

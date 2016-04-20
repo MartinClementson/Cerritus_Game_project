@@ -28,9 +28,7 @@ void Enemy::Initialize()
 	damage = 22.0f;
 	rotation = { 0,0,0 }; 
 	
-	dead = false;
-	idle = false;
-	active = true;
+	radius = 1.0f;
 }
 
 void Enemy::Release()

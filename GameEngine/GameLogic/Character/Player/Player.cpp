@@ -22,6 +22,8 @@ void Player::Initialize()
 	this->rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	this->movementSpeed = 50.0f;
 
+	radius = 1.0f;
+
 	projectileSystem->Initialize();
 }
 

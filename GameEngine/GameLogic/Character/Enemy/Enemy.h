@@ -5,6 +5,7 @@
 #include "../../InputHandler/Input/Input.h"
 #include "../../../../GameEngine/Structs/RenderInfo.h"
 #include "../../StateMachines/EnemyStateMachine/EnemyStateMachine.h"
+#include "../../../Structs/DataTypes.h"
 
 class Enemy :
 	public Character
@@ -21,6 +22,7 @@ private:
 public:
 	Enemy(XMFLOAT3 spawn);
 	
+
 	virtual ~Enemy();
 
 	void Initialize();
