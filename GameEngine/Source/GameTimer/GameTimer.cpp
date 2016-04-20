@@ -1,4 +1,5 @@
 #include "GameTimer.h"
+#include "../LibIncluder.h"
 
 
 
@@ -14,17 +15,17 @@ GameTimer::GameTimer()
 	mSecondsPerCount = 1.0 / (double)countsPerSec;
 }
 
-float GameTimer::GameTime() const
+double GameTimer::GameTime() const
 {
-	return 0.0f;
+	return 0.0;
 }
 
-float GameTimer::DeltaTime() const
+double GameTimer::DeltaTime() const
 {
-	return (float)mDeltaTime;
+	return (double)mDeltaTime;
 }
 
-float GameTimer::TotalTime() const
+double GameTimer::TotalTime() const
 {
 	// If we are stopped, do not count the time that has passed since we stopped.
 	// Moreover, if we previously already had a pause, the distance 
@@ -37,7 +38,7 @@ float GameTimer::TotalTime() const
 
 	if (mStopped)
 	{
-		return (float)(((mStopTime - mPausedTime) - mBaseTime)*mSecondsPerCount);
+		return (double)(((mStopTime - mPausedTime) - mBaseTime)*mSecondsPerCount);
 	}
 
 	// The distance mCurrTime - mBaseTime includes paused time,
@@ -52,7 +53,7 @@ float GameTimer::TotalTime() const
 
 	else
 	{
-		return (float)(((mCurrTime - mPausedTime) - mBaseTime)*mSecondsPerCount);
+		return (double)(((mCurrTime - mPausedTime) - mBaseTime)*mSecondsPerCount);
 	}
 }
 
