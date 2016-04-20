@@ -71,3 +71,11 @@ struct ProjectileStruct
 	Float3 position;
 	Float3 rotation;
 };
+
+typedef struct DIMOUSESTATES
+{
+	LONG IX;
+	LONG IY;
+	LONG IZ;
+	BYTE rgbButtons[4];
+};
