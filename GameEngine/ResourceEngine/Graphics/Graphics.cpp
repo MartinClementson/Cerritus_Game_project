@@ -388,6 +388,11 @@ void Graphics::QueueRender(RenderInfoTrap * object)
 	//this->trapObjects->push_back(object);
 }
 
+void Graphics::QueueRender(RenderInfoProjectile* object)
+{
+
+}
+
 Graphics * Graphics::GetInstance()
 {
 	static Graphics instance;

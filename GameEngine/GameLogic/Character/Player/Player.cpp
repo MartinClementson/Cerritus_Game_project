@@ -42,6 +42,7 @@ void Player::Update(double deltaTime)
 void Player::Render()
 {
 	graphics->QueueRender(&renderInfo);
+	//projectileSystem->Render();
 }
 
 void Player::Move(MovementDirection dir, double deltaTime)
@@ -66,11 +67,11 @@ void Player::Move(MovementDirection dir, double deltaTime)
 
 void Player::Shoot(InputKeys input, double deltaTime)
 {
-	if (input == MOUSE_LEFT)
+	/*if (input == MOUSE_LEFT)
 	{
 		projectileSystem->FireProjectile(this->position, this->rotation);
 		
-	}
+	}*/
 	if (input == KEY_LEFT)
 	{
 		projectileSystem->FireProjectile(this->position, this->rotation);

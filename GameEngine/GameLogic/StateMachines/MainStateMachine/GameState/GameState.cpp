@@ -9,7 +9,7 @@ GameState::GameState()
 	this->player = new Player();
 	this->input = Input::GetInstance();
 
-	this->enemy = new Enemy();
+//	this->enemy = new Enemy();
 	this->room1 = new Scene();
 
 
@@ -23,7 +23,7 @@ GameState::~GameState()
 	delete this->death;
 	delete this->pause;
 	delete this->player;
-	delete this->enemy;
+	//delete this->enemy;
 	delete this->room1;
 
 	//delete this->enemy;
@@ -57,7 +57,7 @@ void GameState::Update(double deltaTime)
 {
 	ProcessInput(&deltaTime);
 	player->Update(deltaTime);
-	enemy->Update(deltaTime);
+	//enemy->Update(deltaTime);
 	room1->Update(deltaTime);
 	//enemy->Update(deltaTime);
 }
@@ -98,6 +98,10 @@ void GameState::ProcessInput(double* deltaTime)
 		{
 			pause->isActive = true;
 		}
+		else if (input->IsKeyPressed(KEY_LEFT))
+		{
+			player->Shoot(KEY_LEFT, deltaTime[0]);
+		}
 	}
 }
 
@@ -106,7 +110,7 @@ void GameState::Render()
 	room1->Render();
 	player->Render();
 	gameUI->Render();
-	enemy->Render();
+	//enemy->Render();
 
 	//enemy->Render();
 

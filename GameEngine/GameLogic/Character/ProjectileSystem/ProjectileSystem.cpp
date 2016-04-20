@@ -7,52 +7,107 @@ ProjectileSystem::ProjectileSystem()
 
 ProjectileSystem::~ProjectileSystem()
 {
-	
 }
 
 void ProjectileSystem::FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction)
 { 
 	
-	if (projectiles.size() == maxProjectiles)
+	//renderInfo = { origin, direction };
+
+
+	for (unsigned int i = 0; i < 100; i++)
 	{
-
-		delete projectiles.at(0);
+		if (!projectiles[i].GetFired())
+		{
+			projectiles[i].Initialize(origin, direction);
+			break;
+		}
 	}
-	origin = { 0,0,0 };
-	direction = { 0,0,0 };
 
-	projectiles.push_back(new Projectile(origin, direction));
+
+	//if (projectiles >= maxProjectiles)
+	//{
+	//	//delete projectiles.at(9);
+	//}
+	//else
+	//{
+
+	//	//origin = { 0,0,0 };
+	//	//direction = { 0,0,0 };
 	
+
+
+	//	
+	//}
 }
 
 void ProjectileSystem::UpdateProjectile(double deltaTime)
 {
-
-	for (int i = 0; i < projectiles.size(); i++)
+	for (unsigned int i = 0; i < 100; i++)
 	{
-		projectiles.at(i)->Update(deltaTime);
+		if (projectiles[i].GetFired())
+		{
+			projectiles[i].Update(deltaTime);
 
-		if (projectiles.at(i)->GetAge() >= lifeSpan)
-		{
-			delete projectiles.at(i);
-		}
-		else
-		{
-			DirectX::XMFLOAT3 tmp = projectiles.at(i)->GetPos();
-			tmp.x = tmp.x + projectiles.at(i)->GetDir().x * projectiles.at(i)->GetSpeed();
-			tmp.z = tmp.z + projectiles.at(i)->GetDir().z * projectiles.at(i)->GetSpeed();
+			if (projectiles[i].GetAge() >= lifeSpan)
+			{
+				projectiles[i].SetFired(false);
+			}
+			else
+			{
+				DirectX::XMFLOAT3 tmp = projectiles[i].GetPos();
+				tmp.x = tmp.x + projectiles[i].GetDir().x * projectiles[i].GetSpeed();
+				tmp.z = tmp.z + projectiles[i].GetDir().z * projectiles[i].GetSpeed();
+				Render(i);
+			}
 		}
 	}
+
+	//for (int i = 0; i < projectiles.size(); i++)
+	//{
+
+	//	projectiles.at(i)->Update(deltaTime);
+
+	//	if (projectiles.at(i)->GetAge() >= lifeSpan)
+	//	{
+	//		delete projectiles.at(i);
+	//		projectiles.erase(projectiles.begin());
+	//		projectiles.shrink_to_fit();
+	//	}
+	//	else
+	//	{
+	//		//projectiles.at(i)->Initialize();
+	//		DirectX::XMFLOAT3 tmp = projectiles[i].GetPos();
+	//		tmp.x = tmp.x + projectiles[i].GetDir().x * projectiles[i].GetSpeed();
+	//		tmp.z = tmp.z + projectiles[i].GetDir().z * projectiles[i].GetSpeed();
+	//	}
+	//}
+	//
+
 }
 
 void ProjectileSystem::Initialize()
 {
+
+	graphics = Graphics::GetInstance();
 	lifeSpan = 2.5f;
-	maxProjectiles = 12;
+	//maxProjectiles = 100;
+	
 
 }
 
 void ProjectileSystem::Release()
 {
 	
+	
+}
+
+void ProjectileSystem::Render(int i)
+{
+	
+	renderInfo = { projectiles[i].GetPos(), projectiles[i].GetDir() };
+	graphics->QueueRender(&renderInfo);
+
+	
+
 }
