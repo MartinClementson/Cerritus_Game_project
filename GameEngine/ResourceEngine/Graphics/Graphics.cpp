@@ -502,7 +502,7 @@ XMFLOAT3 Graphics::GetPlayerDirection(XMFLOAT2 mousePos,XMFLOAT3 playerPos)
 	
 	playerToCursor				= XMVector3Normalize(XMVectorSet(unPack.x, 0.0f, unPack.z, 0.0f));
 	
-	//XMStoreFloat3(&mPlayerToCursor, XMLoadFloat3(&mPlayerToCursor) * 0.95f + (XMVectorSet(unPack.x, 0.0f, unPack.z, 0.0f) * 0.1f) * 0.05f);
+
 	
 	XMFLOAT3 toReturn;
 	XMStoreFloat3(&toReturn, playerToCursor);
