@@ -13,6 +13,14 @@ Graphics::~Graphics()
 		delete gameObjects;
 	if (charObjects != nullptr)
 		delete charObjects;
+	if (uiObjects != nullptr)
+		delete uiObjects;
+	if (enemyObjects != nullptr)
+		delete enemyObjects;
+	if (trapObjects != nullptr)
+		delete trapObjects;
+
+
 
 	if (renderer != nullptr)
 		delete renderer;
@@ -26,12 +34,19 @@ Graphics::~Graphics()
 void Graphics::Initialize(HWND * window)
 {
 	HRESULT hr;
-	this->wndHandle = window;
+	this->wndHandle  = window;
 
-	hr = CreateDirect3DContext();
+	hr				 = CreateDirect3DContext();
 
-	gameObjects = new std::vector<RenderInfoObject*>;
-	charObjects = new std::vector<RenderInfoChar*>;
+	gameObjects		 = new std::vector<RenderInfoObject*>;
+	charObjects		 = new std::vector<RenderInfoChar*>;
+	uiObjects		 = new std::vector<RenderInfoUI*>;
+	enemyObjects	 = new std::vector<RenderInfoEnemy*>;
+	trapObjects		 = new std::vector<RenderInfoTrap*>;
+
+
+
+
 	renderer = new Renderer();
 	renderer->Initialize(gDevice,this->gDeviceContext);
 	
@@ -94,7 +109,7 @@ void Graphics::Render() //manage RenderPasses here
 	//gBuffer->SetToRender(depthStencilView);		//Set The gbuffer pass
 
 	//RenderScene();								//Render to the gBuffer
-												//Set the gBuffer as a subResource, send in the new RenderTarget
+													//Set the gBuffer as a subResource, send in the new RenderTarget
 	//gBuffer->SetToRead(gBackBufferRTV); 
 	
 	//gBuffer->ClearGbuffer();
@@ -112,44 +127,72 @@ void Graphics::RenderScene()
 	
 	
 	//Always render the char first! This is because we set the camera matrix with the characters position
-	for (unsigned int i = 0; i < this->charObjects->size(); i++)
-	{
-		renderer->Render(charObjects->at(i));
-
-	}
-	RenderInfoChar tempInfo;//TEMPORARY
-	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 5.5f); //TEMPORARY
-	//this->renderer->RenderPlaceHolder();//TEMPORARY
-	 //this->renderer->Render(&tempInfo);
-	//
-	//
-
-	//tempInfo.position = XMFLOAT3(0.0f, 0.0f, -5.5f);//TEMPORARY
-	//this->renderer->Render(&tempInfo);//TEMPORARY
-
-	//tempInfo.position = XMFLOAT3(-5.5f, 0.0f, 0.0f);//TEMPORARY
-	//this->renderer->Render(&tempInfo);//TEMPORARY
-
-	//tempInfo.position = XMFLOAT3(5.5f, 0.0f, 0.0f);//TEMPORARY
-	//this->renderer->Render(&tempInfo);//TEMPORARY
-
-	this->renderer->RenderPlaceHolderPlane();
+	renderer->Render(charObjects->at(0));
+	
+#pragma region Temporary code for early testing
+	RenderInfoEnemy tempInfo;					 //TEMPORARY
+	static float z = 5.5f;						 //TEMPORARY
+	static float x = 5.5f;						 //TEMPORARY
+	tempInfo.position = XMFLOAT3(0.0f, 0.0f, z); //TEMPORARY
+	
+	this->renderer->Render(&tempInfo);			 //TEMPORARY
+	
 	
 
+	tempInfo.position = XMFLOAT3(0.0f, 0.0f, -z);//TEMPORARY
+	this->renderer->Render(&tempInfo);			 //TEMPORARY
 
+	tempInfo.position = XMFLOAT3(-x, 0.0f, 0.0f);//TEMPORARY
+	this->renderer->Render(&tempInfo);			 //TEMPORARY
+
+	tempInfo.position = XMFLOAT3(x, 0.0f, 0.0f); //TEMPORARY
+	this->renderer->Render(&tempInfo);			 //TEMPORARY
+												 
+	this->renderer->RenderPlaceHolderPlane();	 //TEMPORARY
+												 
+	x +=  (float) cos(z)* 0.1;					 //TEMPORARY
+	z +=  (float)sin(x)* 0.1;					 //TEMPORARY
+#pragma endregion
+	
+	
+	
+	
+	
 	for (unsigned int i = 0; i < gameObjects->size(); i++)
 	{
-		//renderer->Render(gameObjects->at(i));
+		renderer->Render(gameObjects->at(i));
 
 	}
+
+	for (unsigned int i = 0; i < enemyObjects->size(); i++)
+	{
+		renderer->Render(enemyObjects->at(i));
+
+	}
+
+	for (unsigned int i = 0; i < trapObjects->size(); i++)
+	{
+		renderer->Render(trapObjects->at(i));
+
+	}
+
+	for (unsigned int i = 0; i < uiObjects->size(); i++)
+	{
+		renderer->Render(uiObjects->at(i));
+
+	}
+
+
 
 }
 
 void Graphics::FinishFrame() // this one clears the graphics for this frame. So that it can start a new cycle next frame
 {
-	gameObjects->clear(); //clear the queue
-	charObjects->clear();
-
+	gameObjects  ->clear(); //clear the queue
+	charObjects  ->clear();
+	enemyObjects ->clear();
+	trapObjects	 ->clear();
+	uiObjects	 ->clear();
 	this->gSwapChain->Present(VSYNC, 0); //Change front and back buffer after rendering
 	
 	float clearColor[] = { 0, 0, 1, 1 };
@@ -372,10 +415,12 @@ void Graphics::QueueRender(RenderInfoObject *object)
 
 void Graphics::QueueRender(RenderInfoUI * object)
 {
+	this->uiObjects->push_back(object);
 }
 
 void Graphics::QueueRender(RenderInfoEnemy * object)
 {
+	this->enemyObjects->push_back(object);
 }
 
 void Graphics::QueueRender(RenderInfoChar * object)
@@ -385,6 +430,7 @@ void Graphics::QueueRender(RenderInfoChar * object)
 
 void Graphics::QueueRender(RenderInfoTrap * object)
 {
+	this->trapObjects->push_back(object);
 }
 
 Graphics * Graphics::GetInstance()
