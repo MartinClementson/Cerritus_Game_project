@@ -5,7 +5,6 @@
 Player::Player()
 {
 	this->projectileSystem = new ProjectileSystem;
-
 }
 
 
@@ -27,6 +26,7 @@ void Player::Initialize()
 
 void Player::Release()
 {
+	projectileSystem->Release();
 }
 
 void Player::Update(double deltaTime)

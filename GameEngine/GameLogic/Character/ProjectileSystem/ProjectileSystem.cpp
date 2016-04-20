@@ -20,6 +20,7 @@ void ProjectileSystem::FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT
 	}
 	origin = { 0,0,0 };
 	direction = { 0,0,0 };
+
 	projectiles.push_back(new Projectile(origin, direction));
 	
 }
