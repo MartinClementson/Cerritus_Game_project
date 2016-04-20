@@ -14,7 +14,6 @@ Input::~Input()
 
 void Input::Initialize()
 {
-
 	inputHandling = InputHandler::GetInstance();
 }
 
@@ -32,7 +31,7 @@ bool Input::IsKeyHeld(InputKeys key)
 	return inputHandling->IsKeyHeld(&key);
 }
 
-DirectX::XMFLOAT2 Input::GetMousePosition()
+XMFLOAT2 Input::GetMousePosition()
 {
 	return inputHandling->GetMousePosition();
 }
