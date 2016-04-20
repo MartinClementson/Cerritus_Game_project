@@ -18,3 +18,8 @@
 
 #define _CRTDBG_MAP_ALLOC
 #define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
+
+
+#define CAMERABUFFER_INDEX 0
+#define WORLDBUFFER_INDEX 1
+#define LIGHTBUFFER_INDEX 3

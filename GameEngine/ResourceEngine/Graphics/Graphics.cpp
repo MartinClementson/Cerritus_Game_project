@@ -18,13 +18,7 @@ Graphics::~Graphics()
 	if (gBuffer != nullptr)
 		delete gBuffer;
 
-	if (DEBUG == 2)
-	{
-
-		debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
-		SAFE_RELEASE(debug);
-		
-	}
+	
 }
 
 void Graphics::Initialize(HWND * window)
@@ -39,8 +33,8 @@ void Graphics::Initialize(HWND * window)
 	renderer = new Renderer();
 	renderer->Initialize(gDevice,this->gDeviceContext);
 	
-	gBuffer = new Gbuffer();
-	gBuffer->Initialize(this->gDevice,this->gDeviceContext);
+	//gBuffer = new Gbuffer();
+	//gBuffer->Initialize(this->gDevice,this->gDeviceContext);
 }
 
 void Graphics::Release()
@@ -54,7 +48,7 @@ void Graphics::Release()
 
 
 
-	gBuffer->Release();
+	//gBuffer->Release();
 
 	SAFE_RELEASE(depthState);
 	SAFE_RELEASE(depthStencilView);
@@ -69,7 +63,24 @@ void Graphics::Release()
 	SAFE_RELEASE(gSwapChain);
 	gDeviceContext->ClearState();
 	SAFE_RELEASE(gDeviceContext);
-	SAFE_RELEASE(gDevice);
+
+
+
+	if (DEBUG == 2)
+	{
+		/*if (debug)
+		{
+
+			debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+			SAFE_RELEASE(debug);
+		}*/
+
+	}
+
+
+	while (gDevice->Release() > 0);
+	//SAFE_RELEASE(gDevice);
+
 	
 }
 
@@ -82,7 +93,7 @@ void Graphics::Render() //manage RenderPasses here
 
 	//RenderScene();								//Render to the gBuffer
 												//Set the gBuffer as a subResource, send in the new RenderTarget
-	gBuffer->SetToRead(gBackBufferRTV); 
+	//gBuffer->SetToRead(gBackBufferRTV); 
 	
 	//gBuffer->ClearGbuffer();
 										
@@ -96,10 +107,28 @@ void Graphics::Render() //manage RenderPasses here
 
 void Graphics::RenderScene()
 {
+	
+	
+	RenderInfoChar tempInfo;//TEMPORARY
+	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 5.5f); //TEMPORARY
 	//Always render the char first! This is because we set the camera matrix with the characters position
-	//this->renderer->Render(this->charObjects->at(0));
+	this->renderer->RenderPlaceHolder();//TEMPORARY
+	this->renderer->Render(&tempInfo);
+	
+	
 
-	this->renderer->RenderPlaceHolder();
+	tempInfo.position = XMFLOAT3(0.0f, 0.0f, -5.5f);//TEMPORARY
+	this->renderer->Render(&tempInfo);//TEMPORARY
+
+	tempInfo.position = XMFLOAT3(-5.5f, 0.0f, 0.0f);//TEMPORARY
+	this->renderer->Render(&tempInfo);//TEMPORARY
+
+	tempInfo.position = XMFLOAT3(5.5f, 0.0f, 0.0f);//TEMPORARY
+	this->renderer->Render(&tempInfo);//TEMPORARY
+
+	this->renderer->RenderPlaceHolderPlane();
+	
+
 	for (unsigned int i = 0; i < gameObjects->size(); i++)
 	{
 		//renderer->Render(gameObjects->at(i));

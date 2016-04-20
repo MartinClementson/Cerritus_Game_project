@@ -30,7 +30,6 @@ void StateClass::Release()
 void StateClass::ProcessInput()
 {
 }
-
 bool StateClass::GetIsActive()
 {
 	return false;
