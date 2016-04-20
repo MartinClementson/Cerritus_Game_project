@@ -83,7 +83,7 @@ void Enemy::UpdateDead(double deltaTime)
 	rotation.x = 0;
 	rotation.y = 0;
 	rotation.z = 0;
-	
+
 	//Remove enemy from game and move to back of queue
 	//Trigger animation. Animation.death(true);
 
@@ -91,7 +91,6 @@ void Enemy::UpdateDead(double deltaTime)
 
 	renderInfo = { position, rotation };
 }
-
 void Enemy::UpdateIdle(double deltaTime)
 {
 	position.x = 0;
