@@ -54,7 +54,7 @@ void GameState::Update(double deltaTime)
 {
 	ProcessInput(&deltaTime);
 	player->Update(deltaTime);
-	enemy->Update(deltaTime);
+	//enemy->Update(deltaTime);
 	enemyState->Update(deltaTime);
 }
 

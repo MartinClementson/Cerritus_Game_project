@@ -14,7 +14,7 @@ public:
 private:
 	EnemyIdleState* idleState;
 	AttackState* attackState;
-	EnemyDeathState deathState;
+	EnemyDeathState* deathState;
 	EnemyState activeState;//enum
 };
 

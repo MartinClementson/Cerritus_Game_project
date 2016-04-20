@@ -30,17 +30,18 @@ void EnemySpawn::Update(double deltaTime)
 {
 	for (int i = 0; i < Alive.size(); i++)
 	{
-		if (Alive.at(i)->DeadBool == true)
-		{
+	/*	if (Alive.at(i)->DeadBool == true)
+		{*/
 			if (Alive.size() <= 10)
 			{
 				Alive.push_back.at(i)(Queue);
 				Alive.push_back(Queue.at(0));
 				Queue.erase(Queue.begin());
 			}
-		}
+		/*}*/
 	}
 }
+
 void EnemySpawn::SpawnEnemy()
 {
 	unsigned int waveAmount = 19;
