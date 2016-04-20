@@ -3,6 +3,7 @@
 #include "../../../Source/LibIncluder.h"
 #include "../../../Enumerations/Enumerations.h"
 
+using namespace DirectX;
 class Input
 {
 public:
@@ -15,7 +16,7 @@ public:
 	void Release();
 	bool IsKeyPressed(InputKeys key);
 	bool IsKeyHeld(InputKeys key);
-	DirectX::XMFLOAT2 GetMousePosition();
+	XMFLOAT2 GetMousePosition();
 	bool isMouseClicked(InputKeys mouseKey);
 
 	static Input* GetInstance();
