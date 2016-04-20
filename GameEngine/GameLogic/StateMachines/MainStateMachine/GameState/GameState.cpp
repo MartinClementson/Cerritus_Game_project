@@ -7,6 +7,7 @@ GameState::GameState()
 	this->death = new MainDeathState();
 	this->pause = new MainPausedState();
 	this->player = new Player();
+	this->input = Input::GetInstance();
 	this->enemy = new Enemy();
 }
 
@@ -21,22 +22,29 @@ GameState::~GameState()
 
 void GameState::Initialize()
 {
+	input->Initialize();
 	player->Initialize();
+	death->Initialize();
+	pause->Initialize();
+	death->isActive = false;
+	pause->isActive = false;
 	enemy->Initialize();
 }
 
 void GameState::Release()
 {
+
+	//RELEASA ALLT HÄR!
 }
 
 void GameState::Update(double deltaTime)
 {
-	ProcessInput(deltaTime);
+	ProcessInput(&deltaTime);
 	player->Update(deltaTime);
 	enemy->Update(deltaTime);
 }
 
-void GameState::ProcessInput(double deltaTime)
+void GameState::ProcessInput(double* deltaTime)
 {
 
 	if (death->isActive)
@@ -52,21 +60,21 @@ void GameState::ProcessInput(double deltaTime)
 	}
 	else
 	{
-		if (input->IsKeyHeld(KEY_W))
+		if (input->IsKeyPressed(KEY_W))
 		{
-			player->Move(UP, deltaTime);
+			player->Move(UP, deltaTime[0]);
 		}
-		else if (input->IsKeyHeld(KEY_S))
+		else if (input->IsKeyPressed(KEY_S))
 		{
-			player->Move(DOWN, deltaTime);
+			player->Move(DOWN, deltaTime[0]);
 		}
-		else if (input->IsKeyHeld(KEY_A))
+		else if (input->IsKeyPressed(KEY_A))
 		{
-			player->Move(LEFT, deltaTime);
+			player->Move(LEFT, deltaTime[0]);
 		}
-		else if (input->IsKeyHeld(KEY_D))
+		else if (input->IsKeyPressed(KEY_D))
 		{
-			player->Move(RIGHT, deltaTime);
+			player->Move(RIGHT, deltaTime[0]);
 		}
 		else if (input->IsKeyPressed(KEY_ESC))
 		{
