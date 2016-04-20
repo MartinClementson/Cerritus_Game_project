@@ -1,6 +1,5 @@
 #pragma once
 #include "../../StateClass/StateClass.h"
-#include "../../../Character/Enemy/Enemy.h"
 
 class AttackState :
 	public StateClass

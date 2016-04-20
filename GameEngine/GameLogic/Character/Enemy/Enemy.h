@@ -22,13 +22,9 @@ public:
 	Enemy();
 	virtual ~Enemy();
 
-	void Initialize(XMFLOAT3 position);
+	void Initialize();
 
 	void Update(double deltaTime);
-
-	void UpdateAttack(double deltaTime);
-	void UpdateIdle(double deltaTime);
-	void UpdateDead(double deltaTime);
 
 	void Render();
 };
