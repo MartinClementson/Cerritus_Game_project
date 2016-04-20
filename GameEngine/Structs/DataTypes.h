@@ -73,6 +73,7 @@ struct ProjectileStruct
 };
 
 struct BoundingCircle
+
 {
 	XMFLOAT3 center;
 	float radius;

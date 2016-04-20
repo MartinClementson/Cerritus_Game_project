@@ -9,12 +9,12 @@ EnemySpawn::EnemySpawn()
 
 EnemySpawn::~EnemySpawn()
 {
-	for (int i = 0; i < Queue.size(); i ++)
+	for (size_t i = 0; i < Queue.size(); i ++)
 	{
 		delete Queue.at(i);
 	}
 
-	for (int i = 0; i < Alive.size(); i++)
+	for (size_t i = 0; i < Alive.size(); i++)
 	{
 		delete Alive.at(i);
 	}
@@ -48,7 +48,7 @@ void EnemySpawn::InitEnemy()
 {
 	unsigned int waveAmount = 20;
 
-	for (int i = 1; i < waveAmount; i++)
+	for (size_t i = 1; i < waveAmount; i++)
 	{
 		int spawnPointRandom = rand() % 4 + 1;
 
@@ -90,8 +90,8 @@ void EnemySpawn::InitEnemy()
 		}
 		if (spawnPointRandom = 4)
 		{
-			int spawnX = rand() % -40 + -5;
-			int spawnZ = rand() % -40 + -5;
+			float spawnX = float(rand() % -40 + -5);
+			float spawnZ = float(rand() % -40 + -5);
 
 			XMFLOAT3 spawn;
 			spawn.x = spawnX;

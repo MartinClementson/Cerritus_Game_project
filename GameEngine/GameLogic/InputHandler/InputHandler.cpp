@@ -149,17 +149,17 @@ XMFLOAT2 InputHandler::GetMousePosition()
 	{
 		if (ScreenToClient(*this->hwndP, &point))
 		{
-			mouseX = point.x;
-			mouseY = point.y;
+			mouseX = (float)point.x;
+			mouseY = (float)point.y;
 		if (mouseX > WIN_WIDTH)
 			{
-				point.x = WIN_WIDTH;
+				point.x = (LONG)WIN_WIDTH;
 				ClientToScreen(*this->hwndP, &point);
 				SetCursorPos(point.x, point.y);
 			}
 		if (mouseY > WIN_HEIGHT)
 			{
-				point.y = WIN_HEIGHT;
+				point.y = (LONG)WIN_HEIGHT;
 				ClientToScreen(*this->hwndP, &point);
 				SetCursorPos(point.x, point.y);
 			}
