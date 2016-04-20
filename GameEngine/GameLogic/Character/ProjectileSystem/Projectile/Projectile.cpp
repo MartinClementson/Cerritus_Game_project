@@ -1,14 +1,37 @@
 #include "Projectile.h"
+inline DirectX::XMFLOAT3 operator*(DirectX::XMFLOAT3 a, float b) {
+	DirectX::XMFLOAT3 result;
 
+	result.x = a.x * b;
+	result.y = a.y * b;
+	result.z = a.z * b;
+
+	return result;
+}
+
+inline DirectX::XMFLOAT3 operator+(DirectX::XMFLOAT3 a, DirectX::XMFLOAT3 b) {
+	DirectX::XMFLOAT3 result;
+
+	result.x = a.x + b.x;
+	result.y = a.y + b.y;
+	result.z = a.z + b.z;
+
+	return result;
+}
 
 
 Projectile::Projectile()
 {
 
+	isFired = false;
+
+
+
 }
 
 Projectile::Projectile(DirectX::XMFLOAT3 origin,DirectX::XMFLOAT3 direction)
 {
+	//Initialize();
 
 
 }
@@ -19,24 +42,19 @@ Projectile::~Projectile()
 
 }
 
-void Projectile::Initialize()
+void Projectile::Initialize(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction)
 {
+
+
+	this->position = origin;
+	this->direction = direction;
+
 	this->age = 0.0f;
-	this->speed = 3.0f;
+	this->speed = 10.0f;
 	this->dmgMultiplier = 2.0f;
 
-	this->isFired = false;
+	this->isFired = true;
 	this->collided = false;
-	
-	position = { 0,0,0 };
-	direction = { 0,0,0 };
-
-	age = 0.0f;
-	speed = 0.5f;
-	dmgMultiplier = 2.0f;
-
-	isFired = false;
-	collided = false;
 	
 }
 
@@ -45,15 +63,18 @@ void Projectile::Update(double deltatime)
 
 	if(isFired == true)
 	{
-		age = age + 1 * deltatime;
+		age += (float)deltatime;
+		position = position + (direction* speed * float(deltatime));
 	}
+	if (age >= 2.5f)
+		isFired = false;
 
 
 }
 
 void Projectile::Release()
 {
-
+	
 }
 
 void Projectile::Collision()
@@ -79,6 +100,16 @@ DirectX::XMFLOAT3 Projectile::GetPos()
 DirectX::XMFLOAT3 Projectile::GetDir()
 {
 	return direction;
+}
+
+bool Projectile::GetFired()
+{
+	return isFired;
+}
+
+void Projectile::SetFired(bool isFired)
+{
+	this->isFired = isFired;
 }
 
 void Projectile::SetAge(float age)

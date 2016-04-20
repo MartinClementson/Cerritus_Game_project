@@ -17,7 +17,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	#ifdef _DEBUG // this is for enabling memory leak detection
 		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	#endif
-
+	
 	MSG msg = { 0 };
 	double tempDT = 10.0;
 	// create window
