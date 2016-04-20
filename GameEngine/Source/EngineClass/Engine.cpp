@@ -49,6 +49,6 @@ void Engine::Update(double* deltaTime)
 
 void Engine::Render()
 {
-	graphics->Render();
 	game->Render();
+	graphics->Render();
 }

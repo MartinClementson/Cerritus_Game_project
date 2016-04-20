@@ -70,8 +70,8 @@ void Renderer::Render(RenderInfoChar * object)
 	objectInstruction = this->resourceManager->GetPlaceHolderMesh(object->position);
 
 	//Update the camera view matrix!
-	//this->sceneCam->Updateview( object->position);
-	//this->UpdateCameraBuffer();
+	this->sceneCam->Updateview( object->position);
+	this->UpdateCameraBuffer();
 
 	Render(objectInstruction);
 

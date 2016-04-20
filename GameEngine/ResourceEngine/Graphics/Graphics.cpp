@@ -11,6 +11,8 @@ Graphics::~Graphics()
 {
 	if (gameObjects != nullptr)
 		delete gameObjects;
+	if (charObjects != nullptr)
+		delete charObjects;
 
 	if (renderer != nullptr)
 		delete renderer;
@@ -29,7 +31,7 @@ void Graphics::Initialize(HWND * window)
 	hr = CreateDirect3DContext();
 
 	gameObjects = new std::vector<RenderInfoObject*>;
-
+	charObjects = new std::vector<RenderInfoChar*>;
 	renderer = new Renderer();
 	renderer->Initialize(gDevice,this->gDeviceContext);
 	
@@ -109,25 +111,31 @@ void Graphics::RenderScene()
 {
 	
 	
+	//Always render the char first! This is because we set the camera matrix with the characters position
+	for (unsigned int i = 0; i < this->charObjects->size(); i++)
+	{
+		renderer->Render(charObjects->at(i));
+
+	}
 	RenderInfoChar tempInfo;//TEMPORARY
 	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 5.5f); //TEMPORARY
-	//Always render the char first! This is because we set the camera matrix with the characters position
-	this->renderer->RenderPlaceHolder();//TEMPORARY
-	this->renderer->Render(&tempInfo);
-	
-	
+	//this->renderer->RenderPlaceHolder();//TEMPORARY
+	 //this->renderer->Render(&tempInfo);
+	//
+	//
 
-	tempInfo.position = XMFLOAT3(0.0f, 0.0f, -5.5f);//TEMPORARY
-	this->renderer->Render(&tempInfo);//TEMPORARY
+	//tempInfo.position = XMFLOAT3(0.0f, 0.0f, -5.5f);//TEMPORARY
+	//this->renderer->Render(&tempInfo);//TEMPORARY
 
-	tempInfo.position = XMFLOAT3(-5.5f, 0.0f, 0.0f);//TEMPORARY
-	this->renderer->Render(&tempInfo);//TEMPORARY
+	//tempInfo.position = XMFLOAT3(-5.5f, 0.0f, 0.0f);//TEMPORARY
+	//this->renderer->Render(&tempInfo);//TEMPORARY
 
-	tempInfo.position = XMFLOAT3(5.5f, 0.0f, 0.0f);//TEMPORARY
-	this->renderer->Render(&tempInfo);//TEMPORARY
+	//tempInfo.position = XMFLOAT3(5.5f, 0.0f, 0.0f);//TEMPORARY
+	//this->renderer->Render(&tempInfo);//TEMPORARY
 
 	this->renderer->RenderPlaceHolderPlane();
 	
+
 
 	for (unsigned int i = 0; i < gameObjects->size(); i++)
 	{
@@ -140,7 +148,7 @@ void Graphics::RenderScene()
 void Graphics::FinishFrame() // this one clears the graphics for this frame. So that it can start a new cycle next frame
 {
 	gameObjects->clear(); //clear the queue
-
+	charObjects->clear();
 
 	this->gSwapChain->Present(VSYNC, 0); //Change front and back buffer after rendering
 	
@@ -372,6 +380,7 @@ void Graphics::QueueRender(RenderInfoEnemy * object)
 
 void Graphics::QueueRender(RenderInfoChar * object)
 {
+	this->charObjects->push_back(object);
 }
 
 void Graphics::QueueRender(RenderInfoTrap * object)
