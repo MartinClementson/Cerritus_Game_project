@@ -26,7 +26,7 @@ void FireTrap::Update(double deltaTime)
 { 
 	if (dotDuration > 0)
 	{
-		dotDuration = dotDuration - 1 * deltaTime;
+		dotDuration = dotDuration - 1 * (float)deltaTime;
 	}
 
 	renderInfo = { position,rotation }; //must check this.. 

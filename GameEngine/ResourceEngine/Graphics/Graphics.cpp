@@ -462,12 +462,10 @@ XMFLOAT3 Graphics::GetPlayerDirection(XMFLOAT2 mousePos,XMFLOAT3 playerPos)
 	//We need
 	// inverse view matrix
 	// inverse projection matrix
-	//float vx = (+2.0f *mousePos.x / WIN_WIDTH - 1.0f);
-	//float vy = (-2.0f * mousePos.y / WIN_HEIGHT + 1.0f);
 	
 	//Calculate mouse position in NDC space
-	float vx = ((2.0f *  mousePos.x) / WIN_WIDTH - 1.0f);
-	float vy = ((2.0f * -mousePos.y) / WIN_HEIGHT + 1.0f);
+	float vx = ((2.0f *  mousePos.x) / (float)WIN_WIDTH - 1.0f);
+	float vy = ((2.0f * -mousePos.y) / (float)WIN_HEIGHT + 1.0f);
 
 	XMVECTOR rayOrigin			= XMVectorSet(vx, vy, 0.0f, 1.0f);
 	XMVECTOR rayDir				= rayOrigin;
