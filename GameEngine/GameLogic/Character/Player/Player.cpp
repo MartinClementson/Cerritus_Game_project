@@ -20,7 +20,9 @@ Player::~Player()
 
 void Player::Initialize()
 {
-	//graphics = Graphics::GetInstance();
+	graphics = Graphics::GetInstance();
+	this->position = XMFLOAT3(0.0f, 0.0f, 1.0f);
+	this->rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
 }
 
 void Player::Release()
@@ -37,7 +39,10 @@ void Player::Update(double deltaTime)
 
 void Player::Render()
 {
+
 	//graphics->QueueRender(renderInfo);
+
+
 }
 
 void Player::Move(MovementDirection dir, double deltaTime)
