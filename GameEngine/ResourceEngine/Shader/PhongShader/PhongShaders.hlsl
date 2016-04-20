@@ -108,7 +108,7 @@ col.xy += 1.0 - saturate(abs(distance(lightFour, pixelPos) * attenuation));
 //float dist			 = distance(playerPos.xz,pixelPos.xz);
 float dist			 = distance(input.mousePos.xz, pixelPos.xz);
 
-col.xyz			    -= saturate(	abs( dist )	* 0.0005	);  //player color fade 
+col.xyz			    -= saturate(	abs( dist )	* 0.3	);  //player color fade 
 
 col.y				+= saturate(input.wPos.y);			// green color, (for the objects)
 

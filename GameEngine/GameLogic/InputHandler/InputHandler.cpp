@@ -159,7 +159,7 @@ XMFLOAT2 InputHandler::GetMousePosition()
 	if (GetCursorPos( &point))
 	{
 
-		ScreenToClient(*this->hwndP, &point);
+		bool x = ScreenToClient(*this->hwndP, &point);
 		mouseX = (float)point.x;
 		mouseY = (float)point.y;
 

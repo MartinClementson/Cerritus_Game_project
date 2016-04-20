@@ -462,8 +462,14 @@ XMFLOAT3 Graphics::GetPlayerDirection(XMFLOAT2 mousePos,XMFLOAT3 playerPos)
 	//We need
 	// inverse view matrix
 	// inverse projection matrix
+	//float vx = (+2.0f *mousePos.x / WIN_WIDTH - 1.0f);
+	//float vy = (-2.0f * mousePos.y / WIN_HEIGHT + 1.0f);
 	
-	XMVECTOR rayOrigin			= XMVectorSet(mousePos.x, mousePos.y, 0.0f, 1.0f);
+	//Calculate mouse position in NDC space
+	float vx = ((2.0f *  mousePos.x) / WIN_WIDTH - 1.0f);
+	float vy = ((2.0f * -mousePos.y) / WIN_HEIGHT + 1.0f);
+
+	XMVECTOR rayOrigin			= XMVectorSet(vx, vy, 0.0f, 1.0f);
 	XMVECTOR rayDir				= rayOrigin;
 
 	XMFLOAT3 unPack;
@@ -488,7 +494,7 @@ XMFLOAT3 Graphics::GetPlayerDirection(XMFLOAT2 mousePos,XMFLOAT3 playerPos)
 	XMVECTOR result				= -( XMVector3Dot(rayPosInWorld, planeNormal)) / (XMVector3Dot(rayDirInWorld, planeNormal));
 
 	XMStoreFloat(&t, result);	
-	XMVECTOR intersection		= XMVectorAdd(rayPosInWorld, rayDirInWorld* t);
+	XMVECTOR intersection		= XMVectorAdd(rayPosInWorld, rayDirInWorld * t);
 	
 	XMStoreFloat4(&this->mouseWorldPos, intersection);
 	this->renderer->SetMouseWorldPos(mouseWorldPos);
