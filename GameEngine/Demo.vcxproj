@@ -114,7 +114,6 @@
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\IldeState\TrapIdleState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\InactiveState\InactiveState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\TrapStateMachine.cpp" />
-    <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.cpp" />
     <ClCompile Include="ResourceEngine\Graphics\Graphics.cpp" />
@@ -126,6 +125,7 @@
     <ClCompile Include="ResourceEngine\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\ShaderManager\ShaderManager.cpp" />
     <ClCompile Include="Source\EngineClass\Engine.cpp" />
+    <ClCompile Include="Source\GameTimer\GameTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enumerations\Enumerations.h" />
@@ -165,7 +165,6 @@
     <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\IldeState\TrapIdleState.h" />
     <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\InactiveState\InactiveState.h" />
     <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\TrapStateMachine.h" />
-    <ClInclude Include="GameTimer.h" />
     <ClInclude Include="Gbuffer.h" />
     <ClInclude Include="ResourceEngine\Graphics\Graphics.h" />
     <ClInclude Include="ResourceEngine\ObjectNode\Camera\Camera.h" />
@@ -177,6 +176,7 @@
     <ClInclude Include="ResourceEngine\ResourceManager\ShaderManager\ShaderManager.h" />
     <ClInclude Include="Source\Constants.h" />
     <ClInclude Include="Source\EngineClass\Engine.h" />
+    <ClInclude Include="Source\GameTimer\GameTimer.h" />
     <ClInclude Include="Source\LibIncluder.h" />
     <ClInclude Include="Structs\ConstantBufferStruct.h" />
     <ClInclude Include="Structs\DataTypes.h" />

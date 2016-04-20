@@ -1,15 +1,16 @@
 #include <windows.h>
-
+#include <sstream>
 
 #include "./Source/Constants.h"
 #include "./Source/LibIncluder.h"
 #include "./Source/EngineClass/Engine.h"
+#include "./Source/GameTimer/GameTimer.h"
 
 
 
 HWND InitWindow(HINSTANCE hInstance);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
-
+void CalculateFPS(HWND& window, GameTimer& time);
 
 int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdLine, int nCmdShow )
 {
@@ -31,6 +32,10 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		//Create engine class
 		Engine* engine = new Engine();
 		engine->Initialize(&wndHandle, &hInstance);
+
+		GameTimer* time = new GameTimer();
+
+		time->Reset();
 		// enter message loop, loop until the message WM_QUIT is received.
 		while (WM_QUIT != msg.message)
 		{
@@ -43,8 +48,11 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 			}
 			else
 			{
-				engine->Frame(&tempDT);
-				engine->Update(&tempDT);
+				time->Tick();
+				double dt = time->DeltaTime();
+				CalculateFPS(wndHandle, *time);
+				engine->Frame(&dt);
+				
 				// update/render goes here
 			}
 		}
@@ -52,6 +60,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		// finish the program
 		engine->Release();
 		delete engine;
+		delete time;
 		DestroyWindow(wndHandle);
 	}
 
@@ -123,3 +132,43 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 	return DefWindowProc(hWnd, message, wParam, lParam);
 }
 
+void CalculateFPS(HWND& window, GameTimer& time)
+{
+	// Code computes the average frames per second, and also the 
+	// average time it takes to render one frame.  These stats 
+	// are appended to the window caption bar.
+
+	static int frameCnt = 0;
+	static float timeElapsed = 0.0f;
+
+	frameCnt++;
+
+
+	//Computes averages over one second period
+
+	////
+	// Time Elapsed only grows when the time between it and total time is greater than one.
+	//if the time between them is greater than 1 second, we calculate the fps and time per frame
+	//after that, 1.0 is added to time elapsed. Evening out the time between the two,
+	//the timer does not reset, timElapsed just kinda "catches up on the total time"
+
+	if ((time.TotalTime() - timeElapsed) >= 1.0f)
+	{
+		float fps = (float)frameCnt; //fps = frameCnt / 1
+		float mspf = 1000.0f / fps; //This is the miliseconds it takes to render one frame
+
+		std::wostringstream outs; //Format it nicely to be sent to the window
+		outs.precision(6);
+
+		outs << L"   " << L"FPS: " << fps << L"   "
+			<< L"Time Per Frame: " << mspf << L" (ms)";
+		SetWindowText(window, outs.str().c_str()); //update the window bar text
+
+
+												   //Reset for next average
+		frameCnt = 0;
+		timeElapsed += 1.0f;
+
+
+	}
+}
