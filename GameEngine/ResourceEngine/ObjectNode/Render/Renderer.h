@@ -44,7 +44,14 @@ public:
 	void Render(RenderInfoTrap* object);
 
 	void RenderPlaceHolder(XMFLOAT3* position);
+	void RenderPlaceHolder(XMFLOAT3* position, XMFLOAT3* rotation);
 	void RenderPlaceHolderPlane();
+
+
+
+
+	void GetInverseViewMatrix(XMMATRIX &matrix);
+	void GetInverseProjectionMatrix(XMMATRIX &matrix);
 private:
 	void Render(RenderInstructions* object);
 

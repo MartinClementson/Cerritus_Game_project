@@ -1,8 +1,9 @@
 #pragma once
 #include "../../../Source/LibIncluder.h"
 #include "../ProjectileSystem/Projectile/Projectile.h"
-//#include "../Player/Player.h"
-//#include "../../Character/Character.h"
+
+using namespace DirectX;
+
 
 class ProjectileSystem
 {
@@ -11,14 +12,16 @@ public:
 	virtual ~ProjectileSystem();
 	
 private:
+
 	std::vector<Projectile*> projectiles;
-	float lifeSpan;
-	int maxProjectiles; 
-	
+	float lifeSpan; //travel time
+	int maxProjectiles; // amout of projectiles
+	//Player* pos;
 
 public:
-	void FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction);
-	void UpdateParticle(double deltaTime);
+	void FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction);
+	void UpdateProjectiles(double deltaTime);
+
 	void Initialize();
 	void Release();
 };
