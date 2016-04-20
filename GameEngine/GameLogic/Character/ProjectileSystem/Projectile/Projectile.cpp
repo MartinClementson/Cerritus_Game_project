@@ -31,7 +31,7 @@ Projectile::Projectile()
 
 Projectile::Projectile(DirectX::XMFLOAT3 origin,DirectX::XMFLOAT3 direction)
 {
-	//Initialize();
+	Initialize(origin,direction);
 
 
 }
@@ -65,6 +65,7 @@ void Projectile::Update(double deltatime)
 	{
 		age += deltatime;
 		position = position+(direction*speed*deltatime);
+		renderInfo = { position, direction };
 	}
 	if (age >= 2.5f)
 		isFired = false;
@@ -94,12 +95,12 @@ float Projectile::GetSpeed()
 
 DirectX::XMFLOAT3 Projectile::GetPos()
 {
-	return position;
+	return this->position;
 }
 
 DirectX::XMFLOAT3 Projectile::GetDir()
 {
-	return direction;
+	return this->direction;
 }
 
 bool Projectile::GetFired()

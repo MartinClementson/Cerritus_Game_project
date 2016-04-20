@@ -15,12 +15,14 @@ public:
 	virtual ~ProjectileSystem();
 	
 private:
+	
 
-	Projectile projectiles[100];
+	//Projectile projectiles[100];
+	//Projectile firedProjectiles[100];
 	float lifeSpan;
 	int maxProjectiles;
 	RenderInfoObject renderInfo;
-	
+	float timeOffset;
 
 public:
 	void FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction);
@@ -31,7 +33,7 @@ public:
 
 
 
-	//std::vector<Projectile*> projectiles;
+	std::vector<Projectile*> projectiles;
 	//float lifeSpan; //travel time
 	//int maxProjectiles; // amout of projectiles
 	//Player* pos;

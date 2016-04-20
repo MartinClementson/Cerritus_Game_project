@@ -1,6 +1,7 @@
 #pragma once
 #include "../../../../Source/LibIncluder.h"
 #include "../../../../Enumerations/Enumerations.h"
+#include "../../../../Structs/RenderInfo.h"
 
 using namespace DirectX;
 
@@ -24,7 +25,7 @@ public:
 
 //	float age, speed, dmgMultiplier;
 	//bool isFired, collided;
-
+	RenderInfoObject renderInfo;
 
 public:
 
