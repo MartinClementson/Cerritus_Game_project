@@ -43,7 +43,7 @@ public:
 	void Render(RenderInfoChar* object);
 	void Render(RenderInfoTrap* object);
 
-	void RenderPlaceHolder();
+	void RenderPlaceHolder(XMFLOAT3* position);
 	void RenderPlaceHolderPlane();
 private:
 	void Render(RenderInstructions* object);

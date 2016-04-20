@@ -78,14 +78,12 @@ void GS_main(
 float4 PS_main(GS_OUT input) : SV_TARGET
 {
 
-float attenuation = 0.05;
+float attenuation	= 0.05;
 float4 playerPos	= { input.camPos.x,0.0,input.camPos.z + 10.0f ,1.0 };
 
 
-float4 col			= {1.0,1.0,1.0,1.0};
-float4 pixelPos = {	input.wPos.x, 0.0 , input.wPos.z, 1.0 };
-
-
+float4 col			 = {1.0,1.0,1.0,1.0};
+float4 pixelPos		 = {input.wPos.x, 0.0 , input.wPos.z, 1.0 };
 
 
 float4 lightOne		 = { 20.0, 0.0, -20, 1.0};
@@ -99,15 +97,16 @@ col.z += 1.0 - saturate(abs(distance(lightTwo, pixelPos) * attenuation));
 float4 lightThree	 = { -20.0, 0.0, -20.0, 1.0 };
 col.xz += 1.0 - saturate(abs(distance(lightThree, pixelPos) * attenuation));
 
+
 float4 lightFour	 = {  20.0, 0.0,  20.0, 1.0 };
 col.xy += 1.0 - saturate(abs(distance(lightFour, pixelPos) * attenuation));
 
 
-float dist			= distance(playerPos.xz,pixelPos.xz);
+float dist			 = distance(playerPos.xz,pixelPos.xz);
 
-col.xyz			   -= saturate(	abs( dist )	* 0.5	); //Red color fade 
+col.xyz			    -= saturate(	abs( dist )	* 0.5	);  //player color fade 
 
-col.y				+= saturate(input.wPos.y); // green color, (for the objects)
+col.y				+= saturate(input.wPos.y);			// green color, (for the objects)
 
 
 
