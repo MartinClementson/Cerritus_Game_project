@@ -6,8 +6,6 @@ EnemySpawn::EnemySpawn()
 {
 
 }
-
-
 EnemySpawn::~EnemySpawn()
 {
 	for (int i = 0; i < Queue.size(); i ++)
@@ -20,17 +18,14 @@ EnemySpawn::~EnemySpawn()
 		delete Alive.at(i);
 	}
 }
-
 void EnemySpawn::Initialize()
 {
 	SpawnEnemy();
 }
-
 void EnemySpawn::Release()
 {
 
 }
-
 void EnemySpawn::Update(double deltaTime)
 {
 	for (int i = 0; i < Alive.size(); i++)
@@ -46,7 +41,6 @@ void EnemySpawn::Update(double deltaTime)
 		}
 	}
 }
-
 void EnemySpawn::SpawnEnemy()
 {
 	unsigned int waveAmount = 19;
@@ -75,7 +69,7 @@ void EnemySpawn::SpawnEnemy()
 			spawn.x = spawnX;
 			spawn.z = spawnZ;
 
-			Queue.push_back(new Enemy(spawn));
+			Queue.push_back( new Enemy(spawn) );
 		}
 		if (spawnPointRandom = 3)
 		{

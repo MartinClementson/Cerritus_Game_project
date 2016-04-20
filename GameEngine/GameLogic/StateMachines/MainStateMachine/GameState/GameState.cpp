@@ -9,7 +9,7 @@ GameState::GameState()
 	this->player = new Player();
 	this->input = Input::GetInstance();
 	//this->enemy = new Enemy();
-	this->enemyState = new EnemyState();
+	//this->enemyState = new EnemyState();
 }
 
 
@@ -19,7 +19,7 @@ GameState::~GameState()
 	delete this->pause;
 	delete this->player;
 	//delete this->enemy;
-	delete this->enemyState;
+	//delete this->enemyState;
 }
 
 void GameState::Initialize()

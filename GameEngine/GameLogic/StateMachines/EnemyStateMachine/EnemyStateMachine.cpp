@@ -7,7 +7,6 @@ EnemyStateMachine::EnemyStateMachine()
 
 }
 
-
 EnemyStateMachine::~EnemyStateMachine()
 {
 
@@ -15,8 +14,7 @@ EnemyStateMachine::~EnemyStateMachine()
 
 void EnemyStateMachine::Initialize()
 {
-	Queue;
-	Alive;
+
 }
 
 void EnemyStateMachine::Release()
