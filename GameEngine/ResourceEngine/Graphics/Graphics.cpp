@@ -129,32 +129,38 @@ void Graphics::RenderScene()
 	//Always render the char first! This is because we set the camera matrix with the characters position
 	renderer->Render(charObjects->at(0));
 	
-	RenderInfoEnemy tempInfo;//TEMPORARY
-	static float z = 5.5f;
-	static float x = 5.5f;
+#pragma region Temporary code for early testing
+	RenderInfoEnemy tempInfo;					 //TEMPORARY
+	static float z = 5.5f;						 //TEMPORARY
+	static float x = 5.5f;						 //TEMPORARY
 	tempInfo.position = XMFLOAT3(0.0f, 0.0f, z); //TEMPORARY
 	
-	this->renderer->Render(&tempInfo);
+	this->renderer->Render(&tempInfo);			 //TEMPORARY
 	
 	
 
 	tempInfo.position = XMFLOAT3(0.0f, 0.0f, -z);//TEMPORARY
-	this->renderer->Render(&tempInfo);//TEMPORARY
+	this->renderer->Render(&tempInfo);			 //TEMPORARY
 
 	tempInfo.position = XMFLOAT3(-x, 0.0f, 0.0f);//TEMPORARY
-	this->renderer->Render(&tempInfo);//TEMPORARY
+	this->renderer->Render(&tempInfo);			 //TEMPORARY
 
-	tempInfo.position = XMFLOAT3(x, 0.0f, 0.0f);//TEMPORARY
-	this->renderer->Render(&tempInfo);//TEMPORARY
-
-	this->renderer->RenderPlaceHolderPlane();
+	tempInfo.position = XMFLOAT3(x, 0.0f, 0.0f); //TEMPORARY
+	this->renderer->Render(&tempInfo);			 //TEMPORARY
+												 
+	this->renderer->RenderPlaceHolderPlane();	 //TEMPORARY
+												 
+	x +=  (float) cos(z)* 0.1;					 //TEMPORARY
+	z +=  (float)sin(x)* 0.1;					 //TEMPORARY
+#pragma endregion
 	
-	//x += sin(90)* 0.1;
-	//z +=  cos(90)* 0.1;
-
+	
+	
+	
+	
 	for (unsigned int i = 0; i < gameObjects->size(); i++)
 	{
-		//renderer->Render(gameObjects->at(i));
+		renderer->Render(gameObjects->at(i));
 
 	}
 
@@ -163,6 +169,20 @@ void Graphics::RenderScene()
 		renderer->Render(enemyObjects->at(i));
 
 	}
+
+	for (unsigned int i = 0; i < trapObjects->size(); i++)
+	{
+		renderer->Render(trapObjects->at(i));
+
+	}
+
+	for (unsigned int i = 0; i < uiObjects->size(); i++)
+	{
+		renderer->Render(uiObjects->at(i));
+
+	}
+
+
 
 }
 
