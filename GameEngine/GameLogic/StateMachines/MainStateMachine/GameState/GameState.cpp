@@ -9,6 +9,9 @@ GameState::GameState()
 	this->player = new Player();
 	this->input = Input::GetInstance();
 	this->room1 = new Scene();
+
+
+
 }
 
 
@@ -18,6 +21,7 @@ GameState::~GameState()
 	delete this->pause;
 	delete this->player;
 	delete this->room1;
+
 }
 
 void GameState::Initialize()
@@ -29,6 +33,7 @@ void GameState::Initialize()
 	death->isActive = false;
 	pause->isActive = false;
 	room1->Initialize();
+
 }
 
 void GameState::Release()
@@ -44,8 +49,15 @@ void GameState::Release()
 void GameState::Update(double deltaTime)
 {
 	ProcessInput(&deltaTime);
-	player->Update(deltaTime);
+	XMFLOAT2 mouseXY = input->GetMousePosition();
+
+	XMFLOAT3 dir = Graphics::GetInstance()->GetPlayerDirection( mouseXY, player->GetPosition());
+	
+		
+	player->Update(deltaTime,dir);
+
 	room1->Update(deltaTime);
+
 }
 
 void GameState::ProcessInput(double* deltaTime)
@@ -86,6 +98,10 @@ void GameState::ProcessInput(double* deltaTime)
 		{
 			pause->isActive = true;
 		}
+		else if (input->IsKeyPressed(KEY_SPACE))
+		{
+			player->Shoot(KEY_SPACE, deltaTime[0]);
+		}
 	}
 }
 
@@ -94,6 +110,7 @@ void GameState::Render()
 	room1->Render();
 	player->Render();
 	gameUI->Render();
+
 }
 
 void GameState::OnEnter()
