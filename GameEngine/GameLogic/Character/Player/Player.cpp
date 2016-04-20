@@ -33,7 +33,6 @@ void Player::Update(double deltaTime)
 
 void Player::Render()
 {
-	
 	graphics->QueueRender(&renderInfo);
 }
 
