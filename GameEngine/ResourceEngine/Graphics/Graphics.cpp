@@ -188,9 +188,11 @@ void Graphics::RenderScene()
 
 void Graphics::FinishFrame() // this one clears the graphics for this frame. So that it can start a new cycle next frame
 {
-	gameObjects->clear(); //clear the queue
-	charObjects->clear();
-
+	gameObjects  ->clear(); //clear the queue
+	charObjects  ->clear();
+	enemyObjects ->clear();
+	trapObjects	 ->clear();
+	uiObjects	 ->clear();
 	this->gSwapChain->Present(VSYNC, 0); //Change front and back buffer after rendering
 	
 	float clearColor[] = { 0, 0, 1, 1 };
