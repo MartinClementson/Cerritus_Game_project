@@ -10,6 +10,7 @@ GameState::GameState()
 	this->input = Input::GetInstance();
 	//this->enemy = new Enemy();
 	//this->enemyState = new EnemyState();
+
 }
 
 
@@ -20,6 +21,7 @@ GameState::~GameState()
 	delete this->player;
 	//delete this->enemy;
 	//delete this->enemyState;
+
 }
 
 void GameState::Initialize()
@@ -32,12 +34,20 @@ void GameState::Initialize()
 	pause->isActive = false;
 	//enemy->Initialize();
 	enemyState->Initialize();
+
+	room1->Initialize();
+	//enemy->Initialize();
+
 }
 
 void GameState::Release()
 {
-
-	//RELEASA ALLT HÄR!
+	death->Release();
+	pause->Release();
+	input->Release();
+	player->Release();
+	room1->Release();
+	//enemy->Release();
 }
 
 void GameState::Update(double deltaTime)
@@ -93,7 +103,7 @@ void GameState::Render()
 	room1->Render();
 	player->Render();
 	gameUI->Render();
-	enemy->Render();
+	//enemy->Render();
 }
 
 void GameState::OnEnter()
