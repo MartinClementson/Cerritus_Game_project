@@ -11,9 +11,15 @@ public:
 	void Release();
 	void Update(double deltaTime);
 	void Render();
+	float GetDot();
+	void SetDot(float dotDuration);
+
 	//Collision();
 private:
 	float dotDuration;
 	TrapStateMachine* TrapState;
+	RenderInfoTrap renderInfo;
+	//RenderInfoTrap* renderInfo;
+	Graphics* grapichs;
 };
 
