@@ -93,10 +93,10 @@ void Renderer::RenderPlaceHolder()
 	object = this->resourceManager->GetPlaceHolderMesh( XMFLOAT3(0.0f, 0.0f, -1.5f));
 	
 
-	XMFLOAT3 tempPos		 = XMFLOAT3(0.0f,0.0f, -1.5f);
-	this->sceneCam->Updateview(tempPos); //This is temporary. The update of the cam should only be done in the "char" render
+	//XMFLOAT3 tempPos		 = XMFLOAT3(0.0f,0.0f, -1.5f);
+	//this->sceneCam->Updateview(tempPos); //This is temporary. The update of the cam should only be done in the "char" render
 	
-	this->UpdateCameraBuffer();
+	//this->UpdateCameraBuffer();
 
 	Render(object);
 
@@ -184,6 +184,7 @@ void Renderer::UpdateCameraBuffer()
 
 	CamMatrices* tempCamMatrices		= (CamMatrices*)mappedResource.pData;
 	*tempCamMatrices					= *tempCam;
+	tempCamMatrices->worldPos = tempCam->worldPos;
 	
 
 	gDeviceContext->Unmap(this->camBuffer, 0);
@@ -205,7 +206,8 @@ void Renderer::UpdateWorldBuffer(WorldMatrix* worldStruct)
 
 	WorldMatrix* temporaryWorld = (WorldMatrix*)mappedResourceWorld.pData;
 
-	*temporaryWorld = *worldStruct;
+	//*temporaryWorld = *worldStruct;
+	temporaryWorld->worldMatrix = worldStruct->worldMatrix;
 	
 
 	this->gDeviceContext->Unmap(worldBuffer, 0);
