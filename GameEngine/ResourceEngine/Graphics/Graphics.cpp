@@ -13,6 +13,14 @@ Graphics::~Graphics()
 		delete gameObjects;
 	if (charObjects != nullptr)
 		delete charObjects;
+	if (uiObjects != nullptr)
+		delete uiObjects;
+	if (enemyObjects != nullptr)
+		delete enemyObjects;
+	if (trapObjects != nullptr)
+		delete trapObjects;
+
+
 
 	if (renderer != nullptr)
 		delete renderer;
@@ -26,12 +34,19 @@ Graphics::~Graphics()
 void Graphics::Initialize(HWND * window)
 {
 	HRESULT hr;
-	this->wndHandle = window;
+	this->wndHandle  = window;
 
-	hr = CreateDirect3DContext();
+	hr				 = CreateDirect3DContext();
 
-	gameObjects = new std::vector<RenderInfoObject*>;
-	charObjects = new std::vector<RenderInfoChar*>;
+	gameObjects		 = new std::vector<RenderInfoObject*>;
+	charObjects		 = new std::vector<RenderInfoChar*>;
+	uiObjects		 = new std::vector<RenderInfoUI*>;
+	enemyObjects	 = new std::vector<RenderInfoEnemy*>;
+	trapObjects		 = new std::vector<RenderInfoTrap*>;
+
+
+
+
 	renderer = new Renderer();
 	renderer->Initialize(gDevice,this->gDeviceContext);
 	
@@ -112,11 +127,8 @@ void Graphics::RenderScene()
 	
 	
 	//Always render the char first! This is because we set the camera matrix with the characters position
-	for (unsigned int i = 0; i < this->charObjects->size(); i++)
-	{
-		renderer->Render(charObjects->at(i));
-
-	}
+	renderer->Render(charObjects->at(0));
+	
 	RenderInfoChar tempInfo;//TEMPORARY
 	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 5.5f); //TEMPORARY
 	//this->renderer->RenderPlaceHolder();//TEMPORARY
