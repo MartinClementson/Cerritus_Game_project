@@ -96,6 +96,13 @@ void Graphics::Release()
 	}
 
 
+
+
+
+
+
+
+
 	while (gDevice->Release() > 0);
 	//SAFE_RELEASE(gDevice);
 
@@ -151,8 +158,8 @@ void Graphics::RenderScene()
 												 
 	this->renderer->RenderPlaceHolderPlane();	 //TEMPORARY
 												 
-	x +=  (float) cos(z)* 0.1;					 //TEMPORARY
-	z +=  (float)sin(x)* 0.1;					 //TEMPORARY
+	x +=  (float) cos(z)* 0.1f;					 //TEMPORARY
+	z +=  (float)sin(x)* 0.1f;					 //TEMPORARY
 #pragma endregion
 	
 	
@@ -435,11 +442,6 @@ void Graphics::QueueRender(RenderInfoTrap * object)
 	this->trapObjects->push_back(object);
 }
 
-void Graphics::QueueRender(RenderInfoProjectile* object)
-{
-	//this->gameObjects->push_back(object);
-
-}
 
 Graphics * Graphics::GetInstance()
 {
@@ -488,13 +490,20 @@ XMFLOAT3 Graphics::GetPlayerDirection(XMFLOAT2 mousePos,XMFLOAT3 playerPos)
 	XMStoreFloat(&t, result);	
 	XMVECTOR intersection		= XMVectorAdd(rayPosInWorld, rayDirInWorld* t);
 	
+	XMStoreFloat4(&this->mouseWorldPos, intersection);
+	this->renderer->SetMouseWorldPos(mouseWorldPos);
+
 	XMVECTOR playerToCursor		= XMVectorSubtract(intersection, XMLoadFloat3(&XMFLOAT3(playerPos.x, 1.0f, playerPos.z)));
 	XMStoreFloat3(&unPack, playerToCursor);
 	
 	playerToCursor				= XMVector3Normalize(XMVectorSet(unPack.x, 0.0f, unPack.z, 0.0f));
 	
+	//XMStoreFloat3(&mPlayerToCursor, XMLoadFloat3(&mPlayerToCursor) * 0.95f + (XMVectorSet(unPack.x, 0.0f, unPack.z, 0.0f) * 0.1f) * 0.05f);
+	
 	XMFLOAT3 toReturn;
 	XMStoreFloat3(&toReturn, playerToCursor);
+
+
 
 	return toReturn;
 }

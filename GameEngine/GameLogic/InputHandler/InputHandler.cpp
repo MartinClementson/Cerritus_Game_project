@@ -128,6 +128,10 @@ bool InputHandler::IsKeyPressed(InputKeys* key)
 	{
 		return true;
 	}
+	else if (*key == KEY_SPACE && keyboardState[DIK_SPACE])
+	{
+		return true;
+	}
 	else
 	{
 		return false;
@@ -151,47 +155,50 @@ XMFLOAT2 InputHandler::GetMousePosition()
 
 	POINT point;
 	ShowCursor(TRUE);
-
+	RAWINPUTDEVICE mRid;
 	if (GetCursorPos( &point))
 	{
-		if (ScreenToClient(*this->hwndP, &point))
-		{
-			mouseX = (float)point.x;
-			mouseY = (float)point.y;
-		if (mouseX > WIN_WIDTH)
-			{
-				point.x = (LONG)WIN_WIDTH;
-				ClientToScreen(*this->hwndP, &point);
-				SetCursorPos(point.x, point.y);
-			}
-		if (mouseY > WIN_HEIGHT)
-			{
-				point.y = (LONG)WIN_HEIGHT;
-				ClientToScreen(*this->hwndP, &point);
-				SetCursorPos(point.x, point.y);
-			}
 
-		if (mouseX < 0)
-		{
-			point.x = 0;
-			ClientToScreen(*this->hwndP, &point);
-			SetCursorPos(point.x, point.y);
-		}
-		if (mouseY < 0)
-		{
-			point.y = 0;
-			ClientToScreen(*this->hwndP, &point);
-			SetCursorPos(point.x, point.y);
-		}
-		}
+		ScreenToClient(*this->hwndP, &point);
+		mouseX = (float)point.x;
+		mouseY = (float)point.y;
+
+		//if (ScreenToClient(*this->hwndP, &point))
+		//{
+		///*if (mouseX > WIN_WIDTH)
+		//	{
+		//		point.x = (LONG)WIN_WIDTH;
+		//		ScreenToClient(*this->hwndP, &point);
+		//		SetCursorPos(point.x, point.y);
+		//	}
+		//if (mouseY > WIN_HEIGHT)
+		//	{
+		//		point.y = (LONG)WIN_HEIGHT;
+		//		ScreenToClient(*this->hwndP, &point);
+		//		SetCursorPos(point.x, point.y);
+		//	}
+
+		//if (mouseX < 0)
+		//{
+		//	point.x = 0;
+		//	ScreenToClient(*this->hwndP, &point);
+		//	SetCursorPos(point.x, point.y);
+		//}
+		//if (mouseY < 0)
+		//{
+		//	point.y = 0;
+		//	ScreenToClient(*this->hwndP, &point);
+		//	SetCursorPos(point.x, point.y);
+		//}*/
+		//}
 		
 	}
-	else
+	/*else
 	{
 		mouseX = 0;
 		mouseY = 0;
 	}
-	
+	*/
 	return XMFLOAT2(mouseX, mouseY);
 }
 

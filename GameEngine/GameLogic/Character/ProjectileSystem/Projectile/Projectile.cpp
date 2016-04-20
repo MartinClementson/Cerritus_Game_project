@@ -63,8 +63,8 @@ void Projectile::Update(double deltatime)
 
 	if(isFired == true)
 	{
-		age += deltatime;
-		position = position+(direction*speed*deltatime);
+		age += (float)deltatime;
+		position = position + (direction* speed * float(deltatime));
 	}
 	if (age >= 2.5f)
 		isFired = false;

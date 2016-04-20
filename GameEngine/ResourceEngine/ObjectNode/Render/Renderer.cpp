@@ -39,7 +39,7 @@ void Renderer::Release()
 //Render scene objects, mostly static stuff
 void Renderer::Render(RenderInfoObject * object)
 {
-	RenderInstructions* renderObject;
+	//RenderInstructions* renderObject;
 
 	//Send the info of the object into the resource manager
 	//The resource manager gathers all the rendering info and sends back a renderInstruction
@@ -121,6 +121,12 @@ void Renderer::RenderPlaceHolderPlane()
 
 }
 #pragma endregion
+
+void Renderer::SetMouseWorldPos(XMFLOAT4 position)
+{
+	this->mouseWorldPos = position;
+
+}
 
 void Renderer::GetInverseViewMatrix(XMMATRIX & matrix)
 {
@@ -204,7 +210,7 @@ void Renderer::UpdateCameraBuffer()
 {
 
 	CamMatrices* tempCam			= this->sceneCam->GetCameraMatrices();
-
+	tempCam->mousePos = this->mouseWorldPos;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
@@ -214,6 +220,7 @@ void Renderer::UpdateCameraBuffer()
 	CamMatrices* tempCamMatrices		= (CamMatrices*)mappedResource.pData;
 	*tempCamMatrices					= *tempCam;
 	tempCamMatrices->worldPos = tempCam->worldPos;
+	tempCamMatrices->mousePos = tempCam->mousePos;
 	
 
 	gDeviceContext->Unmap(this->camBuffer, 0);

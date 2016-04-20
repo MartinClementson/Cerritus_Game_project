@@ -7,6 +7,7 @@ struct CamMatrices
 	DirectX::XMFLOAT4X4 camView;
 	DirectX::XMFLOAT4X4 projection;
 	DirectX::XMFLOAT4 worldPos;
+	DirectX::XMFLOAT4 mousePos;
 };
 //CamMatrices camMatrices;
 

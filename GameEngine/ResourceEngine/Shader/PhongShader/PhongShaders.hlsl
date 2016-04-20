@@ -4,6 +4,7 @@ cbuffer cameraConstantBuffer  : register(b0)
 	matrix view;
 	matrix projection;
 	float4 camPos;
+	float4 mousePos;
 	//float3 camLook;
 
 };
@@ -49,6 +50,7 @@ struct GS_OUT
 	//float3 Normal		: NORMAL;
 	float4 wPos			: WORLDPOS;
 	float4 camPos		: CAMERAPOS;
+	float4 mousePos		: MOUSEPOS;
 	//float3 Tangent		: TANGENT;
 
 };
@@ -65,9 +67,10 @@ void GS_main(
 	for (uint i = 0; i < 3; i++)
 	{
 		GS_OUT element;
-		element.Pos		= mul(input[i].Pos,combinedMatrix);
-		element.wPos	= mul(input[i].Pos,world);
-		element.camPos = camPos;
+		element.Pos		 = mul(input[i].Pos,combinedMatrix);
+		element.wPos	 = mul(input[i].Pos,world);
+		element.camPos	 = camPos;
+		element.mousePos = mousePos;
 		output.Append(element);
 	}
 
@@ -102,9 +105,10 @@ float4 lightFour	 = {  20.0, 0.0,  20.0, 1.0 };
 col.xy += 1.0 - saturate(abs(distance(lightFour, pixelPos) * attenuation));
 
 
-float dist			 = distance(playerPos.xz,pixelPos.xz);
+//float dist			 = distance(playerPos.xz,pixelPos.xz);
+float dist			 = distance(input.mousePos.xz, pixelPos.xz);
 
-col.xyz			    -= saturate(	abs( dist )	* 0.5	);  //player color fade 
+col.xyz			    -= saturate(	abs( dist )	* 0.0005	);  //player color fade 
 
 col.y				+= saturate(input.wPos.y);			// green color, (for the objects)
 
