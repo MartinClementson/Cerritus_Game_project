@@ -8,18 +8,18 @@ Enemy::Enemy(XMFLOAT3 spawn)
 
 Enemy::Enemy()
 {
-
+	this->enemyStateMachine = new EnemyStateMachine();
 }
 
 Enemy::~Enemy()
 {
-
+	delete enemyStateMachine;
 }
 
 void Enemy::Initialize(XMFLOAT3 position)
 {
 	graphics = Graphics::GetInstance();
-	movementSpeed = 1.0f;
+	movementSpeed = 100.0f;
 
 	health = 100.0f;
 
@@ -33,14 +33,18 @@ void Enemy::Initialize(XMFLOAT3 position)
 
 void Enemy::Release()
 {
-	
+	enemyStateMachine->Release();
+}
+
+void Enemy::Update(double deltaTime)
+{
+	enemyStateMachine->Update(deltaTime);
 }
 
 void Enemy::UpdateAttack(double deltaTime)
 {
 	//enemy basic movement
 	//position of the enemy to test the movement of the enemy we set the start value at 0,0,0 and if the x value is 0 we move in that direction untill we reach x = 5 then we tail backwards to zero,
-
 	//just to see if the movement of the enemies work. 
 #pragma region movement
 
@@ -52,6 +56,7 @@ void Enemy::UpdateAttack(double deltaTime)
 	{
 		position.x = 0;
 	}
+#pragma region bulle
 	//just if we want to decrease the movement speed of the enemys when they are hurt. 
 	//if (health == 100)
 	//{
@@ -88,13 +93,6 @@ void Enemy::UpdateDead(double deltaTime)
 	renderInfo = { position, rotation };
 }
 
-bool Enemy::DeadBool(bool dead)
-{
-	dead = dead;
-
-	return dead;
-}
-
 void Enemy::UpdateIdle(double deltaTime)
 {
 	position.x = 0;
@@ -111,14 +109,6 @@ void Enemy::UpdateIdle(double deltaTime)
 
 	renderInfo = { position, rotation };
 }
-
-bool Enemy::IdleBool(bool idle)
-{
-	idle = idle;
-
-	return idle;
-}
-
 
 void Enemy::Render()
 {

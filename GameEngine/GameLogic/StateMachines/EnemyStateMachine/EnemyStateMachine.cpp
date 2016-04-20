@@ -18,6 +18,7 @@ EnemyStateMachine::~EnemyStateMachine()
 
 void EnemyStateMachine::Initialize()
 {
+	activeState = ENEMY_IDLE_STATE;
 	this->idleState->Initialize();
 	this->attackState->Initialize();
 	this->deathState->Initialize();
@@ -25,12 +26,26 @@ void EnemyStateMachine::Initialize()
 
 void EnemyStateMachine::Release()
 {
-
+	this->idleState->Release();
+	this->attackState->Release();
+	this->deathState->Release();
 }
 
 void EnemyStateMachine::Update(double deltaTime)
 {
-	this->idleState->Update(deltaTime);
-	this->attackState->Update(deltaTime);
-	this->deathState->Update(deltaTime);
+	if (activeState == ENEMY_IDLE_STATE)
+	{
+		this->idleState->Update(deltaTime);
+
+	}
+	else if (activeState == ENEMY_ATTACK_STATE)
+	{
+		this->attackState->Update(deltaTime);
+
+	}
+	else if (activeState == ENEMY_DEATH_STATE)
+	{
+		this->deathState->Update(deltaTime);
+
+	}
 }

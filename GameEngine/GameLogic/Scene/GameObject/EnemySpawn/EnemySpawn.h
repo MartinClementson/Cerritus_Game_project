@@ -22,6 +22,7 @@ public:
 	~EnemySpawn();
 
 	void Update(double deltaTime);
-	void SpawnEnemy();
+	void InitEnemy();
+	bool SpawnEnemy();
 };
 

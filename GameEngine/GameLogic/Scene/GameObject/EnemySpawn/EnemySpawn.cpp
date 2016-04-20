@@ -4,7 +4,7 @@
 
 EnemySpawn::EnemySpawn()
 {
-
+	
 }
 EnemySpawn::~EnemySpawn()
 {
@@ -28,25 +28,27 @@ void EnemySpawn::Release()
 }
 void EnemySpawn::Update(double deltaTime)
 {
-	//for (int i = 0; i < Alive.size(); i++)
-	//{
-	///*	if (Alive.at(i)->DeadBool == true)
-	//	{*/
-	//		if (Alive.size() <= 10)
-	//		{
-	//			Alive.push_back.at(i)(Queue);
-	//			Alive.push_back(Queue.at(0));
-	//			Queue.erase(Queue.begin());
-	//		}
-	//	/*}*/
-	//}
+	if (Alive.size() < 10)
+	{
+		SpawnEnemy();
+	}
 }
 
-void EnemySpawn::SpawnEnemy()
+bool EnemySpawn::SpawnEnemy()
 {
-	unsigned int waveAmount = 19;
+	if (Queue.size() > 0)
+	{
+		Alive.push_back(Queue.at(0));
+		Queue.erase(Queue.begin());
+	}
 
-	for (int i = 0; i < waveAmount; i++)
+}
+
+void EnemySpawn::InitEnemy()
+{
+	unsigned int waveAmount = 20;
+
+	for (int i = 1; i < waveAmount; i++)
 	{
 		int spawnPointRandom = rand() % 4 + 1;
 
