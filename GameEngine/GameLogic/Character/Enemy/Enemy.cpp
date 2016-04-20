@@ -88,7 +88,6 @@ void Enemy::UpdateDead(double deltaTime)
 	//Trigger animation. Animation.death(true);
 
 	dead = true;
-	DeadBool(dead);
 
 	renderInfo = { position, rotation };
 }

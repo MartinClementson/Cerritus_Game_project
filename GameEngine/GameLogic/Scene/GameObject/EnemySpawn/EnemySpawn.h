@@ -23,6 +23,6 @@ public:
 
 	void Update(double deltaTime);
 	void InitEnemy();
-	bool SpawnEnemy();
+	void SpawnEnemy();
 };
 

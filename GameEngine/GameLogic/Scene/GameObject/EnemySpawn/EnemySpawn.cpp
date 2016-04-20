@@ -34,14 +34,13 @@ void EnemySpawn::Update(double deltaTime)
 	}
 }
 
-bool EnemySpawn::SpawnEnemy()
+void EnemySpawn::SpawnEnemy()
 {
 	if (Queue.size() > 0)
 	{
 		Alive.push_back(Queue.at(0));
 		Queue.erase(Queue.begin());
 	}
-
 }
 
 void EnemySpawn::InitEnemy()

@@ -4,7 +4,6 @@
 #include "../../../Enumerations/Enumerations.h"
 #include "../../InputHandler/Input/Input.h"
 #include "../../../../GameEngine/Structs/RenderInfo.h"
-#include "../Enemy/Enemy.h"
 #include "../../StateMachines/EnemyStateMachine/EnemyStateMachine.h"
 
 class Enemy :
