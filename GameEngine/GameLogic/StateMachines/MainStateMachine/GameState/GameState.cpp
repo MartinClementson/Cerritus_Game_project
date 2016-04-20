@@ -50,6 +50,7 @@ void GameState::Update(double deltaTime)
 
 void GameState::ProcessInput(double* deltaTime)
 {
+	XMFLOAT2 temp = input->GetMousePosition();
 
 	if (death->isActive)
 	{
