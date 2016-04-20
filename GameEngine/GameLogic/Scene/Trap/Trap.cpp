@@ -18,15 +18,19 @@ void Trap::Initialize()
 }
 void Trap::Release()
 {
+
 }
 void Trap::Update(double deltaTime)
 {
+
 	renderInfo = { position,rotation };
+
 
 }
 
 void Trap::Render()
 {
+
 	//Tar inte scene hand om render för alla traps? jo
 	grapichs = Graphics::GetInstance();
 }
@@ -56,4 +60,6 @@ void Trap::SetPosition(DirectX::XMFLOAT3 position)
 void Trap::SetRotation(DirectX::XMFLOAT3 rotation)
 {
 	this->rotation = rotation;
+
+
 }
