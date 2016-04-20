@@ -20,6 +20,7 @@ void Player::Initialize()
 
 	this->position = XMFLOAT3(0.0f, 0.0f, 1.0f);
 	this->rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	this->movementSpeed = 100.0f;
 
 }
 
@@ -48,11 +49,11 @@ void Player::Move(MovementDirection dir, double deltaTime)
 	}
 	else if (dir == DOWN)
 	{
-		position.z += movementSpeed * (float)deltaTime;
+		position.z -= movementSpeed * (float)deltaTime;
 	}
 	else if (dir == LEFT)
 	{
-		position.x += movementSpeed * (float)deltaTime;
+		position.x -= movementSpeed * (float)deltaTime;
 	}
 	else if (dir == RIGHT)
 	{
