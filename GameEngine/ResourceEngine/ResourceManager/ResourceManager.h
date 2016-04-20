@@ -27,6 +27,7 @@ RenderInstructions* GetRenderInfo(RenderInfoChar*		object);
 RenderInstructions* GetRenderInfo(RenderInfoTrap*		object);
 
 RenderInstructions* GetPlaceHolderMesh(XMFLOAT3 position);
+RenderInstructions* GetPlaceHolderMesh(XMFLOAT3 position, XMFLOAT3 rotation);
 RenderInstructions* GetPlaceHolderPlane();
 
 private:

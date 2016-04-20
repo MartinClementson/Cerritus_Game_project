@@ -80,6 +80,7 @@ public:
 	//Singleton for the graphics class 
 	static Graphics* GetInstance();
 
+	XMFLOAT3 GetPlayerDirection(XMFLOAT2 mousePos,  XMFLOAT3 playerPos);
 
 };
 
