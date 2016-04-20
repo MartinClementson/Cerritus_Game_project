@@ -42,12 +42,15 @@ public:
 	void Render(RenderInfoEnemy* object);
 	void Render(RenderInfoChar* object);
 	void Render(RenderInfoTrap* object);
-	void RenderPlaceHolder();
 
+	void RenderPlaceHolder();
+	void RenderPlaceHolderPlane();
 private:
 	void Render(RenderInstructions* object);
 
 	void UpdateCameraBuffer();
+	void UpdateWorldBuffer(WorldMatrix* worldStruct);
+
 	bool CreateConstantBuffers();
 
 };

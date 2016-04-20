@@ -20,8 +20,11 @@ void Animation::Release()
 
 void Animation::Update(double deltaTime)
 {
+
+	//update the different animation, if a specific move is queued alter animations
 }
 
 void Animation::Render()
 {
+	//render queue of different animations
 }

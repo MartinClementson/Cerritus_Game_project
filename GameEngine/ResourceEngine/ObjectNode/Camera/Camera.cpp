@@ -11,14 +11,10 @@ Camera::~Camera()
 {
 }
 
-void Camera::Render()
-{
-	//???
-}
 
 void Camera::Update()
 {
-	// Vad behövs göras här ???
+	
 }
 
 void Camera::Initialize(ID3D11Device *gDevice,ID3D11DeviceContext *gDeviceContext)
@@ -32,17 +28,18 @@ void Camera::Initialize(ID3D11Device *gDevice,ID3D11DeviceContext *gDeviceContex
 	//									Projection Matrix
 	float fovangleY				 = XM_PI * 0.45f;
 	float aspectRatio			 = float(WIN_WIDTH / WIN_HEIGHT);
-	float farZ					 = 50.0f;
+	float farZ					 = 50000.0f;
 	float nearZ					 = 0.01f;
 
 
 	//Create projection Matrix
-	DirectX::XMMATRIX tempProj	 = XMMatrixPerspectiveLH(
+	DirectX::XMMATRIX tempProj	 = XMMatrixPerspectiveFovLH(
 		(fovangleY),
 		(aspectRatio),
 		(nearZ),
 		(farZ)
 		);
+
 	//Transpose the Projcetion matrix
 	tempProj = XMMatrixTranspose(tempProj);
 
@@ -70,20 +67,23 @@ void Camera::Initialize(ID3D11Device *gDevice,ID3D11DeviceContext *gDeviceContex
 	
 }
 
-void Camera::Updateview(ID3D11Buffer * constBuffer, DirectX::XMFLOAT2 playerPos)
+void Camera::Updateview( DirectX::XMFLOAT3 playerPos)
 {
 	//Update the position of the camera to follow the player
+	
 
-	camPosition.x = playerPos.x + cameraOffset.x;
-	camPosition.y = cameraOffset.y;
-	camPosition.z = playerPos.y + cameraOffset.z; //The y here is NOT a mistake.
+
+	camPosition.x		 = playerPos.x + cameraOffset.x;
+	camPosition.y	     = cameraOffset.y;
+	camPosition.z		 = playerPos.z + cameraOffset.z;
 
 	//update the struct with the new position
 	this->camMatrices.worldPos = this->camPosition;
 
 	//update the look at
-	camTarget.x = playerPos.x;
-	camTarget.z = playerPos.y; //The z/y here is NOT a mistake.
+	camTarget.x		= playerPos.x;
+	camTarget.y		= playerPos.y;
+	camTarget.z		= playerPos.z;
 
 	
 	XMMATRIX tempView = XMMatrixLookAtLH(
@@ -91,16 +91,11 @@ void Camera::Updateview(ID3D11Buffer * constBuffer, DirectX::XMFLOAT2 playerPos)
 		(XMLoadFloat4(&camTarget)),
 		(XMLoadFloat4(&camUp)) );
 
-	tempView = XMMatrixTranspose(tempView);
+	
 
 
 	XMStoreFloat4x4(&camMatrices.camView, XMMatrixTranspose(tempView));
 
-}
-
-void Camera::TranslateTo(XMFLOAT3 newPos) // Förklaring : Translate to -> new pos
-{
-	// ???
 }
 
 CamMatrices * Camera::GetCameraMatrices()

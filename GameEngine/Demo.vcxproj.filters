@@ -352,8 +352,14 @@
     <ClCompile Include="ResourceEngine\ObjectNode\Camera\Camera.cpp">
       <Filter>ResourceEngine\ObjectNode\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="GameLogic\Game.cpp">
+      <Filter>GameLogic</Filter>
+    </ClCompile>
     <ClCompile Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.cpp">
       <Filter>ResourceEngine\Graphics\Gbuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameTimer.cpp">
+      <Filter>Source Files\Main\GameTimer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -508,7 +514,14 @@
       <Filter>ResourceEngine\ObjectNode\Camera</Filter>
     </ClInclude>
     <ClInclude Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.h">
+    <ClInclude Include="GameLogic\Game.h">
+      <Filter>GameLogic</Filter>
+    </ClInclude>
+    <ClInclude Include="Gbuffer.h">
       <Filter>ResourceEngine\Graphics\Gbuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="GameTimer.h">
+      <Filter>Source Files\Main\GameTimer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
