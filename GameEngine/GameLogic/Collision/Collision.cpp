@@ -4,9 +4,11 @@
 
 Collision::Collision()
 {
+
 }
 
 
 Collision::~Collision()
 {
+
 }

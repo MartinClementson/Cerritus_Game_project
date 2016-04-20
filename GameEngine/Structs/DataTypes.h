@@ -71,3 +71,9 @@ struct ProjectileStruct
 	Float3 position;
 	Float3 rotation;
 };
+
+struct BoundingCircle
+{
+	XMFLOAT3 center;
+	float radius;
+};
