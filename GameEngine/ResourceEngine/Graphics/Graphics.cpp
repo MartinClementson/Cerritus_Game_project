@@ -129,8 +129,8 @@ void Graphics::RenderScene()
 	//Always render the char first! This is because we set the camera matrix with the characters position
 	renderer->Render(charObjects->at(0));
 	
-	RenderInfoChar tempInfo;//TEMPORARY
-	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 5.5f); //TEMPORARY
+	//RenderInfoChar tempInfo;//TEMPORARY
+	//tempInfo.position = XMFLOAT3(0.0f, 0.0f, 5.5f); //TEMPORARY
 	//this->renderer->RenderPlaceHolder();//TEMPORARY
 	 //this->renderer->Render(&tempInfo);
 	//
