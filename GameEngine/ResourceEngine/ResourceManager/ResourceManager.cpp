@@ -75,6 +75,19 @@ void ResourceManager::Release()
 		return &currentMesh;
 	}
 
+	RenderInstructions * ResourceManager::GetPlaceHolderMesh(XMFLOAT3 position, XMFLOAT3 rotation)
+	{
+		
+
+		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&position, &rotation);
+
+
+		meshManager->GetPlaceHolderMeshInfo(&currentMesh);
+		Shaders temp = PHONG_SHADER;
+		this->shaderManager->SetActiveShader(&temp);
+		return &currentMesh;
+	}
+
 	RenderInstructions * ResourceManager::GetPlaceHolderPlane()
 	{
 
