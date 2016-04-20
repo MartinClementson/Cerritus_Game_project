@@ -1,13 +1,9 @@
 #pragma once
 #include "../../../Source/LibIncluder.h"
 #include "../ProjectileSystem/Projectile/Projectile.h"
-<<<<<<< HEAD
 
 using namespace DirectX;
-=======
-//#include "../Player/Player.h"
-//#include "../../Character/Character.h"
->>>>>>> refs/remotes/origin/Logic-basic-implement
+
 
 class ProjectileSystem
 {
@@ -30,8 +26,6 @@ public:
 	float lifeSpan;
 	int maxProjectiles; 
 	
-
-public:
 	void Initialize();
 	void Release();
 };
