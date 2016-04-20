@@ -18,6 +18,7 @@ private:
 	Projectile();
 public:
 	void Initialize();
+	void Update(double deltatime);
 	void Release();
 	float GetAge();
 	float GetSpeed();

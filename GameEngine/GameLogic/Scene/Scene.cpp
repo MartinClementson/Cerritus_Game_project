@@ -18,9 +18,9 @@ Scene::~Scene()
 
 void Scene::Initialize()
 {
-	fireTraps.push_back(new FireTrap());
+	//fireTraps.push_back(new FireTrap());
 
-	bearTraps.push_back(new BearTrap());
+	//bearTraps.push_back(new BearTrap());
 }		
 
 

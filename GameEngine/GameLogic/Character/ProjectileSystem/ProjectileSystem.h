@@ -17,7 +17,7 @@ private:
 
 public:
 	void FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction);
-	void UpdateParticle(double deltaTime);
+	void UpdateProjectile(double deltaTime);
 	void Initialize();
 	void Release();
 };

@@ -17,6 +17,7 @@ Player::~Player()
 void Player::Initialize()
 {
 	//graphics = Graphics::GetInstance();
+	projectileSystem->Initialize();
 }
 
 void Player::Release()
@@ -27,8 +28,7 @@ void Player::Update(double deltaTime)
 {
 	renderInfo = { position,rotation };
 
-	projectileSystem->UpdateParticle(deltaTime);
-
+	projectileSystem->UpdateProjectile(deltaTime);
 }
 
 void Player::Render()
@@ -63,6 +63,10 @@ void Player::Shoot(InputKeys input, double deltaTime)
 	{
 		projectileSystem->FireProjectile(this->position, this->rotation);
 		
+	}
+	if (input == KEY_LEFT)
+	{
+		projectileSystem->FireProjectile(this->position, this->rotation);
 	}
 
 

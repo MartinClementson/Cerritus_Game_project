@@ -32,16 +32,16 @@ void Projectile::Initialize()
 	
 }
 
-/*void Projectile::Update(double deltatime)
+void Projectile::Update(double deltatime)
 {
 
-	if(isfired == true)
+	if(isFired == true)
 	{
-		age = age + 1 * deltaTime;
+		age = age + 1 * deltatime;
 	}
 
 
-}*/
+}
 
 void Projectile::Release()
 {

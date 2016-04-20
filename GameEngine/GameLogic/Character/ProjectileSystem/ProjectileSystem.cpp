@@ -24,10 +24,12 @@ void ProjectileSystem::FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT
 	
 }
 
-void ProjectileSystem::UpdateParticle(double deltaTime)
+void ProjectileSystem::UpdateProjectile(double deltaTime)
 {
+
 	for (int i = 0; i < projectiles.size(); i++)
 	{
+		projectiles.at(i)->Update(deltaTime);
 
 		if (projectiles.at(i)->GetAge() >= lifeSpan)
 		{
