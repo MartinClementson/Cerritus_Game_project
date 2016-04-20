@@ -1,4 +1,5 @@
 #pragma once
+#include "../LibIncluder.h"
 class GameTimer
 {
 public:
@@ -6,6 +7,9 @@ public:
 	
 
 
+	double GameTime()const; //in seconds
+	double DeltaTime()const; //in seconds
+	double TotalTime() const; // A timer, can be used for in game timers, level time/ bomb explosion time, animation time. anything 
 
 	void Reset(); //call before message loop
 	void Start(); // call when unpaused
