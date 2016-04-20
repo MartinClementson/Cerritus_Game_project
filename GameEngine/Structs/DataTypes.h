@@ -72,7 +72,7 @@ struct ProjectileStruct
 	Float3 rotation;
 };
 
-typedef struct DIMOUSESTATES
+struct DIMOUSESTATES
 {
 	LONG IX;
 	LONG IY;
