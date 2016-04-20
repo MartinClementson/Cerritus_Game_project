@@ -1,9 +1,12 @@
 #pragma once
 #include "../../../Source/LibIncluder.h"
 #include "../ProjectileSystem/Projectile/Projectile.h"
+//#include "../Player/Player.h"
+#include"../../../Structs/RenderInfo.h"
+#include "../../../ResourceEngine/Graphics/Graphics.h"
+
 
 using namespace DirectX;
-
 
 class ProjectileSystem
 {
@@ -13,15 +16,30 @@ public:
 	
 private:
 
-	std::vector<Projectile*> projectiles;
-	float lifeSpan; //travel time
-	int maxProjectiles; // amout of projectiles
+	Projectile projectiles[100];
+	float lifeSpan;
+	int maxProjectiles;
+	RenderInfoObject renderInfo;
+	
+
+public:
+	void FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction);
+	void UpdateProjectiles(double deltaTime);
+
+	
+	Graphics* graphics;
+
+
+
+	//std::vector<Projectile*> projectiles;
+	//float lifeSpan; //travel time
+	//int maxProjectiles; // amout of projectiles
 	//Player* pos;
 
 public:
-	void FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction);
-	void UpdateProjectiles(double deltaTime);
+
 
 	void Initialize();
 	void Release();
+	void Render();
 };

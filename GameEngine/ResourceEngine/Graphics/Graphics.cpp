@@ -43,6 +43,7 @@ void Graphics::Initialize(HWND * window)
 	uiObjects		 = new std::vector<RenderInfoUI*>;
 	enemyObjects	 = new std::vector<RenderInfoEnemy*>;
 	trapObjects		 = new std::vector<RenderInfoTrap*>;
+	//projectileObjects= new std::vector<RenderInfoProjectile*>;
 
 
 
@@ -93,6 +94,13 @@ void Graphics::Release()
 		}*/
 
 	}
+
+
+
+
+
+
+
 
 
 	while (gDevice->Release() > 0);
@@ -150,8 +158,8 @@ void Graphics::RenderScene()
 												 
 	this->renderer->RenderPlaceHolderPlane();	 //TEMPORARY
 												 
-	x +=  (float) cos(z)* 0.1;					 //TEMPORARY
-	z +=  (float)sin(x)* 0.1;					 //TEMPORARY
+	x +=  (float) cos(z)* 0.1f;					 //TEMPORARY
+	z +=  (float)sin(x)* 0.1f;					 //TEMPORARY
 #pragma endregion
 	
 	
@@ -434,6 +442,7 @@ void Graphics::QueueRender(RenderInfoTrap * object)
 	this->trapObjects->push_back(object);
 }
 
+
 Graphics * Graphics::GetInstance()
 {
 	static Graphics instance;
@@ -454,7 +463,11 @@ XMFLOAT3 Graphics::GetPlayerDirection(XMFLOAT2 mousePos,XMFLOAT3 playerPos)
 	// inverse view matrix
 	// inverse projection matrix
 	
-	XMVECTOR rayOrigin			= XMVectorSet(mousePos.x, mousePos.y, 0.0f, 1.0f);
+	//Calculate mouse position in NDC space
+	float vx = ((2.0f *  mousePos.x) / (float)WIN_WIDTH - 1.0f);
+	float vy = ((2.0f * -mousePos.y) / (float)WIN_HEIGHT + 1.0f);
+
+	XMVECTOR rayOrigin			= XMVectorSet(vx, vy, 0.0f, 1.0f);
 	XMVECTOR rayDir				= rayOrigin;
 
 	XMFLOAT3 unPack;
@@ -479,15 +492,22 @@ XMFLOAT3 Graphics::GetPlayerDirection(XMFLOAT2 mousePos,XMFLOAT3 playerPos)
 	XMVECTOR result				= -( XMVector3Dot(rayPosInWorld, planeNormal)) / (XMVector3Dot(rayDirInWorld, planeNormal));
 
 	XMStoreFloat(&t, result);	
-	XMVECTOR intersection		= XMVectorAdd(rayPosInWorld, rayDirInWorld* t);
+	XMVECTOR intersection		= XMVectorAdd(rayPosInWorld, rayDirInWorld * t);
 	
+	XMStoreFloat4(&this->mouseWorldPos, intersection);
+	this->renderer->SetMouseWorldPos(mouseWorldPos);
+
 	XMVECTOR playerToCursor		= XMVectorSubtract(intersection, XMLoadFloat3(&XMFLOAT3(playerPos.x, 1.0f, playerPos.z)));
 	XMStoreFloat3(&unPack, playerToCursor);
 	
 	playerToCursor				= XMVector3Normalize(XMVectorSet(unPack.x, 0.0f, unPack.z, 0.0f));
 	
+	//XMStoreFloat3(&mPlayerToCursor, XMLoadFloat3(&mPlayerToCursor) * 0.95f + (XMVectorSet(unPack.x, 0.0f, unPack.z, 0.0f) * 0.1f) * 0.05f);
+	
 	XMFLOAT3 toReturn;
 	XMStoreFloat3(&toReturn, playerToCursor);
+
+
 
 	return toReturn;
 }

@@ -26,7 +26,7 @@ void BearTrap::Update(double deltaTime)
 {
 	if (slow > 0.0f)
 	{
-		slow = slow - 1 * deltaTime;// la till delta time av samma anledning som i fire
+		slow = slow - 1 * (float)deltaTime;// la till delta time av samma anledning som i fire
 	}
 
 	renderinfo = { rotation, position }; // must check this
