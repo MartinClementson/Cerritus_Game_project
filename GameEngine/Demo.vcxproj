@@ -114,8 +114,8 @@
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\IldeState\TrapIdleState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\InactiveState\InactiveState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\TrapStateMachine.cpp" />
-    <ClCompile Include="Gbuffer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.cpp" />
     <ClCompile Include="ResourceEngine\Graphics\Graphics.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\Camera\Camera.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\Mesh\Mesh.cpp" />
@@ -125,6 +125,7 @@
     <ClCompile Include="ResourceEngine\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\ShaderManager\ShaderManager.cpp" />
     <ClCompile Include="Source\EngineClass\Engine.cpp" />
+    <ClCompile Include="Source\GameTimer\GameTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enumerations\Enumerations.h" />
@@ -175,12 +176,18 @@
     <ClInclude Include="ResourceEngine\ResourceManager\ShaderManager\ShaderManager.h" />
     <ClInclude Include="Source\Constants.h" />
     <ClInclude Include="Source\EngineClass\Engine.h" />
+    <ClInclude Include="Source\GameTimer\GameTimer.h" />
     <ClInclude Include="Source\LibIncluder.h" />
     <ClInclude Include="Structs\ConstantBufferStruct.h" />
     <ClInclude Include="Structs\DataTypes.h" />
     <ClInclude Include="Structs\RenderInfo.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="Gbuffer.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="ResourceEngine\Shader\PhongShader\PhongShaders.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">VS_main</EntryPointName>

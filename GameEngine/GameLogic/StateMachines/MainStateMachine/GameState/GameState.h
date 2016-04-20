@@ -17,11 +17,12 @@ public:
 	void Release();
 	void Update(double deltaTime);
 	void Render();
+	void ProcessInput(double* deltaTime);
 
 private:
 	void OnEnter();
 	void OnExit();
-	void ProcessInput(double deltaTime);
+	
 private:
 	Scene* room1;
 	Scene* room2;

@@ -17,8 +17,12 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 {
 	this->gDevice = gDevice;
 	this->gDeviceContext = gDeviceContext;
+	
 	placeHolder.Initialize(gDevice,gDeviceContext);
 	CreatePlaceHolder();
+
+	placeHolderPlane.Initialize(gDevice, gDeviceContext);
+	CreatePlaceHolderPlane();
 }
 
 void MeshManager::Release()
@@ -28,6 +32,7 @@ void MeshManager::Release()
 		gameMeshes->at(i).Release();
 	}
 	placeHolder.Release();
+	placeHolderPlane.Release();
 
 }
 
@@ -43,14 +48,14 @@ void MeshManager::CreatePlaceHolder()
 
 	Vertex cubeVerts[8];
 
-	cubeVerts[0].position = Float3(-0.5, 0.5,	 1.5);		 //0
-	cubeVerts[1].position = Float3(-0.5, -0.5,	 1.5);			//1
-	cubeVerts[2].position = Float3(0.5, -0.5,	 1.5);		 //2
-	cubeVerts[3].position = Float3(0.5, 0.5,	 1.5);		 //3
-	cubeVerts[4].position = Float3(0.5 , -0.5  , 0.5);  //4
-	cubeVerts[5].position = Float3(0.5 , 0.5 ,	 0.5);		//5
-	cubeVerts[6].position = Float3(-0.5 , -0.5 , 0.5);  //6
-	cubeVerts[7].position = Float3(-0.5 , 0.5 ,  0.5);   //7
+	cubeVerts[0].position = Float3(-0.5,	  2.5,		  0.5);		//0
+	cubeVerts[1].position = Float3(-0.5,	  0.0,		  0.5);		//1
+	cubeVerts[2].position = Float3(0.5,		  0.0,		  0.5);		//2
+	cubeVerts[3].position = Float3(0.5,		  2.5,		  0.5);		//3
+	cubeVerts[4].position = Float3(0.5 ,	  0.0  ,	 -0.5);		//4
+	cubeVerts[5].position = Float3(0.5 ,	  2.5 ,		 -0.5);		//5
+	cubeVerts[6].position = Float3(-0.5 ,	  0.0 ,		 -0.5);		//6
+	cubeVerts[7].position = Float3(-0.5 ,	  2.5 ,		 -0.5);		//7
 
 
 
@@ -67,7 +72,7 @@ void MeshManager::CreatePlaceHolder()
 		7,6,1,
 		7,1,0,
 		0,3,5, 
-		0,3,7, 
+		0,5,7, 
 		1,4,2, 
 		1,6,4 };
 	
@@ -77,10 +82,42 @@ void MeshManager::CreatePlaceHolder()
 
 }
 
+void MeshManager::CreatePlaceHolderPlane()
+{
+
+	Vertex planeVerts[4];
+
+	planeVerts[0].position = Float3(-200, 0.0, 200.0);		//0
+	
+	planeVerts[1].position = Float3(200.0, 0.0, 200.0);		//3
+	
+	planeVerts[2].position = Float3(200.0, 0.0, -200.0);		//5
+
+	planeVerts[3].position = Float3(-200.0, 0.0, -200.0);		//7
+
+
+	UINT indices[6] =
+	{
+		0, 1, 2,
+		0, 2, 3
+	};
+
+
+	
+
+	this->placeHolderPlane.CreateVertexBuffer(planeVerts, 4);
+	this->placeHolderPlane.CreateIndexBuffer(indices, 6);
+
+}
+
 
 void MeshManager::GetPlaceHolderMeshInfo(RenderInstructions * toRender)
 {
 	placeHolder.GetMeshRenderInfo(toRender);
 
+}
+void MeshManager::GetPlaceHolderPlaneInfo(RenderInstructions * toRender)
+{
+	placeHolderPlane.GetMeshRenderInfo(toRender);
 }
 #pragma endregion
