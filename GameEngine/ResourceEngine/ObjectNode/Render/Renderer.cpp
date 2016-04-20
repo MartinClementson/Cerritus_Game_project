@@ -58,7 +58,7 @@ void Renderer::Render(RenderInfoUI * object)
 //Render an enemy mesh
 void Renderer::Render(RenderInfoEnemy * object)
 {
-
+	RenderPlaceHolder(&object->position);
 }
 
 
@@ -82,21 +82,17 @@ void Renderer::Render(RenderInfoChar * object)
 
 void Renderer::Render(RenderInfoTrap * object)
 {
-
+	RenderPlaceHolder(&object->position);
 }
 
 
 //Render the placeholder meshes
-void Renderer::RenderPlaceHolder()
+void Renderer::RenderPlaceHolder(XMFLOAT3* position)
 {
 	RenderInstructions * object;
-	object = this->resourceManager->GetPlaceHolderMesh( XMFLOAT3(0.0f, 0.0f, -1.5f));
+	object = this->resourceManager->GetPlaceHolderMesh( *position);
 	
 
-	//XMFLOAT3 tempPos		 = XMFLOAT3(0.0f,0.0f, -1.5f);
-	//this->sceneCam->Updateview(tempPos); //This is temporary. The update of the cam should only be done in the "char" render
-	
-	//this->UpdateCameraBuffer();
 
 	Render(object);
 
