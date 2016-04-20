@@ -28,7 +28,7 @@ private:
 	Scene* room1;
 	Scene* room2;
 	Player* player;
-	Enemy* enemy;
+	//Enemy* enemy;
 	Input* input;
 	GUI* gameUI;
 	EnemyStateMachine* enemyState;
