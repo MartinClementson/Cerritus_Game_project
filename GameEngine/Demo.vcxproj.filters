@@ -358,7 +358,7 @@
     <ClCompile Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.cpp">
       <Filter>ResourceEngine\Graphics\Gbuffer</Filter>
     </ClCompile>
-    <ClCompile Include="GameTimer.cpp">
+    <ClCompile Include="Source\GameTimer\GameTimer.cpp">
       <Filter>Source Files\Main\GameTimer</Filter>
     </ClCompile>
   </ItemGroup>
@@ -519,7 +519,7 @@
     <ClInclude Include="Gbuffer.h">
       <Filter>ResourceEngine\Graphics\Gbuffer</Filter>
     </ClInclude>
-    <ClInclude Include="GameTimer.h">
+    <ClInclude Include="Source\GameTimer\GameTimer.h">
       <Filter>Source Files\Main\GameTimer</Filter>
     </ClInclude>
   </ItemGroup>
