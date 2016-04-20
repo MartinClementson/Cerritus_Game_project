@@ -9,7 +9,8 @@ ProjectileSystem::~ProjectileSystem()
 {
 }
 
-void ProjectileSystem::FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction)
+
+void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 { 
 	
 	//renderInfo = { origin, direction };
@@ -23,6 +24,7 @@ void ProjectileSystem::FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT
 			break;
 		}
 	}
+
 
 
 	//if (projectiles >= maxProjectiles)
@@ -41,9 +43,10 @@ void ProjectileSystem::FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT
 	//}
 }
 
-void ProjectileSystem::UpdateProjectile(double deltaTime)
+
+void ProjectileSystem::UpdateProjectiles(double deltaTime)
 {
-	for (unsigned int i = 0; i < 100; i++)
+	for (int i = 0; i < 100; i++)
 	{
 		if (projectiles[i].GetFired())
 		{

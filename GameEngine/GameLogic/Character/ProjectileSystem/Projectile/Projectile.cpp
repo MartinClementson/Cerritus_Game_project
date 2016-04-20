@@ -4,7 +4,11 @@
 
 Projectile::Projectile()
 {
+
 	isFired = false;
+
+
+
 }
 
 Projectile::Projectile(DirectX::XMFLOAT3 origin,DirectX::XMFLOAT3 direction)
@@ -22,19 +26,17 @@ Projectile::~Projectile()
 
 void Projectile::Initialize(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction)
 {
-	//position = { 0,0,0 };
-	//direction = { 0,0,0 };
+
 
 	this->position = origin;
 	this->direction = direction;
 
-	age = 0.0f;
-	speed = 0.5f;
-	dmgMultiplier = 2.0f;
+	this->age = 0.0f;
+	this->speed = 3.0f;
+	this->dmgMultiplier = 2.0f;
 
-
-	isFired = true;
-	collided = false;
+	this->isFired = true;
+	this->collided = false;
 	
 }
 
@@ -52,6 +54,11 @@ void Projectile::Update(double deltatime)
 void Projectile::Release()
 {
 	
+}
+
+void Projectile::Collision()
+{
+
 }
 
 float Projectile::GetAge()
@@ -93,4 +100,5 @@ void Projectile::SetPos(DirectX::XMFLOAT3 pos)
 {
 	this->position = pos;
 }
+
 

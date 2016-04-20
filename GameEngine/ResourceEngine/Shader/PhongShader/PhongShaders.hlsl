@@ -48,7 +48,7 @@ struct GS_OUT
 	//float2 Uv			: TEXCOORD0;
 	//float3 Normal		: NORMAL;
 	float4 wPos			: WORLDPOS;
-	//float3 camPos		: CAMERAPOS;
+	float4 camPos		: CAMERAPOS;
 	//float3 Tangent		: TANGENT;
 
 };
@@ -65,8 +65,9 @@ void GS_main(
 	for (uint i = 0; i < 3; i++)
 	{
 		GS_OUT element;
-		element.Pos = mul(input[i].Pos,combinedMatrix);
-		element.wPos = mul(input[i].Pos,world);
+		element.Pos		= mul(input[i].Pos,combinedMatrix);
+		element.wPos	= mul(input[i].Pos,world);
+		element.camPos = camPos;
 		output.Append(element);
 	}
 
@@ -77,14 +78,35 @@ void GS_main(
 float4 PS_main(GS_OUT input) : SV_TARGET
 {
 
-float4 origin = {camPos.x,0.0,camPos.z,1.0};
-float4 col = {1.0,0.0,0.0,1.0};
+float attenuation	= 0.05;
+float4 playerPos	= { input.camPos.x,0.0,input.camPos.z + 10.0f ,1.0 };
 
-float dist = distance(origin, input.wPos);
 
-col.x -= saturate(dist* 0.05);
+float4 col			 = {1.0,1.0,1.0,1.0};
+float4 pixelPos		 = {input.wPos.x, 0.0 , input.wPos.z, 1.0 };
 
-col.y = saturate(input.wPos.y);
+
+float4 lightOne		 = { 20.0, 0.0, -20, 1.0};
+col.y				+= 1.0 - saturate(abs(distance(lightOne, pixelPos) * attenuation));
+
+
+float4 lightTwo		 = { -20.0, 0.0, 20.0, 1.0 };
+col.z += 1.0 - saturate(abs(distance(lightTwo, pixelPos) * attenuation));
+
+
+float4 lightThree	 = { -20.0, 0.0, -20.0, 1.0 };
+col.xz += 1.0 - saturate(abs(distance(lightThree, pixelPos) * attenuation));
+
+
+float4 lightFour	 = {  20.0, 0.0,  20.0, 1.0 };
+col.xy += 1.0 - saturate(abs(distance(lightFour, pixelPos) * attenuation));
+
+
+float dist			 = distance(playerPos.xz,pixelPos.xz);
+
+col.xyz			    -= saturate(	abs( dist )	* 0.5	);  //player color fade 
+
+col.y				+= saturate(input.wPos.y);			// green color, (for the objects)
 
 
 

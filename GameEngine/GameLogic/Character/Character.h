@@ -11,10 +11,11 @@ public:
 	virtual ~Character();
 
 protected:
-	DirectX::XMFLOAT3 position;
-	DirectX::XMFLOAT3 rotation;
+	XMFLOAT3 position;
+	XMFLOAT3 rotation;
 
 	float movementSpeed, health, damage;
+	bool dead, idle, active;
 	Graphics* graphics;
 	Animation* animations;
 	Model* meshes;

@@ -5,6 +5,9 @@
 #include"../../../Structs/RenderInfo.h"
 #include "../../../ResourceEngine/Graphics/Graphics.h"
 
+
+using namespace DirectX;
+
 class ProjectileSystem
 {
 public:
@@ -12,6 +15,7 @@ public:
 	virtual ~ProjectileSystem();
 	
 private:
+
 	Projectile projectiles[100];
 	float lifeSpan;
 	int maxProjectiles; 
@@ -23,6 +27,15 @@ public:
 
 	RenderInfoProjectile renderInfo;
 	Graphics* graphics;
+
+
+	std::vector<Projectile*> projectiles;
+	float lifeSpan; //travel time
+	int maxProjectiles; // amout of projectiles
+	//Player* pos;
+
+public:
+
 
 	void Initialize();
 	void Release();

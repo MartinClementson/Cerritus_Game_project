@@ -9,7 +9,9 @@ Trap::Trap()
 Trap::~Trap()
 {
 
+
 }
+
 void Trap::Initialize()
 {
 	damage = 25.0f;
