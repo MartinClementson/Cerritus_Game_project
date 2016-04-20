@@ -22,6 +22,7 @@ GameState::~GameState()
 
 void GameState::Initialize()
 {
+	input->Initialize();
 	player->Initialize();
 	death->Initialize();
 	pause->Initialize();
@@ -32,6 +33,8 @@ void GameState::Initialize()
 
 void GameState::Release()
 {
+
+	//RELEASA ALLT HÄR!
 }
 
 void GameState::Update(double deltaTime)

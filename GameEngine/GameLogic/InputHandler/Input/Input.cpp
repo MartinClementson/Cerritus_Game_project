@@ -14,7 +14,8 @@ Input::~Input()
 
 void Input::Initialize()
 {
-	
+
+	inputHandling = InputHandler::GetInstance();
 }
 
 void Input::Release()

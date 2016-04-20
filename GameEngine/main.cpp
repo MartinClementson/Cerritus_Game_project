@@ -21,11 +21,6 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	double tempDT = 10.0;
 	// create window
 	HWND wndHandle = InitWindow(hInstance);
-	
-	//Create engine class
-	Engine* engine = new Engine();
-	engine->Initialize(&wndHandle, &hInstance);
-
 
 
 	// window is valid
@@ -33,6 +28,9 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	{
 		// display window
 		ShowWindow(wndHandle, nCmdShow);
+		//Create engine class
+		Engine* engine = new Engine();
+		engine->Initialize(&wndHandle, &hInstance);
 		// enter message loop, loop until the message WM_QUIT is received.
 		while (WM_QUIT != msg.message)
 		{

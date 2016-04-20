@@ -18,13 +18,14 @@ private:
 	float lastMouseX, lastMouseY;
 
 private:
-	InputHandler();
 	void ProcessInput();
 	bool ReadKeyboard();
 	bool ReadMouse();
+	InputHandler();
 
 	//HWND hwndP;
 public:
+	
 	bool Initialize(HWND* hwndP, HINSTANCE* hInstance);
 	void Release();
 

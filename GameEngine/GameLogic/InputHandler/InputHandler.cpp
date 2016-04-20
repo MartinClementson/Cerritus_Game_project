@@ -9,8 +9,8 @@ InputHandler::InputHandler()
 
 InputHandler::~InputHandler()
 {
-	//keyboard->Unacquire();
-	//mouse->Unacquire();
+	keyboard->Unacquire();
+	mouse->Unacquire();
 	input->Release();
 }
 
@@ -30,6 +30,8 @@ bool InputHandler::ReadMouse()
 
 bool InputHandler::Initialize(HWND* hwndP ,HINSTANCE* hInstance)
 {
+	//keyboard->Acquire();
+
 	HRESULT hr = DirectInput8Create(
 		*hInstance,
 		DIRECTINPUT_VERSION,
@@ -66,7 +68,7 @@ bool InputHandler::Initialize(HWND* hwndP ,HINSTANCE* hInstance)
 		return false;
 	}
 
-	hr = keyboard->SetCooperativeLevel(*hwndP, DISCL_FOREGROUND | DISCL_NONEXCLUSIVE);
+	hr = keyboard->SetCooperativeLevel(*hwndP, DISCL_BACKGROUND| DISCL_NONEXCLUSIVE);
 	if (FAILED(hr))
 	{
 		return false;
@@ -95,31 +97,22 @@ void InputHandler::Release()
 
 bool InputHandler::IsKeyPressed(InputKeys* key)
 {
-	HRESULT hr = keyboard->GetDeviceState(sizeof(keyboardState), (LPVOID)&keyboardState);
-	/*HRESULT hr = keyboard->Acquire();
-	if (FAILED(hr))
-	{
-		keyboard->Acquire();
-	}*/
 
-	//BYTE keyboardState[256];
-	
+	keyboard->GetDeviceState(sizeof(keyboardState), (LPVOID)&keyboardState);
 
-	//keyboard->GetDeviceState(sizeof(keyboardState), (LPVOID)&keyboardState);
-
-	if (key[0] == KEY_W && keyboardState[DIK_W])
+	if (*key == KEY_W && keyboardState[DIK_W])
 	{
 		return true;
 	}
-	else if (key[0] == KEY_A && keyboardState[DIK_A])
+	else if (*key == KEY_A && keyboardState[DIK_A])
 	{
 		return true;
 	}
-	else if (key[0] == KEY_D && keyboardState[DIK_D])
+	else if (*key == KEY_D && keyboardState[DIK_D])
 	{
 		return true;
 	}
-	else if (key[0] == KEY_S && keyboardState[DIK_S])
+	else if (*key == KEY_S && keyboardState[DIK_S])
 	{
 		return true;
 	}
