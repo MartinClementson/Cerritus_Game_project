@@ -20,6 +20,8 @@ public:
 	//Collision(XMFLOAT3 center, float radius);
 
 	void AddEnemy(Enemy* enemy);
+
+	bool Collide();
 	
 	static Collision* GetInstance();
 

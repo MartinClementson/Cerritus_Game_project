@@ -29,7 +29,7 @@ void EnemySpawn::Release()
 }
 void EnemySpawn::Update(double deltaTime)
 {
-	if (Alive.size() <= 20)
+	if (Alive.size() <= 10)
 	{
 		SpawnEnemy();
 	}

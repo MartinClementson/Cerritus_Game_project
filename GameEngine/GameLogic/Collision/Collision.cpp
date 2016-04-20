@@ -19,6 +19,18 @@ void Collision::AddEnemy(Enemy* enemy)
 	enemyBox.push_back(enemy);
 }
 
+bool Collision::Collide()
+{
+	/*if ()
+	{
+
+	}
+	else
+	{
+		return false;
+	}*/
+}
+
 Collision::~Collision()
 {
 
