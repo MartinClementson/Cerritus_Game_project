@@ -15,7 +15,6 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 	
 	//renderInfo = { origin, direction };
 
-
 	for (unsigned int i = 0; i < 100; i++)
 	{
 		if (!projectiles[i].GetFired())
@@ -42,27 +41,22 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 	//	
 	//}
 }
-
+/// is fired array
 
 void ProjectileSystem::UpdateProjectiles(double deltaTime)
 {
-	for (int i = 0; i < 100; i++)
+	//projectiles->Update(deltaTime);
+	//Render(1);
+	for (unsigned int i = 0; i < 100; i++)
 	{
 		if (projectiles[i].GetFired())
 		{
 			projectiles[i].Update(deltaTime);
 
-			if (projectiles[i].GetAge() >= lifeSpan)
+		/*	if (projectiles[i].GetAge() >= lifeSpan)
 			{
 				projectiles[i].SetFired(false);
-			}
-			else
-			{
-				DirectX::XMFLOAT3 tmp = projectiles[i].GetPos();
-				tmp.x = tmp.x + projectiles[i].GetDir().x * projectiles[i].GetSpeed();
-				tmp.z = tmp.z + projectiles[i].GetDir().z * projectiles[i].GetSpeed();
-				Render(i);
-			}
+			}*/
 		}
 	}
 
@@ -105,12 +99,16 @@ void ProjectileSystem::Release()
 	
 }
 
-void ProjectileSystem::Render(int i)
+void ProjectileSystem::Render()
 {
-	
-	renderInfo = { projectiles[i].GetPos(), projectiles[i].GetDir() };
-	graphics->QueueRender(&renderInfo);
-
+	for (unsigned int j = 0; j < 100; j++)
+	{
+		if (projectiles[j].GetFired())
+		{
+			renderInfo = { projectiles[j].GetPos(), projectiles[j].GetDir() };
+			graphics->QueueRender(&renderInfo);
+		}
+	}
 	
 
 }

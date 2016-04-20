@@ -19,11 +19,11 @@ public:
 	void Initialize(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction);
 	void Update(double deltatime);
 
-	XMFLOAT3 position;
-	XMFLOAT3 direction;
+//	XMFLOAT3 position;
+//	XMFLOAT3 direction;
 
-	float age, speed, dmgMultiplier;
-	bool isFired, collided;
+//	float age, speed, dmgMultiplier;
+	//bool isFired, collided;
 
 
 public:
@@ -31,10 +31,10 @@ public:
 	void Release();
 	void Collision();
 
-	MeshEnum projectileModel;
-	Projectile();
+//	MeshEnum projectileModel;
+//	Projectile();
 
-	void Update(double deltatime);
+	//void Update(double deltatime);
 	float GetAge();
 	float GetSpeed();
 
@@ -51,8 +51,8 @@ public:
 	Projectile(XMFLOAT3 origin, XMFLOAT3 direction);
 	virtual ~Projectile();
 
-	void SetAge(float age);
-	void SetPos(XMFLOAT3 pos);
+	//void SetAge(float age);
+	//void SetPos(XMFLOAT3 pos);
 
 };
 

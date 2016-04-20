@@ -35,13 +35,13 @@ void Player::Update(double deltaTime)
 {
 	renderInfo = { position,rotation };
 
-	//projectileSystem->UpdateProjectile(deltaTime);
+	projectileSystem->UpdateProjectiles(deltaTime);
 }
 
 void Player::Render()
 {
 	graphics->QueueRender(&renderInfo);
-	//projectileSystem->Render();
+	projectileSystem->Render();
 }
 
 void Player::Move(MovementDirection dir, double deltaTime)

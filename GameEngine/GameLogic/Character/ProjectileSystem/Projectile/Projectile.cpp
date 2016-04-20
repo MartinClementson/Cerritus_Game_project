@@ -1,5 +1,23 @@
 #include "Projectile.h"
+inline DirectX::XMFLOAT3 operator*(DirectX::XMFLOAT3 a, float b) {
+	DirectX::XMFLOAT3 result;
 
+	result.x = a.x * b;
+	result.y = a.y * b;
+	result.z = a.z * b;
+
+	return result;
+}
+
+inline DirectX::XMFLOAT3 operator+(DirectX::XMFLOAT3 a, DirectX::XMFLOAT3 b) {
+	DirectX::XMFLOAT3 result;
+
+	result.x = a.x + b.x;
+	result.y = a.y + b.y;
+	result.z = a.z + b.z;
+
+	return result;
+}
 
 
 Projectile::Projectile()
@@ -32,7 +50,7 @@ void Projectile::Initialize(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 directio
 	this->direction = direction;
 
 	this->age = 0.0f;
-	this->speed = 3.0f;
+	this->speed = 10.0f;
 	this->dmgMultiplier = 2.0f;
 
 	this->isFired = true;
@@ -46,7 +64,10 @@ void Projectile::Update(double deltatime)
 	if(isFired == true)
 	{
 		age += deltatime;
+		position = position+(direction*speed*deltatime);
 	}
+	if (age >= 2.5f)
+		isFired = false;
 
 
 }

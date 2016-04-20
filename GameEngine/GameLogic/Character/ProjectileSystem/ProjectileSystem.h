@@ -18,20 +18,22 @@ private:
 
 	Projectile projectiles[100];
 	float lifeSpan;
-	int maxProjectiles; 
+	int maxProjectiles;
+	RenderInfoObject renderInfo;
 	
 
 public:
 	void FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction);
-	void UpdateProjectile(double deltaTime);
+	void UpdateProjectiles(double deltaTime);
 
-	RenderInfoProjectile renderInfo;
+	
 	Graphics* graphics;
 
 
-	std::vector<Projectile*> projectiles;
-	float lifeSpan; //travel time
-	int maxProjectiles; // amout of projectiles
+
+	//std::vector<Projectile*> projectiles;
+	//float lifeSpan; //travel time
+	//int maxProjectiles; // amout of projectiles
 	//Player* pos;
 
 public:
@@ -39,5 +41,5 @@ public:
 
 	void Initialize();
 	void Release();
-	void Render(int i);
+	void Render();
 };
