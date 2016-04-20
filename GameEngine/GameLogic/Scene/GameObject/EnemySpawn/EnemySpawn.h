@@ -1,17 +1,27 @@
 #pragma once
 #include "../GameObject.h"
 #include "../../../Character/Enemy/Enemy.h"
+
+#include <time.h>
+#include <stdlib.h>
+#include <stdio.h>
+
 class EnemySpawn :
 	public GameObject
 {
+private:
+	//std::vector<Enemy*> enemies;
+private:
+	void Release();
+	void Initialize();
+
+	std::vector<Enemy*> Queue;
+	std::vector<Enemy*> Alive;
 public:
 	EnemySpawn();
 	~EnemySpawn();
-	void Initialize();
-	void Release();
+
 	void Update(double deltaTime);
-	void Render();
-private:
-	std::vector<Enemy>* enemies;
+	void SpawnEnemy();
 };
 

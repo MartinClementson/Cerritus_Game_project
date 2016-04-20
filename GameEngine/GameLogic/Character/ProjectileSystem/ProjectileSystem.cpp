@@ -7,8 +7,9 @@ ProjectileSystem::ProjectileSystem()
 
 ProjectileSystem::~ProjectileSystem()
 {
-	
+	delete this->projectiles;
 }
+
 
 void ProjectileSystem::FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction)
 { 
@@ -21,11 +22,11 @@ void ProjectileSystem::FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT
 	origin = { 0,0,0 };
 	direction = { 0,0,0 };
 	projectiles.push_back(new Projectile(origin, direction));
-	
 }
 
-void ProjectileSystem::UpdateParticle(double deltaTime)
+void ProjectileSystem::UpdateProjectiles(double deltaTime)
 {
+	//update misses and hits, and position.
 	for (int i = 0; i < projectiles.size(); i++)
 	{
 

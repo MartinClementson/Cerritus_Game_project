@@ -4,14 +4,18 @@
 
 Player::Player()
 {
+
 	this->projectileSystem = new ProjectileSystem;
+
 
 }
 
 
 Player::~Player()
 {
+
 	delete this->projectileSystem;
+
 }
 
 void Player::Initialize()

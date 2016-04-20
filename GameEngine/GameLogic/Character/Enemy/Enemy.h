@@ -5,27 +5,33 @@
 #include "../../../Enumerations/Enumerations.h"
 #include "../../InputHandler/Input/Input.h"
 #include "../../../../GameEngine/Structs/RenderInfo.h"
+#include "../Enemy/Enemy.h"
 
 class Enemy :
 	public Character
 {
-public:
-	Enemy();
-	virtual ~Enemy();
-	void Initialize();
-	void Release();
-	void Update(double deltaTime);
-	void Render();
-	
-	
-
 protected:
-	
-	
-	//float movementSpeed, health, damage;
 
+	float movementSpeed, health, damage;
 private:
 	EnemyStateMachine* enemyState;
 	RenderInfoEnemy renderInfo;
+private:
+	void Release();
+public:
+	Enemy(XMFLOAT3 spawn);
+	Enemy();
+	virtual ~Enemy();
+
+	void Initialize(XMFLOAT3 position);
+
+	void UpdateAttack(double deltaTime);
+	void UpdateIdle(double deltaTime);
+	bool IdleBool(bool idle);
+	void UpdateDead(double deltaTime);
+
+	bool DeadBool(bool dead);
+
+	void Render();
 };
 
