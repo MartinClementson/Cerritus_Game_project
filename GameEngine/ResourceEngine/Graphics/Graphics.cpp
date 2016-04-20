@@ -453,9 +453,43 @@ XMFLOAT3 Graphics::GetPlayerDirection(XMFLOAT2 mousePos,XMFLOAT3 playerPos)
 	//We need
 	// inverse view matrix
 	// inverse projection matrix
+	
+	XMVECTOR rayOrigin			= XMVectorSet(mousePos.x, mousePos.y, 0.0f, 1.0f);
+	XMVECTOR rayDir				= rayOrigin;
+
+	XMFLOAT3 unPack;
+	XMStoreFloat3(&unPack, rayOrigin);
+	rayDir						= XMVectorSet(unPack.x, unPack.y, 1.0f, 1.0f);
+
+	XMMATRIX viewInverse;
+	renderer->GetInverseViewMatrix( viewInverse );
+
+	XMMATRIX projInverse;
+	renderer->GetInverseProjectionMatrix( projInverse );
 
 
-	return XMFLOAT3();
+	XMMATRIX combinedInverse	= XMMatrixMultiply(projInverse, viewInverse);
+
+	XMVECTOR rayPosInWorld		= XMVector3TransformCoord( rayOrigin, combinedInverse);
+	XMVECTOR rayDirInWorld		= XMVector3TransformCoord( rayDir,    combinedInverse);
+	rayDirInWorld				= XMVector3Normalize( rayDirInWorld - rayPosInWorld );
+
+	float t						= 0.0f;
+	XMVECTOR planeNormal		= XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
+	XMVECTOR result				= -( XMVector3Dot(rayPosInWorld, planeNormal)) / (XMVector3Dot(rayDirInWorld, planeNormal));
+
+	XMStoreFloat(&t, result);	
+	XMVECTOR intersection		= XMVectorAdd(rayPosInWorld, rayDirInWorld* t);
+	
+	XMVECTOR playerToCursor		= XMVectorSubtract(intersection, XMLoadFloat3(&XMFLOAT3(playerPos.x, 1.0f, playerPos.z)));
+	XMStoreFloat3(&unPack, playerToCursor);
+	
+	playerToCursor				= XMVector3Normalize(XMVectorSet(unPack.x, 0.0f, unPack.z, 0.0f));
+	
+	XMFLOAT3 toReturn;
+	XMStoreFloat3(&toReturn, playerToCursor);
+
+	return toReturn;
 }
 
 #pragma endregion
