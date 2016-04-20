@@ -11,7 +11,7 @@ class Scene
 private:
 	std::vector<Model>* sceneModels;
 	std::vector<Light>* sceneLights;
-	std::vector<EnemySpawn>* enemySpawns;
+	EnemySpawn* enemySpawn;
 	std::vector<BearTrap*> bearTraps;
 	std::vector<FireTrap*> fireTraps;
 

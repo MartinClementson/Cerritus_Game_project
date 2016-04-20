@@ -17,9 +17,10 @@ private:
 	EnemyStateMachine* enemyStateMachine;
 private:
 	void Release();
+	Enemy();
 public:
 	Enemy(XMFLOAT3 spawn);
-	Enemy();
+	
 	virtual ~Enemy();
 
 	void Initialize();

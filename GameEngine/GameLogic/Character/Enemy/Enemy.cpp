@@ -4,12 +4,13 @@ Enemy::Enemy(XMFLOAT3 spawn)
 {
 	this->position = spawn;
 	Initialize();
+	this->enemyStateMachine = new EnemyStateMachine();
+	this->graphics = Graphics::GetInstance();
 }
 
 Enemy::Enemy()
 {
-	this->enemyStateMachine = new EnemyStateMachine();
-	this->graphics = Graphics::GetInstance();
+	
 }
 
 Enemy::~Enemy()
@@ -113,5 +114,6 @@ void Enemy::Update(double deltaTime)
 
 void Enemy::Render()
 {
+	renderInfo = { position, rotation };
 	graphics->QueueRender(&renderInfo);
 }

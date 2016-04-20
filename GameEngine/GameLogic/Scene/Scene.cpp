@@ -6,12 +6,13 @@ Scene::Scene()
 {
 	/*this->bearTraps = new std::vector<BearTrap>;
 	this->fireTraps = new std::vector<FireTrap>;*/
+	this->enemySpawn = new EnemySpawn;
 }
 
 
 Scene::~Scene()
 {
-
+	delete this->enemySpawn;
 	/*delete this->sceneModels;
 	delete this->sceneLights;
 	delete this->enemySpawns;*/
@@ -24,13 +25,15 @@ void Scene::Initialize()
 	//fireTraps.push_back(new FireTrap());
 
 	//bearTraps.push_back(new BearTrap());
+
+	enemySpawn->Initialize();
 }		
 
 
 
 void Scene::Release()
 {
-
+	enemySpawn->Release();
 }
 
 void Scene::Update(double deltaTime)
@@ -62,6 +65,7 @@ void Scene::Update(double deltaTime)
 			bearTraps.at(i)->GetDamage();
 		}
 	}
+	enemySpawn->Update(deltaTime);
 
 }
 
@@ -75,6 +79,7 @@ void Scene::Render()
 	{
 		bearTraps.at(i)->Render();
 	}
+	enemySpawn->Render();
 
 }
 

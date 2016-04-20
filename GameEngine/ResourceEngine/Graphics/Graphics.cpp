@@ -415,10 +415,12 @@ void Graphics::QueueRender(RenderInfoObject *object)
 
 void Graphics::QueueRender(RenderInfoUI * object)
 {
+	this->uiObjects->push_back(object);
 }
 
 void Graphics::QueueRender(RenderInfoEnemy * object)
 {
+	this->enemyObjects->push_back(object);
 }
 
 void Graphics::QueueRender(RenderInfoChar * object)
@@ -428,7 +430,7 @@ void Graphics::QueueRender(RenderInfoChar * object)
 
 void Graphics::QueueRender(RenderInfoTrap * object)
 {
-	//this->trapObjects->push_back(object);
+	this->trapObjects->push_back(object);
 }
 
 Graphics * Graphics::GetInstance()

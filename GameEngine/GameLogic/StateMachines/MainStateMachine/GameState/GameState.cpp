@@ -64,7 +64,7 @@ void GameState::ProcessInput(double* deltaTime)
 	}
 	else
 	{
-		if (input->IsKeyHeld(KEY_W))
+		if (input->IsKeyPressed(KEY_W))
 	
 		{
 			player->Move(UP, deltaTime[0]);
