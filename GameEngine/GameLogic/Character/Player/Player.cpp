@@ -19,9 +19,9 @@ void Player::Initialize()
 {
 	graphics = Graphics::GetInstance();
 
-	this->position = XMFLOAT3(0.0f, 0.0f, 1.0f);
-	this->rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	this->movementSpeed = 50.0f;
+	this->position		 = XMFLOAT3(0.0f, 0.0f, 1.0f);
+	this->rotation		 = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	this->movementSpeed  = 50.0f;
 
 	projectileSystem->Initialize();
 }
@@ -31,8 +31,9 @@ void Player::Release()
 	projectileSystem->Release();
 }
 
-void Player::Update(double deltaTime)
+void Player::Update(double deltaTime, XMFLOAT3 direction)
 {
+	this->direction = direction;
 	renderInfo = { position,rotation };
 
 	projectileSystem->UpdateProjectiles(deltaTime);
@@ -71,9 +72,9 @@ void Player::Shoot(InputKeys input, double deltaTime)
 		projectileSystem->FireProjectile(this->position, this->rotation);
 		
 	}*/
-	if (input == KEY_LEFT)
+	if (input == KEY_SPACE)
 	{
-		projectileSystem->FireProjectile(this->position, DirectX::XMFLOAT3(0.0f,0.0f,-1.0f));
+		projectileSystem->FireProjectile(this->position, direction);
 	}
 
 
