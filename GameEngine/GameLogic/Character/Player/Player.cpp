@@ -74,7 +74,7 @@ void Player::Shoot(InputKeys input, double deltaTime)
 	}*/
 	if (input == KEY_LEFT)
 	{
-		projectileSystem->FireProjectile(this->position, this->rotation);
+		projectileSystem->FireProjectile(this->position, DirectX::XMFLOAT3(0.0f,0.0f,-1.0f));
 	}
 
 
