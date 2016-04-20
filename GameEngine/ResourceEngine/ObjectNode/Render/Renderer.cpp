@@ -46,9 +46,13 @@ void Renderer::Render(RenderInfoObject * object)
 	//renderObject = this->resourceManager->GetRenderInfo(object);
 
 	//Render with the given render instruction
+
 	//this->Render(renderObject);
 
 	RenderPlaceHolder(&object->position,&object->rotation);
+
+	//RenderPlaceHolder(&object->position);
+
 }
 
 

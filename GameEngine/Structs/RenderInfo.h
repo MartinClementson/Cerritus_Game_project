@@ -77,3 +77,9 @@ struct RenderInfoTrap {
 	Shaders shader;
 	TrapAnimations trapAnim;*/ //these are enum
 };
+struct RenderInfoProjectile {
+	XMFLOAT3 origin;
+	XMFLOAT3 direction;
+
+
+};

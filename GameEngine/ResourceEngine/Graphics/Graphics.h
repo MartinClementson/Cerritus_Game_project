@@ -50,6 +50,7 @@ private:
 	std::vector<RenderInfoEnemy*>*  enemyObjects	 = nullptr;
 	std::vector<RenderInfoChar*>*   charObjects		 = nullptr;
 	std::vector<RenderInfoTrap*>*   trapObjects		 = nullptr;
+	std::vector<RenderInfoProjectile*>* projectileObjects = nullptr;
 #pragma endregion
 
 private:
@@ -76,6 +77,7 @@ public:
 	void QueueRender(RenderInfoEnemy* object);
 	void QueueRender(RenderInfoChar* object);
 	void QueueRender(RenderInfoTrap* object);
+	void QueueRender(RenderInfoProjectile* object);
 
 	//Singleton for the graphics class 
 	static Graphics* GetInstance();

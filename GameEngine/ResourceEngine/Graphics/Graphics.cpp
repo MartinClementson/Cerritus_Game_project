@@ -43,6 +43,7 @@ void Graphics::Initialize(HWND * window)
 	uiObjects		 = new std::vector<RenderInfoUI*>;
 	enemyObjects	 = new std::vector<RenderInfoEnemy*>;
 	trapObjects		 = new std::vector<RenderInfoTrap*>;
+	//projectileObjects= new std::vector<RenderInfoProjectile*>;
 
 
 
@@ -432,6 +433,12 @@ void Graphics::QueueRender(RenderInfoChar * object)
 void Graphics::QueueRender(RenderInfoTrap * object)
 {
 	this->trapObjects->push_back(object);
+}
+
+void Graphics::QueueRender(RenderInfoProjectile* object)
+{
+	//this->gameObjects->push_back(object);
+
 }
 
 Graphics * Graphics::GetInstance()
