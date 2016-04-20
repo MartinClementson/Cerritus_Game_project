@@ -9,6 +9,7 @@ class Character
 public:
 	Character();
 	virtual ~Character();
+
 protected:
 	XMFLOAT3 position;
 	XMFLOAT3 rotation;

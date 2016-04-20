@@ -4,10 +4,7 @@
 
 Player::Player()
 {
-
 	this->projectileSystem = new ProjectileSystem;
-
-
 }
 
 
@@ -21,23 +18,23 @@ Player::~Player()
 void Player::Initialize()
 {
 	graphics = Graphics::GetInstance();
-
 	this->position = XMFLOAT3(0.0f, 0.0f, 1.0f);
 	this->rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	this->movementSpeed = 100.0f;
 
+	projectileSystem->Initialize();
 }
 
 void Player::Release()
 {
+	projectileSystem->Release();
 }
 
 void Player::Update(double deltaTime)
 {
 	renderInfo = { position,rotation };
 
-	projectileSystem->UpdateParticle(deltaTime);
-
+	projectileSystem->UpdateProjectile(deltaTime);
 }
 
 void Player::Render()
@@ -71,6 +68,10 @@ void Player::Shoot(InputKeys input, double deltaTime)
 	{
 		projectileSystem->FireProjectile(this->position, this->rotation);
 		
+	}
+	if (input == KEY_LEFT)
+	{
+		projectileSystem->FireProjectile(this->position, this->rotation);
 	}
 
 

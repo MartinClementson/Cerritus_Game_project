@@ -6,7 +6,6 @@ MainDeathState::MainDeathState()
 {
 }
 
-
 MainDeathState::~MainDeathState()
 {
 }
