@@ -17,6 +17,10 @@ Player::~Player()
 void Player::Initialize()
 {
 	graphics = Graphics::GetInstance();
+
+	this->position = XMFLOAT3(0.0f, 0.0f, 1.0f);
+	this->rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
+
 }
 
 void Player::Release()
