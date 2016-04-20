@@ -14,6 +14,8 @@ Input::~Input()
 
 void Input::Initialize()
 {
+
+	inputHandling = InputHandler::GetInstance();
 }
 
 void Input::Release()
@@ -22,20 +24,26 @@ void Input::Release()
 
 bool Input::IsKeyPressed(InputKeys key)
 {
-	return false;
+	return inputHandling->IsKeyPressed(&key);
 }
 
 bool Input::IsKeyHeld(InputKeys key)
 {
-	return false;
+	return inputHandling->IsKeyHeld(&key);
 }
 
 DirectX::XMFLOAT2 Input::GetMousePosition()
 {
-	return DirectX::XMFLOAT2();
+	return inputHandling->GetMousePosition();
 }
 
 bool Input::isMouseClicked(InputKeys mouseKey)
 {
-	return false;
+	return inputHandling->isMouseClicked(&mouseKey);
+}
+
+Input* Input::GetInstance()
+{
+	static Input instance;
+	return &instance;
 }

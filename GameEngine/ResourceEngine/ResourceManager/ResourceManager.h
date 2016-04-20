@@ -26,6 +26,12 @@ RenderInstructions* GetRenderInfo(RenderInfoEnemy*		object);
 RenderInstructions* GetRenderInfo(RenderInfoChar*		object);
 RenderInstructions* GetRenderInfo(RenderInfoTrap*		object);
 
-RenderInstructions* GetPlaceHolderMesh();
+RenderInstructions* GetPlaceHolderMesh(XMFLOAT3 position);
+RenderInstructions* GetPlaceHolderPlane();
+
+private:
+	XMFLOAT4X4 CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation);
+
+	XMFLOAT4X4 CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation, XMFLOAT3* scale);
 };
 
