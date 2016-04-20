@@ -7,6 +7,7 @@
 #include "../../../InputHandler/Input/Input.h"
 #include "../../../GUI/GUI.h"
 #include "../../../Character/Enemy/Enemy.h"
+
 class GameState :
 	public StateClass
 {

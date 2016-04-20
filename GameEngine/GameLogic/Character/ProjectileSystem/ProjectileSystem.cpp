@@ -10,7 +10,8 @@ ProjectileSystem::~ProjectileSystem()
 	
 }
 
-void ProjectileSystem::FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction)
+
+void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 { 
 	
 	if (projectiles.size() == maxProjectiles)
@@ -20,14 +21,16 @@ void ProjectileSystem::FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT
 	}
 	origin = { 0,0,0 };
 	direction = { 0,0,0 };
+
 	projectiles.push_back(new Projectile(origin, direction));
-	
 }
 
-void ProjectileSystem::UpdateParticle(double deltaTime)
+
+void ProjectileSystem::UpdateProjectiles(double deltaTime)
 {
 	for (int i = 0; i < projectiles.size(); i++)
 	{
+		projectiles.at(i)->Update(deltaTime);
 
 		if (projectiles.at(i)->GetAge() >= lifeSpan)
 		{
