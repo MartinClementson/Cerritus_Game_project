@@ -6,6 +6,7 @@
 #include "../../../../GameEngine/Structs/RenderInfo.h"
 #include "../../StateMachines/EnemyStateMachine/EnemyStateMachine.h"
 #include "../../../Structs/DataTypes.h"
+#include "../Player/Player.h"
 
 class Enemy :
 	public Character
@@ -16,6 +17,7 @@ protected:
 private:
 	RenderInfoEnemy renderInfo;
 	EnemyStateMachine* enemyStateMachine;
+	Player * player;
 private:
 	void Release();
 	Enemy();
@@ -33,5 +35,6 @@ public:
 	void Render();
 	XMFLOAT3 GetPosition();
 	float GetRadius();
+	void AIPattern(Player * player, double deltaTime);
 };
 
