@@ -13,7 +13,7 @@ private:
 	DirectX::XMFLOAT3 direction;
 	DirectX::XMFLOAT3 rotation;
 
-	float age, speed, dmgMultiplier;
+	float age, speed, dmgMultiplier,radius;
 	bool isFired, collided;
 	MeshEnum projectileModel;
 public:
@@ -45,6 +45,8 @@ public:
 
 	void SetAge(float age);
 	void SetPos(DirectX::XMFLOAT3 pos);
+
+	float GetRadius();
 	
 	XMFLOAT3 GetPos();
 	XMFLOAT3 GetDir();

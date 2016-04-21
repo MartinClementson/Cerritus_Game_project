@@ -9,9 +9,7 @@ GameState::GameState()
 	this->player = new Player();
 	this->input = Input::GetInstance();
 	this->room1 = new Scene();
-
-
-
+	this->collision = Collision::GetInstance();
 }
 
 
@@ -33,6 +31,7 @@ void GameState::Initialize()
 	death->isActive = false;
 	pause->isActive = false;
 	room1->Initialize();
+	OnEnter();
 
 }
 
@@ -57,7 +56,55 @@ void GameState::Update(double deltaTime)
 	player->Update(deltaTime,dir);
 
 	room1->Update(deltaTime);
+	int i = 0;
+	
+	while(i < player->projectileSystem->projectiles.size())
+	{
+		int j = 0;
+		while(j<room1->enemySpawn->Alive.size())
+		{
+			if (collision->ProjectileEnemyCollision(
+				player->projectileSystem->
+				projectiles.at(i),
 
+				room1->enemySpawn->
+				Alive.at(j))
+
+				&& room1->enemySpawn->
+				Alive.at(j)->isAlive == true)
+			{
+				//not alive anymore
+				//MessageBox(0, L"You have Collided",
+				//	L"LOL", MB_OK);
+
+				room1->enemySpawn->Alive.at(j)->isAlive = false;
+
+				room1->enemySpawn->
+					Queue.push_back(
+						room1->enemySpawn->
+						Alive.at(j)
+					);
+
+				room1->enemySpawn->
+					Alive.erase(
+						room1->enemySpawn->
+						Alive.begin() + j
+					);
+
+				
+				/*if (player->projectileSystem->projectiles.size() >0)
+				{
+					player->projectileSystem->DeleteProjectile(i);
+				}*/
+				
+				
+			}
+			j++;
+		}
+		i++;
+	}
+	
+	
 }
 
 void GameState::ProcessInput(double* deltaTime)
@@ -159,6 +206,7 @@ void GameState::Render()
 
 void GameState::OnEnter()
 {
+	collision->AddPlayer(this->player);
 
 }
 

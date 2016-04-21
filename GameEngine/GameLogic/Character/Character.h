@@ -13,6 +13,7 @@ public:
 protected:
 	XMFLOAT3 position;
 	XMFLOAT3 rotation;
+	float radius;
 
 	float movementSpeed, health, damage;
 	bool dead, idle, active;
