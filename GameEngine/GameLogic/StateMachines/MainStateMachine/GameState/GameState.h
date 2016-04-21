@@ -7,6 +7,7 @@
 #include "../../../InputHandler/Input/Input.h"
 #include "../../../GUI/GUI.h"
 #include "../../../Character/Enemy/Enemy.h"
+#include "../../../Collision/Collision.h"
 
 class GameState :
 	public StateClass
@@ -33,6 +34,6 @@ private:
 	GUI* gameUI;
 	MainPausedState* pause;
 	MainDeathState* death;
-
+	Collision* collision;
 };
 

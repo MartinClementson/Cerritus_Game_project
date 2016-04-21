@@ -5,6 +5,7 @@
 #include "../../InputHandler/Input/Input.h"
 #include "../../../../GameEngine/Structs/RenderInfo.h"
 #include "../../StateMachines/EnemyStateMachine/EnemyStateMachine.h"
+#include "../../../Structs/DataTypes.h"
 
 class Enemy :
 	public Character
@@ -20,7 +21,9 @@ private:
 	Enemy();
 public:
 	Enemy(XMFLOAT3 spawn);
-	
+
+	bool isAlive;
+
 	virtual ~Enemy();
 
 	void Initialize();
@@ -28,5 +31,7 @@ public:
 	void Update(double deltaTime);
 
 	void Render();
+	XMFLOAT3 GetPosition();
+	float GetRadius();
 };
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "../GameObject.h"
 #include "../../../Character/Enemy/Enemy.h"
+#include "../../../Collision/Collision.h"
 
 #include <time.h>
 #include <stdlib.h>
@@ -15,10 +16,12 @@ private:
 	//std::vector<Enemy*> enemies;
 private:
 	
-
+	Collision* collision;
+	
+	
+public:
 	std::vector<Enemy*> Queue;
 	std::vector<Enemy*> Alive;
-public:
 	EnemySpawn();
 	~EnemySpawn();
 

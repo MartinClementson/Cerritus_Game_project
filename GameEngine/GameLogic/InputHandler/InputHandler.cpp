@@ -146,16 +146,15 @@ bool InputHandler::IsKeyHeld(InputKeys* key)
 XMFLOAT2 InputHandler::GetMousePosition()
 {
 
-	mouse->GetDeviceState(sizeof(DIMOUSESTATE), &mouseState);
-
-	/*mouseX += mouseState.lX ;
-	mouseY += mouseState.lY ;*/
-
-
-
 	POINT point;
 	ShowCursor(FALSE);
-	
+
+	GetCursorPos(&point);
+	ScreenToClient(*this->hwndP, &point);
+		
+	mouseX = (float)point.x;
+	mouseY = (float)point.y;
+
 	if (GetCursorPos( &point))
 	{
 
@@ -194,11 +193,9 @@ XMFLOAT2 InputHandler::GetMousePosition()
 		
 	}
 	/*else
-	{
-		mouseX = 0;
-		mouseY = 0;
-	}
+
 	*/
+
 	return XMFLOAT2(mouseX, mouseY);
 }
 
