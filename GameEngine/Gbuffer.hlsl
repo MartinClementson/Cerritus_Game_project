@@ -1,4 +1,12 @@
 
+cbuffer textureSampleBuffer : register(b3)
+{
+	bool diffuseMap;
+	bool normalMap;
+	bool specularMap;
+	bool glowMap;
+};
+
 
 struct VS_IN
 {
@@ -98,6 +106,46 @@ struct GBUFFER_PS_OUT
 GBUFFER_PS_OUT GBUFFER_PS_main(GS_OUT input)
 {
 	GBUFFER_PS_OUT output = (GBUFFER_PS_OUT)0;
+
+	if (diffuseMap)
+	{
+	
+	}
+	else
+	{
+
+	}
+
+
+
+	if (normalMap)
+	{
+
+	}
+	else
+	{
+
+	}
+
+
+	if (specularMap)
+	{
+
+	}
+	else
+	{
+
+	}
+
+
+	if (glow)
+	{
+
+	}
+	else
+	{
+	
+	}
 
 	//DO STYFF
 
