@@ -57,7 +57,36 @@ void GameState::Update(double deltaTime)
 	collision;
 
 	room1->Update(deltaTime);
+	for (int i = 0; i < player->projectileSystem->projectiles.size(); i++)
+	{
+		for (int j = 0; j < room1->enemySpawn->Alive.size(); j++)
+		{
+			
+				if (collision->ProjectileEnemyCollision(
+					player->projectileSystem->projectiles.at(i),
+					room1->enemySpawn->Alive.at(j))
+					&& room1->enemySpawn->Alive.at(j)->isAlive == true)
+				{
+					//not alive anymore
+					//MessageBox(0, L"You have Collided",
+					//	L"LOL", MB_OK);
 
+					room1->enemySpawn->Alive.at(j)->isAlive = false;
+
+					room1->enemySpawn->Queue.push_back(
+						room1->enemySpawn->Alive.at(j)
+					);
+					room1->enemySpawn->Alive.erase(
+						room1->enemySpawn->Alive.begin() + j
+					);
+
+					player->projectileSystem->projectiles.at(i)->SetFired(false);
+				}
+			
+		}
+	}
+	
+	
 }
 
 void GameState::ProcessInput(double* deltaTime)

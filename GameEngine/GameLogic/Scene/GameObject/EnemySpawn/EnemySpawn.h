@@ -17,9 +17,11 @@ private:
 private:
 	
 	Collision* collision;
+	
+	
+public:
 	std::vector<Enemy*> Queue;
 	std::vector<Enemy*> Alive;
-public:
 	EnemySpawn();
 	~EnemySpawn();
 

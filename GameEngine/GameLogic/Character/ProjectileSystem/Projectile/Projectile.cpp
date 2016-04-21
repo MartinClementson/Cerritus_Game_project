@@ -49,6 +49,7 @@ void Projectile::Initialize(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 directio
 	this->position = origin;
 	this->direction = direction;
 
+	this->radius = 1.0f;
 	this->age = 0.0f;
 	this->speed = 100.0f;
 	this->dmgMultiplier = 2.0f;
@@ -126,4 +127,7 @@ void Projectile::SetPos(DirectX::XMFLOAT3 pos)
 	this->position = pos;
 }
 
-
+float Projectile::GetRadius()
+{
+	return this->radius;
+}

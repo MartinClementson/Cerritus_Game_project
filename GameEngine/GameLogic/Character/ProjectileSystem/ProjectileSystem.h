@@ -31,8 +31,6 @@ public:
 	
 	Graphics* graphics;
 
-
-
 	std::vector<Projectile*> projectiles;
 	//float lifeSpan; //travel time
 	//int maxProjectiles; // amout of projectiles

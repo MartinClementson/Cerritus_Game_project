@@ -28,12 +28,12 @@ public:
 
 public:
 	Input* userInput;
-	
+	ProjectileSystem* projectileSystem;
 
 private:
 	MeshEnum meshID;//enum
 	RenderInfoChar renderInfo;
-	ProjectileSystem* projectileSystem;
+	
 
 	XMFLOAT3 direction;
 	//Collision();

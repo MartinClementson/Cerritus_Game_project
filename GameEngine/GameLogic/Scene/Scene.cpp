@@ -38,7 +38,7 @@ void Scene::Release()
 
 void Scene::Update(double deltaTime)
 {
-
+	
 	for (size_t i = 0; i < fireTraps.size(); i++)
 	{
 		fireTraps.at(i)->GetPosition();

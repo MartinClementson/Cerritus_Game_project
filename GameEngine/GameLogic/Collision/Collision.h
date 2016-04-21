@@ -9,11 +9,13 @@ using namespace DirectX;
 class Collision
 {
 private:
-
-private:
+	XMFLOAT3 enemyPos;
+	float enemyRad;
 	vector<Enemy*> enemyBox;
 	Player* player;
 	bool enemyInit;
+private:
+	
 	Collision();
 
 public:
@@ -24,6 +26,7 @@ public:
 	void AddPlayer(Player* player);
 
 	bool PlayerCollision(Enemy* enemy);
+	bool ProjectileEnemyCollision(Projectile* projectile, Enemy* enemy);
 	
 	static Collision* GetInstance();
 
