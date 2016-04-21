@@ -6,6 +6,7 @@ ResourceManager::ResourceManager()
 {
 	meshManager = new MeshManager();
 	shaderManager = new ShaderManager();
+	brfImporterHandler = new BRFImporterHandler();
 
 }
 
@@ -14,18 +15,22 @@ ResourceManager::~ResourceManager()
 {
 	delete meshManager;
 	delete shaderManager;
+	delete brfImporterHandler;
 }
 
 void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext)
 {
 	shaderManager->Initialize(gDevice, gDeviceContext);
 	meshManager->Initialize(gDevice, gDeviceContext);
+	brfImporterHandler->Initialize(this->meshManager);
+	//brfImporterHandler->LoadFile("2meshes.BRF", true, true, true);
 }
 
 void ResourceManager::Release()
 {
 	this->shaderManager->Release();
 	this->meshManager->Release();
+	this->brfImporterHandler->Release();
 
 }
 

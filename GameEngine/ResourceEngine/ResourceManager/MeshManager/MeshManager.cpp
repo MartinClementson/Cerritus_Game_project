@@ -36,6 +36,55 @@ void MeshManager::Release()
 
 }
 
+void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, unsigned int materialID, unsigned int vertexCount, UINT indexCount, std::vector<Vertex> vertices, std::vector<AnimVert> aniVertices, std::vector<UINT> indices)
+{
+	if (aniVertices.size() <= 0)
+	{
+		Vertex* newVertices = new Vertex[vertexCount];
+		for (unsigned int i = 0; i < vertexCount; i++)
+		{
+			newVertices[i] = vertices[i];
+		}
+
+		UINT* newIndices = new UINT[indexCount];
+		for (unsigned int i = 0; i < indexCount; i++)
+		{
+			newIndices[i] = indices[i];
+		}
+
+		Mesh newMesh = Mesh(hasSkeleton, skeletonID, materialID);
+		newMesh.Initialize(this->gDevice, this->gDeviceContext);
+		newMesh.CreateVertexBuffer(newVertices, vertexCount);
+		newMesh.CreateIndexBuffer(newIndices, indexCount);
+		this->gameMeshes->push_back(newMesh);
+		delete[] newVertices;
+		delete[] newIndices;
+	}
+	else
+	{
+		AnimVert* newVertices = new AnimVert[vertexCount];
+		for (unsigned int i = 0; i < vertexCount; i++)
+		{
+			newVertices[i] = aniVertices[i];
+		}
+
+		UINT* newIndices = new UINT[indexCount];
+		for (unsigned int i = 0; i < indexCount; i++)
+		{
+			newIndices[i] = indices[i];
+		}
+
+		Mesh newMesh = Mesh(hasSkeleton, skeletonID, materialID);
+		newMesh.Initialize(this->gDevice, this->gDeviceContext);
+		newMesh.CreateVertexBuffer(newVertices, vertexCount);
+		newMesh.CreateIndexBuffer(newIndices, indexCount);
+		this->gameMeshes->push_back(newMesh);
+		delete[] newVertices;
+		delete[] newIndices;
+	}
+}
+
+
 void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * toRender)
 {
 }
