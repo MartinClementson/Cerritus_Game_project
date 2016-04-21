@@ -50,9 +50,9 @@ void Scene::Initialize()
 		//trap->Initialize();
 	
 		XMFLOAT3 tmp;
-		tmp.x = rand() % 12;
+		tmp.x = rand() % 12 +1.0f;
 		tmp.y = 2;
-		tmp.z = rand() % 12;
+		tmp.z = rand() % 12 +1.0f;
 
 		XMFLOAT3 pos = { tmp.x,tmp.y,tmp.z };
 
