@@ -64,37 +64,37 @@ void Player::Render()
 	projectileSystem->Render();
 }
 
-void Player::Move(MovementDirection dir, double deltaTime)
+void Player::Move(MovementDirection* dir, int keyAmount, double deltaTime)
 {
 	XMFLOAT3 moveAmount = { 0.0f, 0.0f, 0.0f };
 
-	if (dir == UP)
+	for (int i = 0; i < keyAmount; i++)
 	{
-		moveAmount.z += movementSpeed ;
-	}
+		if (dir[i]	== UP)
+		{
+			moveAmount.z += ( movementSpeed / keyAmount ) ;
+		}
 
-	 if (dir == DOWN)
-	{
-		moveAmount.z -= movementSpeed ;
+		 if (dir[i] == DOWN)
+		{
+			moveAmount.z -= ( movementSpeed / keyAmount);
+		}
+		 if (dir[i] == LEFT)
+		{
+			moveAmount.x -= ( movementSpeed / keyAmount);
+		}
+		 if (dir[i] == RIGHT)
+		{
+			moveAmount.x += ( movementSpeed / keyAmount);
+		}
+
 	}
-	 if (dir == LEFT)
-	{
-		moveAmount.x -= movementSpeed ;
-	}
-	 if (dir == RIGHT)
-	{
-		moveAmount.x += movementSpeed ;
-	}
-	 position = position + (moveAmount * (float)deltaTime);
+	 position = position +  ( moveAmount * (float)deltaTime);
 }
 
 void Player::Shoot(InputKeys input, double deltaTime)
 {
-	/*if (input == MOUSE_LEFT)
-	{
-		projectileSystem->FireProjectile(this->position, this->rotation);
-		
-	}*/
+	
 	if (input == MOUSE_LEFT)
 	{
 		projectileSystem->FireProjectile(this->position, direction);

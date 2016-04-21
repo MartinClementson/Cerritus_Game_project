@@ -77,26 +77,62 @@ void GameState::ProcessInput(double* deltaTime)
 	}
 	else
 	{
-		int keysPressed = 0;
+		int					 moveKeysPressed		 = 0;		//How many have been clicked
+		int					 maxMoveKeysPressed		 = 2;		// Maximum amount of movement keys that can be clicked each frame.
+		MovementDirection	 directions[2];						//This should be as big as MaxMoveKeysPressed
 
+#pragma region Movement Keys
 
 		if (input->IsKeyPressed(KEY_W))
-	
 		{
-			player->Move(UP, deltaTime[0]);
+			directions[moveKeysPressed]  = UP;
+			moveKeysPressed				+= 1;
+			
 		}
-		else if (input->IsKeyPressed(KEY_S))
+
+
+		if (input->IsKeyPressed(KEY_S))
 		{
-			player->Move(DOWN, deltaTime[0]);
+			if (moveKeysPressed < maxMoveKeysPressed)
+			{
+				directions[moveKeysPressed]				 = DOWN;
+				moveKeysPressed							 += 1;
+			}
+			
+
 		}
-		else if (input->IsKeyPressed(KEY_A))
+
+		if (input->IsKeyPressed(KEY_A))
 		{
-			player->Move(LEFT, deltaTime[0]);
+			if (moveKeysPressed < maxMoveKeysPressed)
+			{
+				directions[moveKeysPressed]		 = LEFT;
+				moveKeysPressed += 1;
+			}
+			
 		}
-		else if (input->IsKeyPressed(KEY_D))
+
+
+		if (input->IsKeyPressed(KEY_D))
 		{
-			player->Move(RIGHT, deltaTime[0]);
+			if (moveKeysPressed < maxMoveKeysPressed)
+			{
+				directions[moveKeysPressed]		 = RIGHT;
+				moveKeysPressed					 += 1;
+			}
 		}
+
+
+		if (moveKeysPressed > 0)
+		{
+
+			player->Move(directions, moveKeysPressed ,deltaTime[0]);
+
+		}
+
+#pragma endregion
+
+
 		if (input->IsKeyPressed(KEY_ESC))
 		{
 			pause->isActive = true;
