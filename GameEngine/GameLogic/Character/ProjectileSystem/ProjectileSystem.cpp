@@ -1,4 +1,10 @@
 #include "ProjectileSystem.h"
+float get_degrees(float radian);
+inline float get_degrees(float radian)
+{
+
+	return (radian * 180) / XM_PI;
+}
 ProjectileSystem::ProjectileSystem()
 {
 	timeOffset = 0;
@@ -44,7 +50,37 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 		}
 		else
 		{
-			projectiles.push_back(new Projectile(origin, direction));
+
+#pragma region Calculate rotation of projectile mesh
+			XMFLOAT3 rotation(90.0f,0.0f,0.0f);
+			
+			
+			// placeholder direction is now (0,0,1)
+
+			/*	result = dot product of direction and placeholder direction
+			acos(result)
+			*/
+
+			XMVECTOR shotDirection   = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
+			XMVECTOR meshDirection   = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+
+			
+			//Calculate angle between meshDir and shotDir
+			float cosAngle			 = XMVector3Dot(shotDirection, meshDirection).m128_f32[0];
+			float angle				 = acos(cosAngle);
+			float degrees			 = get_degrees(angle);
+			////////////////////////////////////////////////////
+
+			if (direction.x < 0)
+				degrees = -degrees;
+
+			rotation.y				 = degrees;
+
+
+#pragma endregion
+
+
+			projectiles.push_back(new Projectile(origin, direction,rotation));
 
 		}
 		timeOffset = 0;
