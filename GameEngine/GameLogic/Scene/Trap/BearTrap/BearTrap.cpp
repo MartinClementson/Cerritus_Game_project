@@ -13,11 +13,11 @@ BearTrap::~BearTrap()
 {
 }
 
-void BearTrap::Initialize()
+void BearTrap::Initialize(XMFLOAT3 position, XMFLOAT3 rotation)
 {
 	slow = 0.5f; 
-	position = { 1.0f, 2.0f, 3.0f };
-	rotation = { 1.0,0.0,0.0 };
+	this->position = position;
+	this->rotation = { 0,0,0 };
 }
 
 void BearTrap::Release()

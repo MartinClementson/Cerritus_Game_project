@@ -7,7 +7,7 @@ class BearTrap :
 public:
 	BearTrap();
 	virtual ~BearTrap();
-	void Initialize();
+	void Initialize(XMFLOAT3 position, XMFLOAT3 rotation);
 	void Release();
 	void Update(double deltaTime);
 	void Render();

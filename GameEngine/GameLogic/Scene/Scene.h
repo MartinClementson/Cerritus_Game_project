@@ -14,6 +14,7 @@ private:
 	EnemySpawn* enemySpawn;
 	std::vector<BearTrap*> bearTraps;
 	std::vector<FireTrap*> fireTraps;
+	Trap * trap;
 
 public:
 	Scene();

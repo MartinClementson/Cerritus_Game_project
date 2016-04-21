@@ -7,7 +7,7 @@ class FireTrap :
 public:
 	FireTrap();
 	virtual ~FireTrap();
-	void Initialize();
+	void Initialize(XMFLOAT3 position, XMFLOAT3 rotation);
 	void Release();
 	void Update(double deltaTime);
 	void Render();

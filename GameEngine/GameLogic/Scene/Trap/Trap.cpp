@@ -15,9 +15,8 @@ Trap::~Trap()
 void Trap::Initialize()
 {
 	damage = 25.0f;
-	position = { 1,0,2 };
-	rotation = { 0,0,0 };
-
+	initTrap();
+	
 }
 void Trap::Release()
 {
@@ -25,7 +24,11 @@ void Trap::Release()
 }
 void Trap::Update(double deltaTime)
 {
+	
 
+	//this->position.x = rand() % 10 + 1;
+	//this->position.z = rand() % 10 + 1;
+	//this->position.y = rand() % 10 + 1;
 	renderInfo = { position,rotation }; // need to think about how the dmg is deliverd over the enemys which collided with the trap. 
 
 }
@@ -61,5 +64,31 @@ void Trap::SetRotation(DirectX::XMFLOAT3 rotation)
 {
 	this->rotation = rotation;
 
+
+}
+
+void Trap::initTrap()
+{
+	
+	int randomSpawn = rand() % 2 + 1;
+
+	if (randomSpawn == 1)
+	{
+		float spawnX = rand() % 20 + 1.0f;
+		float spawnZ = rand() % 20 + 1.0f;
+
+		position.x = spawnX;
+		position.y = 0;
+		position.z = spawnZ;
+	}
+	if (randomSpawn == 2)
+	{
+		float spawnX = rand() % 32 + 1.0f;
+		float spawnZ = rand() % 32 + 1.0f;
+
+		position.x = spawnX;
+		position.y = 2;
+		position.z = spawnZ;
+	}
 
 }

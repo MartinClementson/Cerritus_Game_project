@@ -19,6 +19,8 @@ public:
 	virtual DirectX::XMFLOAT3 GetRotation();
 	virtual void SetPosition(DirectX::XMFLOAT3 position);  // la till virtual på get och set då de inte ska användas i denna klass
 	virtual void SetRotation(DirectX::XMFLOAT3 rotation);
+
+	void initTrap();
 	//Collision();
 private:	
 	Animation* animation;

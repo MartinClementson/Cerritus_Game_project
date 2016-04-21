@@ -12,11 +12,13 @@ FireTrap::~FireTrap()
 {
 }
 
-void FireTrap::Initialize()
+void FireTrap::Initialize(XMFLOAT3 position,XMFLOAT3 rotation)
 {
 	dotDuration = 2.5f;  
-	position = { 2.0f,5.0f,2.0f };
-	rotation = { 0.0f,0.0f,0.0f };
+
+	this->position = position;
+	
+	this->rotation = { 0,0,0 }; //position;
 	
 }
 
@@ -31,7 +33,7 @@ void FireTrap::Update(double deltaTime)
 	{
 		dotDuration = dotDuration - 1 * deltaTime;// thinkng of how this will work, need a boolean for if activated and if enemys have collided with it.
 	}
-
+	 //position;
 	renderInfo = { position,rotation }; //must check this.. 
 }
 
