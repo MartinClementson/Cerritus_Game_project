@@ -13,6 +13,11 @@ EnemySpawn::~EnemySpawn()
 	{
 			delete Queue.at(i);
 	}
+
+	for (size_t i = 0; i < Alive.size(); i++)
+	{
+		delete Alive.at(i);
+	}
 }
 
 void EnemySpawn::Initialize()
