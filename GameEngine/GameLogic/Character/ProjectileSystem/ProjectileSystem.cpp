@@ -32,19 +32,7 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 	
 	//renderInfo = { origin, direction };
 	
-	if (timeOffset > 0.2f)
-	{
-		for (unsigned int i = 0; i < 100; i++) // kurwa mac
-		{
-			if (!projectiles[i].GetFired())
-			{
-				projectiles[i].Initialize(origin, direction);
-				break;
-			}
-	
-		}
-		timeOffset = 0;
-	}
+
 
 	
 	/*
@@ -72,7 +60,7 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 			/*	result = dot product of direction and placeholder direction
 			acos(result)
 			*/
-
+			XMFLOAT3 rotation(90.0f, 0.0f, 0.0f);
 			XMVECTOR shotDirection   = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
 			XMVECTOR meshDirection   = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 
@@ -88,11 +76,23 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 
 			rotation.y				 = degrees;
 
+			if (timeOffset > 0.2f)
+			{
+				for (unsigned int i = 0; i < 100; i++) // kurwa mac
+				{
+					if (!projectiles[i].GetFired())
+					{
+						projectiles[i].Initialize(origin, direction, rotation);
+						break;
+					}
 
+				}
+				timeOffset = 0;
+			}
 #pragma endregion
 
 
-			projectiles.push_back(new Projectile(origin, direction,rotation));
+			//projectiles.push_back(new Projectile(origin, direction,rotation));
 
 
 	//if (timeOffset > 0.2f)
@@ -132,9 +132,7 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 
 			projectiles[i].SetFired(false);
 
-			DeleteProjectile(i);
-			
-
+			//DeleteProjectile(i);
 		}
 	
 	}
@@ -164,9 +162,9 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 
 void ProjectileSystem::DeleteProjectile(int index)
 {
-	delete projectiles.at(index);
+	/*delete projectiles.at(index);
 	projectiles.erase(projectiles.begin());
-	projectiles.shrink_to_fit();
+	projectiles.shrink_to_fit();*/
 }
 
 void ProjectileSystem::Initialize()

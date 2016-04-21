@@ -30,6 +30,11 @@ Projectile::Projectile()
 
 }
 
+//void Projectile::Initialize(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction)
+//{
+//
+//}
+
 Projectile::Projectile(DirectX::XMFLOAT3 origin,DirectX::XMFLOAT3 direction, DirectX::XMFLOAT3 rotation)
 {
 	Initialize(origin,direction,rotation);
@@ -76,9 +81,6 @@ void Projectile::Update(double deltatime)
 		renderInfo.position = position;
 		renderInfo.rotation = this->rotation;
 		
-		
-	
-
 	}
 	if (age >= 2.5f)
 		isFired = false;

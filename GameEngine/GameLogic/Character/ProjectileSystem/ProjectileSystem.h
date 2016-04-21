@@ -16,8 +16,9 @@ public:
 private:
 	
 
-	Projectile projectiles[100];
+	//Projectile projectiles[100];
 	//Projectile aliveProjectiles[100];
+
 	float lifeSpan;
 	int maxProjectiles;
 	RenderInfoObject renderInfo;
@@ -27,6 +28,8 @@ public:
 	void FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction);
 	void UpdateProjectiles(double deltaTime);
 	void DeleteProjectile(int index);
+
+	Projectile projectiles[100];
 
 	
 	Graphics* graphics;
