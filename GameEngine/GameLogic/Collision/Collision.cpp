@@ -14,9 +14,27 @@ Collision* Collision::GetInstance()
 	return &instance;
 }
 
-void Collision::AddEnemy(Enemy* enemy)
+void Collision::AddEnemy(Enemy* enemy, int index, int listCapacity)
 {
-	enemyBox.push_back(enemy);
+	if (!enemyInit)
+	{
+		enemyBox.resize(listCapacity);
+		for (int i = 0; i < enemyBox.size(); i++)
+		{
+			enemyBox.at(i) = NULL;
+		}
+	}
+	enemyBox.insert(enemyBox.begin()+index, enemy);
+}
+
+void Collision::RemoveEnemy(int index)
+{
+
+}
+
+void Collision::AddPlayer(Player* player)
+{
+	this->player = player;
 }
 
 bool Collision::Collide()
