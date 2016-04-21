@@ -1,6 +1,7 @@
 #pragma once
 #include "../../../Source/LibIncluder.h"
 #include "../ProjectileSystem/Projectile/Projectile.h"
+//#include "../Player/Player.h"
 #include"../../../Structs/RenderInfo.h"
 #include "../../../ResourceEngine/Graphics/Graphics.h"
 
@@ -12,13 +13,12 @@ class ProjectileSystem
 public:
 	ProjectileSystem();
 	virtual ~ProjectileSystem();
-	
+
 private:
-	
+
 
 	//Projectile projectiles[100];
-	//Projectile aliveProjectiles[100];
-
+	//Projectile firedProjectiles[100];
 	float lifeSpan;
 	int maxProjectiles;
 	RenderInfoObject renderInfo;
@@ -29,20 +29,13 @@ public:
 	void UpdateProjectiles(double deltaTime);
 	void DeleteProjectile(int index);
 
-	Projectile projectiles[100];
 
-	
 	Graphics* graphics;
 
-
-/*	std::vector<Projectile*> projectiles;
-	//std::vector<Projectile*> LiveBullets;
-
 	std::vector<Projectile*> projectiles;
-
 	//float lifeSpan; //travel time
 	//int maxProjectiles; // amout of projectiles
-	//Player* pos;*/
+	//Player* pos;
 
 public:
 
