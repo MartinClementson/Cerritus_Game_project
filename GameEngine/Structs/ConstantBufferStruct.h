@@ -27,3 +27,12 @@ struct LightStruct
 	DirectX::XMFLOAT3 pad;
 };
 
+
+struct SampleBoolStruct
+{
+
+	BOOL diffuseMap	 = FALSE	;
+	BOOL normalMap	 = FALSE	;
+	BOOL specularMap = FALSE	;
+	BOOL glowMap	 = FALSE	;
+};
