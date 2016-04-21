@@ -30,7 +30,7 @@ void EnemySpawn::Update(double deltaTime)
 	{
 		SpawnEnemy();
 	}
-	for (int i = 0; i < Alive.size(); i++)
+	for (int i = 0; i < (int)Alive.size(); i++)
 	{
 		if (collision->PlayerCollision(Alive.at(i))&& Alive.at(i)->isAlive == true)
 		{
@@ -50,7 +50,7 @@ void EnemySpawn::SpawnEnemy()
 {
 	bool done = false;
 	int i = 0;
-	while (done == false || i > Queue.size())
+	while (done == false || i > (int)Queue.size())
 	{
 		if (!Queue.at(i)->isAlive)
 		{
@@ -124,16 +124,15 @@ void EnemySpawn::InitEnemy()
 			Queue.push_back(new Enemy(spawn));
 		}
 	}
-	for(int i = 0; i < Queue.size(); i++)
+	for(int i = 0; i < (int)Queue.size(); i++)
 	{ 
 		collision->AddEnemy(Queue.at(i));
-		bool test;
 	}
 }
 
 void EnemySpawn::Render()
 {
-	for (unsigned int i = 0; i < Alive.size(); i++)
+	for (unsigned int i = 0; i < (int)Alive.size(); i++)
 	{
 		if (Alive.at(i)->isAlive)
 		{

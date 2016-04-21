@@ -58,10 +58,10 @@ void GameState::Update(double deltaTime)
 	room1->Update(deltaTime);
 	int i = 0;
 	
-	while(i < player->projectileSystem->projectiles.size())
+	while(i < (int)player->projectileSystem->projectiles.size())
 	{
 		int j = 0;
-		while(j<room1->enemySpawn->Alive.size())
+		while(j<(int)room1->enemySpawn->Alive.size())
 		{
 			if (collision->ProjectileEnemyCollision(
 				player->projectileSystem->
