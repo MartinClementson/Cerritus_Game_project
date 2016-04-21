@@ -50,7 +50,7 @@ void Projectile::Initialize(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 directio
 	this->direction = direction;
 
 	this->age = 0.0f;
-	this->speed = 100.0f;
+	this->speed = 50.0f;
 	this->dmgMultiplier = 2.0f;
 
 	this->isFired = true;

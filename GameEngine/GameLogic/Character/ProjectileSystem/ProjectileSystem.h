@@ -1,7 +1,6 @@
 #pragma once
 #include "../../../Source/LibIncluder.h"
 #include "../ProjectileSystem/Projectile/Projectile.h"
-//#include "../Player/Player.h"
 #include"../../../Structs/RenderInfo.h"
 #include "../../../ResourceEngine/Graphics/Graphics.h"
 
@@ -32,12 +31,11 @@ public:
 	Graphics* graphics;
 
 
-
-//	std::vector<Projectile*> projectiles;
+/*	std::vector<Projectile*> projectiles;
 	//std::vector<Projectile*> LiveBullets;
 	//float lifeSpan; //travel time
 	//int maxProjectiles; // amout of projectiles
-	//Player* pos;
+	//Player* pos;*/
 
 public:
 

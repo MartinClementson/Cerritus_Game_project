@@ -26,23 +26,27 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 	
 	//renderInfo = { origin, direction };
 	
-
-	for (unsigned int i = 0; i < 100; i++) // kurwa mac
+	if (timeOffset > 0.2f)
 	{
-		if (!projectiles[i].GetFired())
+		for (unsigned int i = 0; i < 100; i++) // kurwa mac
 		{
-			projectiles[i].Initialize(origin, direction);
-			break;
+			if (!projectiles[i].GetFired())
+			{
+				projectiles[i].Initialize(origin, direction);
+				break;
+			}
+	
 		}
-		//aliveProjectiles[i+1];
-
+		timeOffset = 0;
 	}
+
+	
 	/*
 	//origin.x -= 1.0f;
 	//projectiles[0].Initialize(origin, direction);
 	//origin.x += 2.0f;
 	//projectiles[1].Initialize(origin, direction);
-	////projectiles[2].Initialize(origin, direction);*/
+	////projectiles[2].Initialize(origin, direction);
 
 	//if (timeOffset > 0.2f)
 	//{
@@ -56,7 +60,7 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 
 	//	}
 	//	timeOffset = 0;
-	//}
+	//}*/
 	
 }
 
@@ -72,8 +76,8 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 		if (projectiles[i].GetFired())
 		{
 			projectiles[i].Update(deltaTime);
-			renderInfo = { projectiles[i].GetPos(), projectiles[i].GetDir() };
-			graphics->QueueRender(&renderInfo);
+		/*	renderInfo = { projectiles[i].GetPos(), projectiles[i].GetDir() };
+			graphics->QueueRender(&renderInfo);*/
 		}
 
 		if (projectiles[i].GetAge() >= lifeSpan)
@@ -83,7 +87,7 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 	
 	}
 	
-	//for (int i = 0; i < projectiles.size(); i++)
+	/*//for (int i = 0; i < projectiles.size(); i++)
 	//{
 
 	//	projectiles.at(i)->Update(deltaTime);
@@ -101,7 +105,7 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 	//	//	tmp.x = tmp.x + projectiles[i].GetDir().x * projectiles[i].GetSpeed();
 	//	//	tmp.z = tmp.z + projectiles[i].GetDir().z * projectiles[i].GetSpeed();
 	//	//}
-	//}
+	//}*/
 	
 
 }
@@ -126,7 +130,7 @@ void ProjectileSystem::Render()
 {
 
 
-	//for (int i = 0; i < projectiles.size(); i++)
+	/*//for (int i = 0; i < projectiles.size(); i++)
 	//{
 
 	//	if (projectiles.at(i)->GetFired())
@@ -135,14 +139,12 @@ void ProjectileSystem::Render()
 	//		graphics->QueueRender(&projectiles.at(i)->renderInfo);
 	//	}
 	//	
-	//}
+	//}*/
 	for (unsigned int j = 0; j < 100; j++)
 	{
 		if (projectiles->GetFired())
 		{
-			//renderInfo = { projectiles[j].GetPos(), projectiles[j].GetDir() };
-			graphics->QueueRender(&projectiles[j].renderInfo);
-				
+			graphics->QueueRender(&projectiles[j].renderInfo);	
 		}
 	}
 	
