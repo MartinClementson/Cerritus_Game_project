@@ -141,6 +141,6 @@ void Enemy::AIPattern(Player * player, double deltaTime)
 
 	vect.x = playerPos.x - position.x;
 	vect.z = playerPos.z - position.z;
-	this->position.x +=  vect.x *deltaTime;
-	this->position.z +=  vect.z *deltaTime;
+	this->position.x +=  vect.x *(float)deltaTime;
+	this->position.z +=  vect.z *(float)deltaTime;
 }
