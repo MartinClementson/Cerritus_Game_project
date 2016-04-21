@@ -6,13 +6,20 @@ Scene::Scene()
 {
 	/*this->bearTraps = new std::vector<BearTrap>;
 	this->fireTraps = new std::vector<FireTrap>;*/
-	this->enemySpawn = new EnemySpawn;
+	
 }
 
 
 Scene::~Scene()
 {
-	delete this->enemySpawn;
+
+	for (size_t i = 0; i < enemySpawns.size(); i++)
+	{
+
+	delete this->enemySpawns.at(i);
+	}
+	
+	
 	/*delete this->sceneModels;
 	delete this->sceneLights;
 	delete this->enemySpawns;*/
@@ -26,19 +33,31 @@ void Scene::Initialize()
 
 	//bearTraps.push_back(new BearTrap());
 
-	enemySpawn->Initialize();
-}		
+	
+}	
+
+void Scene::AddEnemySpawn(XMFLOAT3 spawnPosition)
+{
+	EnemySpawn* spawnPoint = new EnemySpawn();
+	spawnPoint->Initialize(spawnPosition);
+	enemySpawns.push_back(spawnPoint);
+}
 
 
 
 void Scene::Release()
 {
-	enemySpawn->Release();
+	for (size_t i = 0; i < enemySpawns.size(); i++)
+	{
+
+		 this->enemySpawns.at(i)->Release();
+	}
+	
 }
 
 void Scene::Update(double deltaTime)
 {
-
+	
 	for (size_t i = 0; i < fireTraps.size(); i++)
 	{
 		fireTraps.at(i)->GetPosition();
@@ -65,7 +84,11 @@ void Scene::Update(double deltaTime)
 			bearTraps.at(i)->GetDamage();
 		}
 	}
-	enemySpawn->Update(deltaTime);
+	for (size_t i = 0; i < enemySpawns.size(); i++)
+	{
+
+		enemySpawns.at(i)->Update(deltaTime);
+	}
 
 }
 
@@ -79,7 +102,13 @@ void Scene::Render()
 	{
 		bearTraps.at(i)->Render();
 	}
-	enemySpawn->Render();
+
+	for (size_t i = 0; i < enemySpawns.size(); i++)
+	{
+
+		enemySpawns.at(i)->Render();
+	}
+	
 
 }
 

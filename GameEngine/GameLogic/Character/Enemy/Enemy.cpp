@@ -6,6 +6,7 @@ Enemy::Enemy(XMFLOAT3 spawn)
 	Initialize();
 	this->enemyStateMachine = new EnemyStateMachine();
 	this->graphics = Graphics::GetInstance();
+
 }
 
 Enemy::Enemy()
@@ -28,9 +29,9 @@ void Enemy::Initialize()
 	damage = 22.0f;
 	rotation = { 0,0,0 }; 
 	
-	dead = false;
-	idle = false;
-	active = true;
+	radius = 1.0f;
+
+	isAlive = false;
 }
 
 void Enemy::Release()
@@ -42,7 +43,6 @@ void Enemy::Update(double deltaTime)
 {
 	enemyStateMachine->Update(deltaTime);
 	renderInfo = { position, rotation };
-
 }
 
 //void Enemy::UpdateAttack(double deltaTime)
@@ -116,4 +116,31 @@ void Enemy::Render()
 {
 	renderInfo = { position, rotation };
 	graphics->QueueRender(&renderInfo);
+}
+
+void Enemy::Respawn(XMFLOAT3 spawn)
+{
+	this->position = spawn;
+	this->isAlive  = true;
+}
+
+XMFLOAT3 Enemy::GetPosition() 
+{ 
+	return this->position; 
+}
+
+float Enemy::GetRadius() 
+{
+	return this->radius; 
+}
+
+void Enemy::AIPattern(Player * player, double deltaTime)
+{
+	XMFLOAT3 playerPos = player->GetPosition();
+	XMFLOAT3 vect;
+
+	vect.x = playerPos.x - position.x;
+	vect.z = playerPos.z - position.z;
+	this->position.x +=  vect.x *deltaTime;
+	this->position.z +=  vect.z *deltaTime;
 }

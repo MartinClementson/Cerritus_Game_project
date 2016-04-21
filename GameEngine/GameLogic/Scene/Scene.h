@@ -11,11 +11,12 @@ class Scene
 private:
 	std::vector<Model>* sceneModels;
 	std::vector<Light>* sceneLights;
-	EnemySpawn* enemySpawn;
+
 	std::vector<BearTrap*> bearTraps;
 	std::vector<FireTrap*> fireTraps;
 
 public:
+	std::vector<EnemySpawn*> enemySpawns;
 	Scene();
 	virtual ~Scene();
 
@@ -24,5 +25,6 @@ public:
 	void Update(double deltaTime);
 	void Render();
 	void load();
+	void AddEnemySpawn(XMFLOAT3 spawnPosition);
 };
 

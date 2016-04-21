@@ -9,9 +9,7 @@ GameState::GameState()
 	this->player = new Player();
 	this->input = Input::GetInstance();
 	this->room1 = new Scene();
-
-
-
+	this->collision = Collision::GetInstance();
 }
 
 
@@ -32,7 +30,13 @@ void GameState::Initialize()
 	pause->Initialize();
 	death->isActive = false;
 	pause->isActive = false;
+	
+	//Create room one here
 	room1->Initialize();
+	room1->AddEnemySpawn(XMFLOAT3( 10.0f, 0.0f,  5.0f));
+	room1->AddEnemySpawn(XMFLOAT3(-30.0f, 0.0f, -20.0f));
+	room1->AddEnemySpawn(XMFLOAT3(0.0f, 0.0f, -50.0f));
+	OnEnter();
 
 }
 
@@ -53,11 +57,72 @@ void GameState::Update(double deltaTime)
 
 	XMFLOAT3 dir = Graphics::GetInstance()->GetPlayerDirection( mouseXY, player->GetPosition());
 	
+	for (int j = 0; j < room1->enemySpawns.size(); j++)
+	{
+
+		for (int i = 0; i < room1->enemySpawns.at(j)->Alive.size(); i++)
+		{
+			room1->enemySpawns.at(j)->Alive.at(i)->AIPattern(player, deltaTime);
+		}
+	}
+
 		
 	player->Update(deltaTime,dir);
 
 	room1->Update(deltaTime);
+	int i = 0;
+	
+	while( i < player->projectileSystem->projectiles.size())
+	{
+		for (size_t k = 0; k < room1->enemySpawns.size(); k++)
+		{
 
+			int j = 0;
+			while(j < room1->enemySpawns.at(k)->Alive.size())
+			{
+				if (collision->ProjectileEnemyCollision(
+					player->projectileSystem->
+					projectiles.at(i),
+
+					room1->enemySpawns.at(k)->
+					Alive.at(j))
+
+					&& room1->enemySpawns.at(k)->
+					Alive.at(j)->isAlive == true)
+				{
+					//not alive anymore
+					//MessageBox(0, L"You have Collided",
+					//	L"LOL", MB_OK);
+
+					room1->enemySpawns.at(k)->Alive.at(j)->isAlive = false;
+
+					room1->enemySpawns.at(k)->
+						Queue.push_back(
+							room1->enemySpawns.at(k)->
+							Alive.at(j)
+						);
+
+					room1->enemySpawns.at(k)->
+						Alive.erase(
+							room1->enemySpawns.at(k)->
+							Alive.begin() + j
+						);
+
+				
+					/*if (player->projectileSystem->projectiles.size() >0)
+					{
+						player->projectileSystem->DeleteProjectile(i);
+					}*/
+				
+				
+				}
+				j++;
+		}
+		}
+		i++;
+	}
+	
+	
 }
 
 void GameState::ProcessInput(double* deltaTime)
@@ -159,6 +224,7 @@ void GameState::Render()
 
 void GameState::OnEnter()
 {
+	collision->AddPlayer(this->player);
 
 }
 
