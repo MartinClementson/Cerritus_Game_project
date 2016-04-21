@@ -17,7 +17,7 @@ private:
 private:
 	
 	Collision* collision;
-	
+	XMFLOAT3 spawnPosition;
 	
 public:
 	std::vector<Enemy*> Queue;
@@ -26,7 +26,7 @@ public:
 	~EnemySpawn();
 
 	void Release();
-	void Initialize();
+	void Initialize(XMFLOAT3 spawnPosition);
 	void Render();
 
 	void Update(double deltaTime);
