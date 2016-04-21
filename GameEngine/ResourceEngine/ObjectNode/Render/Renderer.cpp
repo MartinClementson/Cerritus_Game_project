@@ -31,6 +31,7 @@ void Renderer::Release()
 	SAFE_RELEASE(worldBuffer);
 	SAFE_RELEASE(camBuffer);
 	SAFE_RELEASE(lightBuffer);
+	SAFE_RELEASE(sampleBoolsBuffer);
 
 }
 
@@ -186,18 +187,32 @@ void Renderer::Render(RenderInstructions * object)
 
 #pragma region Set the objects texture maps to the shader
 
-	if (object->diffuseMap   != nullptr)
+	SampleBoolStruct sampleBools;
+	if (object->diffuseMap != nullptr)
+	{
 		this->gDeviceContext->PSSetShaderResources(0, 1, &object->diffuseMap);
+		sampleBools.diffuseMap = TRUE;
+	}
 
-	if (object->normalMap	 != nullptr)
+	if (object->normalMap != nullptr)
+	{
 		this->gDeviceContext->PSSetShaderResources(1, 1, &object->normalMap);
+		sampleBools.normalMap = TRUE;
+	}
 	
-	if (object->specularMap	 != nullptr)
+	if (object->specularMap != nullptr)
+	{
 		this->gDeviceContext->PSSetShaderResources(2, 1, &object->specularMap);
+		sampleBools.specularMap = TRUE;
+	}
 
-	if (object->glowMap		 != nullptr)
+	if (object->glowMap != nullptr)
+	{
 		this->gDeviceContext->PSSetShaderResources(3, 1, &object->glowMap);
+		sampleBools.glowMap = TRUE;
+	}
 
+	this->UpdateSampleBoolsBuffer(&sampleBools);
 #pragma endregion
 	
 	
@@ -210,7 +225,7 @@ void Renderer::UpdateCameraBuffer()
 {
 
 	CamMatrices* tempCam			= this->sceneCam->GetCameraMatrices();
-	tempCam->mousePos = this->mouseWorldPos;
+	tempCam->mousePos				= this->mouseWorldPos;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
@@ -219,8 +234,7 @@ void Renderer::UpdateCameraBuffer()
 
 	CamMatrices* tempCamMatrices		= (CamMatrices*)mappedResource.pData;
 	*tempCamMatrices					= *tempCam;
-	tempCamMatrices->worldPos = tempCam->worldPos;
-	tempCamMatrices->mousePos = tempCam->mousePos;
+	
 	
 
 	gDeviceContext->Unmap(this->camBuffer, 0);
@@ -242,12 +256,31 @@ void Renderer::UpdateWorldBuffer(WorldMatrix* worldStruct)
 
 	WorldMatrix* temporaryWorld = (WorldMatrix*)mappedResourceWorld.pData;
 
-	//*temporaryWorld = *worldStruct;
-	temporaryWorld->worldMatrix = worldStruct->worldMatrix;
+	*temporaryWorld = *worldStruct;
+
 	
 
 	this->gDeviceContext->Unmap(worldBuffer, 0);
 	gDeviceContext->GSSetConstantBuffers(WORLDBUFFER_INDEX, 1, &this->worldBuffer);
+
+}
+
+void Renderer::UpdateSampleBoolsBuffer(SampleBoolStruct * sampleStruct)
+{
+	D3D11_MAPPED_SUBRESOURCE mappedResourceSampleBool;
+	ZeroMemory(&mappedResourceSampleBool, sizeof(mappedResourceSampleBool));
+
+	//mapping to the matrixbuffer
+	this->gDeviceContext->Map(sampleBoolsBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResourceSampleBool);
+
+	SampleBoolStruct* temporaryStruct = (SampleBoolStruct*)mappedResourceSampleBool.pData;
+
+	*temporaryStruct = *sampleStruct;
+
+
+
+	this->gDeviceContext->Unmap(sampleBoolsBuffer, 0);
+	gDeviceContext->GSSetConstantBuffers(SAMPLEBOOLSBUFFER_INDEX, 1, &this->sampleBoolsBuffer);
 
 }
 
@@ -325,6 +358,31 @@ bool Renderer::CreateConstantBuffers()
 		MessageBox(NULL, L"Failed to create light buffer", L"Error", MB_ICONERROR | MB_OK);
 	if (SUCCEEDED(hr))
 		this->gDeviceContext->PSSetConstantBuffers(	LIGHTBUFFER_INDEX, 1, &lightBuffer);
+
+
+	//-----------------------------------------------------------------------------------------------------------------------------------
+	// Sample Bool buffer (PS)CONSTANT BUFFER
+	//-----------------------------------------------------------------------------------------------------------------------------------
+
+	//This const buffer holds booleans, so that the gbuffer pass knows what textures the mesh has, so that it wont sample normal map if there is none.
+
+	CD3D11_BUFFER_DESC bufferDescSample;
+	ZeroMemory(&bufferDescSample, sizeof(bufferDescSample));
+
+	bufferDescSample.ByteWidth				= sizeof(SampleBoolStruct);
+	bufferDescSample.BindFlags				= D3D11_BIND_CONSTANT_BUFFER;
+	bufferDescSample.Usage					= D3D11_USAGE_DYNAMIC;
+	bufferDescSample.CPUAccessFlags			= D3D11_CPU_ACCESS_WRITE;
+	bufferDescSample.MiscFlags				= 0;
+	bufferDescSample.StructureByteStride	= 0;
+
+	hr = this->gDevice->CreateBuffer(&bufferDescSample, nullptr, &sampleBoolsBuffer);
+	if (FAILED(hr))
+		MessageBox(NULL, L"Failed to create sampleBools buffer", L"Error", MB_ICONERROR | MB_OK);
+	if (SUCCEEDED(hr))
+		this->gDeviceContext->PSSetConstantBuffers(SAMPLEBOOLSBUFFER_INDEX, 1, &sampleBoolsBuffer);
+
+
 
 
 	return true;
