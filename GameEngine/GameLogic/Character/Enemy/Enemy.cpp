@@ -118,6 +118,12 @@ void Enemy::Render()
 	graphics->QueueRender(&renderInfo);
 }
 
+void Enemy::Respawn(XMFLOAT3 spawn)
+{
+	this->position = spawn;
+	this->isAlive  = true;
+}
+
 XMFLOAT3 Enemy::GetPosition() 
 { 
 	return this->position; 

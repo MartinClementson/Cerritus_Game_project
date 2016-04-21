@@ -36,5 +36,6 @@ public:
 	XMFLOAT3 GetPosition();
 	float GetRadius();
 	void AIPattern(Player * player, double deltaTime);
+	void Respawn(XMFLOAT3 spawn);
 };
 
