@@ -19,7 +19,7 @@ public:
 	void Release();
 	void Update(double deltaTime,XMFLOAT3 direction);
 	void Render();
-	void Move(MovementDirection dir, double deltaTime);
+	void Move(MovementDirection* dir,int keyAmount, double deltaTime);
 	void Shoot(InputKeys input, double deltaTime);
 
 	XMFLOAT3 GetPosition() { return this->position; };

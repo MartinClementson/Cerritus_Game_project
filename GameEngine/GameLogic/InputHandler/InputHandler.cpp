@@ -155,7 +155,6 @@ XMFLOAT2 InputHandler::GetMousePosition()
 	mouseX = (float)point.x;
 	mouseY = (float)point.y;
 
-	
 	if (GetCursorPos( &point))
 	{
 
@@ -202,7 +201,17 @@ XMFLOAT2 InputHandler::GetMousePosition()
 
 bool InputHandler::isMouseClicked(InputKeys* mouseKey)
 {
-	mouse->GetDeviceState(sizeof(DIMOUSESTATE), &mouseState);
+	mouse->GetDeviceState(sizeof(DIMOUSESTATE),(LPVOID)&mouseState);
+
+	if (*mouseKey == MOUSE_LEFT && mouseState.rgbButtons[0] & 0x80)
+	{
+		return true;
+	}
+
+	if (*mouseKey == MOUSE_RIGHT && mouseState.rgbButtons[1] & 0x80)
+	{
+		return true;
+	}
 
 	return false;
 }
