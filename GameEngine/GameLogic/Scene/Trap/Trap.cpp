@@ -24,13 +24,7 @@ void Trap::Release()
 }
 void Trap::Update(double deltaTime)
 {
-	
-
-	//this->position.x = rand() % 10 + 1;
-	//this->position.z = rand() % 10 + 1;
-	//this->position.y = rand() % 10 + 1;
-	renderInfo = { position,rotation }; // need to think about how the dmg is deliverd over the enemys which collided with the trap. 
-
+	renderInfo = { position,rotation }; 
 }
 
 void Trap::Render()

@@ -52,23 +52,6 @@ void BearTrap::SetSlow(float slow)
 	this->slow = slow;
 }
 
-void BearTrap::SetPosition(XMFLOAT3 position)
-{
-	this->position = position;
-}
-void BearTrap::SetRotation(XMFLOAT3 rotation)
-{
-	this->rotation = rotation;
-}
 
-DirectX::XMFLOAT3 BearTrap::GetRotation()
-{
-	return this->rotation;
-}
-
-DirectX::XMFLOAT3 BearTrap::GetPosition()
-{
-	return this->position;
-}
 
 

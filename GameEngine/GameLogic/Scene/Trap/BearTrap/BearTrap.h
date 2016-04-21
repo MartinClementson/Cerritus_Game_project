@@ -13,11 +13,7 @@ public:
 	void Render();
 	float GetSlow();
 	void SetSlow(float slow);
-	void SetPosition(XMFLOAT3 position);
-	void SetRotation(XMFLOAT3 rotation);
 	RenderInfoTrap renderinfo;
-	DirectX::XMFLOAT3 GetRotation();
-	DirectX::XMFLOAT3 GetPosition();
 
 	//Collision();
 private:

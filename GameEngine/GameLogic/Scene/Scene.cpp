@@ -42,26 +42,20 @@ void Scene::Initialize()
 
 	bearTraps.push_back(new BearTrap());
 	
-	//trap->Initialize();
-	
 	enemySpawn->Initialize();
 	for (int i = 0; i < fireTraps.size(); i++)
 	{
-		//trap->Initialize();
 	
-		XMFLOAT3 tmp;
+		XMFLOAT3 tmp; // randomizes the location of the firetrap.
 		tmp.x = rand() % 12 +1.0f;
 		tmp.y = 2;
 		tmp.z = rand() % 12 +1.0f;
-
 		XMFLOAT3 pos = { tmp.x,tmp.y,tmp.z };
-
 		fireTraps.at(i)->Initialize(pos, fireTraps.at(i)->GetRotation());
 	}
 	for (int i = 0; i < bearTraps.size(); i++)
 	{
-		//trap->Initialize();
-		XMFLOAT3 tmp;
+		XMFLOAT3 tmp; // randomizes the location of the beartrap
 		tmp.x = rand() % 22 + 3.0f;
 		tmp.y = 5;
 		tmp.z = rand() % 22 + 3.0f;
@@ -76,7 +70,6 @@ void Scene::Initialize()
 void Scene::Release()
 {
 	enemySpawn->Release();
-	//trap->Release();
 }
 
 void Scene::Update(double deltaTime)
@@ -84,7 +77,6 @@ void Scene::Update(double deltaTime)
 
 	for (int i = 0; i < fireTraps.size(); i++)
 	{
-		//fireTraps.at(i)->GetPosition();
 		fireTraps.at(i)->Update(deltaTime);
 
 		if (fireTraps.at(i)->GetDot())
@@ -92,32 +84,22 @@ void Scene::Update(double deltaTime)
 			fireTraps.at(i)->GetDamage();
 
 		}
-		/*else if (fireTraps.at(i)->GetDot())
-		{
-		}	*/
 	}
 	for (int i = 0; i < bearTraps.size(); i++)
 	{
-		//bearTraps.at(i)->GetPosition();
 		bearTraps.at(i)->Update(deltaTime);
 		if (bearTraps.at(i)->GetSlow())
 		{
 			bearTraps.at(i)->GetDamage();
 		}
-		/*else if (bearTraps.at(i)->GetSlow())
-		{
-			
-			
-		}*/
+	
 	}
 	enemySpawn->Update(deltaTime);
-//	trap->Update(deltaTime);
+
 }
 
 void Scene::Render()
 {
-
-//	fireTraps.at(0)->Render();
 	for (int i = 0; i < fireTraps.size(); i++)
 	{
 		if (fireTraps.at(i)->GetDot())
@@ -135,8 +117,6 @@ void Scene::Render()
 		
 	}
 	enemySpawn->Render();
-	//trap->Render();
-	
 }
 
 void Scene::load()
