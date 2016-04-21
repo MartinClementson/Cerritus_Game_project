@@ -38,7 +38,7 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 	////projectiles[2].Initialize(origin, direction);
 	if (timeOffset > 0.2f)
 	{
-		if (projectiles.size() >= maxProjectiles)
+		if ((int)projectiles.size() >= maxProjectiles)
 		{
 			//delete projectiles.at(9);
 		}
@@ -75,7 +75,7 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 	timeOffset += 0.030f;
 	if (timeOffset > 10)
 		timeOffset = 10.0f;
-	for (int i = 0; i < projectiles.size(); i++)
+	for (size_t i = 0; i < projectiles.size(); i++)
 	{
 
 		projectiles.at(i)->Update(deltaTime);
@@ -118,7 +118,7 @@ void ProjectileSystem::Render()
 {
 
 
-	for (int i = 0; i < projectiles.size(); i++)
+	for (size_t i = 0; i < projectiles.size(); i++)
 	{
 
 		if (projectiles.at(i)->GetFired())
