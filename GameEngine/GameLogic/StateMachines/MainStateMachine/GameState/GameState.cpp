@@ -77,6 +77,9 @@ void GameState::ProcessInput(double* deltaTime)
 	}
 	else
 	{
+		int keysPressed = 0;
+
+
 		if (input->IsKeyPressed(KEY_W))
 	
 		{
@@ -94,11 +97,12 @@ void GameState::ProcessInput(double* deltaTime)
 		{
 			player->Move(RIGHT, deltaTime[0]);
 		}
-		else if (input->IsKeyPressed(KEY_ESC))
+		if (input->IsKeyPressed(KEY_ESC))
 		{
 			pause->isActive = true;
 		}
-		else if (input->IsKeyPressed(KEY_SPACE))
+
+		if (input->IsKeyPressed(KEY_SPACE))
 		{
 			player->Shoot(KEY_SPACE, deltaTime[0]);
 		}

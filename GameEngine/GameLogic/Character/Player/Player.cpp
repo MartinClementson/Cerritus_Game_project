@@ -1,5 +1,24 @@
 #include "Player.h"
 
+inline DirectX::XMFLOAT3 operator+(DirectX::XMFLOAT3 a, DirectX::XMFLOAT3 b) {
+	DirectX::XMFLOAT3 result;
+
+	result.x = a.x + b.x;
+	result.y = a.y + b.y;
+	result.z = a.z + b.z;
+
+	return result;
+}
+inline DirectX::XMFLOAT3 operator*(DirectX::XMFLOAT3 a, float b) {
+	DirectX::XMFLOAT3 result;
+
+	result.x = a.x * b;
+	result.y = a.y * b;
+	result.z = a.z * b;
+
+	return result;
+}
+
 
 
 Player::Player()
@@ -47,22 +66,26 @@ void Player::Render()
 
 void Player::Move(MovementDirection dir, double deltaTime)
 {
+	XMFLOAT3 moveAmount = { 0.0f, 0.0f, 0.0f };
+
 	if (dir == UP)
 	{
-		position.z += movementSpeed * (float)deltaTime;
+		moveAmount.z += movementSpeed ;
 	}
-	else if (dir == DOWN)
+
+	 if (dir == DOWN)
 	{
-		position.z -= movementSpeed * (float)deltaTime;
+		moveAmount.z -= movementSpeed ;
 	}
-	else if (dir == LEFT)
+	 if (dir == LEFT)
 	{
-		position.x -= movementSpeed * (float)deltaTime;
+		moveAmount.x -= movementSpeed ;
 	}
-	else if (dir == RIGHT)
+	 if (dir == RIGHT)
 	{
-		position.x += movementSpeed * (float)deltaTime;
+		moveAmount.x += movementSpeed ;
 	}
+	 position = position + (moveAmount * (float)deltaTime);
 }
 
 void Player::Shoot(InputKeys input, double deltaTime)

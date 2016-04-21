@@ -154,7 +154,7 @@ XMFLOAT2 InputHandler::GetMousePosition()
 
 
 	POINT point;
-	ShowCursor(TRUE);
+	ShowCursor(FALSE);
 	
 	if (GetCursorPos( &point))
 	{
