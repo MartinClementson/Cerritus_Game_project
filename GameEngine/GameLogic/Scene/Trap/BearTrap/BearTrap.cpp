@@ -4,6 +4,7 @@
 
 BearTrap::BearTrap()
 {
+	grapichs = Graphics::GetInstance();
 
 }
 
@@ -14,7 +15,9 @@ BearTrap::~BearTrap()
 
 void BearTrap::Initialize()
 {
-	slow = 3.5f; 
+	slow = 0.5f; 
+	position = { 1.0f, 2.0f, 3.0f };
+	rotation = { 1.0,0.0,0.0 };
 }
 
 void BearTrap::Release()
@@ -26,10 +29,10 @@ void BearTrap::Update(double deltaTime)
 {
 	if (slow > 0.0f)
 	{
-		slow = slow - 1 * deltaTime;// la till delta time av samma anledning som i fire
+		slow -=deltaTime; // thinkng of how this will work, need a boolean for if activated and if enemys have collided with it.
 	}
 
-	renderinfo = { rotation, position }; // must check this
+	renderinfo = {position,rotation}; // kinda works
 
 }
 
@@ -48,3 +51,24 @@ void BearTrap::SetSlow(float slow)
 {
 	this->slow = slow;
 }
+
+void BearTrap::SetPosition(XMFLOAT3 position)
+{
+	this->position = position;
+}
+void BearTrap::SetRotation(XMFLOAT3 rotation)
+{
+	this->rotation = rotation;
+}
+
+DirectX::XMFLOAT3 BearTrap::GetRotation()
+{
+	return this->rotation;
+}
+
+DirectX::XMFLOAT3 BearTrap::GetPosition()
+{
+	return this->position;
+}
+
+

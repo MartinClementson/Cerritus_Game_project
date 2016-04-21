@@ -18,7 +18,7 @@ private:
 	
 
 	//Projectile projectiles[100];
-	//Projectile firedProjectiles[100];
+	//Projectile aliveProjectiles[100];
 	float lifeSpan;
 	int maxProjectiles;
 	RenderInfoObject renderInfo;

@@ -21,15 +21,16 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 	
 	//renderInfo = { origin, direction };
 
-	//for (unsigned int i = 0; i < 100; i++) // kurwa mac
+	/*for (unsigned int i = 0; i < 100; i++) // kurwa mac
 	//{
 	//	if (!projectiles[i].GetFired())
 	//	{
 	//		projectiles[i].Initialize(origin, direction);
 	//		break;
 	//	}
+		aliveProjectiles[i+1];
 
-	//}
+	//}*/
 
 	//origin.x -= 1.0f;
 	//projectiles[0].Initialize(origin, direction);
@@ -51,7 +52,6 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 	}
 	
 }
-/// is fired array
 
 void ProjectileSystem::UpdateProjectiles(double deltaTime)
 {

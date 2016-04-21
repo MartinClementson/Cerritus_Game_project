@@ -18,7 +18,7 @@ private:
 public:
 	Scene();
 	virtual ~Scene();
-
+	
 	void Initialize();
 	void Release();
 	void Update(double deltaTime);

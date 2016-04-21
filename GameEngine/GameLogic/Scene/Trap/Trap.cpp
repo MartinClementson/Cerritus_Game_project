@@ -15,8 +15,9 @@ Trap::~Trap()
 void Trap::Initialize()
 {
 	damage = 25.0f;
-	position = { 0,0,0 };
+	position = { 1,0,2 };
 	rotation = { 0,0,0 };
+
 }
 void Trap::Release()
 {
@@ -25,16 +26,13 @@ void Trap::Release()
 void Trap::Update(double deltaTime)
 {
 
-	renderInfo = { position,rotation };
-
+	renderInfo = { position,rotation }; // need to think about how the dmg is deliverd over the enemys which collided with the trap. 
 
 }
 
 void Trap::Render()
 {
-
-	//Tar inte scene hand om render för alla traps? jo
-	grapichs = Graphics::GetInstance();
+	grapichs = Graphics::GetInstance();	
 }
 
 float Trap::GetDamage()
@@ -47,11 +45,11 @@ void Trap::SetDamage(float damage)
 }
 DirectX::XMFLOAT3 Trap::GetPosition()
 {
-	return position;
+	return this->position;
 }
 DirectX::XMFLOAT3 Trap::GetRotation()
 {
-	return rotation;
+	return this->rotation;
 }
 
 void Trap::SetPosition(DirectX::XMFLOAT3 position)

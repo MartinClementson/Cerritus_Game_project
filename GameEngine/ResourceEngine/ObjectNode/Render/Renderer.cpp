@@ -83,7 +83,13 @@ void Renderer::Render(RenderInfoChar * object)
 
 void Renderer::Render(RenderInfoTrap * object)
 {
-	RenderPlaceHolder(&object->position);
+	RenderInstructions * renderTrap;
+
+	renderTrap = this->resourceManager->GetPlaceHolderMesh(object->position);
+
+	Render(renderTrap);
+	//RenderPlaceHolder(&object->position);
+
 }
 
 

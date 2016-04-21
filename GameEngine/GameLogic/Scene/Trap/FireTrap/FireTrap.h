@@ -13,12 +13,13 @@ public:
 	void Render();
 	float GetDot();
 	void SetDot(float dotDuration);
+	RenderInfoTrap renderInfo;
 
 	//Collision();
 private:
 	float dotDuration;
 	TrapStateMachine* TrapState;
-	RenderInfoTrap renderInfo;
+	//RenderInfoTrap renderInfo;
 	//RenderInfoTrap* renderInfo;
 	Graphics* grapichs;
 };
