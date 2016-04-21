@@ -16,10 +16,12 @@ public:
 
 	void Initialize();
 	void Release();
-	void Update(double deltaTime);
+	void Update(double deltaTime,XMFLOAT3 direction);
 	void Render();
 	void Move(MovementDirection dir, double deltaTime);
 	void Shoot(InputKeys input, double deltaTime);
+
+	XMFLOAT3 GetPosition() { return this->position; };
 
 
 public:
@@ -30,6 +32,8 @@ private:
 	MeshEnum meshID;//enum
 	RenderInfoChar renderInfo;
 	ProjectileSystem* projectileSystem;
+
+	XMFLOAT3 direction;
 	//Collision();
 };
 
