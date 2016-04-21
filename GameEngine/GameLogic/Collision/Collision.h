@@ -13,8 +13,6 @@ private:
 private:
 	vector<Enemy*> enemyBox;
 	Player* player;
-	XMFLOAT3 center;
-	float radius;
 	bool enemyInit;
 	Collision();
 
@@ -22,11 +20,10 @@ public:
 	//Collision(float radius);
 	//Collision(XMFLOAT3 center, float radius);
 
-	void AddEnemy(Enemy* enemy, int index, int listCapacity);
-	void RemoveEnemy(int index);
+	void AddEnemy(Enemy* enemy);
 	void AddPlayer(Player* player);
 
-	bool PlyerCollision();
+	bool PlayerCollision(Enemy* enemy);
 	
 	static Collision* GetInstance();
 

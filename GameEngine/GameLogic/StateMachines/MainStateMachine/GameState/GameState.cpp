@@ -9,9 +9,7 @@ GameState::GameState()
 	this->player = new Player();
 	this->input = Input::GetInstance();
 	this->room1 = new Scene();
-
-
-
+	this->collision = Collision::GetInstance();
 }
 
 
@@ -33,6 +31,7 @@ void GameState::Initialize()
 	death->isActive = false;
 	pause->isActive = false;
 	room1->Initialize();
+	OnEnter();
 
 }
 
@@ -55,6 +54,7 @@ void GameState::Update(double deltaTime)
 	
 		
 	player->Update(deltaTime,dir);
+	collision;
 
 	room1->Update(deltaTime);
 
@@ -115,6 +115,7 @@ void GameState::Render()
 
 void GameState::OnEnter()
 {
+	collision->AddPlayer(this->player);
 
 }
 

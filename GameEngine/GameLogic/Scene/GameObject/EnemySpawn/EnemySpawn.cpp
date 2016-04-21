@@ -4,7 +4,7 @@
 
 EnemySpawn::EnemySpawn()
 {
-	
+	this->collision = Collision::GetInstance();
 }
 
 EnemySpawn::~EnemySpawn()
@@ -12,11 +12,6 @@ EnemySpawn::~EnemySpawn()
 	for (size_t i = 0; i < Queue.size(); i ++)
 	{
 		delete Queue.at(i);
-	}
-
-	for (size_t i = 0; i < Alive.size(); i++)
-	{
-		delete Alive.at(i);
 	}
 }
 void EnemySpawn::Initialize()
@@ -33,14 +28,36 @@ void EnemySpawn::Update(double deltaTime)
 	{
 		SpawnEnemy();
 	}
+	for (int i = 0; i < Alive.size(); i++)
+	{
+		if (collision->PlayerCollision(Alive.at(i)))
+		{
+			//not alive anymore
+			MessageBox(0, L"You have Collided",
+				L"LOL", MB_OK);
+		
+				Queue.push_back(Alive.at(i));
+				Alive.erase(Alive.begin() + i);
+		}
+	}
+
 }
 
 void EnemySpawn::SpawnEnemy()
 {
-	if (Queue.size() > 0)
+	bool done = false;
+	int i = 0;
+	while (done == false || i > Queue.size())
 	{
-		Alive.push_back(Queue.at(0));
-		Queue.erase(Queue.begin());
+		if (!Queue.at(i)->isAlive)
+		{
+			Alive.push_back(Queue.at(i));
+			Queue.erase(Queue.begin());
+			Queue.at(i)->isAlive = true;
+
+			done = true;
+		}
+		i++;
 	}
 }
 
@@ -48,14 +65,16 @@ void EnemySpawn::InitEnemy()
 {
 	unsigned int waveAmount = 20;
 
-	for (size_t i = 1; i < waveAmount; i++)
+	XMFLOAT3 spawnPosition = {150.0f, 0.0f, 50.0f};
+
+	for (size_t i = 0; i < waveAmount; i++)
 	{
 		int spawnPointRandom = rand() % 4 + 1;
 
-		if (spawnPointRandom = 1)
+		if (spawnPointRandom == 1)
 		{
-			float spawnX = rand() % 20 + 1.0f;
-			float spawnZ = rand() % 20 + 1.0f;
+			float spawnX = float(rand() % 150 + 5.0f);
+			float spawnZ = float(rand() % 50 + 5.0f);
 
 			XMFLOAT3 spawn;
 			spawn.x = spawnX;
@@ -64,10 +83,10 @@ void EnemySpawn::InitEnemy()
 
 			Queue.push_back( new Enemy(spawn) );
 		}
-		if (spawnPointRandom = 2)
+		if (spawnPointRandom == 2)
 		{
-			float spawnX = rand() % 40 + 5.0f;
-			float spawnZ = rand() % 40 + 5.0f;
+			float spawnX = float(rand() % 150 + 5.0f);
+			float spawnZ = float(rand() % 50 + 5.0f);
 
 			XMFLOAT3 spawn;
 			spawn.x = spawnX;
@@ -76,10 +95,10 @@ void EnemySpawn::InitEnemy()
 
 			Queue.push_back( new Enemy(spawn) );
 		}
-		if (spawnPointRandom = 3)
+		if (spawnPointRandom == 3)
 		{
-			float spawnX = rand() % -20 + -10.0f;
-			float spawnZ = rand() % -20 + -10.0f;
+			float spawnX = float(rand() % 150 + 5.0f);
+			float spawnZ = float(rand() % 50 + 5.0f);
 
 			XMFLOAT3 spawn;
 			spawn.x = spawnX;
@@ -88,10 +107,10 @@ void EnemySpawn::InitEnemy()
 
 			Queue.push_back(new Enemy(spawn));
 		}
-		if (spawnPointRandom = 4)
+		if (spawnPointRandom == 4)
 		{
-			float spawnX = float(rand() % -40 + -5);
-			float spawnZ = float(rand() % -40 + -5);
+			float spawnX = float(rand() % 150 + 5.0f);
+			float spawnZ = float(rand() % 50 + 5.0f);
 
 			XMFLOAT3 spawn;
 			spawn.x = spawnX;
@@ -100,6 +119,11 @@ void EnemySpawn::InitEnemy()
 
 			Queue.push_back(new Enemy(spawn));
 		}
+	}
+	for(int i = 0; i < Queue.size(); i++)
+	{ 
+		collision->AddEnemy(Queue.at(i));
+		bool test;
 	}
 }
 

@@ -7,6 +7,7 @@
 #include "../../../Structs/RenderInfo.h"
 
 
+
 class Player :
 	public Character
 {
@@ -22,6 +23,7 @@ public:
 	void Shoot(InputKeys input, double deltaTime);
 
 	XMFLOAT3 GetPosition() { return this->position; };
+	float GetRadius() { return this->radius; };
 
 
 public:

@@ -6,6 +6,7 @@ Enemy::Enemy(XMFLOAT3 spawn)
 	Initialize();
 	this->enemyStateMachine = new EnemyStateMachine();
 	this->graphics = Graphics::GetInstance();
+
 }
 
 Enemy::Enemy()
@@ -29,6 +30,8 @@ void Enemy::Initialize()
 	rotation = { 0,0,0 }; 
 	
 	radius = 1.0f;
+
+	isAlive = false;
 }
 
 void Enemy::Release()
@@ -114,4 +117,14 @@ void Enemy::Render()
 {
 	renderInfo = { position, rotation };
 	graphics->QueueRender(&renderInfo);
+}
+
+XMFLOAT3 Enemy::GetPosition() 
+{ 
+	return this->position; 
+}
+
+float Enemy::GetRadius() 
+{
+	return this->radius; 
 }

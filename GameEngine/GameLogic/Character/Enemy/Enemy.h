@@ -21,7 +21,8 @@ private:
 	Enemy();
 public:
 	Enemy(XMFLOAT3 spawn);
-	
+
+	bool isAlive;
 
 	virtual ~Enemy();
 
@@ -30,5 +31,7 @@ public:
 	void Update(double deltaTime);
 
 	void Render();
+	XMFLOAT3 GetPosition();
+	float GetRadius();
 };
 

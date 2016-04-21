@@ -5,6 +5,7 @@
 Player::Player()
 {
 	this->projectileSystem = new ProjectileSystem;
+
 }
 
 
@@ -19,7 +20,7 @@ void Player::Initialize()
 {
 	graphics = Graphics::GetInstance();
 
-	this->position		 = XMFLOAT3(0.0f, 0.0f, 1.0f);
+	this->position		 = XMFLOAT3(-5.0f, 0.0f, -5.0f);
 	this->rotation		 = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	this->movementSpeed  = 50.0f;
 

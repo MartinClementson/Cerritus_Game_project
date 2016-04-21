@@ -147,7 +147,7 @@ XMFLOAT2 InputHandler::GetMousePosition()
 {
 
 	POINT point;
-	ShowCursor(TRUE);
+	ShowCursor(FALSE);
 
 	GetCursorPos(&point);
 	ScreenToClient(*this->hwndP, &point);

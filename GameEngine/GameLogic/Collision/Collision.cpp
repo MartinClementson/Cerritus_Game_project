@@ -4,8 +4,7 @@
 
 Collision::Collision()
 {
-	center = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	radius = 0;
+
 }
 
 Collision* Collision::GetInstance()
@@ -14,34 +13,31 @@ Collision* Collision::GetInstance()
 	return &instance;
 }
 
-void Collision::AddEnemy(Enemy* enemy, int index, int listCapacity)
+void Collision::AddEnemy(Enemy* enemy)
 {
-	if (!enemyInit)
-	{
-		enemyBox.resize(listCapacity);
-		for (int i = 0; i < enemyBox.size(); i++)
-		{
-			enemyBox.at(i) = NULL;
-		}
-	}
-	enemyBox.insert(enemyBox.begin()+index, enemy);
-}
-
-void Collision::RemoveEnemy(int index)
-{
-	enemyBox.erase(enemyBox.begin() + index);
+	enemyBox.push_back(enemy);
 }
 
 void Collision::AddPlayer(Player* player)
 {
-	if (!player)
-	{
-		this->player = player;
-	}
+	
+	this->player = player;
 }
 
-bool Collision::PlyerCollision()
+bool Collision::PlayerCollision(Enemy* enemy)
 {
+	XMFLOAT3 playPos = player->GetPosition();
+	float playRad = player->GetRadius();
+	
+	XMFLOAT3 enemyPos =  enemy->GetPosition();
+	float enemyRad = enemy->GetRadius();
+	if (pow(playPos.x - enemyPos.x, 2) 
+		+ pow(playPos.z - enemyPos.z, 2)
+		< pow(playRad + enemyRad, 2)) 
+	{
+		return true;
+	}
+
 	return false;
 }
 
