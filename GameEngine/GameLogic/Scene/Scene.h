@@ -16,7 +16,7 @@ private:
 	std::vector<FireTrap*> fireTraps;
 
 public:
-	EnemySpawn* enemySpawn;
+	std::vector<EnemySpawn*> enemySpawns;
 	Scene();
 	virtual ~Scene();
 
@@ -25,5 +25,6 @@ public:
 	void Update(double deltaTime);
 	void Render();
 	void load();
+	void AddEnemySpawn(XMFLOAT3 spawnPosition);
 };
 
