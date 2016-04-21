@@ -78,6 +78,7 @@ void Graphics::Release()
 
 
 	SAFE_RELEASE(gBackBufferRTV);
+	gSwapChain->SetFullscreenState(false, nullptr);
 	SAFE_RELEASE(gSwapChain);
 	gDeviceContext->ClearState();
 	SAFE_RELEASE(gDeviceContext);
@@ -86,12 +87,13 @@ void Graphics::Release()
 
 	if (DEBUG == 2)
 	{
-		/*if (debug)
+		
+		if (debug)
 		{
 
 			debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
 			SAFE_RELEASE(debug);
-		}*/
+		}
 
 	}
 
@@ -271,6 +273,8 @@ HRESULT Graphics::CreateDirect3DContext()
 	scd.Windowed = WINDOWED;
 	scd.BufferDesc.RefreshRate.Numerator = FPS_CAP; //fps cap
 	scd.BufferDesc.RefreshRate.Denominator = 1;
+	scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
+	scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 
 	HRESULT hr = D3D11CreateDeviceAndSwapChain(
 		NULL,
