@@ -39,7 +39,7 @@ void Scene::Release()
 void Scene::Update(double deltaTime)
 {
 
-	for (int i = 0; i < fireTraps.size(); i++)
+	for (size_t i = 0; i < fireTraps.size(); i++)
 	{
 		fireTraps.at(i)->GetPosition();
 		fireTraps.at(i)->Update(deltaTime);
@@ -52,7 +52,7 @@ void Scene::Update(double deltaTime)
 			fireTraps.at(i)->GetDamage();
 		}	
 	}
-	for (int i = 0; i < bearTraps.size(); i++)
+	for (size_t i = 0; i < bearTraps.size(); i++)
 	{
 		bearTraps.at(i)->GetPosition();
 		bearTraps.at(i)->Update(deltaTime);
@@ -71,11 +71,11 @@ void Scene::Update(double deltaTime)
 
 void Scene::Render()
 {
-	for (int i = 0; i < fireTraps.size(); i++)
+	for (size_t i = 0; i < fireTraps.size(); i++)
 	{
 		fireTraps.at(i)->Render();
 	}
-	for (int i = 0; i < bearTraps.size(); i++)
+	for (size_t i = 0; i < bearTraps.size(); i++)
 	{
 		bearTraps.at(i)->Render();
 	}

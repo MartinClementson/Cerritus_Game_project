@@ -2,6 +2,9 @@
 #include "../../Source/LibIncluder.h"
 #include "../../Source/Constants.h"
 #include "../../Enumerations/Enumerations.h"
+#include "../../Structs/DataTypes.h"
+
+using namespace DirectX;
 
 class InputHandler
 {
@@ -13,7 +16,7 @@ private:
 	LPDIRECTINPUTDEVICE8 mouse;
 	unsigned char keyboardState[256];
 	DIMOUSESTATE mouseState;
-
+	
 	float mouseX, mouseY;
 	float lastMouseX, lastMouseY;
 
@@ -23,7 +26,7 @@ private:
 	bool ReadMouse();
 	InputHandler();
 
-	//HWND hwndP;
+	HWND* hwndP;
 public:
 	
 	bool Initialize(HWND* hwndP, HINSTANCE* hInstance);
@@ -31,7 +34,7 @@ public:
 
 	bool IsKeyPressed(InputKeys* key);
 	bool IsKeyHeld(InputKeys* key);
-	DirectX::XMFLOAT2 GetMousePosition();
+	XMFLOAT2 GetMousePosition();
 	bool isMouseClicked(InputKeys* mouseKey);
 
 	static InputHandler* GetInstance();

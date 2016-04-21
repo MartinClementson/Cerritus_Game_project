@@ -49,7 +49,12 @@ void GameState::Release()
 void GameState::Update(double deltaTime)
 {
 	ProcessInput(&deltaTime);
-	player->Update(deltaTime);
+	XMFLOAT2 mouseXY = input->GetMousePosition();
+
+	XMFLOAT3 dir = Graphics::GetInstance()->GetPlayerDirection( mouseXY, player->GetPosition());
+	
+		
+	player->Update(deltaTime,dir);
 
 	room1->Update(deltaTime);
 
@@ -57,6 +62,7 @@ void GameState::Update(double deltaTime)
 
 void GameState::ProcessInput(double* deltaTime)
 {
+	XMFLOAT2 temp = input->GetMousePosition();
 
 	if (death->isActive)
 	{
@@ -92,9 +98,9 @@ void GameState::ProcessInput(double* deltaTime)
 		{
 			pause->isActive = true;
 		}
-		else if (input->IsKeyPressed(KEY_LEFT))
+		else if (input->IsKeyPressed(KEY_SPACE))
 		{
-			player->Shoot(KEY_LEFT, deltaTime[0]);
+			player->Shoot(KEY_SPACE, deltaTime[0]);
 		}
 	}
 }

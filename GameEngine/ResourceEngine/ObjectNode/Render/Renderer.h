@@ -27,7 +27,7 @@ private:
 	ID3D11Buffer* camBuffer				 = nullptr; //Camera constBuffer
 	ID3D11Buffer* lightBuffer			 = nullptr; //Light constBuffer
 
-
+	XMFLOAT4 mouseWorldPos;
 
 public:
 	Renderer();
@@ -44,7 +44,14 @@ public:
 	void Render(RenderInfoTrap* object);
 
 	void RenderPlaceHolder(XMFLOAT3* position);
+	void RenderPlaceHolder(XMFLOAT3* position, XMFLOAT3* rotation);
 	void RenderPlaceHolderPlane();
+
+
+	void SetMouseWorldPos(XMFLOAT4 position);
+
+	void GetInverseViewMatrix(XMMATRIX &matrix);
+	void GetInverseProjectionMatrix(XMMATRIX &matrix);
 private:
 	void Render(RenderInstructions* object);
 

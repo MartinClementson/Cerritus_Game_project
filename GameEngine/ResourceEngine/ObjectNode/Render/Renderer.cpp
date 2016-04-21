@@ -39,14 +39,20 @@ void Renderer::Release()
 //Render scene objects, mostly static stuff
 void Renderer::Render(RenderInfoObject * object)
 {
-	RenderInstructions* renderObject;
+	//RenderInstructions* renderObject;
 
 	//Send the info of the object into the resource manager
 	//The resource manager gathers all the rendering info and sends back a renderInstruction
 	//renderObject = this->resourceManager->GetRenderInfo(object);
 
 	//Render with the given render instruction
-	RenderPlaceHolder(&object->position);
+
+	//this->Render(renderObject);
+
+	RenderPlaceHolder(&object->position,&object->rotation);
+
+	//RenderPlaceHolder(&object->position);
+
 }
 
 
@@ -91,13 +97,20 @@ void Renderer::Render(RenderInfoTrap * object)
 void Renderer::RenderPlaceHolder(XMFLOAT3* position)
 {
 	RenderInstructions * object;
-	object = this->resourceManager->GetPlaceHolderMesh( *position);
+	object = this->resourceManager->GetPlaceHolderMesh( *position );
 	
+	Render(object);
+}
+
+void Renderer::RenderPlaceHolder(XMFLOAT3 * position, XMFLOAT3 * rotation)
+{
+	RenderInstructions * object;
+	object = this->resourceManager->GetPlaceHolderMesh(*position,*rotation);
+
 
 
 	Render(object);
 
-	
 
 }
 void Renderer::RenderPlaceHolderPlane()
@@ -108,6 +121,31 @@ void Renderer::RenderPlaceHolderPlane()
 
 }
 #pragma endregion
+
+void Renderer::SetMouseWorldPos(XMFLOAT4 position)
+{
+	this->mouseWorldPos = position;
+
+}
+
+void Renderer::GetInverseViewMatrix(XMMATRIX & matrix)
+{
+	matrix = XMLoadFloat4x4(&this->sceneCam->GetCameraMatrices()->camView);
+	matrix = XMMatrixTranspose(matrix);
+	XMVECTOR det = XMMatrixDeterminant(matrix);
+	matrix = XMMatrixInverse(&det, matrix);
+		
+	
+}
+
+void Renderer::GetInverseProjectionMatrix(XMMATRIX & matrix)
+{
+	matrix = XMLoadFloat4x4(&this->sceneCam->GetCameraMatrices()->projection);
+	matrix = XMMatrixTranspose(matrix); //Transpose to normal alignment.
+	XMVECTOR det = XMMatrixDeterminant(matrix);
+	matrix = XMMatrixInverse(&det, matrix);
+
+}
 
 //Private rendering call
 void Renderer::Render(RenderInstructions * object)
@@ -172,7 +210,7 @@ void Renderer::UpdateCameraBuffer()
 {
 
 	CamMatrices* tempCam			= this->sceneCam->GetCameraMatrices();
-
+	tempCam->mousePos = this->mouseWorldPos;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
@@ -182,6 +220,7 @@ void Renderer::UpdateCameraBuffer()
 	CamMatrices* tempCamMatrices		= (CamMatrices*)mappedResource.pData;
 	*tempCamMatrices					= *tempCam;
 	tempCamMatrices->worldPos = tempCam->worldPos;
+	tempCamMatrices->mousePos = tempCam->mousePos;
 	
 
 	gDeviceContext->Unmap(this->camBuffer, 0);

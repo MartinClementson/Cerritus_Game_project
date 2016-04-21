@@ -17,7 +17,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	#ifdef _DEBUG // this is for enabling memory leak detection
 		_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	#endif
-
+	
 	MSG msg = { 0 };
 	double tempDT = 10.0;
 	// create window
@@ -30,7 +30,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		// display window
 		ShowWindow(wndHandle, nCmdShow);
 		//Create engine class
-		Engine* engine = new Engine();
+			Engine* engine = new Engine();
 		engine->Initialize(&wndHandle, &hInstance);
 
 		GameTimer* time = new GameTimer();
@@ -79,6 +79,9 @@ HWND InitWindow(HINSTANCE hInstance)
 	wcex.lpfnWndProc    = WndProc;			// Which function is called for events
 	wcex.hInstance      = hInstance;
 	wcex.lpszClassName  = L"BasicWindow";
+	wcex.hCursor = LoadCursor(NULL, IDC_CROSS);
+	wcex.hIconSm = LoadIcon(NULL, IDI_WINLOGO);
+	wcex.hIcon = LoadIcon(NULL, IDI_APPLICATION);
 	// use the struct to register the new class.
 	// the name of the class is "BasicWindow"
 	if( !RegisterClassEx(&wcex) )

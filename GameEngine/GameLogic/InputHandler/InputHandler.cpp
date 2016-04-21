@@ -31,6 +31,7 @@ bool InputHandler::ReadMouse()
 bool InputHandler::Initialize(HWND* hwndP ,HINSTANCE* hInstance)
 {
 	//keyboard->Acquire();
+	this->hwndP = hwndP;
 
 	HRESULT hr = DirectInput8Create(
 		*hInstance,
@@ -87,6 +88,13 @@ bool InputHandler::Initialize(HWND* hwndP ,HINSTANCE* hInstance)
 		hr = keyboard->Acquire();
 		//Re-acquire helps
 	}
+
+	hr = mouse->Acquire();
+	if (FAILED(hr))
+	{
+		hr = mouse->Acquire();
+	}
+
 	return true;
 }
 
@@ -120,6 +128,10 @@ bool InputHandler::IsKeyPressed(InputKeys* key)
 	{
 		return true;
 	}
+	else if (*key == KEY_SPACE && keyboardState[DIK_SPACE])
+	{
+		return true;
+	}
 	else
 	{
 		return false;
@@ -131,15 +143,69 @@ bool InputHandler::IsKeyHeld(InputKeys* key)
 	return false;
 }
 
-DirectX::XMFLOAT2 InputHandler::GetMousePosition()
+XMFLOAT2 InputHandler::GetMousePosition()
 {
-	return DirectX::XMFLOAT2();
+
+	mouse->GetDeviceState(sizeof(DIMOUSESTATE), &mouseState);
+
+	/*mouseX += mouseState.lX ;
+	mouseY += mouseState.lY ;*/
+
+
+
+	POINT point;
+	ShowCursor(TRUE);
+	
+	if (GetCursorPos( &point))
+	{
+
+		ScreenToClient(*this->hwndP, &point);
+		mouseX = (float)point.x;
+		mouseY = (float)point.y;
+
+		//if (ScreenToClient(*this->hwndP, &point))
+		//{
+		///*if (mouseX > WIN_WIDTH)
+		//	{
+		//		point.x = (LONG)WIN_WIDTH;
+		//		ScreenToClient(*this->hwndP, &point);
+		//		SetCursorPos(point.x, point.y);
+		//	}
+		//if (mouseY > WIN_HEIGHT)
+		//	{
+		//		point.y = (LONG)WIN_HEIGHT;
+		//		ScreenToClient(*this->hwndP, &point);
+		//		SetCursorPos(point.x, point.y);
+		//	}
+
+		//if (mouseX < 0)
+		//{
+		//	point.x = 0;
+		//	ScreenToClient(*this->hwndP, &point);
+		//	SetCursorPos(point.x, point.y);
+		//}
+		//if (mouseY < 0)
+		//{
+		//	point.y = 0;
+		//	ScreenToClient(*this->hwndP, &point);
+		//	SetCursorPos(point.x, point.y);
+		//}*/
+		//}
+		
+	}
+	/*else
+	{
+		mouseX = 0;
+		mouseY = 0;
+	}
+	*/
+	return XMFLOAT2(mouseX, mouseY);
 }
 
 bool InputHandler::isMouseClicked(InputKeys* mouseKey)
 {
-	mouse->Acquire();
 	mouse->GetDeviceState(sizeof(DIMOUSESTATE), &mouseState);
+
 	return false;
 }
 
