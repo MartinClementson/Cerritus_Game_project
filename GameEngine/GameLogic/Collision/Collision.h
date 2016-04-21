@@ -26,7 +26,7 @@ public:
 	void RemoveEnemy(int index);
 	void AddPlayer(Player* player);
 
-	bool Collide();
+	bool PlyerCollision();
 	
 	static Collision* GetInstance();
 

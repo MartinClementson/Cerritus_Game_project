@@ -29,24 +29,20 @@ void Collision::AddEnemy(Enemy* enemy, int index, int listCapacity)
 
 void Collision::RemoveEnemy(int index)
 {
-
+	enemyBox.erase(enemyBox.begin() + index);
 }
 
 void Collision::AddPlayer(Player* player)
 {
-	this->player = player;
+	if (!player)
+	{
+		this->player = player;
+	}
 }
 
-bool Collision::Collide()
+bool Collision::PlyerCollision()
 {
-	/*if ()
-	{
-
-	}
-	else
-	{
-		return false;
-	}*/
+	return false;
 }
 
 Collision::~Collision()
@@ -54,14 +50,5 @@ Collision::~Collision()
 
 }
 
-//Collision::Collision(float radius)
-//{
-//	this->radius = radius;
-//}
-//
-//Collision::Collision(XMFLOAT3 center, float radius)
-//{
-//	this->center = center;
-//	this->radius = radius;
-//}
+
 
