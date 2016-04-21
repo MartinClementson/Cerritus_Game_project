@@ -1,4 +1,10 @@
 #include "ProjectileSystem.h"
+float get_degrees(float radian);
+inline float get_degrees(float radian)
+{
+
+	return (radian * 180) / XM_PI;
+}
 ProjectileSystem::ProjectileSystem()
 {
 	timeOffset = 0;
@@ -48,6 +54,47 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 	//projectiles[1].Initialize(origin, direction);
 	////projectiles[2].Initialize(origin, direction);
 
+	if (timeOffset > 0.2f)
+	{
+		if ((int)projectiles.size() >= maxProjectiles)
+		{
+			//delete projectiles.at(9);
+		}
+		else
+		{
+
+#pragma region Calculate rotation of projectile mesh
+			XMFLOAT3 rotation(90.0f,0.0f,0.0f);
+			
+			
+			// placeholder direction is now (0,0,1)
+
+			/*	result = dot product of direction and placeholder direction
+			acos(result)
+			*/
+
+			XMVECTOR shotDirection   = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
+			XMVECTOR meshDirection   = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+
+			
+			//Calculate angle between meshDir and shotDir
+			float cosAngle			 = XMVector3Dot(shotDirection, meshDirection).m128_f32[0];
+			float angle				 = acos(cosAngle);
+			float degrees			 = get_degrees(angle);
+			////////////////////////////////////////////////////
+
+			if (direction.x < 0)
+				degrees = -degrees;
+
+			rotation.y				 = degrees;
+
+
+#pragma endregion
+
+
+			projectiles.push_back(new Projectile(origin, direction,rotation));
+
+
 	//if (timeOffset > 0.2f)
 	//{
 	//	if (projectiles.size() >= maxProjectiles)
@@ -82,7 +129,12 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 
 		if (projectiles[i].GetAge() >= lifeSpan)
 		{
+
 			projectiles[i].SetFired(false);
+
+			DeleteProjectile(i);
+			
+
 		}
 	
 	}
@@ -110,6 +162,13 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 
 }
 
+void ProjectileSystem::DeleteProjectile(int index)
+{
+	delete projectiles.at(index);
+	projectiles.erase(projectiles.begin());
+	projectiles.shrink_to_fit();
+}
+
 void ProjectileSystem::Initialize()
 {
 
@@ -129,9 +188,6 @@ void ProjectileSystem::Release()
 void ProjectileSystem::Render()
 {
 
-
-	/*//for (int i = 0; i < projectiles.size(); i++)
-	//{
 
 	//	if (projectiles.at(i)->GetFired())
 	//	{

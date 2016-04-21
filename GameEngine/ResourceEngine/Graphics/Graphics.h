@@ -50,7 +50,7 @@ private:
 	std::vector<RenderInfoEnemy*>*  enemyObjects	 = nullptr;
 	std::vector<RenderInfoChar*>*   charObjects		 = nullptr;
 	std::vector<RenderInfoTrap*>*   trapObjects		 = nullptr;
-	std::vector<RenderInfoProjectile*>* projectileObjects = nullptr;
+	
 #pragma endregion
 
 private:
@@ -77,11 +77,13 @@ public:
 	void QueueRender(RenderInfoEnemy* object);
 	void QueueRender(RenderInfoChar* object);
 	void QueueRender(RenderInfoTrap* object);
-	void QueueRender(RenderInfoProjectile* object);
+	XMFLOAT4 mouseWorldPos;
+	
 
 	//Singleton for the graphics class 
 	static Graphics* GetInstance();
 
+	XMFLOAT3 GetPlayerDirection(XMFLOAT2 mousePos,  XMFLOAT3 playerPos);
 
 };
 

@@ -7,6 +7,7 @@
 #include "../../../Structs/RenderInfo.h"
 
 
+
 class Player :
 	public Character
 {
@@ -16,20 +17,25 @@ public:
 
 	void Initialize();
 	void Release();
-	void Update(double deltaTime);
+	void Update(double deltaTime,XMFLOAT3 direction);
 	void Render();
-	void Move(MovementDirection dir, double deltaTime);
+	void Move(MovementDirection* dir,int keyAmount, double deltaTime);
 	void Shoot(InputKeys input, double deltaTime);
+
+	XMFLOAT3 GetPosition() { return this->position; };
+	float GetRadius() { return this->radius; };
 
 
 public:
 	Input* userInput;
-	
+	ProjectileSystem* projectileSystem;
 
 private:
 	MeshEnum meshID;//enum
 	RenderInfoChar renderInfo;
-	ProjectileSystem* projectileSystem;
+	
+
+	XMFLOAT3 direction;
 	//Collision();
 };
 

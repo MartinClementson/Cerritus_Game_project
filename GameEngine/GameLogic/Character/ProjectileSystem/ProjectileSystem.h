@@ -26,6 +26,7 @@ private:
 public:
 	void FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction);
 	void UpdateProjectiles(double deltaTime);
+	void DeleteProjectile(int index);
 
 	
 	Graphics* graphics;
@@ -33,6 +34,9 @@ public:
 
 /*	std::vector<Projectile*> projectiles;
 	//std::vector<Projectile*> LiveBullets;
+
+	std::vector<Projectile*> projectiles;
+
 	//float lifeSpan; //travel time
 	//int maxProjectiles; // amout of projectiles
 	//Player* pos;*/

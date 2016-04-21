@@ -74,8 +74,8 @@ void Scene::Release()
 
 void Scene::Update(double deltaTime)
 {
-
-	for (int i = 0; i < fireTraps.size(); i++)
+	
+	for (size_t i = 0; i < fireTraps.size(); i++)
 	{
 		fireTraps.at(i)->Update(deltaTime);
 
@@ -85,7 +85,7 @@ void Scene::Update(double deltaTime)
 
 		}
 	}
-	for (int i = 0; i < bearTraps.size(); i++)
+	for (size_t i = 0; i < bearTraps.size(); i++)
 	{
 		bearTraps.at(i)->Update(deltaTime);
 		if (bearTraps.at(i)->GetSlow())
@@ -100,7 +100,7 @@ void Scene::Update(double deltaTime)
 
 void Scene::Render()
 {
-	for (int i = 0; i < fireTraps.size(); i++)
+	for (size_t i = 0; i < fireTraps.size(); i++)
 	{
 		if (fireTraps.at(i)->GetDot())
 		{
@@ -108,7 +108,7 @@ void Scene::Render()
 		}
 		
 	}
-	for (int i = 0; i < bearTraps.size(); i++)
+	for (size_t i = 0; i < bearTraps.size(); i++)
 	{
 		if (bearTraps.at(i)->GetSlow())
 		{
