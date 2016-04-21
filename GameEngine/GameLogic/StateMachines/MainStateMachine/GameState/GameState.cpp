@@ -102,6 +102,10 @@ void GameState::ProcessInput(double* deltaTime)
 		{
 			player->Shoot(KEY_SPACE, deltaTime[0]);
 		}
+		else if (input->isMouseClicked(MOUSE_LEFT))
+		{
+			player->Shoot(MOUSE_LEFT, deltaTime[0]);
+		}
 	}
 }
 

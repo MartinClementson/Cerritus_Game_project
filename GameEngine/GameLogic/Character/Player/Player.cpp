@@ -72,7 +72,11 @@ void Player::Shoot(InputKeys input, double deltaTime)
 		projectileSystem->FireProjectile(this->position, this->rotation);
 		
 	}*/
-	if (input == KEY_SPACE)
+	if (input == MOUSE_LEFT)
+	{
+		projectileSystem->FireProjectile(this->position, direction);
+	}
+	else if (input == KEY_SPACE)
 	{
 		projectileSystem->FireProjectile(this->position, direction);
 	}
