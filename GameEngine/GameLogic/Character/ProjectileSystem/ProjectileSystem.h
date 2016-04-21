@@ -17,7 +17,7 @@ public:
 private:
 	
 
-	//Projectile projectiles[100];
+	Projectile projectiles[100];
 	//Projectile aliveProjectiles[100];
 	float lifeSpan;
 	int maxProjectiles;
@@ -33,7 +33,8 @@ public:
 
 
 
-	std::vector<Projectile*> projectiles;
+//	std::vector<Projectile*> projectiles;
+	//std::vector<Projectile*> LiveBullets;
 	//float lifeSpan; //travel time
 	//int maxProjectiles; // amout of projectiles
 	//Player* pos;
