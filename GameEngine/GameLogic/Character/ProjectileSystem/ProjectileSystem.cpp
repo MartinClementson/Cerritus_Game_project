@@ -118,9 +118,8 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 
 		if (projectiles.at(i)->GetAge() >= lifeSpan)
 		{
-			delete projectiles.at(i);
-			projectiles.erase(projectiles.begin());
-			projectiles.shrink_to_fit();
+			DeleteProjectile(i);
+			
 		}
 		//else
 		//{
@@ -132,6 +131,13 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 	}
 	
 
+}
+
+void ProjectileSystem::DeleteProjectile(int index)
+{
+	delete projectiles.at(index);
+	projectiles.erase(projectiles.begin());
+	projectiles.shrink_to_fit();
 }
 
 void ProjectileSystem::Initialize()

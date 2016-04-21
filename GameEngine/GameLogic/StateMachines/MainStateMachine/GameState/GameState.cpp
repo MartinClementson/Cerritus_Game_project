@@ -54,36 +54,54 @@ void GameState::Update(double deltaTime)
 	
 		
 	player->Update(deltaTime,dir);
-	collision;
 
 	room1->Update(deltaTime);
-	for (int i = 0; i < player->projectileSystem->projectiles.size(); i++)
+	int i = 0;
+	
+	while(i < player->projectileSystem->projectiles.size())
 	{
-		for (int j = 0; j < room1->enemySpawn->Alive.size(); j++)
+		int j = 0;
+		while(j<room1->enemySpawn->Alive.size())
 		{
-			
-				if (collision->ProjectileEnemyCollision(
-					player->projectileSystem->projectiles.at(i),
-					room1->enemySpawn->Alive.at(j))
-					&& room1->enemySpawn->Alive.at(j)->isAlive == true)
+			if (collision->ProjectileEnemyCollision(
+				player->projectileSystem->
+				projectiles.at(i),
+
+				room1->enemySpawn->
+				Alive.at(j))
+
+				&& room1->enemySpawn->
+				Alive.at(j)->isAlive == true)
+			{
+				//not alive anymore
+				//MessageBox(0, L"You have Collided",
+				//	L"LOL", MB_OK);
+
+				room1->enemySpawn->Alive.at(j)->isAlive = false;
+
+				room1->enemySpawn->
+					Queue.push_back(
+						room1->enemySpawn->
+						Alive.at(j)
+					);
+
+				room1->enemySpawn->
+					Alive.erase(
+						room1->enemySpawn->
+						Alive.begin() + j
+					);
+
+				
+				/*if (player->projectileSystem->projectiles.size() >0)
 				{
-					//not alive anymore
-					//MessageBox(0, L"You have Collided",
-					//	L"LOL", MB_OK);
-
-					room1->enemySpawn->Alive.at(j)->isAlive = false;
-
-					room1->enemySpawn->Queue.push_back(
-						room1->enemySpawn->Alive.at(j)
-					);
-					room1->enemySpawn->Alive.erase(
-						room1->enemySpawn->Alive.begin() + j
-					);
-
-					player->projectileSystem->projectiles.at(i)->SetFired(false);
-				}
-			
+					player->projectileSystem->DeleteProjectile(i);
+				}*/
+				
+				
+			}
+			j++;
 		}
+		i++;
 	}
 	
 	
