@@ -23,7 +23,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	shaderManager->Initialize(gDevice, gDeviceContext);
 	meshManager->Initialize(gDevice, gDeviceContext);
 	brfImporterHandler->Initialize(this->meshManager);
-	brfImporterHandler->LoadFile("2meshes.BRF", true, true, true);
+	//brfImporterHandler->LoadFile("2meshes.BRF", true, true, true);
 }
 
 void ResourceManager::Release()
