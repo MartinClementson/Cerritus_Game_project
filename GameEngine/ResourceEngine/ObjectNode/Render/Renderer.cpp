@@ -73,9 +73,9 @@ void Renderer::Render(RenderInfoEnemy * object)
 //Render the character, Update the camera to follow the position of the character
 void Renderer::Render(RenderInfoChar * object)
 {
-
 	RenderInstructions * objectInstruction;
-	objectInstruction = this->resourceManager->GetPlaceHolderMesh(object->position);
+	
+	objectInstruction = this->resourceManager->GetRenderInfo(object);
 
 	//Update the camera view matrix!
 	this->sceneCam->Updateview( object->position);
