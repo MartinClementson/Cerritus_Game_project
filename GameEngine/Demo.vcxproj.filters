@@ -376,6 +376,15 @@
     <ClCompile Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.cpp">
       <Filter>ResourceEngine\ResourceManager\BRFImporterHandler</Filter>
     </ClCompile>
+    <ClCompile Include="MaterialManager.cpp">
+      <Filter>ResourceEngine\ResourceManager\MaterialManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>ResourceEngine\ResourceManager\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureResource.cpp">
+      <Filter>ResourceEngine\ResourceManager\TextureManager\TextureResource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enumerations\Enumerations.h">
@@ -542,6 +551,15 @@
     </ClInclude>
     <ClInclude Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.h">
       <Filter>ResourceEngine\ResourceManager\BRFImporterHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="MaterialManager.h">
+      <Filter>ResourceEngine\ResourceManager\MaterialManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>ResourceEngine\ResourceManager\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureResource.h">
+      <Filter>ResourceEngine\ResourceManager\TextureManager\TextureResource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
