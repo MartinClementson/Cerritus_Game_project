@@ -5,10 +5,12 @@
 #include "../../../Structs/DataTypes.h"
 #include "../TextureManager/TextureManager.h"
 #include "TextureResource\TextureResource.h"
-#include "../../DirectXTK/Inc/WICTextureLoader.h"
+#include "../../DirectXTK/DirectXToolkit.h"
 class TextureManager
 {
 private:
+	HRESULT hr;
+
 	std::vector<std::string> diffuseTex;
 	std::vector<std::string> normalTex;
 	std::vector<std::string> specularTex;
@@ -19,10 +21,10 @@ private:
 	std::vector<ID3D11ShaderResourceView*> specularTextures;
 	std::vector<ID3D11ShaderResourceView*> glowTextures;
 
-	void AddDiffuseTexture(std::string diffuseTex);
-	void AddNormalTexture(std::string diffuseTex);
-	void AddSpecularTexture(std::string diffuseTex);
-	void AddGlowTexture(std::string diffuseTex);
+	void AddDiffuseTexture(std::string diffuseTex, ID3D11Device* gDevice);
+	void AddNormalTexture(std::string diffuseTex, ID3D11Device* gDevice);
+	void AddSpecularTexture(std::string diffuseTex, ID3D11Device* gDevice);
+	void AddGlowTexture(std::string diffuseTex, ID3D11Device* gDevice);
 
 public:
 	void Initialize();

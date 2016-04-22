@@ -1,14 +1,23 @@
 #include "TextureManager.h"
-void TextureManager::AddDiffuseTexture(std::string diffuseTex)
+void TextureManager::AddDiffuseTexture(std::string diffuseTex, ID3D11Device* gDevice)
+{
+	ID3D11ShaderResourceView* texture;
+
+	diffuseTex += TEXTURE_PATH;
+	std::wstring widestr = std::wstring(diffuseTex.begin(), diffuseTex.end());
+	const wchar_t* fileName = widestr.c_str();
+
+	hr = CreateWICTextureFromFile(gDevice, fileName, nullptr, &texture);
+
+	diffuseTextures.push_back(texture);
+}
+void TextureManager::AddNormalTexture(std::string diffuseTex, ID3D11Device* gDevice)
 {
 }
-void TextureManager::AddNormalTexture(std::string diffuseTex)
+void TextureManager::AddSpecularTexture(std::string diffuseTex, ID3D11Device* gDevice)
 {
 }
-void TextureManager::AddSpecularTexture(std::string diffuseTex)
-{
-}
-void TextureManager::AddGlowTexture(std::string diffuseTex)
+void TextureManager::AddGlowTexture(std::string diffuseTex, ID3D11Device* gDevice)
 {
 }
 void TextureManager::Initialize()
