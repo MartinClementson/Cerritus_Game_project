@@ -79,11 +79,11 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 					(float)currentFile->fetch->Mesh(i)->GetVertexData(j).uv[0],
 					(float)currentFile->fetch->Mesh(i)->GetVertexData(j).uv[1]
 				};
-				tempVert.tanget = {
+				tempVert.tangent = {
 					(float)currentFile->fetch->Mesh(i)->GetVertexData(j).tangent[0],
 					(float)currentFile->fetch->Mesh(i)->GetVertexData(j).tangent[1]
 				};
-				tempVert.biTanget = {
+				tempVert.biTangent = {
 					(float)currentFile->fetch->Mesh(i)->GetVertexData(j).biTangent[0],
 					(float)currentFile->fetch->Mesh(i)->GetVertexData(j).biTangent[1]
 				};
@@ -122,11 +122,11 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 					(float)currentFile->fetch->Mesh(i)->GetVertexData(j).uv[0],
 					(float)currentFile->fetch->Mesh(i)->GetVertexData(j).uv[1]
 				};
-				tempVert.tanget = {
+				tempVert.tangent = {
 					(float)currentFile->fetch->Mesh(i)->GetVertexData(j).tangent[0],
 					(float)currentFile->fetch->Mesh(i)->GetVertexData(j).tangent[1]
 				};
-				tempVert.biTanget = {
+				tempVert.biTangent = {
 					(float)currentFile->fetch->Mesh(i)->GetVertexData(j).biTangent[0],
 					(float)currentFile->fetch->Mesh(i)->GetVertexData(j).biTangent[1]
 				};
