@@ -1,10 +1,30 @@
 #include "TextureManager.h"
+void TextureManager::AddDiffuseTexture(std::string diffuseTex)
+{
+}
+void TextureManager::AddNormalTexture(std::string diffuseTex)
+{
+}
+void TextureManager::AddSpecularTexture(std::string diffuseTex)
+{
+}
+void TextureManager::AddGlowTexture(std::string diffuseTex)
+{
+}
 void TextureManager::Initialize()
 {
 }
 
 void TextureManager::Release()
 {
+	for (unsigned int i = 0; i < diffuseTextures.size(); i++)
+		SAFE_RELEASE(diffuseTextures.at(i));
+	for (unsigned int i = 0; i < normalTextures.size(); i++)
+		SAFE_RELEASE(normalTextures.at(i));
+	for (unsigned int i = 0; i < specularTextures.size(); i++)
+		SAFE_RELEASE(specularTextures.at(i));
+	for (unsigned int i = 0; i < glowTextures.size(); i++)
+		SAFE_RELEASE(glowTextures.at(i));
 }
 
 int TextureManager::GetDiffuseID(std::string diffuseTex)
