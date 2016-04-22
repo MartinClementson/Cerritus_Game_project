@@ -91,14 +91,16 @@ void MaterialManager::addMaterials(std::vector<importedMaterial>* import)
 
 void MaterialManager::GetMaterialRenderInfo(RenderInstructions * toRender)
 {
+	//toRender->diffuseMap = textureManager->GetDiffuseTexture(materials->at(toRender->materialID).diffuse_ID);
+	toRender->diffuseMap = textureManager->GetDiffuseTexture(0);
 }
 
-RenderInstructions * MaterialManager::GetMaterialRenderInfo(unsigned int materialID)
-{
-	return nullptr;
-}
-
-RenderInstructions * MaterialManager::GetMaterialRenderInfo(std::string materialName)
-{
-	return nullptr;
-}
+//RenderInstructions * MaterialManager::GetMaterialRenderInfo(unsigned int materialID)
+//{
+//	return nullptr;
+//}
+//
+//RenderInstructions * MaterialManager::GetMaterialRenderInfo(std::string materialName)
+//{
+//	return nullptr;
+//}

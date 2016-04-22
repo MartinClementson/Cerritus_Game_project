@@ -19,6 +19,6 @@ public:
 	
 	void addMaterials(std::vector<importedMaterial>* import);
 	void GetMaterialRenderInfo(RenderInstructions * toRender);
-	RenderInstructions* GetMaterialRenderInfo(unsigned int materialID);
-	RenderInstructions* GetMaterialRenderInfo(std::string materialName);
+	//RenderInstructions* GetMaterialRenderInfo(unsigned int materialID);
+	//RenderInstructions* GetMaterialRenderInfo(std::string materialName);
 };

@@ -3,7 +3,8 @@ void TextureManager::AddDiffuseTexture(std::string diffuseTex)
 {
 	ID3D11ShaderResourceView** texture = new ID3D11ShaderResourceView*;
 
-	diffuseTex += TEXTURE_PATH;
+	//diffuseTex += TEXTURE_PATH;
+	diffuseTex = "bra.jpg";
 	std::wstring widestr = std::wstring(diffuseTex.begin(), diffuseTex.end());
 	const wchar_t* fileName = widestr.c_str();
 
@@ -44,7 +45,7 @@ int TextureManager::GetDiffuseID(std::string diffuseTex)
 	if (this->diffuseTex.size() == 0)
 	{
 		this->diffuseTex.push_back(diffuseTex);
-		//AddDiffuseTexture()
+		AddDiffuseTexture(diffuseTex);
 		return 0;
 	}
 	else
@@ -166,25 +167,32 @@ ID3D11ShaderResourceView * TextureManager::GetDiffuseTexture(int diffuseID)
 {
 	if (diffuseID == -1)
 		return nullptr;
-
+	else
+	{
+		return *diffuseTextures.at(diffuseID);
+	}
+	return nullptr;
 }
 
 ID3D11ShaderResourceView * TextureManager::GetNormalTexture(int normalID)
 {
 	if (normalID == -1)
 		return nullptr;
+	return nullptr;
 }
 
 ID3D11ShaderResourceView * TextureManager::GetSpecularTexture(int specularID)
 {
 	if (specularID == -1)
 		return nullptr;
+	return nullptr;
 }
 
 ID3D11ShaderResourceView * TextureManager::GetGlowTexture(int glowID)
 {
 	if (glowID == -1)
 		return nullptr;
+	return nullptr;
 }
 
 TextureManager::TextureManager()
