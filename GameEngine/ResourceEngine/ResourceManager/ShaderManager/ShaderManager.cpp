@@ -197,7 +197,7 @@ bool ShaderManager::CreatePhongShader()
 		nullptr,
 		nullptr,
 		"VS_main",
-		"vs_4_0",
+		"vs_5_0",
 		0,
 		0,
 		&pVS,
@@ -210,10 +210,11 @@ bool ShaderManager::CreatePhongShader()
 	//Create input layout (every vertex)
 	D3D11_INPUT_ELEMENT_DESC inputDesc[] =
 	{
-		{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,	  0,		 0,		 D3D11_INPUT_PER_VERTEX_DATA	,0 },
-		{ "NORMAL",		0, DXGI_FORMAT_R32G32B32_FLOAT ,  0,		12,		D3D11_INPUT_PER_VERTEX_DATA		,0 },
-		{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,	  0,		24,		 D3D11_INPUT_PER_VERTEX_DATA	,0 },
-	//	{ "TANGENT",	0, DXGI_FORMAT_R32G32B32_FLOAT ,  0,		32,		D3D11_INPUT_PER_VERTEX_DATA		,0 }
+	/*POSITION*/	{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,	  0,		 0,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+	/*NORMAL*/		{ "TEXCOORD",	0, DXGI_FORMAT_R32G32B32_FLOAT ,  0,		12,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+	/*UV*/			{ "TEXCOORD",	1, DXGI_FORMAT_R32G32_FLOAT,	  0,		24,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+	/*BITANGENT*/	{ "TEXCOORD",	2, DXGI_FORMAT_R32G32_FLOAT,	  0,		32,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+	/*TANGENT*/		{ "TEXCOORD",	3, DXGI_FORMAT_R32G32_FLOAT,	  0,		40,		 D3D11_INPUT_PER_VERTEX_DATA		,0 }
 	};
 
 	hr = this->gDevice->CreateInputLayout(inputDesc, ARRAYSIZE(inputDesc), pVS->GetBufferPointer(), pVS->GetBufferSize(), &this->gVertexLayoutPhong);
@@ -229,7 +230,7 @@ bool ShaderManager::CreatePhongShader()
 		nullptr,
 		nullptr,
 		"GS_main",
-		"gs_4_0",
+		"gs_5_0",
 		0,
 		0,
 		&pGS,
@@ -249,7 +250,7 @@ bool ShaderManager::CreatePhongShader()
 		nullptr,
 		nullptr,
 		"PS_main",
-		"ps_4_0",
+		"ps_5_0",
 		0,
 		0,
 		&pPs,
