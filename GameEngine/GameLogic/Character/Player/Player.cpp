@@ -55,7 +55,7 @@ void Player::Initialize()
 {
 	graphics			 = Graphics::GetInstance();
 
-	this->position		 = XMFLOAT3(-5.0f, 0.0f, -5.0f);
+	this->position		 = XMFLOAT3(-5.0f, Y_OFFSET, -5.0f);
 	this->rotation		 = XMFLOAT3(0.0f, 0.0f, 0.0f);
 
 
@@ -94,7 +94,7 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 	if (currentVelo > 0.05f)
 	{
 		position.x				+= velocity.x;
-		position.y				 = 0.0f;
+		position.y				 = Y_OFFSET;
 		position.z				+= velocity.z;
 
 
