@@ -194,7 +194,7 @@ struct Material
 	int diffuse_ID;
 	int normal_ID;
 	int specular_ID;
-	int gloss_ID;
+	int glow_ID;
 };
 struct importedMaterial
 {
@@ -206,5 +206,5 @@ struct importedMaterial
 	std::string diffuseTex;
 	std::string normalTex;
 	std::string specularTex;
-	std::string glossTex;
+	std::string glowTex;
 };

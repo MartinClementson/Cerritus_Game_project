@@ -9,62 +9,86 @@ void TextureManager::Release()
 
 int TextureManager::GetDiffuseID(std::string diffuseTex)
 {
-	if (this->diffuseTex.size == 0 && diffuseTex != "")
+	if (diffuseTex == "")
+		return -1;
+	if (this->diffuseTex.size == 0)
 	{
 		this->diffuseTex.push_back(diffuseTex);
 		return 0;
 	}
-	else if (diffuseTex != "")
+	else
 	{
-		this->diffuseTex.push_back(diffuseTex);
-		return (this->diffuseTex.size() - 1);
+		for (unsigned int i = 0; i < this->diffuseTex.size(); i++)
+		{
+			if (this->diffuseTex.at(i) == diffuseTex)
+				return i;
+		}
 	}
-	return -1;
+	this->diffuseTex.push_back(diffuseTex);
+	return (this->diffuseTex.size() - 1);
 }
 
 int TextureManager::GetNormalID(std::string normalTex)
 {
-	if (this->normalTex.size == 0 && normalTex != "")
+	if (normalTex == "")
+		return -1;
+	if (this->normalTex.size == 0)
 	{
 		this->normalTex.push_back(normalTex);
 		return 0;
 	}
-	else if (normalTex != "")
+	else
 	{
-		this->normalTex.push_back(normalTex);
-		return (this->normalTex.size() - 1);
+		for (unsigned int i = 0; i < this->normalTex.size(); i++)
+		{
+			if (this->normalTex.at(i) == normalTex)
+				return i;
+		}
 	}
-	return -1;
+	this->normalTex.push_back(normalTex);
+	return (this->normalTex.size() - 1);
 }
 
 int TextureManager::GetSpecularID(std::string specularTex)
 {
-	if (this->specularTex.size == 0 && specularTex != "")
+	if (specularTex == "")
+		return -1;
+	if (this->specularTex.size == 0)
 	{
 		this->specularTex.push_back(specularTex);
 		return 0;
 	}
-	else if (specularTex != "")
+	else
 	{
-		this->specularTex.push_back(specularTex);
-		return (this->specularTex.size() - 1);
+		for (unsigned int i = 0; i < this->specularTex.size(); i++)
+		{
+			if (this->specularTex.at(i) == specularTex)
+				return i;
+		}
 	}
-	return -1;
+	this->specularTex.push_back(specularTex);
+	return (this->specularTex.size() - 1);
 }
 
 int TextureManager::GetGlowID(std::string glowTex)
 {
-	if (this->glowTex.size == 0 && glowTex != "")
+	if (glowTex == "")
+		return -1;
+	if (this->glowTex.size == 0)
 	{
 		this->glowTex.push_back(glowTex);
 		return 0;
 	}
-	else if (glowTex != "")
+	else
 	{
-		this->glowTex.push_back(glowTex);
-		return (this->glowTex.size() - 1);
+		for (unsigned int i = 0; i < this->glowTex.size(); i++)
+		{
+			if (this->glowTex.at(i) == glowTex)
+				return i;
+		}
 	}
-	return -1;
+	this->glowTex.push_back(glowTex);
+	return (this->glowTex.size() - 1);
 }
 
 TextureManager::TextureManager()
