@@ -116,7 +116,7 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 
 		projectiles.at(i)->Update(deltaTime);
 
-		if (projectiles.at(i)->GetAge() >= lifeSpan)
+		if (projectiles.at(i)->GetAge() >= lifeSpan || projectiles.at(i)->GetFired()==false)
 		{
 			DeleteProjectile((int)i);
 			
@@ -136,7 +136,7 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 void ProjectileSystem::DeleteProjectile(int index)
 {
 	delete projectiles.at(index);
-	projectiles.erase(projectiles.begin());
+	projectiles.erase(projectiles.begin()+index);
 	projectiles.shrink_to_fit();
 }
 
