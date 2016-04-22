@@ -31,6 +31,10 @@ public:
 	int FindSpecularID(std::string specularTex);
 	int FindGlowID(std::string glowTex);
 
+	ID3D11ShaderResourceView* GetDiffuseTexture(int diffuseID);
+	ID3D11ShaderResourceView* GetNormalTexture(int normalID);
+	ID3D11ShaderResourceView* GetSpecularTexture(int specularID);
+	ID3D11ShaderResourceView* GetGlowTexture(int glowID);
 	TextureManager();
 	~TextureManager();
 };

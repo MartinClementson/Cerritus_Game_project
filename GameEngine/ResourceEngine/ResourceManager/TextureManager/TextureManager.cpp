@@ -11,7 +11,7 @@ int TextureManager::GetDiffuseID(std::string diffuseTex)
 {
 	if (diffuseTex == "")
 		return -1;
-	if (this->diffuseTex.size == 0)
+	if (this->diffuseTex.size() == 0)
 	{
 		this->diffuseTex.push_back(diffuseTex);
 		return 0;
@@ -25,14 +25,14 @@ int TextureManager::GetDiffuseID(std::string diffuseTex)
 		}
 	}
 	this->diffuseTex.push_back(diffuseTex);
-	return (this->diffuseTex.size() - 1);
+	return (int)(this->diffuseTex.size() - 1);
 }
 
 int TextureManager::GetNormalID(std::string normalTex)
 {
 	if (normalTex == "")
 		return -1;
-	if (this->normalTex.size == 0)
+	if (this->normalTex.size() == 0)
 	{
 		this->normalTex.push_back(normalTex);
 		return 0;
@@ -46,14 +46,14 @@ int TextureManager::GetNormalID(std::string normalTex)
 		}
 	}
 	this->normalTex.push_back(normalTex);
-	return (this->normalTex.size() - 1);
+	return (int)(this->normalTex.size() - 1);
 }
 
 int TextureManager::GetSpecularID(std::string specularTex)
 {
 	if (specularTex == "")
 		return -1;
-	if (this->specularTex.size == 0)
+	if (this->specularTex.size() == 0)
 	{
 		this->specularTex.push_back(specularTex);
 		return 0;
@@ -67,14 +67,14 @@ int TextureManager::GetSpecularID(std::string specularTex)
 		}
 	}
 	this->specularTex.push_back(specularTex);
-	return (this->specularTex.size() - 1);
+	return (int)(this->specularTex.size() - 1);
 }
 
 int TextureManager::GetGlowID(std::string glowTex)
 {
 	if (glowTex == "")
 		return -1;
-	if (this->glowTex.size == 0)
+	if (this->glowTex.size() == 0)
 	{
 		this->glowTex.push_back(glowTex);
 		return 0;
@@ -88,7 +88,7 @@ int TextureManager::GetGlowID(std::string glowTex)
 		}
 	}
 	this->glowTex.push_back(glowTex);
-	return (this->glowTex.size() - 1);
+	return (int)(this->glowTex.size() - 1);
 }
 
 int TextureManager::FindDiffuseID(std::string diffuseTex)
@@ -129,6 +129,31 @@ int TextureManager::FindGlowID(std::string glowTex)
 			return i;
 	}
 	return -1;
+}
+
+ID3D11ShaderResourceView * TextureManager::GetDiffuseTexture(int diffuseID)
+{
+	if (diffuseID == -1)
+		return nullptr;
+
+}
+
+ID3D11ShaderResourceView * TextureManager::GetNormalTexture(int normalID)
+{
+	if (normalID == -1)
+		return nullptr;
+}
+
+ID3D11ShaderResourceView * TextureManager::GetSpecularTexture(int specularID)
+{
+	if (specularID == -1)
+		return nullptr;
+}
+
+ID3D11ShaderResourceView * TextureManager::GetGlowTexture(int glowID)
+{
+	if (glowID == -1)
+		return nullptr;
 }
 
 TextureManager::TextureManager()
