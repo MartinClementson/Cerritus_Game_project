@@ -19,6 +19,18 @@ inline DirectX::XMFLOAT3 operator*(DirectX::XMFLOAT3 a, float b) {
 	return result;
 }
 
+inline DirectX::XMFLOAT3 operator+(DirectX::XMFLOAT3 a, Vec3 b) {
+	DirectX::XMFLOAT3 result;
+
+	result.x = a.x + b.x;
+	result.y = a.y + b.y;
+	result.z = a.z + b.z;
+
+	return result;
+}
+
+
+
 
 
 Player::Player()
@@ -37,13 +49,13 @@ Player::~Player()
 
 void Player::Initialize()
 {
-	graphics = Graphics::GetInstance();
+	graphics			 = Graphics::GetInstance();
 
 	this->position		 = XMFLOAT3(-5.0f, 0.0f, -5.0f);
 	this->rotation		 = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	this->movementSpeed  = 50.0f;
 
-	radius = 1.0f;
+
+	radius				 = 1.0f;
 
 	projectileSystem->Initialize();
 }
@@ -55,11 +67,41 @@ void Player::Release()
 
 void Player::Update(double deltaTime, XMFLOAT3 direction)
 {
-	this->direction = direction;
-	renderInfo = { position,rotation };
+	this->direction	 = direction;
+	renderInfo		 = { position,rotation };
 
+	
+
+	velocity.x		 += acceleration.x * (float)deltaTime - velocity.x * fallOfFactor * (float)deltaTime;
+	velocity.y		  = 0.0f;
+	velocity.z		 += acceleration.z * (float)deltaTime - velocity.z * fallOfFactor * (float)deltaTime;
+	
+
+	float currentVelo = velocity.Length();
+
+	if (currentVelo > VELOCITY_MAX)
+	{
+
+		Vec3 normalizer			= velocity.Normalize();
+		normalizer				= normalizer * VELOCITY_MAX;
+		velocity				= normalizer;
+	}
+
+	if (currentVelo > 0.05f)
+	{
+		position.x				+= velocity.x;
+		position.y				 = 0.0f;
+		position.z				+= velocity.z;
+
+
+	}
+
+
+	acceleration				 = Vec3(0.0f, 0.0f, 0.0f); //reset acceleration for next frame
 	projectileSystem->UpdateProjectiles(deltaTime);
 }
+
+
 
 void Player::Render()
 {
@@ -69,30 +111,41 @@ void Player::Render()
 
 void Player::Move(MovementDirection* dir, int keyAmount, double deltaTime)
 {
-	XMFLOAT3 moveAmount = { 0.0f, 0.0f, 0.0f };
-
+	
 	for (int i = 0; i < keyAmount; i++)
 	{
-		if (dir[i]	== UP)
+		if (dir[i] == UP)
 		{
-			moveAmount.z += ( movementSpeed / keyAmount ) ;
+			acceleration.z = maxAcceleration;
 		}
 
-		 if (dir[i] == DOWN)
+		if (dir[i] == DOWN)
 		{
-			moveAmount.z -= ( movementSpeed / keyAmount);
+			acceleration.z = -maxAcceleration;
 		}
-		 if (dir[i] == LEFT)
+		if (dir[i] == LEFT)
 		{
-			moveAmount.x -= ( movementSpeed / keyAmount);
+			acceleration.x = -maxAcceleration;
 		}
-		 if (dir[i] == RIGHT)
+		if (dir[i] == RIGHT)
 		{
-			moveAmount.x += ( movementSpeed / keyAmount);
+			acceleration.x = maxAcceleration;
 		}
 
+		float len = acceleration.Length();
+
+		if (len > maxAcceleration)
+		{
+			Vec3 normalizer	  = acceleration.Normalize();
+			normalizer		  = normalizer * maxAcceleration;
+			acceleration	  = normalizer;
+
+
+
+		}
 	}
-	 position = position +  ( moveAmount * (float)deltaTime);
+
+
 }
 
 void Player::Shoot(InputKeys input, double deltaTime)
