@@ -1,6 +1,7 @@
 #pragma once
 #include "../ResourceManager/MeshManager/MeshManager.h"
 #include "../ResourceManager/ShaderManager/ShaderManager.h"
+#include "../ResourceManager/BRFImporterHandler/BRFImporterHandler.h"
 #include "../../Structs/RenderInfo.h"
 class ResourceManager
 {
@@ -8,8 +9,9 @@ class ResourceManager
 private:
 	RenderInstructions currentMesh;
 
-	MeshManager* meshManager		= nullptr;
-	ShaderManager* shaderManager	= nullptr;
+	MeshManager* meshManager				= nullptr;
+	ShaderManager* shaderManager			= nullptr;
+	BRFImporterHandler* brfImporterHandler	= nullptr;
 public:
 	ResourceManager();
 	~ResourceManager();

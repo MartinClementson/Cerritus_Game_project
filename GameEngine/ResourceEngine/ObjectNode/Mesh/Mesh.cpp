@@ -2,6 +2,13 @@
 
 
 
+Mesh::Mesh(bool hasSkeleton, unsigned int skeletonID, unsigned int materialID)
+{
+	this->hasSkeleton = hasSkeleton;
+	this->skeletonID = skeletonID;
+	this->materialID = materialID;
+}
+
 Mesh::Mesh()
 {
 	
