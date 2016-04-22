@@ -23,7 +23,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	shaderManager->Initialize(gDevice, gDeviceContext);
 	meshManager->Initialize(gDevice, gDeviceContext);
 	brfImporterHandler->Initialize(this->meshManager);
-	brfImporterHandler->LoadFile("2meshes.BRF", true, true, true);
+	brfImporterHandler->LoadFile("MainChar.BRF", true, true, true);
 }
 
 void ResourceManager::Release()
@@ -54,6 +54,16 @@ void ResourceManager::Release()
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoChar * object)
 	{
+
+		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+		MeshEnum meshType = MeshEnum::MAIN_CHARACTER;
+
+		meshManager->GetMeshRenderInfo(&meshType,&currentMesh);
+		Shaders temp = PHONG_SHADER;
+		this->shaderManager->SetActiveShader(&temp);
+		return &currentMesh;
+
+
 		return nullptr;
 	}
 
