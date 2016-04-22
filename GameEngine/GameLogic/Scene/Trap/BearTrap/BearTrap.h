@@ -12,8 +12,11 @@ public:
 	void Update(double deltaTime);
 	void Render();
 	float GetSlow();
+	float GetRadius() { return this->radius; }
+	XMFLOAT3 GetPosition() { return this->position; }
 	void SetSlow(float slow);
 	RenderInfoTrap renderinfo;
+
 
 	//Collision();
 private:

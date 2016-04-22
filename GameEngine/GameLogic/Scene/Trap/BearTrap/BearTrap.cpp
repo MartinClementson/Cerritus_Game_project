@@ -18,6 +18,9 @@ void BearTrap::Initialize(XMFLOAT3 position, XMFLOAT3 rotation)
 	slow = 0.5f; 
 	this->position = position;
 	this->rotation = { 0,0,0 };
+
+	radius = 1.0f;
+
 }
 
 void BearTrap::Release()

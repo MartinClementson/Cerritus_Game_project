@@ -27,5 +27,6 @@ public:
 	void Render();
 	void load();
 	void AddEnemySpawn(XMFLOAT3 spawnPosition);
+
 };
 

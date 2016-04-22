@@ -66,7 +66,7 @@ void Scene::Initialize()
 	{
 		XMFLOAT3 tmp; // randomizes the location of the beartrap
 		tmp.x = rand() % 22 + 3.0f;
-		tmp.y = 5;
+		tmp.y = 0;
 		tmp.z = rand() % 22 + 3.0f;
 		XMFLOAT3 pos = { tmp.x,tmp.y,tmp.z };
 		bearTraps.at(i)->Initialize(pos, bearTraps.at(i)->GetRotation());

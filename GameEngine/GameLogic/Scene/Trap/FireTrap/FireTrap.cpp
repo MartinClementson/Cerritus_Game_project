@@ -19,7 +19,9 @@ void FireTrap::Initialize(XMFLOAT3 position,XMFLOAT3 rotation)
 	this->position = position;
 	
 	this->rotation = { 0,0,0 }; 
-	
+
+	radius = 1.0f;
+
 }
 
 void FireTrap::Release()
