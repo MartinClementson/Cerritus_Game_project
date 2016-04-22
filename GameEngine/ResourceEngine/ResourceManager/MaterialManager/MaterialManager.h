@@ -8,12 +8,12 @@
 class MaterialManager
 {
 private:
-	MaterialManager();
-	~MaterialManager();
 	std::vector<Material>* materials;
 	TextureManager* textureManager;
 	bool CompareImportMaterials(importedMaterial* import);
 public:
+	MaterialManager();
+	~MaterialManager();
 	void Initialize(ID3D11Device* gDevice);
 	void Release();
 	

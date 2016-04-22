@@ -7,7 +7,7 @@ ResourceManager::ResourceManager()
 	meshManager = new MeshManager();
 	shaderManager = new ShaderManager();
 	brfImporterHandler = new BRFImporterHandler();
-
+	materialManager = new MaterialManager();
 }
 
 
@@ -16,6 +16,7 @@ ResourceManager::~ResourceManager()
 	delete meshManager;
 	delete shaderManager;
 	delete brfImporterHandler;
+	delete materialManager;
 }
 
 void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext)
@@ -33,7 +34,7 @@ void ResourceManager::Release()
 	this->shaderManager->Release();
 	this->meshManager->Release();
 	this->brfImporterHandler->Release();
-
+	this->materialManager->Release();
 }
 
 

@@ -43,6 +43,7 @@ void MaterialManager::Initialize(ID3D11Device* gDevice)
 
 void MaterialManager::Release()
 {
+	this->textureManager->Release();
 }
 
 void MaterialManager::addMaterials(std::vector<importedMaterial>* import)
