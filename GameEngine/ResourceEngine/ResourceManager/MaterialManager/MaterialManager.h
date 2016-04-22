@@ -1,5 +1,4 @@
 #pragma once
-#include "../../ObjectNode/Mesh/Mesh.h"
 #include "../../../Enumerations/Enumerations.h"
 #include "../../../Structs/RenderInfo.h"
 #include "../../../Structs/DataTypes.h"

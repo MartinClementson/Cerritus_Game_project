@@ -2,7 +2,6 @@
 #include "../../../../Structs/RenderInfo.h"
 #include "../../../../Source/Constants.h"
 #include "../../../../Source/LibIncluder.h"
-#include "../../../ObjectNode/Mesh/Mesh.h"
 #include "../../../../Enumerations/Enumerations.h"
 
 class TextureResource

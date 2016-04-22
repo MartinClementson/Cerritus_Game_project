@@ -201,4 +201,6 @@ TextureManager::TextureManager()
 
 TextureManager::~TextureManager()
 {
+	for (unsigned int i = 0; i < diffuseTextures.size(); i++)
+		delete diffuseTextures.at(i);
 }

@@ -105,6 +105,9 @@ void GS_main(
 
 }
 
+SamplerState SampleType;
+
+Texture2D shaderTexture : register(t0);
 
 float4 PS_main(GS_OUT input) : SV_TARGET
 {
@@ -140,7 +143,12 @@ col.xyz			    -= saturate(	abs( dist )	* 0.3	);  //player color fade
 
 col.y				+= saturate(input.wPos.y);			// green color, (for the objects)
 
+if (diffuseMap == true)
+{
 
+	float3 textureSample = shaderTexture.Sample(SampleType, input.Uv).xyz;
+	col.xyz = textureSample;
+}
 
 
 

@@ -1,11 +1,10 @@
 #pragma once
-#include "../../ObjectNode/Mesh/Mesh.h"
 #include "../../../Enumerations/Enumerations.h"
 #include "../../../Structs/RenderInfo.h"
 #include "../../../Structs/DataTypes.h"
-#include "../TextureManager/TextureManager.h"
-#include "TextureResource\TextureResource.h"
-#include "../../DirectXTK/DirectXToolkit.h"
+//#include "../../DirectXTK/DirectXToolkit.h"
+#include "../../DirectXTK/Inc/WICTextureLoader.h"
+#include "../Constants.h"
 class TextureManager
 {
 private:

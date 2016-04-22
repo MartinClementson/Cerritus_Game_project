@@ -3,7 +3,7 @@
 MaterialManager::MaterialManager()
 {
 	textureManager = new TextureManager;
-	materials = nullptr;
+	materials = new std::vector<Material>;
 }
 
 MaterialManager::~MaterialManager()
@@ -50,7 +50,7 @@ void MaterialManager::addMaterials(std::vector<importedMaterial>* import)
 {
 	for (unsigned int i = 0; i < import->size(); i++)
 	{
-		if (materials != nullptr)
+		if (materials->size() != 0)
 		{
 			if (!CompareImportMaterials(&import->at(i)))
 			{

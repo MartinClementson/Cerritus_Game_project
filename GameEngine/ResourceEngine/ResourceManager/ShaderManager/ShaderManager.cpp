@@ -68,6 +68,7 @@ void ShaderManager::Release()
 
 void ShaderManager::SetActiveShader(Shaders* shader)
 {
+	gDeviceContext->PSSetSamplers(0, 1, &this->gSampleState);
 	switch (*shader)
 	{
 	case PHONG_SHADER:
