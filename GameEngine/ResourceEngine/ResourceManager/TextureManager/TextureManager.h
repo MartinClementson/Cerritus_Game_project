@@ -16,7 +16,7 @@ private:
 	std::vector<std::string> specularTex;
 	std::vector<std::string> glowTex;
 
-	std::vector<ID3D11ShaderResourceView*> diffuseTextures;
+	std::vector<ID3D11ShaderResourceView**> diffuseTextures;
 	std::vector<ID3D11ShaderResourceView*> normalTextures;
 	std::vector<ID3D11ShaderResourceView*> specularTextures;
 	std::vector<ID3D11ShaderResourceView*> glowTextures;

@@ -1,13 +1,13 @@
 #include "TextureManager.h"
 void TextureManager::AddDiffuseTexture(std::string diffuseTex, ID3D11Device* gDevice)
 {
-	ID3D11ShaderResourceView* texture;
+	ID3D11ShaderResourceView** texture = new ID3D11ShaderResourceView*;
 
 	diffuseTex += TEXTURE_PATH;
 	std::wstring widestr = std::wstring(diffuseTex.begin(), diffuseTex.end());
 	const wchar_t* fileName = widestr.c_str();
 
-	hr = CreateWICTextureFromFile(gDevice, fileName, nullptr, &texture);
+	hr = CreateWICTextureFromFile(gDevice, fileName, nullptr, texture);
 
 	diffuseTextures.push_back(texture);
 }
@@ -27,7 +27,7 @@ void TextureManager::Initialize()
 void TextureManager::Release()
 {
 	for (unsigned int i = 0; i < diffuseTextures.size(); i++)
-		SAFE_RELEASE(diffuseTextures.at(i));
+		SAFE_RELEASE(*diffuseTextures.at(i));
 	for (unsigned int i = 0; i < normalTextures.size(); i++)
 		SAFE_RELEASE(normalTextures.at(i));
 	for (unsigned int i = 0; i < specularTextures.size(); i++)
@@ -43,6 +43,7 @@ int TextureManager::GetDiffuseID(std::string diffuseTex)
 	if (this->diffuseTex.size() == 0)
 	{
 		this->diffuseTex.push_back(diffuseTex);
+		//AddDiffuseTexture()
 		return 0;
 	}
 	else
