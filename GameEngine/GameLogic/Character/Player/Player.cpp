@@ -28,7 +28,11 @@ inline DirectX::XMFLOAT3 operator+(DirectX::XMFLOAT3 a, Vec3 b) {
 
 	return result;
 }
+inline float get_degrees(float radian)
+{
 
+	return (radian * 180) / XM_PI;
+}
 
 
 
@@ -68,9 +72,9 @@ void Player::Release()
 void Player::Update(double deltaTime, XMFLOAT3 direction)
 {
 	this->direction	 = direction;
-	renderInfo		 = { position,rotation };
-
 	
+
+#pragma region Calculate movement
 
 	velocity.x		 += acceleration.x * (float)deltaTime - velocity.x * fallOfFactor * (float)deltaTime;
 	velocity.y		  = 0.0f;
@@ -98,7 +102,32 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 
 
 	acceleration				 = Vec3(0.0f, 0.0f, 0.0f); //reset acceleration for next frame
-	projectileSystem->UpdateProjectiles(deltaTime);
+#pragma endregion
+	
+
+
+#pragma region Calculate  rotation of mesh
+
+	XMVECTOR mouseDirection = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
+	XMVECTOR meshDirection = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+
+
+	//Calculate angle between meshDir and shotDir
+	float cosAngle = XMVector3Dot(mouseDirection, meshDirection).m128_f32[0];
+	float angle = acos(cosAngle);
+	float degrees = get_degrees(angle);
+	////////////////////////////////////////////////////
+
+	if (direction.x < 0)
+		degrees = -degrees;
+
+	rotation.y = degrees;
+
+	renderInfo = { position,rotation };
+#pragma endregion
+	
+
+projectileSystem->UpdateProjectiles(deltaTime);
 }
 
 
