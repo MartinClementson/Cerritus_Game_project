@@ -8,14 +8,16 @@
 class MaterialManager
 {
 private:
-		~MaterialManager();
-
-		//std::vector<Material>* materials;
-		//TextureManager* textureManager;
-		TextureManager* textureManager;
+	MaterialManager();
+	~MaterialManager();
+	//std::vector<Material>* materials;
+	//TextureManager* textureManager;
+	TextureManager* textureManager;
 public:
 	void Initialize();
 	void Release();
 
 	void GetMaterialRenderInfo(RenderInstructions * toRender);
-}
+	RenderInstructions* GetMaterialRenderInfo(unsigned int materialID);
+	RenderInstructions* GetMaterialRenderInfo(std::string materialName);
+};
