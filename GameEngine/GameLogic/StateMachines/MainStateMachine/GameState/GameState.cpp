@@ -83,7 +83,7 @@ void GameState::Update(double deltaTime)
 				if (collision->ProjectileEnemyCollision(
 					player->projectileSystem->
 					projectiles.at(i),
-
+					
 					room1->enemySpawns.at(k)->
 					Alive.at(j))
 
@@ -93,26 +93,34 @@ void GameState::Update(double deltaTime)
 					//not alive anymore
 					//MessageBox(0, L"You have Collided",
 					//	L"LOL", MB_OK);
-
-					room1->enemySpawns.at(k)->Alive.at(j)->isAlive = false;
-
-					room1->enemySpawns.at(k)->
-						Queue.push_back(
-							room1->enemySpawns.at(k)->
-							Alive.at(j)
-						);
-
-					room1->enemySpawns.at(k)->
-						Alive.erase(
-							room1->enemySpawns.at(k)->
-							Alive.begin() + j
-						);
-
-				
-					/*if (player->projectileSystem->projectiles.size() >0)
+					if (room1->enemySpawns.at(k)->Alive.at(j)->GetHealth() <= 10.0f)
 					{
-						player->projectileSystem->DeleteProjectile(i);
-					}*/
+
+						room1->enemySpawns.at(k)->Alive.at(j)->isAlive = false;
+						room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(100.0f);
+
+						room1->enemySpawns.at(k)->
+							Queue.push_back(
+								room1->enemySpawns.at(k)->
+								Alive.at(j)
+								);
+
+						room1->enemySpawns.at(k)->
+							Alive.erase(
+								room1->enemySpawns.at(k)->
+								Alive.begin() + j
+								);
+
+					}
+					else
+					{
+						float tmpEnemyHealth = room1->enemySpawns.at(k)->Alive.at(j)->GetHealth();
+						room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(tmpEnemyHealth - 10.0f);
+					}
+					if (player->projectileSystem->projectiles.size() >0)
+					{
+						player->projectileSystem->projectiles.at(i)->SetFired(false);
+					}
 				
 				
 				}

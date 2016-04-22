@@ -32,6 +32,10 @@ public:
 
 	void Update(double deltaTime);
 
+	float GetHealth();
+
+	void SetHealth(float health);
+
 	void Render();
 	XMFLOAT3 GetPosition();
 	float GetRadius();
