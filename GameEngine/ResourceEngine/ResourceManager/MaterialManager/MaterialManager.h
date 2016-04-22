@@ -12,6 +12,7 @@ private:
 	~MaterialManager();
 	std::vector<Material>* materials;
 	TextureManager* textureManager;
+	bool CompareImportMaterials(importedMaterial* import);
 public:
 	void Initialize();
 	void Release();

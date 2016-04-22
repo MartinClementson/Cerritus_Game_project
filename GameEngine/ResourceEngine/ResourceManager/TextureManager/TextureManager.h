@@ -25,6 +25,12 @@ public:
 	int GetNormalID(std::string normalTex);
 	int GetSpecularID(std::string specularTex);
 	int GetGlowID(std::string glowTex);
+
+	int FindDiffuseID(std::string diffuseTex);
+	int FindNormalID(std::string normalTex);
+	int FindSpecularID(std::string specularTex);
+	int FindGlowID(std::string glowTex);
+
 	TextureManager();
 	~TextureManager();
 };

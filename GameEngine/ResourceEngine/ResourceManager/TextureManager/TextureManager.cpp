@@ -91,6 +91,46 @@ int TextureManager::GetGlowID(std::string glowTex)
 	return (this->glowTex.size() - 1);
 }
 
+int TextureManager::FindDiffuseID(std::string diffuseTex)
+{
+	for (unsigned int i = 0; i < this->diffuseTex.size(); i++)
+	{
+		if (this->diffuseTex.at(i) == diffuseTex)
+			return i;
+	}
+	return -1;
+}
+
+int TextureManager::FindNormalID(std::string normalTex)
+{
+	for (unsigned int i = 0; i < this->normalTex.size(); i++)
+	{
+		if (this->normalTex.at(i) == normalTex)
+			return i;
+	}
+	return -1;
+}
+
+int TextureManager::FindSpecularID(std::string specularTex)
+{
+	for (unsigned int i = 0; i < this->specularTex.size(); i++)
+	{
+		if (this->specularTex.at(i) == specularTex)
+			return i;
+	}
+	return -1;
+}
+
+int TextureManager::FindGlowID(std::string glowTex)
+{
+	for (unsigned int i = 0; i < this->glowTex.size(); i++)
+	{
+		if (this->glowTex.at(i) == glowTex)
+			return i;
+	}
+	return -1;
+}
+
 TextureManager::TextureManager()
 {
 }
