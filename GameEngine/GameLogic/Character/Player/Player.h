@@ -55,7 +55,7 @@ struct Vec3
 };
 
 
-
+#define Y_OFFSET 0.0f //Because the mesh shall hover
 #define VELOCITY_MAX 4.0f
 class Player :
 	public Character
