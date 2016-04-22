@@ -7,7 +7,7 @@ Scene::Scene()
 {
 	/*this->bearTraps = new std::vector<BearTrap>;
 	this->fireTraps = new std::vector<FireTrap>;*/
-	this->enemySpawn = new EnemySpawn;
+//	this->enemySpawn = new EnemySpawn;
 	//this->trap = new Trap;
 }
 
@@ -15,7 +15,7 @@ Scene::Scene()
 Scene::~Scene()
 {
 
-	delete this->enemySpawn;
+	//delete this->enemySpawn;
 //	delete this->trap;
 
 
@@ -51,7 +51,7 @@ void Scene::Initialize()
 
 	bearTraps.push_back(new BearTrap());
 	
-	enemySpawn->Initialize();
+	//enemySpawn->Initialize();
 	for (int i = 0; i < fireTraps.size(); i++)
 	{
 	
@@ -75,7 +75,7 @@ void Scene::Initialize()
 }		
 
 	
-}	
+
 
 void Scene::AddEnemySpawn(XMFLOAT3 spawnPosition)
 {
@@ -146,7 +146,7 @@ void Scene::Render()
 		
 	}
 
-	enemySpawn->Render();
+//	enemySpawn->Render();
 
 
 	for (size_t i = 0; i < enemySpawns.size(); i++)
