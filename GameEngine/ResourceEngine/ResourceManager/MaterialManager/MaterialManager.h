@@ -18,6 +18,7 @@ public:
 	void Release();
 
 	void GetMaterialRenderInfo(RenderInstructions * toRender);
+	void AddMaterial(Material*);
 	RenderInstructions* GetMaterialRenderInfo(unsigned int materialID);
 	RenderInstructions* GetMaterialRenderInfo(std::string materialName);
 };

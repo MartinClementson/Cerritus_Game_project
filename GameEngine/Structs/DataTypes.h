@@ -182,3 +182,17 @@ struct ProjectileStruct
 	Float3 position;
 	Float3 rotation;
 };
+
+struct Material
+{
+	std::string materialName;
+	unsigned int materialID;
+	Float3 diffuseValue;
+	Float3 specularValue;
+
+	//if the id is -1, the material doesn't have a texture
+	int diffuse_ID;
+	int normal_ID;
+	int specular_ID;
+	int gloss_ID;
+};
