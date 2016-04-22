@@ -87,6 +87,12 @@ void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, unsigned in
 
 void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * toRender)
 {
+	if(*meshEnum == MeshEnum::MAIN_CHARACTER)
+		this->gameMeshes->at(0).GetMeshRenderInfo(toRender);
+
+	if (*meshEnum == MeshEnum::ENEMY_1)
+		this->gameMeshes->at(1).GetMeshRenderInfo(toRender);
+
 }
 
 
@@ -155,14 +161,14 @@ void MeshManager::CreatePlaceHolderPlane()
 	
 
 	this->placeHolderPlane.CreateVertexBuffer(planeVerts, 4);
-	this->placeHolderPlane.CreateIndexBuffer(indices, 6);
-
+	this->placeHolderPlane.CreateIndexBuffer(indices, 6); 
+	
 }
 
 
 void MeshManager::GetPlaceHolderMeshInfo(RenderInstructions * toRender)
 {
-	//this->gameMeshes->at(0).GetMeshRenderInfo(toRender);
+	//this->gameMeshes->at(1).GetMeshRenderInfo(toRender);
 	placeHolder.GetMeshRenderInfo(toRender);
 
 }
