@@ -87,6 +87,8 @@ void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, unsigned in
 
 void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * toRender)
 {
+	this->gameMeshes->at(0).GetMeshRenderInfo(toRender);
+
 }
 
 
@@ -162,7 +164,7 @@ void MeshManager::CreatePlaceHolderPlane()
 
 void MeshManager::GetPlaceHolderMeshInfo(RenderInstructions * toRender)
 {
-	//this->gameMeshes->at(0).GetMeshRenderInfo(toRender);
+	
 	placeHolder.GetMeshRenderInfo(toRender);
 
 }
