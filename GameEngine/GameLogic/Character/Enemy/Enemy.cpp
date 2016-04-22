@@ -45,6 +45,16 @@ void Enemy::Update(double deltaTime)
 	renderInfo = { position, rotation };
 }
 
+float Enemy::GetHealth()
+{
+	return this->health;
+}
+
+void Enemy::SetHealth(float health)
+{
+	this->health = health;
+}
+
 //void Enemy::UpdateAttack(double deltaTime)
 //{
 //	//enemy basic movement
