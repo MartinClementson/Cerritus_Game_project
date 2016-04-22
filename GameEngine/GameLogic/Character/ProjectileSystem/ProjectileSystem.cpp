@@ -118,7 +118,7 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 
 		if (projectiles.at(i)->GetAge() >= lifeSpan || projectiles.at(i)->GetFired()==false)
 		{
-			DeleteProjectile(i);
+			DeleteProjectile((int)i);
 			
 		}
 		//else

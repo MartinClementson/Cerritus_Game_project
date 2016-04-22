@@ -36,6 +36,55 @@ void MeshManager::Release()
 
 }
 
+void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, unsigned int materialID, unsigned int vertexCount, UINT indexCount, std::vector<Vertex> vertices, std::vector<AnimVert> aniVertices, std::vector<UINT> indices)
+{
+	if (aniVertices.size() <= 0)
+	{
+		Vertex* newVertices = new Vertex[vertexCount];
+		for (unsigned int i = 0; i < vertexCount; i++)
+		{
+			newVertices[i] = vertices[i];
+		}
+
+		UINT* newIndices = new UINT[indexCount];
+		for (unsigned int i = 0; i < indexCount; i++)
+		{
+			newIndices[i] = indices[i];
+		}
+
+		Mesh newMesh = Mesh(hasSkeleton, skeletonID, materialID);
+		newMesh.Initialize(this->gDevice, this->gDeviceContext);
+		newMesh.CreateVertexBuffer(newVertices, vertexCount);
+		newMesh.CreateIndexBuffer(newIndices, indexCount);
+		this->gameMeshes->push_back(newMesh);
+		delete[] newVertices;
+		delete[] newIndices;
+	}
+	else
+	{
+		AnimVert* newVertices = new AnimVert[vertexCount];
+		for (unsigned int i = 0; i < vertexCount; i++)
+		{
+			newVertices[i] = aniVertices[i];
+		}
+
+		UINT* newIndices = new UINT[indexCount];
+		for (unsigned int i = 0; i < indexCount; i++)
+		{
+			newIndices[i] = indices[i];
+		}
+
+		Mesh newMesh = Mesh(hasSkeleton, skeletonID, materialID);
+		newMesh.Initialize(this->gDevice, this->gDeviceContext);
+		newMesh.CreateVertexBuffer(newVertices, vertexCount);
+		newMesh.CreateIndexBuffer(newIndices, indexCount);
+		this->gameMeshes->push_back(newMesh);
+		delete[] newVertices;
+		delete[] newIndices;
+	}
+}
+
+
 void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * toRender)
 {
 }
@@ -87,13 +136,13 @@ void MeshManager::CreatePlaceHolderPlane()
 
 	Vertex planeVerts[4];
 
-	planeVerts[0].position = Float3(-200, 0.0, 200.0);		//0
+	planeVerts[0].position = Float3(-200, -2.0, 200.0);		//0
 	
-	planeVerts[1].position = Float3(200.0, 0.0, 200.0);		//3
+	planeVerts[1].position = Float3(200.0, -2.0, 200.0);		//3
 	
-	planeVerts[2].position = Float3(200.0, 0.0, -200.0);		//5
+	planeVerts[2].position = Float3(200.0, -2.0, -200.0);		//5
 
-	planeVerts[3].position = Float3(-200.0, 0.0, -200.0);		//7
+	planeVerts[3].position = Float3(-200.0, -2.0, -200.0);		//7
 
 
 	UINT indices[6] =
@@ -113,6 +162,7 @@ void MeshManager::CreatePlaceHolderPlane()
 
 void MeshManager::GetPlaceHolderMeshInfo(RenderInstructions * toRender)
 {
+	//this->gameMeshes->at(0).GetMeshRenderInfo(toRender);
 	placeHolder.GetMeshRenderInfo(toRender);
 
 }
