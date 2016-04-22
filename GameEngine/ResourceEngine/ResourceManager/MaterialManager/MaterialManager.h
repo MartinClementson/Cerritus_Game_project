@@ -14,7 +14,7 @@ private:
 	TextureManager* textureManager;
 	bool CompareImportMaterials(importedMaterial* import);
 public:
-	void Initialize();
+	void Initialize(ID3D11Device* gDevice);
 	void Release();
 	
 	void addMaterials(std::vector<importedMaterial>* import);

@@ -9,6 +9,7 @@
 class TextureManager
 {
 private:
+	ID3D11Device* gDevice;
 	HRESULT hr;
 
 	std::vector<std::string> diffuseTex;
@@ -21,13 +22,13 @@ private:
 	std::vector<ID3D11ShaderResourceView*> specularTextures;
 	std::vector<ID3D11ShaderResourceView*> glowTextures;
 
-	void AddDiffuseTexture(std::string diffuseTex, ID3D11Device* gDevice);
-	void AddNormalTexture(std::string diffuseTex, ID3D11Device* gDevice);
-	void AddSpecularTexture(std::string diffuseTex, ID3D11Device* gDevice);
-	void AddGlowTexture(std::string diffuseTex, ID3D11Device* gDevice);
+	void AddDiffuseTexture(std::string diffuseTex);
+	void AddNormalTexture(std::string normalTex);
+	void AddSpecularTexture(std::string specularTex);
+	void AddGlowTexture(std::string glowTex);
 
 public:
-	void Initialize();
+	void Initialize(ID3D11Device* gDevice);
 	void Release();
 
 	int GetDiffuseID(std::string diffuseTex);

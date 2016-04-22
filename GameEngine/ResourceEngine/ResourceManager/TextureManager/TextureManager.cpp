@@ -1,5 +1,5 @@
 #include "TextureManager.h"
-void TextureManager::AddDiffuseTexture(std::string diffuseTex, ID3D11Device* gDevice)
+void TextureManager::AddDiffuseTexture(std::string diffuseTex)
 {
 	ID3D11ShaderResourceView** texture = new ID3D11ShaderResourceView*;
 
@@ -11,17 +11,18 @@ void TextureManager::AddDiffuseTexture(std::string diffuseTex, ID3D11Device* gDe
 
 	diffuseTextures.push_back(texture);
 }
-void TextureManager::AddNormalTexture(std::string diffuseTex, ID3D11Device* gDevice)
+void TextureManager::AddNormalTexture(std::string normalTex)
 {
 }
-void TextureManager::AddSpecularTexture(std::string diffuseTex, ID3D11Device* gDevice)
+void TextureManager::AddSpecularTexture(std::string specularTex)
 {
 }
-void TextureManager::AddGlowTexture(std::string diffuseTex, ID3D11Device* gDevice)
+void TextureManager::AddGlowTexture(std::string glowTex)
 {
 }
-void TextureManager::Initialize()
+void TextureManager::Initialize(ID3D11Device* gDevice)
 {
+	this->gDevice = gDevice;
 }
 
 void TextureManager::Release()

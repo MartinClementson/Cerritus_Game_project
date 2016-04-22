@@ -36,8 +36,9 @@ bool MaterialManager::CompareImportMaterials(importedMaterial * import)
 	return false;
 }
 
-void MaterialManager::Initialize()
+void MaterialManager::Initialize(ID3D11Device* gDevice)
 {
+	textureManager->Initialize(gDevice);
 }
 
 void MaterialManager::Release()
