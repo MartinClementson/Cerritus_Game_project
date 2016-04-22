@@ -10,15 +10,14 @@ class MaterialManager
 private:
 	MaterialManager();
 	~MaterialManager();
-	//std::vector<Material>* materials;
-	//TextureManager* textureManager;
+	std::vector<Material>* materials;
 	TextureManager* textureManager;
 public:
 	void Initialize();
 	void Release();
-
+	
+	void addMaterials(std::vector<importedMaterial>* import);
 	void GetMaterialRenderInfo(RenderInstructions * toRender);
-	void AddMaterial(Material*);
 	RenderInstructions* GetMaterialRenderInfo(unsigned int materialID);
 	RenderInstructions* GetMaterialRenderInfo(std::string materialName);
 };

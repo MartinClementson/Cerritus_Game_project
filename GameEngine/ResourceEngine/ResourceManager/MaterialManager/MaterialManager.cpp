@@ -16,6 +16,10 @@ void MaterialManager::Release()
 {
 }
 
+void MaterialManager::addMaterials(std::vector<importedMaterial>* import)
+{
+}
+
 void MaterialManager::GetMaterialRenderInfo(RenderInstructions * toRender)
 {
 }

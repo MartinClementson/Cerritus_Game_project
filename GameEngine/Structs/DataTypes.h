@@ -196,3 +196,15 @@ struct Material
 	int specular_ID;
 	int gloss_ID;
 };
+struct importedMaterial
+{
+	std::string materialName;
+	unsigned int materialID;
+	Float3 diffuseValue;
+	Float3 specularValue;
+
+	std::string diffuseTex;
+	std::string normalTex;
+	std::string specularTex;
+	std::string glossTex;
+};
