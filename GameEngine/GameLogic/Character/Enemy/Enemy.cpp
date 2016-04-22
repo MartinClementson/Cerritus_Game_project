@@ -45,6 +45,16 @@ void Enemy::Update(double deltaTime)
 	renderInfo = { position, rotation };
 }
 
+float Enemy::GetHealth()
+{
+	return this->health;
+}
+
+void Enemy::SetHealth(float health)
+{
+	this->health = health;
+}
+
 //void Enemy::UpdateAttack(double deltaTime)
 //{
 //	//enemy basic movement
@@ -141,6 +151,6 @@ void Enemy::AIPattern(Player * player, double deltaTime)
 
 	vect.x = playerPos.x - position.x;
 	vect.z = playerPos.z - position.z;
-	this->position.x +=  vect.x *deltaTime;
-	this->position.z +=  vect.z *deltaTime;
+	this->position.x +=  vect.x *(float)deltaTime;
+	this->position.z +=  vect.z *(float)deltaTime;
 }

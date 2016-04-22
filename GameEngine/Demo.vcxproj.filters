@@ -218,6 +218,12 @@
     <Filter Include="GameLogic\Collision">
       <UniqueIdentifier>{56761173-6038-415a-adf6-16361a84dd24}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\BRFImporterHandler">
+      <UniqueIdentifier>{3bcf3419-06fc-4913-9f33-a3e0746aa4cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib">
+      <UniqueIdentifier>{4415b8d0-e7b2-4b07-9dcd-5da1e2189453}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameLogic\Animation\Animation.cpp">
@@ -366,6 +372,9 @@
     </ClCompile>
     <ClCompile Include="GameLogic\Collision\Collision.cpp">
       <Filter>GameLogic\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.cpp">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -531,6 +540,9 @@
     <ClInclude Include="GameLogic\Collision\Collision.h">
       <Filter>GameLogic\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.h">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ResourceEngine\Shader\PhongShader\PhongShaders.hlsl">
@@ -539,5 +551,25 @@
     <FxCompile Include="Gbuffer.hlsl">
       <Filter>ResourceEngine\Shaders\GBufferShader</Filter>
     </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\Fetch.obj">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
+    </Object>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\FileData.obj">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
+    </Object>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\LightData.obj">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
+    </Object>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MaterialData.obj">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
+    </Object>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MeshData.obj">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
+    </Object>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\SkeletonData.obj">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
+    </Object>
   </ItemGroup>
 </Project>
