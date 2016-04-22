@@ -205,7 +205,7 @@ bool InputHandler::isMouseClicked(InputKeys* mouseKey)
 
 	if (*mouseKey == MOUSE_LEFT && mouseState.rgbButtons[0] & 0x80)
 	{
-		return true;
+	return true;
 	}
 
 	if (*mouseKey == MOUSE_RIGHT && mouseState.rgbButtons[1] & 0x80)

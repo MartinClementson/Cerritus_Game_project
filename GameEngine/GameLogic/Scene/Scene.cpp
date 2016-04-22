@@ -14,8 +14,17 @@ Scene::Scene()
 
 Scene::~Scene()
 {
+
 	delete this->enemySpawn;
 //	delete this->trap;
+
+
+	for (size_t i = 0; i < enemySpawns.size(); i++)
+	{
+
+	delete this->enemySpawns.at(i);
+	}
+	
 	/*delete this->sceneModels;
 	delete this->sceneLights;
 	delete this->enemySpawns;*/
@@ -65,11 +74,27 @@ void Scene::Initialize()
 
 }		
 
+	
+}	
+
+void Scene::AddEnemySpawn(XMFLOAT3 spawnPosition)
+{
+	EnemySpawn* spawnPoint = new EnemySpawn();
+	spawnPoint->Initialize(spawnPosition);
+	enemySpawns.push_back(spawnPoint);
+}
+
+
 
 
 void Scene::Release()
 {
-	enemySpawn->Release();
+	for (size_t i = 0; i < enemySpawns.size(); i++)
+	{
+
+		 this->enemySpawns.at(i)->Release();
+	}
+	
 }
 
 void Scene::Update(double deltaTime)
@@ -94,7 +119,11 @@ void Scene::Update(double deltaTime)
 		}
 	
 	}
-	enemySpawn->Update(deltaTime);
+	for (size_t i = 0; i < enemySpawns.size(); i++)
+	{
+
+		enemySpawns.at(i)->Update(deltaTime);
+	}
 
 }
 
@@ -116,7 +145,16 @@ void Scene::Render()
 		}
 		
 	}
+
 	enemySpawn->Render();
+
+
+	for (size_t i = 0; i < enemySpawns.size(); i++)
+	{
+
+		enemySpawns.at(i)->Render();
+	}
+	
 }
 
 void Scene::load()

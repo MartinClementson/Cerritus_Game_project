@@ -25,6 +25,18 @@ public:
 	void Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext);
 	void Release();
 
+	void AddMesh(
+		bool hasSkeleton,
+		unsigned int skeletonID,
+		unsigned int materialID,
+		unsigned int vertexCount,
+		UINT indexCount,
+		std::vector<Vertex> vertices,
+		std::vector<AnimVert> aniVertices,
+		std::vector<UINT> indices
+		);
+
+
 	void GetMeshRenderInfo(MeshEnum* meshEnum, RenderInstructions* toRender);
 
 	void GetPlaceHolderMeshInfo(RenderInstructions* toRender);

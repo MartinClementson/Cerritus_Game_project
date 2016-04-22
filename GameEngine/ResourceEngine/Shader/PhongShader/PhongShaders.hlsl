@@ -13,6 +13,18 @@ cbuffer worldConstantBuffer : register(b1)
 	matrix world;
 };
 
+cbuffer lightBuffer : register(b2)
+{
+	
+};
+cbuffer textureSampleBuffer : register(b3)
+{	
+	bool diffuseMap;
+	bool normalMap;
+	bool specularMap;
+	bool glowMap;
+};
+
 
 struct VS_IN
 {
