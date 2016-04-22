@@ -2,10 +2,13 @@
 
 MaterialManager::MaterialManager()
 {
+	textureManager = new TextureManager;
 }
 
 MaterialManager::~MaterialManager()
 {
+	delete materials;
+	delete textureManager;
 }
 
 void MaterialManager::Initialize()
