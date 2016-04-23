@@ -36,7 +36,7 @@ void MeshManager::Release()
 
 }
 
-void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, unsigned int materialID, unsigned int vertexCount, UINT indexCount, std::vector<Vertex> vertices, std::vector<AnimVert> aniVertices, std::vector<UINT> indices)
+void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materialID, unsigned int vertexCount, UINT indexCount, std::vector<Vertex> vertices, std::vector<AnimVert> aniVertices, std::vector<UINT> indices)
 {
 	if (aniVertices.size() <= 0)
 	{

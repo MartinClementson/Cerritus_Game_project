@@ -3,6 +3,7 @@
 BRFImporterHandler::BRFImporterHandler()
 {
 	materialID = 0;
+	offsetMesh = 0;
 }
 
 BRFImporterHandler::~BRFImporterHandler()
@@ -11,11 +12,13 @@ BRFImporterHandler::~BRFImporterHandler()
 
 void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material, bool skeleton)
 {
-	
+
 	this->currentFile->LoadFile(fileName, mesh, skeleton, material);
+
 
 #pragma region Loop for reading mesh info & provide to meshManager.
 	unsigned int meshsize = currentFile->fetch->Main()->meshAmount;
+	offsetMesh += meshsize;
 	for (unsigned int i = 0; i < meshsize; i++)
 	{
 
@@ -165,13 +168,18 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 		importedMaterial tempMaterial;
 		tempMaterial.materialName = (std::string)currentFile->fetch->Material(i)->matName;
 
-		//tempMaterial.materialID = currentFile->fetch->Material(i)->Id;
-		for (unsigned int j = 0; j < meshsize; j++)
-		{
-			int importedMatID = currentFile->fetch->Material(i)->Id;
-		}
+		unsigned int tempMaterialID = currentFile->fetch->Material(i)->Id;
 		tempMaterial.materialID = materialID;
 		materialID++;
+
+		for (unsigned int j = 0; j < meshsize; j++)
+		{
+			unsigned int importedMatID = currentFile->fetch->Material(j)->Id;
+			if (importedMatID == tempMaterialID)
+			{
+				
+			}
+		}
 
 		//getting the diffuse values
 		tempMaterial.diffuseValue = {
