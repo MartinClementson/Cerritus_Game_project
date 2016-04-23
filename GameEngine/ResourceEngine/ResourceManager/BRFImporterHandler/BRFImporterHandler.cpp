@@ -2,6 +2,7 @@
 
 BRFImporterHandler::BRFImporterHandler()
 {
+	materialID = 0;
 }
 
 BRFImporterHandler::~BRFImporterHandler()
@@ -14,8 +15,8 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 	this->currentFile->LoadFile(fileName, mesh, skeleton, material);
 
 #pragma region Loop for reading mesh info & provide to meshManager.
-	unsigned int size = currentFile->fetch->Main()->meshAmount;
-	for (unsigned int i = 0; i < size; i++)
+	unsigned int meshsize = currentFile->fetch->Main()->meshAmount;
+	for (unsigned int i = 0; i < meshsize; i++)
 	{
 
 #pragma region Statements handling skeletons.
@@ -41,14 +42,14 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 
 #pragma region Statements handling material.
 
-		unsigned int tempMaterialID;
+		int tempMaterialID;
 		if (material == true)					//If we wanted to load materials.
 		{
 			tempMaterialID = currentFile->fetch->Material(i)->Id;
 		}
 		else									//IF we didnt want to load materials.
 		{
-			tempMaterialID = 0;
+			tempMaterialID = -1;
 		}
 
 #pragma endregion
@@ -158,13 +159,19 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 	//temporary vector for the materials
 	std::vector<importedMaterial> importedMaterials;
 
-	size = currentFile->fetch->Main()->materialAmount;
-	for (unsigned int i = 0; i < size; i++)
+	unsigned int materialSize = currentFile->fetch->Main()->materialAmount;
+	for (unsigned int i = 0; i < materialSize; i++)
 	{
 		importedMaterial tempMaterial;
 		tempMaterial.materialName = (std::string)currentFile->fetch->Material(i)->matName;
 
-		tempMaterial.materialID = currentFile->fetch->Material(i)->Id;
+		//tempMaterial.materialID = currentFile->fetch->Material(i)->Id;
+		for (unsigned int j = 0; j < meshsize; j++)
+		{
+			int importedMatID = currentFile->fetch->Material(i)->Id;
+		}
+		tempMaterial.materialID = materialID;
+		materialID++;
 
 		//getting the diffuse values
 		tempMaterial.diffuseValue = {
@@ -187,7 +194,7 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 		importedMaterials.push_back(tempMaterial);
 	}
 	importedMaterials.shrink_to_fit();
-	// materialmannager func here!
+	materialManager->addMaterials(&importedMaterials);
 #pragma endregion
 
 }

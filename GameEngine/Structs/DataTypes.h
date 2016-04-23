@@ -186,7 +186,7 @@ struct ProjectileStruct
 struct Material
 {
 	std::string materialName;
-	unsigned int materialID;
+	int materialID;
 	Float3 diffuseValue;
 	Float3 specularValue;
 
@@ -199,7 +199,7 @@ struct Material
 struct importedMaterial
 {
 	std::string materialName;
-	unsigned int materialID;
+	int materialID;
 	Float3 diffuseValue;
 	Float3 specularValue;
 
