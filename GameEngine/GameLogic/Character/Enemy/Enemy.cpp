@@ -43,7 +43,6 @@ void Enemy::Update(double deltaTime)
 {
 	enemyStateMachine->Update(deltaTime);
 	renderInfo = { position, rotation };
-
 }
 
 //void Enemy::UpdateAttack(double deltaTime)
@@ -119,6 +118,12 @@ void Enemy::Render()
 	graphics->QueueRender(&renderInfo);
 }
 
+void Enemy::Respawn(XMFLOAT3 spawn)
+{
+	this->position = spawn;
+	this->isAlive  = true;
+}
+
 XMFLOAT3 Enemy::GetPosition() 
 { 
 	return this->position; 
@@ -127,4 +132,15 @@ XMFLOAT3 Enemy::GetPosition()
 float Enemy::GetRadius() 
 {
 	return this->radius; 
+}
+
+void Enemy::AIPattern(Player * player, double deltaTime)
+{
+	XMFLOAT3 playerPos = player->GetPosition();
+	XMFLOAT3 vect;
+
+	vect.x = playerPos.x - position.x;
+	vect.z = playerPos.z - position.z;
+	this->position.x +=  vect.x *(float)deltaTime;
+	this->position.z +=  vect.z *(float)deltaTime;
 }

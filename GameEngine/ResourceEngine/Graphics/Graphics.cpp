@@ -85,17 +85,17 @@ void Graphics::Release()
 
 
 
-	if (DEBUG == 2)
-	{
-		
-		if (debug)
-		{
+	//if (DEBUG == 2)
+	//{
+	//	
+	//	if (debug)
+	//	{
 
-			debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
-			SAFE_RELEASE(debug);
-		}
+	//		debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+	//		SAFE_RELEASE(debug);
+	//	}
 
-	}
+	//}
 
 
 

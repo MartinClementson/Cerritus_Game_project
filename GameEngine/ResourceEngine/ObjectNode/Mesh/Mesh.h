@@ -19,6 +19,7 @@ class Mesh : public ObjectNode
 	unsigned int  materialID		= 0;
 
 public:
+	Mesh(bool hasSkeleton, unsigned int skeletonID, unsigned int materialID);
 	Mesh();
 	~Mesh();
 

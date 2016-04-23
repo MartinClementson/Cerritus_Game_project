@@ -16,17 +16,17 @@ class Renderer
 {
 
 private:
-	ID3D11DeviceContext* gDeviceContext	 = nullptr;
-	ID3D11Device * gDevice			     = nullptr;
-	ResourceManager* resourceManager	 = nullptr;
+	ID3D11DeviceContext* gDeviceContext		 = nullptr;
+	ID3D11Device * gDevice					 = nullptr;
+	ResourceManager* resourceManager		 = nullptr;
 
-	Camera* sceneCam					 = nullptr;
+	Camera* sceneCam						 = nullptr;
 
 	//Buffers
-	ID3D11Buffer* worldBuffer			 = nullptr; //world constBuffer
-	ID3D11Buffer* camBuffer				 = nullptr; //Camera constBuffer
-	ID3D11Buffer* lightBuffer			 = nullptr; //Light constBuffer
-
+	ID3D11Buffer* worldBuffer				 = nullptr; //world constBuffer
+	ID3D11Buffer* camBuffer					 = nullptr; //Camera constBuffer
+	ID3D11Buffer* lightBuffer				 = nullptr; //Light constBuffer
+	ID3D11Buffer* sampleBoolsBuffer			 = nullptr; //samplingState constBuffer (Controls if a mesh has normalmap,specmap, etc)
 	XMFLOAT4 mouseWorldPos;
 
 public:
@@ -57,7 +57,7 @@ private:
 
 	void UpdateCameraBuffer();
 	void UpdateWorldBuffer(WorldMatrix* worldStruct);
-
+	void UpdateSampleBoolsBuffer(SampleBoolStruct* sampleStruct);
 	bool CreateConstantBuffers();
 
 };
