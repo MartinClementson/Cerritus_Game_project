@@ -8,6 +8,8 @@ MaterialManager::MaterialManager()
 
 MaterialManager::~MaterialManager()
 {
+	for (unsigned int i = 0; i < materials->size(); i++) //kolla så att detta inte breakar
+		delete &materials->at(i);
 	delete materials;
 	delete textureManager;
 }
