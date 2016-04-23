@@ -24,7 +24,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	shaderManager->Initialize(gDevice, gDeviceContext);
 	meshManager->Initialize(gDevice, gDeviceContext);
 	materialManager->Initialize(gDevice);
-	brfImporterHandler->Initialize(this->meshManager);
+	brfImporterHandler->Initialize(this->meshManager, this->materialManager);
 	brfImporterHandler->LoadFile("MainChar.BRF", true, true, true);
 	brfImporterHandler->LoadFile("EnemyChar.BRF", true, true, true);
 

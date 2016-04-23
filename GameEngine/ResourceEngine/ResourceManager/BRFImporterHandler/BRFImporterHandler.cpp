@@ -167,20 +167,21 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 		tempMaterial.materialID = currentFile->fetch->Material(i)->Id;
 
 		//getting the diffuse values
-		tempMaterial.diffuseValue[0] = (float)currentFile->fetch->Material(i)->diffuseVal[0];
-		tempMaterial.diffuseValue[1] = (float)currentFile->fetch->Material(i)->diffuseVal[1];
-		tempMaterial.diffuseValue[2] = (float)currentFile->fetch->Material(i)->diffuseVal[2];
+		tempMaterial.diffuseValue = {
+			(float)currentFile->fetch->Material(i)->diffuseVal[0],
+			(float)currentFile->fetch->Material(i)->diffuseVal[1],
+			(float)currentFile->fetch->Material(i)->diffuseVal[2] };
 
 		//getting the specular values
-		tempMaterial.specularValue[0] = (float)currentFile->fetch->Material(i)->specularVal[0];
-		tempMaterial.specularValue[1] = (float)currentFile->fetch->Material(i)->specularVal[1];
-		tempMaterial.specularValue[2] = (float)currentFile->fetch->Material(i)->specularVal[2];
+		tempMaterial.specularValue = { 
+			(float)currentFile->fetch->Material(i)->specularVal[0],
+			(float)currentFile->fetch->Material(i)->specularVal[1],
+			(float)currentFile->fetch->Material(i)->specularVal[2] };
 
 		//getting all the maps
 		tempMaterial.diffuseTex = (std::string)currentFile->fetch->Material(i)->diffMap;
 		tempMaterial.specularTex = (std::string)currentFile->fetch->Material(i)->specMap;
 		tempMaterial.normalTex = (std::string)currentFile->fetch->Material(i)->normalMap;
-		//tempMaterial. = (std::string)currentFile->fetch->Material(i)->reflectMap;
 		tempMaterial.glowTex = (std::string)currentFile->fetch->Material(i)->glowMap;
 
 		importedMaterials.push_back(tempMaterial);
@@ -191,10 +192,11 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 
 }
 
-void BRFImporterHandler::Initialize(MeshManager * meshManager)
+void BRFImporterHandler::Initialize(MeshManager * meshManager, MaterialManager* materialManager)
 {
 	this->currentFile = new BRFImporterLib::FileData;
 	this->meshManager = meshManager;
+	this->materialManager = materialManager;
 }
 
 void BRFImporterHandler::Release()
