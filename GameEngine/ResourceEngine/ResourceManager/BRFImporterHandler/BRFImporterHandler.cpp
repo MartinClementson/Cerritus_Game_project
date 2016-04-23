@@ -154,40 +154,40 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 		this->meshManager->AddMesh(tempHasSkeleton, tempSkeletonID, tempMaterialID, tempVertexCount, tempIndexCount, tempVertices, tempAniVertices, tempIndices);					//Keep me!
 	}
 #pragma endregion
-//#pragma region Loop for reading material info & provide to materialManager.
-//	//temporary vector for the materials
-//	std::vector<Material> importedMaterials;
-//
-//	size = currentFile->fetch->Main()->materialAmount;
-//	for (unsigned int i = 0; i < size; i++)
-//	{
-//		Material tempMaterial;
-//		tempMaterial.materialName = (std::string)currentFile->fetch->Material(i)->matName;
-//
-//		tempMaterial.materialID = currentFile->fetch->Material(i)->Id;
-//
-//		//getting the diffuse values
-//		tempMaterial.diffuseValue[0] = (float)currentFile->fetch->Material(i)->diffuseVal[0];
-//		tempMaterial.diffuseValue[1] = (float)currentFile->fetch->Material(i)->diffuseVal[1];
-//		tempMaterial.diffuseValue[2] = (float)currentFile->fetch->Material(i)->diffuseVal[2];
-//
-//		//getting the specular values
-//		tempMaterial.specularValue[0] = (float)currentFile->fetch->Material(i)->specularVal[0];
-//		tempMaterial.specularValue[1] = (float)currentFile->fetch->Material(i)->specularVal[1];
-//		tempMaterial.specularValue[2] = (float)currentFile->fetch->Material(i)->specularVal[2];
-//
-//		//getting all the maps
-//		tempMaterial.diffMap = (std::string)currentFile->fetch->Material(i)->diffMap;
-//		tempMaterial.specMap = (std::string)currentFile->fetch->Material(i)->specMap;
-//		tempMaterial.normalMap = (std::string)currentFile->fetch->Material(i)->normalMap;
-//		tempMaterial.reflectMap = (std::string)currentFile->fetch->Material(i)->reflectMap;
-//		tempMaterial.glowMap = (std::string)currentFile->fetch->Material(i)->glowMap;
-//
-//		importedMaterials.push_back(tempMaterial);
-//	}
-//	importedMaterials.shrink_to_fit();
-//	// materialmannager func here!
-//#pragma endregion
+#pragma region Loop for reading material info & provide to materialManager.
+	//temporary vector for the materials
+	std::vector<importedMaterial> importedMaterials;
+
+	size = currentFile->fetch->Main()->materialAmount;
+	for (unsigned int i = 0; i < size; i++)
+	{
+		importedMaterial tempMaterial;
+		tempMaterial.materialName = (std::string)currentFile->fetch->Material(i)->matName;
+
+		tempMaterial.materialID = currentFile->fetch->Material(i)->Id;
+
+		//getting the diffuse values
+		tempMaterial.diffuseValue[0] = (float)currentFile->fetch->Material(i)->diffuseVal[0];
+		tempMaterial.diffuseValue[1] = (float)currentFile->fetch->Material(i)->diffuseVal[1];
+		tempMaterial.diffuseValue[2] = (float)currentFile->fetch->Material(i)->diffuseVal[2];
+
+		//getting the specular values
+		tempMaterial.specularValue[0] = (float)currentFile->fetch->Material(i)->specularVal[0];
+		tempMaterial.specularValue[1] = (float)currentFile->fetch->Material(i)->specularVal[1];
+		tempMaterial.specularValue[2] = (float)currentFile->fetch->Material(i)->specularVal[2];
+
+		//getting all the maps
+		tempMaterial.diffuseTex = (std::string)currentFile->fetch->Material(i)->diffMap;
+		tempMaterial.specularTex = (std::string)currentFile->fetch->Material(i)->specMap;
+		tempMaterial.normalTex = (std::string)currentFile->fetch->Material(i)->normalMap;
+		//tempMaterial. = (std::string)currentFile->fetch->Material(i)->reflectMap;
+		tempMaterial.glowTex = (std::string)currentFile->fetch->Material(i)->glowMap;
+
+		importedMaterials.push_back(tempMaterial);
+	}
+	importedMaterials.shrink_to_fit();
+	// materialmannager func here!
+#pragma endregion
 
 }
 
