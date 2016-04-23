@@ -4,7 +4,7 @@ void TextureManager::AddDiffuseTexture(std::string diffuseTex)
 	ID3D11ShaderResourceView** texture = new ID3D11ShaderResourceView*;
 
 	//diffuseTex += TEXTURE_PATH;
-	diffuseTex = "bra.jpg";
+	diffuseTex = "bra.jpg"; //här är temporär
 	std::wstring widestr = std::wstring(diffuseTex.begin(), diffuseTex.end());
 	const wchar_t* fileName = widestr.c_str();
 
@@ -169,7 +169,14 @@ ID3D11ShaderResourceView * TextureManager::GetDiffuseTexture(int diffuseID)
 		return nullptr;
 	else
 	{
-		return *diffuseTextures.at(diffuseID);
+		try //kolla in denna sen
+		{
+			return *diffuseTextures.at(diffuseID);
+		}
+		catch (...)
+		{
+			return nullptr;
+		}
 	}
 	return nullptr;
 }
