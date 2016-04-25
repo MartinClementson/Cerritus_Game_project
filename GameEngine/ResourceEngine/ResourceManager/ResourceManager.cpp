@@ -73,8 +73,8 @@ void ResourceManager::Release()
 		currentMesh = RenderInstructions();
 		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
 		MeshEnum meshType = MeshEnum::ENEMY_1;
-
 		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
+		materialManager->GetMaterialRenderInfo(&currentMesh);
 		Shaders temp = PHONG_SHADER;
 		this->shaderManager->SetActiveShader(&temp);
 		return &currentMesh;
@@ -98,6 +98,7 @@ void ResourceManager::Release()
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoTrap * object)
 	{
+		currentMesh = RenderInstructions();
 		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
  		MeshEnum meshType = object->object;
 		
