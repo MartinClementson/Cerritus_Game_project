@@ -6,6 +6,7 @@
 #include "Trap/BearTrap/BearTrap.h"
 #include "Trap/FireTrap/FireTrap.h"
 
+
 class Scene
 {
 private:
@@ -15,6 +16,8 @@ private:
 	std::vector<BearTrap*> bearTraps;
 	std::vector<FireTrap*> fireTraps;
 	Trap * trap;
+	Collision* collision;
+
 
 public:
 	std::vector<EnemySpawn*> enemySpawns;

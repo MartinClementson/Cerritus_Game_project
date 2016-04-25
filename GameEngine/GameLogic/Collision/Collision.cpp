@@ -37,7 +37,9 @@ bool Collision::bearTrapPlayerCollision(BearTrap * trap)
 	trapPos = trap->GetPosition();
 	trapRad = trap->GetRadius();
 
-	if (pow(playPos.x - trapPos.x, 2) + pow(playPos.z - trapPos.z, 2) < pow(playRad + trapRad, 2))
+	if (pow(playPos.x - trapPos.x, 2)
+		+ pow(playPos.z - trapPos.z, 2)
+		< pow(playRad + trapRad, 2))
 	{
 		return true;
 	}
@@ -45,7 +47,7 @@ bool Collision::bearTrapPlayerCollision(BearTrap * trap)
 	return false;
 }
 
-bool Collision::bearTrapEnemyCollision(Enemy * enemy)
+bool Collision::bearTrapEnemyCollision(BearTrap* trap, Enemy * enemy)
 {
 	for (int i = 0; i < bearTrap.size(); i++)
 	{

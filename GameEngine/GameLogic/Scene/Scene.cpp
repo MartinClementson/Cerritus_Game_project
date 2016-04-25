@@ -9,6 +9,8 @@ Scene::Scene()
 	this->fireTraps = new std::vector<FireTrap>;*/
 //	this->enemySpawn = new EnemySpawn;
 	//this->trap = new Trap;
+	collision = Collision::GetInstance();
+
 }
 
 
@@ -57,7 +59,7 @@ void Scene::Initialize()
 	
 		XMFLOAT3 tmp; // randomizes the location of the firetrap.
 		tmp.x = rand() % 12 +1.0f;
-		tmp.y = 2;
+		tmp.y = 0;
 		tmp.z = rand() % 12 +1.0f;
 		XMFLOAT3 pos = { tmp.x,tmp.y,tmp.z };
 		fireTraps.at(i)->Initialize(pos, fireTraps.at(i)->GetRotation());
@@ -99,7 +101,7 @@ void Scene::Release()
 
 void Scene::Update(double deltaTime)
 {
-	
+
 	for (size_t i = 0; i < fireTraps.size(); i++)
 	{
 		fireTraps.at(i)->Update(deltaTime);
@@ -117,11 +119,29 @@ void Scene::Update(double deltaTime)
 		{
 			bearTraps.at(i)->GetDamage();
 		}
-	
+
 	}
 	for (size_t i = 0; i < enemySpawns.size(); i++)
 	{
 		enemySpawns.at(i)->Update(deltaTime);
+	}
+
+	for (size_t i = 0; i < bearTraps.size(); i++)
+	{
+		if (collision->bearTrapPlayerCollision(bearTraps.at(i)))
+		{
+			MessageBox(0, L"collision with bear",
+				L"LOL", MB_OK);
+		}
+	}
+
+	for (size_t i = 0; i < fireTraps.size(); i++)
+	{
+		if (collision->fireTrapPlayerCollision(fireTraps.at(i)))
+		{
+			MessageBox(0, L"collision with FAIIIA",
+				L"LOL", MB_OK);
+		}
 	}
 
 }

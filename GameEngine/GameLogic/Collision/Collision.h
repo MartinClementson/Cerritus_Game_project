@@ -33,7 +33,7 @@ public:
 	void AddTrap(FireTrap* fTraps,BearTrap* bTraps);
 
 	bool bearTrapPlayerCollision(BearTrap * trap);
-	bool bearTrapEnemyCollision(Enemy *enemy);
+	bool bearTrapEnemyCollision(BearTrap * trap, Enemy *enemy);
 
 	bool fireTrapPlayerCollision(FireTrap* trap);
 	bool fireTrapEnemyCollision(FireTrap* trap, Enemy * enemy);

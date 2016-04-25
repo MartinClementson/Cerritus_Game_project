@@ -51,15 +51,6 @@ void EnemySpawn::Update(double deltaTime)
 				Queue.push_back(Alive.at(i));	
 				Alive.erase(Alive.begin() + i);
 			}
-			if (collision->bearTrapEnemyCollision(Alive.at(i)) )
-			{
-
-				Alive.at(i)->isAlive = false;
-				Queue.push_back(Alive.at(i));
-				Alive.erase(Alive.begin() + 1);
-
-				//vill komma åt enemy movement speed och hp för att sakta ner dem, samt med fire traps skada under en viss tid.
-			}
 		}
 	}
 
