@@ -1,7 +1,5 @@
 #include "MainStateMachine.h"
 
-
-
 MainStateMachine::MainStateMachine()
 {
 	this->gameState = new GameState();

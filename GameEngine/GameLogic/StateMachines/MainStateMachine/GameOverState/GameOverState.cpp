@@ -41,7 +41,7 @@ void GameOverState::ProcessInput(double * deltaTime)
 {
 
 
-	if (input->IsKeyPressed(KEY_ENTER))
+	if (input->IsKeyPressed(KEY_SPACE))
 	{
 		replay = true;
 		/*MessageBox(0, L"ENTER",

@@ -1,10 +1,18 @@
 #include "Enemy.h"
 
+EnemyStateMachine * Enemy::GetStateMachine()
+{
+
+	
+	return this->enemyStateMachine;
+}
+
 Enemy::Enemy(XMFLOAT3 spawn)
 {
 	this->position = spawn;
 	Initialize();
 	this->enemyStateMachine = new EnemyStateMachine();
+	enemyStateMachine->Initialize();
 	this->graphics = Graphics::GetInstance();
 
 }
@@ -30,7 +38,7 @@ void Enemy::Initialize()
 	rotation = { 0,0,0 }; 
 	DoTDur = 0;
 	slowTimer = 0; 
-
+	index = 0.0f; 
 	radius = 1.0f;
 
 	isAlive = false;
@@ -43,6 +51,18 @@ void Enemy::Release()
 
 void Enemy::Update(double deltaTime)
 {
+	if (index < 3.0f)
+	{
+		index += (float)deltaTime;
+
+	}
+	else if (index >= 3)
+	{
+
+		enemyStateMachine->SetActiveState(ENEMY_ATTACK_STATE);
+
+		index++;
+	}
 	health -= DoT;//deltaTime;
 
 	if (DoT != 0)
@@ -103,12 +123,23 @@ float Enemy::GetRadius()
 
 void Enemy::AIPattern(Player * player, double deltaTime)
 {
-	XMFLOAT3 playerPos = player->GetPosition();
-	Vec3 vect;
+	if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE)
+	{
+		XMFLOAT3 playerPos = player->GetPosition();
+		Vec3 vect;
 
-	vect.x = playerPos.x - position.x;
-	vect.z = playerPos.z - position.z;
-	vect.Normalize();
-	this->position.x +=  vect.x *(float)deltaTime * movementSpeed;
-	this->position.z +=  vect.z *(float)deltaTime * movementSpeed;
+		vect.x = playerPos.x - position.x;
+		vect.z = playerPos.z - position.z;
+		vect.Normalize();
+		this->position.x += vect.x *(float)deltaTime * movementSpeed;
+		this->position.z += vect.z *(float)deltaTime * movementSpeed;
+	}
+	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
+	{
+		double tmp = deltaTime;
+	}
+	else if (enemyStateMachine->GetActiveState() == ENEMY_DEATH_STATE)
+	{
+		//here they go to die 
+	}
 }

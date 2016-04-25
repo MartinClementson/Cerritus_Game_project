@@ -144,7 +144,7 @@ void GameState::Update(double deltaTime)
 			}
 			i++;
 		}
-		if (index < 1)
+		/*if (index < 1)
 		{
 			index++;
 		}
@@ -152,7 +152,7 @@ void GameState::Update(double deltaTime)
 		{
 			pause->isActive = true;
 			index++;
-		}
+		}*/
 	}
 }
 

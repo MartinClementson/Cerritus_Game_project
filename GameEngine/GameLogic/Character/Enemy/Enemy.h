@@ -20,6 +20,10 @@ private:
 	void Release();
 	Enemy();
 public:
+	float index;
+
+	EnemyStateMachine* GetStateMachine();
+	
 	Enemy(XMFLOAT3 spawn);
 
 	bool isAlive;
