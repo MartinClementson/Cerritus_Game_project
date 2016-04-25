@@ -43,7 +43,6 @@ void Graphics::Initialize(HWND * window)
 	uiObjects		 = new std::vector<RenderInfoUI*>;
 	enemyObjects	 = new std::vector<RenderInfoEnemy*>;
 	trapObjects		 = new std::vector<RenderInfoTrap*>;
-	//projectileObjects= new std::vector<RenderInfoProjectile*>;
 
 
 
@@ -51,8 +50,8 @@ void Graphics::Initialize(HWND * window)
 	renderer = new Renderer();
 	renderer->Initialize(gDevice,this->gDeviceContext);
 	
-	//gBuffer = new Gbuffer();
-	//gBuffer->Initialize(this->gDevice,this->gDeviceContext);
+	gBuffer = new Gbuffer();
+	gBuffer->Initialize(this->gDevice,this->gDeviceContext);
 }
 
 void Graphics::Release()
@@ -66,7 +65,7 @@ void Graphics::Release()
 
 
 
-	//gBuffer->Release();
+	gBuffer->Release();
 
 	SAFE_RELEASE(depthState);
 	SAFE_RELEASE(depthStencilView);
@@ -85,25 +84,25 @@ void Graphics::Release()
 
 
 
-	//if (DEBUG == 2)
-	//{
-	//	
-	//	if (debug)
-	//	{
+	if (DEBUG == 2)
+	{
+		
+		if (debug)
+		{
 
-	//		debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
-	//		SAFE_RELEASE(debug);
-	//	}
+			debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+			SAFE_RELEASE(debug);
+		}
 
-	//}
-
-
+	}
 
 
 
 
 
 
+
+	
 
 	while (gDevice->Release() > 0);
 	//SAFE_RELEASE(gDevice);
@@ -116,16 +115,18 @@ void Graphics::Render() //manage RenderPasses here
 	SetViewPort();
 
 	this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
-	//gBuffer->SetToRender(depthStencilView);		//Set The gbuffer pass
 
-	//RenderScene();								//Render to the gBuffer
+	gBuffer->SetToRender(depthStencilView);			//Set The gbuffer pass
+	this->renderer->SetGbufferPass(true);
+	RenderScene();									//Render to the gBuffer
 													//Set the gBuffer as a subResource, send in the new RenderTarget
-	//gBuffer->SetToRead(gBackBufferRTV); 
-	
-	//gBuffer->ClearGbuffer();
+	gBuffer->SetToRead(gBackBufferRTV); 
+
+	this->renderer->RenderFinalPass();
+	gBuffer->ClearGbuffer();
 										
 	
-	RenderScene();// TEMPORARY, REMOVE WHEN GBUFFER WORKS
+	//RenderScene();// TEMPORARY, REMOVE WHEN GBUFFER WORKS
 
 	FinishFrame();
 
@@ -167,7 +168,7 @@ void Graphics::RenderScene()
 	
 	
 	
-	
+		
 	for (unsigned int i = 0; i < gameObjects->size(); i++)
 	{
 		renderer->Render(gameObjects->at(i));
@@ -227,6 +228,7 @@ void Graphics::SetViewPort()
 	this->gDeviceContext->RSSetViewports(1, &vp);
 
 }
+
 void Graphics::SetShadowViewPort()
 {
 	vp.Width	=	(float)SHADOW_WIDTH;
@@ -345,23 +347,8 @@ HRESULT Graphics::CreateDirect3DContext()
 	{
 		ID3D11Texture2D* pBackBuffer = nullptr;
 
-		//D3D11_TEXTURE2D_DESC texDesc;
-		//ZeroMemory(&texDesc, sizeof(texDesc));
-		//texDesc.Width = WINDOW_WIDTH;
-		//texDesc.Height = WINDOW_HEIGHT;
-		//texDesc.MipLevels = 0;
-		//texDesc.ArraySize = 1;
-		//texDesc.SampleDesc.Count = 1;
-		//texDesc.SampleDesc.Quality = 0;
-		//texDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		//texDesc.Usage = D3D11_USAGE_DEFAULT;
-		//texDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-		//texDesc.CPUAccessFlags = 0;
-		//texDesc.MiscFlags = 0;
-
-		this->gSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
-
 	
+		this->gSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
 
 
 		hr = this->gDevice->CreateRenderTargetView(pBackBuffer, NULL, &this->gBackBufferRTV);

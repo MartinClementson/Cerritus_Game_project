@@ -152,9 +152,6 @@
     <Filter Include="ResourceEngine\ObjectNode\Renderer">
       <UniqueIdentifier>{d4e49cfc-aa90-41ca-83f8-90e046321ba9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ResourceEngine\Shaders\PhongShader">
-      <UniqueIdentifier>{6c2301a3-74d7-4408-a32c-b7ffa6988eac}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ResourceEngine\Shaders\AnimationShader">
       <UniqueIdentifier>{805a5c83-81bb-472e-9ca9-91e2a452fdd2}</UniqueIdentifier>
     </Filter>
@@ -223,6 +220,9 @@
     </Filter>
     <Filter Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib">
       <UniqueIdentifier>{4415b8d0-e7b2-4b07-9dcd-5da1e2189453}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\Shaders\FinalPassShaders">
+      <UniqueIdentifier>{6c2301a3-74d7-4408-a32c-b7ffa6988eac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -566,11 +566,11 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="ResourceEngine\Shader\PhongShader\PhongShaders.hlsl">
-      <Filter>ResourceEngine\Shaders\PhongShader</Filter>
-    </FxCompile>
     <FxCompile Include="ResourceEngine\Shader\GBufferShader\Gbuffer.hlsl">
       <Filter>ResourceEngine\Shaders\GBufferShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\FinalPassShaders\FinalPassShaders.hlsl">
+      <Filter>ResourceEngine\Shaders\FinalPassShaders</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

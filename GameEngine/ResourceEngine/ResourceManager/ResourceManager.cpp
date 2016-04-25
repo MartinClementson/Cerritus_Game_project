@@ -25,16 +25,10 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	meshManager->Initialize(gDevice, gDeviceContext);
 	materialManager->Initialize(gDevice);
 	brfImporterHandler->Initialize(this->meshManager, this->materialManager);
+
+
 	brfImporterHandler->LoadFile("MainChar.BRF", true, true, true);
 	brfImporterHandler->LoadFile("EnemyChar.BRF", true, true, true);
-
-	//for testing the material manager
-	/*std::vector<importedMaterial> temp;
-	importedMaterial tempMat;
-	tempMat.diffuseTex = "temp";
-	temp.push_back(tempMat);
-	materialManager->addMaterials(&temp);*/
-
 	brfImporterHandler->LoadFile("FireTrap.BRF", true, true, true);
 	brfImporterHandler->LoadFile("BearTrap.BRF", true, true, true);
 
@@ -53,14 +47,21 @@ void ResourceManager::Release()
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoObject * object)
 	{
-		/*currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
-		MeshEnum meshType = MeshEnum::TRAP_BEAR;
+		currentMesh = RenderInstructions();
+		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+		MeshEnum meshType = object->object;
+		meshManager		->GetMeshRenderInfo( &meshType, &currentMesh ); //Get the mesh data
+		materialManager ->GetMaterialRenderInfo (&currentMesh );	    //Get the material data
+	
+		if (!gbufferPass)
+		{
+
+			Shaders temp = FINAL_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
+	
+		return &currentMesh;
 		
-		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
-		Shaders temp = PHONG_SHADER;
-		this->shaderManager->SetActiveShader(&temp);
-		return &currentMesh;*/
-		return nullptr;
 	}
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoUI * object)
@@ -73,10 +74,15 @@ void ResourceManager::Release()
 		currentMesh = RenderInstructions();
 		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
 		MeshEnum meshType = MeshEnum::ENEMY_1;
+
 		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
 		materialManager->GetMaterialRenderInfo(&currentMesh);
-		Shaders temp = PHONG_SHADER;
-		this->shaderManager->SetActiveShader(&temp);
+		
+		if (!gbufferPass)
+		{
+			Shaders temp = FINAL_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
 		return &currentMesh;
 	}
 
@@ -88,8 +94,14 @@ void ResourceManager::Release()
 
 		meshManager->GetMeshRenderInfo(&meshType,&currentMesh);
 		materialManager->GetMaterialRenderInfo(&currentMesh);
-		Shaders temp = PHONG_SHADER;
-		this->shaderManager->SetActiveShader(&temp);
+		
+		if (!gbufferPass)
+		{
+
+			Shaders temp = FINAL_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
+
 		return &currentMesh;
 
 
@@ -103,8 +115,12 @@ void ResourceManager::Release()
  		MeshEnum meshType = object->object;
 		
 		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
-		Shaders temp = PHONG_SHADER;
-		this->shaderManager->SetActiveShader(&temp);
+		if (!gbufferPass)
+		{
+
+			Shaders temp = FINAL_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
 		return &currentMesh;
 	}
 
@@ -121,8 +137,12 @@ void ResourceManager::Release()
 
 
 		meshManager->GetPlaceHolderMeshInfo(&currentMesh);
-		Shaders temp = PHONG_SHADER;
-		this->shaderManager->SetActiveShader(&temp);
+		if (!gbufferPass)
+		{
+
+			Shaders temp = FINAL_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
 		return &currentMesh;
 	}
 
@@ -134,8 +154,14 @@ void ResourceManager::Release()
 
 
 		meshManager->GetPlaceHolderMeshInfo(&currentMesh);
-		Shaders temp = PHONG_SHADER;
-		this->shaderManager->SetActiveShader(&temp);
+
+		if (!gbufferPass)
+		{
+
+			Shaders temp = FINAL_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
+
 		return &currentMesh;
 	}
 
@@ -151,13 +177,28 @@ void ResourceManager::Release()
 
 		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&tempPos, &tempRotation);
 
-
 		meshManager->GetPlaceHolderPlaneInfo(&currentMesh);
-		Shaders temp = PHONG_SHADER;
-		this->shaderManager->SetActiveShader(&temp);
+
+		if (!gbufferPass)
+		{
+			Shaders temp = FINAL_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
+
 		return &currentMesh;
 		
 	}
+
+	RenderInstructions * ResourceManager::GetFullScreenQuad()
+	{
+		currentMesh = RenderInstructions();
+		Shaders temp = FINAL_SHADER;
+		this->shaderManager->SetActiveShader(&temp);
+		meshManager->GetFullScreenQuadInfo(&currentMesh);
+
+		return &currentMesh;
+	}
+
 
 	XMFLOAT4X4 ResourceManager::CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation)
 	{
@@ -196,6 +237,20 @@ void ResourceManager::Release()
 	XMFLOAT4X4 ResourceManager::CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation, XMFLOAT3* scale)
 	{
 		return XMFLOAT4X4();
+	}
+
+	void ResourceManager::SetGbufferPass(bool x)
+	{
+		if (this->gbufferPass != x)
+			this->gbufferPass = x;
+		if (gbufferPass == true)
+		{
+			Shaders  temp = GBUFFER_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
+
+
+
 	}
 
 #pragma endregion

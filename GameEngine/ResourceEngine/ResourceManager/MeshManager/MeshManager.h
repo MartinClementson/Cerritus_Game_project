@@ -15,9 +15,11 @@ private:
 	std::vector<Mesh>* gameMeshes		=	nullptr;
 	Mesh placeHolder;
 	Mesh placeHolderPlane;
+	Mesh fullScreenQuad;
 
 	void CreatePlaceHolder();
 	void CreatePlaceHolderPlane();
+	void CreateFullScreenQuad();
 public:
 	MeshManager();
 	~MeshManager();
@@ -41,5 +43,6 @@ public:
 
 	void GetPlaceHolderMeshInfo(RenderInstructions* toRender);
 	void GetPlaceHolderPlaneInfo(RenderInstructions* toRender);
+	void GetFullScreenQuadInfo(RenderInstructions* toRender);
 };
 
