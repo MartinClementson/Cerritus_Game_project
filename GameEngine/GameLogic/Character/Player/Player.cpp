@@ -57,10 +57,12 @@ void Player::Initialize()
 
 	this->position		 = XMFLOAT3(-5.0f, Y_OFFSET, -5.0f);
 	this->rotation		 = XMFLOAT3(0.0f, 0.0f, 0.0f);
-
-
+	VelocityMax = 4.0f;
+	slowTimer = 0;
 	radius				 = 1.0f;
-
+	DoT = 0.0f;
+	DoTDur = 0.0f;
+	health = 100.0f;
 	projectileSystem->Initialize();
 }
 
@@ -71,6 +73,36 @@ void Player::Release()
 
 void Player::Update(double deltaTime, XMFLOAT3 direction)
 {
+	if (VelocityMax == 0.2f)
+	{
+		slowTimer += deltaTime;
+		
+	}
+	if (slowTimer > 3.0f)
+	{
+		VelocityMax = 4.0f;
+		slowTimer = 0.0f;
+	}
+	
+	if (DoT != 0)
+	{
+		DoTDur += deltaTime;
+	}
+	if (DoTDur > 2)
+	{
+		DoT = 0.0f;
+		DoTDur = 0.0f;
+	}
+
+	health -= DoT;
+	if (health <= 0)
+	{
+
+		MessageBox(0, L"You Died",
+		L"Continue", MB_OK);
+		health = 100.0f;
+	}
+	
 	this->direction	 = direction;
 	
 
@@ -83,11 +115,11 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 
 	float currentVelo = velocity.Length();
 
-	if (currentVelo > VELOCITY_MAX)
+	if (currentVelo > VelocityMax)
 	{
 
 		Vec3 normalizer			= velocity.Normalize();
-		normalizer				= normalizer * VELOCITY_MAX;
+		normalizer				= normalizer * VelocityMax;
 		velocity				= normalizer;
 	}
 
@@ -190,4 +222,14 @@ void Player::Shoot(InputKeys input, double deltaTime)
 	}
 
 
+}
+
+float Player::GetHealth()
+{
+	return this->health;
+}
+
+void Player::SetHealth(float health)
+{
+	this->health = health;
 }

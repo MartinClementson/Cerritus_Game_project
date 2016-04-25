@@ -57,6 +57,7 @@ int TextureManager::GetDiffuseID(std::string diffuseTex)
 		}
 	}
 	this->diffuseTex.push_back(diffuseTex);
+	AddDiffuseTexture(diffuseTex);
 	return (int)(this->diffuseTex.size() - 1);
 }
 
