@@ -57,6 +57,7 @@ private:
 
 	void UpdateCameraBuffer();
 	void UpdateWorldBuffer(WorldMatrix* worldStruct);
+	void UpdateLightBuffer(LightStruct* lightStruct);
 	void UpdateSampleBoolsBuffer(SampleBoolStruct* sampleStruct);
 	bool CreateConstantBuffers();
 

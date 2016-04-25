@@ -22,7 +22,11 @@ cbuffer worldConstantBuffer : register(b1)
 
 cbuffer lightBuffer : register(b2)
 {
-
+	float4 lightPosition;
+	float4 lightColor;
+	float intensity;
+	float3 pad;
+	float shadowMapAmount;
 };
 cbuffer textureSampleBuffer		 : register(b3)
 {
@@ -151,27 +155,46 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 
 	col.y += saturate(input.wPos.y);			// green color, (for the objects)
 
-
-
+	float4 ambientValue = float4(1, 1, 1, 1);
+	float4 textureSample;
 	if (diffuseMap)
 	{
-		float3 textureSample = diffuseTex.Sample(samplerTypeState, input.Uv).xyz;
-		col.xyz = textureSample;
+		textureSample = diffuseTex.Sample(samplerTypeState, input.Uv);
+	
 	}
 	else
 	{
-
+		textureSample = float4(0.6, 0.2, 0.9, 1.0);
 	}
 
 
-
+	float4 normalSample;
 	if (normalMap)
 	{
+		float4 texColor;
+		float4 norMap;
+		float3 Normal;
+		float3 lightDirection;
+		float lightIntensity;
 
+		norMap = normalTex.Sample(samplerTypeState, input.Uv);
+
+		norMap = (norMap*2.0f) - 1.0f;
+
+		norMap.z = (norMap.z * -1);
+
+		Normal = (norMap.x * input.Tangent) + (norMap.y * input.BiTangent) + (norMap.z * input.Normal);
+		Normal = normalize(Normal);
+
+		lightDirection = (float3(-1, -1, 1) - input.wPos.xyz);
+
+		lightIntensity = saturate(dot(Normal, lightDirection));
+
+		normalSample = saturate(ambientValue * lightIntensity);
 	}
 	else
 	{
-
+		normalSample = float4(input.Normal, 1);
 	}
 
 
@@ -194,8 +217,60 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	
 	}
 
-	//DO STYFF
+	//shadowmap stuff
+	float4 shadowSample = float4(1, 1, 1, 1);
+	float SMAP_SIZE = 1024.0;
 
+	for (int i = 0; i < shadowMapAmount; i++)
+	{
+		
+		float bias;
+		float2 projectTexCoord;
+		float depthValue;
+		float lightDepthValue;
+		float lightIntensity;
+		float4 lightPos;
+		
+
+		bias = 0.00175f;
+
+		lightPos				 = mul(input.wPos, view);
+		lightPos				 = mul(lightPos, projection);
+
+		projectTexCoord.x		 = lightPos.x / lightPos.w;
+		projectTexCoord.y		 = lightPos.y / lightPos.w;
+
+		lightDepthValue			 = lightPos.z / lightPos.w;
+
+		projectTexCoord.x		 = projectTexCoord.x * 0.5f + 0.5f;
+		projectTexCoord.y		 = projectTexCoord.y * -0.5f + 0.5f;
+
+		depthValue = shadowTex.Sample(samplerTypeState, projectTexCoord.xy).r + bias;
+
+		float dx = 1.0f / SMAP_SIZE;
+		float s0 = (shadowTex.Sample(samplerTypeState, projectTexCoord).r						 + bias < lightDepthValue) ? 0.0f : 1.0f;
+		float s1 = (shadowTex.Sample(samplerTypeState, projectTexCoord	 + float2(dx, 0.0f)).r	 + bias < lightDepthValue) ? 0.0f : 1.0f;
+		float s2 = (shadowTex.Sample(samplerTypeState, projectTexCoord	 + float2(0.0f, dx)).r	 + bias < lightDepthValue) ? 0.0f : 1.0f;
+		float s3 = (shadowTex.Sample(samplerTypeState, projectTexCoord	 + float2(dx, dx)).r	 + bias < lightDepthValue) ? 0.0f : 1.0f;
+
+		float2 texelpos = projectTexCoord * SMAP_SIZE;
+		float2 lerps = frac(texelpos);
+		float shadowcooef = lerp(lerp(s0, s1, lerps.x), lerp(s2, s3, lerps.x), lerps.y);
+
+		shadowSample = shadowSample * shadowcooef;
+	}
+	shadowColor = saturate(shadowColor);
+	}
+
+	//DO STYFF
+	output.diffuseRes = textureSample;
+	output.normalRes = normalSample;
+	output.shadowRes = shadowSample;
+	float4 diffuseRes	: SV_Target0;
+	float4 specularRes	: SV_Target1;
+	float4 normalRes	: SV_Target2;
+	float4 depthRes		: SV_Target3;
+	float4 shadowRes	: SV_Target4;
 	return output;
 }
 
