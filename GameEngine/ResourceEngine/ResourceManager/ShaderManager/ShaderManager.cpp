@@ -42,6 +42,7 @@ void ShaderManager::Release()
 	SAFE_RELEASE(gVertexLayoutAnimation);
 
 	//Shaders for the gbuffer
+	SAFE_RELEASE(GBUFFER_SHADOWDEPTH_VS);
 	SAFE_RELEASE(GBUFFER_VS);
 	SAFE_RELEASE(GBUFFER_GS);
 	SAFE_RELEASE(GBUFFER_PS);
@@ -111,6 +112,14 @@ void ShaderManager::SetActiveShader(Shaders* shader)
 			this->gDeviceContext->GSSetShader(GBUFFER_GS, nullptr, 0);
 			this->gDeviceContext->PSSetShader(GBUFFER_PS, nullptr, 0);
 			this->gDeviceContext->IASetInputLayout(gVertexLayoutGBuffer);
+
+		break;
+
+	case GBUFFER_SHADOW_SHADER:
+
+
+		this->gDeviceContext->VSSetShader(GBUFFER_SHADOWDEPTH_VS, nullptr, 0);
+		this->gDeviceContext->IASetInputLayout(gVertexLayoutGBuffer);
 
 		break;
 
