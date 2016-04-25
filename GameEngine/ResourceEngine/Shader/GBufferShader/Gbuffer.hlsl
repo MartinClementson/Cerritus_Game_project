@@ -4,6 +4,7 @@ Texture2D specularTex			 : register(t1);
 Texture2D normalTex				 : register(t2);
 Texture2D depthTex				 : register(t3);
 Texture2D shadowTex				 : register(t4);
+Texture2D glowTex				 : register(t5);
 SamplerState samplerTypeState	 : register(s0);
 cbuffer cameraConstantBuffer  : register(b0)
 {
@@ -72,6 +73,7 @@ struct GBUFFER_PS_OUT
 	float4 normalRes	: SV_Target2;
 	float4 depthRes		: SV_Target3;
 	float4 shadowRes	: SV_Target4;
+	float4 glowRes		: SV_Target5;
 };
 
 //Vertex shader
@@ -160,11 +162,12 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	if (diffuseMap)
 	{
 		textureSample = diffuseTex.Sample(samplerTypeState, input.Uv);
-	
+		output.diffuseRes = textureSample;
 	}
 	else
 	{
 		textureSample = float4(0.6, 0.2, 0.9, 1.0);
+		output.diffuseRes = textureSample;
 	}
 
 
@@ -191,36 +194,42 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 		lightIntensity = saturate(dot(Normal, lightDirection));
 
 		normalSample = saturate(ambientValue * lightIntensity);
+		output.normalRes = normalSample;
 	}
 	else
 	{
 		normalSample = float4(input.Normal, 1);
+		output.normalRes = normalSample;
 	}
 
-
+	float4 specularSample;
 	if (specularMap)
 	{
-
+		specularSample.rgba = float4(0, 0, 0, 0);
+		specularSample.r = diffuseTex.Sample(samplerTypeState, input.Uv).a;
+		output.specularRes = specularSample;
 	}
 	else
 	{
-
+		specularSample.rgba = float4(0, 0, 0, 0);
+		output.specularRes = specularSample;
 	}
 
-
+	float4 glowSample;
 	if (glowMap)
 	{
-
+		glowSample = glowTex.Sample(samplerTypeState, input.Uv);
+		output.glowRes = glowSample;
 	}
 	else
 	{
-	
+		glowSample = float4 (0, 0, 0, 0);
+		output.glowRes = glowSample;
 	}
 
 	//shadowmap stuff
 	float4 shadowSample = float4(1, 1, 1, 1);
 	float SMAP_SIZE = 1024.0;
-
 	for (int i = 0; i < shadowMapAmount; i++)
 	{
 		
@@ -259,18 +268,10 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 
 		shadowSample = shadowSample * shadowcooef;
 	}
-	shadowColor = saturate(shadowColor);
-	}
-
-	//DO STYFF
-	output.diffuseRes = textureSample;
-	output.normalRes = normalSample;
 	output.shadowRes = shadowSample;
-	float4 diffuseRes	: SV_Target0;
-	float4 specularRes	: SV_Target1;
-	float4 normalRes	: SV_Target2;
-	float4 depthRes		: SV_Target3;
-	float4 shadowRes	: SV_Target4;
+	output.depthRes = float4(0, 0, 0, input.Pos.z);
+
+
 	return output;
 }
 

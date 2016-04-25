@@ -4,7 +4,7 @@
 
 //////////////////////////////////////////
 //DIS IS BECAUSE JOHAN ASKED ME TO CHANGE AMOUNT OF TEXTURES TO MUCH
-#define TEXTUREAMOUNT 5
+#define TEXTUREAMOUNT 6
 #define SHADOWMAPAMOUNT 1
 ////////////////////////////////////
 
