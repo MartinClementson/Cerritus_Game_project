@@ -29,11 +29,11 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	brfImporterHandler->LoadFile("EnemyChar.BRF", true, true, true);
 
 	//for testing the material manager
-	std::vector<importedMaterial> temp;
+	/*std::vector<importedMaterial> temp;
 	importedMaterial tempMat;
 	tempMat.diffuseTex = "temp";
 	temp.push_back(tempMat);
-	materialManager->addMaterials(&temp);
+	materialManager->addMaterials(&temp);*/
 }
 
 void ResourceManager::Release()
