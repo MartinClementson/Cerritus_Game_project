@@ -16,7 +16,7 @@ class BRFImporterHandler
 {
 private:
 	unsigned int materialID;
-	unsigned int offsetMaterial;
+	//unsigned int offsetMaterial;
 
 	BRFImporterLib::FileData* currentFile;
 	MeshManager* meshManager;

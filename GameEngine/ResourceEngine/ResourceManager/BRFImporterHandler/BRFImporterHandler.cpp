@@ -3,7 +3,7 @@
 BRFImporterHandler::BRFImporterHandler()
 {
 	materialID = 0;
-	offsetMaterial = 0;
+	//offsetMaterial = 0;
 }
 
 BRFImporterHandler::~BRFImporterHandler()
@@ -16,7 +16,7 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 	this->currentFile->LoadFile(fileName, mesh, skeleton, material);
 
 	//offset to use for the materials
-	offsetMaterial += materialID;
+	//offsetMaterial += materialID;
 
 #pragma region Loop for reading mesh info & provide to meshManager.
 	unsigned int meshsize = currentFile->fetch->Main()->meshAmount;
@@ -49,8 +49,7 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 		int tempMaterialID;
 		if (material == true)					//If we wanted to load materials.
 		{
-			tempMaterialID = materialID;
-			materialID++;
+			tempMaterialID = currentFile->fetch->Material(i)->Id;
 		}
 		else									//IF we didnt want to load materials.
 		{
@@ -170,18 +169,18 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 		importedMaterial tempMaterial;
 		tempMaterial.materialName = (std::string)currentFile->fetch->Material(i)->matName;
 
-		//unsigned int tempMaterialID = currentFile->fetch->Material(i)->Id;
-		tempMaterial.materialID = i + offsetMaterial;
-		//materialID++;
+		unsigned int tempMaterialID = currentFile->fetch->Material(i)->Id;
+		tempMaterial.materialID = materialID;
+		materialID++;
 
-		/*for (unsigned int j = 0; j < meshsize; j++)
+		for (unsigned int j = 0; j < meshes->size(); j++)
 		{
-			unsigned int importedMatID = currentFile->fetch->Material(j)->Id;
+			unsigned int importedMatID = meshes->at(j).GetMaterialID();
 			if (importedMatID == tempMaterialID)
 			{
-				
+				meshes->at(j).SetMaterialID(tempMaterial.materialID);
 			}
-		}*/
+		}
 
 		//getting the diffuse values
 		tempMaterial.diffuseValue = {

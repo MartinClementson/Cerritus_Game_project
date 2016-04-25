@@ -16,7 +16,7 @@ class Mesh : public ObjectNode
 	UINT			indexCount		= 0;
 
 	unsigned int  skeletonID		= 0;
-	unsigned int  materialID		= 0;
+	int  materialID		= 0;
 
 public:
 	Mesh(bool hasSkeleton, unsigned int skeletonID, unsigned int materialID);
@@ -28,7 +28,8 @@ public:
 
 	void GetMeshRenderInfo(RenderInstructions* toRender);
 
-	unsigned int GetMaterialID() { return this->materialID; }
+	int GetMaterialID() { return this->materialID; }
+	void SetMaterialID(int id) { this->materialID = id; }
 	void CreateVertexBuffer(Vertex* vertices, unsigned int amount);
 	void CreateVertexBuffer(AnimVert* vertices, unsigned int amount);
 
