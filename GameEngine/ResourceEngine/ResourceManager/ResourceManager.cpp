@@ -25,7 +25,8 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	brfImporterHandler->Initialize(this->meshManager);
 	brfImporterHandler->LoadFile("MainChar.BRF", true, true, true);
 	brfImporterHandler->LoadFile("EnemyChar.BRF", true, true, true);
-
+	brfImporterHandler->LoadFile("FireTrap.BRF", true, true, true);
+	brfImporterHandler->LoadFile("BearTrap.BRF", true, true, true);
 }
 
 void ResourceManager::Release()
@@ -41,7 +42,13 @@ void ResourceManager::Release()
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoObject * object)
 	{
-		return nullptr;
+		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+		MeshEnum meshType = MeshEnum::TRAP_BEAR;
+		
+		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
+		Shaders temp = PHONG_SHADER;
+		this->shaderManager->SetActiveShader(&temp);
+		return &currentMesh;
 	}
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoUI * object)
@@ -77,7 +84,13 @@ void ResourceManager::Release()
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoTrap * object)
 	{
-		return nullptr;
+		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+ 		MeshEnum meshType = object->object;
+		
+		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
+		Shaders temp = PHONG_SHADER;
+		this->shaderManager->SetActiveShader(&temp);
+		return &currentMesh;
 	}
 
 	RenderInstructions * ResourceManager::GetPlaceHolderMesh(XMFLOAT3 position)

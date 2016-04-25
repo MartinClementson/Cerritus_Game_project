@@ -84,7 +84,9 @@ void Scene::InitBearTrap()
 		tmp.y = 0;
 		tmp.z = rand() % 22 + 3.0f;
 		XMFLOAT3 pos = { tmp.x,tmp.y,tmp.z };
-		bearTraps.push_back(new BearTrap(pos));
+		BearTrap* temp = new BearTrap(pos);
+		temp->Initialize(pos,temp->GetRotation());
+		bearTraps.push_back(temp);
 	}
 }
 

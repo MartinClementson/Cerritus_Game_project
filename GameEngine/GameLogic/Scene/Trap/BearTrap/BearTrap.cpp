@@ -9,6 +9,7 @@ BearTrap::BearTrap(XMFLOAT3 position)
 	this->position = position;
 	this->rotation = { 0,0,0 };
 	this->isActive = true;
+	this->renderInfo.object = MeshEnum::TRAP_BEAR;
 
 	radius = 1.0f;
 }
@@ -30,7 +31,7 @@ void BearTrap::Initialize(XMFLOAT3 position, XMFLOAT3 rotation)
 	this->position = position;
 	this->rotation = { 0,0,0 };
 	this->isActive = true;
-
+	this->renderInfo.object = MeshEnum::TRAP_BEAR;
 	radius = 1.0f;
 
 }
@@ -50,7 +51,8 @@ void BearTrap::Update(double deltaTime)
 
 	}
 
-	renderInfo = {position,rotation}; // kinda works
+	renderInfo.position = position;
+	renderInfo.rotation = rotation; // kinda works
 
 }
 
@@ -58,7 +60,7 @@ void BearTrap::Render()
 {
 	if (this->isActive)
 	{
-		grapichs->QueueRender(&renderInfo);
+		grapichs->QueueRender(&this->renderInfo);
 	}
 
 	//grapichs->QueueRender(renderinfo); Unsure if the other one works. will see

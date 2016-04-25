@@ -17,7 +17,7 @@ FireTrap::FireTrap(XMFLOAT3 position)
 	this->rotation = { 0,0,0 };
 
 	this->isActive = true;
-
+	this->renderInfo.object = MeshEnum::TRAP_FIRE;
 	radius = 1.0f;
 }
 
@@ -35,6 +35,7 @@ void FireTrap::Initialize(XMFLOAT3 position,XMFLOAT3 rotation)
 	this->rotation = { 0,0,0 }; 
 
 	this->isActive = true;
+	this->renderInfo.object = MeshEnum::TRAP_FIRE;
 
 	radius = 1.0f;
 
@@ -54,8 +55,9 @@ void FireTrap::Update(double deltaTime)
 		//dotDuration = dotDuration - 1 * (float)deltaTime;
 
 	}
-	renderInfo = { position,rotation };
-}
+	renderInfo.position = position ;
+	renderInfo.rotation = rotation;
+}	
 
 void FireTrap::Render()
 {
