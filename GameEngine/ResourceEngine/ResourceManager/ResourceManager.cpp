@@ -30,9 +30,9 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 
 	//for testing the material manager
 	std::vector<importedMaterial> temp;
-	importedMaterial bajs;
-	bajs.diffuseTex = "kuk";
-	temp.push_back(bajs);
+	importedMaterial tempMat;
+	tempMat.diffuseTex = "temp";
+	temp.push_back(tempMat);
 	materialManager->addMaterials(&temp);
 }
 
