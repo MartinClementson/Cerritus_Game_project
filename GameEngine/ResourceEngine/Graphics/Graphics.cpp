@@ -112,11 +112,25 @@ void Graphics::Release()
 
 void Graphics::Render() //manage RenderPasses here
 {
+
+	SetShadowViewPort();
+
+	gBuffer->ClearShadowGbuffer();
+	gBuffer->ShadowSetToRender();
+
+	renderer->SetShadowPass(true);
+
+	this->RenderScene();
+
+	gBuffer->SetToRender(depthStencilView);	
+
+	gBuffer->ShadowSetToRead();
+
 	SetViewPort();
 
-	this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
+	//this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
 
-	gBuffer->SetToRender(depthStencilView);			//Set The gbuffer pass
+			//Set The gbuffer pass
 	this->renderer->SetGbufferPass(true);
 	RenderScene();									//Render to the gBuffer
 													//Set the gBuffer as a subResource, send in the new RenderTarget
@@ -244,6 +258,15 @@ void Graphics::SetShadowViewPort()
 void Graphics::SetShadowMap()
 {
 	SetShadowViewPort();
+
+	gBuffer->ClearShadowGbuffer();
+	gBuffer->ShadowSetToRender();
+
+	renderer->SetShadowPass(true);
+
+	this->RenderScene();
+
+	gBuffer->ShadowSetToRead();
 	//clear stencils
 	//render new stencils
 	//as for loops based on amt of shadowmaps

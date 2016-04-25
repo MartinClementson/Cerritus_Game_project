@@ -6,6 +6,11 @@ Renderer::Renderer()
 {
 	this->sceneCam			= new Camera();
 	this->resourceManager	= new ResourceManager();
+	this->sceneLightArray	= new LightStruct(
+		XMFLOAT4(10.0f, 10.0f, -5.0f, 1.0f), //Pos
+		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f),	//Direction
+		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));	//Color
+	sceneLightArray->SetMatrices(XM_PI*0.5, 1.0f, 5.0f, 60.0f);
 }
 
 
@@ -22,6 +27,7 @@ void Renderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCon
 	this->CreateConstantBuffers();
 	resourceManager->Initialize(gDevice, gDeviceContext);
 	sceneCam->Initialize(gDevice, gDeviceContext);
+	this->UpdateLightBuffer();
 }
 void Renderer::Release()
 {
@@ -285,6 +291,28 @@ void Renderer::UpdateCameraBuffer()
 
 }
 
+void Renderer::UpdateLightBuffer()
+{
+
+	LightStruct* tempLight = this->sceneLightArray;
+	
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+	gDeviceContext->Map(this->lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+
+	LightStruct* tempLightData = (LightStruct*)mappedResource.pData;
+	*tempLightData = *tempLight;
+
+
+
+	gDeviceContext->Unmap(this->lightBuffer, 0);
+	gDeviceContext->VSSetConstantBuffers(LIGHTBUFFER_INDEX, 1, &this->lightBuffer);
+
+
+}
+
 void Renderer::UpdateWorldBuffer(WorldMatrix* worldStruct)
 {
 
@@ -398,7 +426,7 @@ bool Renderer::CreateConstantBuffers()
 	if (FAILED(hr))
 		MessageBox(NULL, L"Failed to create light buffer", L"Error", MB_ICONERROR | MB_OK);
 	if (SUCCEEDED(hr))
-		this->gDeviceContext->PSSetConstantBuffers(	LIGHTBUFFER_INDEX, 1, &lightBuffer);
+		this->gDeviceContext->VSSetConstantBuffers(	LIGHTBUFFER_INDEX, 1, &lightBuffer);
 
 
 	//-----------------------------------------------------------------------------------------------------------------------------------

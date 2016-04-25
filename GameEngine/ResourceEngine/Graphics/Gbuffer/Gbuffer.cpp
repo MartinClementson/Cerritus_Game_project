@@ -141,7 +141,7 @@ void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCont
 
 	for (int i = 0; i < SHADOWMAPAMOUNT; i++)
 	{
-		SAFE_RELEASE(gBufferShadowMapTexures[i]);
+		//SAFE_RELEASE(gBufferShadowMapTexures[i]);
 	}
 
 }
@@ -210,23 +210,16 @@ void Gbuffer::ClearGbuffer()
 
 void Gbuffer::ShadowSetToRender() ///Set the textures as RTVs so that we can render to them
 {
-
-
-		gDeviceContext->OMSetRenderTargets(SHADOWMAPAMOUNT, NULL, *gBufferShadowMapStencilViews);
+	ID3D11RenderTargetView* temp[1] = { 0 };
+	gDeviceContext->OMSetRenderTargets(SHADOWMAPAMOUNT, temp, *gBufferShadowMapStencilViews);
 }
-void Gbuffer::ShadowSetToRead(ID3D11RenderTargetView* newTarget)
+void Gbuffer::ShadowSetToRead()
 {
-	this->gDeviceContext->OMSetRenderTargets(1, &newTarget, NULL);
 	this->gDeviceContext->PSSetShaderResources(1, SHADOWMAPAMOUNT, this->shadowShaderResourceViews);
-
-
 }
 void Gbuffer::ClearShadowGbuffer()
 {
 	//Clear shadow stencils
-	for (int i = 0; i < TEXTUREAMOUNT; i++)
+	for (int i = 0; i < SHADOWMAPAMOUNT; i++)
 		this->gDeviceContext->ClearDepthStencilView(this->gBufferShadowMapStencilViews[i], D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
-
-	return;
-
 }

@@ -16,6 +16,8 @@ private:
 	BRFImporterHandler* brfImporterHandler	= nullptr;
 
 	bool gbufferPass						 = false;
+	bool shadowPass							 = false;
+
 public:
 	ResourceManager();
 	~ResourceManager();
@@ -26,6 +28,8 @@ public:
 	void Release();
 
 	void SetGbufferPass(bool x);
+	void SetShadowPass(bool x);
+
 	RenderInstructions* GetRenderInfo(RenderInfoObject*		object);
 	RenderInstructions* GetRenderInfo(RenderInfoUI*			object);
 	RenderInstructions* GetRenderInfo(RenderInfoEnemy*		object);

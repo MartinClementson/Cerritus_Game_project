@@ -53,12 +53,6 @@ void ResourceManager::Release()
 		meshManager		->GetMeshRenderInfo( &meshType, &currentMesh ); //Get the mesh data
 		materialManager ->GetMaterialRenderInfo (&currentMesh );	    //Get the material data
 	
-		if (!gbufferPass)
-		{
-
-			Shaders temp = FINAL_SHADER;
-			this->shaderManager->SetActiveShader(&temp);
-		}
 	
 		return &currentMesh;
 		
@@ -78,11 +72,7 @@ void ResourceManager::Release()
 		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
 		materialManager->GetMaterialRenderInfo(&currentMesh);
 		
-		if (!gbufferPass)
-		{
-			Shaders temp = FINAL_SHADER;
-			this->shaderManager->SetActiveShader(&temp);
-		}
+	
 		return &currentMesh;
 	}
 
@@ -95,12 +85,7 @@ void ResourceManager::Release()
 		meshManager->GetMeshRenderInfo(&meshType,&currentMesh);
 		materialManager->GetMaterialRenderInfo(&currentMesh);
 		
-		if (!gbufferPass)
-		{
-
-			Shaders temp = FINAL_SHADER;
-			this->shaderManager->SetActiveShader(&temp);
-		}
+		
 
 		return &currentMesh;
 
@@ -115,12 +100,7 @@ void ResourceManager::Release()
  		MeshEnum meshType = object->object;
 		
 		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
-		if (!gbufferPass)
-		{
-
-			Shaders temp = FINAL_SHADER;
-			this->shaderManager->SetActiveShader(&temp);
-		}
+	
 		return &currentMesh;
 	}
 
@@ -137,12 +117,7 @@ void ResourceManager::Release()
 
 
 		meshManager->GetPlaceHolderMeshInfo(&currentMesh);
-		if (!gbufferPass)
-		{
-
-			Shaders temp = FINAL_SHADER;
-			this->shaderManager->SetActiveShader(&temp);
-		}
+	
 		return &currentMesh;
 	}
 
@@ -155,13 +130,7 @@ void ResourceManager::Release()
 
 		meshManager->GetPlaceHolderMeshInfo(&currentMesh);
 
-		if (!gbufferPass)
-		{
-
-			Shaders temp = FINAL_SHADER;
-			this->shaderManager->SetActiveShader(&temp);
-		}
-
+	
 		return &currentMesh;
 	}
 
@@ -179,11 +148,7 @@ void ResourceManager::Release()
 
 		meshManager->GetPlaceHolderPlaneInfo(&currentMesh);
 
-		if (!gbufferPass)
-		{
-			Shaders temp = FINAL_SHADER;
-			this->shaderManager->SetActiveShader(&temp);
-		}
+
 
 		return &currentMesh;
 		
@@ -252,5 +217,21 @@ void ResourceManager::Release()
 
 
 	}
+
+	void ResourceManager::SetShadowPass(bool x)
+	{
+		if (this->shadowPass != x)
+			this->shadowPass = x;
+		if (shadowPass == true)
+		{
+			Shaders  temp = GBUFFER_SHADOW_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
+
+
+
+	}
+
+	
 
 #pragma endregion

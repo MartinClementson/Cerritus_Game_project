@@ -25,7 +25,7 @@ public:
 	void Release();
 	void SetToRender(ID3D11DepthStencilView* depthStencilView);																					//Set the textures as RTVs so that we can render to them
 	void SetToRead(ID3D11RenderTargetView* newTarget);		//Set the textures as Subresources so that we can read/sample from them
-	void ShadowSetToRead(ID3D11RenderTargetView * newTarget);
+	void ShadowSetToRead();
 	void ClearShadowGbuffer();
 	void ClearGbuffer();																				//Clear the rendertargetViews
 	void ShadowSetToRender();

@@ -23,9 +23,10 @@ cbuffer worldConstantBuffer : register(b1)
 cbuffer lightBuffer : register(b2)
 {
 	float4 lightPosition;
-	float4 lightColor;
-	float intensity;
-	float3 pad;
+	matrix lightView;
+	matrix lightProjection;
+	float4 lightDir;
+	float4 lightDiffuse;
 };
 cbuffer textureSampleBuffer		 : register(b3)
 {
@@ -289,24 +290,11 @@ struct GBUFFER_SHADOWDEPTH_VS_OUT
 GBUFFER_SHADOWDEPTH_VS_OUT GBUFFER_SHADOWDEPTH_VS_main(GBUFFER_VS_IN input)
 {
 	GBUFFER_SHADOWDEPTH_VS_OUT output = (GBUFFER_SHADOWDEPTH_VS_OUT)0;
-
-	unsigned int lightAmt = 1;
-
-	for (unsigned int i = 0; i < lightAmt; i++)
-	{
-		//mul with lights matrices
-		//output.position = mul(output.position, worldMatrix);
-		//output.position = mul(output.position, view);
-		//output.position = mul(output.position, projection);
+	matrix combinedMatrix = mul(world, mul(lightView, lightProjection));
 
 		output.position = float4(input.Pos, 1);
-	}
 
-
-
-	
-
-
+		output.position = mul(output.position, combinedMatrix);
 
 	return output;
 }

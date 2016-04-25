@@ -21,6 +21,7 @@ private:
 	ResourceManager* resourceManager		 = nullptr;
 
 	Camera* sceneCam						 = nullptr;
+	LightStruct* sceneLightArray			 = nullptr;
 
 	//Buffers
 	ID3D11Buffer* worldBuffer				 = nullptr; //world constBuffer
@@ -38,6 +39,7 @@ public:
 	
 	void RenderFinalPass();
 	void SetGbufferPass(bool x) { this->resourceManager->SetGbufferPass(x); };
+	void SetShadowPass(bool x) { this->resourceManager->SetShadowPass(x);  };
 	void Render(RenderInfoObject* object);
 	void Render(RenderInfoUI* object);
 	void Render(RenderInfoEnemy* object);
@@ -59,6 +61,7 @@ private:
 	void Render(RenderInstructions* object);
 
 	void UpdateCameraBuffer();
+	void UpdateLightBuffer();
 	void UpdateWorldBuffer(WorldMatrix* worldStruct);
 	void UpdateSampleBoolsBuffer(SampleBoolStruct* sampleStruct);
 	bool CreateConstantBuffers();
