@@ -80,11 +80,17 @@ struct GBUFFER_PS_OUT
 GBUFFER_VS_OUT GBUFFER_VS_main(GBUFFER_VS_IN input)
 {
 	GBUFFER_VS_OUT output;
-	output.Pos = float4(input.Pos, 1.0f);
-	output.Normal = input.Normal;
-	output.Uv = input.Uv;
-	output.BiTangent = float3(input.BiTangent, 1.0f);	//z value NEEDS TO BE CALCULATED (1 is just a placeholder!!)
-	output.Tangent = float3(input.Tangent, 1.0f);		//z value NEEDS TO BE CALCULATED (1 is just a placeholder!!)
+	output.Pos			 = float4(input.Pos, 1.0f);
+	output.Normal		 = input.Normal;
+	output.Uv			 = input.Uv;
+	output.BiTangent.xy	 = input.BiTangent;					//z value NEEDS TO BE CALCULATED (1 is just a placeholder!!)
+	output.Tangent.xy	 = input.Tangent;					//z value NEEDS TO BE CALCULATED (1 is just a placeholder!!)
+
+	output.BiTangent.z	 = ( 1 - length(input.BiTangent));
+	output.Tangent.z	 = ( 1 - length(input.Tangent));
+	
+	normalize(output.BiTangent);
+	normalize(output.Tangent);
 
 	return output;
 }
@@ -189,7 +195,7 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 		Normal = (norMap.x * input.Tangent) + (norMap.y * input.BiTangent) + (norMap.z * input.Normal);
 		Normal = normalize(Normal);
 
-		lightDirection = (float3(-1, -1, 1) - input.wPos.xyz);
+		lightDirection = (float3(-1, -1, 1) - input.wPos.xyz); //flaot 3 is lightDir
 
 		lightIntensity = saturate(dot(Normal, lightDirection));
 
@@ -278,18 +284,33 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 //GBUFFER shadowmap shader
 struct GBUFFER_SHADOWDEPTH_VS_OUT
 {
-	float4 position		: SV_POSITION;
+	float4 position1		: SV_TARGET0;
+	float4 position2		: SV_TARGET1;
+	float4 position3		: SV_TARGET2;
+	float4 position4		: SV_TARGET3;
+	float4 position5		: SV_TARGET4;
 };
 GBUFFER_SHADOWDEPTH_VS_OUT GBUFFER_SHADOWDEPTH_VS_main(GBUFFER_VS_IN input)
 {
 	GBUFFER_SHADOWDEPTH_VS_OUT output = (GBUFFER_SHADOWDEPTH_VS_OUT)0;
 
-	output.position = float4(input.Pos, 1);
+	unsigned int lightAmt = 1;
 
-	//mul with lights matrices
-	//output.position = mul(output.position, worldMatrix);
-	//output.position = mul(output.position, view);
-	//output.position = mul(output.position, projection);
+	for (unsigned int i = 0; i < lightAmt; i++)
+	{
+		//mul with lights matrices
+		//output.position = mul(output.position, worldMatrix);
+		//output.position = mul(output.position, view);
+		//output.position = mul(output.position, projection);
+
+		output.position1 = float4(input.Pos, 1);
+	}
+
+
+
+	
+
+
 
 	return output;
 }

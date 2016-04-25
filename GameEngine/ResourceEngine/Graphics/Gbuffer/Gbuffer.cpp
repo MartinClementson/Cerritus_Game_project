@@ -211,13 +211,8 @@ void Gbuffer::ClearGbuffer()
 void Gbuffer::ShadowSetToRender() ///Set the textures as RTVs so that we can render to them
 {
 
-	for (int i = 0; i < SHADOWMAPAMOUNT; i++)
-	{
-		gDeviceContext->OMSetRenderTargets(0, NULL, gBufferShadowMapStencilViews[i]);
-	}
 
-
-
+		gDeviceContext->OMSetRenderTargets(SHADOWMAPAMOUNT, NULL, *gBufferShadowMapStencilViews);
 }
 void Gbuffer::ShadowSetToRead(ID3D11RenderTargetView* newTarget)
 {
