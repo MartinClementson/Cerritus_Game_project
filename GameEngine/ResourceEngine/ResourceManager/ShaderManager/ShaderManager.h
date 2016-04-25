@@ -64,10 +64,16 @@ private:
 	ID3D11InputLayout*		gVertexLayoutBillboard	 = nullptr;
 
 	//Shaders for UI 
-	ID3D11VertexShader*		UI_VS = nullptr;
-	ID3D11GeometryShader*	UI_GS = nullptr;
-	ID3D11PixelShader*		UI_PS = nullptr;
-	ID3D11InputLayout*		gVertexLayoutUI = nullptr;
+	ID3D11VertexShader*		UI_VS					= nullptr;
+	ID3D11GeometryShader*	UI_GS					= nullptr;
+	ID3D11PixelShader*		UI_PS					= nullptr;
+	ID3D11InputLayout*		gVertexLayoutUI			= nullptr;
+
+	//Shaders for Gbuffer 
+	ID3D11VertexShader*		GBUFFER_VS				= nullptr;
+	ID3D11GeometryShader*	GBUFFER_GS				= nullptr;
+	ID3D11PixelShader*		GBUFFER_PS				= nullptr;
+	ID3D11InputLayout*		gVertexLayoutGBUFFER	= nullptr;
 
 
 public:
@@ -87,5 +93,6 @@ private:
 	bool CreateParticleShader();
 	bool CreateBillboardShader();
 	bool CreateUiShader();
+	bool CreateGbufferShader();
 };
 

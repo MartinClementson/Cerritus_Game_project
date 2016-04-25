@@ -43,7 +43,6 @@ void Graphics::Initialize(HWND * window)
 	uiObjects		 = new std::vector<RenderInfoUI*>;
 	enemyObjects	 = new std::vector<RenderInfoEnemy*>;
 	trapObjects		 = new std::vector<RenderInfoTrap*>;
-	//projectileObjects= new std::vector<RenderInfoProjectile*>;
 
 
 
@@ -167,7 +166,7 @@ void Graphics::RenderScene()
 	
 	
 	
-	
+		
 	for (unsigned int i = 0; i < gameObjects->size(); i++)
 	{
 		renderer->Render(gameObjects->at(i));
@@ -343,23 +342,8 @@ HRESULT Graphics::CreateDirect3DContext()
 	{
 		ID3D11Texture2D* pBackBuffer = nullptr;
 
-		//D3D11_TEXTURE2D_DESC texDesc;
-		//ZeroMemory(&texDesc, sizeof(texDesc));
-		//texDesc.Width = WINDOW_WIDTH;
-		//texDesc.Height = WINDOW_HEIGHT;
-		//texDesc.MipLevels = 0;
-		//texDesc.ArraySize = 1;
-		//texDesc.SampleDesc.Count = 1;
-		//texDesc.SampleDesc.Quality = 0;
-		//texDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		//texDesc.Usage = D3D11_USAGE_DEFAULT;
-		//texDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-		//texDesc.CPUAccessFlags = 0;
-		//texDesc.MiscFlags = 0;
-
-		this->gSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
-
 	
+		this->gSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
 
 
 		hr = this->gDevice->CreateRenderTargetView(pBackBuffer, NULL, &this->gBackBufferRTV);

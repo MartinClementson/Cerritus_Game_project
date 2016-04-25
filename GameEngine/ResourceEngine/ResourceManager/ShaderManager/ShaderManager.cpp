@@ -62,6 +62,14 @@ void ShaderManager::Release()
 	SAFE_RELEASE(UI_PS);
 	SAFE_RELEASE(gVertexLayoutUI);
 
+	//Shaders for Gbuffer
+	SAFE_RELEASE(GBUFFER_VS);
+	SAFE_RELEASE(GBUFFER_GS);
+	SAFE_RELEASE(GBUFFER_PS);
+	SAFE_RELEASE(gVertexLayoutGBUFFER);
+
+
+
 
 
 }
@@ -143,6 +151,8 @@ void ShaderManager::CreateShaders()
 {
 	if (!CreatePhongShader())
 		MessageBox(NULL, L"Error compiling Phong shaders", L"Shader error", MB_ICONERROR | MB_OK);
+	if (!CreateGbufferShader())
+		MessageBox(NULL, L"Error compiling Gbuffer shaders", L"Shader error", MB_ICONERROR | MB_OK);
 }
 
 
@@ -286,5 +296,89 @@ bool ShaderManager::CreateBillboardShader()
 bool ShaderManager::CreateUiShader()
 {
 	return false;
+}
+bool ShaderManager::CreateGbufferShader()
+{
+
+	//Load the shaders
+
+
+
+	ID3DBlob* pVS = nullptr;
+
+	D3DCompileFromFile(
+		L"ResourceEngine/Shader/PhongShader/PhongShaders.hlsl",
+		nullptr,
+		nullptr,
+		"VS_main",
+		"vs_5_0",
+		0,
+		0,
+		&pVS,
+		nullptr);
+
+	hr = this->gDevice->CreateVertexShader(pVS->GetBufferPointer(), pVS->GetBufferSize(), nullptr, &GBUFFER_VS);
+
+	if (FAILED(hr))
+		return false;
+	//Create input layout (every vertex)
+	D3D11_INPUT_ELEMENT_DESC inputDesc[] =
+	{
+		/*POSITION*/{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,	  0,		 0,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*NORMAL*/{ "TEXCOORD",	0, DXGI_FORMAT_R32G32B32_FLOAT ,	  0,		12,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*UV*/{ "TEXCOORD",	1, DXGI_FORMAT_R32G32_FLOAT,			  0,		24,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*BITANGENT*/{ "TEXCOORD",	2, DXGI_FORMAT_R32G32_FLOAT,	  0,		32,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*TANGENT*/{ "TEXCOORD",	3, DXGI_FORMAT_R32G32_FLOAT,	  0,		40,		 D3D11_INPUT_PER_VERTEX_DATA		,0 }
+	};
+
+	hr = this->gDevice->CreateInputLayout(inputDesc, ARRAYSIZE(inputDesc), pVS->GetBufferPointer(), pVS->GetBufferSize(), &this->gVertexLayoutGBUFFER);
+	pVS->Release();
+	if (FAILED(hr))
+		return false;
+
+
+	//Geometry shader
+	ID3DBlob* pGS = nullptr;
+	D3DCompileFromFile(
+		L"ResourceEngine/Shader/PhongShader/PhongShaders.hlsl",
+		nullptr,
+		nullptr,
+		"GS_main",
+		"gs_5_0",
+		0,
+		0,
+		&pGS,
+		nullptr);
+
+	hr = this->gDevice->CreateGeometryShader(pGS->GetBufferPointer(), pGS->GetBufferSize(), nullptr, &GBUFFER_GS);
+	pGS->Release();
+
+	if (FAILED(hr))
+		return false;
+
+
+
+	ID3DBlob *pPs = nullptr;
+	D3DCompileFromFile(
+		L"ResourceEngine/Shader/Gbuffer/Gbuffer.hlsl",
+		nullptr,
+		nullptr,
+		"PS_main",
+		"ps_5_0",
+		0,
+		0,
+		&pPs,
+		nullptr);
+
+	hr = this->gDevice->CreatePixelShader(pPs->GetBufferPointer(), pPs->GetBufferSize(), nullptr, &GBUFFER_PS);
+	pPs->Release();
+
+	if (FAILED(hr))
+		return false;
+
+
+
+
+	return true;
 }
 #pragma endregion

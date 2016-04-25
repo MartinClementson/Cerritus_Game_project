@@ -237,8 +237,8 @@ void Renderer::Render(RenderInstructions * object)
 void Renderer::UpdateCameraBuffer()
 {
 
-	CamMatrices* tempCam			= this->sceneCam->GetCameraMatrices();
-	tempCam->mousePos				= this->mouseWorldPos;
+	CamMatrices* tempCam				= this->sceneCam->GetCameraMatrices();
+	tempCam->mousePos					= this->mouseWorldPos;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
