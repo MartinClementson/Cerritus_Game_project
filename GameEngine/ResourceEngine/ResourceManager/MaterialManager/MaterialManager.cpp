@@ -3,13 +3,11 @@
 MaterialManager::MaterialManager()
 {
 	textureManager = new TextureManager;
-	materials = nullptr;
+	materials = new std::vector<Material>;;
 }
 
 MaterialManager::~MaterialManager()
 {
-	for (unsigned int i = 0; i < materials->size(); i++) //kolla så att detta inte breakar
-		delete &materials->at(i);
 	delete materials;
 	delete textureManager;
 }
@@ -52,11 +50,11 @@ void MaterialManager::addMaterials(std::vector<importedMaterial>* import)
 {
 	for (unsigned int i = 0; i < import->size(); i++)
 	{
-		if (materials != nullptr)
+		if (materials->size() > 0)
 		{
 			if (!CompareImportMaterials(&import->at(i)))
 			{
-				materials = new std::vector<Material>;
+				//materials = new std::vector<Material>;
 				Material tempMaterial;
 				tempMaterial.materialName = import->at(i).materialName;
 				tempMaterial.materialID = import->at(i).materialID;
@@ -75,7 +73,7 @@ void MaterialManager::addMaterials(std::vector<importedMaterial>* import)
 		}
 		else
 		{
-			materials = new std::vector<Material>;
+			//materials = new std::vector<Material>;
 			Material tempMaterial;
 			tempMaterial.materialName = import->at(i).materialName;
 			tempMaterial.materialID = import->at(i).materialID;
