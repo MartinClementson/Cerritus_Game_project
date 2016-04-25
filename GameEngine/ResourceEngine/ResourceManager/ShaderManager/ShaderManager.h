@@ -50,6 +50,7 @@ private:
 	ID3D11InputLayout*		gVertexLayoutAnimation   = nullptr;
 
 	//Shaders for GBuffer
+	ID3D11VertexShader*		GBUFFER_SHADOWDEPTH_VS	 = nullptr;
 	ID3D11VertexShader*		GBUFFER_VS				 = nullptr;
 	ID3D11GeometryShader*	GBUFFER_GS				 = nullptr;
 	ID3D11PixelShader*		GBUFFER_PS				 = nullptr;

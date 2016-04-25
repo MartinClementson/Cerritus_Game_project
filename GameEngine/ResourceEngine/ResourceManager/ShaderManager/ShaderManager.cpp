@@ -315,7 +315,23 @@ bool ShaderManager::CreateGbufferShader()
 
 	//Load the shaders
 
+	ID3DBlob* pVSShadow = nullptr;
 
+	D3DCompileFromFile(
+		L"ResourceEngine/Shader/GBufferShader/GBuffer.hlsl",
+		nullptr,
+		nullptr,
+		"GBUFFER_SHADOWDEPTH_VS_main",
+		"vs_5_0",
+		0,
+		0,
+		&pVSShadow,
+		nullptr);
+
+	hr = this->gDevice->CreateVertexShader(pVSShadow->GetBufferPointer(), pVSShadow->GetBufferSize(), nullptr, &GBUFFER_SHADOWDEPTH_VS);
+
+	if (FAILED(hr))
+		return false;
 
 	ID3DBlob* pVS = nullptr;
 
@@ -323,14 +339,14 @@ bool ShaderManager::CreateGbufferShader()
 		L"ResourceEngine/Shader/GBufferShader/GBuffer.hlsl",
 		nullptr,
 		nullptr,
-		"VS_main",
+		"GBUFFER_VS_main",
 		"vs_5_0",
 		0,
 		0,
 		&pVS,
 		nullptr);
 
-	hr = this->gDevice->CreateVertexShader(pVS->GetBufferPointer(), pVS->GetBufferSize(), nullptr, &PHONG_VS);
+	hr = this->gDevice->CreateVertexShader(pVS->GetBufferPointer(), pVS->GetBufferSize(), nullptr, &GBUFFER_VS);
 
 	if (FAILED(hr))
 		return false;
@@ -353,17 +369,17 @@ bool ShaderManager::CreateGbufferShader()
 	//Geometry shader
 	ID3DBlob* pGS = nullptr;
 	D3DCompileFromFile(
-		L"ResourceEngine/Shader/PhongShader/PhongShaders.hlsl",
+		L"ResourceEngine/Shader/GBufferShader/GBuffer.hlsl",
 		nullptr,
 		nullptr,
-		"GS_main",
+		"GBUFFER_GS_main",
 		"gs_5_0",
 		0,
 		0,
 		&pGS,
 		nullptr);
 
-	hr = this->gDevice->CreateGeometryShader(pGS->GetBufferPointer(), pGS->GetBufferSize(), nullptr, &PHONG_GS);
+	hr = this->gDevice->CreateGeometryShader(pGS->GetBufferPointer(), pGS->GetBufferSize(), nullptr, &GBUFFER_GS);
 	pGS->Release();
 
 	if (FAILED(hr))
@@ -373,17 +389,17 @@ bool ShaderManager::CreateGbufferShader()
 
 	ID3DBlob *pPs = nullptr;
 	D3DCompileFromFile(
-		L"ResourceEngine/Shader/PhongShader/PhongShaders.hlsl",
+		L"ResourceEngine/Shader/GBufferShader/GBuffer.hlsl",
 		nullptr,
 		nullptr,
-		"PS_main",
+		"GBUFFER_PS_main",
 		"ps_5_0",
 		0,
 		0,
 		&pPs,
 		nullptr);
 
-	hr = this->gDevice->CreatePixelShader(pPs->GetBufferPointer(), pPs->GetBufferSize(), nullptr, &PHONG_PS);
+	hr = this->gDevice->CreatePixelShader(pPs->GetBufferPointer(), pPs->GetBufferSize(), nullptr, &GBUFFER_PS);
 	pPs->Release();
 
 	if (FAILED(hr))

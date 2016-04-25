@@ -79,7 +79,7 @@ void GBUFFER_GS_main(
 }
 
 //pixel shader
-GBUFFER_PS_OUT GBUFFER_PS_main(GS_OUT input)
+GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 {
 	GBUFFER_PS_OUT output = (GBUFFER_PS_OUT)0;
 
@@ -114,7 +114,7 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GS_OUT input)
 	}
 
 
-	if (glow)
+	if (glowMap)
 	{
 
 	}
@@ -133,11 +133,11 @@ struct GBUFFER_SHADOWDEPTH_VS_OUT
 {
 	float4 position		: SV_POSITION;
 };
-GBUFFER_SHADOWDEPTH_VS_OUT GBUFFER_SHADOWDEPTH_VS_main(VS_IN input)
+GBUFFER_SHADOWDEPTH_VS_OUT GBUFFER_SHADOWDEPTH_VS_main(GBUFFER_VS_IN input)
 {
 	GBUFFER_SHADOWDEPTH_VS_OUT output = (GBUFFER_SHADOWDEPTH_VS_OUT)0;
 
-	output.position = float4(input.position, 1);
+	output.position = float4(input.Pos, 1);
 
 	//mul with lights matrices
 	output.position = mul(output.position, worldMatrix);
