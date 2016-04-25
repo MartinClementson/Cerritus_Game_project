@@ -5,7 +5,7 @@ class FireTrap :
 	public Trap
 {
 public:
-	FireTrap();
+	FireTrap(XMFLOAT3 position);
 	virtual ~FireTrap();
 	void Initialize(XMFLOAT3 position, XMFLOAT3 rotation);
 	void Release();
@@ -17,6 +17,7 @@ public:
 
 	//Collision();
 private:
+	FireTrap();
 	float dotDuration;
 	TrapStateMachine* TrapState;
 	//RenderInfoTrap renderInfo;

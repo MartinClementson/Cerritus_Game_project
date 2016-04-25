@@ -7,6 +7,20 @@ FireTrap::FireTrap()
 	grapichs = Graphics::GetInstance();
 }
 
+FireTrap::FireTrap(XMFLOAT3 position)
+{
+	grapichs = Graphics::GetInstance();
+	dotDuration = 2.5f;
+
+	this->position = position;
+
+	this->rotation = { 0,0,0 };
+
+	this->isActive = true;
+
+	radius = 1.0f;
+}
+
 
 FireTrap::~FireTrap()
 {
@@ -19,6 +33,8 @@ void FireTrap::Initialize(XMFLOAT3 position,XMFLOAT3 rotation)
 	this->position = position;
 	
 	this->rotation = { 0,0,0 }; 
+
+	this->isActive = true;
 
 	radius = 1.0f;
 
@@ -43,7 +59,10 @@ void FireTrap::Update(double deltaTime)
 
 void FireTrap::Render()
 {
-	grapichs->QueueRender(&renderInfo);
+	if (this->isActive)
+	{
+		grapichs->QueueRender(&renderInfo);
+	}
 }
 
 float FireTrap::GetDot()

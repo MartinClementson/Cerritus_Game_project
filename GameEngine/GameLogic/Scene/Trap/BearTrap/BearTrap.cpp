@@ -2,6 +2,17 @@
 
 
 
+BearTrap::BearTrap(XMFLOAT3 position)
+{
+	grapichs = Graphics::GetInstance();
+	slow = 0.5f;
+	this->position = position;
+	this->rotation = { 0,0,0 };
+	this->isActive = true;
+
+	radius = 1.0f;
+}
+
 BearTrap::BearTrap()
 {
 	grapichs = Graphics::GetInstance();
@@ -18,6 +29,7 @@ void BearTrap::Initialize(XMFLOAT3 position, XMFLOAT3 rotation)
 	slow = 0.5f; 
 	this->position = position;
 	this->rotation = { 0,0,0 };
+	this->isActive = true;
 
 	radius = 1.0f;
 
@@ -38,13 +50,17 @@ void BearTrap::Update(double deltaTime)
 
 	}
 
-	renderinfo = {position,rotation}; // kinda works
+	renderInfo = {position,rotation}; // kinda works
 
 }
 
 void BearTrap::Render()
 {
-	grapichs->QueueRender(&renderinfo);
+	if (this->isActive)
+	{
+		grapichs->QueueRender(&renderInfo);
+	}
+
 	//grapichs->QueueRender(renderinfo); Unsure if the other one works. will see
 }
 

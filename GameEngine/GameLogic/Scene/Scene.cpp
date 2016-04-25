@@ -49,32 +49,44 @@ Scene::~Scene()
 void Scene::Initialize()
 {
 	srand(time(0));
-	fireTraps.push_back(new FireTrap());
+	trapAmount = 5;
+	InitBearTrap();
+	InitFireTrap();
+	RespawnTimer = 0;
+}	
 
-	bearTraps.push_back(new BearTrap());
-	
-	//enemySpawn->Initialize();
-	for (int i = 0; i < fireTraps.size(); i++)
+void Scene::InitFireTrap()
+{
+	srand(time(0));
+
+
+	for (int i = 0; i < trapAmount; i++)
 	{
-	
-		XMFLOAT3 tmp; // randomizes the location of the firetrap.
-		tmp.x = rand() % 12 +1.0f;
+		XMFLOAT3 tmp; // randomizes the location of the beartrap
+		tmp.x = rand() % -22 - 3.0f;
 		tmp.y = 0;
-		tmp.z = rand() % 12 +1.0f;
+		tmp.z = rand() % -22 - 3.0f;
 		XMFLOAT3 pos = { tmp.x,tmp.y,tmp.z };
-		fireTraps.at(i)->Initialize(pos, fireTraps.at(i)->GetRotation());
+		fireTraps.push_back(new FireTrap(pos));
 	}
-	for (int i = 0; i < bearTraps.size(); i++)
+	
+}
+
+void Scene::InitBearTrap()
+{
+	srand(time(0));
+	
+
+	for (int i = 0; i < trapAmount; i++)
 	{
 		XMFLOAT3 tmp; // randomizes the location of the beartrap
 		tmp.x = rand() % 22 + 3.0f;
 		tmp.y = 0;
 		tmp.z = rand() % 22 + 3.0f;
 		XMFLOAT3 pos = { tmp.x,tmp.y,tmp.z };
-		bearTraps.at(i)->Initialize(pos, bearTraps.at(i)->GetRotation());
+		bearTraps.push_back(new BearTrap(pos));
 	}
-
-}		
+}
 
 	
 
@@ -101,7 +113,7 @@ void Scene::Release()
 
 void Scene::Update(double deltaTime)
 {
-
+	
 	for (size_t i = 0; i < fireTraps.size(); i++)
 	{
 		fireTraps.at(i)->Update(deltaTime);
@@ -130,19 +142,34 @@ void Scene::Update(double deltaTime)
 	{
 		if (collision->bearTrapPlayerCollision(bearTraps.at(i)))
 		{
-			MessageBox(0, L"collision with bear",
-				L"LOL", MB_OK);
+			if (bearTraps.at(i)->isActive)
+			{
+				bearTraps.at(i)->isActive = false;
+			}
 		}
 	}
 
 	for (size_t i = 0; i < fireTraps.size(); i++)
 	{
-		if (collision->fireTrapPlayerCollision(fireTraps.at(i)))
+		if (collision->fireTrapPlayerCollision(fireTraps.at(i)) && fireTraps.at(i)->isActive)
 		{
-			MessageBox(0, L"collision with FAIIIA",
-				L"LOL", MB_OK);
+			fireTraps.at(i)->isActive = false;
 		}
 	}
+	if (RespawnTimer >= (double)10)
+	{ 
+		for (int i = 0; i < trapAmount-1; i++)
+		{
+			fireTraps.at(i)->isActive = true;
+			bearTraps.at(i)->isActive = true;
+			RespawnTimer = 0;
+		}
+	}
+	else
+	{
+		RespawnTimer += deltaTime;
+	}
+
 
 }
 

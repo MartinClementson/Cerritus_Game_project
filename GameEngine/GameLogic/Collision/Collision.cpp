@@ -41,7 +41,12 @@ bool Collision::bearTrapPlayerCollision(BearTrap * trap)
 		+ pow(playPos.z - trapPos.z, 2)
 		< pow(playRad + trapRad, 2))
 	{
+		if (trap->isActive)
+		{
+			player->VelocityMax = 0.2f;
+		}
 		return true;
+		
 	}
 
 	return false;
@@ -49,23 +54,20 @@ bool Collision::bearTrapPlayerCollision(BearTrap * trap)
 
 bool Collision::bearTrapEnemyCollision(BearTrap* trap, Enemy * enemy)
 {
-	for (int i = 0; i < bearTrap.size(); i++)
+	float trapRad = trap->GetRadius();
+	XMFLOAT3 trapPos = trap->GetPosition();
+
+
+	enemyPos = enemy->GetPosition();
+	enemyRad = enemy->GetRadius();
+
+	if (pow(trapPos.x - enemyPos.x, 2)
+		+ pow(trapPos.z - enemyPos.z, 2)
+		< pow(trapRad + enemyRad, 2))
 	{
-		float trapRad = bearTrap.at(i)->GetRadius();
-		XMFLOAT3 trapPos = bearTrap.at(i)->GetPosition();
-
-
-		enemyPos = enemy->GetPosition();
-		enemyRad = enemy->GetRadius();
-
-		if (pow(trapPos.x - enemyPos.x, 2)
-			+ pow(trapPos.z - enemyPos.z, 2)
-			< pow(trapRad + enemyRad, 2))
-		{
-			return true;
-		}
-		return false;
+		return true;
 	}
+	return false;
 
 }
 

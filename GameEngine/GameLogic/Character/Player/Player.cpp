@@ -57,8 +57,8 @@ void Player::Initialize()
 
 	this->position		 = XMFLOAT3(-5.0f, Y_OFFSET, -5.0f);
 	this->rotation		 = XMFLOAT3(0.0f, 0.0f, 0.0f);
-
-
+	VelocityMax = 4.0f;
+	slowTimer = 0;
 	radius				 = 1.0f;
 
 	projectileSystem->Initialize();
@@ -71,6 +71,16 @@ void Player::Release()
 
 void Player::Update(double deltaTime, XMFLOAT3 direction)
 {
+	if (VelocityMax == 0.2f)
+	{
+		slowTimer += deltaTime;
+		
+	}
+	if (slowTimer > 3.0f)
+	{
+		VelocityMax = 4.0f;
+		slowTimer = 0.0f;
+	}
 	this->direction	 = direction;
 	
 
@@ -83,11 +93,11 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 
 	float currentVelo = velocity.Length();
 
-	if (currentVelo > VELOCITY_MAX)
+	if (currentVelo > VelocityMax)
 	{
 
 		Vec3 normalizer			= velocity.Normalize();
-		normalizer				= normalizer * VELOCITY_MAX;
+		normalizer				= normalizer * VelocityMax;
 		velocity				= normalizer;
 	}
 

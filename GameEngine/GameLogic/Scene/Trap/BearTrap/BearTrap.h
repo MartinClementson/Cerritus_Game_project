@@ -5,7 +5,8 @@ class BearTrap :
 	public Trap
 {
 public:
-	BearTrap();
+	BearTrap(XMFLOAT3 position);
+	
 	virtual ~BearTrap();
 	void Initialize(XMFLOAT3 position, XMFLOAT3 rotation);
 	void Release();
@@ -15,11 +16,12 @@ public:
 	float GetRadius() { return this->radius; }
 	XMFLOAT3 GetPosition() { return this->position; }
 	void SetSlow(float slow);
-	RenderInfoTrap renderinfo;
+	RenderInfoTrap renderInfo;
 
 
 	//Collision();
 private:
+	BearTrap();
 	float slow;
 	TrapStateMachine* TrapState;
 	//RenderInfoTrap* renderinfo; 

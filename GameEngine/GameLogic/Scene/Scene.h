@@ -17,6 +17,8 @@ private:
 	std::vector<FireTrap*> fireTraps;
 	Trap * trap;
 	Collision* collision;
+	int trapAmount;
+	double RespawnTimer;
 
 
 public:
@@ -25,6 +27,8 @@ public:
 	virtual ~Scene();
 	
 	void Initialize();
+	void InitFireTrap();
+	void InitBearTrap();
 	void Release();
 	void Update(double deltaTime);
 	void Render();

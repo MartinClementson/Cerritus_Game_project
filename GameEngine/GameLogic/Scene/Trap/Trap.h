@@ -22,6 +22,7 @@ public:
 	virtual float GetRadius() { return this->radius; }
 
 	void initTrap();
+	bool isActive;
 	//Collision();
 private:	
 	Animation* animation;
@@ -33,5 +34,6 @@ protected:
 	DirectX::XMFLOAT3 rotation;
 	float damage;
 	float radius;
+	
 };
 
