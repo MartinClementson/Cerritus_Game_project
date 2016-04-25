@@ -15,8 +15,8 @@ Trap::~Trap()
 void Trap::Initialize()
 {
 	damage = 25.0f;
-	position = { 0,0,0 };
-	rotation = { 0,0,0 };
+	initTrap();
+	
 }
 void Trap::Release()
 {
@@ -24,17 +24,12 @@ void Trap::Release()
 }
 void Trap::Update(double deltaTime)
 {
-
-	renderInfo = { position,rotation };
-
-
+	renderInfo = { position,rotation }; 
 }
 
 void Trap::Render()
 {
-
-	//Tar inte scene hand om render för alla traps? jo
-	grapichs = Graphics::GetInstance();
+	grapichs = Graphics::GetInstance();	
 }
 
 float Trap::GetDamage()
@@ -47,11 +42,11 @@ void Trap::SetDamage(float damage)
 }
 DirectX::XMFLOAT3 Trap::GetPosition()
 {
-	return position;
+	return this->position;
 }
 DirectX::XMFLOAT3 Trap::GetRotation()
 {
-	return rotation;
+	return this->rotation;
 }
 
 void Trap::SetPosition(DirectX::XMFLOAT3 position)
@@ -63,5 +58,31 @@ void Trap::SetRotation(DirectX::XMFLOAT3 rotation)
 {
 	this->rotation = rotation;
 
+
+}
+
+void Trap::initTrap()
+{
+	
+	int randomSpawn = rand() % 2 + 1;
+
+	if (randomSpawn == 1)
+	{
+		float spawnX = rand() % 20 + 1.0f;
+		float spawnZ = rand() % 20 + 1.0f;
+
+		position.x = spawnX;
+		position.y = 0;
+		position.z = spawnZ;
+	}
+	if (randomSpawn == 2)
+	{
+		float spawnX = rand() % 32 + 1.0f;
+		float spawnZ = rand() % 32 + 1.0f;
+
+		position.x = spawnX;
+		position.y = 2;
+		position.z = spawnZ;
+	}
 
 }

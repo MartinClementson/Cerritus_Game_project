@@ -18,6 +18,7 @@ private:
 	MeshEnum projectileModel;
 public:
 	Projectile();
+
 	void Initialize(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction, DirectX::XMFLOAT3 rotation);
 	void Update(double deltatime);
 
