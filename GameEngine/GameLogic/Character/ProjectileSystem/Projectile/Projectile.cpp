@@ -30,6 +30,11 @@ Projectile::Projectile()
 
 }
 
+//void Projectile::Initialize(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction)
+//{
+//
+//}
+
 Projectile::Projectile(DirectX::XMFLOAT3 origin,DirectX::XMFLOAT3 direction, DirectX::XMFLOAT3 rotation)
 {
 	Initialize(origin,direction,rotation);
@@ -55,7 +60,7 @@ void Projectile::Initialize(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 directio
 
 	this->radius = 1.0f;
 	this->age = 0.0f;
-	this->speed = 100.0f;
+	this->speed = 50.0f;
 	this->dmgMultiplier = 2.0f;
 
 	this->isFired = true;
@@ -76,9 +81,6 @@ void Projectile::Update(double deltatime)
 		renderInfo.position = position;
 		renderInfo.rotation = this->rotation;
 		
-		
-	
-
 	}
 	if (age >= 2.5f)
 		isFired = false;
