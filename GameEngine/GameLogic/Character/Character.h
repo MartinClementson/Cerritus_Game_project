@@ -28,6 +28,8 @@ public:
 	virtual void Release();
 	virtual void Update(double deltaTime);
 	virtual void Render();
+	float DoT;
+	float DoTDur;
 
 	//Collision();
 };

@@ -8,6 +8,7 @@
 #include "../../../Structs/DataTypes.h"
 #include "../Player/Player.h"
 
+
 class Enemy :
 	public Character
 {
@@ -41,5 +42,14 @@ public:
 	float GetRadius();
 	void AIPattern(Player * player, double deltaTime);
 	void Respawn(XMFLOAT3 spawn);
+
+
+	XMFLOAT3 direction;
+	float VelocityMax;
+	float slowTimer;
+	Vec3 velocity = Vec3(0.1f, 0.1f, 0.1f);
+	Vec3 acceleration = Vec3(0.0f, 0.0f, 0.0f);
+	float fallOfFactor = 8.0f; //the bigger number, the faster fallOff , this is like friction
+	float maxAcceleration = 5.0f;
 };
 

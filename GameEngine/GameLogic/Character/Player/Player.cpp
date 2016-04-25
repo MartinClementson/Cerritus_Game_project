@@ -86,15 +86,15 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 	
 	if (DoT != 0)
 	{
-		DoTDur += deltaTime;
+		DoTDur += (float)deltaTime;
 	}
-	if (DoTDur > 2)
+	if (DoTDur > 20)
 	{
 		DoT = 0.0f;
 		DoTDur = 0.0f;
 	}
 
-	health -= DoT;
+	health -= DoT*deltaTime;
 	if (health <= 0)
 	{
 

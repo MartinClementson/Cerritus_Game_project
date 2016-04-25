@@ -32,6 +32,11 @@ void EnemySpawn::Release()
 }
 void EnemySpawn::Update(double deltaTime)
 {
+
+	for (size_t i = 0; i < Alive.size(); i++)
+	{
+		Alive.at(i)->Update(deltaTime);
+	}
 	if (Alive.size() <= 10)
 	{
 		SpawnEnemy();

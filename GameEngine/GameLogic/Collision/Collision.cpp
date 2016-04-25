@@ -68,7 +68,7 @@ bool Collision::fireTrapPlayerCollision(FireTrap * trap)
 		{
 			player->DoT = trap->GetDot();
 		}
-		return true;
+ 		return true;
 
 	}
 	return false;
@@ -86,6 +86,10 @@ bool Collision::fireTrapEnemyCollision(FireTrap * trap, Enemy * enemy)
 		+ pow(trapPos.z - enemyPos.z, 2)
 		< pow(trapRad + enemyRad, 2))
 	{
+		if (trap->isActive)
+		{
+			enemy->DoT = trap->GetDot();
+		}
 		return true;
 	}
 
