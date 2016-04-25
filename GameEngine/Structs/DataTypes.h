@@ -105,10 +105,10 @@ struct Vertex
 	Float3 position;
 	Float3 normal;
 	Float2 uv;
-	Float2 biTanget;
-	Float2 tanget;
+	Float2 biTangent;
+	Float2 tangent;
 
-	Vertex(Float3 pos, Float3 normal, Float2 uv, Float2 tanget, Float2 biTanget)
+	Vertex(Float3 pos, Float3 normal, Float2 uv, Float2 tangent, Float2 biTangent)
 	{
 		this->position.x = pos.x;
 		this->position.y = pos.y;
@@ -121,11 +121,11 @@ struct Vertex
 		this->uv.x = uv.x;
 		this->uv.y = uv.y;
 
-		this->tanget.x = tanget.x;
-		this->tanget.y = tanget.y;
+		this->tangent.x = tangent.x;
+		this->tangent.y = tangent.y;
 
-		this->biTanget.x = biTanget.x;
-		this->biTanget.y = biTanget.y;
+		this->biTangent.x = biTangent.x;
+		this->biTangent.y = biTangent.y;
 
 	}
 	Vertex() {};
@@ -137,13 +137,13 @@ struct AnimVert
 	Float3 position;
 	Float3 normal;
 	Float2 uv;
-	Float2 biTanget;
-	Float2 tanget;
+	Float2 biTangent;
+	Float2 tangent;
 
 	Float4 weights;
 	UINT4 jointID;
 
-	AnimVert(Float3 pos, Float3 normal, Float2 uv, Float2 tanget, Float2 biTanget, Float4 weights, UINT4 jointID)
+	AnimVert(Float3 pos, Float3 normal, Float2 uv, Float2 tangent, Float2 biTangent, Float4 weights, UINT4 jointID)
 	{
 		this->position.x = pos.x;
 		this->position.y = pos.y;
@@ -156,11 +156,11 @@ struct AnimVert
 		this->uv.x = uv.x;
 		this->uv.y = uv.y;
 
-		this->biTanget.x = biTanget.x;
-		this->biTanget.y = biTanget.y;
+		this->biTangent.x = biTangent.x;
+		this->biTangent.y = biTangent.y;
 
-		this->tanget.x = tanget.x;
-		this->tanget.y = tanget.y;
+		this->tangent.x = tangent.x;
+		this->tangent.y = tangent.y;
 
 		this->weights.x = weights.x;
 		this->weights.y = weights.y;
@@ -181,4 +181,30 @@ struct ProjectileStruct
 {
 	Float3 position;
 	Float3 rotation;
+};
+
+struct Material
+{
+	std::string materialName;
+	int materialID;
+	Float3 diffuseValue;
+	Float3 specularValue;
+
+	//if the id is -1, the material doesn't have a texture
+	int diffuse_ID;
+	int normal_ID;
+	int specular_ID;
+	int glow_ID;
+};
+struct importedMaterial
+{
+	std::string materialName;
+	int materialID;
+	Float3 diffuseValue;
+	Float3 specularValue;
+
+	std::string diffuseTex;
+	std::string normalTex;
+	std::string specularTex;
+	std::string glowTex;
 };

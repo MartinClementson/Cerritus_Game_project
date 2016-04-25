@@ -7,7 +7,7 @@ ResourceManager::ResourceManager()
 	meshManager = new MeshManager();
 	shaderManager = new ShaderManager();
 	brfImporterHandler = new BRFImporterHandler();
-
+	materialManager = new MaterialManager();
 }
 
 
@@ -16,14 +16,24 @@ ResourceManager::~ResourceManager()
 	delete meshManager;
 	delete shaderManager;
 	delete brfImporterHandler;
+	delete materialManager;
 }
 
 void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext)
 {
 	shaderManager->Initialize(gDevice, gDeviceContext);
 	meshManager->Initialize(gDevice, gDeviceContext);
-	brfImporterHandler->Initialize(this->meshManager);
-	brfImporterHandler->LoadFile("2meshes.BRF", true, true, true);
+	materialManager->Initialize(gDevice);
+	brfImporterHandler->Initialize(this->meshManager, this->materialManager);
+	brfImporterHandler->LoadFile("MainChar.BRF", true, true, true);
+	brfImporterHandler->LoadFile("EnemyChar.BRF", true, true, true);
+
+	//for testing the material manager
+	std::vector<importedMaterial> temp;
+	importedMaterial tempMat;
+	tempMat.diffuseTex = "temp";
+	temp.push_back(tempMat);
+	materialManager->addMaterials(&temp);
 }
 
 void ResourceManager::Release()
@@ -31,7 +41,7 @@ void ResourceManager::Release()
 	this->shaderManager->Release();
 	this->meshManager->Release();
 	this->brfImporterHandler->Release();
-
+	this->materialManager->Release();
 }
 
 
@@ -49,12 +59,30 @@ void ResourceManager::Release()
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoEnemy * object)
 	{
-		return nullptr;
+		currentMesh = RenderInstructions();
+		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+		MeshEnum meshType = MeshEnum::ENEMY_1;
+
+		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
+		Shaders temp = PHONG_SHADER;
+		this->shaderManager->SetActiveShader(&temp);
+		return &currentMesh;
 	}
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoChar * object)
 	{
-		return nullptr;
+		currentMesh = RenderInstructions();
+		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+		MeshEnum meshType = MeshEnum::MAIN_CHARACTER;
+
+		meshManager->GetMeshRenderInfo(&meshType,&currentMesh);
+		materialManager->GetMaterialRenderInfo(&currentMesh);
+		Shaders temp = PHONG_SHADER;
+		this->shaderManager->SetActiveShader(&temp);
+		return &currentMesh;
+
+
+		
 	}
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoTrap * object)
@@ -70,7 +98,7 @@ void ResourceManager::Release()
 		rotation += 0.1f;
 		XMFLOAT3 tempRotation = XMFLOAT3(0.0, rotation, 0.0);
 		////////////////////////////////////////////////////////////
-
+		currentMesh = RenderInstructions();
 		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&position, &tempRotation);
 
 
@@ -83,7 +111,7 @@ void ResourceManager::Release()
 	RenderInstructions * ResourceManager::GetPlaceHolderMesh(XMFLOAT3 position, XMFLOAT3 rotation)
 	{
 		
-
+		currentMesh = RenderInstructions();
 		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&position, &rotation);
 
 
@@ -96,7 +124,7 @@ void ResourceManager::Release()
 	RenderInstructions * ResourceManager::GetPlaceHolderPlane()
 	{
 
-
+		currentMesh = RenderInstructions();
 		////////////TEMPORARY////////////////////////////////
 		XMFLOAT3 tempPos = XMFLOAT3(0.0f, 0.0f, -1.5f);
 		

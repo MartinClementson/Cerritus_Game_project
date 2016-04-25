@@ -376,6 +376,18 @@
     <ClCompile Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.cpp">
       <Filter>ResourceEngine\ResourceManager\BRFImporterHandler</Filter>
     </ClCompile>
+    <ClCompile Include="ResourceEngine\ResourceManager\MaterialManager\MaterialManager.cpp">
+      <Filter>ResourceEngine\ResourceManager\MaterialManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ResourceManager\TextureManager\TextureManager.cpp">
+      <Filter>ResourceEngine\ResourceManager\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ResourceManager\TextureManager\TextureResource\TextureResource.cpp">
+      <Filter>ResourceEngine\ResourceManager\TextureManager\TextureResource</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\Src\WICTextureLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enumerations\Enumerations.h">
@@ -542,6 +554,15 @@
     </ClInclude>
     <ClInclude Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.h">
       <Filter>ResourceEngine\ResourceManager\BRFImporterHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ResourceManager\MaterialManager\MaterialManager.h">
+      <Filter>ResourceEngine\ResourceManager\MaterialManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ResourceManager\TextureManager\TextureManager.h">
+      <Filter>ResourceEngine\ResourceManager\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ResourceManager\TextureManager\TextureResource\TextureResource.h">
+      <Filter>ResourceEngine\ResourceManager\TextureManager\TextureResource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

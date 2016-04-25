@@ -66,16 +66,21 @@ void Renderer::Render(RenderInfoUI * object)
 //Render an enemy mesh
 void Renderer::Render(RenderInfoEnemy * object)
 {
-	RenderPlaceHolder(&object->position);
+	RenderInstructions * objectInstruction;
+
+	objectInstruction = this->resourceManager->GetRenderInfo(object);
+
+
+	Render(objectInstruction);
 }
 
 
 //Render the character, Update the camera to follow the position of the character
 void Renderer::Render(RenderInfoChar * object)
 {
-
 	RenderInstructions * objectInstruction;
-	objectInstruction = this->resourceManager->GetPlaceHolderMesh(object->position);
+	
+	objectInstruction = this->resourceManager->GetRenderInfo(object);
 
 	//Update the camera view matrix!
 	this->sceneCam->Updateview( object->position);
@@ -280,7 +285,7 @@ void Renderer::UpdateSampleBoolsBuffer(SampleBoolStruct * sampleStruct)
 
 
 	this->gDeviceContext->Unmap(sampleBoolsBuffer, 0);
-	gDeviceContext->GSSetConstantBuffers(SAMPLEBOOLSBUFFER_INDEX, 1, &this->sampleBoolsBuffer);
+	gDeviceContext->PSSetConstantBuffers(SAMPLEBOOLSBUFFER_INDEX, 1, &this->sampleBoolsBuffer);
 
 }
 

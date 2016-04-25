@@ -36,7 +36,7 @@ void MeshManager::Release()
 
 }
 
-void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, unsigned int materialID, unsigned int vertexCount, UINT indexCount, std::vector<Vertex> vertices, std::vector<AnimVert> aniVertices, std::vector<UINT> indices)
+void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materialID, unsigned int vertexCount, UINT indexCount, std::vector<Vertex> vertices, std::vector<AnimVert> aniVertices, std::vector<UINT> indices)
 {
 	if (aniVertices.size() <= 0)
 	{
@@ -85,8 +85,19 @@ void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, unsigned in
 }
 
 
+//int MeshManager::GetMaterialID(unsigned int index)
+//{
+//	return gameMeshes->at(index);
+//}
+
 void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * toRender)
 {
+	if(*meshEnum == MeshEnum::MAIN_CHARACTER)
+		this->gameMeshes->at(0).GetMeshRenderInfo(toRender);
+
+	if (*meshEnum == MeshEnum::ENEMY_1)
+		this->gameMeshes->at(1).GetMeshRenderInfo(toRender);
+
 }
 
 
@@ -155,14 +166,14 @@ void MeshManager::CreatePlaceHolderPlane()
 	
 
 	this->placeHolderPlane.CreateVertexBuffer(planeVerts, 4);
-	this->placeHolderPlane.CreateIndexBuffer(indices, 6);
-
+	this->placeHolderPlane.CreateIndexBuffer(indices, 6); 
+	
 }
 
 
 void MeshManager::GetPlaceHolderMeshInfo(RenderInstructions * toRender)
 {
-	//this->gameMeshes->at(0).GetMeshRenderInfo(toRender);
+	//this->gameMeshes->at(1).GetMeshRenderInfo(toRender);
 	placeHolder.GetMeshRenderInfo(toRender);
 
 }
