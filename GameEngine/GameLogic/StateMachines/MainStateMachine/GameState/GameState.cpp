@@ -67,7 +67,6 @@ void GameState::Update(double deltaTime)
 		}
 	}
 
-		
 	player->Update(deltaTime,dir);
 
 	room1->Update(deltaTime);

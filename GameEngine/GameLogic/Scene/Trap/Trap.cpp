@@ -40,11 +40,11 @@ void Trap::SetDamage(float damage)
 {
 	this->damage = damage;
 }
-DirectX::XMFLOAT3 Trap::GetPosition()
+XMFLOAT3 Trap::GetPosition()
 {
 	return this->position;
 }
-DirectX::XMFLOAT3 Trap::GetRotation()
+XMFLOAT3 Trap::GetRotation()
 {
 	return this->rotation;
 }
@@ -57,8 +57,6 @@ void Trap::SetPosition(DirectX::XMFLOAT3 position)
 void Trap::SetRotation(DirectX::XMFLOAT3 rotation)
 {
 	this->rotation = rotation;
-
-
 }
 
 void Trap::initTrap()

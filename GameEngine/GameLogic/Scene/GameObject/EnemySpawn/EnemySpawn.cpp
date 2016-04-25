@@ -1,7 +1,5 @@
 #include "EnemySpawn.h"
 
-
-
 EnemySpawn::EnemySpawn()
 {
 	this->collision = Collision::GetInstance();
@@ -30,6 +28,7 @@ void EnemySpawn::Release()
 {
 
 }
+
 void EnemySpawn::Update(double deltaTime)
 {
 	for (size_t i = 0; i < Alive.size(); i++)
@@ -44,7 +43,7 @@ void EnemySpawn::Update(double deltaTime)
 			Alive.erase(Alive.begin() + i);
 		}		
 	}
-	if (Alive.size() <= 10)
+	if (Alive.size() < 1)
 	{
 		SpawnEnemy();
 	}
@@ -111,7 +110,7 @@ void EnemySpawn::SpawnEnemy()
 
 void EnemySpawn::InitEnemy()
 {
-	unsigned int waveAmount = 6;
+	unsigned int waveAmount = 2;
 
 
 	for (size_t i = 0; i < waveAmount; i++)

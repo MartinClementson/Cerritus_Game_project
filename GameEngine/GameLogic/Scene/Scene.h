@@ -33,6 +33,7 @@ public:
 	void Update(double deltaTime);
 	void Render();
 	void load();
+	void AvadeTrap(Enemy * enemy, BearTrap * bear, double deltaTime);
 	void AddEnemySpawn(XMFLOAT3 spawnPosition);
 
 };

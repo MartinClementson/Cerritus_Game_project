@@ -31,11 +31,11 @@ public:
 	void AddPlayer(Player* player);
 	void AddTrap(FireTrap* fTraps,BearTrap* bTraps);
 
-	bool bearTrapPlayerCollision(BearTrap * trap);
-	bool bearTrapEnemyCollision(BearTrap * trap, Enemy *enemy);
+	bool BearTrapPlayerCollision(BearTrap * trap);
+	bool BearTrapEnemyCollision(BearTrap * trap, Enemy *enemy);
 
-	bool fireTrapPlayerCollision(FireTrap* trap);
-	bool fireTrapEnemyCollision(FireTrap* trap, Enemy * enemy);
+	bool FireTrapPlayerCollision(FireTrap* trap);
+	bool FireTrapEnemyCollision(FireTrap* trap, Enemy * enemy);
 
 
 	bool PlayerCollision(Enemy* enemy);
@@ -43,10 +43,10 @@ public:
 	bool ProjectileEnemyCollision(Projectile* projectile, Enemy* enemy);
 
 	bool EnemyCollision(Enemy * enemy, Enemy* enemys);
-
-	XMFLOAT3 EnemyDir(Enemy * enemy, Enemy * enemys);
 	
 	static Collision* GetInstance();
+
+	bool TrapandEnemyLottery(BearTrap * trap, Enemy * enemys);
 
 	~Collision();
 };

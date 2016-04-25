@@ -13,7 +13,6 @@ Scene::Scene()
 
 }
 
-
 Scene::~Scene()
 {
 
@@ -90,18 +89,12 @@ void Scene::InitBearTrap()
 	}
 }
 
-	
-
-
 void Scene::AddEnemySpawn(XMFLOAT3 spawnPosition)
 {
 	EnemySpawn* spawnPoint = new EnemySpawn();
 	spawnPoint->Initialize(spawnPosition);
 	enemySpawns.push_back(spawnPoint);
 }
-
-
-
 
 void Scene::Release()
 {
@@ -142,7 +135,7 @@ void Scene::Update(double deltaTime)
 
 	for (size_t i = 0; i < bearTraps.size(); i++)
 	{
-		if (collision->bearTrapPlayerCollision(bearTraps.at(i)))
+		if (collision->BearTrapPlayerCollision(bearTraps.at(i)))
 		{
 			if (bearTraps.at(i)->isActive)
 			{
@@ -154,7 +147,24 @@ void Scene::Update(double deltaTime)
 		{
 			for (size_t k = 0; k < enemySpawns.at(j)->Alive.size(); k++)
 			{
-				if (collision->bearTrapEnemyCollision(bearTraps.at(i),
+				if (collision->TrapandEnemyLottery(bearTraps.at(i),
+					enemySpawns.at(j)->Alive.at(k)))
+				{
+					int randoms = rand() % 5 + 1;
+
+					if (randoms == 1)
+					{
+						while (collision->TrapandEnemyLottery(bearTraps.at(i),
+							enemySpawns.at(j)->Alive.at(k)) == true)
+						{
+							AvadeTrap(enemySpawns.at(j)->Alive.at(k)
+								, bearTraps.at(i), deltaTime);
+						}
+					
+					}
+						
+				}
+				if (collision->BearTrapEnemyCollision(bearTraps.at(i),
 					enemySpawns.at(j)->Alive.at(k))
 					&& bearTraps.at(i)->isActive)
 				{
@@ -166,7 +176,7 @@ void Scene::Update(double deltaTime)
 
 	for (size_t i = 0; i < fireTraps.size(); i++)
 	{
-		if (collision->fireTrapPlayerCollision(fireTraps.at(i)) && fireTraps.at(i)->isActive)
+		if (collision->FireTrapPlayerCollision(fireTraps.at(i)) && fireTraps.at(i)->isActive)
 		{
 			fireTraps.at(i)->isActive = false;
 		}
@@ -174,7 +184,7 @@ void Scene::Update(double deltaTime)
 		{
 			for (size_t k = 0; k < enemySpawns.at(j)->Alive.size(); k++)
 			{
-				if (collision->fireTrapEnemyCollision(fireTraps.at(i),
+				if (collision->FireTrapEnemyCollision(fireTraps.at(i),
 					enemySpawns.at(j)->Alive.at(k))
 					&& fireTraps.at(i)->isActive)
 				{
@@ -233,4 +243,23 @@ void Scene::Render()
 void Scene::load()
 {
 
+}
+
+void Scene::AvadeTrap(Enemy* enemy, BearTrap* bear, double deltaTime)
+{
+	XMFLOAT3 enemyPos;
+	XMFLOAT3 trapPos;
+	Vec3 dir;
+
+	enemyPos = enemy->GetPosition();
+	trapPos = bear->GetPosition();
+
+	dir.x = enemyPos.x - trapPos.x;
+	dir.z = enemyPos.z - trapPos.z;
+
+	dir.Normalize();
+
+	enemy->position.x += dir.x * (float)deltaTime * 100;
+	enemy->position.z += dir.z * (float)deltaTime * 100;
+	
 }

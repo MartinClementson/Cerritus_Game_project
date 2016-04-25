@@ -11,7 +11,6 @@ public:
 	virtual ~Character();
 
 protected:
-	XMFLOAT3 position;
 	XMFLOAT3 rotation;
 	float radius, radius2;
 
@@ -24,6 +23,7 @@ protected:
 	
 
 public:
+	XMFLOAT3 position;
 
 	float movementSpeed;
 

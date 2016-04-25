@@ -120,8 +120,7 @@ void Enemy::AIPattern(Player * player, double deltaTime)
 
 	vect.x = playerPos.x - position.x;
 	vect.z = playerPos.z - position.z;
-
-
+		
 	vect.Normalize();
 
 	this->position.x +=  vect.x *(float)deltaTime * movementSpeed;
@@ -143,3 +142,5 @@ void Enemy::EnemyWithEnemyCollision(Enemy* enemy, Enemy* enemys, double deltaTim
 	this->position.x += dir.x * (float)deltaTime;
 	this->position.z += dir.z * (float)deltaTime;
 }
+
+
