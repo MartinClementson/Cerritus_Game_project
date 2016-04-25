@@ -100,7 +100,7 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 
 		/*MessageBox(0, L"You Died",
 		L"Continue", MB_OK);*/
-		health = 100.0f;
+		//health = 100.0f;
 	}
 	
 	this->direction	 = direction;

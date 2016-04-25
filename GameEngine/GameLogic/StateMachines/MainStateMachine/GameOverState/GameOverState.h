@@ -2,6 +2,8 @@
 #include "../../StateClass/StateClass.h"
 #include "../../../Scene/Scene.h"
 #include "../../../GUI/GUI.h"
+#include "../../../Character/Player/Player.h"
+#include"../../../InputHandler/Input/Input.h"
 class GameOverState :
 	public StateClass
 {
@@ -12,6 +14,10 @@ public:
 	void Release();
 	void Update(double deltaTime);
 	void Render();
+	void ProcessInput(double* deltaTime);
+	Input* input;
+	bool replay;
+
 private:
 	void OnEnter();
 	void OnExit();

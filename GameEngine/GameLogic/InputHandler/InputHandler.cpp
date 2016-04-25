@@ -132,6 +132,10 @@ bool InputHandler::IsKeyPressed(InputKeys* key)
 	{
 		return true;
 	}
+	else if (*key == KEY_ENTER && keyboardState[DIK_RETURN])
+	{
+		return true;
+	}
 	else
 	{
 		return false;

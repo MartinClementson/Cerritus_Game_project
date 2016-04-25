@@ -11,6 +11,7 @@ public:
 	void Update(double deltaTime);
 	void Render();
 	void Initialize();
+	float delay;
 	void Release();
 private:
 	GameState* gameState;
