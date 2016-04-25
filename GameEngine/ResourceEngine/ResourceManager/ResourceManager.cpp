@@ -34,6 +34,10 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	tempMat.diffuseTex = "temp";
 	temp.push_back(tempMat);
 	materialManager->addMaterials(&temp);*/
+
+	brfImporterHandler->LoadFile("FireTrap.BRF", true, true, true);
+	brfImporterHandler->LoadFile("BearTrap.BRF", true, true, true);
+
 }
 
 void ResourceManager::Release()
@@ -49,6 +53,13 @@ void ResourceManager::Release()
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoObject * object)
 	{
+		/*currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+		MeshEnum meshType = MeshEnum::TRAP_BEAR;
+		
+		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
+		Shaders temp = PHONG_SHADER;
+		this->shaderManager->SetActiveShader(&temp);
+		return &currentMesh;*/
 		return nullptr;
 	}
 
@@ -87,7 +98,14 @@ void ResourceManager::Release()
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoTrap * object)
 	{
-		return nullptr;
+		currentMesh = RenderInstructions();
+		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+ 		MeshEnum meshType = object->object;
+		
+		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
+		Shaders temp = PHONG_SHADER;
+		this->shaderManager->SetActiveShader(&temp);
+		return &currentMesh;
 	}
 
 	RenderInstructions * ResourceManager::GetPlaceHolderMesh(XMFLOAT3 position)

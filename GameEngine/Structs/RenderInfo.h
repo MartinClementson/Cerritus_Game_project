@@ -74,9 +74,9 @@ struct RenderInfoTrap {
 	XMFLOAT3 position;
 	XMFLOAT3 rotation;
 
-	/*MeshEnum object;
-	Shaders shader;
-	TrapAnimations trapAnim;*/ //these are enum
+	MeshEnum object;
+	//Shaders shader;
+	//TrapAnimations trapAnim;*/ //these are enum
 };
 struct RenderInfoProjectile {
 	XMFLOAT3 origin;
