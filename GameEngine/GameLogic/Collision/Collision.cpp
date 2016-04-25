@@ -188,22 +188,23 @@ bool Collision::EnemyCollision(Enemy* enemy, Enemy* enemys)
 	return false;
 }
 
-bool Collision::TrapandEnemyLottery(BearTrap * trap, Enemy* enemys)
-{
-	trapPos = trap->GetPosition();
-	trapRad = trap->GetRadius2();
-
-	enemyPos = enemys->GetPosition();
-	enemyRad = enemys->GetRadius2();
-
-	if (pow(trapPos.x - enemyPos.x, 2)
-		+ pow(trapPos.z - enemyPos.z, 2)
-		< pow(trapRad + enemyRad, 2))
-	{
-		return true;
-	}
-	return false;
-}
+//
+//bool Collision::TrapandEnemyLottery(BearTrap * trap, Enemy* enemys)
+//{
+//	trapPos = trap->GetPosition();
+//	trapRad = trap->GetRadius2();
+//
+//	enemyPos = enemys->GetPosition();
+//	enemyRad = enemys->GetRadius2();
+//
+//	if (pow(trapPos.x - enemyPos.x, 2)
+//		+ pow(trapPos.z - enemyPos.z, 2)
+//		< pow(trapRad + enemyRad, 2))
+//	{
+//		return true;
+//	}
+//	return false;
+//}
 
 Collision::~Collision()
 {

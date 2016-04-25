@@ -51,7 +51,7 @@ void EnemySpawn::Update(double deltaTime)
 	{
 		if (Alive.at(i)->isAlive == true)
 		{
-			if (!collision->PlayerDistanceCollision(Alive.at(i)))
+			if (collision->PlayerDistanceCollision(Alive.at(i)))
 			{
 				for (int j = 0; j < (int)Alive.size(); j++)
 				{
@@ -64,10 +64,6 @@ void EnemySpawn::Update(double deltaTime)
 			}
 			if (collision->PlayerCollision(Alive.at(i)) )
 			{
-				////not alive anymore
-				//MessageBox(0, L"You have Collided",
-				//	L"LOL", MB_OK);
-		
 				Alive.at(i)->isAlive = false;
 				Queue.push_back(Alive.at(i));	
 				Alive.erase(Alive.begin() + i);

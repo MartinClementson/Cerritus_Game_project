@@ -29,7 +29,7 @@ void Enemy::Initialize()
 	damage = 22.0f;
 	rotation = { 0,0,0 }; 
 	
-	radius = 0.5f;
+	radius = 1.0f;
 	radius2 = 6.0f;
 
 	DoTDur = 0;

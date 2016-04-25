@@ -21,6 +21,7 @@ public:
 	void Render();
 	void ProcessInput(double* deltaTime);
 
+
 private:
 	void OnEnter();
 	void OnExit();

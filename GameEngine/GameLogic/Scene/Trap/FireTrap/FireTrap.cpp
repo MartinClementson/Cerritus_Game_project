@@ -15,7 +15,7 @@ FireTrap::FireTrap(XMFLOAT3 position)
 	this->position = position;
 
 	this->rotation = { 0,0,0 };
-	this->damage = 10;
+	this->damage = 1.0f;
 
 	this->isActive = true;
 	this->renderInfo.object = MeshEnum::TRAP_FIRE;

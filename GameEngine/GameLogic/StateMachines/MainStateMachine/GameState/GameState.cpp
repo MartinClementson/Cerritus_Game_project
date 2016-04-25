@@ -63,7 +63,8 @@ void GameState::Update(double deltaTime)
 	{
 		for (size_t i = 0; i < room1->enemySpawns.at(j)->Alive.size(); i++)
 		{
-			room1->enemySpawns.at(j)->Alive.at(i)->AIPattern(player, deltaTime);
+	
+				room1->enemySpawns.at(j)->Alive.at(i)->AIPattern(player, deltaTime);
 		}
 	}
 
