@@ -2,6 +2,7 @@
 #include "../ResourceManager/MeshManager/MeshManager.h"
 #include "../ResourceManager/ShaderManager/ShaderManager.h"
 #include "../ResourceManager/BRFImporterHandler/BRFImporterHandler.h"
+#include "../ResourceManager/MaterialManager/MaterialManager.h"
 #include "../../Structs/RenderInfo.h"
 class ResourceManager
 {
@@ -9,6 +10,7 @@ class ResourceManager
 private:
 	RenderInstructions currentMesh;
 
+	MaterialManager* materialManager		= nullptr;
 	MeshManager* meshManager				= nullptr;
 	ShaderManager* shaderManager			= nullptr;
 	BRFImporterHandler* brfImporterHandler	= nullptr;
