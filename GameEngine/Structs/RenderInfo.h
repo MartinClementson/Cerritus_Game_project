@@ -17,6 +17,7 @@ struct RenderInstructions
 	Then this struct is returned to the Renderer that proceeds to update the buffers, resources and finally draws the geometry.
 
 	*/
+	unsigned int materialID;
 
 	bool* isAnimated						 = nullptr; //this is important to make sure we use the right vert struct
 

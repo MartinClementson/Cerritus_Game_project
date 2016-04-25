@@ -101,7 +101,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Headers;$(SolutionDir)\Source\Main;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\DirectXTK\Inc;$(SolutionDir)\DirectXTK\MakeSpriteFont;$(SolutionDir)\DirectXTK\Src;$(SolutionDir)\ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Headers;$(SolutionDir)\Source\Main;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -144,6 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="DirectXTK\Src\WICTextureLoader.cpp" />
     <ClCompile Include="GameLogic\Animation\Animation.cpp" />
     <ClCompile Include="GameLogic\Character\Character.cpp" />
     <ClCompile Include="GameLogic\Character\Enemy\Enemy.cpp" />
@@ -189,9 +190,12 @@
     <ClCompile Include="ResourceEngine\ObjectNode\ObjectNode.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\Render\Renderer.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.cpp" />
+    <ClCompile Include="ResourceEngine\ResourceManager\MaterialManager\MaterialManager.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\MeshManager\MeshManager.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\ShaderManager\ShaderManager.cpp" />
+    <ClCompile Include="ResourceEngine\ResourceManager\TextureManager\TextureManager.cpp" />
+    <ClCompile Include="ResourceEngine\ResourceManager\TextureManager\TextureResource\TextureResource.cpp" />
     <ClCompile Include="Source\EngineClass\Engine.cpp" />
     <ClCompile Include="Source\GameTimer\GameTimer.cpp" />
   </ItemGroup>
@@ -241,9 +245,12 @@
     <ClInclude Include="ResourceEngine\ObjectNode\ObjectNode.h" />
     <ClInclude Include="ResourceEngine\ObjectNode\Render\Renderer.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.h" />
+    <ClInclude Include="ResourceEngine\ResourceManager\MaterialManager\MaterialManager.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\MeshManager\MeshManager.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\ResourceManager.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\ShaderManager\ShaderManager.h" />
+    <ClInclude Include="ResourceEngine\ResourceManager\TextureManager\TextureManager.h" />
+    <ClInclude Include="ResourceEngine\ResourceManager\TextureManager\TextureResource\TextureResource.h" />
     <ClInclude Include="Source\Constants.h" />
     <ClInclude Include="Source\EngineClass\Engine.h" />
     <ClInclude Include="Source\GameTimer\GameTimer.h" />
