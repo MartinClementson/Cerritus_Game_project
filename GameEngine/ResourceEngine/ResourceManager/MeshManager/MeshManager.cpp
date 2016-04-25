@@ -162,7 +162,7 @@ void MeshManager::CreatePlaceHolderPlane()
 
 	this->placeHolderPlane.CreateVertexBuffer(planeVerts, 4);
 	this->placeHolderPlane.CreateIndexBuffer(indices, 6); 
-	int hej = sizeof(Float3)*2;
+	
 }
 
 
