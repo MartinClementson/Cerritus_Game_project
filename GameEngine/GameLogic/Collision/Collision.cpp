@@ -113,6 +113,25 @@ bool Collision::PlayerCollision(Enemy* enemy)
 	return false;
 }
 
+bool Collision::PlayerDistanceCollision(Enemy* enemy)
+{
+	XMFLOAT3 playPos = player->GetPosition();
+	float playRad = player->GetRadius2();
+
+	enemyPos = enemy->GetPosition();
+	enemyRad = enemy->GetRadius2();
+
+	if (pow(playPos.x - enemyPos.x, 2)
+		+ pow(playPos.z - enemyPos.z, 2)
+		< pow(playRad + enemyRad, 2))
+	{
+
+		return true;
+	}
+
+	return false;
+}
+
 bool Collision::ProjectileEnemyCollision(Projectile* projectile,Enemy* enemy)
 {
 	XMFLOAT3 proPos = projectile->GetPos();
@@ -129,6 +148,24 @@ bool Collision::ProjectileEnemyCollision(Projectile* projectile,Enemy* enemy)
 
 	return false;
 }
+
+bool Collision::EnemyCollision(Enemy* enemy, Enemy* enemys)
+{
+	enemyPos = enemy->GetPosition();
+	enemyRad = enemy->GetRadius2();
+
+	enemyPos2 = enemys->GetPosition();
+	enemyRad2 = enemys->GetRadius2();
+
+	if (pow(enemyPos2.x - enemyPos.x, 2)
+		+ pow(enemyPos2.z - enemyPos.z, 2)
+		< pow(enemyRad2 + enemyRad, 2))
+	{
+		return true;
+	}
+	return false;
+}
+
 
 Collision::~Collision()
 {

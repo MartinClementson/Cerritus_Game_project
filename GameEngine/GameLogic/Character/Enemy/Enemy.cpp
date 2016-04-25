@@ -29,7 +29,8 @@ void Enemy::Initialize()
 	damage = 22.0f;
 	rotation = { 0,0,0 }; 
 	
-	radius = 1.0f;
+	radius = 0.5f;
+	radius2 = 6.0f;
 
 	isAlive = false;
 }
@@ -55,73 +56,6 @@ void Enemy::SetHealth(float health)
 	this->health = health;
 }
 
-//void Enemy::UpdateAttack(double deltaTime)
-//{
-//	//enemy basic movement
-//	//position of the enemy to test the movement of the enemy we set the start value at 0,0,0 and if the x value is 0 we move in that direction untill we reach x = 5 then we tail backwards to zero,
-//	//just to see if the movement of the enemies work. 
-//#pragma region movement
-//
-//	if (position.x < 5)
-//	{
-//		position.x = position.x + movementSpeed;
-//	}
-//	else
-//	{
-//		position.x = 0;
-//	}
-//#pragma region bulle
-//	//just if we want to decrease the movement speed of the enemys when they are hurt. 
-//	//if (health == 100)
-//	//{
-//	//	movementSpeed = 1.0f;
-//	//}
-//	//else if (health < 50)
-//	//{
-//	//	movementSpeed = 0.75f;
-//	//}
-//	//if (health == 0)
-//	//{
-//	//	//call for deathstate for the enemy..
-//	//}	
-//	//moving the enemy in the x coords with the speed of the enemy
-//#pragma endregion
-//	
-//	renderInfo = { position, rotation };
-//}
-//void Enemy::UpdateDead(double deltaTime)
-//{
-//	position.x = 0;
-//	position.z = 0;
-//
-//	rotation.x = 0;
-//	rotation.y = 0;
-//	rotation.z = 0;
-//
-//	//Remove enemy from game and move to back of queue
-//	//Trigger animation. Animation.death(true);
-//
-//	dead = true;
-//
-//	renderInfo = { position, rotation };
-//}
-//void Enemy::UpdateIdle(double deltaTime)
-//{
-//	position.x = 0;
-//	position.z = 0;
-//
-//	rotation.x = 0;
-//	rotation.y = 0;
-//	rotation.z = 0;
-//
-//	//If game gets paused put enemies in a idle state where position and rotation is
-//	// set to 0 
-//
-//	idle = true;
-//
-//	renderInfo = { position, rotation };
-//}
-
 void Enemy::Render()
 {
 	renderInfo = { position, rotation };
@@ -139,18 +73,49 @@ XMFLOAT3 Enemy::GetPosition()
 	return this->position; 
 }
 
+void Enemy::SetPosition(XMFLOAT3 pos)
+{
+	pos = position;
+}
+
 float Enemy::GetRadius() 
 {
 	return this->radius; 
 }
 
+float Enemy::GetRadius2()
+{
+	return this->radius2;
+}
+
 void Enemy::AIPattern(Player * player, double deltaTime)
 {
 	XMFLOAT3 playerPos = player->GetPosition();
-	XMFLOAT3 vect;
+	Vec3 vect;
 
 	vect.x = playerPos.x - position.x;
 	vect.z = playerPos.z - position.z;
+
+	vect.Normalize();
+
 	this->position.x +=  vect.x *(float)deltaTime;
 	this->position.z +=  vect.z *(float)deltaTime;
+}
+
+void Enemy::EnemyWithEnemyCollision(Enemy* enemy, Enemy* enemys, double deltaTime)
+{
+	XMFLOAT3 enemyPos;
+	XMFLOAT3 enemyPos2;
+	Vec3 dir;
+
+	enemyPos = enemy->GetPosition();
+	enemyPos2 = enemys->GetPosition();
+
+	dir.x = enemyPos.x - enemyPos2.x;
+	dir.z = enemyPos.z - enemyPos2.z;
+
+	//dir.Normalize();
+
+	this->position.x += dir.x * (float)deltaTime;
+	this->position.z += dir.z * (float)deltaTime;
 }

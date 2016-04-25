@@ -38,8 +38,11 @@ public:
 
 	void Render();
 	XMFLOAT3 GetPosition();
+	void SetPosition(XMFLOAT3 pos);
 	float GetRadius();
+	float GetRadius2();
 	void AIPattern(Player * player, double deltaTime);
+	void EnemyWithEnemyCollision(Enemy * enemy, Enemy * enemys, double deltaTime);
 	void Respawn(XMFLOAT3 spawn);
 };
 

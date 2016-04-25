@@ -32,7 +32,7 @@ void EnemySpawn::Release()
 }
 void EnemySpawn::Update(double deltaTime)
 {
-	if (Alive.size() <= 10)
+	if (Alive.size() <= 3)
 	{
 		SpawnEnemy();
 	}
@@ -40,7 +40,17 @@ void EnemySpawn::Update(double deltaTime)
 	{
 		if (Alive.at(i)->isAlive == true)
 		{
-
+			if (!collision->PlayerDistanceCollision(Alive.at(i)))
+			{
+				for (int j = 0; j < (int)Alive.size(); j++)
+				{
+					if (collision->EnemyCollision(Alive.at(i), Alive.at(j)))
+					{
+						Alive.at(i)->EnemyWithEnemyCollision(
+							Alive.at(i), Alive.at(j), deltaTime);
+					}
+				}
+			}
 			if (collision->PlayerCollision(Alive.at(i)) )
 			{
 				////not alive anymore
@@ -87,7 +97,7 @@ void EnemySpawn::SpawnEnemy()
 
 void EnemySpawn::InitEnemy()
 {
-	unsigned int waveAmount = 20;
+	unsigned int waveAmount = 6;
 
 
 	for (size_t i = 0; i < waveAmount; i++)
