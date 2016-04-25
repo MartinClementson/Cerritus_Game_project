@@ -28,29 +28,33 @@ cbuffer textureSampleBuffer : register(b3)
 
 struct VS_IN
 {
-	float3 Pos		: POSITION;
-	//float2 Uv		: TEXCOORD0;
-	//float3 Normal	: NORMAL;
-	//float3 Tangent	: TANGENT;
+	float3 Pos			 : POSITION;
+	float3 Normal		 : TEXCOORD0;
+	float2 Uv			 : TEXCOORD1;
+	float2 BiTangent	 : TEXCOORD2;
+	float2 Tangent		 : TEXCOORD3;
 };
 
 struct VS_OUT
 {
 
-	float4 Pos		 : SV_POSITION;
-	//float2 Uv		 : TEXCOORD0;
-	//float3 Normal	 : NORMAL;
-	//float3 Tangent	 : TANGENT;
-
+	float4 Pos			 : SV_POSITION;
+	float3 Normal		 : TEXCOORD0;
+	float2 Uv			 : TEXCOORD1;
+	float3 BiTangent	 : TEXCOORD2;
+	float3 Tangent		 : TEXCOORD3;
 };
 
 //Vertex shader
 VS_OUT VS_main( VS_IN input)
 {
 	VS_OUT output;
-	output.Pos = float4(input.Pos, 1.0f);
+	output.Pos				 = float4(input.Pos, 1.0f);
+	output.Normal			 = input.Normal ;
+	output.Uv				 = input.Uv;
+	output.BiTangent		 = float3(input.BiTangent, 1.0f);	//z value NEEDS TO BE CALCULATED (1 is just a placeholder!!)
+	output.Tangent			 = float3(input.Tangent, 1.0f);		//z value NEEDS TO BE CALCULATED (1 is just a placeholder!!)
 
-	
 	return output;
 }
 
@@ -58,12 +62,15 @@ VS_OUT VS_main( VS_IN input)
 struct GS_OUT
 {
 	float4 Pos			: SV_POSITION;
-	//float2 Uv			: TEXCOORD0;
-	//float3 Normal		: NORMAL;
+	float3 Normal		: TEXCOORD0;
+	float2 Uv			: TEXCOORD1;
+	float3 BiTangent	: TEXCOORD2;
+	float3 Tangent		: TEXCOORD3;
+
+
 	float4 wPos			: WORLDPOS;
 	float4 camPos		: CAMERAPOS;
 	float4 mousePos		: MOUSEPOS;
-	//float3 Tangent		: TANGENT;
 
 };
 
@@ -79,7 +86,16 @@ void GS_main(
 	for (uint i = 0; i < 3; i++)
 	{
 		GS_OUT element;
-		element.Pos		 = mul(input[i].Pos,combinedMatrix);
+		element.Pos			 = mul(input[i].Pos,combinedMatrix);
+		element.Normal		 = input[i].Normal;
+		element.Uv			 = input[i].Uv;
+		element.BiTangent	 = input[i].BiTangent;
+		element.Tangent		 = input[i].Tangent;
+
+
+
+
+
 		element.wPos	 = mul(input[i].Pos,world);
 		element.camPos	 = camPos;
 		element.mousePos = mousePos;
