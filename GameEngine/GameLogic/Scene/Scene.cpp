@@ -48,7 +48,7 @@ Scene::~Scene()
 
 void Scene::Initialize()
 {
-	srand(time(0));
+	
 	trapAmount = 5;
 	InitBearTrap();
 	InitFireTrap();
@@ -57,7 +57,7 @@ void Scene::Initialize()
 
 void Scene::InitFireTrap()
 {
-	srand(time(0));
+	srand((unsigned int)time(0));
 
 
 	for (int i = 0; i < trapAmount; i++)
@@ -74,7 +74,7 @@ void Scene::InitFireTrap()
 
 void Scene::InitBearTrap()
 {
-	srand(time(0));
+	srand((unsigned int)time(0));
 	
 
 	for (int i = 0; i < trapAmount; i++)

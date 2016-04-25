@@ -37,10 +37,9 @@ private:
 
 
 	//Shaders for phong shading
-	ID3D11VertexShader*		PHONG_VS				 = nullptr;
-	ID3D11GeometryShader*	PHONG_GS				 = nullptr;
-	ID3D11PixelShader*		PHONG_PS				 = nullptr;
-	ID3D11InputLayout*		gVertexLayoutPhong		 = nullptr;
+	ID3D11VertexShader*		FINAL_VS				 = nullptr;
+	ID3D11PixelShader*		FINAL_PS				 = nullptr;
+	ID3D11InputLayout*		gVertexLayoutFinal		 = nullptr;
 
 
 	//Shaders for the Animation
@@ -49,6 +48,12 @@ private:
 	ID3D11PixelShader*		ANIMATION_PS			 = nullptr;
 	ID3D11InputLayout*		gVertexLayoutAnimation   = nullptr;
 
+	//Shaders for GBuffer
+	ID3D11VertexShader*		GBUFFER_SHADOWDEPTH_VS	 = nullptr;
+	ID3D11VertexShader*		GBUFFER_VS				 = nullptr;
+	ID3D11GeometryShader*	GBUFFER_GS				 = nullptr;
+	ID3D11PixelShader*		GBUFFER_PS				 = nullptr;
+	ID3D11InputLayout*		gVertexLayoutGBuffer	 = nullptr;
 
 	//Shaders for particle shading
 	ID3D11VertexShader*		PARTICLE_VS				 = nullptr;
@@ -69,11 +74,6 @@ private:
 	ID3D11PixelShader*		UI_PS					= nullptr;
 	ID3D11InputLayout*		gVertexLayoutUI			= nullptr;
 
-	//Shaders for Gbuffer 
-	ID3D11VertexShader*		GBUFFER_VS				= nullptr;
-	ID3D11GeometryShader*	GBUFFER_GS				= nullptr;
-	ID3D11PixelShader*		GBUFFER_PS				= nullptr;
-	ID3D11InputLayout*		gVertexLayoutGBUFFER	= nullptr;
 
 
 public:
@@ -88,11 +88,11 @@ private:
 
 	void CreateShaders();
 
-	bool CreatePhongShader();
+	bool CreateFinalPassShaders();
 	bool CreateAnimationShader();
+	bool CreateGbufferShader();
 	bool CreateParticleShader();
 	bool CreateBillboardShader();
 	bool CreateUiShader();
-	bool CreateGbufferShader();
 };
 

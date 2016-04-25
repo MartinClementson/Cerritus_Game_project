@@ -36,7 +36,8 @@ public:
 	void Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext);
 	void Release();
 	
-	
+	void RenderFinalPass();
+	void SetGbufferPass(bool x) { this->resourceManager->SetGbufferPass(x); };
 	void Render(RenderInfoObject* object);
 	void Render(RenderInfoUI* object);
 	void Render(RenderInfoEnemy* object);
@@ -52,11 +53,14 @@ public:
 
 	void GetInverseViewMatrix(XMMATRIX &matrix);
 	void GetInverseProjectionMatrix(XMMATRIX &matrix);
+
+	
 private:
 	void Render(RenderInstructions* object);
 
 	void UpdateCameraBuffer();
 	void UpdateWorldBuffer(WorldMatrix* worldStruct);
+	void UpdateLightBuffer(LightStruct* lightStruct);
 	void UpdateSampleBoolsBuffer(SampleBoolStruct* sampleStruct);
 	bool CreateConstantBuffers();
 
