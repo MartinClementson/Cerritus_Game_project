@@ -25,10 +25,12 @@ void Enemy::Initialize()
 	movementSpeed = 20.0f;
 
 	health = 100.0f;
-
+	DoT = 0;
 	damage = 22.0f;
 	rotation = { 0,0,0 }; 
-	
+	DoTDur = 0;
+	slowTimer = 0; 
+
 	radius = 1.0f;
 
 	isAlive = false;
@@ -41,6 +43,26 @@ void Enemy::Release()
 
 void Enemy::Update(double deltaTime)
 {
+	health -= DoT;//deltaTime;
+
+	if (DoT != 0)
+	{
+		DoTDur += deltaTime;
+	}
+	if (DoTDur >= 3)
+	{
+		DoT = 0;
+		DoTDur = 0;
+	}
+	if (movementSpeed != 20.0f)
+	{
+		slowTimer += deltaTime;
+	}
+	if (slowTimer >= 3)
+	{
+		movementSpeed = 20.0f;
+		slowTimer = 0.0f; 
+	}
 	enemyStateMachine->Update(deltaTime);
 	renderInfo = { position, rotation };
 }
@@ -65,6 +87,8 @@ void Enemy::Respawn(XMFLOAT3 spawn)
 {
 	this->position = spawn;
 	this->isAlive  = true;
+	this->health = 100.0f;
+	this->DoT = 0.0f;
 }
 
 XMFLOAT3 Enemy::GetPosition() 

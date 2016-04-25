@@ -12,9 +12,6 @@
 class Enemy :
 	public Character
 {
-protected:
-
-	float movementSpeed, health, damage;
 private:
 	RenderInfoEnemy renderInfo;
 	EnemyStateMachine* enemyStateMachine;

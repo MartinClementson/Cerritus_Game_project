@@ -15,7 +15,7 @@ protected:
 	XMFLOAT3 rotation;
 	float radius;
 
-	float movementSpeed, health, damage;
+	float health, damage;
 	bool dead, idle, active;
 	Graphics* graphics;
 	Animation* animations;
@@ -24,6 +24,9 @@ protected:
 	
 
 public:
+
+	float movementSpeed;
+
 	virtual void Initialize();
 	virtual void Release();
 	virtual void Update(double deltaTime);
