@@ -40,17 +40,17 @@ void Renderer::Release()
 //Render scene objects, mostly static stuff
 void Renderer::Render(RenderInfoObject * object)
 {
-	RenderInstructions* renderObject;
+	//RenderInstructions* renderObject;
 
 	//Send the info of the object into the resource manager
 	//The resource manager gathers all the rendering info and sends back a renderInstruction
-	renderObject = this->resourceManager->GetRenderInfo(object);
+	//renderObject = this->resourceManager->GetRenderInfo(object);
 
 	//Render with the given render instruction
 
-	this->Render(renderObject);
+	//this->Render(renderObject);
 
-	//RenderPlaceHolder(&object->position,&object->rotation);
+	RenderPlaceHolder(&object->position,&object->rotation);
 
 	//RenderPlaceHolder(&object->position);
 

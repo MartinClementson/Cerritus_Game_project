@@ -179,7 +179,7 @@ void Scene::Render()
 {
 	for (size_t i = 0; i < fireTraps.size(); i++)
 	{
-		if (fireTraps.at(i)->GetDot())
+		if (fireTraps.at(i)->isActive)
 		{
 			fireTraps.at(i)->Render();
 		}
@@ -187,7 +187,7 @@ void Scene::Render()
 	}
 	for (size_t i = 0; i < bearTraps.size(); i++)
 	{
-		if (bearTraps.at(i)->GetSlow())
+		if (bearTraps.at(i)->isActive)
 		{
 			bearTraps.at(i)->Render();
 		}

@@ -11,7 +11,7 @@ FireTrap::FireTrap(XMFLOAT3 position)
 {
 	grapichs = Graphics::GetInstance();
 	dotDuration = 2.5f;
-
+	
 	this->position = position;
 
 	this->rotation = { 0,0,0 };
@@ -69,10 +69,10 @@ void FireTrap::Render()
 
 float FireTrap::GetDot()
 {
-	return dotDuration;
+	return damage;
 }
 
-void FireTrap::SetDot(float dotDuration)
+void FireTrap::SetDotDur(float dotDuration)
 {
 	this->dotDuration = dotDuration;
 }

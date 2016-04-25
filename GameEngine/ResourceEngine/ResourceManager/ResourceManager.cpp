@@ -42,13 +42,14 @@ void ResourceManager::Release()
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoObject * object)
 	{
-		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+		/*currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
 		MeshEnum meshType = MeshEnum::TRAP_BEAR;
 		
 		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
 		Shaders temp = PHONG_SHADER;
 		this->shaderManager->SetActiveShader(&temp);
-		return &currentMesh;
+		return &currentMesh;*/
+		return nullptr;
 	}
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoUI * object)

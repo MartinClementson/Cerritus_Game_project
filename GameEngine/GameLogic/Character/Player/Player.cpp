@@ -60,7 +60,9 @@ void Player::Initialize()
 	VelocityMax = 4.0f;
 	slowTimer = 0;
 	radius				 = 1.0f;
-
+	DoT = 0.0f;
+	DoTDur = 0.0f;
+	health = 100.0f;
 	projectileSystem->Initialize();
 }
 
@@ -81,6 +83,26 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 		VelocityMax = 4.0f;
 		slowTimer = 0.0f;
 	}
+	
+	if (DoT != 0)
+	{
+		DoTDur += deltaTime;
+	}
+	if (DoTDur > 2)
+	{
+		DoT = 0.0f;
+		DoTDur = 0.0f;
+	}
+
+	health -= DoT;
+	if (health <= 0)
+	{
+
+		MessageBox(0, L"You Died",
+		L"Continue", MB_OK);
+		health = 100.0f;
+	}
+	
 	this->direction	 = direction;
 	
 
@@ -200,4 +222,14 @@ void Player::Shoot(InputKeys input, double deltaTime)
 	}
 
 
+}
+
+float Player::GetHealth()
+{
+	return this->health;
+}
+
+void Player::SetHealth(float health)
+{
+	this->health = health;
 }

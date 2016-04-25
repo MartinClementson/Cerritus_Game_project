@@ -12,7 +12,7 @@ public:
 	void Update(double deltaTime);
 	void Render();
 	float GetDot();
-	void SetDot(float dotDuration);
+	void SetDotDur(float dotDuration);
 	RenderInfoTrap renderInfo;
 
 	//Collision();
