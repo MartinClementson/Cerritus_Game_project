@@ -23,6 +23,9 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 
 	placeHolderPlane.Initialize(gDevice, gDeviceContext);
 	CreatePlaceHolderPlane();
+
+	fullScreenQuad.Initialize(gDevice, gDeviceContext);
+	CreateFullScreenQuad();
 }
 
 void MeshManager::Release()
@@ -175,6 +178,35 @@ void MeshManager::CreatePlaceHolderPlane()
 	
 }
 
+void MeshManager::CreateFullScreenQuad()
+{
+
+	Vertex planeVerts[4];
+
+	planeVerts[0].position = Float3(-1.0f,	1.0f,  0.0f);		//0
+
+	planeVerts[1].position = Float3(1.0f,	1.0f,  0.0f);		//1
+
+	planeVerts[2].position = Float3(1.0f,	-1.0f, 0.0f);		//2
+
+	planeVerts[3].position = Float3(-1.0f, -1.0f, 0.0f);		//3
+
+
+	UINT indices[6] =
+	{
+		0, 1, 2,
+		0, 2, 3
+	};
+
+
+
+
+	this->fullScreenQuad.CreateVertexBuffer(planeVerts, 4);
+	this->fullScreenQuad.CreateIndexBuffer(indices, 6);
+
+
+}
+
 
 void MeshManager::GetPlaceHolderMeshInfo(RenderInstructions * toRender)
 {
@@ -185,5 +217,9 @@ void MeshManager::GetPlaceHolderMeshInfo(RenderInstructions * toRender)
 void MeshManager::GetPlaceHolderPlaneInfo(RenderInstructions * toRender)
 {
 	placeHolderPlane.GetMeshRenderInfo(toRender);
+}
+void MeshManager::GetFullScreenQuadInfo(RenderInstructions * toRender)
+{
+	fullScreenQuad.GetMeshRenderInfo(toRender);
 }
 #pragma endregion

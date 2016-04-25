@@ -75,7 +75,7 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 {
 	if (VelocityMax == 0.2f)
 	{
-		slowTimer += deltaTime;
+		slowTimer += (float)deltaTime;
 		
 	}
 	if (slowTimer > 3.0f)
@@ -86,7 +86,7 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 	
 	if (DoT != 0)
 	{
-		DoTDur += deltaTime;
+		DoTDur += (float)deltaTime;
 	}
 	if (DoTDur > 2)
 	{

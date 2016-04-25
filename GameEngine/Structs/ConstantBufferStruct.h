@@ -25,7 +25,7 @@ struct LightStruct
 	DirectX::XMFLOAT4 lightColor;
 	float intensity;
 	DirectX::XMFLOAT3 pad;
-	float shadowMapAmount;
+
 };
 
 

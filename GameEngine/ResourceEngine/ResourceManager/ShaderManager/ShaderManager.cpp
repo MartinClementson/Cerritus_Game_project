@@ -311,7 +311,7 @@ bool ShaderManager::CreateAnimationShader()
 bool ShaderManager::CreateGbufferShader()
 {
 
-
+	HRESULT hr;
 	//Load the shaders
 
 	ID3DBlob* pVSShadow = nullptr;

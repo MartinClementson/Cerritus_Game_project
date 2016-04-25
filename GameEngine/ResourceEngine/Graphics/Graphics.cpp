@@ -116,15 +116,16 @@ void Graphics::Render() //manage RenderPasses here
 
 	this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
 	//gBuffer->SetToRender(depthStencilView);		//Set The gbuffer pass
-
+	//this->renderer->SetGbufferPass(true);
 	//RenderScene();								//Render to the gBuffer
 													//Set the gBuffer as a subResource, send in the new RenderTarget
 	//gBuffer->SetToRead(gBackBufferRTV); 
-	
+
 	//gBuffer->ClearGbuffer();
 										
 	
 	RenderScene();// TEMPORARY, REMOVE WHEN GBUFFER WORKS
+	this->renderer->RenderFinalPass();
 
 	FinishFrame();
 
@@ -226,6 +227,7 @@ void Graphics::SetViewPort()
 	this->gDeviceContext->RSSetViewports(1, &vp);
 
 }
+
 void Graphics::SetShadowViewPort()
 {
 	vp.Width	=	(float)SHADOW_WIDTH;

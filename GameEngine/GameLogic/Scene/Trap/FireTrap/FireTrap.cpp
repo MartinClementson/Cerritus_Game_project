@@ -50,7 +50,7 @@ void FireTrap::Update(double deltaTime)
 { 
 	if (dotDuration > 0)
 	{
-		dotDuration = dotDuration - 1 * deltaTime;// thinkng of how this will work, need a boolean for if activated and if enemys have collided with it.
+		dotDuration = dotDuration - 1 * (float)deltaTime;// thinkng of how this will work, need a boolean for if activated and if enemys have collided with it.
 
 		//dotDuration = dotDuration - 1 * (float)deltaTime;
 

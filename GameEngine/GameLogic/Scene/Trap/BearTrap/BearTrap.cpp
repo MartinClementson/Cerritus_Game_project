@@ -45,7 +45,7 @@ void BearTrap::Update(double deltaTime)
 {
 	if (slow > 0.0f)
 	{
-		slow -=deltaTime; // thinkng of how this will work, need a boolean for if activated and if enemys have collided with it.
+		slow -= (float)deltaTime; // thinkng of how this will work, need a boolean for if activated and if enemys have collided with it.
 
 		//slow = slow - 1 * (float)deltaTime;// la till delta time av samma anledning som i fire
 
