@@ -75,8 +75,6 @@ public:
 	float GetRadius() { return this->radius; };
 	float VelocityMax; 
 	float slowTimer;
-	float DoT;
-	float DoTDur;
 	float GetHealth();
 	void SetHealth(float health);
 
