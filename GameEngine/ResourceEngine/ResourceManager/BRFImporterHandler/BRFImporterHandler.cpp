@@ -173,7 +173,7 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 		tempMaterial.materialID = materialID;
 		materialID++;
 
-		for (unsigned int j = 0; j < meshes->size(); j++)
+		for (unsigned int j = meshes->size()-meshsize; j < meshes->size(); j++)
 		{
 			unsigned int importedMatID = meshes->at(j).GetMaterialID();
 			if (importedMatID == tempMaterialID)
