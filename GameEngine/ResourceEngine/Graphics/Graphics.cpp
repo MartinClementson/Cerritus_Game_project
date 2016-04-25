@@ -241,7 +241,9 @@ void Graphics::SetShadowViewPort()
 void Graphics::SetShadowMap()
 {
 	SetShadowViewPort();
-
+	//clear stencils
+	//render new stencils
+	//as for loops based on amt of shadowmaps
 
 
 

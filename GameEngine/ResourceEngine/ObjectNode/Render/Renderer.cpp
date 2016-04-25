@@ -278,6 +278,25 @@ void Renderer::UpdateWorldBuffer(WorldMatrix* worldStruct)
 
 }
 
+void Renderer::UpdateLightBuffer(LightStruct * lightStruct)
+{
+	D3D11_MAPPED_SUBRESOURCE mappedResourceLight;
+	ZeroMemory(&mappedResourceLight, sizeof(mappedResourceLight));
+
+	//mapping to the matrixbuffer
+	this->gDeviceContext->Map(lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResourceLight);
+
+	LightStruct* temporaryWorld = (LightStruct*)mappedResourceLight.pData;
+
+	*temporaryWorld = *lightStruct;
+
+
+
+	this->gDeviceContext->Unmap(lightBuffer, 0);
+	gDeviceContext->GSSetConstantBuffers(LIGHTBUFFER_INDEX, 1, &this->lightBuffer);
+
+}
+
 void Renderer::UpdateSampleBoolsBuffer(SampleBoolStruct * sampleStruct)
 {
 	D3D11_MAPPED_SUBRESOURCE mappedResourceSampleBool;

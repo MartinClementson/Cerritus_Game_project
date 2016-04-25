@@ -49,6 +49,12 @@ private:
 	ID3D11PixelShader*		ANIMATION_PS			 = nullptr;
 	ID3D11InputLayout*		gVertexLayoutAnimation   = nullptr;
 
+	//Shaders for GBuffer
+	ID3D11VertexShader*		GBUFFER_SHADOWDEPTH_VS	 = nullptr;
+	ID3D11VertexShader*		GBUFFER_VS				 = nullptr;
+	ID3D11GeometryShader*	GBUFFER_GS				 = nullptr;
+	ID3D11PixelShader*		GBUFFER_PS				 = nullptr;
+	ID3D11InputLayout*		gVertexLayoutGBuffer	 = nullptr;
 
 	//Shaders for particle shading
 	ID3D11VertexShader*		PARTICLE_VS				 = nullptr;
@@ -90,6 +96,7 @@ private:
 
 	bool CreatePhongShader();
 	bool CreateAnimationShader();
+	bool CreateGbufferShader();
 	bool CreateParticleShader();
 	bool CreateBillboardShader();
 	bool CreateUiShader();

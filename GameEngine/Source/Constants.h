@@ -2,6 +2,9 @@
 #define WIN_WIDTH 800.0
 #define WIN_HEIGHT 600.0
 
+#define SHADOW_WIDTH 1024.0
+#define SHADOW_HEIGHT 1024.0
+
 #define WINDOWED true
 #define WIREFRAME false
 #define VSYNC 1 //1 == ON, 0 = OFF
