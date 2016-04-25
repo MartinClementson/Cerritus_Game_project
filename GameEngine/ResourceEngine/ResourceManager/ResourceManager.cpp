@@ -56,7 +56,7 @@ void ResourceManager::Release()
 		if (!gbufferPass)
 		{
 
-			Shaders temp = PHONG_SHADER;
+			Shaders temp = FINAL_SHADER;
 			this->shaderManager->SetActiveShader(&temp);
 		}
 	
@@ -80,7 +80,7 @@ void ResourceManager::Release()
 		
 		if (!gbufferPass)
 		{
-			Shaders temp = PHONG_SHADER;
+			Shaders temp = FINAL_SHADER;
 			this->shaderManager->SetActiveShader(&temp);
 		}
 		return &currentMesh;
@@ -98,7 +98,7 @@ void ResourceManager::Release()
 		if (!gbufferPass)
 		{
 
-			Shaders temp = PHONG_SHADER;
+			Shaders temp = FINAL_SHADER;
 			this->shaderManager->SetActiveShader(&temp);
 		}
 
@@ -118,7 +118,7 @@ void ResourceManager::Release()
 		if (!gbufferPass)
 		{
 
-			Shaders temp = PHONG_SHADER;
+			Shaders temp = FINAL_SHADER;
 			this->shaderManager->SetActiveShader(&temp);
 		}
 		return &currentMesh;
@@ -140,7 +140,7 @@ void ResourceManager::Release()
 		if (!gbufferPass)
 		{
 
-			Shaders temp = PHONG_SHADER;
+			Shaders temp = FINAL_SHADER;
 			this->shaderManager->SetActiveShader(&temp);
 		}
 		return &currentMesh;
@@ -158,7 +158,7 @@ void ResourceManager::Release()
 		if (!gbufferPass)
 		{
 
-			Shaders temp = PHONG_SHADER;
+			Shaders temp = FINAL_SHADER;
 			this->shaderManager->SetActiveShader(&temp);
 		}
 
@@ -181,7 +181,7 @@ void ResourceManager::Release()
 
 		if (!gbufferPass)
 		{
-			Shaders temp = PHONG_SHADER;
+			Shaders temp = FINAL_SHADER;
 			this->shaderManager->SetActiveShader(&temp);
 		}
 
@@ -192,7 +192,8 @@ void ResourceManager::Release()
 	RenderInstructions * ResourceManager::GetFullScreenQuad()
 	{
 		currentMesh = RenderInstructions();
-		
+		Shaders temp = FINAL_SHADER;
+		this->shaderManager->SetActiveShader(&temp);
 		meshManager->GetFullScreenQuadInfo(&currentMesh);
 
 		return &currentMesh;

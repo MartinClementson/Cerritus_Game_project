@@ -41,7 +41,7 @@ void Renderer::RenderFinalPass()
 	RenderInstructions * objectInstruction;
 
 	objectInstruction = this->resourceManager->GetFullScreenQuad();
-
+	this->resourceManager->SetShader(Shaders::FINAL_SHADER);
 	UINT32 vertexSize;
 
 		vertexSize = sizeof(Vertex);

@@ -50,8 +50,8 @@ void Graphics::Initialize(HWND * window)
 	renderer = new Renderer();
 	renderer->Initialize(gDevice,this->gDeviceContext);
 	
-	//gBuffer = new Gbuffer();
-	//gBuffer->Initialize(this->gDevice,this->gDeviceContext);
+	gBuffer = new Gbuffer();
+	gBuffer->Initialize(this->gDevice,this->gDeviceContext);
 }
 
 void Graphics::Release()
@@ -65,7 +65,7 @@ void Graphics::Release()
 
 
 
-	//gBuffer->Release();
+	gBuffer->Release();
 
 	SAFE_RELEASE(depthState);
 	SAFE_RELEASE(depthStencilView);
@@ -84,25 +84,25 @@ void Graphics::Release()
 
 
 
-	//if (DEBUG == 2)
-	//{
-	//	
-	//	if (debug)
-	//	{
+	if (DEBUG == 2)
+	{
+		
+		if (debug)
+		{
 
-	//		debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
-	//		SAFE_RELEASE(debug);
-	//	}
+			debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+			SAFE_RELEASE(debug);
+		}
 
-	//}
-
-
+	}
 
 
 
 
 
 
+
+	
 
 	while (gDevice->Release() > 0);
 	//SAFE_RELEASE(gDevice);
@@ -115,17 +115,18 @@ void Graphics::Render() //manage RenderPasses here
 	SetViewPort();
 
 	this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
-	//gBuffer->SetToRender(depthStencilView);		//Set The gbuffer pass
-	//this->renderer->SetGbufferPass(true);
-	//RenderScene();								//Render to the gBuffer
-													//Set the gBuffer as a subResource, send in the new RenderTarget
-	//gBuffer->SetToRead(gBackBufferRTV); 
 
-	//gBuffer->ClearGbuffer();
+	gBuffer->SetToRender(depthStencilView);			//Set The gbuffer pass
+	this->renderer->SetGbufferPass(true);
+	RenderScene();									//Render to the gBuffer
+													//Set the gBuffer as a subResource, send in the new RenderTarget
+	gBuffer->SetToRead(gBackBufferRTV); 
+
+	this->renderer->RenderFinalPass();
+	gBuffer->ClearGbuffer();
 										
 	
-	RenderScene();// TEMPORARY, REMOVE WHEN GBUFFER WORKS
-	this->renderer->RenderFinalPass();
+	//RenderScene();// TEMPORARY, REMOVE WHEN GBUFFER WORKS
 
 	FinishFrame();
 

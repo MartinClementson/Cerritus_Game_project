@@ -67,7 +67,7 @@ enum LightType
 
 enum Shaders
 {
-	PHONG_SHADER,
+	FINAL_SHADER,
 	PARTICLE_SHADER,
 	BILLBOARD_SHADER,
 	UI_SHADER,

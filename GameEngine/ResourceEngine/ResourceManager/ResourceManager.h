@@ -36,7 +36,7 @@ public:
 	RenderInstructions* GetPlaceHolderMesh(XMFLOAT3 position, XMFLOAT3 rotation);
 	RenderInstructions* GetPlaceHolderPlane();
 	RenderInstructions* GetFullScreenQuad();
-
+	void SetShader(Shaders type) { this->shaderManager->SetActiveShader(&type); };
 private:
 	XMFLOAT4X4 CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation);
 

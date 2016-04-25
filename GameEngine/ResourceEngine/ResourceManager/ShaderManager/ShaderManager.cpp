@@ -29,10 +29,9 @@ void ShaderManager::Release()
 
 
 	
-	SAFE_RELEASE(PHONG_VS);
-	SAFE_RELEASE(PHONG_GS);
-	SAFE_RELEASE(PHONG_PS);
-	SAFE_RELEASE(gVertexLayoutPhong);
+	SAFE_RELEASE(FINAL_VS);
+	SAFE_RELEASE(FINAL_PS);
+	SAFE_RELEASE(gVertexLayoutFinal);
 
 
 	//Shaders for the Animation
@@ -83,15 +82,15 @@ void ShaderManager::SetActiveShader(Shaders* shader)
 	gDeviceContext->PSSetSamplers(0, 1, &this->gSampleState);
 	switch (*shader)
 	{
-	case PHONG_SHADER:
+	case FINAL_SHADER:
 		
 
-			this->gDeviceContext->VSSetShader(PHONG_VS, nullptr, 0);
+			this->gDeviceContext->VSSetShader(FINAL_VS, nullptr, 0);
 			this->gDeviceContext->HSSetShader(nullptr, nullptr, 0);
 			this->gDeviceContext->DSSetShader(nullptr, nullptr, 0);
-			this->gDeviceContext->GSSetShader(PHONG_GS, nullptr, 0);
-			this->gDeviceContext->PSSetShader(PHONG_PS, nullptr, 0);
-			this->gDeviceContext->IASetInputLayout(gVertexLayoutPhong);
+			this->gDeviceContext->GSSetShader(nullptr, nullptr, 0);
+			this->gDeviceContext->PSSetShader(FINAL_PS, nullptr, 0);
+			this->gDeviceContext->IASetInputLayout(gVertexLayoutFinal);
 			
 		
 		break;
@@ -124,6 +123,10 @@ void ShaderManager::SetActiveShader(Shaders* shader)
 
 
 		this->gDeviceContext->VSSetShader(GBUFFER_SHADOWDEPTH_VS, nullptr, 0);
+		this->gDeviceContext->HSSetShader(nullptr, nullptr, 0);
+		this->gDeviceContext->DSSetShader(nullptr, nullptr, 0);
+		this->gDeviceContext->GSSetShader(nullptr, nullptr, 0);
+		this->gDeviceContext->PSSetShader(nullptr, nullptr, 0);
 		this->gDeviceContext->IASetInputLayout(gVertexLayoutGBuffer);
 
 		break;
@@ -173,8 +176,8 @@ void ShaderManager::SetActiveShader(Shaders* shader)
 
 void ShaderManager::CreateShaders()
 {
-	if (!CreatePhongShader())
-		MessageBox(NULL, L"Error compiling Phong shaders", L"Shader error", MB_ICONERROR | MB_OK);
+	if (!CreateFinalPassShaders())
+		MessageBox(NULL, L"Error compiling FinalPassShaders shaders", L"Shader error", MB_ICONERROR | MB_OK);
 	if (!CreateGbufferShader())
 		MessageBox(NULL, L"Error compiling Gbuffer shaders", L"Shader error", MB_ICONERROR | MB_OK);
 }
@@ -182,7 +185,7 @@ void ShaderManager::CreateShaders()
 
 #pragma region Create each individual shader
 
-bool ShaderManager::CreatePhongShader()
+bool ShaderManager::CreateFinalPassShaders()
 {
 
 
@@ -228,7 +231,7 @@ bool ShaderManager::CreatePhongShader()
 	ID3DBlob* pVS = nullptr;
 
 	D3DCompileFromFile(
-		L"ResourceEngine/Shader/PhongShader/PhongShaders.hlsl",
+		L"ResourceEngine/Shader/FinalPassShaders/FinalPassShaders.hlsl",
 		nullptr,
 		nullptr,
 		"VS_main",
@@ -238,7 +241,7 @@ bool ShaderManager::CreatePhongShader()
 		&pVS,
 		nullptr);
 
-	hr = this->gDevice->CreateVertexShader(pVS->GetBufferPointer(), pVS->GetBufferSize(), nullptr, &PHONG_VS);
+	hr = this->gDevice->CreateVertexShader(pVS->GetBufferPointer(), pVS->GetBufferSize(), nullptr, &FINAL_VS);
 
 	if (FAILED(hr))
 		return false;
@@ -246,42 +249,23 @@ bool ShaderManager::CreatePhongShader()
 	D3D11_INPUT_ELEMENT_DESC inputDesc[] =
 	{
 	/*POSITION*/	{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,	  0,		 0,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
-	/*NORMAL*/		{ "TEXCOORD",	0, DXGI_FORMAT_R32G32B32_FLOAT ,  0,		12,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+	/*NORMAL*/		//{ "TEXCOORD",	0, DXGI_FORMAT_R32G32B32_FLOAT ,  0,		12,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
 	/*UV*/			{ "TEXCOORD",	1, DXGI_FORMAT_R32G32_FLOAT,	  0,		24,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
-	/*BITANGENT*/	{ "TEXCOORD",	2, DXGI_FORMAT_R32G32_FLOAT,	  0,		32,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
-	/*TANGENT*/		{ "TEXCOORD",	3, DXGI_FORMAT_R32G32_FLOAT,	  0,		40,		 D3D11_INPUT_PER_VERTEX_DATA		,0 }
+	/*BITANGENT*/	//{ "TEXCOORD",	2, DXGI_FORMAT_R32G32_FLOAT,	  0,		32,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+	/*TANGENT*/		//{ "TEXCOORD",	3, DXGI_FORMAT_R32G32_FLOAT,	  0,		40,		 D3D11_INPUT_PER_VERTEX_DATA		,0 }
 	};
 
-	hr = this->gDevice->CreateInputLayout(inputDesc, ARRAYSIZE(inputDesc), pVS->GetBufferPointer(), pVS->GetBufferSize(), &this->gVertexLayoutPhong);
+	hr = this->gDevice->CreateInputLayout(inputDesc, ARRAYSIZE(inputDesc), pVS->GetBufferPointer(), pVS->GetBufferSize(), &this->gVertexLayoutFinal);
 	pVS->Release();
 	if (FAILED(hr))
 		return false;
 
 
-	//Geometry shader
-	ID3DBlob* pGS = nullptr;
-	D3DCompileFromFile(
-		L"ResourceEngine/Shader/PhongShader/PhongShaders.hlsl",
-		nullptr,
-		nullptr,
-		"GS_main",
-		"gs_5_0",
-		0,
-		0,
-		&pGS,
-		nullptr);
-
-	hr = this->gDevice->CreateGeometryShader(pGS->GetBufferPointer(), pGS->GetBufferSize(), nullptr, &PHONG_GS);
-	pGS->Release();
-
-	if (FAILED(hr))
-		return false;
-
 
 
 	ID3DBlob *pPs = nullptr;
 	D3DCompileFromFile(
-		L"ResourceEngine/Shader/PhongShader/PhongShaders.hlsl",
+		L"ResourceEngine/Shader/FinalPassShaders/FinalPassShaders.hlsl",
 		nullptr,
 		nullptr,
 		"PS_main",
@@ -291,7 +275,7 @@ bool ShaderManager::CreatePhongShader()
 		&pPs,
 		nullptr);
 
-	hr = this->gDevice->CreatePixelShader(pPs->GetBufferPointer(), pPs->GetBufferSize(), nullptr, &PHONG_PS);
+	hr = this->gDevice->CreatePixelShader(pPs->GetBufferPointer(), pPs->GetBufferSize(), nullptr, &FINAL_PS);
 	pPs->Release();
 
 	if (FAILED(hr))
@@ -359,7 +343,7 @@ bool ShaderManager::CreateGbufferShader()
 		/*TANGENT*/{ "TEXCOORD",	3, DXGI_FORMAT_R32G32_FLOAT,	  0,		40,		 D3D11_INPUT_PER_VERTEX_DATA		,0 }
 	};
 
-	hr = this->gDevice->CreateInputLayout(inputDesc, ARRAYSIZE(inputDesc), pVS->GetBufferPointer(), pVS->GetBufferSize(), &this->gVertexLayoutPhong);
+	hr = this->gDevice->CreateInputLayout(inputDesc, ARRAYSIZE(inputDesc), pVS->GetBufferPointer(), pVS->GetBufferSize(), &this->gVertexLayoutGBuffer);
 	pVS->Release();
 	if (FAILED(hr))
 		return false;
