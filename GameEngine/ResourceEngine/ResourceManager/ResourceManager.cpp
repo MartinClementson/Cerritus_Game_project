@@ -25,16 +25,10 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	meshManager->Initialize(gDevice, gDeviceContext);
 	materialManager->Initialize(gDevice);
 	brfImporterHandler->Initialize(this->meshManager, this->materialManager);
+
+
 	brfImporterHandler->LoadFile("MainChar.BRF", true, true, true);
 	brfImporterHandler->LoadFile("EnemyChar.BRF", true, true, true);
-
-	//for testing the material manager
-	/*std::vector<importedMaterial> temp;
-	importedMaterial tempMat;
-	tempMat.diffuseTex = "temp";
-	temp.push_back(tempMat);
-	materialManager->addMaterials(&temp);*/
-
 	brfImporterHandler->LoadFile("FireTrap.BRF", true, true, true);
 	brfImporterHandler->LoadFile("BearTrap.BRF", true, true, true);
 
@@ -53,13 +47,15 @@ void ResourceManager::Release()
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoObject * object)
 	{
-		/*currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
-		MeshEnum meshType = MeshEnum::TRAP_BEAR;
-		
-		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
+		currentMesh = RenderInstructions();
+		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+		MeshEnum meshType = object->object;
+		meshManager		->GetMeshRenderInfo( &meshType, &currentMesh ); //Get the mesh data
+		materialManager ->GetMaterialRenderInfo (&currentMesh );	    //Get the material data
+
 		Shaders temp = PHONG_SHADER;
 		this->shaderManager->SetActiveShader(&temp);
-		return &currentMesh;*/
+		return &currentMesh;
 		return nullptr;
 	}
 
@@ -73,8 +69,10 @@ void ResourceManager::Release()
 		currentMesh = RenderInstructions();
 		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
 		MeshEnum meshType = MeshEnum::ENEMY_1;
+
 		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
 		materialManager->GetMaterialRenderInfo(&currentMesh);
+
 		Shaders temp = PHONG_SHADER;
 		this->shaderManager->SetActiveShader(&temp);
 		return &currentMesh;
