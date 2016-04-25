@@ -100,7 +100,8 @@ void MaterialManager::addMaterials(std::vector<importedMaterial>* import)
 
 void MaterialManager::GetMaterialRenderInfo(RenderInstructions * toRender)
 {
-	toRender->diffuseMap = textureManager->GetDiffuseTexture(materials->at(toRender->materialID).diffuse_ID);
+	if (materials->at(toRender->materialID).diffuse_ID != -1)
+		toRender->diffuseMap = textureManager->GetDiffuseTexture(materials->at(toRender->materialID).diffuse_ID);
 	//toRender->diffuseMap = textureManager->GetDiffuseTexture(0);
 }
 
