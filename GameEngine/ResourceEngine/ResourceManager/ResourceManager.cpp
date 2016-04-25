@@ -132,8 +132,14 @@ void ResourceManager::Release()
 
 
 		meshManager->GetPlaceHolderMeshInfo(&currentMesh);
-		Shaders temp = PHONG_SHADER;
-		this->shaderManager->SetActiveShader(&temp);
+
+		if (!gbufferPass)
+		{
+
+			Shaders temp = PHONG_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
+
 		return &currentMesh;
 	}
 
@@ -194,6 +200,20 @@ void ResourceManager::Release()
 	XMFLOAT4X4 ResourceManager::CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation, XMFLOAT3* scale)
 	{
 		return XMFLOAT4X4();
+	}
+
+	void ResourceManager::SetGbufferPass(bool x)
+	{
+		if (this->gbufferPass != x)
+			this->gbufferPass = x;
+		if (gbufferPass == true)
+		{
+			Shaders  temp = GBUFFER_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
+
+
+
 	}
 
 #pragma endregion
