@@ -4,7 +4,7 @@ void TextureManager::AddDiffuseTexture(std::string diffuseTex)
 	ID3D11ShaderResourceView** texture = new ID3D11ShaderResourceView*;
 
 	//diffuseTex += TEXTURE_PATH;
-	diffuseTex = "bra.jpg"; //här är temporär
+	//diffuseTex = "bra.jpg"; //här är temporär
 	std::wstring widestr = std::wstring(diffuseTex.begin(), diffuseTex.end());
 	const wchar_t* fileName = widestr.c_str();
 
@@ -57,6 +57,7 @@ int TextureManager::GetDiffuseID(std::string diffuseTex)
 		}
 	}
 	this->diffuseTex.push_back(diffuseTex);
+	AddDiffuseTexture(diffuseTex);
 	return (int)(this->diffuseTex.size() - 1);
 }
 
