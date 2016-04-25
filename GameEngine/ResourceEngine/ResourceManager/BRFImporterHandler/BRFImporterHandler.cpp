@@ -2,6 +2,8 @@
 
 BRFImporterHandler::BRFImporterHandler()
 {
+	materialID = 0;
+	//offsetMaterial = 0;
 }
 
 BRFImporterHandler::~BRFImporterHandler()
@@ -10,12 +12,15 @@ BRFImporterHandler::~BRFImporterHandler()
 
 void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material, bool skeleton)
 {
-	
+
 	this->currentFile->LoadFile(fileName, mesh, skeleton, material);
 
+	//offset to use for the materials
+	//offsetMaterial += materialID;
+
 #pragma region Loop for reading mesh info & provide to meshManager.
-	unsigned int size = currentFile->fetch->Main()->meshAmount;
-	for (unsigned int i = 0; i < size; i++)
+	unsigned int meshsize = currentFile->fetch->Main()->meshAmount;
+	for (unsigned int i = 0; i < meshsize; i++)
 	{
 
 #pragma region Statements handling skeletons.
@@ -41,14 +46,14 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 
 #pragma region Statements handling material.
 
-		unsigned int tempMaterialID;
+		int tempMaterialID;
 		if (material == true)					//If we wanted to load materials.
 		{
 			tempMaterialID = currentFile->fetch->Material(i)->Id;
 		}
 		else									//IF we didnt want to load materials.
 		{
-			tempMaterialID = 0;
+			tempMaterialID = -1;
 		}
 
 #pragma endregion
@@ -154,47 +159,60 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 		this->meshManager->AddMesh(tempHasSkeleton, tempSkeletonID, tempMaterialID, tempVertexCount, tempIndexCount, tempVertices, tempAniVertices, tempIndices);					//Keep me!
 	}
 #pragma endregion
-//#pragma region Loop for reading material info & provide to materialManager.
-//	//temporary vector for the materials
-//	std::vector<Material> importedMaterials;
-//
-//	size = currentFile->fetch->Main()->materialAmount;
-//	for (unsigned int i = 0; i < size; i++)
-//	{
-//		Material tempMaterial;
-//		tempMaterial.materialName = (std::string)currentFile->fetch->Material(i)->matName;
-//
-//		tempMaterial.materialID = currentFile->fetch->Material(i)->Id;
-//
-//		//getting the diffuse values
-//		tempMaterial.diffuseValue[0] = (float)currentFile->fetch->Material(i)->diffuseVal[0];
-//		tempMaterial.diffuseValue[1] = (float)currentFile->fetch->Material(i)->diffuseVal[1];
-//		tempMaterial.diffuseValue[2] = (float)currentFile->fetch->Material(i)->diffuseVal[2];
-//
-//		//getting the specular values
-//		tempMaterial.specularValue[0] = (float)currentFile->fetch->Material(i)->specularVal[0];
-//		tempMaterial.specularValue[1] = (float)currentFile->fetch->Material(i)->specularVal[1];
-//		tempMaterial.specularValue[2] = (float)currentFile->fetch->Material(i)->specularVal[2];
-//
-//		//getting all the maps
-//		tempMaterial.diffMap = (std::string)currentFile->fetch->Material(i)->diffMap;
-//		tempMaterial.specMap = (std::string)currentFile->fetch->Material(i)->specMap;
-//		tempMaterial.normalMap = (std::string)currentFile->fetch->Material(i)->normalMap;
-//		tempMaterial.reflectMap = (std::string)currentFile->fetch->Material(i)->reflectMap;
-//		tempMaterial.glowMap = (std::string)currentFile->fetch->Material(i)->glowMap;
-//
-//		importedMaterials.push_back(tempMaterial);
-//	}
-//	importedMaterials.shrink_to_fit();
-//	// materialmannager func here!
-//#pragma endregion
+#pragma region Loop for reading material info & provide to materialManager.
+	//temporary vector for the materials
+	std::vector<importedMaterial> importedMaterials;
+	std::vector<Mesh>* meshes = meshManager->GetMeshes();
+	unsigned int materialSize = currentFile->fetch->Main()->materialAmount;
+	for (unsigned int i = 0; i < materialSize; i++)
+	{
+		importedMaterial tempMaterial;
+		tempMaterial.materialName = (std::string)currentFile->fetch->Material(i)->matName;
+
+		unsigned int tempMaterialID = currentFile->fetch->Material(i)->Id;
+		tempMaterial.materialID = materialID;
+		materialID++;
+
+		for (unsigned int j = meshes->size()-meshsize; j < meshes->size(); j++)
+		{
+			unsigned int importedMatID = meshes->at(j).GetMaterialID();
+			if (importedMatID == tempMaterialID)
+			{
+				meshes->at(j).SetMaterialID(tempMaterial.materialID);
+			}
+		}
+
+		//getting the diffuse values
+		tempMaterial.diffuseValue = {
+			(float)currentFile->fetch->Material(i)->diffuseVal[0],
+			(float)currentFile->fetch->Material(i)->diffuseVal[1],
+			(float)currentFile->fetch->Material(i)->diffuseVal[2] };
+
+		//getting the specular values
+		tempMaterial.specularValue = { 
+			(float)currentFile->fetch->Material(i)->specularVal[0],
+			(float)currentFile->fetch->Material(i)->specularVal[1],
+			(float)currentFile->fetch->Material(i)->specularVal[2] };
+
+		//getting all the maps
+		tempMaterial.diffuseTex = (std::string)currentFile->fetch->Material(i)->diffMap;
+		tempMaterial.specularTex = (std::string)currentFile->fetch->Material(i)->specMap;
+		tempMaterial.normalTex = (std::string)currentFile->fetch->Material(i)->normalMap;
+		tempMaterial.glowTex = (std::string)currentFile->fetch->Material(i)->glowMap;
+
+		importedMaterials.push_back(tempMaterial);
+	}
+	importedMaterials.shrink_to_fit();
+	materialManager->addMaterials(&importedMaterials);
+#pragma endregion
 
 }
 
-void BRFImporterHandler::Initialize(MeshManager * meshManager)
+void BRFImporterHandler::Initialize(MeshManager * meshManager, MaterialManager* materialManager)
 {
 	this->currentFile = new BRFImporterLib::FileData;
 	this->meshManager = meshManager;
+	this->materialManager = materialManager;
 }
 
 void BRFImporterHandler::Release()
