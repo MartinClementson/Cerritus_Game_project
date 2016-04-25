@@ -5,6 +5,12 @@
 #define SHADOW_WIDTH 1024.0
 #define SHADOW_HEIGHT 1024.0
 
+//////////////////////////////////////////
+//DIS IS BECAUSE JOHAN ASKED ME TO CHANGE AMOUNT OF TEXTURES TO MUCH
+#define TEXTUREAMOUNT 6
+#define SHADOWMAPAMOUNT 1
+////////////////////////////////////
+
 #define WINDOWED true
 #define WIREFRAME false
 #define VSYNC 1 //1 == ON, 0 = OFF
