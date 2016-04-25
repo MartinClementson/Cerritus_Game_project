@@ -41,6 +41,12 @@ void ShaderManager::Release()
 	SAFE_RELEASE(ANIMATION_PS);
 	SAFE_RELEASE(gVertexLayoutAnimation);
 
+	//Shaders for the gbuffer
+	SAFE_RELEASE(GBUFFER_VS);
+	SAFE_RELEASE(GBUFFER_GS);
+	SAFE_RELEASE(GBUFFER_PS);
+	SAFE_RELEASE(gVertexLayoutGBuffer);
+
 
 	//Shaders for particle shading
 	SAFE_RELEASE(PARTICLE_VS);
@@ -94,6 +100,18 @@ void ShaderManager::SetActiveShader(Shaders* shader)
 			this->gDeviceContext->PSSetShader(ANIMATION_PS, nullptr, 0);
 			this->gDeviceContext->IASetInputLayout(gVertexLayoutAnimation);
 			
+		break;
+
+	case GBUFFER_SHADER:
+
+
+			this->gDeviceContext->VSSetShader(GBUFFER_VS, nullptr, 0);
+			this->gDeviceContext->HSSetShader(nullptr, nullptr, 0);
+			this->gDeviceContext->DSSetShader(nullptr, nullptr, 0);
+			this->gDeviceContext->GSSetShader(GBUFFER_GS, nullptr, 0);
+			this->gDeviceContext->PSSetShader(GBUFFER_PS, nullptr, 0);
+			this->gDeviceContext->IASetInputLayout(gVertexLayoutGBuffer);
+
 		break;
 
 	case PARTICLE_SHADER:
