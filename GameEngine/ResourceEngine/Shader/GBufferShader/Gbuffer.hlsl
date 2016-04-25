@@ -1,10 +1,9 @@
 //GBUFFER
 Texture2D diffuseTex			 : register(t0);
-Texture2D specularTex			 : register(t1);
-Texture2D normalTex				 : register(t2);
-Texture2D depthTex				 : register(t3);
-Texture2D shadowTex				 : register(t4);
-Texture2D glowTex				 : register(t5);
+Texture2D normalTex				 : register(t1);
+Texture2D specularTex			 : register(t2);
+Texture2D glowTex				 : register(t3);
+//Texture2D shadowTex				 : register(t4);
 SamplerState samplerTypeState	 : register(s0);
 cbuffer cameraConstantBuffer  : register(b0)
 {
@@ -27,7 +26,6 @@ cbuffer lightBuffer : register(b2)
 	float4 lightColor;
 	float intensity;
 	float3 pad;
-	float shadowMapAmount;
 };
 cbuffer textureSampleBuffer		 : register(b3)
 {
@@ -80,15 +78,16 @@ struct GBUFFER_PS_OUT
 GBUFFER_VS_OUT GBUFFER_VS_main(GBUFFER_VS_IN input)
 {
 	GBUFFER_VS_OUT output;
-	output.Pos			 = float4(input.Pos, 1.0f);
-	output.Normal		 = input.Normal;
-	output.Uv			 = input.Uv;
-	output.BiTangent.xy	 = input.BiTangent;					//z value NEEDS TO BE CALCULATED (1 is just a placeholder!!)
-	output.Tangent.xy	 = input.Tangent;					//z value NEEDS TO BE CALCULATED (1 is just a placeholder!!)
 
-	output.BiTangent.z	 = ( 1 - length(input.BiTangent));
-	output.Tangent.z	 = ( 1 - length(input.Tangent));
-	
+	output.Pos = float4(input.Pos, 1.0f);
+	output.Normal = input.Normal;
+	output.Uv = input.Uv;
+	output.BiTangent.xy = input.BiTangent;                    //z value NEEDS TO BE CALCULATED (1 is just a placeholder!!)
+	output.Tangent.xy = input.Tangent;                    //z value NEEDS TO BE CALCULATED (1 is just a placeholder!!)
+
+	output.BiTangent.z = (1 - length(input.BiTangent));
+	output.Tangent.z = (1 - length(input.Tangent));
+
 	normalize(output.BiTangent);
 	normalize(output.Tangent);
 
@@ -172,8 +171,8 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	}
 	else
 	{
-		textureSample = float4(0.6, 0.2, 0.9, 1.0);
-		output.diffuseRes = textureSample;
+		//textureSample = float4(0.6, 0.2, 0.9, 1.0);
+		output.diffuseRes = col;
 	}
 
 
@@ -233,62 +232,59 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 		output.glowRes = glowSample;
 	}
 
-	//shadowmap stuff
-	float4 shadowSample = float4(1, 1, 1, 1);
-	float SMAP_SIZE = 1024.0;
-	for (int i = 0; i < shadowMapAmount; i++)
-	{
-		
-		float bias;
-		float2 projectTexCoord;
-		float depthValue;
-		float lightDepthValue;
-		float lightIntensity;
-		float4 lightPos;
-		
+	////shadowmap stuff
+	//float4 shadowSample = float4(1, 1, 1, 1);
+	//float SMAP_SIZE = 1024.0;
+	//for (int i = 0; i < shadowMapAmount; i++)
+	//{
+	//	
+	//	float bias;
+	//	float2 projectTexCoord;
+	//	float depthValue;
+	//	float lightDepthValue;
+	//	float lightIntensity;
+	//	float4 lightPos;
+	//	
 
-		bias = 0.00175f;
+	//	bias = 0.00175f;
 
-		lightPos				 = mul(input.wPos, view);
-		lightPos				 = mul(lightPos, projection);
+	//	lightPos				 = mul(input.wPos, view);
+	//	lightPos				 = mul(lightPos, projection);
 
-		projectTexCoord.x		 = lightPos.x / lightPos.w;
-		projectTexCoord.y		 = lightPos.y / lightPos.w;
+	//	projectTexCoord.x		 = lightPos.x / lightPos.w;
+	//	projectTexCoord.y		 = lightPos.y / lightPos.w;
 
-		lightDepthValue			 = lightPos.z / lightPos.w;
+	//	lightDepthValue			 = lightPos.z / lightPos.w;
 
-		projectTexCoord.x		 = projectTexCoord.x * 0.5f + 0.5f;
-		projectTexCoord.y		 = projectTexCoord.y * -0.5f + 0.5f;
+	//	projectTexCoord.x		 = projectTexCoord.x * 0.5f + 0.5f;
+	//	projectTexCoord.y		 = projectTexCoord.y * -0.5f + 0.5f;
 
-		depthValue = shadowTex.Sample(samplerTypeState, projectTexCoord.xy).r + bias;
+	//	depthValue = shadowTex.Sample(samplerTypeState, projectTexCoord.xy).r + bias;
 
-		float dx = 1.0f / SMAP_SIZE;
-		float s0 = (shadowTex.Sample(samplerTypeState, projectTexCoord).r						 + bias < lightDepthValue) ? 0.0f : 1.0f;
-		float s1 = (shadowTex.Sample(samplerTypeState, projectTexCoord	 + float2(dx, 0.0f)).r	 + bias < lightDepthValue) ? 0.0f : 1.0f;
-		float s2 = (shadowTex.Sample(samplerTypeState, projectTexCoord	 + float2(0.0f, dx)).r	 + bias < lightDepthValue) ? 0.0f : 1.0f;
-		float s3 = (shadowTex.Sample(samplerTypeState, projectTexCoord	 + float2(dx, dx)).r	 + bias < lightDepthValue) ? 0.0f : 1.0f;
+	//	float dx = 1.0f / SMAP_SIZE;
+	//	float s0 = (shadowTex.Sample(samplerTypeState, projectTexCoord).r						 + bias < lightDepthValue) ? 0.0f : 1.0f;
+	//	float s1 = (shadowTex.Sample(samplerTypeState, projectTexCoord	 + float2(dx, 0.0f)).r	 + bias < lightDepthValue) ? 0.0f : 1.0f;
+	//	float s2 = (shadowTex.Sample(samplerTypeState, projectTexCoord	 + float2(0.0f, dx)).r	 + bias < lightDepthValue) ? 0.0f : 1.0f;
+	//	float s3 = (shadowTex.Sample(samplerTypeState, projectTexCoord	 + float2(dx, dx)).r	 + bias < lightDepthValue) ? 0.0f : 1.0f;
 
-		float2 texelpos = projectTexCoord * SMAP_SIZE;
-		float2 lerps = frac(texelpos);
-		float shadowcooef = lerp(lerp(s0, s1, lerps.x), lerp(s2, s3, lerps.x), lerps.y);
+	//	float2 texelpos = projectTexCoord * SMAP_SIZE;
+	//	float2 lerps = frac(texelpos);
+	//	float shadowcooef = lerp(lerp(s0, s1, lerps.x), lerp(s2, s3, lerps.x), lerps.y);
 
-		shadowSample = shadowSample * shadowcooef;
-	}
-	output.shadowRes = shadowSample;
-	output.depthRes = float4(0, 0, 0, input.Pos.z);
+	//	shadowSample = shadowSample * shadowcooef;
+	//}
+	//output.shadowRes = shadowSample;
+	float depth = input.Pos.z / input.Pos.w;
+	output.depthRes = float4(depth, depth, depth, depth);
 
-
+	output.depthRes = saturate(output.depthRes * 4);
 	return output;
 }
 
 //GBUFFER shadowmap shader
 struct GBUFFER_SHADOWDEPTH_VS_OUT
 {
-	float4 position1		: SV_TARGET0;
-	float4 position2		: SV_TARGET1;
-	float4 position3		: SV_TARGET2;
-	float4 position4		: SV_TARGET3;
-	float4 position5		: SV_TARGET4;
+	float4 position		: SV_POSITION;
 };
 GBUFFER_SHADOWDEPTH_VS_OUT GBUFFER_SHADOWDEPTH_VS_main(GBUFFER_VS_IN input)
 {
@@ -303,7 +299,7 @@ GBUFFER_SHADOWDEPTH_VS_OUT GBUFFER_SHADOWDEPTH_VS_main(GBUFFER_VS_IN input)
 		//output.position = mul(output.position, view);
 		//output.position = mul(output.position, projection);
 
-		output.position1 = float4(input.Pos, 1);
+		output.position = float4(input.Pos, 1);
 	}
 
 

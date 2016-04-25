@@ -126,7 +126,7 @@ void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCont
 
 		//Set up the shader resource view
 
-		resourceViewShadowDesc.Format = ShadowTexDesc.Format;
+		resourceViewShadowDesc.Format = DXGI_FORMAT_R32_FLOAT;
 		resourceViewShadowDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 		resourceViewShadowDesc.Texture2D.MostDetailedMip = 0;
 		resourceViewShadowDesc.Texture2D.MipLevels = 1;
@@ -173,9 +173,9 @@ void Gbuffer::SetToRender(ID3D11DepthStencilView* depthStencilView) ///Set the t
 		tab[i] = NULL;
 
 	this->gDeviceContext->PSSetShaderResources(0, TEXTUREAMOUNT, tab);
-
-
 	gDeviceContext->OMSetRenderTargets(TEXTUREAMOUNT, this->textureRTVs, depthStencilView);
+
+
 
 
 }
