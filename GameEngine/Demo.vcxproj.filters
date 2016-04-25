@@ -543,9 +543,6 @@
     <ClInclude Include="GameLogic\Game.h">
       <Filter>GameLogic</Filter>
     </ClInclude>
-    <ClInclude Include="Gbuffer.h">
-      <Filter>ResourceEngine\Graphics\Gbuffer</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GameTimer\GameTimer.h">
       <Filter>Source Files\Main\GameTimer</Filter>
     </ClInclude>
@@ -564,12 +561,15 @@
     <ClInclude Include="ResourceEngine\ResourceManager\TextureManager\TextureResource\TextureResource.h">
       <Filter>ResourceEngine\ResourceManager\TextureManager\TextureResource</Filter>
     </ClInclude>
+    <ClInclude Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.h">
+      <Filter>ResourceEngine\Graphics\Gbuffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ResourceEngine\Shader\PhongShader\PhongShaders.hlsl">
       <Filter>ResourceEngine\Shaders\PhongShader</Filter>
     </FxCompile>
-    <FxCompile Include="Gbuffer.hlsl">
+    <FxCompile Include="ResourceEngine\Shader\GBufferShader\Gbuffer.hlsl">
       <Filter>ResourceEngine\Shaders\GBufferShader</Filter>
     </FxCompile>
   </ItemGroup>

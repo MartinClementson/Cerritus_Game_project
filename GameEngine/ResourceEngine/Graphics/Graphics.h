@@ -11,9 +11,6 @@
 
 #pragma endregion
 
-#define SHADOW_WIDTH 1024
-#define SHADOW_HEIGHT 1024
-
 class Graphics
 {
 

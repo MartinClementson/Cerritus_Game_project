@@ -5,6 +5,7 @@
 //////////////////////////////////////////
 //DIS IS BECAUSE JOHAN ASKED ME TO CHANGE AMOUNT OF TEXTURES TO MUCH
 #define TEXTUREAMOUNT 5
+#define SHADOWMAPAMOUNT 1
 ////////////////////////////////////
 
 class Gbuffer
@@ -17,6 +18,10 @@ private:
 	ID3D11RenderTargetView		*textureRTVs			[TEXTUREAMOUNT] = { nullptr	};
 	ID3D11ShaderResourceView	*shaderResourceViews	[TEXTUREAMOUNT] = { nullptr };
 	ID3D11Texture2D				*gBufferTextures		[TEXTUREAMOUNT] = { nullptr };
+
+	ID3D11DepthStencilView		*gBufferShadowMapStencilViews		[SHADOWMAPAMOUNT] = { nullptr };
+	ID3D11ShaderResourceView	*shadowShaderResourceViews			[SHADOWMAPAMOUNT] = { nullptr };
+	ID3D11Texture2D				*gBufferShadowMapTexures			[SHADOWMAPAMOUNT] = { nullptr };
 public:
 	Gbuffer();
 	~Gbuffer();
@@ -26,6 +31,9 @@ public:
 	void Release();
 	void SetToRender(ID3D11DepthStencilView* depthStencilView);																					//Set the textures as RTVs so that we can render to them
 	void SetToRead(ID3D11RenderTargetView* newTarget);		//Set the textures as Subresources so that we can read/sample from them
+	void ShadowSetToRead(ID3D11RenderTargetView * newTarget);
+	void ClearShadowGbuffer();
 	void ClearGbuffer();																				//Clear the rendertargetViews
+	void ShadowSetToRender();
 };
 
