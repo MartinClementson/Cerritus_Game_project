@@ -301,7 +301,7 @@ bool ShaderManager::CreateGbufferShader()
 	ID3DBlob* pVSShadow = nullptr;
 
 	D3DCompileFromFile(
-		L"ResourceEngine/Shader/GBufferShader/GBuffer.hlsl",
+		L"ResourceEngine/Shader/GBufferShader/Gbuffer.hlsl",
 		nullptr,
 		nullptr,
 		"GBUFFER_SHADOWDEPTH_VS_main",
@@ -319,7 +319,7 @@ bool ShaderManager::CreateGbufferShader()
 	ID3DBlob* pVS = nullptr;
 
 	D3DCompileFromFile(
-		L"ResourceEngine/Shader/GBufferShader/GBuffer.hlsl",
+		L"ResourceEngine/Shader/GBufferShader/Gbuffer.hlsl",
 		nullptr,
 		nullptr,
 		"GBUFFER_VS_main",
@@ -352,7 +352,7 @@ bool ShaderManager::CreateGbufferShader()
 	//Geometry shader
 	ID3DBlob* pGS = nullptr;
 	D3DCompileFromFile(
-		L"ResourceEngine/Shader/GBufferShader/GBuffer.hlsl",
+		L"ResourceEngine/Shader/GBufferShader/Gbuffer.hlsl",
 		nullptr,
 		nullptr,
 		"GBUFFER_GS_main",
@@ -372,7 +372,7 @@ bool ShaderManager::CreateGbufferShader()
 
 	ID3DBlob *pPs = nullptr;
 	D3DCompileFromFile(
-		L"ResourceEngine/Shader/GBufferShader/GBuffer.hlsl",
+		L"ResourceEngine/Shader/GBufferShader/Gbuffer.hlsl",
 		nullptr,
 		nullptr,
 		"GBUFFER_PS_main",

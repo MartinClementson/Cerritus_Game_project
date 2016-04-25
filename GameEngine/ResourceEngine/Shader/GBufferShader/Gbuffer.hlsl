@@ -26,7 +26,6 @@ cbuffer lightBuffer : register(b2)
 	float4 lightColor;
 	float intensity;
 	float3 pad;
-	float shadowMapAmount;
 };
 cbuffer textureSampleBuffer		 : register(b3)
 {
@@ -285,11 +284,7 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 //GBUFFER shadowmap shader
 struct GBUFFER_SHADOWDEPTH_VS_OUT
 {
-	float4 position1		: SV_TARGET0;
-	float4 position2		: SV_TARGET1;
-	float4 position3		: SV_TARGET2;
-	float4 position4		: SV_TARGET3;
-	float4 position5		: SV_TARGET4;
+	float4 position		: SV_POSITION;
 };
 GBUFFER_SHADOWDEPTH_VS_OUT GBUFFER_SHADOWDEPTH_VS_main(GBUFFER_VS_IN input)
 {
@@ -304,7 +299,7 @@ GBUFFER_SHADOWDEPTH_VS_OUT GBUFFER_SHADOWDEPTH_VS_main(GBUFFER_VS_IN input)
 		//output.position = mul(output.position, view);
 		//output.position = mul(output.position, projection);
 
-		output.position1 = float4(input.Pos, 1);
+		output.position = float4(input.Pos, 1);
 	}
 
 

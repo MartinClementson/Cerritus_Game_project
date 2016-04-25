@@ -20,7 +20,6 @@ struct WorldMatrix
 
 struct LightStruct
 {
-
 	DirectX::XMFLOAT4 lightPosition;
 	DirectX::XMFLOAT4 lightColor;
 	float intensity;
