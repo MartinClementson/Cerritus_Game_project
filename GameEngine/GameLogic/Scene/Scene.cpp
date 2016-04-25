@@ -48,8 +48,8 @@ Scene::~Scene()
 
 void Scene::Initialize()
 {
-	srand(time(0));
-	trapAmount = 5;
+	//srand(time(0));
+	trapAmount = 15;
 	InitBearTrap();
 	InitFireTrap();
 	RespawnTimer = 0;
@@ -63,9 +63,9 @@ void Scene::InitFireTrap()
 	for (int i = 0; i < trapAmount; i++)
 	{
 		XMFLOAT3 tmp; // randomizes the location of the beartrap
-		tmp.x = rand() % -22 - 3.0f;
+		tmp.x = rand() % 150 - 85.0f;
 		tmp.y = 0;
-		tmp.z = rand() % -22 - 3.0f;
+		tmp.z = rand() % 150 - 65.0f;
 		XMFLOAT3 pos = { tmp.x,tmp.y,tmp.z };
 		fireTraps.push_back(new FireTrap(pos));
 	}
@@ -80,9 +80,9 @@ void Scene::InitBearTrap()
 	for (int i = 0; i < trapAmount; i++)
 	{
 		XMFLOAT3 tmp; // randomizes the location of the beartrap
-		tmp.x = rand() % 22 + 3.0f;
+		tmp.x = rand() % 150 - 65.0f;
 		tmp.y = 0;
-		tmp.z = rand() % 22 + 3.0f;
+		tmp.z = rand() % 150 - 85.0f;
 		XMFLOAT3 pos = { tmp.x,tmp.y,tmp.z };
 		BearTrap* temp = new BearTrap(pos);
 		temp->Initialize(pos,temp->GetRotation());
@@ -148,6 +148,19 @@ void Scene::Update(double deltaTime)
 			{
 				bearTraps.at(i)->isActive = false;
 			}
+
+		}
+		for (size_t j = 0; j < enemySpawns.size(); j++)
+		{
+			for (size_t k = 0; k < enemySpawns.at(j)->Alive.size(); k++)
+			{
+				if (collision->bearTrapEnemyCollision(bearTraps.at(i),
+					enemySpawns.at(j)->Alive.at(k))
+					&& bearTraps.at(i)->isActive)
+				{
+					//shitall
+				}
+			}
 		}
 	}
 
@@ -156,6 +169,18 @@ void Scene::Update(double deltaTime)
 		if (collision->fireTrapPlayerCollision(fireTraps.at(i)) && fireTraps.at(i)->isActive)
 		{
 			fireTraps.at(i)->isActive = false;
+		}
+		for (size_t j = 0; j < enemySpawns.size(); j++)
+		{
+			for (size_t k = 0; k < enemySpawns.at(j)->Alive.size(); k++)
+			{
+				if (collision->fireTrapEnemyCollision(fireTraps.at(i),
+					enemySpawns.at(j)->Alive.at(k))
+					&& fireTraps.at(i)->isActive)
+				{
+					
+				}
+			}
 		}
 	}
 	if (RespawnTimer >= (double)10)

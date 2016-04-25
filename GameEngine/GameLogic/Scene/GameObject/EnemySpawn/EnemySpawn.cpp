@@ -32,7 +32,19 @@ void EnemySpawn::Release()
 }
 void EnemySpawn::Update(double deltaTime)
 {
-	if (Alive.size() <= 3)
+	for (size_t i = 0; i < Alive.size(); i++)
+	{
+		Alive.at(i)->Update(deltaTime);
+		if (Alive.at(i)->GetHealth() <= 0 && Alive.at(i)->isAlive == true)
+		{
+			Alive.at(i)->isAlive = false;
+			Alive.at(i)->SetHealth(100.0f);
+
+			Queue.push_back(Alive.at(i));
+			Alive.erase(Alive.begin() + i);
+		}		
+	}
+	if (Alive.size() <= 10)
 	{
 		SpawnEnemy();
 	}
@@ -63,7 +75,8 @@ void EnemySpawn::Update(double deltaTime)
 			}
 		}
 	}
-
+	
+	
 }
 
 void EnemySpawn::SpawnEnemy()
@@ -78,6 +91,7 @@ void EnemySpawn::SpawnEnemy()
 
 			float spawnX = spawnPosition.x + float(rand() % 15 + 5.0f);
 			float spawnZ = spawnPosition.z + float(rand() % 50 + 5.0f);
+
 
 			XMFLOAT3 spawn;
 			spawn.x = spawnX;
