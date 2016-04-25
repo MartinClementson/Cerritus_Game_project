@@ -85,6 +85,11 @@ void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materia
 }
 
 
+//int MeshManager::GetMaterialID(unsigned int index)
+//{
+//	return gameMeshes->at(index);
+//}
+
 void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * toRender)
 {
 	if(*meshEnum == MeshEnum::MAIN_CHARACTER)

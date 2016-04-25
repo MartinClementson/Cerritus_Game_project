@@ -163,7 +163,7 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 #pragma region Loop for reading material info & provide to materialManager.
 	//temporary vector for the materials
 	std::vector<importedMaterial> importedMaterials;
-
+	std::vector<Mesh>* meshes = meshManager->GetMeshes();
 	unsigned int materialSize = currentFile->fetch->Main()->materialAmount;
 	for (unsigned int i = 0; i < materialSize; i++)
 	{

@@ -28,6 +28,7 @@ public:
 
 	void GetMeshRenderInfo(RenderInstructions* toRender);
 
+	unsigned int GetMaterialID() { return this->materialID; }
 	void CreateVertexBuffer(Vertex* vertices, unsigned int amount);
 	void CreateVertexBuffer(AnimVert* vertices, unsigned int amount);
 

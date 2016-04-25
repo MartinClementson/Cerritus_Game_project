@@ -36,7 +36,7 @@ public:
 		std::vector<UINT> indices
 		);
 
-
+	std::vector<Mesh>* GetMeshes() { return this->gameMeshes; }
 	void GetMeshRenderInfo(MeshEnum* meshEnum, RenderInstructions* toRender);
 
 	void GetPlaceHolderMeshInfo(RenderInstructions* toRender);
