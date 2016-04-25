@@ -36,7 +36,7 @@ void MeshManager::Release()
 
 }
 
-void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, unsigned int materialID, unsigned int vertexCount, UINT indexCount, std::vector<Vertex> vertices, std::vector<AnimVert> aniVertices, std::vector<UINT> indices)
+void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materialID, unsigned int vertexCount, UINT indexCount, std::vector<Vertex> vertices, std::vector<AnimVert> aniVertices, std::vector<UINT> indices)
 {
 	if (aniVertices.size() <= 0)
 	{
@@ -84,6 +84,11 @@ void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, unsigned in
 	}
 }
 
+
+//int MeshManager::GetMaterialID(unsigned int index)
+//{
+//	return gameMeshes->at(index);
+//}
 
 void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * toRender)
 {
@@ -162,7 +167,7 @@ void MeshManager::CreatePlaceHolderPlane()
 
 	this->placeHolderPlane.CreateVertexBuffer(planeVerts, 4);
 	this->placeHolderPlane.CreateIndexBuffer(indices, 6); 
-	int hej = sizeof(Float3)*2 + sizeof(Float2)*2;
+	
 }
 
 
