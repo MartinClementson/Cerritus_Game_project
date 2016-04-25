@@ -13,9 +13,9 @@ class ProjectileSystem
 public:
 	ProjectileSystem();
 	virtual ~ProjectileSystem();
-	
+
 private:
-	
+
 
 	//Projectile projectiles[100];
 	//Projectile firedProjectiles[100];
@@ -29,7 +29,7 @@ public:
 	void UpdateProjectiles(double deltaTime);
 	void DeleteProjectile(int index);
 
-	
+
 	Graphics* graphics;
 
 	std::vector<Projectile*> projectiles;
