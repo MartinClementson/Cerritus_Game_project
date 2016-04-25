@@ -98,6 +98,7 @@ void ResourceManager::Release()
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoTrap * object)
 	{
+		currentMesh = RenderInstructions();
 		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
  		MeshEnum meshType = object->object;
 		
