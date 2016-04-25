@@ -28,7 +28,7 @@ public:
 	void AddMesh(
 		bool hasSkeleton,
 		unsigned int skeletonID,
-		unsigned int materialID,
+		int materialID,
 		unsigned int vertexCount,
 		UINT indexCount,
 		std::vector<Vertex> vertices,
@@ -36,7 +36,7 @@ public:
 		std::vector<UINT> indices
 		);
 
-
+	std::vector<Mesh>* GetMeshes() { return this->gameMeshes; }
 	void GetMeshRenderInfo(MeshEnum* meshEnum, RenderInstructions* toRender);
 
 	void GetPlaceHolderMeshInfo(RenderInstructions* toRender);

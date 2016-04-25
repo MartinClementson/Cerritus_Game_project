@@ -48,6 +48,7 @@ void Mesh::GetMeshRenderInfo(RenderInstructions * toRender)
 
 	toRender->vertexBuffer  =	 this->vertexBuffer;
 	toRender->vertexCount	=	&this->vertCount;
+	toRender->materialID	=	 this->materialID;
 
 
 

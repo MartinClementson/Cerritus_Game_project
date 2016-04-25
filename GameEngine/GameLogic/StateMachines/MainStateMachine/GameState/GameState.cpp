@@ -59,14 +59,14 @@ void GameState::Update(double deltaTime)
 
 	XMFLOAT3 dir = Graphics::GetInstance()->GetPlayerDirection( mouseXY, player->GetPosition());
 	
-	/*for (size_t j = 0; j < room1->enemySpawns.size(); j++)
+	for (size_t j = 0; j < room1->enemySpawns.size(); j++)
 	{
 
 		for (size_t i = 0; i < room1->enemySpawns.at(j)->Alive.size(); i++)
 		{
 			room1->enemySpawns.at(j)->Alive.at(i)->AIPattern(player, deltaTime);
 		}
-	}*/
+	}
 
 		
 	player->Update(deltaTime,dir);
