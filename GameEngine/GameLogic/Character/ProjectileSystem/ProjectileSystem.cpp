@@ -23,8 +23,8 @@ ProjectileSystem::~ProjectileSystem()
 
 
 void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
-{ 
-	
+{
+
 	//renderInfo = { origin, direction };
 
 	//for (unsigned int i = 0; i < 100; i++) // kurwa mac
@@ -52,40 +52,40 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 		{
 
 #pragma region Calculate rotation of projectile mesh
-			XMFLOAT3 rotation(90.0f,0.0f,0.0f);
-			
-			
+			XMFLOAT3 rotation(90.0f, 0.0f, 0.0f);
+
+
 			// placeholder direction is now (0,0,1)
 
 			/*	result = dot product of direction and placeholder direction
 			acos(result)
 			*/
 
-			XMVECTOR shotDirection   = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
-			XMVECTOR meshDirection   = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+			XMVECTOR shotDirection = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
+			XMVECTOR meshDirection = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 
-			
+
 			//Calculate angle between meshDir and shotDir
-			float cosAngle			 = XMVector3Dot(shotDirection, meshDirection).m128_f32[0];
-			float angle				 = acos(cosAngle);
-			float degrees			 = get_degrees(angle);
+			float cosAngle = XMVector3Dot(shotDirection, meshDirection).m128_f32[0];
+			float angle = acos(cosAngle);
+			float degrees = get_degrees(angle);
 			////////////////////////////////////////////////////
 
 			if (direction.x < 0)
 				degrees = -degrees;
 
-			rotation.y				 = degrees;
+			rotation.y = degrees;
 
 
 #pragma endregion
 
 
-			projectiles.push_back(new Projectile(origin, direction,rotation));
+			projectiles.push_back(new Projectile(origin, direction, rotation));
 
 		}
 		timeOffset = 0;
 	}
-	
+
 }
 /// is fired array
 
@@ -119,7 +119,6 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 		if (projectiles.at(i)->GetAge() >= lifeSpan || projectiles.at(i)->GetFired()==false)
 		{
 			DeleteProjectile((int)i);
-			
 		}
 		//else
 		//{
@@ -129,7 +128,7 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 		//	tmp.z = tmp.z + projectiles[i].GetDir().z * projectiles[i].GetSpeed();
 		//}
 	}
-	
+
 
 }
 
@@ -146,14 +145,14 @@ void ProjectileSystem::Initialize()
 	graphics = Graphics::GetInstance();
 	lifeSpan = 2.5f;
 	//maxProjectiles = 100;
-	
+
 
 }
 
 void ProjectileSystem::Release()
 {
-	
-	
+
+
 }
 
 void ProjectileSystem::Render()
@@ -168,16 +167,16 @@ void ProjectileSystem::Render()
 			//renderInfo = { projectiles.at(i)->GetPos(),projectiles.at(i)->GetDir() };
 			graphics->QueueRender(&projectiles.at(i)->renderInfo);
 		}
-		
+
 	}
 	/*for (unsigned int j = 0; j < 3; j++)
 	{
-		if (projectiles->GetFired())
-		{
-			renderInfo = { projectiles[j].GetPos(), projectiles[j].GetDir() };
-			graphics->QueueRender(&renderInfo);
-				
-		}
+	if (projectiles->GetFired())
+	{
+	renderInfo = { projectiles[j].GetPos(), projectiles[j].GetDir() };
+	graphics->QueueRender(&renderInfo);
+
+	}
 	}*/
-	
+
 }

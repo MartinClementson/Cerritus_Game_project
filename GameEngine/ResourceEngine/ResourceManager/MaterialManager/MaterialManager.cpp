@@ -63,7 +63,7 @@ void MaterialManager::addMaterials(std::vector<importedMaterial>* import)
 				tempMaterial.specularValue = import->at(i).specularValue;
 
 				//temp for showcase
-				import->at(i).diffuseTex = "textur_monster.tiff";
+				import->at(i).diffuseTex = "textur_monster_flip.tif";
 
 				//getting the IDs for the textures
 				tempMaterial.diffuse_ID = textureManager->GetDiffuseID(import->at(i).diffuseTex);

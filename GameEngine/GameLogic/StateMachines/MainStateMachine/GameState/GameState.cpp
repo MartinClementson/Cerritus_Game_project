@@ -33,6 +33,8 @@ void GameState::Initialize()
 	
 	//Create room one here
 	room1->Initialize();
+	room1->InitBearTrap();
+	room1->InitFireTrap();
 	room1->AddEnemySpawn(XMFLOAT3( 10.0f, 0.0f,  5.0f));
 	room1->AddEnemySpawn(XMFLOAT3(-30.0f, 0.0f, -20.0f));
 	room1->AddEnemySpawn(XMFLOAT3(0.0f, 0.0f, -50.0f));
@@ -70,6 +72,7 @@ void GameState::Update(double deltaTime)
 	player->Update(deltaTime,dir);
 
 	room1->Update(deltaTime);
+
 	size_t i = 0;
 	while( i < player->projectileSystem->projectiles.size())
 	{
@@ -114,7 +117,7 @@ void GameState::Update(double deltaTime)
 					else
 					{
 						float tmpEnemyHealth = room1->enemySpawns.at(k)->Alive.at(j)->GetHealth();
-						room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(tmpEnemyHealth - 10.0f);
+						room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(tmpEnemyHealth - 30.0f);
 					}
 					if (player->projectileSystem->projectiles.size() >0)
 					{
