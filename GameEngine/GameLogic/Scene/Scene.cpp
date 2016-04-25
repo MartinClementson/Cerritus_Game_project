@@ -121,7 +121,6 @@ void Scene::Update(double deltaTime)
 	}
 	for (size_t i = 0; i < enemySpawns.size(); i++)
 	{
-
 		enemySpawns.at(i)->Update(deltaTime);
 	}
 
