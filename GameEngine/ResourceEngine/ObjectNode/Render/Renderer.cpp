@@ -35,6 +35,34 @@ void Renderer::Release()
 
 }
 
+void Renderer::RenderFinalPass()
+{
+
+	RenderInstructions * objectInstruction;
+
+	objectInstruction = this->resourceManager->GetFullScreenQuad();
+	this->resourceManager->SetShader(Shaders::FINAL_SHADER);
+	UINT32 vertexSize;
+
+		vertexSize = sizeof(Vertex);
+
+	UINT32 offset = 0;
+
+	//an exception handling can be implemented here to handle if there is no buffer
+	// to set. Then the handling can be to use a standard cube instead.
+
+	this->gDeviceContext->IASetVertexBuffers(0, 1, &objectInstruction->vertexBuffer, &vertexSize, &offset);
+
+	this->gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	this->gDeviceContext->IASetIndexBuffer(objectInstruction->indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+
+
+	this->gDeviceContext->DrawIndexed((UINT)*objectInstruction->indexCount, 0, 0);
+
+}
+
 #pragma region Overloaded Render functions
 
 //Render scene objects, mostly static stuff
@@ -95,7 +123,15 @@ void Renderer::Render(RenderInfoChar * object)
 
 void Renderer::Render(RenderInfoTrap * object)
 {
-	RenderPlaceHolder(&object->position);
+	RenderInstructions* renderObject;
+
+	//Send the info of the object into the resource manager
+	//The resource manager gathers all the rendering info and sends back a renderInstruction
+	renderObject = this->resourceManager->GetRenderInfo(object);
+
+	//Render with the given render instruction
+
+	this->Render(renderObject);
 }
 
 
@@ -229,8 +265,8 @@ void Renderer::Render(RenderInstructions * object)
 void Renderer::UpdateCameraBuffer()
 {
 
-	CamMatrices* tempCam			= this->sceneCam->GetCameraMatrices();
-	tempCam->mousePos				= this->mouseWorldPos;
+	CamMatrices* tempCam				= this->sceneCam->GetCameraMatrices();
+	tempCam->mousePos					= this->mouseWorldPos;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
@@ -267,6 +303,25 @@ void Renderer::UpdateWorldBuffer(WorldMatrix* worldStruct)
 
 	this->gDeviceContext->Unmap(worldBuffer, 0);
 	gDeviceContext->GSSetConstantBuffers(WORLDBUFFER_INDEX, 1, &this->worldBuffer);
+
+}
+
+void Renderer::UpdateLightBuffer(LightStruct * lightStruct)
+{
+	D3D11_MAPPED_SUBRESOURCE mappedResourceLight;
+	ZeroMemory(&mappedResourceLight, sizeof(mappedResourceLight));
+
+	//mapping to the matrixbuffer
+	this->gDeviceContext->Map(lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResourceLight);
+
+	LightStruct* temporaryWorld = (LightStruct*)mappedResourceLight.pData;
+
+	*temporaryWorld = *lightStruct;
+
+
+
+	this->gDeviceContext->Unmap(lightBuffer, 0);
+	gDeviceContext->GSSetConstantBuffers(LIGHTBUFFER_INDEX, 1, &this->lightBuffer);
 
 }
 

@@ -19,6 +19,10 @@ public:
 	virtual DirectX::XMFLOAT3 GetRotation();
 	virtual void SetPosition(DirectX::XMFLOAT3 position);  // la till virtual på get och set då de inte ska användas i denna klass
 	virtual void SetRotation(DirectX::XMFLOAT3 rotation);
+	virtual float GetRadius() { return this->radius; }
+
+	void initTrap();
+	bool isActive;
 	//Collision();
 private:	
 	Animation* animation;
@@ -29,5 +33,7 @@ protected:
 	DirectX::XMFLOAT3 position;
 	DirectX::XMFLOAT3 rotation;
 	float damage;
+	float radius;
+	
 };
 

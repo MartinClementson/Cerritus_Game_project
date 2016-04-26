@@ -23,6 +23,9 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 
 	placeHolderPlane.Initialize(gDevice, gDeviceContext);
 	CreatePlaceHolderPlane();
+
+	fullScreenQuad.Initialize(gDevice, gDeviceContext);
+	CreateFullScreenQuad();
 }
 
 void MeshManager::Release()
@@ -33,6 +36,7 @@ void MeshManager::Release()
 	}
 	placeHolder.Release();
 	placeHolderPlane.Release();
+	fullScreenQuad.Release();
 
 }
 
@@ -97,6 +101,11 @@ void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * to
 
 	if (*meshEnum == MeshEnum::ENEMY_1)
 		this->gameMeshes->at(1).GetMeshRenderInfo(toRender);
+	if (*meshEnum == MeshEnum::TRAP_BEAR)
+		this->gameMeshes->at(2).GetMeshRenderInfo(toRender);
+	if (*meshEnum == MeshEnum::TRAP_FIRE)
+		this->gameMeshes->at(3).GetMeshRenderInfo(toRender);
+
 
 }
 
@@ -170,6 +179,43 @@ void MeshManager::CreatePlaceHolderPlane()
 	
 }
 
+void MeshManager::CreateFullScreenQuad()
+{
+
+	Vertex planeVerts[4];
+
+	planeVerts[0].position = Float3(-1.0f,	1.0f,  0.0f);		//0
+	planeVerts[0].uv.x = 0.0f;
+	planeVerts[0].uv.y = 0.0f;
+
+	planeVerts[1].position = Float3(1.0f,	1.0f,  0.0f);		//1
+	planeVerts[1].uv.x = 1.0f;
+	planeVerts[1].uv.y = 0.0f;
+
+	planeVerts[2].position = Float3(1.0f,	-1.0f, 0.0f);		//2
+	planeVerts[2].uv.x = 1.0f;
+	planeVerts[2].uv.y = 1.0f;
+
+	planeVerts[3].position = Float3(-1.0f, -1.0f, 0.0f);		//3
+	planeVerts[3].uv.x = 0.0f;
+	planeVerts[3].uv.y = 1.0f;
+
+
+	UINT indices[6] =
+	{
+		0, 1, 2,
+		0, 2, 3
+	};
+
+
+
+
+	this->fullScreenQuad.CreateVertexBuffer(planeVerts, 4);
+	this->fullScreenQuad.CreateIndexBuffer(indices, 6);
+
+
+}
+
 
 void MeshManager::GetPlaceHolderMeshInfo(RenderInstructions * toRender)
 {
@@ -180,5 +226,9 @@ void MeshManager::GetPlaceHolderMeshInfo(RenderInstructions * toRender)
 void MeshManager::GetPlaceHolderPlaneInfo(RenderInstructions * toRender)
 {
 	placeHolderPlane.GetMeshRenderInfo(toRender);
+}
+void MeshManager::GetFullScreenQuadInfo(RenderInstructions * toRender)
+{
+	fullScreenQuad.GetMeshRenderInfo(toRender);
 }
 #pragma endregion

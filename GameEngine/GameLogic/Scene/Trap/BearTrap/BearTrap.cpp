@@ -2,8 +2,21 @@
 
 
 
+BearTrap::BearTrap(XMFLOAT3 position)
+{
+	grapichs = Graphics::GetInstance();
+	slow = 0.5f;
+	this->position = position;
+	this->rotation = { 0,0,0 };
+	this->isActive = true;
+	this->renderInfo.object = MeshEnum::TRAP_BEAR;
+
+	radius = 1.0f;
+}
+
 BearTrap::BearTrap()
 {
+	grapichs = Graphics::GetInstance();
 
 }
 
@@ -12,9 +25,15 @@ BearTrap::~BearTrap()
 {
 }
 
-void BearTrap::Initialize()
+void BearTrap::Initialize(XMFLOAT3 position, XMFLOAT3 rotation)
 {
-	slow = 3.5f; 
+	slow = 0.5f; 
+	this->position = position;
+	this->rotation = { 0,0,0 };
+	this->isActive = true;
+	this->renderInfo.object = MeshEnum::TRAP_BEAR;
+	radius = 1.0f;
+
 }
 
 void BearTrap::Release()
@@ -26,16 +45,24 @@ void BearTrap::Update(double deltaTime)
 {
 	if (slow > 0.0f)
 	{
-		slow = slow - 1 * (float)deltaTime;// la till delta time av samma anledning som i fire
+		slow -= (float)deltaTime; // thinkng of how this will work, need a boolean for if activated and if enemys have collided with it.
+
+		//slow = slow - 1 * (float)deltaTime;// la till delta time av samma anledning som i fire
+
 	}
 
-	renderinfo = { rotation, position }; // must check this
+	renderInfo.position = position;
+	renderInfo.rotation = rotation; // kinda works
 
 }
 
 void BearTrap::Render()
 {
-	grapichs->QueueRender(&renderinfo);
+	if (this->isActive)
+	{
+		grapichs->QueueRender(&this->renderInfo);
+	}
+
 	//grapichs->QueueRender(renderinfo); Unsure if the other one works. will see
 }
 
@@ -48,3 +75,7 @@ void BearTrap::SetSlow(float slow)
 {
 	this->slow = slow;
 }
+
+
+
+
