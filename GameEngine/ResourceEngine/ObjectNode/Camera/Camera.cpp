@@ -86,7 +86,7 @@ void Camera::Updateview( DirectX::XMFLOAT3 playerPos)
 	camTarget.z		= playerPos.z;
 
 	
-	XMMATRIX tempView = XMMatrixLookAtLH(
+	XMMATRIX tempView = XMMatrixLookAtLH( //Create view matrix
 		(XMLoadFloat4(&camPosition)),
 		(XMLoadFloat4(&camTarget)),
 		(XMLoadFloat4(&camUp)) );
@@ -95,6 +95,18 @@ void Camera::Updateview( DirectX::XMFLOAT3 playerPos)
 
 
 	XMStoreFloat4x4(&camMatrices.camView, XMMatrixTranspose(tempView));
+
+	//We also have to update the invViewProjMatrix!
+	XMMATRIX proj = XMLoadFloat4x4(&camMatrices.projection);
+	proj = XMMatrixTranspose(proj); // transpose it back to cpu alignment
+	
+	XMMATRIX viewProjInv = XMMatrixMultiply(tempView, proj);
+
+	XMVECTOR det = XMMatrixDeterminant(viewProjInv);
+
+	viewProjInv = XMMatrixInverse(&det, viewProjInv);
+
+	XMStoreFloat4x4(&camMatrices.invViewProjMatrix, XMMatrixTranspose(viewProjInv));
 
 }
 

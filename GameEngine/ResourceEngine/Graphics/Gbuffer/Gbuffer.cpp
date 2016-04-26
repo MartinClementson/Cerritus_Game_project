@@ -80,70 +80,6 @@ void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCont
 
 		SAFE_RELEASE(gBufferTextures[i]);
 	}
-
-	//create shadowmap stencil
-
-	for (int i = 0; i < SHADOWMAPAMOUNT; i++)
-	{
-		HRESULT hr;
-
-		D3D11_TEXTURE2D_DESC ShadowTexDesc;
-		D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
-		D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewShadowDesc;
-
-		ZeroMemory(&ShadowTexDesc, sizeof(ShadowTexDesc));
-		
-		//Set up the render texture desciption
-
-		ShadowTexDesc.Width = (UINT)SHADOW_WIDTH;
-		ShadowTexDesc.Height = (UINT)SHADOW_HEIGHT;
-		ShadowTexDesc.MipLevels = 1;
-		ShadowTexDesc.ArraySize = 1;
-		ShadowTexDesc.Format = DXGI_FORMAT_R32_TYPELESS;
-		ShadowTexDesc.SampleDesc.Count = 1;
-		ShadowTexDesc.Usage = D3D11_USAGE_DEFAULT;
-		ShadowTexDesc.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
-		ShadowTexDesc.CPUAccessFlags = 0;
-		ShadowTexDesc.MiscFlags = 0;
-
-		//Create the render target Texture
-
-		hr = gDevice->CreateTexture2D(&ShadowTexDesc, NULL, &gBufferShadowMapTexures[i]);
-		if (FAILED(hr))
-			MessageBox(NULL, L"Failed to create  Gbuffer ShadowMap", L"Error", MB_ICONERROR | MB_OK);
-
-		//create depth stencil
-
-		ZeroMemory(&descDSV, sizeof(descDSV));
-		descDSV.Format = DXGI_FORMAT_D32_FLOAT;
-		descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-		descDSV.Texture2D.MipSlice = 0;
-
-		hr = gDevice->CreateDepthStencilView(gBufferShadowMapTexures[i], &descDSV, &gBufferShadowMapStencilViews[i]);
-		if (FAILED(hr))
-			MessageBox(NULL, L"Failed to create  Gbuffer ShadowMap DepthStencils", L"Error", MB_ICONERROR | MB_OK);
-
-
-		//Set up the shader resource view
-
-		resourceViewShadowDesc.Format = DXGI_FORMAT_R32_FLOAT;
-		resourceViewShadowDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-		resourceViewShadowDesc.Texture2D.MostDetailedMip = 0;
-		resourceViewShadowDesc.Texture2D.MipLevels = 1;
-
-		//Create the resourceView;
-
-		hr = gDevice->CreateShaderResourceView(gBufferShadowMapTexures[i], &resourceViewShadowDesc, &shadowShaderResourceViews[i]);
-		if (FAILED(hr))
-			MessageBox(NULL, L"Failed to create  Gbuffer ShadowMap resource", L"Error", MB_ICONERROR | MB_OK);
-
-	}
-
-	for (int i = 0; i < SHADOWMAPAMOUNT; i++)
-	{
-		//SAFE_RELEASE(gBufferShadowMapTexures[i]);
-	}
-
 }
 
 void Gbuffer::Release()
@@ -156,12 +92,6 @@ void Gbuffer::Release()
 
 		SAFE_RELEASE(gBufferTextures[i]);
 	}
-	for (int i = 0; i < SHADOWMAPAMOUNT; i++)
-	{
-		SAFE_RELEASE(gBufferShadowMapStencilViews[i]);
-		SAFE_RELEASE(gBufferShadowMapTexures[i]);
-	}
-
 }
 
 void Gbuffer::SetToRender(ID3D11DepthStencilView* depthStencilView) ///Set the textures as RTVs so that we can render to them
@@ -205,21 +135,4 @@ void Gbuffer::ClearGbuffer()
 	//Might not be needed when only using one camera, 
 	return;
 	
-}
-
-
-void Gbuffer::ShadowSetToRender() ///Set the textures as RTVs so that we can render to them
-{
-	ID3D11RenderTargetView* temp[1] = { 0 };
-	gDeviceContext->OMSetRenderTargets(SHADOWMAPAMOUNT, temp, *gBufferShadowMapStencilViews);
-}
-void Gbuffer::ShadowSetToRead()
-{
-	this->gDeviceContext->PSSetShaderResources(1, SHADOWMAPAMOUNT, this->shadowShaderResourceViews);
-}
-void Gbuffer::ClearShadowGbuffer()
-{
-	//Clear shadow stencils
-	for (int i = 0; i < SHADOWMAPAMOUNT; i++)
-		this->gDeviceContext->ClearDepthStencilView(this->gBufferShadowMapStencilViews[i], D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 }

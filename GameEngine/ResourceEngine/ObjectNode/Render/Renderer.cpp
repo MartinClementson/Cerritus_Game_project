@@ -7,10 +7,11 @@ Renderer::Renderer()
 	this->sceneCam			= new Camera();
 	this->resourceManager	= new ResourceManager();
 	this->sceneLightArray	= new LightStruct(
-		XMFLOAT4(10.0f, 10.0f, -5.0f, 1.0f), //Pos
+		XMFLOAT4(0.0f, 100.0f, 50.0f, 1.0f), //Pos
 		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f),	//Direction
 		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));	//Color
-	sceneLightArray->SetMatrices(XM_PI*0.5, 1.0f, 5.0f, 60.0f);
+	sceneLightArray->SetMatrices(XM_PI*0.5, 1.0f, 70.0f, 160.0f);
+	sceneLightArray->intensity = 1.0f;
 }
 
 
@@ -18,6 +19,7 @@ Renderer::~Renderer()
 {
 	delete sceneCam;
 	delete resourceManager;
+	delete sceneLightArray;
 }
 
 void Renderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext)
@@ -199,7 +201,7 @@ void Renderer::GetInverseProjectionMatrix(XMMATRIX & matrix)
 void Renderer::Render(RenderInstructions * object)
 {
 
-	
+	UpdateLightBuffer();
 	UpdateWorldBuffer(&object->worldBuffer);
 
 #pragma region Check what vertex is to be used
@@ -285,7 +287,9 @@ void Renderer::UpdateCameraBuffer()
 	
 
 	gDeviceContext->Unmap(this->camBuffer, 0);
+	gDeviceContext->VSSetConstantBuffers(CAMERABUFFER_INDEX, 1, &this->camBuffer);
 	gDeviceContext->GSSetConstantBuffers(CAMERABUFFER_INDEX, 1, &this->camBuffer);
+	gDeviceContext->PSSetConstantBuffers(CAMERABUFFER_INDEX, 1, &this->camBuffer);
 
 
 
@@ -309,7 +313,8 @@ void Renderer::UpdateLightBuffer()
 
 	gDeviceContext->Unmap(this->lightBuffer, 0);
 	gDeviceContext->VSSetConstantBuffers(LIGHTBUFFER_INDEX, 1, &this->lightBuffer);
-
+	gDeviceContext->GSSetConstantBuffers(LIGHTBUFFER_INDEX, 1, &this->lightBuffer);
+	gDeviceContext->PSSetConstantBuffers(LIGHTBUFFER_INDEX, 1, &this->lightBuffer);
 
 }
 
@@ -330,7 +335,9 @@ void Renderer::UpdateWorldBuffer(WorldMatrix* worldStruct)
 	
 
 	this->gDeviceContext->Unmap(worldBuffer, 0);
+	gDeviceContext->VSSetConstantBuffers(WORLDBUFFER_INDEX, 1, &this->worldBuffer);
 	gDeviceContext->GSSetConstantBuffers(WORLDBUFFER_INDEX, 1, &this->worldBuffer);
+	gDeviceContext->PSSetConstantBuffers(WORLDBUFFER_INDEX, 1, &this->worldBuffer);
 
 }
 
@@ -382,8 +389,11 @@ bool Renderer::CreateConstantBuffers()
 	if (FAILED(hr))
 		MessageBox(NULL, L"Failed to create Camera buffer", L"Error", MB_ICONERROR | MB_OK);
 	if (SUCCEEDED(hr))
-		this->gDeviceContext->GSSetConstantBuffers(CAMERABUFFER_INDEX, 1 , &this->camBuffer );
+	{
 
+		this->gDeviceContext->GSSetConstantBuffers(CAMERABUFFER_INDEX, 1 , &this->camBuffer );
+		this->gDeviceContext->PSSetConstantBuffers(CAMERABUFFER_INDEX, 1, &this->camBuffer);
+	}
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 		//WORLD CONSTANT BUFFER
@@ -426,7 +436,7 @@ bool Renderer::CreateConstantBuffers()
 	if (FAILED(hr))
 		MessageBox(NULL, L"Failed to create light buffer", L"Error", MB_ICONERROR | MB_OK);
 	if (SUCCEEDED(hr))
-		this->gDeviceContext->VSSetConstantBuffers(	LIGHTBUFFER_INDEX, 1, &lightBuffer);
+		this->gDeviceContext->PSSetConstantBuffers(	LIGHTBUFFER_INDEX, 1, &lightBuffer);
 
 
 	//-----------------------------------------------------------------------------------------------------------------------------------

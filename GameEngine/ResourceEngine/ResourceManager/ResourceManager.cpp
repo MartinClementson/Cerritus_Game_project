@@ -224,7 +224,7 @@ void ResourceManager::Release()
 			this->shadowPass = x;
 		if (shadowPass == true)
 		{
-			Shaders  temp = GBUFFER_SHADOW_SHADER;
+			Shaders  temp = SHADOW_SHADER;
 			this->shaderManager->SetActiveShader(&temp);
 		}
 

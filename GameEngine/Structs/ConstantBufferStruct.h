@@ -6,6 +6,7 @@ struct CamMatrices
 {
 	DirectX::XMFLOAT4X4 camView;
 	DirectX::XMFLOAT4X4 projection;
+	DirectX::XMFLOAT4X4 invViewProjMatrix;
 	DirectX::XMFLOAT4 worldPos;
 	DirectX::XMFLOAT4 mousePos;
 };
@@ -25,6 +26,8 @@ struct LightStruct
 	DirectX::XMFLOAT4X4 lightProjection;
 	DirectX::XMFLOAT4 lightDir;
 	DirectX::XMFLOAT4 lightDiffuse;
+	float intensity;
+	DirectX::XMFLOAT3 Pad;
 	void SetMatrices(float fov, float aspectRatio, float nearZ, float farZ) {
 
 		DirectX::XMMATRIX tempView = DirectX::XMMatrixLookAtLH(

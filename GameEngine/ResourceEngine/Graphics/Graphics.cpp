@@ -52,6 +52,9 @@ void Graphics::Initialize(HWND * window)
 	
 	gBuffer = new Gbuffer();
 	gBuffer->Initialize(this->gDevice,this->gDeviceContext);
+
+	shadowBuffer = new ShadowBuffer();
+	shadowBuffer->Initialize(this->gDevice, this->gDeviceContext);
 }
 
 void Graphics::Release()
@@ -66,6 +69,7 @@ void Graphics::Release()
 
 
 	gBuffer->Release();
+	shadowBuffer->Release();
 
 	SAFE_RELEASE(depthState);
 	SAFE_RELEASE(depthStencilView);
@@ -115,18 +119,20 @@ void Graphics::Render() //manage RenderPasses here
 
 	SetShadowViewPort();
 
-	gBuffer->ClearShadowGbuffer();
-	gBuffer->ShadowSetToRender();
+	shadowBuffer->ClearShadowGbuffer();
 
+	shadowBuffer->ShadowSetToRender();
 	renderer->SetShadowPass(true);
 
 	this->RenderScene();
 
 	gBuffer->SetToRender(depthStencilView);	
-
-	gBuffer->ShadowSetToRead();
+	shadowBuffer->ShadowSetToRead();
 
 	SetViewPort();
+
+
+
 
 	//this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
 
@@ -257,27 +263,7 @@ void Graphics::SetShadowViewPort()
 
 void Graphics::SetShadowMap()
 {
-	SetShadowViewPort();
 
-	gBuffer->ClearShadowGbuffer();
-	gBuffer->ShadowSetToRender();
-
-	renderer->SetShadowPass(true);
-
-	this->RenderScene();
-
-	gBuffer->ShadowSetToRead();
-	//clear stencils
-	//render new stencils
-	//as for loops based on amt of shadowmaps
-
-
-
-	///Render shadow map
-
-
-
-	SetViewPort();
 }
 
 

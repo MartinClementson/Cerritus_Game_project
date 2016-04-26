@@ -41,12 +41,14 @@ void ShaderManager::Release()
 	SAFE_RELEASE(gVertexLayoutAnimation);
 
 	//Shaders for the gbuffer
-	SAFE_RELEASE(GBUFFER_SHADOWDEPTH_VS);
 	SAFE_RELEASE(GBUFFER_VS);
 	SAFE_RELEASE(GBUFFER_GS);
 	SAFE_RELEASE(GBUFFER_PS);
 	SAFE_RELEASE(gVertexLayoutGBuffer);
 
+	//Shaders for shadowshader
+	SAFE_RELEASE(SHADOW_VS);
+	SAFE_RELEASE(SHADOW_GS);
 
 	//Shaders for particle shading
 	SAFE_RELEASE(PARTICLE_VS);
@@ -119,13 +121,13 @@ void ShaderManager::SetActiveShader(Shaders* shader)
 
 		break;
 
-	case GBUFFER_SHADOW_SHADER:
+	case SHADOW_SHADER:
 
 
-		this->gDeviceContext->VSSetShader(GBUFFER_SHADOWDEPTH_VS, nullptr, 0);
+		this->gDeviceContext->VSSetShader(SHADOW_VS, nullptr, 0);
 		this->gDeviceContext->HSSetShader(nullptr, nullptr, 0);
 		this->gDeviceContext->DSSetShader(nullptr, nullptr, 0);
-		this->gDeviceContext->GSSetShader(nullptr, nullptr, 0);
+		this->gDeviceContext->GSSetShader(SHADOW_GS, nullptr, 0);
 		this->gDeviceContext->PSSetShader(nullptr, nullptr, 0);
 		this->gDeviceContext->IASetInputLayout(gVertexLayoutGBuffer);
 
@@ -180,6 +182,8 @@ void ShaderManager::CreateShaders()
 		MessageBox(NULL, L"Error compiling FinalPassShaders shaders", L"Shader error", MB_ICONERROR | MB_OK);
 	if (!CreateGbufferShader())
 		MessageBox(NULL, L"Error compiling Gbuffer shaders", L"Shader error", MB_ICONERROR | MB_OK);
+	if (!CreateShadowShader())
+		MessageBox(NULL, L"Error compiling Shadow shaders", L"Shader error", MB_ICONERROR | MB_OK);
 }
 
 
@@ -298,24 +302,6 @@ bool ShaderManager::CreateGbufferShader()
 	HRESULT hr;
 	//Load the shaders
 
-	ID3DBlob* pVSShadow = nullptr;
-
-	D3DCompileFromFile(
-		L"ResourceEngine/Shader/GBufferShader/Gbuffer.hlsl",
-		nullptr,
-		nullptr,
-		"GBUFFER_SHADOWDEPTH_VS_main",
-		"vs_5_0",
-		0,
-		0,
-		&pVSShadow,
-		nullptr);
-
-	hr = this->gDevice->CreateVertexShader(pVSShadow->GetBufferPointer(), pVSShadow->GetBufferSize(), nullptr, &GBUFFER_SHADOWDEPTH_VS);
-
-	if (FAILED(hr))
-		return false;
-
 	ID3DBlob* pVS = nullptr;
 
 	D3DCompileFromFile(
@@ -390,6 +376,51 @@ bool ShaderManager::CreateGbufferShader()
 
 
 
+
+	return true;
+}
+
+bool ShaderManager::CreateShadowShader()
+{
+	HRESULT hr;
+
+	//Vertex Shader
+	ID3DBlob* pVS = nullptr;
+
+	D3DCompileFromFile(
+		L"ResourceEngine/Shader/ShadowShader/ShadowShader.hlsl",
+		nullptr,
+		nullptr,
+		"SHADOW_VS_main",
+		"vs_5_0",
+		0,
+		0,
+		&pVS,
+		nullptr);
+
+	hr = this->gDevice->CreateVertexShader(pVS->GetBufferPointer(), pVS->GetBufferSize(), nullptr, &SHADOW_VS);
+
+	if (FAILED(hr))
+		return false;
+
+	//Geometry shader
+	ID3DBlob* pGS = nullptr;
+	D3DCompileFromFile(
+		L"ResourceEngine/Shader/ShadowShader/ShadowShader.hlsl",
+		nullptr,
+		nullptr,
+		"SHADOW_GS_main",
+		"gs_5_0",
+		0,
+		0,
+		&pGS,
+		nullptr);
+
+	hr = this->gDevice->CreateGeometryShader(pGS->GetBufferPointer(), pGS->GetBufferSize(), nullptr, &SHADOW_GS);
+	pGS->Release();
+
+	if (FAILED(hr))
+		return false;
 
 	return true;
 }
