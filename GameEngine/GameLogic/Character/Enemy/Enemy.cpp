@@ -30,7 +30,7 @@ void Enemy::Initialize()
 	rotation = { 0,0,0 }; 
 	
 	radius = 1.0f;
-	radius2 = 6.0f;
+	radius2 = 5.0f;
 
 	DoTDur = 0;
 	slowTimer = 0; 
@@ -138,9 +138,11 @@ void Enemy::EnemyWithEnemyCollision(Enemy* enemy, Enemy* enemys, double deltaTim
 
 	dir.x = enemyPos.x - enemyPos2.x;
 	dir.z = enemyPos.z - enemyPos2.z;
+	
+	dir.Normalize();
 
-	this->position.x += dir.x * (float)deltaTime;
-	this->position.z += dir.z * (float)deltaTime;
+	enemys->position.x -= dir.x * (float)deltaTime * movementSpeed;
+	enemys->position.z -= dir.z * (float)deltaTime * movementSpeed;
 }
 
 

@@ -87,7 +87,7 @@ public:
 private:
 	MeshEnum meshID;//enum
 	RenderInfoChar renderInfo;
-	
+
 
 	XMFLOAT3 direction;
 	//Collision();

@@ -11,7 +11,7 @@ class Collision
 {
 private:
 	XMFLOAT3 enemyPos, enemyPos2;
-	float enemyRad, enemyRad2;
+	float enemyRad, enemyRad2, enemyRad3;
 	XMFLOAT3 trapPos;
 	float trapRad;
 	XMFLOAT3 dir;
@@ -49,5 +49,6 @@ public:
 	bool TrapandEnemyLottery(BearTrap * trap, Enemy * enemys);
 
 	~Collision();
+	Player* GetPlayer();
 };
 

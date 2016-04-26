@@ -34,6 +34,12 @@ void EnemySpawn::Update(double deltaTime)
 	for (size_t i = 0; i < Alive.size(); i++)
 	{
 		Alive.at(i)->Update(deltaTime);
+
+		if (collision->PlayerCollision(Alive.at(i)))
+		{
+			Alive.at(i)->SetHealth(0.0f);
+		}
+
 		if (Alive.at(i)->GetHealth() <= 0 && Alive.at(i)->isAlive == true)
 		{
 			Alive.at(i)->isAlive = false;
@@ -43,36 +49,13 @@ void EnemySpawn::Update(double deltaTime)
 			Alive.erase(Alive.begin() + i);
 		}		
 	}
-	if (Alive.size() < 1)
+	if (Alive.size() < 5)
 	{
 		SpawnEnemy();
 	}
-	for (int i = 0; i < (int)Alive.size(); i++)
-	{
-		if (Alive.at(i)->isAlive == true)
-		{
-			if (collision->PlayerDistanceCollision(Alive.at(i)))
-			{
-				for (int j = 0; j < (int)Alive.size(); j++)
-				{
-					if (collision->EnemyCollision(Alive.at(i), Alive.at(j)))
-					{
-						Alive.at(i)->EnemyWithEnemyCollision(
-							Alive.at(i), Alive.at(j), deltaTime);
-					}
-				}
-			}
-			if (collision->PlayerCollision(Alive.at(i)) )
-			{
-				Alive.at(i)->isAlive = false;
-				Queue.push_back(Alive.at(i));	
-				Alive.erase(Alive.begin() + i);
-			}
-		}
-	}
-	
-	
+
 }
+	
 
 void EnemySpawn::SpawnEnemy()
 {
@@ -106,7 +89,7 @@ void EnemySpawn::SpawnEnemy()
 
 void EnemySpawn::InitEnemy()
 {
-	unsigned int waveAmount = 2;
+	unsigned int waveAmount = 12;
 
 
 	for (size_t i = 0; i < waveAmount; i++)

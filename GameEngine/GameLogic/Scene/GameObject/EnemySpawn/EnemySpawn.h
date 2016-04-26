@@ -18,7 +18,6 @@ private:
 	
 	Collision* collision;
 	XMFLOAT3 spawnPosition;
-	
 public:
 	std::vector<Enemy*> Queue;
 	std::vector<Enemy*> Alive;

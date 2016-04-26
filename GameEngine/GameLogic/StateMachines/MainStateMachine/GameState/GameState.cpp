@@ -57,34 +57,76 @@ void GameState::Update(double deltaTime)
 	ProcessInput(&deltaTime);
 	XMFLOAT2 mouseXY = input->GetMousePosition();
 
-	XMFLOAT3 dir = Graphics::GetInstance()->GetPlayerDirection( mouseXY, player->GetPosition());
-	
-	for (size_t j = 0; j < room1->enemySpawns.size(); j++)
-	{
-		for (size_t i = 0; i < room1->enemySpawns.at(j)->Alive.size(); i++)
-		{
-	
-				room1->enemySpawns.at(j)->Alive.at(i)->AIPattern(player, deltaTime);
-		}
-	}
+	XMFLOAT3 dir = Graphics::GetInstance()->GetPlayerDirection(mouseXY, player->GetPosition());
 
-	player->Update(deltaTime,dir);
+	player->Update(deltaTime, dir);
 
 	room1->Update(deltaTime);
 
+	for (size_t k = 0; k < room1->enemySpawns.size(); k++)
+	{
+		size_t j = 0;
+		while (j < room1->enemySpawns.at(k)->Alive.size())
+		{
+			for (size_t p = 0; p < room1->enemySpawns
+				.at(k)->Alive.size(); p++)
+			{
+				if (room1->enemySpawns.at(k)->Alive.at(p)->isAlive == true)
+				{
+					if (j == p)
+					{
+						room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
+							collision->GetPlayer(),
+							deltaTime);
+					}
+					else if (collision->EnemyCollision(
+						room1->enemySpawns.at(k)->Alive.at(p),
+						room1->enemySpawns.at(k)->Alive.at(p))
+					
+
+						&& collision->PlayerDistanceCollision(
+							room1->enemySpawns.at(k)->Alive.at(p))
+						&& j == p 
+						)
+					{	
+						room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
+							collision->GetPlayer(),
+							deltaTime);
+					}
+
+					else if (collision->EnemyCollision(
+						room1->enemySpawns.at(k)->Alive.at(p), 
+						room1->enemySpawns.at(k)->Alive.at(j)))
+					{
+						room1->enemySpawns.at(k)->Alive.at(p)->EnemyWithEnemyCollision(
+							room1->enemySpawns.at(k)->Alive.at(p), 
+							room1->enemySpawns.at(k)->Alive.at(j),
+							deltaTime);
+					}
+				/*	else
+					{
+						room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
+							collision->GetPlayer(),
+							deltaTime);
+					}*/
+				}
+			}
+			j++;
+		}
+	}
+
 	size_t i = 0;
-	while( i < player->projectileSystem->projectiles.size())
+	while (i < player->projectileSystem->projectiles.size())
 	{
 		for (size_t k = 0; k < room1->enemySpawns.size(); k++)
 		{
-
 			size_t j = 0;
-			while(j < room1->enemySpawns.at(k)->Alive.size())
+			while (j < room1->enemySpawns.at(k)->Alive.size())
 			{
 				if (collision->ProjectileEnemyCollision(
 					player->projectileSystem->
 					projectiles.at(i),
-					
+
 					room1->enemySpawns.at(k)->
 					Alive.at(j))
 
@@ -96,7 +138,6 @@ void GameState::Update(double deltaTime)
 					//	L"LOL", MB_OK);
 					if (room1->enemySpawns.at(k)->Alive.at(j)->GetHealth() <= 10.0f)
 					{
-
 						room1->enemySpawns.at(k)->Alive.at(j)->isAlive = false;
 						room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(100.0f);
 
@@ -104,13 +145,13 @@ void GameState::Update(double deltaTime)
 							Queue.push_back(
 								room1->enemySpawns.at(k)->
 								Alive.at(j)
-								);
+							);
 
 						room1->enemySpawns.at(k)->
 							Alive.erase(
 								room1->enemySpawns.at(k)->
 								Alive.begin() + j
-								);
+							);
 
 					}
 					else
@@ -118,21 +159,22 @@ void GameState::Update(double deltaTime)
 						float tmpEnemyHealth = room1->enemySpawns.at(k)->Alive.at(j)->GetHealth();
 						room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(tmpEnemyHealth - 30.0f);
 					}
-					if (player->projectileSystem->projectiles.size() >0)
+					if (player->projectileSystem->projectiles.size() > 0)
 					{
 						player->projectileSystem->projectiles.at(i)->SetFired(false);
 					}
-				
-				
+
+
 				}
 				j++;
-		}
+			}
+
 		}
 		i++;
 	}
-	
-	
+
 }
+	
 
 void GameState::ProcessInput(double* deltaTime)
 {
@@ -228,7 +270,6 @@ void GameState::Render()
 	room1->Render();
 	player->Render();
 	gameUI->Render();
-
 }
 
 void GameState::OnEnter()

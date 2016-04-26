@@ -174,14 +174,14 @@ bool Collision::ProjectileEnemyCollision(Projectile* projectile,Enemy* enemy)
 bool Collision::EnemyCollision(Enemy* enemy, Enemy* enemys)
 {
 	enemyPos = enemy->GetPosition();
-	enemyRad = enemy->GetRadius2();
+	enemyRad2 = enemy->GetRadius2();
 
 	enemyPos2 = enemys->GetPosition();
-	enemyRad2 = enemys->GetRadius2();
+	enemyRad3 = enemys->GetRadius2();
 
 	if (pow(enemyPos2.x - enemyPos.x, 2)
 		+ pow(enemyPos2.z - enemyPos.z, 2)
-		< pow(enemyRad2 + enemyRad, 2))
+		< pow(enemyRad3 + enemyRad2, 2))
 	{
 		return true;
 	}
@@ -209,6 +209,11 @@ bool Collision::EnemyCollision(Enemy* enemy, Enemy* enemys)
 Collision::~Collision()
 {
 
+}
+
+Player* Collision::GetPlayer()
+{
+	return this->player;
 }
 
 

@@ -16,6 +16,7 @@ private:
 	RenderInfoEnemy renderInfo;
 	EnemyStateMachine* enemyStateMachine;
 	Player * player;
+	
 private:
 	void Release();
 	Enemy();
