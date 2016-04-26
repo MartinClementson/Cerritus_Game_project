@@ -26,10 +26,10 @@ void Enemy::Initialize()
 
 	health = 100.0f;
 	DoT = 0;
-	damage = 22.0f;
+	damage = 5.0f;
 	rotation = { 0,0,0 }; 
 	
-	radius = 1.0f;
+	radius = 2.0f;
 	radius2 = 3.0f;
 
 	DoTDur = 0;

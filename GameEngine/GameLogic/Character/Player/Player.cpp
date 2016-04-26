@@ -57,7 +57,7 @@ void Player::Initialize()
 	this->rotation		 = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	VelocityMax = 4.0f;
 	slowTimer = 0;
-	radius = 1.0f;
+	radius = 2.0f;
 	radius2 = 5.0f;
 	DoT = 0.0f;
 	DoTDur = 0.0f;
