@@ -14,6 +14,7 @@
 
 #define D3D_DEBUG_INFO
 #define TEXTURE_PATH "textures/"
+#define MODEL_PATH "models/"
 
 //IMPORTANT! This is only to be used with directX COM objects
 #define SAFE_RELEASE(p) { if ( (p) && (p) != nullptr ) { (p)->Release(); (p) = 0; } }
