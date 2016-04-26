@@ -30,7 +30,7 @@ void Enemy::Initialize()
 	rotation = { 0,0,0 }; 
 	
 	radius = 1.0f;
-	radius2 = 5.0f;
+	radius2 = 3.0f;
 
 	DoTDur = 0;
 	slowTimer = 0; 
@@ -145,4 +145,22 @@ void Enemy::EnemyWithEnemyCollision(Enemy* enemy, Enemy* enemys, double deltaTim
 	enemys->position.z -= dir.z * (float)deltaTime * movementSpeed;
 }
 
+//void Enemy::EnemyWithBeartrap(BearTrap* bear, Enemy* enemy, double deltaTime)
+//{
+//	XMFLOAT3 enemyPos;
+//	XMFLOAT3 bearPos;
+//	Vec3 dir;
+//	
+//	enemyPos = enemy->GetPosition();
+//	bearPos = bear->GetPosition();
+//
+//	dir.x = enemyPos.x - bearPos.x;
+//	dir.z = enemyPos.z - bearPos.z;
+//
+//	dir.Normalize();
+//
+//	enemy->position.x -= dir.x * (float)deltaTime * movementSpeed;
+//	enemy->position.z -= dir.z * (float)deltaTime * movementSpeed;
+//}
+//
 

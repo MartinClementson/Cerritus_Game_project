@@ -21,9 +21,8 @@ void Collision::AddPlayer(Player* player)
 	this->player = player;
 }
 
-void Collision::AddTrap(FireTrap * fTraps,BearTrap *bTrap)
+void Collision::AddTrap(BearTrap *bTrap)
 {
-	fireTrap.push_back(fTraps);
 	bearTrap.push_back(bTrap);
 }
 
@@ -188,23 +187,27 @@ bool Collision::EnemyCollision(Enemy* enemy, Enemy* enemys)
 	return false;
 }
 
-//
-//bool Collision::TrapandEnemyLottery(BearTrap * trap, Enemy* enemys)
-//{
-//	trapPos = trap->GetPosition();
-//	trapRad = trap->GetRadius2();
-//
-//	enemyPos = enemys->GetPosition();
-//	enemyRad = enemys->GetRadius2();
-//
-//	if (pow(trapPos.x - enemyPos.x, 2)
-//		+ pow(trapPos.z - enemyPos.z, 2)
-//		< pow(trapRad + enemyRad, 2))
-//	{
-//		return true;
-//	}
-//	return false;
-//}
+bool Collision::TrapandEnemyLottery(Enemy* enemys)
+{
+	for (size_t i = 0; i < this->bearTrap.size(); i++)
+	{
+		trapPos = this->bearTrap.at(i)->GetPosition();
+		trapRad = this->bearTrap.at(i)->GetRadius2();
+
+		enemyPos = enemys->GetPosition();
+		enemyRad = enemys->GetRadius2();
+
+		if (pow(trapPos.x - enemyPos.x, 2)
+			+ pow(trapPos.z - enemyPos.z, 2)
+			< pow(trapRad + enemyRad, 2))
+		{
+			return true;
+		}
+	}
+	
+	return false;
+
+}
 
 Collision::~Collision()
 {

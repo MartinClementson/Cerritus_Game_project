@@ -36,14 +36,17 @@ float Trap::GetDamage()
 {
 	return damage;
 }
+
 void Trap::SetDamage(float damage)
 {
 	this->damage = damage;
 }
+
 XMFLOAT3 Trap::GetPosition()
 {
 	return this->position;
 }
+
 XMFLOAT3 Trap::GetRotation()
 {
 	return this->rotation;

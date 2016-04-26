@@ -29,7 +29,7 @@ public:
 
 	void AddEnemy(Enemy* enemy);
 	void AddPlayer(Player* player);
-	void AddTrap(FireTrap* fTraps,BearTrap* bTraps);
+	void AddTrap(BearTrap* bTraps);
 
 	bool BearTrapPlayerCollision(BearTrap * trap);
 	bool BearTrapEnemyCollision(BearTrap * trap, Enemy *enemy);
@@ -46,7 +46,7 @@ public:
 	
 	static Collision* GetInstance();
 
-	bool TrapandEnemyLottery(BearTrap * trap, Enemy * enemys);
+	bool TrapandEnemyLottery(Enemy * enemys);
 
 	~Collision();
 	Player* GetPlayer();

@@ -217,8 +217,6 @@ void Player::Shoot(InputKeys input, double deltaTime)
 	{
 		projectileSystem->FireProjectile(this->position, direction);
 	}
-
-
 }
 
 float Player::GetHealth()

@@ -37,7 +37,7 @@ void EnemySpawn::Update(double deltaTime)
 
 		if (collision->PlayerCollision(Alive.at(i)))
 		{
-			Alive.at(i)->SetHealth(0.0f);
+			//Alive.at(i)->SetHealth(0.0f);
 		}
 
 		if (Alive.at(i)->GetHealth() <= 0 && Alive.at(i)->isAlive == true)

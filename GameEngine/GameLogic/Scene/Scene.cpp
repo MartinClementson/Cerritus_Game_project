@@ -49,6 +49,11 @@ void Scene::Initialize()
 	trapAmount = 15;
 	InitBearTrap();
 	InitFireTrap();
+
+	for (size_t i = 0; i < this->bearTraps.size(); i++)
+	{
+		collision->AddTrap(bearTraps.at(i));
+	}
 	RespawnTimer = 0;
 }	
 
@@ -145,23 +150,6 @@ void Scene::Update(double deltaTime)
 		{
 			for (size_t k = 0; k < enemySpawns.at(j)->Alive.size(); k++)
 			{
-				/*if (collision->TrapandEnemyLottery(bearTraps.at(i),
-					enemySpawns.at(j)->Alive.at(k)))
-				{
-					int randoms = rand() % 5 + 1;
-
-					if (randoms == 1)
-					{
-						while (collision->TrapandEnemyLottery(bearTraps.at(i),
-							enemySpawns.at(j)->Alive.at(k)) == true)
-						{
-							AvadeTrap(enemySpawns.at(j)->Alive.at(k)
-								, bearTraps.at(i), deltaTime);
-						}
-					
-					}
-						
-				}*/
 				if (collision->BearTrapEnemyCollision(bearTraps.at(i),
 					enemySpawns.at(j)->Alive.at(k))
 					&& bearTraps.at(i)->isActive)
@@ -243,21 +231,27 @@ void Scene::load()
 
 }
 
-//void Scene::AvadeTrap(Enemy* enemy, BearTrap* bear, double deltaTime)
-//{
-//	XMFLOAT3 enemyPos;
-//	XMFLOAT3 trapPos;
-//	Vec3 dir;
-//
-//	enemyPos = enemy->GetPosition();
-//	trapPos = bear->GetPosition();
-//
-//	dir.x = enemyPos.x - trapPos.x;
-//	dir.z = enemyPos.z - trapPos.z;
-//
-//	dir.Normalize();
-//
-//	enemy->position.x += dir.x * (float)deltaTime * 100;
-//	enemy->position.z += dir.z * (float)deltaTime * 100;
-//	
-//}
+void Scene::EvadeTrap(Enemy* enemy, BearTrap* bear, double deltaTime)
+{
+	XMFLOAT3 enemyPos;
+	XMFLOAT3 trapPos;
+	float trapRadius;
+	Vec3 dir;
+
+	trapRadius = bear->GetRadius2();
+	enemyPos = enemy->GetPosition();
+	trapPos = bear->GetPosition();
+
+	dir.x = trapPos.x - enemyPos.x;
+	dir.z = trapPos.z - enemyPos.z;
+
+	dir.Normalize();
+	
+	enemy->position.x -= dir.x * (float)deltaTime /* * enemy->movementSpeed*/;
+	enemy->position.z -= dir.z * (float)deltaTime /** enemy->movementSpeed*/;
+
+	/*enemy->position.x = dir.x += trapRadius;
+	enemy->position.y = dir.y += trapRadius;*/
+	/** (float)deltaTime * enemy->movementSpeed*/
+	//enemy->position.z = trapRadius /** (float)deltaTime * enemy->movementSpeed*/;
+}
