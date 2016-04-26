@@ -1,25 +1,5 @@
 #include "TextureManager.h"
-void TextureManager::AddDiffuseTexture(std::string diffuseTex)
-{
-	ID3D11ShaderResourceView** texture = new ID3D11ShaderResourceView*;
 
-	diffuseTex = TEXTURE_PATH+diffuseTex;
-	std::wstring widestr = std::wstring(diffuseTex.begin(), diffuseTex.end());
-	const wchar_t* fileName = widestr.c_str();
-
-	hr = CreateWICTextureFromFile(gDevice, fileName, nullptr, texture);
-
-	diffuseTextures.push_back(texture);
-}
-void TextureManager::AddNormalTexture(std::string normalTex)
-{
-}
-void TextureManager::AddSpecularTexture(std::string specularTex)
-{
-}
-void TextureManager::AddGlowTexture(std::string glowTex)
-{
-}
 void TextureManager::Initialize(ID3D11Device* gDevice)
 {
 	this->gDevice = gDevice;
@@ -30,11 +10,78 @@ void TextureManager::Release()
 	for (unsigned int i = 0; i < diffuseTextures.size(); i++)
 		SAFE_RELEASE(*diffuseTextures.at(i));
 	for (unsigned int i = 0; i < normalTextures.size(); i++)
-		SAFE_RELEASE(normalTextures.at(i));
+		SAFE_RELEASE(*normalTextures.at(i));
 	for (unsigned int i = 0; i < specularTextures.size(); i++)
-		SAFE_RELEASE(specularTextures.at(i));
+		SAFE_RELEASE(*specularTextures.at(i));
 	for (unsigned int i = 0; i < glowTextures.size(); i++)
-		SAFE_RELEASE(glowTextures.at(i));
+		SAFE_RELEASE(*glowTextures.at(i));
+}
+
+TextureManager::TextureManager()
+{
+}
+
+TextureManager::~TextureManager()
+{
+	for (unsigned int i = 0; i < diffuseTextures.size(); i++)
+		delete diffuseTextures.at(i);
+	for (unsigned int i = 0; i < normalTextures.size(); i++)
+		delete normalTextures.at(i);
+	for (unsigned int i = 0; i < specularTextures.size(); i++)
+		delete specularTextures.at(i);
+	for (unsigned int i = 0; i < glowTextures.size(); i++)
+		delete glowTextures.at(i);
+}
+void TextureManager::AddDiffuseTexture(std::string diffuseTex)
+{
+	ID3D11ShaderResourceView** texture = new ID3D11ShaderResourceView*;
+
+	diffuseTex = TEXTURE_PATH + diffuseTex;
+	std::wstring widestr = std::wstring(diffuseTex.begin(), diffuseTex.end());
+	const wchar_t* fileName = widestr.c_str();
+
+	hr = CreateWICTextureFromFile(gDevice, fileName, nullptr, texture);
+
+	diffuseTextures.push_back(texture);
+}
+
+void TextureManager::AddNormalTexture(std::string normalTex)
+{
+	ID3D11ShaderResourceView** texture = new ID3D11ShaderResourceView*;
+
+	normalTex = TEXTURE_PATH + normalTex;
+	std::wstring widestr = std::wstring(normalTex.begin(), normalTex.end());
+	const wchar_t* fileName = widestr.c_str();
+
+	hr = CreateWICTextureFromFile(gDevice, fileName, nullptr, texture);
+
+	normalTextures.push_back(texture);
+}
+
+void TextureManager::AddSpecularTexture(std::string specularTex)
+{
+	ID3D11ShaderResourceView** texture = new ID3D11ShaderResourceView*;
+
+	specularTex = TEXTURE_PATH + specularTex;
+	std::wstring widestr = std::wstring(specularTex.begin(), specularTex.end());
+	const wchar_t* fileName = widestr.c_str();
+
+	hr = CreateWICTextureFromFile(gDevice, fileName, nullptr, texture);
+
+	specularTextures.push_back(texture);
+}
+
+void TextureManager::AddGlowTexture(std::string glowTex)
+{
+	ID3D11ShaderResourceView** texture = new ID3D11ShaderResourceView*;
+
+	glowTex = TEXTURE_PATH + glowTex;
+	std::wstring widestr = std::wstring(glowTex.begin(), glowTex.end());
+	const wchar_t* fileName = widestr.c_str();
+
+	hr = CreateWICTextureFromFile(gDevice, fileName, nullptr, texture);
+
+	glowTextures.push_back(texture);
 }
 
 int TextureManager::GetDiffuseID(std::string diffuseTex)
@@ -67,6 +114,7 @@ int TextureManager::GetNormalID(std::string normalTex)
 	if (this->normalTex.size() == 0)
 	{
 		this->normalTex.push_back(normalTex);
+		AddNormalTexture(normalTex);
 		return 0;
 	}
 	else
@@ -78,6 +126,7 @@ int TextureManager::GetNormalID(std::string normalTex)
 		}
 	}
 	this->normalTex.push_back(normalTex);
+	AddNormalTexture(normalTex);
 	return (int)(this->normalTex.size() - 1);
 }
 
@@ -88,6 +137,7 @@ int TextureManager::GetSpecularID(std::string specularTex)
 	if (this->specularTex.size() == 0)
 	{
 		this->specularTex.push_back(specularTex);
+		AddSpecularTexture(specularTex);
 		return 0;
 	}
 	else
@@ -99,6 +149,7 @@ int TextureManager::GetSpecularID(std::string specularTex)
 		}
 	}
 	this->specularTex.push_back(specularTex);
+	AddSpecularTexture(specularTex);
 	return (int)(this->specularTex.size() - 1);
 }
 
@@ -109,6 +160,7 @@ int TextureManager::GetGlowID(std::string glowTex)
 	if (this->glowTex.size() == 0)
 	{
 		this->glowTex.push_back(glowTex);
+		AddGlowTexture(glowTex);
 		return 0;
 	}
 	else
@@ -120,6 +172,7 @@ int TextureManager::GetGlowID(std::string glowTex)
 		}
 	}
 	this->glowTex.push_back(glowTex);
+	AddGlowTexture(glowTex);
 	return (int)(this->glowTex.size() - 1);
 }
 
@@ -169,7 +222,7 @@ ID3D11ShaderResourceView * TextureManager::GetDiffuseTexture(int diffuseID)
 		return nullptr;
 	else
 	{
-		try //kolla in denna sen
+		try
 		{
 			return *diffuseTextures.at(diffuseID);
 		}
@@ -185,6 +238,17 @@ ID3D11ShaderResourceView * TextureManager::GetNormalTexture(int normalID)
 {
 	if (normalID == -1)
 		return nullptr;
+	else
+	{
+		try
+		{
+			return *normalTextures.at(normalID);
+		}
+		catch (...)
+		{
+			return nullptr;
+		}
+	}
 	return nullptr;
 }
 
@@ -192,6 +256,17 @@ ID3D11ShaderResourceView * TextureManager::GetSpecularTexture(int specularID)
 {
 	if (specularID == -1)
 		return nullptr;
+	else
+	{
+		try
+		{
+			return *specularTextures.at(specularID);
+		}
+		catch (...)
+		{
+			return nullptr;
+		}
+	}
 	return nullptr;
 }
 
@@ -199,15 +274,16 @@ ID3D11ShaderResourceView * TextureManager::GetGlowTexture(int glowID)
 {
 	if (glowID == -1)
 		return nullptr;
+	else
+	{
+		try
+		{
+			return *glowTextures.at(glowID);
+		}
+		catch (...)
+		{
+			return nullptr;
+		}
+	}
 	return nullptr;
-}
-
-TextureManager::TextureManager()
-{
-}
-
-TextureManager::~TextureManager()
-{
-	for (unsigned int i = 0; i < diffuseTextures.size(); i++)
-		delete diffuseTextures.at(i);
 }
