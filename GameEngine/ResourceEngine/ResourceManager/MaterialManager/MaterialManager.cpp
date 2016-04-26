@@ -79,9 +79,6 @@ void MaterialManager::addMaterials(std::vector<importedMaterial>* import)
 			tempMaterial.diffuseValue = import->at(i).diffuseValue;
 			tempMaterial.specularValue = import->at(i).specularValue;
 
-			//temp for showcase
-			//import->at(i).diffuseTex = "checkers2.jpg";
-
 			//getting the IDs for the textures
 			tempMaterial.diffuse_ID = textureManager->GetDiffuseID(import->at(i).diffuseTex);
 			tempMaterial.specular_ID = textureManager->GetSpecularID(import->at(i).specularTex);
@@ -96,8 +93,9 @@ void MaterialManager::addMaterials(std::vector<importedMaterial>* import)
 void MaterialManager::GetMaterialRenderInfo(RenderInstructions * toRender)
 {
 	toRender->diffuseMap = textureManager->GetDiffuseTexture(materials->at(toRender->materialID).diffuse_ID);
-	//toRender->normalMap = textureManager->GetNormalTexture(materials->at(toRender->materialID).normal_ID);
-	//toRender->diffuseMap = textureManager->GetDiffuseTexture(0);
+	toRender->normalMap = textureManager->GetNormalTexture(materials->at(toRender->materialID).normal_ID);
+	toRender->specularMap = textureManager->GetSpecularTexture(materials->at(toRender->materialID).specular_ID);
+	toRender->glowMap = textureManager->GetGlowTexture(materials->at(toRender->materialID).glow_ID);
 }
 
 //RenderInstructions * MaterialManager::GetMaterialRenderInfo(unsigned int materialID)
