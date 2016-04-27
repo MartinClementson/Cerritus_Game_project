@@ -161,35 +161,35 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	GBUFFER_PS_OUT output = (GBUFFER_PS_OUT)0;
 
 
-	float attenuation = 0.05;
-	float4 playerPos = { input.camPos.x,0.0,input.camPos.z + 10.0f ,1.0 };
+	//float attenuation = 0.05;
+	//float4 playerPos = { input.camPos.x,0.0,input.camPos.z + 10.0f ,1.0 };
 
 
-	float4 col = { 1.0,1.0,1.0,1.0 };
-	float4 pixelPos = { input.wPos.x, 0.0 , input.wPos.z, 1.0 };
+	//float4 col = { 1.0,1.0,1.0,1.0 };
+	//float4 pixelPos = { input.wPos.x, 0.0 , input.wPos.z, 1.0 };
 
 
-	float4 lightOne = { 20.0, 0.0, -20, 1.0 };
-	col.y += 1.0 - saturate(abs(distance(lightOne, pixelPos) * attenuation));
+	//float4 lightOne = { 20.0, 0.0, -20, 1.0 };
+	//col.y += 1.0 - saturate(abs(distance(lightOne, pixelPos) * attenuation));
 
 
-	float4 lightTwo = { -20.0, 0.0, 20.0, 1.0 };
-	col.z += 1.0 - saturate(abs(distance(lightTwo, pixelPos) * attenuation));
+	//float4 lightTwo = { -20.0, 0.0, 20.0, 1.0 };
+	//col.z += 1.0 - saturate(abs(distance(lightTwo, pixelPos) * attenuation));
 
 
-	float4 lightThree = { -20.0, 0.0, -20.0, 1.0 };
-	col.xz += 1.0 - saturate(abs(distance(lightThree, pixelPos) * attenuation));
+	//float4 lightThree = { -20.0, 0.0, -20.0, 1.0 };
+	//col.xz += 1.0 - saturate(abs(distance(lightThree, pixelPos) * attenuation));
 
 
-	float4 lightFour = { 20.0, 0.0,  20.0, 1.0 };
-	col.xy += 1.0 - saturate(abs(distance(lightFour, pixelPos) * attenuation));
+	//float4 lightFour = { 20.0, 0.0,  20.0, 1.0 };
+	//col.xy += 1.0 - saturate(abs(distance(lightFour, pixelPos) * attenuation));
 
 
-	float dist = distance(input.mousePos.xz, pixelPos.xz);
+	//float dist = distance(input.mousePos.xz, pixelPos.xz);
 
-	col.xyz -= saturate(abs(dist)	* 0.3);  //player color fade 
+	//col.xyz -= saturate(abs(dist)	* 0.3);  //player color fade 
 
-	col.y += saturate(input.wPos.y);			// green color, (for the objects)
+	//col.y += saturate(input.wPos.y);			// green color, (for the objects)
 
 	float4 ambientValue = float4(1, 1, 1, 1);
 	float4 textureSample;
@@ -201,7 +201,7 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	else
 	{
 		//textureSample = float4(0.6, 0.2, 0.9, 1.0);
-		output.diffuseRes = float4(0.7, 0.7, 0.7, 1);
+		output.diffuseRes = float4(0.4, 0.4, 0.4, 1);
 	}
 
 

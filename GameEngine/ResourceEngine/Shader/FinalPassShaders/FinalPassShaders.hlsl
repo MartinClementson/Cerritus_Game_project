@@ -152,7 +152,7 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 							 
 	float fDot				 = saturate(dot(vRay, normal.xyz));					 //Calculate how much of the pixel is to be lit "intensity"
 							 
-	float4 lightColor = lightDiffuse;// mul(lightDiffuse, intensity);
+	float4 lightColor		 = mul(lightDiffuse,intensity);
 							 
 	float shinyPower		 = 20;//specularTexture.Sample(SampleType,input.Uv).r; //How much light is to be reflected
 							 
@@ -174,6 +174,7 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 		//NEW
 
 		float4 finalCol = diffuseSample * ambient + diffuseSample * (lightDiffuse * shadow);
+		finalCol = saturate(finalCol + float4(specularLight,1.0f));
 
 	//float4 col				 = { finalCol,1.0 };		 //depthTexture.Sample(SampleType,input.Uv);
 
