@@ -184,47 +184,49 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	//col.xy += 1.0 - saturate(abs(distance(lightFour, pixelPos) * attenuation));
 
 
-	float4 pixelPos = { input.wPos.x, 0.0 , input.wPos.z, 1.0 };
-	float4 col = { 1.0,0.0,0.0,1.0 };
+	float4 pixelPos		 = { input.wPos.x, 0.0 , input.wPos.z, 1.0 };
+	float4 col			 = { 1.0,0.0,0.0,1.0 };
 	//float dist = distance(input.mousePos.xz, pixelPos.xz);
-	float laserFalloff = 0.4f;
+	float laserFalloff	 = 0.4f;
 
 
 
 
 
 
-	float3 start	= camPos.xyz - float3(0.0f, 9.7f, -14.0f);
-	float3 stop		= input.mousePos.xyz;
+	float3 start			= camPos.xyz - float3(0.0f, 9.7f, -14.0f);
+	float3 stop				= input.mousePos.xyz;
 	stop.y = 0.0f;
 	
-	float3 position = (start + stop) * 0.5f;
+	float3 position			= (start + stop) * 0.5f;
 
-	float lajnLength = length(start - stop);
+	float lajnLength		= length(start - stop);
 
-	float3 toPixel		= input.wPos.xyz - position;
-	float3 lajn			= normalize(stop - position);
-	float3 projection	= dot(toPixel, lajn) * lajn;
-	float3 toLajn		= toPixel - projection;
+	float3 toPixel			= input.wPos.xyz - position;
+	float3 lajn				= normalize(stop - position);
+	float3 projection		= dot(toPixel, lajn) * lajn;
+	float3 toLajn			= toPixel - projection;
 
 	float projectionLength	= clamp(length(projection), 0.0f, lajnLength * 0.5f);
 	float3 projectionLine	= normalize(projection) * projectionLength;
 
-	float dist = min(distance(input.mousePos.xyz, pixelPos.xyz), length(toPixel - projectionLine) * 6.0f);
+	float dist	 = min(distance(input.mousePos.xyz, pixelPos.xyz), length(toPixel - projectionLine) * 6.0f);
 
-	col.x -= saturate(abs(dist* laserFalloff));  //Laser color
+	col.x		-= saturate(abs(dist* laserFalloff));  //Laser color
 
 	float4 ambientValue = float4(1, 1, 1, 1);
+
 	float4 textureSample;
+
 	if (diffuseMap)
 	{
-		textureSample = diffuseTex.Sample(linearSampler, input.Uv);
-		textureSample.a = col.x; //laser pointer color
-		output.diffuseRes = textureSample;
+		textureSample		= diffuseTex.Sample(linearSampler, input.Uv);
+		textureSample.a		= col.x; //laser pointer color
+		output.diffuseRes	= textureSample;
 	}
 	else
 	{
-		//textureSample = float4(0.6, 0.2, 0.9, 1.0);
+		
 		output.diffuseRes = float4(0.4, 0.4, 0.4, col.x); //Alpha == laserpointer color
 	}
 
@@ -235,46 +237,46 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 		float4 norMap;
 		
 
-		norMap = normalTex.Sample(linearSampler, input.Uv);
-		norMap.xyz = normalToWorldSpace(norMap.xyz, input.Normal, input.Tangent, input.BiTangent);
-		output.normalRes = norMap;
+		norMap				 = normalTex.Sample(linearSampler, input.Uv);
+		norMap.xyz			 = normalToWorldSpace(norMap.xyz, input.Normal, input.Tangent, input.BiTangent);
+		output.normalRes	 = norMap;
 	}
 	else
 	{
 		
-		output.normalRes = float4(input.Normal, 1);
+		output.normalRes	 = float4(input.Normal, 1);
 	}
 
 	float4 specularSample;
 	if (specularMap)
 	{
-		specularSample.rgba = float4(0, 0, 0, 0);
-		specularSample = diffuseTex.Sample(linearSampler, input.Uv);
-		output.specularRes = specularSample;
+		specularSample.rgba  = float4(0, 0, 0, 0);
+		specularSample		 = diffuseTex.Sample(linearSampler, input.Uv);
+		output.specularRes	 = specularSample;
 	}
 	else
 	{
-		specularSample.rgba = float4(0, 0, 0, 0);
-		output.specularRes = specularSample;
+		specularSample.rgba	 = float4(0, 0, 0, 0);
+		output.specularRes	 = specularSample;
 	}
 
 	float4 glowSample;
 	if (glowMap)
 	{
-		glowSample = glowTex.Sample(linearSampler, input.Uv);
-		output.glowRes = glowSample;
+		glowSample			 = glowTex.Sample(linearSampler, input.Uv);
+		output.glowRes		 = glowSample;
 	}
 	else
 	{
-		glowSample = float4 (0, 0, 0, 0);
-		output.glowRes = glowSample;
+		glowSample			 = float4 (0, 0, 0, 0);
+		output.glowRes		 = glowSample;
 	}
 
 
-	output.positionRes = input.wPos;
+	output.positionRes		 = input.wPos;
 
-	float depth = input.Pos.z / input.Pos.w;
-	output.depthRes = float4(depth, depth, depth, 1.0);
+	float depth				 = input.Pos.z / input.Pos.w;
+	output.depthRes			 = float4(depth, depth, depth, 1.0);
 
 	return output;
 }
