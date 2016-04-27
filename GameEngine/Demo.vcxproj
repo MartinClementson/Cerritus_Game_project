@@ -185,6 +185,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.cpp" />
     <ClCompile Include="ResourceEngine\Graphics\Graphics.cpp" />
+    <ClCompile Include="ResourceEngine\Graphics\ShadowBuffer\ShadowBuffer.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\Camera\Camera.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\Mesh\Mesh.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\ObjectNode.cpp" />
@@ -239,6 +240,7 @@
     <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\TrapStateMachine.h" />
     <ClInclude Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.h" />
     <ClInclude Include="ResourceEngine\Graphics\Graphics.h" />
+    <ClInclude Include="ResourceEngine\Graphics\ShadowBuffer\ShadowBuffer.h" />
     <ClInclude Include="ResourceEngine\ObjectNode\Camera\Camera.h" />
     <ClInclude Include="ResourceEngine\ObjectNode\Mesh\Mesh.h" />
     <ClInclude Include="ResourceEngine\ObjectNode\ObjectNode.h" />
@@ -264,6 +266,10 @@
     </FxCompile>
     <FxCompile Include="ResourceEngine\Shader\GBufferShader\Gbuffer.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">GBUFFER_VS_main</EntryPointName>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\ShadowShader\ShadowShader.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">SHADOW_VS_main</EntryPointName>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
   </ItemGroup>
