@@ -28,7 +28,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 
 
 	brfImporterHandler->LoadFile("models/MainChar.BRF", true, true, true);
-	brfImporterHandler->LoadFile("models/enemy0.BRF", true, true, true);
+	brfImporterHandler->LoadFile("models/enemy_0.BRF", true, true, true);
 	brfImporterHandler->LoadFile("models/FireTrap.BRF", true, true, true);
 	brfImporterHandler->LoadFile("models/BearTrap.BRF", true, true, true);
 
