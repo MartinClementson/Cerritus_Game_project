@@ -52,8 +52,8 @@ void MaterialManager::addMaterials(std::vector<importedMaterial>* import)
 	{
 		if (materials->size() > 0)
 		{
-			if (!CompareImportMaterials(&import->at(i)))
-			{
+			//if (!CompareImportMaterials(&import->at(i)))
+			//{
 				Material tempMaterial;
 				tempMaterial.materialName = import->at(i).materialName;
 				tempMaterial.materialID = import->at(i).materialID;
@@ -68,7 +68,7 @@ void MaterialManager::addMaterials(std::vector<importedMaterial>* import)
 				tempMaterial.glow_ID = textureManager->GetGlowID(import->at(i).glowTex);
 
 				materials->push_back(tempMaterial);
-			}
+			//}
 		}
 		else
 		{
