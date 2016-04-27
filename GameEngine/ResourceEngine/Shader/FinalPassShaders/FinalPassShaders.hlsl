@@ -9,12 +9,12 @@ cbuffer cameraConstantBuffer  : register(b0)
 	//float3 camLook;
 
 };
-cbuffer worldConstantBuffer : register(b1)
+cbuffer worldConstantBuffer	: register(b1)
 {
 	matrix world;
 };
 
-cbuffer lightBuffer : register(b2)
+cbuffer lightBuffer			: register(b2)
 {
 	float4 lightPosition;
 	matrix lightView;
@@ -58,8 +58,8 @@ VS_OUT VS_main( VS_IN input)
 }
 
 
-SamplerState linearSampler		 : register(s0);
-SamplerState pointSampler		 : register(s1);
+SamplerState linearSampler			 : register(s0);
+SamplerState pointSampler			 : register(s1);
 
 Texture2D		diffuseTexture		 : register(t0);
 Texture2D		specularTexture		 : register(t1);
