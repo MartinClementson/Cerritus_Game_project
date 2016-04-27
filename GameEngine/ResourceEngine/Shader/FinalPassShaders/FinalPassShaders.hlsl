@@ -132,12 +132,12 @@ float sampleShadowStencils(float4 worldPos)
 
 float4 PS_main(VS_OUT input) : SV_TARGET
 {
-	float4 ambient			= float4(0.2f,0.2f,0.2f,1.0f); // Hardcoded ambient. 
-	float depthSample		= depthTexture.Sample(pointSampler, input.Uv);
+	float4 ambient					= float4(0.2f,0.2f,0.2f,1.0f); // Hardcoded ambient. 
+	float depthSample				= depthTexture.Sample(pointSampler, input.Uv);
 
-	float4 depthPrepare		= mul(float4(input.Uv.x *2.0f - 1.0f, input.Uv.y * -2.0f + 1.0f, depthSample, 1.0f), invViewProjMatrix);
+	float4 depthPrepare				= mul(float4(input.Uv.x *2.0f - 1.0f, input.Uv.y * -2.0f + 1.0f, depthSample, 1.0f), invViewProjMatrix);
 	
-	float3 worldPos			= positionTexture.Sample(pointSampler, input.Uv); //depthPrepare / depthPrepare.w;
+	float3 worldPos					= positionTexture.Sample(pointSampler, input.Uv); //depthPrepare / depthPrepare.w;
 
 
 	float4 diffuseSample			= diffuseTexture.Sample(pointSampler,input.Uv);
@@ -172,7 +172,7 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 	
 	float3 spotDir			= normalize(lightDir - lightPosition);
 
-//	lightDiffuse			*= pow(max(dot(-vRay, spotDir), 0.0f), 30.0f);
+    //lightDiffuse			*= pow(max(dot(-vRay, spotDir), 0.0f), 30.0f);
 
 	float radio			= 80.0f;
 	float lightLength	= length(lightDir - worldPos);

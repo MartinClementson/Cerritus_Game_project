@@ -166,7 +166,6 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	//float4 playerPos = { input.camPos.x,0.0,input.camPos.z + 10.0f ,1.0 };
 
 
-	float4 pixelPos = { input.wPos.x, 0.0 , input.wPos.z, 1.0 };
 
 
 	//float4 lightOne = { 20.0, 0.0, -20, 1.0 };
@@ -185,29 +184,35 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	//col.xy += 1.0 - saturate(abs(distance(lightFour, pixelPos) * attenuation));
 
 
+	float4 pixelPos = { input.wPos.x, 0.0 , input.wPos.z, 1.0 };
 	float4 col = { 1.0,0.0,0.0,1.0 };
-	float dist = distance(input.mousePos.xz, pixelPos.xz);
+	//float dist = distance(input.mousePos.xz, pixelPos.xz);
+	float laserFalloff = 0.4f;
 
-	//float3 start	= camPos.xyz - float3(0.0f, 9.0f, -10.0f);
-	//float3 stop		= input.mousePos.xyz;
-	//stop.y = 1.0f;
-	//float3 position = (start + stop) * 0.5f;
 
-	//float lajnLength = length(start - stop);
 
-	//float3 toPixel		= input.wPos.xyz - position;
-	//float3 lajn			= normalize(stop - position);
-	//float3 projection	= dot(toPixel, lajn) * lajn;
-	//float3 toLajn		= toPixel - projection;
 
-	//float projectionLength	= clamp(length(projection), 0.0f, lajnLength * 0.5f);
-	//float3 projectionLine	= normalize(projection) * projectionLength;
 
-	//float dist = min(distance(input.mousePos.xyz, pixelPos.xyz), length(toPixel - projectionLine) * 4.0f);
 
-	col.x -= saturate(abs(dist* 0.4));  //Laser color
+	float3 start	= camPos.xyz - float3(0.0f, 9.7f, -14.0f);
+	float3 stop		= input.mousePos.xyz;
+	stop.y = 0.0f;
+	
+	float3 position = (start + stop) * 0.5f;
 
-	//col.y += saturate(input.wPos.y);			// green color, (for the objects)
+	float lajnLength = length(start - stop);
+
+	float3 toPixel		= input.wPos.xyz - position;
+	float3 lajn			= normalize(stop - position);
+	float3 projection	= dot(toPixel, lajn) * lajn;
+	float3 toLajn		= toPixel - projection;
+
+	float projectionLength	= clamp(length(projection), 0.0f, lajnLength * 0.5f);
+	float3 projectionLine	= normalize(projection) * projectionLength;
+
+	float dist = min(distance(input.mousePos.xyz, pixelPos.xyz), length(toPixel - projectionLine) * 6.0f);
+
+	col.x -= saturate(abs(dist* laserFalloff));  //Laser color
 
 	float4 ambientValue = float4(1, 1, 1, 1);
 	float4 textureSample;
