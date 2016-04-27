@@ -60,7 +60,7 @@ void GameOverState::Update(double deltaTime)
 		MessageBox(0, result,
 			L"Equaled The Best", MB_OK);
 	}
-	else if (this->GetPoints() < lastHighscore && lastHighscore == 0)
+	else if (this->GetPoints() < 0)
 	{
 		std::wstring a = std::to_wstring((int)this->GetPoints());
 		LPCWSTR result = a.c_str();
@@ -71,7 +71,6 @@ void GameOverState::Update(double deltaTime)
 	{
 		
 		LPCWSTR tmp = L"last Highscore: ";
-
 		std::wstring a = std::to_wstring((int)this->GetPoints());
 		LPCWSTR result = a.c_str();
 		wstring prev(tmp);
