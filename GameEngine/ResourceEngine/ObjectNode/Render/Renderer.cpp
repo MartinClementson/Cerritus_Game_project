@@ -31,6 +31,35 @@ void Renderer::Release()
 	SAFE_RELEASE(worldBuffer);
 	SAFE_RELEASE(camBuffer);
 	SAFE_RELEASE(lightBuffer);
+	SAFE_RELEASE(sampleBoolsBuffer);
+
+}
+
+void Renderer::RenderFinalPass()
+{
+
+	RenderInstructions * objectInstruction;
+
+	objectInstruction = this->resourceManager->GetFullScreenQuad();
+	this->resourceManager->SetShader(Shaders::FINAL_SHADER);
+	UINT32 vertexSize;
+
+		vertexSize = sizeof(Vertex);
+
+	UINT32 offset = 0;
+
+	//an exception handling can be implemented here to handle if there is no buffer
+	// to set. Then the handling can be to use a standard cube instead.
+
+	this->gDeviceContext->IASetVertexBuffers(0, 1, &objectInstruction->vertexBuffer, &vertexSize, &offset);
+
+	this->gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	this->gDeviceContext->IASetIndexBuffer(objectInstruction->indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+
+
+	this->gDeviceContext->DrawIndexed((UINT)*objectInstruction->indexCount, 0, 0);
 
 }
 
@@ -39,15 +68,22 @@ void Renderer::Release()
 //Render scene objects, mostly static stuff
 void Renderer::Render(RenderInfoObject * object)
 {
-	RenderInstructions* renderObject;
+	//RenderInstructions* renderObject;
 
 	//Send the info of the object into the resource manager
 	//The resource manager gathers all the rendering info and sends back a renderInstruction
-	renderObject = this->resourceManager->GetRenderInfo(object);
+	//renderObject = this->resourceManager->GetRenderInfo(object);
 
 	//Render with the given render instruction
-	this->Render(renderObject);
+
+	//this->Render(renderObject);
+
+	RenderPlaceHolder(&object->position,&object->rotation);
+
+	//RenderPlaceHolder(&object->position);
+
 }
+
 
 //Render 2d textures for the ui
 void Renderer::Render(RenderInfoUI * object)
@@ -58,16 +94,21 @@ void Renderer::Render(RenderInfoUI * object)
 //Render an enemy mesh
 void Renderer::Render(RenderInfoEnemy * object)
 {
+	RenderInstructions * objectInstruction;
 
+	objectInstruction = this->resourceManager->GetRenderInfo(object);
+
+
+	Render(objectInstruction);
 }
 
 
 //Render the character, Update the camera to follow the position of the character
 void Renderer::Render(RenderInfoChar * object)
 {
-
 	RenderInstructions * objectInstruction;
-	objectInstruction = this->resourceManager->GetPlaceHolderMesh(object->position);
+	
+	objectInstruction = this->resourceManager->GetRenderInfo(object);
 
 	//Update the camera view matrix!
 	this->sceneCam->Updateview( object->position);
@@ -82,25 +123,36 @@ void Renderer::Render(RenderInfoChar * object)
 
 void Renderer::Render(RenderInfoTrap * object)
 {
+	RenderInstructions* renderObject;
 
+	//Send the info of the object into the resource manager
+	//The resource manager gathers all the rendering info and sends back a renderInstruction
+	renderObject = this->resourceManager->GetRenderInfo(object);
+
+	//Render with the given render instruction
+
+	this->Render(renderObject);
 }
 
 
 //Render the placeholder meshes
-void Renderer::RenderPlaceHolder()
+void Renderer::RenderPlaceHolder(XMFLOAT3* position)
 {
 	RenderInstructions * object;
-	object = this->resourceManager->GetPlaceHolderMesh( XMFLOAT3(0.0f, 0.0f, -1.5f));
+	object = this->resourceManager->GetPlaceHolderMesh( *position );
 	
+	Render(object);
+}
 
-	XMFLOAT3 tempPos		 = XMFLOAT3(0.0f,0.0f, -1.5f);
-	this->sceneCam->Updateview(tempPos); //This is temporary. The update of the cam should only be done in the "char" render
-	
-	this->UpdateCameraBuffer();
+void Renderer::RenderPlaceHolder(XMFLOAT3 * position, XMFLOAT3 * rotation)
+{
+	RenderInstructions * object;
+	object = this->resourceManager->GetPlaceHolderMesh(*position,*rotation);
+
+
 
 	Render(object);
 
-	
 
 }
 void Renderer::RenderPlaceHolderPlane()
@@ -111,6 +163,31 @@ void Renderer::RenderPlaceHolderPlane()
 
 }
 #pragma endregion
+
+void Renderer::SetMouseWorldPos(XMFLOAT4 position)
+{
+	this->mouseWorldPos = position;
+
+}
+
+void Renderer::GetInverseViewMatrix(XMMATRIX & matrix)
+{
+	matrix = XMLoadFloat4x4(&this->sceneCam->GetCameraMatrices()->camView);
+	matrix = XMMatrixTranspose(matrix);
+	XMVECTOR det = XMMatrixDeterminant(matrix);
+	matrix = XMMatrixInverse(&det, matrix);
+		
+	
+}
+
+void Renderer::GetInverseProjectionMatrix(XMMATRIX & matrix)
+{
+	matrix = XMLoadFloat4x4(&this->sceneCam->GetCameraMatrices()->projection);
+	matrix = XMMatrixTranspose(matrix); //Transpose to normal alignment.
+	XMVECTOR det = XMMatrixDeterminant(matrix);
+	matrix = XMMatrixInverse(&det, matrix);
+
+}
 
 //Private rendering call
 void Renderer::Render(RenderInstructions * object)
@@ -151,18 +228,32 @@ void Renderer::Render(RenderInstructions * object)
 
 #pragma region Set the objects texture maps to the shader
 
-	if (object->diffuseMap   != nullptr)
+	SampleBoolStruct sampleBools;
+	if (object->diffuseMap != nullptr)
+	{
 		this->gDeviceContext->PSSetShaderResources(0, 1, &object->diffuseMap);
+		sampleBools.diffuseMap = TRUE;
+	}
 
-	if (object->normalMap	 != nullptr)
+	if (object->normalMap != nullptr)
+	{
 		this->gDeviceContext->PSSetShaderResources(1, 1, &object->normalMap);
+		sampleBools.normalMap = TRUE;
+	}
 	
-	if (object->specularMap	 != nullptr)
+	if (object->specularMap != nullptr)
+	{
 		this->gDeviceContext->PSSetShaderResources(2, 1, &object->specularMap);
+		sampleBools.specularMap = TRUE;
+	}
 
-	if (object->glowMap		 != nullptr)
+	if (object->glowMap != nullptr)
+	{
 		this->gDeviceContext->PSSetShaderResources(3, 1, &object->glowMap);
+		sampleBools.glowMap = TRUE;
+	}
 
+	this->UpdateSampleBoolsBuffer(&sampleBools);
 #pragma endregion
 	
 	
@@ -174,8 +265,8 @@ void Renderer::Render(RenderInstructions * object)
 void Renderer::UpdateCameraBuffer()
 {
 
-	CamMatrices* tempCam			= this->sceneCam->GetCameraMatrices();
-
+	CamMatrices* tempCam				= this->sceneCam->GetCameraMatrices();
+	tempCam->mousePos					= this->mouseWorldPos;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
@@ -184,6 +275,7 @@ void Renderer::UpdateCameraBuffer()
 
 	CamMatrices* tempCamMatrices		= (CamMatrices*)mappedResource.pData;
 	*tempCamMatrices					= *tempCam;
+	
 	
 
 	gDeviceContext->Unmap(this->camBuffer, 0);
@@ -206,10 +298,49 @@ void Renderer::UpdateWorldBuffer(WorldMatrix* worldStruct)
 	WorldMatrix* temporaryWorld = (WorldMatrix*)mappedResourceWorld.pData;
 
 	*temporaryWorld = *worldStruct;
+
 	
 
 	this->gDeviceContext->Unmap(worldBuffer, 0);
 	gDeviceContext->GSSetConstantBuffers(WORLDBUFFER_INDEX, 1, &this->worldBuffer);
+
+}
+
+void Renderer::UpdateLightBuffer(LightStruct * lightStruct)
+{
+	D3D11_MAPPED_SUBRESOURCE mappedResourceLight;
+	ZeroMemory(&mappedResourceLight, sizeof(mappedResourceLight));
+
+	//mapping to the matrixbuffer
+	this->gDeviceContext->Map(lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResourceLight);
+
+	LightStruct* temporaryWorld = (LightStruct*)mappedResourceLight.pData;
+
+	*temporaryWorld = *lightStruct;
+
+
+
+	this->gDeviceContext->Unmap(lightBuffer, 0);
+	gDeviceContext->GSSetConstantBuffers(LIGHTBUFFER_INDEX, 1, &this->lightBuffer);
+
+}
+
+void Renderer::UpdateSampleBoolsBuffer(SampleBoolStruct * sampleStruct)
+{
+	D3D11_MAPPED_SUBRESOURCE mappedResourceSampleBool;
+	ZeroMemory(&mappedResourceSampleBool, sizeof(mappedResourceSampleBool));
+
+	//mapping to the matrixbuffer
+	this->gDeviceContext->Map(sampleBoolsBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResourceSampleBool);
+
+	SampleBoolStruct* temporaryStruct = (SampleBoolStruct*)mappedResourceSampleBool.pData;
+
+	*temporaryStruct = *sampleStruct;
+
+
+
+	this->gDeviceContext->Unmap(sampleBoolsBuffer, 0);
+	gDeviceContext->PSSetConstantBuffers(SAMPLEBOOLSBUFFER_INDEX, 1, &this->sampleBoolsBuffer);
 
 }
 
@@ -287,6 +418,31 @@ bool Renderer::CreateConstantBuffers()
 		MessageBox(NULL, L"Failed to create light buffer", L"Error", MB_ICONERROR | MB_OK);
 	if (SUCCEEDED(hr))
 		this->gDeviceContext->PSSetConstantBuffers(	LIGHTBUFFER_INDEX, 1, &lightBuffer);
+
+
+	//-----------------------------------------------------------------------------------------------------------------------------------
+	// Sample Bool buffer (PS)CONSTANT BUFFER
+	//-----------------------------------------------------------------------------------------------------------------------------------
+
+	//This const buffer holds booleans, so that the gbuffer pass knows what textures the mesh has, so that it wont sample normal map if there is none.
+
+	CD3D11_BUFFER_DESC bufferDescSample;
+	ZeroMemory(&bufferDescSample, sizeof(bufferDescSample));
+
+	bufferDescSample.ByteWidth				= sizeof(SampleBoolStruct);
+	bufferDescSample.BindFlags				= D3D11_BIND_CONSTANT_BUFFER;
+	bufferDescSample.Usage					= D3D11_USAGE_DYNAMIC;
+	bufferDescSample.CPUAccessFlags			= D3D11_CPU_ACCESS_WRITE;
+	bufferDescSample.MiscFlags				= 0;
+	bufferDescSample.StructureByteStride	= 0;
+
+	hr = this->gDevice->CreateBuffer(&bufferDescSample, nullptr, &sampleBoolsBuffer);
+	if (FAILED(hr))
+		MessageBox(NULL, L"Failed to create sampleBools buffer", L"Error", MB_ICONERROR | MB_OK);
+	if (SUCCEEDED(hr))
+		this->gDeviceContext->PSSetConstantBuffers(SAMPLEBOOLSBUFFER_INDEX, 1, &sampleBoolsBuffer);
+
+
 
 
 	return true;

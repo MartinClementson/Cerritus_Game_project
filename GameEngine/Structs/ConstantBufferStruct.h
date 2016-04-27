@@ -7,6 +7,7 @@ struct CamMatrices
 	DirectX::XMFLOAT4X4 camView;
 	DirectX::XMFLOAT4X4 projection;
 	DirectX::XMFLOAT4 worldPos;
+	DirectX::XMFLOAT4 mousePos;
 };
 //CamMatrices camMatrices;
 
@@ -24,5 +25,15 @@ struct LightStruct
 	DirectX::XMFLOAT4 lightColor;
 	float intensity;
 	DirectX::XMFLOAT3 pad;
+
 };
 
+
+struct SampleBoolStruct
+{
+
+	BOOL diffuseMap	 = FALSE	;
+	BOOL normalMap	 = FALSE	;
+	BOOL specularMap = FALSE	;
+	BOOL glowMap	 = FALSE	;
+};

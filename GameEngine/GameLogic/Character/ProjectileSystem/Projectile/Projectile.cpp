@@ -1,16 +1,44 @@
 #include "Projectile.h"
+inline DirectX::XMFLOAT3 operator*(DirectX::XMFLOAT3 a, float b) {
+	DirectX::XMFLOAT3 result;
+
+	result.x = a.x * b;
+	result.y = a.y * b;
+	result.z = a.z * b;
+
+	return result;
+}
+
+inline DirectX::XMFLOAT3 operator+(DirectX::XMFLOAT3 a, DirectX::XMFLOAT3 b) {
+	DirectX::XMFLOAT3 result;
+
+	result.x = a.x + b.x;
+	result.y = a.y + b.y;
+	result.z = a.z + b.z;
+
+	return result;
+}
 
 
 
 Projectile::Projectile()
 {
 
+	isFired = false;
+
+
+
 }
 
-Projectile::Projectile(DirectX::XMFLOAT3 origin,DirectX::XMFLOAT3 direction)
-{
+//void Projectile::Initialize(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction)
+//{
+//
+//}
 
-	// hmm, i sense a disturbance in the force..
+Projectile::Projectile(DirectX::XMFLOAT3 origin,DirectX::XMFLOAT3 direction, DirectX::XMFLOAT3 rotation)
+{
+	Initialize(origin,direction,rotation);
+
 
 }
 
@@ -20,30 +48,49 @@ Projectile::~Projectile()
 
 }
 
-void Projectile::Initialize()
+void Projectile::Initialize(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction, DirectX::XMFLOAT3 rotation)
 {
+
+
+	this->position		= origin;
+	position.y			= 1.0f;
+	this->direction		= direction;
+	this->rotation		= rotation;
+	
+
+	this->radius = 1.0f;
 	this->age = 0.0f;
-	this->speed = 3.0f;
+	this->speed = 50.0f;
 	this->dmgMultiplier = 2.0f;
 
-	this->isFired = false;
-	this->colided = false;
+	this->isFired = true;
+	this->collided = false;
 	
-	position = { 0,0,0 };
-	direction = { 0,0,0 };
+}
 
-	age = 0.0f;
-	speed = 0.5f;
-	dmgMultiplier = 2.0f;
+void Projectile::Update(double deltatime)
+{
 
-	isFired = false;
-	collided = false;
-	
+	if(isFired == true)
+	{
+
+		age += (float)deltatime;
+
+		position = position + (direction* speed * float(deltatime));
+
+		renderInfo.position = position;
+		renderInfo.rotation = this->rotation;
+		
+	}
+	if (age >= 2.5f)
+		isFired = false;
+
+
 }
 
 void Projectile::Release()
 {
-
+	
 }
 
 void Projectile::Collision()
@@ -63,12 +110,22 @@ float Projectile::GetSpeed()
 
 DirectX::XMFLOAT3 Projectile::GetPos()
 {
-	return position;
+	return this->position;
 }
 
 DirectX::XMFLOAT3 Projectile::GetDir()
 {
-	return direction;
+	return this->direction;
+}
+
+bool Projectile::GetFired()
+{
+	return isFired;
+}
+
+void Projectile::SetFired(bool isFired)
+{
+	this->isFired = isFired;
 }
 
 void Projectile::SetAge(float age)
@@ -81,4 +138,7 @@ void Projectile::SetPos(DirectX::XMFLOAT3 pos)
 	this->position = pos;
 }
 
-
+float Projectile::GetRadius()
+{
+	return this->radius;
+}

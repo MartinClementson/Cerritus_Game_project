@@ -1,6 +1,7 @@
 #pragma once
 #include "../GameObject.h"
 #include "../../../Character/Enemy/Enemy.h"
+#include "../../../Collision/Collision.h"
 
 #include <time.h>
 #include <stdlib.h>
@@ -10,18 +11,28 @@ class EnemySpawn :
 	public GameObject
 {
 private:
+	Graphics* graphics;
+
 	//std::vector<Enemy*> enemies;
 private:
-	void Release();
-	void Initialize();
-
+	
+	Collision* collision;
+	XMFLOAT3 spawnPosition;
+	
+public:
 	std::vector<Enemy*> Queue;
 	std::vector<Enemy*> Alive;
-public:
 	EnemySpawn();
 	~EnemySpawn();
+	float spawnTimer;
+	bool firstSpawn;
+
+	void Release();
+	void Initialize(XMFLOAT3 spawnPosition);
+	void Render();
 
 	void Update(double deltaTime);
+	void InitEnemy();
 	void SpawnEnemy();
 };
 

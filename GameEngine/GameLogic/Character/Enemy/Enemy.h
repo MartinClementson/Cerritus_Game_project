@@ -1,37 +1,56 @@
 #pragma once
 #include "../Character.h"
-#include "../../StateMachines/EnemyStateMachine/EnemyStateMachine.h"
 #include "../../../Source//LibIncluder.h"
 #include "../../../Enumerations/Enumerations.h"
 #include "../../InputHandler/Input/Input.h"
 #include "../../../../GameEngine/Structs/RenderInfo.h"
-#include "../Enemy/Enemy.h"
+#include "../../StateMachines/EnemyStateMachine/EnemyStateMachine.h"
+#include "../../../Structs/DataTypes.h"
+#include "../Player/Player.h"
+
 
 class Enemy :
 	public Character
 {
-protected:
-
-	float movementSpeed, health, damage;
 private:
-	EnemyStateMachine* enemyState;
 	RenderInfoEnemy renderInfo;
+	EnemyStateMachine* enemyStateMachine;
+	Player * player;
 private:
 	void Release();
-public:
-	Enemy(XMFLOAT3 spawn);
 	Enemy();
+public:
+	float index;
+
+	EnemyStateMachine* GetStateMachine();
+	
+	Enemy(XMFLOAT3 spawn);
+
+	bool isAlive;
+
 	virtual ~Enemy();
 
-	void Initialize(XMFLOAT3 position);
+	void Initialize();
 
-	void UpdateAttack(double deltaTime);
-	void UpdateIdle(double deltaTime);
-	bool IdleBool(bool idle);
-	void UpdateDead(double deltaTime);
+	void Update(double deltaTime);
 
-	bool DeadBool(bool dead);
+	float GetHealth();
+
+	void SetHealth(float health);
 
 	void Render();
+	XMFLOAT3 GetPosition();
+	float GetRadius();
+	void AIPattern(Player * player, double deltaTime);
+	void Respawn(XMFLOAT3 spawn);
+
+
+	XMFLOAT3 direction;
+	float VelocityMax;
+	float slowTimer;
+	Vec3 velocity = Vec3(0.1f, 0.1f, 0.1f);
+	Vec3 acceleration = Vec3(0.0f, 0.0f, 0.0f);
+	float fallOfFactor = 8.0f; //the bigger number, the faster fallOff , this is like friction
+	float maxAcceleration = 5.0f;
 };
 

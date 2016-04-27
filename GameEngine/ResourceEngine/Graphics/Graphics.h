@@ -11,25 +11,22 @@
 
 #pragma endregion
 
-#define SHADOW_WIDTH 1024
-#define SHADOW_HEIGHT 1024
-
 class Graphics
 {
 
 private:
 #pragma region DirectX Related
 	//Device and context
-	ID3D11Device* gDevice 							 = nullptr;
-	ID3D11DeviceContext* gDeviceContext				 = nullptr;
-	IDXGISwapChain* gSwapChain						 = nullptr;
+	ID3D11Device*			gDevice 				 = nullptr;
+	ID3D11DeviceContext*	gDeviceContext			 = nullptr;
+	IDXGISwapChain*			gSwapChain				 = nullptr;
 	ID3D11RenderTargetView* gBackBufferRTV			 = nullptr;
-	ID3D11Debug* debug; //Debug COM
+	ID3D11Debug*			debug; //Debug COM
 
 	//Depth stencil and buffer
 	ID3D11DepthStencilState* depthState				 = nullptr;
-	ID3D11DepthStencilView* depthStencilView		 = nullptr;
-	ID3D11Texture2D* depthBuffer					 = nullptr;
+	ID3D11DepthStencilView*  depthStencilView		 = nullptr;
+	ID3D11Texture2D*		 depthBuffer			 = nullptr;
 
 	//window handle
 	HWND* wndHandle									 = nullptr;
@@ -39,17 +36,19 @@ private:
 
 	//Compute shader related
 	ID3D11UnorderedAccessView* gBackBufferUAV		 = nullptr;
-	ID3D11ShaderResourceView *BackBufferTexture		 = nullptr;
+	ID3D11ShaderResourceView*  BackBufferTexture	 = nullptr;
 #pragma endregion
 
 #pragma region Private members
 	D3D11_VIEWPORT vp; //Viewport
-	Renderer*	renderer							 = nullptr;
+	Renderer*	renderer	
+		= nullptr;
 	std::vector<RenderInfoObject*>* gameObjects		 = nullptr;
 	std::vector<RenderInfoUI*>*     uiObjects		 = nullptr;
 	std::vector<RenderInfoEnemy*>*  enemyObjects	 = nullptr;
 	std::vector<RenderInfoChar*>*   charObjects		 = nullptr;
 	std::vector<RenderInfoTrap*>*   trapObjects		 = nullptr;
+	
 #pragma endregion
 
 private:
@@ -76,10 +75,13 @@ public:
 	void QueueRender(RenderInfoEnemy* object);
 	void QueueRender(RenderInfoChar* object);
 	void QueueRender(RenderInfoTrap* object);
+	XMFLOAT4 mouseWorldPos;
+	
 
 	//Singleton for the graphics class 
 	static Graphics* GetInstance();
 
+	XMFLOAT3 GetPlayerDirection(XMFLOAT2 mousePos,  XMFLOAT3 playerPos);
 
 };
 

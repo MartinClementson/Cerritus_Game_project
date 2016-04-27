@@ -1,45 +1,63 @@
 #pragma once
 #include "../../../../Source/LibIncluder.h"
 #include "../../../../Enumerations/Enumerations.h"
+#include "../../../../Structs/RenderInfo.h"
 
 using namespace DirectX;
 
 class Projectile
 {
+private:
+
+	DirectX::XMFLOAT3 position;
+	DirectX::XMFLOAT3 direction;
+	DirectX::XMFLOAT3 rotation;
+
+	float age, speed, dmgMultiplier,radius;
+	bool isFired, collided;
+	MeshEnum projectileModel;
 public:
 	Projectile();
-	
-	Projectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction);
-	virtual ~Projectile();
-private:
-	XMFLOAT3 position;
-	XMFLOAT3 direction;
-	MeshEnum projectileModel;
 
-	float age, speed, dmgMultiplier;
+	void Initialize(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction, DirectX::XMFLOAT3 rotation);
+	void Update(double deltatime);
 
-	bool isFired, colided;
+//	XMFLOAT3 position;
+//	XMFLOAT3 direction;
 
-private:
+//	float age, speed, dmgMultiplier;
+	//bool isFired, collided;
+	RenderInfoObject renderInfo;
 
 public:
-	void Initialize();
+
 	void Release();
 	void Collision();
 
-	bool isFired, collided;
-	MeshEnum projectileModel;
-	Projectile();
-public:
-	void Initialize();
-	void Release();
+//	MeshEnum projectileModel;
+//	Projectile();
+
+	//void Update(double deltatime);
 	float GetAge();
 	float GetSpeed();
-	DirectX::XMFLOAT3 GetPos();
-	DirectX::XMFLOAT3 GetDir();
+
+	bool GetFired();
+	void SetFired(bool isFired);
 
 	void SetAge(float age);
 	void SetPos(DirectX::XMFLOAT3 pos);
+
+	float GetRadius();
+	
+	XMFLOAT3 GetPos();
+	XMFLOAT3 GetDir();
+
+
+	Projectile(XMFLOAT3 origin, XMFLOAT3 direction, DirectX::XMFLOAT3 rotation);
+	virtual ~Projectile();
+
+	//void SetAge(float age);
+	//void SetPos(XMFLOAT3 pos);
 
 };
 

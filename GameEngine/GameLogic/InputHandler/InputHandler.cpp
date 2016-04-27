@@ -31,6 +31,7 @@ bool InputHandler::ReadMouse()
 bool InputHandler::Initialize(HWND* hwndP ,HINSTANCE* hInstance)
 {
 	//keyboard->Acquire();
+	this->hwndP = hwndP;
 
 	HRESULT hr = DirectInput8Create(
 		*hInstance,
@@ -87,6 +88,13 @@ bool InputHandler::Initialize(HWND* hwndP ,HINSTANCE* hInstance)
 		hr = keyboard->Acquire();
 		//Re-acquire helps
 	}
+
+	hr = mouse->Acquire();
+	if (FAILED(hr))
+	{
+		hr = mouse->Acquire();
+	}
+
 	return true;
 }
 
@@ -116,6 +124,18 @@ bool InputHandler::IsKeyPressed(InputKeys* key)
 	{
 		return true;
 	}
+	else if (*key == KEY_LEFT && keyboardState[DIK_LEFT])
+	{
+		return true;
+	}
+	else if (*key == KEY_SPACE && keyboardState[DIK_SPACE])
+	{
+		return true;
+	}
+	else if (*key == KEY_ENTER && keyboardState[DIK_RETURN])
+	{
+		return true;
+	}
 	else
 	{
 		return false;
@@ -127,15 +147,76 @@ bool InputHandler::IsKeyHeld(InputKeys* key)
 	return false;
 }
 
-DirectX::XMFLOAT2 InputHandler::GetMousePosition()
+XMFLOAT2 InputHandler::GetMousePosition()
 {
-	return DirectX::XMFLOAT2();
+
+	POINT point;
+	ShowCursor(FALSE);
+
+	GetCursorPos(&point);
+	ScreenToClient(*this->hwndP, &point);
+		
+	mouseX = (float)point.x;
+	mouseY = (float)point.y;
+
+	if (GetCursorPos( &point))
+	{
+
+		ScreenToClient(*this->hwndP, &point);
+		mouseX = (float)point.x;
+		mouseY = (float)point.y;
+
+		//if (ScreenToClient(*this->hwndP, &point))
+		//{
+		///*if (mouseX > WIN_WIDTH)
+		//	{
+		//		point.x = (LONG)WIN_WIDTH;
+		//		ScreenToClient(*this->hwndP, &point);
+		//		SetCursorPos(point.x, point.y);
+		//	}
+		//if (mouseY > WIN_HEIGHT)
+		//	{
+		//		point.y = (LONG)WIN_HEIGHT;
+		//		ScreenToClient(*this->hwndP, &point);
+		//		SetCursorPos(point.x, point.y);
+		//	}
+
+		//if (mouseX < 0)
+		//{
+		//	point.x = 0;
+		//	ScreenToClient(*this->hwndP, &point);
+		//	SetCursorPos(point.x, point.y);
+		//}
+		//if (mouseY < 0)
+		//{
+		//	point.y = 0;
+		//	ScreenToClient(*this->hwndP, &point);
+		//	SetCursorPos(point.x, point.y);
+		//}*/
+		//}
+		
+	}
+	/*else
+
+	*/
+
+	return XMFLOAT2(mouseX, mouseY);
 }
 
 bool InputHandler::isMouseClicked(InputKeys* mouseKey)
 {
-	mouse->Acquire();
-	mouse->GetDeviceState(sizeof(DIMOUSESTATE), &mouseState);
+	mouse->GetDeviceState(sizeof(DIMOUSESTATE),(LPVOID)&mouseState);
+
+	if (*mouseKey == MOUSE_LEFT && mouseState.rgbButtons[0] & 0x80)
+	{
+	return true;
+	}
+
+	if (*mouseKey == MOUSE_RIGHT && mouseState.rgbButtons[1] & 0x80)
+	{
+		return true;
+	}
+
 	return false;
 }
 

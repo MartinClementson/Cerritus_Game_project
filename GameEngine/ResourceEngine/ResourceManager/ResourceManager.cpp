@@ -6,7 +6,8 @@ ResourceManager::ResourceManager()
 {
 	meshManager = new MeshManager();
 	shaderManager = new ShaderManager();
-
+	brfImporterHandler = new BRFImporterHandler();
+	materialManager = new MaterialManager();
 }
 
 
@@ -14,19 +15,31 @@ ResourceManager::~ResourceManager()
 {
 	delete meshManager;
 	delete shaderManager;
+	delete brfImporterHandler;
+	delete materialManager;
 }
 
 void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext)
 {
 	shaderManager->Initialize(gDevice, gDeviceContext);
 	meshManager->Initialize(gDevice, gDeviceContext);
+	materialManager->Initialize(gDevice);
+	brfImporterHandler->Initialize(this->meshManager, this->materialManager);
+
+
+	brfImporterHandler->LoadFile("MainChar.BRF", true, true, true);
+	brfImporterHandler->LoadFile("EnemyChar.BRF", true, true, true);
+	brfImporterHandler->LoadFile("FireTrap.BRF", true, true, true);
+	brfImporterHandler->LoadFile("BearTrap.BRF", true, true, true);
+
 }
 
 void ResourceManager::Release()
 {
 	this->shaderManager->Release();
 	this->meshManager->Release();
-
+	this->brfImporterHandler->Release();
+	this->materialManager->Release();
 }
 
 
@@ -34,7 +47,21 @@ void ResourceManager::Release()
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoObject * object)
 	{
-		return nullptr;
+		currentMesh = RenderInstructions();
+		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+		MeshEnum meshType = object->object;
+		meshManager		->GetMeshRenderInfo( &meshType, &currentMesh ); //Get the mesh data
+		materialManager ->GetMaterialRenderInfo (&currentMesh );	    //Get the material data
+	
+		if (!gbufferPass)
+		{
+
+			Shaders temp = FINAL_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
+	
+		return &currentMesh;
+		
 	}
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoUI * object)
@@ -44,17 +71,57 @@ void ResourceManager::Release()
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoEnemy * object)
 	{
-		return nullptr;
+		currentMesh = RenderInstructions();
+		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+		MeshEnum meshType = MeshEnum::ENEMY_1;
+
+		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
+		materialManager->GetMaterialRenderInfo(&currentMesh);
+		
+		if (!gbufferPass)
+		{
+			Shaders temp = FINAL_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
+		return &currentMesh;
 	}
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoChar * object)
 	{
-		return nullptr;
+		currentMesh = RenderInstructions();
+		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+		MeshEnum meshType = MeshEnum::MAIN_CHARACTER;
+
+		meshManager->GetMeshRenderInfo(&meshType,&currentMesh);
+		materialManager->GetMaterialRenderInfo(&currentMesh);
+		
+		if (!gbufferPass)
+		{
+
+			Shaders temp = FINAL_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
+
+		return &currentMesh;
+
+
+		
 	}
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoTrap * object)
 	{
-		return nullptr;
+		currentMesh = RenderInstructions();
+		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+ 		MeshEnum meshType = object->object;
+		
+		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
+		if (!gbufferPass)
+		{
+
+			Shaders temp = FINAL_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
+		return &currentMesh;
 	}
 
 	RenderInstructions * ResourceManager::GetPlaceHolderMesh(XMFLOAT3 position)
@@ -65,20 +132,43 @@ void ResourceManager::Release()
 		rotation += 0.1f;
 		XMFLOAT3 tempRotation = XMFLOAT3(0.0, rotation, 0.0);
 		////////////////////////////////////////////////////////////
-
+		currentMesh = RenderInstructions();
 		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&position, &tempRotation);
 
 
 		meshManager->GetPlaceHolderMeshInfo(&currentMesh);
-		Shaders temp = PHONG_SHADER;
-		this->shaderManager->SetActiveShader(&temp);
+		if (!gbufferPass)
+		{
+
+			Shaders temp = FINAL_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
+		return &currentMesh;
+	}
+
+	RenderInstructions * ResourceManager::GetPlaceHolderMesh(XMFLOAT3 position, XMFLOAT3 rotation)
+	{
+		
+		currentMesh = RenderInstructions();
+		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&position, &rotation);
+
+
+		meshManager->GetPlaceHolderMeshInfo(&currentMesh);
+
+		if (!gbufferPass)
+		{
+
+			Shaders temp = FINAL_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
+
 		return &currentMesh;
 	}
 
 	RenderInstructions * ResourceManager::GetPlaceHolderPlane()
 	{
 
-
+		currentMesh = RenderInstructions();
 		////////////TEMPORARY////////////////////////////////
 		XMFLOAT3 tempPos = XMFLOAT3(0.0f, 0.0f, -1.5f);
 		
@@ -87,13 +177,28 @@ void ResourceManager::Release()
 
 		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&tempPos, &tempRotation);
 
-
 		meshManager->GetPlaceHolderPlaneInfo(&currentMesh);
-		Shaders temp = PHONG_SHADER;
-		this->shaderManager->SetActiveShader(&temp);
+
+		if (!gbufferPass)
+		{
+			Shaders temp = FINAL_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
+
 		return &currentMesh;
 		
 	}
+
+	RenderInstructions * ResourceManager::GetFullScreenQuad()
+	{
+		currentMesh = RenderInstructions();
+		Shaders temp = FINAL_SHADER;
+		this->shaderManager->SetActiveShader(&temp);
+		meshManager->GetFullScreenQuadInfo(&currentMesh);
+
+		return &currentMesh;
+	}
+
 
 	XMFLOAT4X4 ResourceManager::CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation)
 	{
@@ -132,6 +237,20 @@ void ResourceManager::Release()
 	XMFLOAT4X4 ResourceManager::CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation, XMFLOAT3* scale)
 	{
 		return XMFLOAT4X4();
+	}
+
+	void ResourceManager::SetGbufferPass(bool x)
+	{
+		if (this->gbufferPass != x)
+			this->gbufferPass = x;
+		if (gbufferPass == true)
+		{
+			Shaders  temp = GBUFFER_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
+
+
+
 	}
 
 #pragma endregion

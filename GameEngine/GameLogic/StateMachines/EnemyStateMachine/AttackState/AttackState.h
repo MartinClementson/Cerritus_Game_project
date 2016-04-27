@@ -1,12 +1,9 @@
 #pragma once
 #include "../../StateClass/StateClass.h"
-#include "../../../Character/Enemy/Enemy.h"
 
 class AttackState :
 	public StateClass
 {
-private:
-	Enemy* enemy;
 private:
 	void AIPattern();
 	void OnEnter();

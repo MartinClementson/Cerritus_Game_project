@@ -152,9 +152,6 @@
     <Filter Include="ResourceEngine\ObjectNode\Renderer">
       <UniqueIdentifier>{d4e49cfc-aa90-41ca-83f8-90e046321ba9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ResourceEngine\Shaders\PhongShader">
-      <UniqueIdentifier>{6c2301a3-74d7-4408-a32c-b7ffa6988eac}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ResourceEngine\Shaders\AnimationShader">
       <UniqueIdentifier>{805a5c83-81bb-472e-9ca9-91e2a452fdd2}</UniqueIdentifier>
     </Filter>
@@ -214,6 +211,18 @@
     </Filter>
     <Filter Include="ResourceEngine\Shaders\GBufferShader">
       <UniqueIdentifier>{8cb80f1f-f67e-4089-899d-aad1345f70fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\Collision">
+      <UniqueIdentifier>{56761173-6038-415a-adf6-16361a84dd24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\BRFImporterHandler">
+      <UniqueIdentifier>{3bcf3419-06fc-4913-9f33-a3e0746aa4cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib">
+      <UniqueIdentifier>{4415b8d0-e7b2-4b07-9dcd-5da1e2189453}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\Shaders\FinalPassShaders">
+      <UniqueIdentifier>{6c2301a3-74d7-4408-a32c-b7ffa6988eac}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -360,6 +369,24 @@
     </ClCompile>
     <ClCompile Include="Source\GameTimer\GameTimer.cpp">
       <Filter>Source Files\Main\GameTimer</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Collision\Collision.cpp">
+      <Filter>GameLogic\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.cpp">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ResourceManager\MaterialManager\MaterialManager.cpp">
+      <Filter>ResourceEngine\ResourceManager\MaterialManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ResourceManager\TextureManager\TextureManager.cpp">
+      <Filter>ResourceEngine\ResourceManager\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ResourceManager\TextureManager\TextureResource\TextureResource.cpp">
+      <Filter>ResourceEngine\ResourceManager\TextureManager\TextureResource</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\Src\WICTextureLoader.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -516,19 +543,54 @@
     <ClInclude Include="GameLogic\Game.h">
       <Filter>GameLogic</Filter>
     </ClInclude>
-    <ClInclude Include="Gbuffer.h">
-      <Filter>ResourceEngine\Graphics\Gbuffer</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GameTimer\GameTimer.h">
       <Filter>Source Files\Main\GameTimer</Filter>
     </ClInclude>
+    <ClInclude Include="GameLogic\Collision\Collision.h">
+      <Filter>GameLogic\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.h">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ResourceManager\MaterialManager\MaterialManager.h">
+      <Filter>ResourceEngine\ResourceManager\MaterialManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ResourceManager\TextureManager\TextureManager.h">
+      <Filter>ResourceEngine\ResourceManager\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ResourceManager\TextureManager\TextureResource\TextureResource.h">
+      <Filter>ResourceEngine\ResourceManager\TextureManager\TextureResource</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.h">
+      <Filter>ResourceEngine\Graphics\Gbuffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="ResourceEngine\Shader\PhongShader\PhongShaders.hlsl">
-      <Filter>ResourceEngine\Shaders\PhongShader</Filter>
-    </FxCompile>
-    <FxCompile Include="Gbuffer.hlsl">
+    <FxCompile Include="ResourceEngine\Shader\GBufferShader\Gbuffer.hlsl">
       <Filter>ResourceEngine\Shaders\GBufferShader</Filter>
     </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\FinalPassShaders\FinalPassShaders.hlsl">
+      <Filter>ResourceEngine\Shaders\FinalPassShaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\Fetch.obj">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
+    </Object>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\FileData.obj">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
+    </Object>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\LightData.obj">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
+    </Object>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MaterialData.obj">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
+    </Object>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MeshData.obj">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
+    </Object>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\SkeletonData.obj">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
+    </Object>
   </ItemGroup>
 </Project>
