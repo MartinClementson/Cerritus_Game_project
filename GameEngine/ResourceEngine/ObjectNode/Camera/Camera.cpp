@@ -102,9 +102,9 @@ void Camera::Updateview( DirectX::XMFLOAT3 playerPos)
 	
 	XMMATRIX viewProjInv = XMMatrixMultiply(tempView, proj);
 
-	XMVECTOR det = XMMatrixDeterminant(viewProjInv);
+	XMVECTOR det		 = XMMatrixDeterminant(viewProjInv);
 
-	viewProjInv = XMMatrixInverse(&det, viewProjInv);
+	viewProjInv			 = XMMatrixInverse(&det, viewProjInv);
 
 	XMStoreFloat4x4(&camMatrices.invViewProjMatrix, XMMatrixTranspose(viewProjInv));
 

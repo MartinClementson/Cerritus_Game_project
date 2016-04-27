@@ -74,7 +74,7 @@ struct GBUFFER_PS_OUT
 	float4 specularRes	: SV_Target1;
 	float4 normalRes	: SV_Target2;
 	float4 depthRes		: SV_Target3;
-	float4 shadowRes	: SV_Target4;
+	float4 positionRes	: SV_Target4;
 	float4 glowRes		: SV_Target5;
 };
 
@@ -262,55 +262,8 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 		output.glowRes = glowSample;
 	}
 
-	////shadowmap stuff
-	//float4 shadowSample = float4(1, 1, 1, 1);
-	//float tempCooef = 0;
-	//float SMAP_SIZE = 2048.0;
-	//uint lightAmount = 1;
-	//for (uint i = 0; i < lightAmount; i++)
-	//{
-	//	
-	//	float bias;
-	//	float2 projectTexCoord;
-	//	float depthValue;
-	//	float lightDepthValue;
-	//	float lightIntensity;
-	//	float4 lightPos;
-	//	
 
-	//	////////////////BIAS IS HERE
-	//	bias = 0.001f;
-
-	//	lightPos				 = mul(input.wPos, lightView);
-	//	lightPos				 = mul(lightPos, lightProjection);
-
-	//	projectTexCoord.x		 = lightPos.x / lightPos.w;
-	//	projectTexCoord.y		 = lightPos.y / lightPos.w;
-
-	//	lightDepthValue			 = lightPos.z / lightPos.w;
-
-	//	projectTexCoord.x		 = projectTexCoord.x * 0.5f + 0.5f;
-	//	projectTexCoord.y		 = projectTexCoord.y * -0.5f + 0.5f;
-
-	//	depthValue = shadowTex.Sample(samplerTypeState, float3(projectTexCoord.xy, i)).r + bias;
-
-	//	//float tempSample = shadowTex.Sample(samplerTypeState, float3(projectTexCoord, i)).r
-
-	//	float dx = 1.0f / SMAP_SIZE;
-	//	float s0 = (shadowTex.Sample(samplerTypeState, float3(projectTexCoord, i)).r							 + bias < lightDepthValue) ? 0.0f : 1.0f;
-	//	float s1 = (shadowTex.Sample(samplerTypeState, float3(projectTexCoord, i) + float3(dx, 0.0f, 0.0f)).r	 + bias < lightDepthValue) ? 0.0f : 1.0f;
-	//	float s2 = (shadowTex.Sample(samplerTypeState, float3(projectTexCoord, i) + float3(0.0f, dx, 0.0f)).r	 + bias < lightDepthValue) ? 0.0f : 1.0f;
-	//	float s3 = (shadowTex.Sample(samplerTypeState, float3(projectTexCoord, i) + float3(dx, dx, 0.0f)).r		 + bias < lightDepthValue) ? 0.0f : 1.0f;
-
-	//	float2 texelpos		 = projectTexCoord * SMAP_SIZE;
-	//	float2 lerps		 = frac(texelpos);
-	//	float shadowcooef	 = lerp(lerp(s0, s1, lerps.x), lerp(s2, s3, lerps.x), lerps.y);
-
-	//	tempCooef			+= shadowcooef;
-	//}
-	//shadowSample			= shadowSample * tempCooef;
-	//shadowSample			= saturate(shadowSample);
-	//output.shadowRes		= shadowSample;
+	output.positionRes = input.wPos;
 
 	float depth = input.Pos.z / input.Pos.w;
 	output.depthRes = float4(depth, depth, depth, 1.0);

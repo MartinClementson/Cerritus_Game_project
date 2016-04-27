@@ -64,7 +64,7 @@ Texture2D diffuseTexture	 : register(t0);
 Texture2D specularTexture	 : register(t1);
 Texture2D normalTexture		 : register(t2);
 Texture2D depthTexture		 : register(t3);
-//Texture2D shadowTexture		 : register(t4);
+Texture2D positionTexture	 : register(t4);
 Texture2DArray shadowTex	: register(t6);
 
 
@@ -130,17 +130,17 @@ float sampleShadowStencils(float4 worldPos)
 
 float4 PS_main(VS_OUT input) : SV_TARGET
 {
-	float3 ambient			= float3(0.4f,0.4f,0.4f); // Hardcoded ambient. 
-	float depthSample		= depthTexture.Sample(SampleType, input.Uv).x;
+	float4 ambient			= float4(0.4f,0.4f,0.4f,1.0f); // Hardcoded ambient. 
+	float depthSample		= depthTexture.Sample(SampleType, input.Uv);
 
 	float4 depthPrepare		= mul(float4(input.Uv.x *2.0f - 1.0f, input.Uv.y * -2.0f + 1.0f, depthSample, 1.0f), invViewProjMatrix);
 	
-	float3 worldPos			=  depthPrepare / depthPrepare.w;
+	float3 worldPos			= positionTexture.Sample(SampleType, input.Uv); //depthPrepare / depthPrepare.w;
 
 
 	float4 diffuseSample			= diffuseTexture.Sample(SampleType,input.Uv);
 	float4 normal					= normalTexture.Sample(SampleType, input.Uv);
-	//float4 shadow					= shadowTexture.Sample(SampleType, input.Uv);
+	float4 shadow					= sampleShadowStencils(float4(worldPos, 1.0f));
 
 	//The light ray from the vert position to the light
 	//normalized to be used as a direction vector
@@ -152,7 +152,7 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 							 
 	float fDot				 = saturate(dot(vRay, normal.xyz));					 //Calculate how much of the pixel is to be lit "intensity"
 							 
-	float3 lightColor		 = mul(lightDiffuse.xyz,intensity);
+	float4 lightColor = lightDiffuse;// mul(lightDiffuse, intensity);
 							 
 	float shinyPower		 = 20;//specularTexture.Sample(SampleType,input.Uv).r; //How much light is to be reflected
 							 
@@ -160,20 +160,25 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 							 
 	float3 specularLight	 = { KS * pow(max(dot(r,v),0.0f),shinyPower) };
 							 
-	float3 lightDiffuse		 = lightColor * fDot;
+	float4 lightDiffuse		 = lightColor * fDot;
 
-	float3 finalCol			 = (lightDiffuse + ambient);
+	//float3 finalCol			 = (lightDiffuse + ambient);
 
-	finalCol				 = diffuseSample.xyz * finalCol; // texture * (lightDiffuse + ambient)
+	//finalCol				 = diffuseSample.xyz * finalCol; // texture * (lightDiffuse + ambient)
 
-	finalCol				 = saturate(finalCol + specularLight);
+	//finalCol				 = saturate(finalCol + specularLight);
 
-	finalCol = finalCol; //* sampleShadowStencils(worldPos);
-
-	float4 col				 = { worldPos,1.0 };		 //depthTexture.Sample(SampleType,input.Uv);
+	//finalCol = finalCol *
 
 
-	return col;
+		//NEW
+
+		float4 finalCol = diffuseSample * ambient + diffuseSample * (lightDiffuse * shadow);
+
+	//float4 col				 = { finalCol,1.0 };		 //depthTexture.Sample(SampleType,input.Uv);
+
+
+	return finalCol;
 }
 
 
