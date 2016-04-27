@@ -1,4 +1,6 @@
 #include "GameOverState.h"
+#include <string>
+//#include <string.h>
 
 
 
@@ -25,9 +27,21 @@ void GameOverState::Release()
 
 void GameOverState::Update(double deltaTime)
 {
-	//game over screen msg YOU DIED, HIGHSCORE, RESTART OPTION, TIMER, EXIT GAME OPTION, GO TO MENU OPTION
-	/*MessageBox(0, L"You Died",
-	L"Continue", MB_OK);*/
+	//game over screen msg YOU DIED, HIGHSCORE, RESTART OPTION,
+	//TIMER, EXIT GAME OPTION, GO TO MENU OPTION
+
+	std::wstring a = std::to_wstring( (int)this->GetPoints());
+
+	
+
+	/*std::wstring stemp = s2ws(a);*/
+	
+	
+
+	LPCWSTR result = a.c_str();
+
+	MessageBox(0, result ,
+	L"Score", MB_OK);
 	
 	ProcessInput(&deltaTime);
 }
@@ -49,6 +63,16 @@ void GameOverState::ProcessInput(double * deltaTime)
 		//timeSincePaused = 0.0f;
 	}
 
+}
+
+void GameOverState::SetPoints(float points)
+{
+	this->points = points;
+}
+
+float GameOverState::GetPoints()
+{
+	return this->points;
 }
 
 void GameOverState::OnEnter()

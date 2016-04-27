@@ -25,6 +25,7 @@ public:
 	bool GetIsActive();
 	float timeSincePaused;
 	int index;
+	float GetPoints();
 
 private:
 	void OnEnter();

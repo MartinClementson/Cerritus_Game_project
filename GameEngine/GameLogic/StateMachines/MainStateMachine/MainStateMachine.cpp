@@ -46,6 +46,7 @@ void MainStateMachine::Update(double deltaTime)
 		this->gameOverState = new GameOverState();
 		gameOverState->Initialize();
 		gameOverState->isActive = true;
+		gameOverState->SetPoints(gameState->GetPoints());
 		
 		this->activeState = MAIN_GAMEOVER_STATE;
 

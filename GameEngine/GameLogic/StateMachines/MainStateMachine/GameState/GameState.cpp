@@ -256,3 +256,8 @@ void GameState::OnExit()
 {
 
 }
+
+float GameState::GetPoints()
+{
+	return player->GetPoints();
+}

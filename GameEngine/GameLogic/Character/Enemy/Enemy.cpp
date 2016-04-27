@@ -126,7 +126,7 @@ float Enemy::GetRadius()
 	return this->radius; 
 }
 
-void Enemy::AIPattern(Player * player, double deltaTime)
+void Enemy::AIPattern(Player* player, double deltaTime)
 {
 	if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE)
 	{
