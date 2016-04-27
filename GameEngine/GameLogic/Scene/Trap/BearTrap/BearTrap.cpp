@@ -34,6 +34,7 @@ void BearTrap::Initialize(XMFLOAT3 position, XMFLOAT3 rotation)
 	this->isActive = true;
 	this->renderInfo.object = MeshEnum::TRAP_BEAR;
 	radius = 1.0f;
+	
 
 }
 
@@ -68,6 +69,11 @@ float BearTrap::GetSlow()
 void BearTrap::SetSlow(float slow)
 {
 	this->slow = slow;
+}
+
+TrapStateMachine* BearTrap::GetState()
+{
+	return trapState;
 }
 
 

@@ -57,14 +57,13 @@ void Trap::SetPosition(DirectX::XMFLOAT3 position)
 void Trap::SetRotation(DirectX::XMFLOAT3 rotation)
 {
 	this->rotation = rotation;
-
-
 }
 
-TrapState Trap::GetTrapState()
-{
-	return trapState;
-}
+//TrapState Trap::GetTrapState()
+//{
+//	return trapState;
+//	
+//}
 
 void Trap::initTrap()
 {

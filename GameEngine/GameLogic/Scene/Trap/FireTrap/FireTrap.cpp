@@ -5,6 +5,7 @@
 FireTrap::FireTrap()
 {
 	grapichs = Graphics::GetInstance();
+	//trapState = new TrapStateMachine();
 }
 
 FireTrap::FireTrap(XMFLOAT3 position)
@@ -76,4 +77,9 @@ float FireTrap::GetDot()
 void FireTrap::SetDotDur(float dotDuration)
 {
 	this->dotDuration = dotDuration;
+}
+
+TrapStateMachine* FireTrap::GetState()
+{
+	return trapState;
 }

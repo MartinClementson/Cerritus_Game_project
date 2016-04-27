@@ -22,14 +22,15 @@ void TrapStateMachine::Initialize()
 
 	activeStateEnum = TrapState::TRAP_IDLE_STATE;
 	//activeState->Initialize();
-	//idleState->Initialize();
-	//inactiveState->Initialize();
+	idleState->Initialize();
+	inactiveState->Initialize();
 
 }
 
 void TrapStateMachine::Release()
 {
 	this->activeState->Release();
+	
 
 	this->inactiveState->Release();
 	this->idleState->Release();

@@ -3,8 +3,7 @@
 #include "../GameObject/Model/Model.h"
 #include "../../../Structs/RenderInfo.h"
 #include "../../../ResourceEngine/Graphics/Graphics.h"
-#include "../StateMachines/TrapStateMachine/TrapStateMachine.h"
-
+#include "../../Enumerations/Enumerations.h"
 class Trap
 {
 public:
@@ -23,12 +22,11 @@ public:
 	virtual void SetRotation(DirectX::XMFLOAT3 rotation);
 	virtual float GetRadius() { return this->radius; }
 	//TrapStateMachine* trapStateMachine;
-	virtual TrapState GetTrapState();
+	//virtual TrapState GetTrapState();
 	void initTrap();
 	bool isActive;
 	//Collision();
 private:	
-	TrapState* trapState;
 	Animation* animation;
 	Model* mesh;
 	RenderInfoTrap renderInfo;
@@ -39,5 +37,6 @@ protected:
 	float damage;
 	float radius;
 	
+
 };
 
