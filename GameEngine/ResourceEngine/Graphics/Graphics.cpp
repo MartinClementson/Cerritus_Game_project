@@ -162,28 +162,13 @@ void Graphics::RenderScene()
 	renderer->Render(charObjects->at(0));
 	
 #pragma region Temporary code for early testing
-	RenderInfoEnemy tempInfo;					 //TEMPORARY
-	static float z = 5.5f;						 //TEMPORARY
-	static float x = 5.5f;						 //TEMPORARY
-	tempInfo.position = XMFLOAT3(0.0f, 0.0f, z); //TEMPORARY
-	
+	RenderInfoObject tempInfo;					 //TEMPORARY
+											//TEMPORARY
+	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
+	tempInfo.object = MeshEnum::LEVEL_1;
 	this->renderer->Render(&tempInfo);			 //TEMPORARY
 	
 	
-
-	tempInfo.position = XMFLOAT3(0.0f, 0.0f, -z);//TEMPORARY
-	this->renderer->Render(&tempInfo);			 //TEMPORARY
-
-	tempInfo.position = XMFLOAT3(-x, 0.0f, 0.0f);//TEMPORARY
-	this->renderer->Render(&tempInfo);			 //TEMPORARY
-
-	tempInfo.position = XMFLOAT3(x, 0.0f, 0.0f); //TEMPORARY
-	this->renderer->Render(&tempInfo);			 //TEMPORARY
-												 
-	this->renderer->RenderPlaceHolderPlane();	 //TEMPORARY
-												 
-	x +=  (float) cos(z)* 0.1f;					 //TEMPORARY
-	z +=  (float)sin(x)* 0.1f;					 //TEMPORARY
 #pragma endregion
 	
 	
