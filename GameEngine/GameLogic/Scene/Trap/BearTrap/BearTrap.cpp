@@ -10,7 +10,8 @@ BearTrap::BearTrap(XMFLOAT3 position)
 	this->rotation = { 0,0,0 };
 	this->isActive = true;
 	this->renderInfo.object = MeshEnum::TRAP_BEAR;
-
+	trapState = new TrapStateMachine();
+	trapState->Initialize();
 	
 	radius = 1.0f;
 }
@@ -18,12 +19,13 @@ BearTrap::BearTrap(XMFLOAT3 position)
 BearTrap::BearTrap()
 {
 	grapichs = Graphics::GetInstance();
-
+	
 }
 
 
 BearTrap::~BearTrap()
 {
+	delete trapState;
 }
 
 void BearTrap::Initialize(XMFLOAT3 position, XMFLOAT3 rotation)
@@ -33,6 +35,7 @@ void BearTrap::Initialize(XMFLOAT3 position, XMFLOAT3 rotation)
 	this->rotation = { 0,0,0 };
 	this->isActive = true;
 	this->renderInfo.object = MeshEnum::TRAP_BEAR;
+	
 	radius = 1.0f;
 	
 

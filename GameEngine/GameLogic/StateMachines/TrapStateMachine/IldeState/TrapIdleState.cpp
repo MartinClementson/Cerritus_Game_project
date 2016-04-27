@@ -25,6 +25,7 @@ void TrapIdleState::Render()
 
 void TrapIdleState::Update(double deltaTime)
 {
+
 }
 
 void TrapIdleState::OnEnter()

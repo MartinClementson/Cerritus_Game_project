@@ -5,16 +5,17 @@
 FireTrap::FireTrap()
 {
 	grapichs = Graphics::GetInstance();
-	//trapState = new TrapStateMachine();
+	trapState = new TrapStateMachine();
 }
 
 FireTrap::FireTrap(XMFLOAT3 position)
 {
 	grapichs = Graphics::GetInstance();
 	dotDuration = 2.5f;
-	
-	this->position = position;
+	trapState = new TrapStateMachine();
 
+	this->position = position;
+	trapState->Initialize();
 	this->rotation = { 0,0,0 };
 	this->damage = 10;
 
@@ -26,6 +27,7 @@ FireTrap::FireTrap(XMFLOAT3 position)
 
 FireTrap::~FireTrap()
 {
+	delete trapState;
 }
 
 void FireTrap::Initialize(XMFLOAT3 position,XMFLOAT3 rotation)

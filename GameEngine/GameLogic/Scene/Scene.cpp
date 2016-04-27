@@ -59,11 +59,11 @@ void Scene::InitFireTrap()
 		fireTraps.push_back(new FireTrap(pos));
 		if (fireTraps.at(i)->isActive == true)
 		{
-			fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
+			fireTraps.at(i)->GetState()->SetTrapState(TRAP_IDLE_STATE);
 		}
 		else
 		{
-			fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_INACTIVE_STATE);
+			fireTraps.at(i)->GetState()->SetTrapState(TRAP_INACTIVE_STATE);
 		}
 	}
 	
@@ -86,12 +86,11 @@ void Scene::InitBearTrap()
 		bearTraps.push_back(temp);
 		if (bearTraps.at(i)->isActive == true)
 		{
-			
-			bearTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
+			bearTraps.at(i)->GetState()->SetTrapState(TRAP_IDLE_STATE);
 		}
 		else
 		{
-			bearTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_INACTIVE_STATE);
+			bearTraps.at(i)->GetState()->SetTrapState(TRAP_INACTIVE_STATE);
 		}
 	}
 }
