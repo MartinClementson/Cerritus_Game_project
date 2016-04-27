@@ -38,12 +38,6 @@
     <Filter Include="ResourceEngine\ResourceManager\TextureManager">
       <UniqueIdentifier>{fc9c308f-1725-46b8-9f42-b608713d736c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ResourceEngine\ResourceManager\TextureManager\TextureResource">
-      <UniqueIdentifier>{3b65fe9d-975f-4663-bb4d-de652b61c38b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ResourceEngine\ResourceManager\TextureManager\TextureResource\RenderTexture">
-      <UniqueIdentifier>{aae9c9d9-abe4-466b-85f1-b79b795bc5b9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ResourceEngine\ObjectNode">
       <UniqueIdentifier>{8dd3f6f5-aa04-4634-80a1-9babea07067c}</UniqueIdentifier>
     </Filter>
@@ -382,9 +376,6 @@
     <ClCompile Include="ResourceEngine\ResourceManager\TextureManager\TextureManager.cpp">
       <Filter>ResourceEngine\ResourceManager\TextureManager</Filter>
     </ClCompile>
-    <ClCompile Include="ResourceEngine\ResourceManager\TextureManager\TextureResource\TextureResource.cpp">
-      <Filter>ResourceEngine\ResourceManager\TextureManager\TextureResource</Filter>
-    </ClCompile>
     <ClCompile Include="DirectXTK\Src\WICTextureLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -557,9 +548,6 @@
     </ClInclude>
     <ClInclude Include="ResourceEngine\ResourceManager\TextureManager\TextureManager.h">
       <Filter>ResourceEngine\ResourceManager\TextureManager</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceEngine\ResourceManager\TextureManager\TextureResource\TextureResource.h">
-      <Filter>ResourceEngine\ResourceManager\TextureManager\TextureResource</Filter>
     </ClInclude>
     <ClInclude Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.h">
       <Filter>ResourceEngine\Graphics\Gbuffer</Filter>
