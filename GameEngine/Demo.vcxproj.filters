@@ -224,6 +224,12 @@
     <Filter Include="ResourceEngine\Shaders\FinalPassShaders">
       <UniqueIdentifier>{6c2301a3-74d7-4408-a32c-b7ffa6988eac}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceEngine\Shaders\ShadowShader">
+      <UniqueIdentifier>{88b4d587-29cf-485f-8527-c919b3a3f675}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\Graphics\ShadowBuffer">
+      <UniqueIdentifier>{60a46c0d-4e44-4a76-bd3f-e1dd176a2744}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameLogic\Animation\Animation.cpp">
@@ -387,6 +393,9 @@
     </ClCompile>
     <ClCompile Include="DirectXTK\Src\WICTextureLoader.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\Graphics\ShadowBuffer\ShadowBuffer.cpp">
+      <Filter>ResourceEngine\Graphics\ShadowBuffer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -564,6 +573,9 @@
     <ClInclude Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.h">
       <Filter>ResourceEngine\Graphics\Gbuffer</Filter>
     </ClInclude>
+    <ClInclude Include="ResourceEngine\Graphics\ShadowBuffer\ShadowBuffer.h">
+      <Filter>ResourceEngine\Graphics\ShadowBuffer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ResourceEngine\Shader\GBufferShader\Gbuffer.hlsl">
@@ -571,6 +583,9 @@
     </FxCompile>
     <FxCompile Include="ResourceEngine\Shader\FinalPassShaders\FinalPassShaders.hlsl">
       <Filter>ResourceEngine\Shaders\FinalPassShaders</Filter>
+    </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\ShadowShader\ShadowShader.hlsl">
+      <Filter>ResourceEngine\Shaders\ShadowShader</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

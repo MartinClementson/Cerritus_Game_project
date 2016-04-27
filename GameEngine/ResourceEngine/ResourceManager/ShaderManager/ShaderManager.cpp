@@ -41,12 +41,14 @@ void ShaderManager::Release()
 	SAFE_RELEASE(gVertexLayoutAnimation);
 
 	//Shaders for the gbuffer
-	SAFE_RELEASE(GBUFFER_SHADOWDEPTH_VS);
 	SAFE_RELEASE(GBUFFER_VS);
 	SAFE_RELEASE(GBUFFER_GS);
 	SAFE_RELEASE(GBUFFER_PS);
 	SAFE_RELEASE(gVertexLayoutGBuffer);
 
+	//Shaders for shadowshader
+	SAFE_RELEASE(SHADOW_VS);
+	SAFE_RELEASE(SHADOW_GS);
 
 	//Shaders for particle shading
 	SAFE_RELEASE(PARTICLE_VS);
@@ -119,13 +121,13 @@ void ShaderManager::SetActiveShader(Shaders* shader)
 
 		break;
 
-	case GBUFFER_SHADOW_SHADER:
+	case SHADOW_SHADER:
 
 
-		this->gDeviceContext->VSSetShader(GBUFFER_SHADOWDEPTH_VS, nullptr, 0);
+		this->gDeviceContext->VSSetShader(SHADOW_VS, nullptr, 0);
 		this->gDeviceContext->HSSetShader(nullptr, nullptr, 0);
 		this->gDeviceContext->DSSetShader(nullptr, nullptr, 0);
-		this->gDeviceContext->GSSetShader(nullptr, nullptr, 0);
+		this->gDeviceContext->GSSetShader(SHADOW_GS, nullptr, 0);
 		this->gDeviceContext->PSSetShader(nullptr, nullptr, 0);
 		this->gDeviceContext->IASetInputLayout(gVertexLayoutGBuffer);
 
@@ -180,6 +182,8 @@ void ShaderManager::CreateShaders()
 		MessageBox(NULL, L"Error compiling FinalPassShaders shaders", L"Shader error", MB_ICONERROR | MB_OK);
 	if (!CreateGbufferShader())
 		MessageBox(NULL, L"Error compiling Gbuffer shaders", L"Shader error", MB_ICONERROR | MB_OK);
+	if (!CreateShadowShader())
+		MessageBox(NULL, L"Error compiling Shadow shaders", L"Shader error", MB_ICONERROR | MB_OK);
 }
 
 
@@ -198,14 +202,20 @@ bool ShaderManager::CreateFinalPassShaders()
 	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR;
 	//for all filters: https://msdn.microsoft.com/en-us/library/windows/desktop/ff476132(v=vs.85).aspx
 
-	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
-	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP; //wrap, (repeat) for use of tiling texutures
-	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
+	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_BORDER; //wrap, (repeat) for use of tiling texutures
+	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
 	samplerDesc.MipLODBias = 0.0f; //mipmap offset level
 	samplerDesc.MaxAnisotropy = 1; //Clamping value used if D3D11_FILTER_ANISOTROPIC or D3D11_FILTER_COMPARISON_ANISOTROPIC is specified in Filter. Valid values are between 1 and 16.
 	samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
 	samplerDesc.MinLOD = 0; //0 most detailed mipmap level, higher number == less detail
 	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+	samplerDesc.BorderColor[0] = 0.0f;
+	samplerDesc.BorderColor[1] = 0.0f;
+	samplerDesc.BorderColor[2] = 0.0f;
+	samplerDesc.BorderColor[3] = 1.0f;
+
+
 
 
 	hr = gDevice->CreateSamplerState(&samplerDesc, &gSampleState);
@@ -298,28 +308,10 @@ bool ShaderManager::CreateGbufferShader()
 	HRESULT hr;
 	//Load the shaders
 
-	ID3DBlob* pVSShadow = nullptr;
-
-	D3DCompileFromFile(
-		L"ResourceEngine/Shader/GBufferShader/GBuffer.hlsl",
-		nullptr,
-		nullptr,
-		"GBUFFER_SHADOWDEPTH_VS_main",
-		"vs_5_0",
-		0,
-		0,
-		&pVSShadow,
-		nullptr);
-
-	hr = this->gDevice->CreateVertexShader(pVSShadow->GetBufferPointer(), pVSShadow->GetBufferSize(), nullptr, &GBUFFER_SHADOWDEPTH_VS);
-
-	if (FAILED(hr))
-		return false;
-
 	ID3DBlob* pVS = nullptr;
 
 	D3DCompileFromFile(
-		L"ResourceEngine/Shader/GBufferShader/GBuffer.hlsl",
+		L"ResourceEngine/Shader/GBufferShader/Gbuffer.hlsl",
 		nullptr,
 		nullptr,
 		"GBUFFER_VS_main",
@@ -352,7 +344,7 @@ bool ShaderManager::CreateGbufferShader()
 	//Geometry shader
 	ID3DBlob* pGS = nullptr;
 	D3DCompileFromFile(
-		L"ResourceEngine/Shader/GBufferShader/GBuffer.hlsl",
+		L"ResourceEngine/Shader/GBufferShader/Gbuffer.hlsl",
 		nullptr,
 		nullptr,
 		"GBUFFER_GS_main",
@@ -372,7 +364,7 @@ bool ShaderManager::CreateGbufferShader()
 
 	ID3DBlob *pPs = nullptr;
 	D3DCompileFromFile(
-		L"ResourceEngine/Shader/GBufferShader/GBuffer.hlsl",
+		L"ResourceEngine/Shader/GBufferShader/Gbuffer.hlsl",
 		nullptr,
 		nullptr,
 		"GBUFFER_PS_main",
@@ -390,6 +382,51 @@ bool ShaderManager::CreateGbufferShader()
 
 
 
+
+	return true;
+}
+
+bool ShaderManager::CreateShadowShader()
+{
+	HRESULT hr;
+
+	//Vertex Shader
+	ID3DBlob* pVS = nullptr;
+
+	D3DCompileFromFile(
+		L"ResourceEngine/Shader/ShadowShader/ShadowShader.hlsl",
+		nullptr,
+		nullptr,
+		"SHADOW_VS_main",
+		"vs_5_0",
+		0,
+		0,
+		&pVS,
+		nullptr);
+
+	hr = this->gDevice->CreateVertexShader(pVS->GetBufferPointer(), pVS->GetBufferSize(), nullptr, &SHADOW_VS);
+
+	if (FAILED(hr))
+		return false;
+
+	//Geometry shader
+	ID3DBlob* pGS = nullptr;
+	D3DCompileFromFile(
+		L"ResourceEngine/Shader/ShadowShader/ShadowShader.hlsl",
+		nullptr,
+		nullptr,
+		"SHADOW_GS_main",
+		"gs_5_0",
+		0,
+		0,
+		&pGS,
+		nullptr);
+
+	hr = this->gDevice->CreateGeometryShader(pGS->GetBufferPointer(), pGS->GetBufferSize(), nullptr, &SHADOW_GS);
+	pGS->Release();
+
+	if (FAILED(hr))
+		return false;
 
 	return true;
 }

@@ -21,7 +21,8 @@ Graphics::~Graphics()
 		delete trapObjects;
 
 
-
+	if (shadowBuffer != nullptr)
+		delete shadowBuffer;
 	if (renderer != nullptr)
 		delete renderer;
 
@@ -52,6 +53,9 @@ void Graphics::Initialize(HWND * window)
 	
 	gBuffer = new Gbuffer();
 	gBuffer->Initialize(this->gDevice,this->gDeviceContext);
+
+	shadowBuffer = new ShadowBuffer();
+	shadowBuffer->Initialize(this->gDevice, this->gDeviceContext);
 }
 
 void Graphics::Release()
@@ -66,6 +70,7 @@ void Graphics::Release()
 
 
 	gBuffer->Release();
+	shadowBuffer->Release();
 
 	SAFE_RELEASE(depthState);
 	SAFE_RELEASE(depthStencilView);
@@ -112,11 +117,27 @@ void Graphics::Release()
 
 void Graphics::Render() //manage RenderPasses here
 {
+
+	SetShadowViewPort();
+
+	shadowBuffer->ClearShadowGbuffer();
+
+	shadowBuffer->ShadowSetToRender();
+	renderer->SetShadowPass(true);
+
+	this->RenderScene();
+
+	gBuffer->SetToRender(depthStencilView);	
+	shadowBuffer->ShadowSetToRead();
+
 	SetViewPort();
 
-	this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
 
-	gBuffer->SetToRender(depthStencilView);			//Set The gbuffer pass
+
+
+	//this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
+
+			//Set The gbuffer pass
 	this->renderer->SetGbufferPass(true);
 	RenderScene();									//Render to the gBuffer
 													//Set the gBuffer as a subResource, send in the new RenderTarget
@@ -142,28 +163,13 @@ void Graphics::RenderScene()
 		renderer->Render(charObjects->at(0));
 	}
 #pragma region Temporary code for early testing
-	RenderInfoEnemy tempInfo;					 //TEMPORARY
-	static float z = 5.5f;						 //TEMPORARY
-	static float x = 5.5f;						 //TEMPORARY
-	tempInfo.position = XMFLOAT3(0.0f, 0.0f, z); //TEMPORARY
-	
+	RenderInfoObject tempInfo;					 //TEMPORARY
+											//TEMPORARY
+	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
+	tempInfo.object = MeshEnum::LEVEL_1;
 	this->renderer->Render(&tempInfo);			 //TEMPORARY
 	
 	
-
-	tempInfo.position = XMFLOAT3(0.0f, 0.0f, -z);//TEMPORARY
-	this->renderer->Render(&tempInfo);			 //TEMPORARY
-
-	tempInfo.position = XMFLOAT3(-x, 0.0f, 0.0f);//TEMPORARY
-	this->renderer->Render(&tempInfo);			 //TEMPORARY
-
-	tempInfo.position = XMFLOAT3(x, 0.0f, 0.0f); //TEMPORARY
-	this->renderer->Render(&tempInfo);			 //TEMPORARY
-												 
-	this->renderer->RenderPlaceHolderPlane();	 //TEMPORARY
-												 
-	x +=  (float) cos(z)* 0.1f;					 //TEMPORARY
-	z +=  (float)sin(x)* 0.1f;					 //TEMPORARY
 #pragma endregion
 	
 	
@@ -244,18 +250,7 @@ void Graphics::SetShadowViewPort()
 
 void Graphics::SetShadowMap()
 {
-	SetShadowViewPort();
-	//clear stencils
-	//render new stencils
-	//as for loops based on amt of shadowmaps
 
-
-
-	///Render shadow map
-
-
-
-	SetViewPort();
 }
 
 
