@@ -19,13 +19,13 @@ private:
 	Collision* collision;
 	int trapAmount;
 	double RespawnTimer;
-
+	//TrapStateMachine *trapStateMachine;
 
 public:
+	
 	std::vector<EnemySpawn*> enemySpawns;
 	Scene();
 	virtual ~Scene();
-	
 	void Initialize();
 	void InitFireTrap();
 	void InitBearTrap();

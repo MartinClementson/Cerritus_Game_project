@@ -29,7 +29,10 @@ void TrapStateMachine::Initialize()
 
 void TrapStateMachine::Release()
 {
+	this->activeState->Release();
 
+	this->inactiveState->Release();
+	this->idleState->Release();
 }
 
 void TrapStateMachine::Update(double deltaTime)

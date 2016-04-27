@@ -32,6 +32,11 @@ Scene::~Scene()
 
 }
 
+TrapStateMachine Scene::GetTrapState()
+{
+	return trapStateMachine;
+}
+
 void Scene::Initialize()
 {
 
@@ -194,14 +199,16 @@ void Scene::Update(double deltaTime)
 			fireTraps.at(i)->isActive = true;
 			bearTraps.at(i)->isActive = true;
 			RespawnTimer = 0;
+			//traps hamnar i activeState
 		}
 	}
 	else
 	{
 		RespawnTimer += deltaTime;
+		//traps hamnar i inactive state? 
 	}
 
-
+	//Traps hamnar i idle state när trapsen inte har blivit aktiverade utav en spelare eller en enemy så..
 }
 
 void Scene::Render()

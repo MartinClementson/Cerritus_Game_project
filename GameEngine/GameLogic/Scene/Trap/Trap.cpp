@@ -61,6 +61,11 @@ void Trap::SetRotation(DirectX::XMFLOAT3 rotation)
 
 }
 
+TrapState Trap::GetTrapState()
+{
+	return trapState;
+}
+
 void Trap::initTrap()
 {
 	
