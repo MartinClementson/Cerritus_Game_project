@@ -106,7 +106,7 @@ void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * to
 	if (*meshEnum == MeshEnum::TRAP_FIRE)
 		this->gameMeshes->at(3).GetMeshRenderInfo(toRender);
 	if (*meshEnum == MeshEnum::LEVEL_1)
-		this->gameMeshes->at(4).GetMeshRenderInfo(toRender);
+		this->gameMeshes->at(2).GetMeshRenderInfo(toRender);
 
 
 }
