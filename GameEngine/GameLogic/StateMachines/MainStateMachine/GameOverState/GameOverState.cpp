@@ -40,9 +40,9 @@ void GameOverState::Update(double deltaTime)
 
 	LPCWSTR result = a.c_str();
 
-	MessageBox(0, result ,
+	/*MessageBox(0, result ,
 	L"Score", MB_OK);
-	
+	*/
 	ProcessInput(&deltaTime);
 }
 
