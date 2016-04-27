@@ -46,7 +46,9 @@ void MainStateMachine::Update(double deltaTime)
 		this->gameOverState = new GameOverState();
 		gameOverState->Initialize();
 		gameOverState->isActive = true;
+		gameOverState->SetLastHigh(lastHighscore);
 		gameOverState->SetPoints(gameState->GetPoints());
+		lastHighscore = gameState->GetPoints();
 		
 		this->activeState = MAIN_GAMEOVER_STATE;
 
@@ -96,6 +98,7 @@ void MainStateMachine::Initialize()
 	this->gameOverState->isActive = false;
 	this->menuState->isActive = false;
 	this->delay = 0.0f;
+	this->lastHighscore = 0.0f;
 }
 
 void MainStateMachine::Release()

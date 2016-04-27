@@ -19,6 +19,7 @@ public:
 	bool replay;
 	void SetPoints(float points);
 	float GetPoints();
+	void SetLastHigh(float high);
 
 private:
 	void OnEnter();
@@ -27,5 +28,6 @@ private:
 	Scene* GameOverScene;
 	GUI* gameOverGUI;
 	float points;
+	float lastHighscore;
 };
 
