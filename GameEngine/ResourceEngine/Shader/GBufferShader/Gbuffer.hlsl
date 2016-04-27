@@ -241,7 +241,7 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	if (specularMap)
 	{
 		specularSample.rgba = float4(0, 0, 0, 0);
-		specularSample.r = diffuseTex.Sample(samplerTypeState, input.Uv).a;
+		specularSample = diffuseTex.Sample(samplerTypeState, input.Uv);
 		output.specularRes = specularSample;
 	}
 	else

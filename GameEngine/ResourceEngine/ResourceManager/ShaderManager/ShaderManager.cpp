@@ -199,7 +199,7 @@ bool ShaderManager::CreateFinalPassShaders()
 
 	D3D11_SAMPLER_DESC samplerDesc;
 	// use linear interpolation for minification, magnification, and mip-level sampling (quite expensive)
-	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR;
+	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;// D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR;
 	//for all filters: https://msdn.microsoft.com/en-us/library/windows/desktop/ff476132(v=vs.85).aspx
 
 	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;

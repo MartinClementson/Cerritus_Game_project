@@ -68,7 +68,7 @@ Texture2D		positionTexture		 : register(t4);
 Texture2D		glowTexture			 : register(t5);
 Texture2DArray  shadowTex			 : register(t6);
 
-
+static const float SSAO_RAD = 0.005f;
 
 float sampleShadowStencils(float4 worldPos)
 {
@@ -131,7 +131,7 @@ float sampleShadowStencils(float4 worldPos)
 
 float4 PS_main(VS_OUT input) : SV_TARGET
 {
-	float4 ambient			= float4(0.4f,0.4f,0.4f,1.0f); // Hardcoded ambient. 
+	float4 ambient			= float4(0.2f,0.2f,0.2f,1.0f); // Hardcoded ambient. 
 	float depthSample		= depthTexture.Sample(SampleType, input.Uv);
 
 	float4 depthPrepare		= mul(float4(input.Uv.x *2.0f - 1.0f, input.Uv.y * -2.0f + 1.0f, depthSample, 1.0f), invViewProjMatrix);
@@ -141,27 +141,46 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 
 	float4 diffuseSample			= diffuseTexture.Sample(SampleType,input.Uv);
 	float4 normal					= normalTexture.Sample(SampleType, input.Uv);
+	float4 specular					= specularTexture.Sample(SampleType, input.Uv);
 	float4 shadow					= sampleShadowStencils(float4(worldPos, 1.0f));
 
 	//The light ray from the vert position to the light
 	//normalized to be used as a direction vector
-	float3 vRay				 = normalize((float3)(lightPosition - worldPos));
-							 
-	float3 v				 = normalize(camPos.xyz - worldPos);				 //create a ray from the vert pos to the camera.
-							 
-	float3 r				 = reflect(-vRay, normal.xyz);						 //Reflect is used in the specular shading
-							 
-	float fDot				 = saturate(dot(vRay, normal.xyz));					 //Calculate how much of the pixel is to be lit "intensity"
-							 
-	float4 lightColor		 = mul(lightDiffuse,intensity);
-							 
-	float shinyPower		 = 20;//specularTexture.Sample(SampleType,input.Uv).r; //How much light is to be reflected
-							 
-	float3 KS				 = lightColor;									 //This is the color of the specularity. For now it is set as the light color
-							 
-	float3 specularLight	 = { KS * pow(max(dot(r,v),0.0f),shinyPower) };
-							 
-	float4 lightDiffuse		 = lightColor * fDot;
+	
+	float3 vRay				= (float3)(lightPosition - worldPos);
+	float rayLength			= length(vRay);
+	vRay					/= rayLength;
+
+	float3 v				= normalize(camPos.xyz - worldPos);				 //create a ray from the vert pos to the camera.
+							
+	float3 r				= reflect(-vRay, normal.xyz);						 //Reflect is used in the specular shading
+							
+	float fDot				= saturate(dot(vRay, normal.xyz));					 //Calculate how much of the pixel is to be lit "intensity"
+							
+	float4 lightColor		= mul(lightDiffuse,intensity);
+							
+	float shinyPower		= 20.0f;//specularTexture.Sample(SampleType,input.Uv).r; //How much light is to be reflected
+							
+	float3 KS				= specular.xyz;									 //This is the color of the specularity. For now it is set as the light color
+							
+	float3 specularLight	= { float3(1,1,1) * pow(max(dot(r,v),0.0f),shinyPower) };
+				
+	//float lRadi				= 40.0f;
+	//float denom				= rayLength / lRadi + 1.0f;
+	//float attenuation		= min(lerp(1.0f, 0.0f, rayLength / (lRadi * 2.0f)), 1.0f / (denom * denom));
+
+	float4 lightDiffuse		= saturate( lightColor * fDot ) + float4(specularLight, 1.0f);
+	
+	float3 spotDir			= normalize(lightDir - lightPosition);
+
+	lightDiffuse			*= pow(max(dot(-vRay, spotDir), 0.0f), 20.0f);
+
+	/*float radio			= 40.0f;
+	float lightLength	= length(lightDir - worldPos);
+	if (lightLength > radio)
+		lightDiffuse *= 0.0;
+	else
+		lightDiffuse *= ((radio - lightLength) / radio);*/
 
 	//float3 finalCol			 = (lightDiffuse + ambient);
 
@@ -172,12 +191,42 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 	//finalCol = finalCol *
 
 
+	//========== Screen Space Ambient Occlusion =============
+	// USED FOR TESTING SSAO ONLY, SUCKY VERSION, JOCKE PLEZ HALP
+	float ssao = 0.0f;
+
+	float2 vec[8] = { float2(1.0f, 0.0f), float2(-1.0f, 0.0f),
+		float2(0.0f, 1.0f), float2(0.0f, -1.0f),
+		float2(0.707f, 0.707f), float2(-0.707f, -0.707f),
+		float2(-0.707f, 0.707f), float2(0.707f, -0.707f), };
+
+	[unroll]
+	for (int j = 0; j < 8; j++)
+	{
+		for (float k = 0.0f; k < 1.01f; k += 0.5f)
+		{
+			float2  sampleVec = input.Uv + vec[j] * SSAO_RAD * k;
+			float	ssaoDepthSample = depthTexture.Sample(SampleType, sampleVec);
+			float4  ssaoDepthPrepare = mul(float4(sampleVec.x * 2.0f - 1.0f, sampleVec.y * -2.0f + 1.0f, ssaoDepthSample, 1.0f), invViewProjMatrix);
+			float3 dif = ssaoDepthPrepare.xyz / ssaoDepthPrepare.w - worldPos;
+			float l = length(dif) * 0.05f;
+			dif = normalize(dif);
+
+			ssao += max(0.0f, dot(normal.xyz, dif) - 0.01f) * 1.0f / (10.0f + l);
+		}
+	}
+
+	ssao = 1.0f - ssao / 16.0f;
+
+
+
 		//NEW
 
-		float4 finalCol = diffuseSample * ambient + diffuseSample * (lightDiffuse * shadow);
-		finalCol = saturate(finalCol + float4(specularLight,1.0f));
+		float4 finalCol = diffuseSample * ( ambient * ssao + (lightDiffuse * shadow) );
+		finalCol = saturate(finalCol);
 
 	//float4 col				 = { finalCol,1.0 };		 //depthTexture.Sample(SampleType,input.Uv);
+
 
 
 	return finalCol;
