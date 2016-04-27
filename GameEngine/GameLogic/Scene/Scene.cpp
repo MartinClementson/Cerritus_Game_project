@@ -5,20 +5,12 @@
 
 Scene::Scene()
 {
-	/*this->bearTraps = new std::vector<BearTrap>;
-	this->fireTraps = new std::vector<FireTrap>;*/
-//	this->enemySpawn = new EnemySpawn;
-	//this->trap = new Trap;
 	collision = Collision::GetInstance();
-
 }
 
 
 Scene::~Scene()
 {
-
-	//delete this->enemySpawn;
-//	delete this->trap;
 
 
 	for (size_t i = 0; i < enemySpawns.size(); i++)
@@ -26,12 +18,6 @@ Scene::~Scene()
 
 	delete this->enemySpawns.at(i);
 	}
-	
-	/*delete this->sceneModels;
-	delete this->sceneLights;
-	delete this->enemySpawns;*/
-	//delete this->bearTraps;
-	//delete this->fireTraps;
 	for (unsigned int i = 0; i < fireTraps.size(); i++)
 	{
 		if (fireTraps.at(i))
@@ -64,12 +50,20 @@ void Scene::InitFireTrap()
 
 	for (int i = 0; i < trapAmount; i++)
 	{
-		XMFLOAT3 tmp; // randomizes the location of the beartrap
+		XMFLOAT3 tmp;
 		tmp.x = rand() % 150 - 85.0f;
 		tmp.y = 0;
 		tmp.z = rand() % 150 - 65.0f;
 		XMFLOAT3 pos = { tmp.x,tmp.y,tmp.z };
 		fireTraps.push_back(new FireTrap(pos));
+		/*if (fireTraps.at(i)->isActive == true)
+		{
+			TrapState::TRAP_ACTIVE_STATE;
+		}
+		else
+		{
+			TrapState::TRAP_IDLE_STATE;
+		}*/
 	}
 	
 }
@@ -78,10 +72,10 @@ void Scene::InitBearTrap()
 {
 	srand((unsigned int)time(0));
 	
-
+	
 	for (int i = 0; i < trapAmount; i++)
 	{
-		XMFLOAT3 tmp; // randomizes the location of the beartrap
+		XMFLOAT3 tmp;
 		tmp.x = rand() % 150 - 65.0f;
 		tmp.y = 0;
 		tmp.z = rand() % 150 - 85.0f;
@@ -89,6 +83,14 @@ void Scene::InitBearTrap()
 		BearTrap* temp = new BearTrap(pos);
 		temp->Initialize(pos,temp->GetRotation());
 		bearTraps.push_back(temp);
+	/*	if (bearTraps.at(i)->isActive == true)
+		{
+			TrapState::TRAP_ACTIVE_STATE;
+		}
+		else
+		{
+			TrapState::TRAP_IDLE_STATE;
+		}*/
 	}
 }
 

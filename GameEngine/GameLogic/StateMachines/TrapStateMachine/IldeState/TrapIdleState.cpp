@@ -1,6 +1,6 @@
 #include "TrapIdleState.h"
 
-
+/*here we take care of the traps when they have yet to be stepped on or activated*/
 
 TrapIdleState::TrapIdleState()
 {
