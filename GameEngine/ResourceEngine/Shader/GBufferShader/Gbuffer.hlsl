@@ -3,7 +3,7 @@ Texture2D diffuseTex			 : register(t0);
 Texture2D normalTex				 : register(t1);
 Texture2D specularTex			 : register(t2);
 Texture2D glowTex				 : register(t3);
-Texture2DArray shadowTex		 : register(t4);
+Texture2DArray shadowTex		 : register(t6);
 SamplerState samplerTypeState	 : register(s0);
 
 
@@ -112,9 +112,9 @@ void GBUFFER_GS_main(
 		GBUFFER_GS_OUT element;
 		element.Pos				 = mul(input[i].Pos, combinedMatrix);
 
-		element.Normal			 = normalize( mul( input[i].Normal,    world )).xyz;
-		element.BiTangent		 = normalize( mul( input[i].BiTangent, world )).xyz;
-		element.Tangent			 = normalize( mul( input[i].Tangent,   world )).xyz;									   							 
+		element.Normal			 = normalize( mul( float4(input[i].Normal,0.0f),    world ).xyz).xyz;
+		element.BiTangent		 = normalize( mul(float4(input[i].BiTangent,0.0f), world ).xyz).xyz;
+		element.Tangent			 = normalize( mul(float4(input[i].Tangent,0.0f),   world ).xyz).xyz;
 		element.Uv				 = input[i].Uv;
 		element.wPos			 = mul(input[i].Pos, world);
 		element.camPos			 = camPos;
@@ -262,60 +262,59 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 		output.glowRes = glowSample;
 	}
 
-	//shadowmap stuff
-	float4 shadowSample = float4(1, 1, 1, 1);
-	float tempCooef = 0;
-	float SMAP_SIZE = 2048.0;
-	uint lightAmount = 1;
-	for (int i = 0; i < lightAmount; i++)
-	{
-		
-		float bias;
-		float2 projectTexCoord;
-		float depthValue;
-		float lightDepthValue;
-		float lightIntensity;
-		float4 lightPos;
-		
+	////shadowmap stuff
+	//float4 shadowSample = float4(1, 1, 1, 1);
+	//float tempCooef = 0;
+	//float SMAP_SIZE = 2048.0;
+	//uint lightAmount = 1;
+	//for (uint i = 0; i < lightAmount; i++)
+	//{
+	//	
+	//	float bias;
+	//	float2 projectTexCoord;
+	//	float depthValue;
+	//	float lightDepthValue;
+	//	float lightIntensity;
+	//	float4 lightPos;
+	//	
 
-		////////////////BIAS IS HERE
-		bias = 0.001f;
+	//	////////////////BIAS IS HERE
+	//	bias = 0.001f;
 
-		lightPos				 = mul(input.wPos, lightView);
-		lightPos				 = mul(lightPos, lightProjection);
+	//	lightPos				 = mul(input.wPos, lightView);
+	//	lightPos				 = mul(lightPos, lightProjection);
 
-		projectTexCoord.x		 = lightPos.x / lightPos.w;
-		projectTexCoord.y		 = lightPos.y / lightPos.w;
+	//	projectTexCoord.x		 = lightPos.x / lightPos.w;
+	//	projectTexCoord.y		 = lightPos.y / lightPos.w;
 
-		lightDepthValue			 = lightPos.z / lightPos.w;
+	//	lightDepthValue			 = lightPos.z / lightPos.w;
 
-		projectTexCoord.x		 = projectTexCoord.x * 0.5f + 0.5f;
-		projectTexCoord.y		 = projectTexCoord.y * -0.5f + 0.5f;
+	//	projectTexCoord.x		 = projectTexCoord.x * 0.5f + 0.5f;
+	//	projectTexCoord.y		 = projectTexCoord.y * -0.5f + 0.5f;
 
-		depthValue = shadowTex.Sample(samplerTypeState, float3(projectTexCoord.xy, i)).r + bias;
+	//	depthValue = shadowTex.Sample(samplerTypeState, float3(projectTexCoord.xy, i)).r + bias;
 
-		//float tempSample = shadowTex.Sample(samplerTypeState, float3(projectTexCoord, i)).r
+	//	//float tempSample = shadowTex.Sample(samplerTypeState, float3(projectTexCoord, i)).r
 
-		float dx = 1.0f / SMAP_SIZE;
-		float s0 = (shadowTex.Sample(samplerTypeState, float3(projectTexCoord, i)).r							 + bias < lightDepthValue) ? 0.0f : 1.0f;
-		float s1 = (shadowTex.Sample(samplerTypeState, float3(projectTexCoord, i) + float3(dx, 0.0f, 0.0f)).r	 + bias < lightDepthValue) ? 0.0f : 1.0f;
-		float s2 = (shadowTex.Sample(samplerTypeState, float3(projectTexCoord, i) + float3(0.0f, dx, 0.0f)).r	 + bias < lightDepthValue) ? 0.0f : 1.0f;
-		float s3 = (shadowTex.Sample(samplerTypeState, float3(projectTexCoord, i) + float3(dx, dx, 0.0f)).r		 + bias < lightDepthValue) ? 0.0f : 1.0f;
+	//	float dx = 1.0f / SMAP_SIZE;
+	//	float s0 = (shadowTex.Sample(samplerTypeState, float3(projectTexCoord, i)).r							 + bias < lightDepthValue) ? 0.0f : 1.0f;
+	//	float s1 = (shadowTex.Sample(samplerTypeState, float3(projectTexCoord, i) + float3(dx, 0.0f, 0.0f)).r	 + bias < lightDepthValue) ? 0.0f : 1.0f;
+	//	float s2 = (shadowTex.Sample(samplerTypeState, float3(projectTexCoord, i) + float3(0.0f, dx, 0.0f)).r	 + bias < lightDepthValue) ? 0.0f : 1.0f;
+	//	float s3 = (shadowTex.Sample(samplerTypeState, float3(projectTexCoord, i) + float3(dx, dx, 0.0f)).r		 + bias < lightDepthValue) ? 0.0f : 1.0f;
 
-		float2 texelpos = projectTexCoord * SMAP_SIZE;
-		float2 lerps = frac(texelpos);
-		float shadowcooef = lerp(lerp(s0, s1, lerps.x), lerp(s2, s3, lerps.x), lerps.y);
+	//	float2 texelpos		 = projectTexCoord * SMAP_SIZE;
+	//	float2 lerps		 = frac(texelpos);
+	//	float shadowcooef	 = lerp(lerp(s0, s1, lerps.x), lerp(s2, s3, lerps.x), lerps.y);
 
-		tempCooef += shadowcooef;
-	}
-	shadowSample = shadowSample * tempCooef;
-	shadowSample = saturate(shadowSample);
-	output.shadowRes = shadowSample;
+	//	tempCooef			+= shadowcooef;
+	//}
+	//shadowSample			= shadowSample * tempCooef;
+	//shadowSample			= saturate(shadowSample);
+	//output.shadowRes		= shadowSample;
 
 	float depth = input.Pos.z / input.Pos.w;
 	output.depthRes = float4(depth, depth, depth, 1.0);
 
-	output.depthRes = output.depthRes;
 	return output;
 }
 

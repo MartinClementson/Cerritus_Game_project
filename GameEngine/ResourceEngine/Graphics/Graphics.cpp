@@ -21,7 +21,8 @@ Graphics::~Graphics()
 		delete trapObjects;
 
 
-
+	if (shadowBuffer != nullptr)
+		delete shadowBuffer;
 	if (renderer != nullptr)
 		delete renderer;
 

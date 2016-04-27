@@ -7,10 +7,10 @@ Renderer::Renderer()
 	this->sceneCam			= new Camera();
 	this->resourceManager	= new ResourceManager();
 	this->sceneLightArray	= new LightStruct(
-		XMFLOAT4(0.0f, 100.0f, 50.0f, 1.0f), //Pos
+		XMFLOAT4(0.0f, 30.0f, 0.0f, 1.0f), //Pos
 		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f),	//Direction
 		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));	//Color
-	sceneLightArray->SetMatrices(XM_PI*0.5, 1.0f, 70.0f, 160.0f);
+	sceneLightArray->SetMatrices(XM_PI*0.5, 1.0f, 5.0f, 40.0f);
 	sceneLightArray->intensity = 1.0f;
 }
 
@@ -287,7 +287,7 @@ void Renderer::UpdateCameraBuffer()
 	
 
 	gDeviceContext->Unmap(this->camBuffer, 0);
-	gDeviceContext->VSSetConstantBuffers(CAMERABUFFER_INDEX, 1, &this->camBuffer);
+	
 	gDeviceContext->GSSetConstantBuffers(CAMERABUFFER_INDEX, 1, &this->camBuffer);
 	gDeviceContext->PSSetConstantBuffers(CAMERABUFFER_INDEX, 1, &this->camBuffer);
 
@@ -312,7 +312,7 @@ void Renderer::UpdateLightBuffer()
 
 
 	gDeviceContext->Unmap(this->lightBuffer, 0);
-	gDeviceContext->VSSetConstantBuffers(LIGHTBUFFER_INDEX, 1, &this->lightBuffer);
+
 	gDeviceContext->GSSetConstantBuffers(LIGHTBUFFER_INDEX, 1, &this->lightBuffer);
 	gDeviceContext->PSSetConstantBuffers(LIGHTBUFFER_INDEX, 1, &this->lightBuffer);
 
@@ -335,7 +335,6 @@ void Renderer::UpdateWorldBuffer(WorldMatrix* worldStruct)
 	
 
 	this->gDeviceContext->Unmap(worldBuffer, 0);
-	gDeviceContext->VSSetConstantBuffers(WORLDBUFFER_INDEX, 1, &this->worldBuffer);
 	gDeviceContext->GSSetConstantBuffers(WORLDBUFFER_INDEX, 1, &this->worldBuffer);
 	gDeviceContext->PSSetConstantBuffers(WORLDBUFFER_INDEX, 1, &this->worldBuffer);
 

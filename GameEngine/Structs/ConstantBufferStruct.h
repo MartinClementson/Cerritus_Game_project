@@ -29,7 +29,7 @@ struct LightStruct
 	float intensity;
 	DirectX::XMFLOAT3 Pad;
 	void SetMatrices(float fov, float aspectRatio, float nearZ, float farZ) {
-
+		
 		DirectX::XMMATRIX tempView = DirectX::XMMatrixLookAtLH(
 			DirectX::XMLoadFloat4(&this->lightPosition),
 			DirectX::XMLoadFloat4(&this->lightDir),
@@ -37,6 +37,7 @@ struct LightStruct
 
 		DirectX::XMStoreFloat4x4(&this->lightView, DirectX::XMMatrixTranspose(tempView));
 
+		//DirectX::XMMATRIX tempProj = DirectX::XMMatrixOrthographicLH(2048.0f, 2048.0f, nearZ, farZ);
 		DirectX::XMMATRIX tempProj = DirectX::XMMatrixPerspectiveFovLH(fov, aspectRatio, nearZ, farZ);
 		DirectX::XMStoreFloat4x4(&this->lightProjection, DirectX::XMMatrixTranspose(tempProj));
 	};
@@ -48,6 +49,7 @@ struct LightStruct
 		this->lightDir				 = dir;
 		this->lightDiffuse			 = diffuse;
 	};
+
 
 };
 

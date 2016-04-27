@@ -85,7 +85,7 @@ void ShadowBuffer::ShadowSetToRender()
 }
 void ShadowBuffer::ShadowSetToRead()
 {
-	this->gDeviceContext->PSSetShaderResources(4, SHADOWMAPAMOUNT, &this->shadowShaderResourceView);
+	this->gDeviceContext->PSSetShaderResources(6, SHADOWMAPAMOUNT, &this->shadowShaderResourceView);
 }
 
 void ShadowBuffer::ClearShadowGbuffer()

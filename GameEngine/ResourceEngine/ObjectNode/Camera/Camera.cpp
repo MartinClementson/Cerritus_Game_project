@@ -28,7 +28,7 @@ void Camera::Initialize(ID3D11Device *gDevice,ID3D11DeviceContext *gDeviceContex
 	//									Projection Matrix
 	float fovangleY				 = XM_PI * 0.45f;
 	float aspectRatio			 = float(WIN_WIDTH / WIN_HEIGHT);
-	float farZ					 = 50000.0f;
+	float farZ					 = 200.0f;
 	float nearZ					 = 0.01f;
 
 
