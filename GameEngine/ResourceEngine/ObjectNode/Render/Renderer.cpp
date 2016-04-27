@@ -8,9 +8,9 @@ Renderer::Renderer()
 	this->resourceManager	= new ResourceManager();
 	this->sceneLightArray	= new LightStruct(
 		XMFLOAT4(0.0f, 30.0f, 0.0f, 1.0f), //Pos
-		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f),	//Direction
+		XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f),	//Direction
 		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));	//Color
-	sceneLightArray->SetMatrices(XM_PI*0.5, 1.0f, 5.0f, 40.0f);
+	sceneLightArray->SetMatrices(XM_PI*0.8f, 1.0f, 5.0f, 40.0f);
 	sceneLightArray->intensity = 1.0f;
 }
 

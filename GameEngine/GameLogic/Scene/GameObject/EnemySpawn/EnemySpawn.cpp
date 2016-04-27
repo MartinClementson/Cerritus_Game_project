@@ -32,7 +32,7 @@ void EnemySpawn::Release()
 }
 void EnemySpawn::Update(double deltaTime)
 {
-	if (Alive.size() <= 10)
+	if (Alive.size() <= 5)
 	{
 		SpawnEnemy();
 	}
@@ -61,7 +61,7 @@ void EnemySpawn::SpawnEnemy()
 	bool done = false;
 	int i = 0;
 
-	while (done == false || i > (int)Queue.size())
+	while (done == false || i == (int)Queue.size())
 	{
 		if (!Queue.at(i)->isAlive)
 		{
@@ -87,7 +87,7 @@ void EnemySpawn::SpawnEnemy()
 
 void EnemySpawn::InitEnemy()
 {
-	unsigned int waveAmount = 20;
+	unsigned int waveAmount = 10;
 
 
 	for (size_t i = 0; i < waveAmount; i++)

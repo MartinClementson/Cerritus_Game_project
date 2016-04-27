@@ -33,7 +33,7 @@ struct LightStruct
 		DirectX::XMMATRIX tempView = DirectX::XMMatrixLookAtLH(
 			DirectX::XMLoadFloat4(&this->lightPosition),
 			DirectX::XMLoadFloat4(&this->lightDir),
-			DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f));
+			DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f));
 
 		DirectX::XMStoreFloat4x4(&this->lightView, DirectX::XMMatrixTranspose(tempView));
 
