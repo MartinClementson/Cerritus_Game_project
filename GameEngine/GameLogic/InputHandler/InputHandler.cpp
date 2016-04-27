@@ -136,6 +136,10 @@ bool InputHandler::IsKeyPressed(InputKeys* key)
 	{
 		return true;
 	}
+	else if (*key == KEY_P && keyboardState[DIK_P])
+	{
+		return true;
+	}
 	else
 	{
 		return false;

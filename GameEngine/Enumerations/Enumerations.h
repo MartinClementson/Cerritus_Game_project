@@ -123,6 +123,7 @@ enum InputKeys
 	KEY_A,
 	KEY_S,
 	KEY_D,
+	KEY_P,
 	KEY_LEFT,
 	KEY_RIGHT,
 	KEY_UP,
@@ -130,6 +131,7 @@ enum InputKeys
 	KEY_SPACE,
 	KEY_ENTER,
 	KEY_ESC,
+	
 
 	MOUSE_RIGHT,
 	MOUSE_LEFT

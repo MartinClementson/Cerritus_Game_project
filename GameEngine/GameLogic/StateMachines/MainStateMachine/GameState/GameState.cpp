@@ -6,6 +6,7 @@ GameState::GameState()
 {
 	this->death = new MainDeathState();
 	this->pause = new MainPausedState();
+	this->menu = new MenuState();
 	this->player = new Player();
 	this->input = Input::GetInstance();
 	this->room1 = new Scene();
@@ -20,6 +21,7 @@ GameState::~GameState()
 	delete this->pause;
 	delete this->player;
 	delete this->room1;
+	delete this->menu;
 
 }
 
@@ -29,9 +31,11 @@ void GameState::Initialize()
 	player->Initialize();
 	death->Initialize();
 	pause->Initialize();
+	menu->Initialize();
 	death->isActive = false;
 	pause->isActive = false;
 	isPlayerDead = false;
+	toMenu = false;
 	//Create room one here
 	timeSincePaused = 0.0f;
 	room1->Initialize();
@@ -52,6 +56,7 @@ void GameState::Release()
 	input->Release();
 	player->Release();
 	room1->Release();
+	menu->Release();
 
 }
 
@@ -59,101 +64,104 @@ void GameState::Update(double deltaTime)
 {
 
 	ProcessInput(&deltaTime);
-	if (!pause->isActive)
-	{
-
-		if (player->GetHealth() <= 0)
-		{
-			isPlayerDead = true;
-			//isActive = false;
-		}
-		ProcessInput(&deltaTime);
-		XMFLOAT2 mouseXY = input->GetMousePosition();
-
-		XMFLOAT3 dir = Graphics::GetInstance()->GetPlayerDirection(mouseXY, player->GetPosition());
-
-		for (size_t j = 0; j < room1->enemySpawns.size(); j++)
+	
+	
+		if (!pause->isActive) //&& !menu->isActive)
 		{
 
-			for (size_t i = 0; i < room1->enemySpawns.at(j)->Alive.size(); i++)
+			if (player->GetHealth() <= 0)
 			{
-				room1->enemySpawns.at(j)->Alive.at(i)->AIPattern(player, deltaTime);
+				isPlayerDead = true;
+				//isActive = false;
 			}
-		}
+			ProcessInput(&deltaTime);
+			XMFLOAT2 mouseXY = input->GetMousePosition();
 
+			XMFLOAT3 dir = Graphics::GetInstance()->GetPlayerDirection(mouseXY, player->GetPosition());
 
-		player->Update(deltaTime, dir);
-
-		room1->Update(deltaTime);
-
-		size_t i = 0;
-		while (i < player->projectileSystem->projectiles.size())
-		{
-			for (size_t k = 0; k < room1->enemySpawns.size(); k++)
+			for (size_t j = 0; j < room1->enemySpawns.size(); j++)
 			{
 
-				size_t j = 0;
-				while (j < room1->enemySpawns.at(k)->Alive.size())
+				for (size_t i = 0; i < room1->enemySpawns.at(j)->Alive.size(); i++)
 				{
-					if (collision->ProjectileEnemyCollision(
-						player->projectileSystem->
-						projectiles.at(i),
-
-						room1->enemySpawns.at(k)->
-						Alive.at(j))
-
-						&& room1->enemySpawns.at(k)->
-						Alive.at(j)->isAlive == true)
-					{
-						//not alive anymore
-						//MessageBox(0, L"You have Collided",
-						//	L"LOL", MB_OK);
-						if (room1->enemySpawns.at(k)->Alive.at(j)->GetHealth() <= 10.0f)
-						{
-
-							room1->enemySpawns.at(k)->Alive.at(j)->isAlive = false;
-							room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(100.0f);
-
-							room1->enemySpawns.at(k)->
-								Queue.push_back(
-									room1->enemySpawns.at(k)->
-									Alive.at(j)
-									);
-
-							room1->enemySpawns.at(k)->
-								Alive.erase(
-									room1->enemySpawns.at(k)->
-									Alive.begin() + j
-									);
-
-						}
-						else
-						{
-							float tmpEnemyHealth = room1->enemySpawns.at(k)->Alive.at(j)->GetHealth();
-							room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(tmpEnemyHealth - 30.0f);
-						}
-						if (player->projectileSystem->projectiles.size() > 0)
-						{
-							player->projectileSystem->projectiles.at(i)->SetFired(false);
-						}
-
-
-					}
-					j++;
+					room1->enemySpawns.at(j)->Alive.at(i)->AIPattern(player, deltaTime);
 				}
 			}
-			i++;
+
+
+			player->Update(deltaTime, dir);
+
+			room1->Update(deltaTime);
+
+			size_t i = 0;
+			while (i < player->projectileSystem->projectiles.size())
+			{
+				for (size_t k = 0; k < room1->enemySpawns.size(); k++)
+				{
+
+					size_t j = 0;
+					while (j < room1->enemySpawns.at(k)->Alive.size())
+					{
+						if (collision->ProjectileEnemyCollision(
+							player->projectileSystem->
+							projectiles.at(i),
+
+							room1->enemySpawns.at(k)->
+							Alive.at(j))
+
+							&& room1->enemySpawns.at(k)->
+							Alive.at(j)->isAlive == true)
+						{
+							//not alive anymore
+							//MessageBox(0, L"You have Collided",
+							//	L"LOL", MB_OK);
+							if (room1->enemySpawns.at(k)->Alive.at(j)->GetHealth() <= 10.0f)
+							{
+
+								room1->enemySpawns.at(k)->Alive.at(j)->isAlive = false;
+								room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(100.0f);
+
+								room1->enemySpawns.at(k)->
+									Queue.push_back(
+										room1->enemySpawns.at(k)->
+										Alive.at(j)
+										);
+
+								room1->enemySpawns.at(k)->
+									Alive.erase(
+										room1->enemySpawns.at(k)->
+										Alive.begin() + j
+										);
+
+							}
+							else
+							{
+								float tmpEnemyHealth = room1->enemySpawns.at(k)->Alive.at(j)->GetHealth();
+								room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(tmpEnemyHealth - 30.0f);
+							}
+							if (player->projectileSystem->projectiles.size() > 0)
+							{
+								player->projectileSystem->projectiles.at(i)->SetFired(false);
+							}
+
+
+						}
+						j++;
+					}
+				}
+				i++;
+			}
+			/*if (index < 1)
+			{
+				index++;
+			}
+			else if (index == 1)
+			{
+				pause->isActive = true;
+				index++;
+			}*/
 		}
-		/*if (index < 1)
-		{
-			index++;
-		}
-		else if (index == 1)
-		{
-			pause->isActive = true;
-			index++;
-		}*/
-	}
+	
 }
 
 void GameState::ProcessInput(double* deltaTime)
@@ -232,6 +240,11 @@ void GameState::ProcessInput(double* deltaTime)
 
 #pragma endregion
 
+		if (input->IsKeyPressed(KEY_P))
+		{
+			menu->isActive = true;
+			toMenu = true;
+		}
 
 		if (input->IsKeyPressed(KEY_ENTER) && timeSincePaused >0.2f)
 		{
@@ -250,6 +263,16 @@ void GameState::ProcessInput(double* deltaTime)
 	}
 }
 
+void GameState::SetMenu(bool toMenu)
+{
+	this->toMenu = toMenu;
+}
+
+bool GameState::GetMenu()
+{
+	return toMenu;
+}
+
 void GameState::SetIsActive(bool isPlayerDead)
 {
 	this->isPlayerDead = isPlayerDead;
@@ -258,6 +281,15 @@ void GameState::SetIsActive(bool isPlayerDead)
 bool GameState::GetIsActive()
 {
 	return isPlayerDead;
+}
+
+void GameState::SetIsPaused(bool gamePaused)
+{
+}
+
+bool GameState::GetPaused()
+{
+	return false;
 }
 
 void GameState::Render()
