@@ -60,12 +60,13 @@ VS_OUT VS_main( VS_IN input)
 
 SamplerState SampleType;
 
-Texture2D diffuseTexture	 : register(t0);
-Texture2D specularTexture	 : register(t1);
-Texture2D normalTexture		 : register(t2);
-Texture2D depthTexture		 : register(t3);
-Texture2D positionTexture	 : register(t4);
-Texture2DArray shadowTex	: register(t6);
+Texture2D		diffuseTexture		 : register(t0);
+Texture2D		specularTexture		 : register(t1);
+Texture2D		normalTexture		 : register(t2);
+Texture2D		depthTexture		 : register(t3);
+Texture2D		positionTexture		 : register(t4);
+Texture2D		glowTexture			 : register(t5);
+Texture2DArray  shadowTex			 : register(t6);
 
 
 
