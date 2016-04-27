@@ -44,6 +44,7 @@ bool Collision::bearTrapPlayerCollision(BearTrap * trap)
 		if (trap->isActive)
 		{
 			player->VelocityMax = 0.2f;
+			player->SetMulti(1);
 		}
 		return true;
 		
@@ -158,6 +159,11 @@ bool Collision::ProjectileEnemyCollision(Projectile* projectile,Enemy* enemy)
 Collision::~Collision()
 {
 
+}
+
+Player* Collision::GetPlayer()
+{
+	return this->player;
 }
 
 

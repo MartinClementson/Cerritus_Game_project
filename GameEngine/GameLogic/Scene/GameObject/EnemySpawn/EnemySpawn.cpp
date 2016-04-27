@@ -5,6 +5,7 @@
 EnemySpawn::EnemySpawn()
 {
 	this->collision = Collision::GetInstance();
+	this->firstSpawn = false;
 }
 
 EnemySpawn::~EnemySpawn()
@@ -32,21 +33,38 @@ void EnemySpawn::Release()
 }
 void EnemySpawn::Update(double deltaTime)
 {
+
 	for (size_t i = 0; i < Alive.size(); i++)
 	{
 		Alive.at(i)->Update(deltaTime);
-		if (Alive.at(i)->GetHealth() <= 0 && Alive.at(i)->isAlive == true)
+		if (Alive.at(i)->GetHealth() <= 0 &&
+			Alive.at(i)->GetStateMachine()->
+				GetActiveState() == EnemyState::ENEMY_ATTACK_STATE)
 		{
+			Player* player;
+			player = collision->GetPlayer();
+			player->SetMulti(player->GetMulti() + 0.1f);
+			player->SetPoints(player->GetPoints() + 10.0f*player->GetMulti());
+
 			Alive.at(i)->isAlive = false;
 			Alive.at(i)->SetHealth(100.0f);
+			Alive.at(i)->GetStateMachine()->
+				SetActiveState(EnemyState::ENEMY_DEATH_STATE);
 
 			Queue.push_back(Alive.at(i));
+
 			Alive.erase(Alive.begin() + i);
 		}		
 	}
-	if (Alive.size() <= 10)
+	if (Alive.size() == 0)
 	{
-		SpawnEnemy();
+		spawnTimer += (float)deltaTime;
+		if (spawnTimer >= 3 || !firstSpawn)
+		{
+			SpawnEnemy();
+			spawnTimer = 0;
+		}
+		
 	}
 	for (int i = 0; i < (int)Alive.size(); i++)
 	{
@@ -71,10 +89,12 @@ void EnemySpawn::Update(double deltaTime)
 
 void EnemySpawn::SpawnEnemy()
 {
-	bool done = false;
-	int i = 0;
+	//bool done = false;
+	firstSpawn = true;
+	//int i = 0;
 
-	while (done == false || i > (int)Queue.size())
+	//while (done == false || i > (int)Queue.size())
+	for(size_t i = 0; i< Queue.size(); i++)
 	{
 		if (!Queue.at(i)->isAlive)
 		{
@@ -93,9 +113,9 @@ void EnemySpawn::SpawnEnemy()
 			Queue.erase(Queue.begin() + i);
 			
 
-			done = true;
+			//done = true;
 		}
-		i++;
+		//i++;
 	}
 }
 

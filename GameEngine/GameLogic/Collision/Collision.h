@@ -41,6 +41,8 @@ public:
 
 	bool PlayerCollision(Enemy* enemy);
 	bool ProjectileEnemyCollision(Projectile* projectile, Enemy* enemy);
+
+	Player* GetPlayer();
 	
 	static Collision* GetInstance();
 

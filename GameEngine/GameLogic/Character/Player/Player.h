@@ -77,6 +77,10 @@ public:
 	float slowTimer;
 	float GetHealth();
 	void SetHealth(float health);
+	void SetPoints(float points);
+	float GetPoints();
+	void SetMulti(float multi);
+	float GetMulti();
 
 
 public:
@@ -97,6 +101,9 @@ private:
 	Vec3 acceleration		= Vec3(0.0f, 0.0f, 0.0f);
 	float fallOfFactor		= 8.0f; //the bigger number, the faster fallOff , this is like friction
 	float maxAcceleration	= 5.0f;
+	float points;
+	float multiplier;
+
 
 	
 

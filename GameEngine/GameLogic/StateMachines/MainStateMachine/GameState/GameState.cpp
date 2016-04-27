@@ -105,29 +105,7 @@ void GameState::Update(double deltaTime)
 						&& room1->enemySpawns.at(k)->
 						Alive.at(j)->isAlive == true)
 					{
-						//not alive anymore
-						//MessageBox(0, L"You have Collided",
-						//	L"LOL", MB_OK);
-						if (room1->enemySpawns.at(k)->Alive.at(j)->GetHealth() <= 10.0f)
-						{
-
-							room1->enemySpawns.at(k)->Alive.at(j)->isAlive = false;
-							room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(100.0f);
-
-							room1->enemySpawns.at(k)->
-								Queue.push_back(
-									room1->enemySpawns.at(k)->
-									Alive.at(j)
-									);
-
-							room1->enemySpawns.at(k)->
-								Alive.erase(
-									room1->enemySpawns.at(k)->
-									Alive.begin() + j
-									);
-
-						}
-						else
+						if(room1->enemySpawns.at(k)->Alive.at(j)->GetHealth() > 0.0f)
 						{
 							float tmpEnemyHealth = room1->enemySpawns.at(k)->Alive.at(j)->GetHealth();
 							room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(tmpEnemyHealth - 30.0f);

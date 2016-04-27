@@ -60,6 +60,8 @@ void Player::Initialize()
 	VelocityMax = 4.0f;
 	slowTimer = 0;
 	radius				 = 1.0f;
+	points = 0;
+	multiplier = 1;
 	DoT = 0.0f;
 	DoTDur = 0.0f;
 	health = 100.0f;
@@ -232,4 +234,24 @@ float Player::GetHealth()
 void Player::SetHealth(float health)
 {
 	this->health = health;
+}
+
+void Player::SetPoints(float points)
+{
+	this->points = points;
+}
+
+float Player::GetPoints()
+{
+	return this->points;
+}
+
+void Player::SetMulti(float multi)
+{
+	this->multiplier = multi;
+}
+
+float Player::GetMulti()
+{
+	return this->multiplier;
 }
