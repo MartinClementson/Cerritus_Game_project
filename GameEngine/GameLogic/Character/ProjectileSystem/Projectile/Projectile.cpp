@@ -56,6 +56,7 @@ void Projectile::Initialize(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 directio
 	position.y			= 1.0f;
 	this->direction		= direction;
 	this->rotation		= rotation;
+	this->renderInfo.object = MeshEnum::PROJECTILE_1;
 	
 
 	this->radius = 1.0f;
@@ -80,6 +81,7 @@ void Projectile::Update(double deltatime)
 
 		renderInfo.position = position;
 		renderInfo.rotation = this->rotation;
+		renderInfo.rotation.y += 180;
 		
 	}
 	if (age >= 2.5f)
