@@ -34,6 +34,7 @@ public:
 	float DoT;
 	float DoTDur;
 
+
 	//Collision();
 };
 

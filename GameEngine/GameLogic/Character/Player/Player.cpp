@@ -75,7 +75,7 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 {
 	if (VelocityMax == 0.2f)
 	{
-		slowTimer += deltaTime;
+		slowTimer += (float)deltaTime;
 		
 	}
 	if (slowTimer > 3.0f)
@@ -177,24 +177,25 @@ void Player::Move(MovementDirection* dir, int keyAmount, double deltaTime)
 	{
 		if (dir[i] == UP)
 		{
-			acceleration.z = maxAcceleration;
+			acceleration.z = maxAcceleration / keyAmount;
 		}
 
 		if (dir[i] == DOWN)
 		{
-			acceleration.z = -maxAcceleration;
+			acceleration.z = -maxAcceleration / keyAmount;
 		}
 		if (dir[i] == LEFT)
 		{
-			acceleration.x = -maxAcceleration;
+			acceleration.x = -maxAcceleration / keyAmount;
 		}
 		if (dir[i] == RIGHT)
 		{
-			acceleration.x = maxAcceleration;
+			acceleration.x = maxAcceleration / keyAmount;
 		}
 
-		float len = acceleration.Length();
 
+	}
+		float len = acceleration.Length();
 		if (len > maxAcceleration)
 		{
 			Vec3 normalizer	  = acceleration.Normalize();
@@ -204,7 +205,6 @@ void Player::Move(MovementDirection* dir, int keyAmount, double deltaTime)
 
 
 		}
-	}
 
 
 }
