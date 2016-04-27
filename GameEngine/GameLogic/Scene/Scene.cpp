@@ -148,6 +148,17 @@ void Scene::Update(double deltaTime)
 		{
 			if (bearTraps.at(i)->isActive)
 			{
+				collision->PlayerProxyTrap(bearTraps.at(i));
+				for (size_t j = 0; j < enemySpawns.size(); j++)
+				{
+					for (size_t k = 0; k < enemySpawns.at(j)->Alive.size(); k++)
+					{
+						collision->EnemyProxTrap(bearTraps.at(i),
+							enemySpawns.at(j)->Alive.at(k))
+							&& bearTraps.at(i)->isActive;
+						
+					}
+				}
 				bearTraps.at(i)->isActive = false;
 			}
 
@@ -160,7 +171,17 @@ void Scene::Update(double deltaTime)
 					enemySpawns.at(j)->Alive.at(k))
 					&& bearTraps.at(i)->isActive)
 				{
-					//shitall
+					collision->PlayerProxyTrap(bearTraps.at(i));
+					for (size_t j2 = 0; j2 < enemySpawns.size(); j2++)
+					{
+						for (size_t k2 = 0; k2 < enemySpawns.at(j2)->Alive.size(); k2++)
+						{
+							collision->EnemyProxTrap(bearTraps.at(i),
+								enemySpawns.at(j2)->Alive.at(k2))
+								&& bearTraps.at(i)->isActive;
+						}
+					}
+					bearTraps.at(i)->isActive = false;
 				}
 			}
 		}

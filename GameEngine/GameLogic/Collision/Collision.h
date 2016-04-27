@@ -33,7 +33,9 @@ public:
 	void AddTrap(FireTrap* fTraps,BearTrap* bTraps);
 
 	bool bearTrapPlayerCollision(BearTrap * trap);
+	bool PlayerProxyTrap(BearTrap * trap);
 	bool bearTrapEnemyCollision(BearTrap * trap, Enemy *enemy);
+	bool Collision::EnemyProxTrap(BearTrap * trap, Enemy * enemy);
 
 	bool fireTrapPlayerCollision(FireTrap* trap);
 	bool fireTrapEnemyCollision(FireTrap* trap, Enemy * enemy);
