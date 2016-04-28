@@ -21,7 +21,7 @@ private:
 	ResourceManager* resourceManager		 = nullptr;
 
 	Camera* sceneCam						 = nullptr;
-	LightStruct* sceneLightArray			 = nullptr;
+	PointLight* sceneLightArray				 = nullptr;
 
 	//Buffers
 	ID3D11Buffer* worldBuffer				 = nullptr; //world constBuffer
