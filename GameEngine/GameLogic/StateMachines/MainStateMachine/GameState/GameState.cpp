@@ -104,6 +104,7 @@ void GameState::Update(double deltaTime)
 
 						&& room1->enemySpawns.at(k)->
 						Alive.at(j)->isAlive == true)
+						
 						j++;
 				}
 			}

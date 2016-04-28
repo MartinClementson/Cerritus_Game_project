@@ -30,7 +30,7 @@ Enemy::~Enemy()
 void Enemy::Initialize()
 {
 	graphics = Graphics::GetInstance();
-	movementSpeed = 20.0f;
+	movementSpeed = 15.0f;
 
 	health = 100.0f;
 	DoT = 0;
@@ -186,22 +186,3 @@ void Enemy::EnemyWithEnemyCollision(Enemy* enemy, Enemy* enemys, double deltaTim
 	enemys->position.x -= dir.x * (float)deltaTime * movementSpeed;
 	enemys->position.z -= dir.z * (float)deltaTime * movementSpeed;
 }
-
-//void Enemy::EnemyWithBeartrap(BearTrap* bear, Enemy* enemy, double deltaTime)
-//{
-//	XMFLOAT3 enemyPos;
-//	XMFLOAT3 bearPos;
-//	Vec3 dir;
-//	
-//	enemyPos = enemy->GetPosition();
-//	bearPos = bear->GetPosition();
-//
-//	dir.x = enemyPos.x - bearPos.x;
-//	dir.z = enemyPos.z - bearPos.z;
-//
-//	dir.Normalize();
-//
-//	enemy->position.x -= dir.x * (float)deltaTime * movementSpeed;
-//	enemy->position.z -= dir.z * (float)deltaTime * movementSpeed;
-//}
-//

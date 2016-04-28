@@ -179,16 +179,7 @@ bool Collision::PlayerCollision(Enemy* enemy)
 	{
 		if (enemy->isAlive)
 		{
-			player->SetHealth(player->GetHealth() - 0.5f);
-			if (player->GetHealth() == 0.0f) 
-			{
-				MessageBox(
-					NULL,
-					(LPCWSTR)L"Do you want to play again??",
-					(LPCWSTR)L"Dead son",
-					MB_ICONWARNING | MB_CANCELTRYCONTINUE | MB_DEFBUTTON2
-				);
-			}
+			player->SetHealth(player->GetHealth() - 15.0f);
 		}
 		return true;
 	}
