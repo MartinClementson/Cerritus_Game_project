@@ -9,13 +9,14 @@ class MaterialManager
 private:
 	std::vector<Material>* materials;
 	TextureManager* textureManager;
-	bool CompareImportMaterials(importedMaterial* import);
 public:
 	MaterialManager();
 	~MaterialManager();
 	void Initialize(ID3D11Device* gDevice);
 	void Release();
 	
+	bool CompareMaterialsAt(importedMaterial* import, unsigned int materialID);
+	bool CompareImportMaterials(importedMaterial* import);
 	void addMaterials(std::vector<importedMaterial>* import);
 	void GetMaterialRenderInfo(RenderInstructions * toRender);
 	//RenderInstructions* GetMaterialRenderInfo(unsigned int materialID);
