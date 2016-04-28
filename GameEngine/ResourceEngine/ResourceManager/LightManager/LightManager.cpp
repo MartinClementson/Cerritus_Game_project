@@ -94,12 +94,15 @@ void LightManager::Release()
 
 PointLightStruct * LightManager::GetPointLightStruct()
 {
-
+	static float z = 5.5f;						 //TEMPORARY
+	static float x = 5.5f;						 //TEMPORARY
 	for (size_t i = 0; i < numActivePointLights; i++)
 	{
-		pointLights[i]->intensity += 0.01;
+		pointLights[i]->lightPosition.z = 60;
+		//pointLights[i]->lightPosition.x = +z;
 		pointLightStruct.pointLights[i] = *pointLights[i];
-		
+		x +=  (float) cos(z)* 0.006f * i;					 //TEMPORARY
+		z +=  (float)sin(x)* 0.06f * i;					 //TEMPORARY
 	}
 	return &pointLightStruct;
 }
