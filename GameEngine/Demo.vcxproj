@@ -240,6 +240,7 @@
     <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\IldeState\TrapIdleState.h" />
     <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\InactiveState\InactiveState.h" />
     <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\TrapStateMachine.h" />
+    <ClInclude Include="LightStructs.h" />
     <ClInclude Include="LightManager.h" />
     <ClInclude Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.h" />
     <ClInclude Include="ResourceEngine\Graphics\Graphics.h" />

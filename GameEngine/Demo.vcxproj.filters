@@ -585,6 +585,9 @@
     <ClInclude Include="LightManager.h">
       <Filter>ResourceEngine\ResourceManager\LightManager</Filter>
     </ClInclude>
+    <ClInclude Include="LightStructs.h">
+      <Filter>Structs</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ResourceEngine\Shader\GBufferShader\Gbuffer.hlsl">
