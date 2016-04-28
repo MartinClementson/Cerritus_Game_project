@@ -391,7 +391,7 @@
     <ClCompile Include="ResourceEngine\Graphics\ShadowBuffer\ShadowBuffer.cpp">
       <Filter>ResourceEngine\Graphics\ShadowBuffer</Filter>
     </ClCompile>
-    <ClCompile Include="LightManager.cpp">
+    <ClCompile Include="ResourceEngine\ResourceManager\LightManager\LightManager.cpp">
       <Filter>ResourceEngine\ResourceManager\LightManager</Filter>
     </ClCompile>
   </ItemGroup>
@@ -570,11 +570,11 @@
     <ClInclude Include="ResourceEngine\Graphics\ShadowBuffer\ShadowBuffer.h">
       <Filter>ResourceEngine\Graphics\ShadowBuffer</Filter>
     </ClInclude>
-    <ClInclude Include="LightManager.h">
-      <Filter>ResourceEngine\ResourceManager\LightManager</Filter>
-    </ClInclude>
     <ClInclude Include="LightStructs.h">
       <Filter>Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ResourceManager\LightManager\LightManager.h">
+      <Filter>ResourceEngine\ResourceManager\LightManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

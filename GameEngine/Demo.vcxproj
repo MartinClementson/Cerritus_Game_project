@@ -182,7 +182,6 @@
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\IldeState\TrapIdleState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\InactiveState\InactiveState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\TrapStateMachine.cpp" />
-    <ClCompile Include="LightManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.cpp" />
     <ClCompile Include="ResourceEngine\Graphics\Graphics.cpp" />
@@ -192,6 +191,7 @@
     <ClCompile Include="ResourceEngine\ObjectNode\ObjectNode.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\Render\Renderer.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.cpp" />
+    <ClCompile Include="ResourceEngine\ResourceManager\LightManager\LightManager.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\MaterialManager\MaterialManager.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\MeshManager\MeshManager.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\ResourceManager.cpp" />
@@ -240,7 +240,6 @@
     <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\InactiveState\InactiveState.h" />
     <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\TrapStateMachine.h" />
     <ClInclude Include="LightStructs.h" />
-    <ClInclude Include="LightManager.h" />
     <ClInclude Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.h" />
     <ClInclude Include="ResourceEngine\Graphics\Graphics.h" />
     <ClInclude Include="ResourceEngine\Graphics\ShadowBuffer\ShadowBuffer.h" />
@@ -249,6 +248,7 @@
     <ClInclude Include="ResourceEngine\ObjectNode\ObjectNode.h" />
     <ClInclude Include="ResourceEngine\ObjectNode\Render\Renderer.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.h" />
+    <ClInclude Include="ResourceEngine\ResourceManager\LightManager\LightManager.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\MaterialManager\MaterialManager.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\MeshManager\MeshManager.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\ResourceManager.h" />
