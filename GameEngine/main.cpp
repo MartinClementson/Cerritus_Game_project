@@ -33,7 +33,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 			Engine* engine = new Engine();
 		engine->Initialize(&wndHandle, &hInstance);
 
-		GameTimer* time = new GameTimer();
+		GameTimer* time = GameTimer::GetInstance();
 
 		time->Reset();
 		// enter message loop, loop until the message WM_QUIT is received.
@@ -60,7 +60,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		// finish the program
 		engine->Release();
 		delete engine;
-		delete time;
+		//delete time;
 		DestroyWindow(wndHandle);
 	}
 
