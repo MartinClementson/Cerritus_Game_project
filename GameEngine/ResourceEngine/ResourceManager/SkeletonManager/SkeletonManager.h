@@ -1,6 +1,7 @@
 #pragma once
 #include "../../Structs/SkeletonStructs.h"
 #include "../Headers/BRFImporterStructs.h"
+#include "Skeleton\Skeleton.h"
 class SkeletonManager
 {
 private:

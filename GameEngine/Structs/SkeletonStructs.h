@@ -1,28 +1,22 @@
 #pragma once
 #include "../Constants.h"
 #include "../LibIncluder.h"
-struct Skeleton
-{
-	std::vector<Joint*> joints;
-	std::vector<Animation*> animations;
-	int skeletonID;
-};
 struct Joint
 {
 	DirectX::XMMATRIX bindPose;
 	int parentID;
 	int jointID;
 };
-struct Animation
+struct Frames
 {
-	std::vector<AnimationFrames*> animatedFrames;
+	DirectX::XMMATRIX transformation;
 };
 struct AnimationFrames
 {
 	std::vector<Frames*> frames;
 	int jointID;
 };
-struct Frames
+struct Animation
 {
-	DirectX::XMMATRIX transformation;
+	std::vector<AnimationFrames*> animatedFrames;
 };
