@@ -7,6 +7,7 @@
 #include "../../StateMachines/EnemyStateMachine/EnemyStateMachine.h"
 #include "../../../Structs/DataTypes.h"
 #include "../Player/Player.h"
+#include "../../Scene/Trap/BearTrap/BearTrap.h"
 
 
 class Enemy :
@@ -16,6 +17,7 @@ private:
 	RenderInfoEnemy renderInfo;
 	EnemyStateMachine* enemyStateMachine;
 	Player * player;
+	
 private:
 	void Release();
 	Enemy();
@@ -40,9 +42,14 @@ public:
 
 	void Render();
 	XMFLOAT3 GetPosition();
+	void SetPosition(XMFLOAT3 pos);
 	float GetRadius();
+	float GetRadius2();
 	void AIPattern(Player * player, double deltaTime);
+	void EnemyWithEnemyCollision(Enemy * enemy, Enemy * enemys, double deltaTime);
+	//void EnemyWithBeartrap(BearTrap * bear, Enemy * enemys, double deltaTime);
 	void Respawn(XMFLOAT3 spawn);
+	void Spawn(XMFLOAT3 spawn);
 
 
 	XMFLOAT3 direction;

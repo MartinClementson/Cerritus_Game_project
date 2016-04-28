@@ -1,7 +1,5 @@
 #include "EnemySpawn.h"
 
-
-
 EnemySpawn::EnemySpawn()
 {
 	this->collision = Collision::GetInstance();
@@ -31,6 +29,7 @@ void EnemySpawn::Release()
 {
 
 }
+
 void EnemySpawn::Update(double deltaTime)
 {
 	for (size_t i = 0; i < Alive.size(); i++)
@@ -55,8 +54,8 @@ void EnemySpawn::Update(double deltaTime)
 			Alive.erase(Alive.begin() + i);
 		}
 		else if (Alive.at(i)->GetHealth() <= 0 &&
-		Alive.at(i)->GetStateMachine()->
-		GetActiveState() == EnemyState::ENEMY_IDLE_STATE)
+			Alive.at(i)->GetStateMachine()->
+			GetActiveState() == EnemyState::ENEMY_IDLE_STATE)
 		{
 			Player* player;
 			player = collision->GetPlayer();
@@ -73,47 +72,52 @@ void EnemySpawn::Update(double deltaTime)
 			Alive.erase(Alive.begin() + i);
 		}
 	}
-	
+
 	if (Alive.size() == 0)
 	{
 		spawnTimer += (float)deltaTime;
-		if (spawnTimer >= 3 || !firstSpawn)
+		if (!firstSpawn)
 		{
 			SpawnEnemy();
 			spawnTimer = 0;
 		}
+		else if (spawnTimer >= 3 && firstSpawn)
+		{
+			RespawnEnemy();
+			spawnTimer = 0;
+		}
 		
+
 	}
 	for (int i = 0; i < (int)Alive.size(); i++)
 	{
 		if (Alive.at(i)->isAlive == true)
 		{
 
-			if (collision->PlayerCollision(Alive.at(i)) )
+			if (collision->PlayerCollision(Alive.at(i)))
 			{
 				////not alive anymore
 				//MessageBox(0, L"You have Collided",
 				//	L"LOL", MB_OK);
-				
+
 				Alive.at(i)->isAlive = false;
-				Queue.push_back(Alive.at(i));	
+				Queue.push_back(Alive.at(i));
 				Alive.erase(Alive.begin() + i);
 				Player* player;
 				player = collision->GetPlayer();
 			}
 		}
 	}
-	
-	
 }
+	
+	
+	
 
 void EnemySpawn::SpawnEnemy()
 {
-	//bool done = false;
-	firstSpawn = true;
-	//int i = 0;
 
-	//while (done == false || i > (int)Queue.size())
+	firstSpawn = true;
+	
 	for(size_t i = 0; i< Queue.size(); i++)
 	{
 		if (!Queue.at(i)->isAlive)
@@ -128,7 +132,7 @@ void EnemySpawn::SpawnEnemy()
 			spawn.y = 0;
 			spawn.z = spawnZ;
 			
-			Queue.at(i)->Respawn(spawn); //sets position and isAlive to TRUE
+			Queue.at(i)->Spawn(spawn); //sets position and isAlive to TRUE
 			Alive.push_back(Queue.at(i));
 			Queue.erase(Queue.begin() + i);
 			
@@ -139,9 +143,40 @@ void EnemySpawn::SpawnEnemy()
 	}
 }
 
+void EnemySpawn::RespawnEnemy()
+{
+	
+
+	for (size_t i = 0; i< Queue.size(); i++)
+	{
+		if (!Queue.at(i)->isAlive)
+		{
+
+			float spawnX = spawnPosition.x + float(rand() % 15 + 5.0f);
+			float spawnZ = spawnPosition.z + float(rand() % 50 + 5.0f);
+
+
+			XMFLOAT3 spawn;
+			spawn.x = spawnX;
+			spawn.y = 0;
+			spawn.z = spawnZ;
+
+			Queue.at(i)->Respawn(spawn); //sets position and isAlive to TRUE
+			Alive.push_back(Queue.at(i));
+			Queue.erase(Queue.begin() + i);
+
+
+			//done = true;
+		}
+		//i++;
+	}
+}
+
 void EnemySpawn::InitEnemy()
 {
+
 	unsigned int waveAmount = 10;
+
 
 
 	for (size_t i = 0; i < waveAmount; i++)
