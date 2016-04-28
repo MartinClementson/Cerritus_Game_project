@@ -12,6 +12,27 @@ MaterialManager::~MaterialManager()
 	delete textureManager;
 }
 
+bool MaterialManager::CompareMaterialsAt(importedMaterial * import, unsigned int materialID)
+{
+	if (import->materialName == materials->at(materialID).materialName)
+	{
+		if (materials->at(materialID).diffuse_ID == textureManager->FindDiffuseID(import->diffuseTex))
+		{
+			if (materials->at(materialID).normal_ID == textureManager->FindNormalID(import->normalTex))
+			{
+				if (materials->at(materialID).specular_ID == textureManager->FindSpecularID(import->specularTex))
+				{
+					if (materials->at(materialID).glow_ID == textureManager->FindGlowID(import->glowTex))
+					{
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
+
 bool MaterialManager::CompareImportMaterials(importedMaterial * import)
 {
 	for (unsigned int j = 0; j < materials->size(); j++)
