@@ -193,13 +193,15 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 		tempMaterial.materialID = materialID;
 		if (materialManager->CompareImportMaterials(&tempMaterial))
 		{
-			for (unsigned int j = 0; j < meshes->size(); j++)
+			unsigned int materialOffset = materialSize;
+			for (unsigned int j = 0; j < meshes->size()-materialSize; j++)
 			{
 				unsigned int importedMatID = meshes->at(j).GetMaterialID();
 				if (materialManager->CompareMaterialsAt(&tempMaterial, importedMatID))
 				{
 					tempMaterial.materialID = importedMatID;
-					break;
+					meshes->at(meshes->size() - materialOffset).SetMaterialID(importedMatID);
+					materialOffset--;
 				}
 			}
 		}
