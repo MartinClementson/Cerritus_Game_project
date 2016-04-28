@@ -33,8 +33,8 @@ private:
 	ID3D11DeviceContext* gDeviceContext				 = nullptr;
 
 	//SamplerStates
-	ID3D11SamplerState* gSampleState				 = nullptr;
-
+	ID3D11SamplerState* linearSampleState			 = nullptr;
+	ID3D11SamplerState* pointSampleState			 = nullptr;
 
 	//Shaders for phong shading
 	ID3D11VertexShader*		FINAL_VS				 = nullptr;
