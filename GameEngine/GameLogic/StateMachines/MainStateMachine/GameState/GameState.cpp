@@ -104,6 +104,126 @@ void GameState::Update(double deltaTime)
 
 						&& room1->enemySpawns.at(k)->
 						Alive.at(j)->isAlive == true)
+
+	XMFLOAT3 dir = Graphics::GetInstance()->GetPlayerDirection(mouseXY, player->GetPosition());
+
+	player->Update(deltaTime, dir);
+
+	room1->Update(deltaTime);
+
+	for (size_t k = 0; k < room1->enemySpawns.size(); k++)
+	{
+		size_t j = 0;
+		while (j < room1->enemySpawns.at(k)->Alive.size())
+		{
+			for (size_t p = 0; p < room1->enemySpawns
+				.at(k)->Alive.size(); p++)
+			{
+				if (room1->enemySpawns.at(k)->Alive.at(p)->isAlive == true)
+				{
+					if (j == p)
+					{
+						room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
+							collision->GetPlayer(),
+							deltaTime);
+					}
+					else if (collision->EnemyCollision(
+						room1->enemySpawns.at(k)->Alive.at(p),
+						room1->enemySpawns.at(k)->Alive.at(p))
+
+
+						&& collision->PlayerDistanceCollision(
+							room1->enemySpawns.at(k)->Alive.at(p))
+						&& j == p
+						)
+					{
+						room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
+							collision->GetPlayer(),
+							deltaTime);
+					}
+
+					else if (collision->EnemyCollision(
+						room1->enemySpawns.at(k)->Alive.at(p),
+						room1->enemySpawns.at(k)->Alive.at(j)))
+					{
+						room1->enemySpawns.at(k)->Alive.at(p)->EnemyWithEnemyCollision(
+							room1->enemySpawns.at(k)->Alive.at(p),
+							room1->enemySpawns.at(k)->Alive.at(j),
+							deltaTime);
+					}
+					else if (collision->TrapandEnemyLottery(room1->enemySpawns.at(k)->Alive.at(p)))
+					{
+						for (size_t i = 0; i < room1->bearTraps.size(); i++)
+						{
+							/*int randoms = rand() % 5 + 1;
+
+							if (randoms == 1 && room1->bearTraps.at(i)->isActive)
+							{*/
+								room1->EvadeTrap(room1->enemySpawns.at(k)->Alive.at(p)
+									, room1->bearTraps.at(i), deltaTime);
+							/*}*/
+
+						}
+					}
+					
+						/*	else
+							{
+								room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
+									collision->GetPlayer(),
+									deltaTime);
+							}*/
+					
+				}
+			}
+			j++;
+		}
+	}
+
+	size_t i = 0;
+	while (i < player->projectileSystem->projectiles.size())
+	{
+		for (size_t k = 0; k < room1->enemySpawns.size(); k++)
+		{
+			size_t j = 0;
+			while (j < room1->enemySpawns.at(k)->Alive.size())
+			{
+				if (collision->ProjectileEnemyCollision(
+					player->projectileSystem->
+					projectiles.at(i),
+
+					room1->enemySpawns.at(k)->
+					Alive.at(j))
+
+					&& room1->enemySpawns.at(k)->
+					Alive.at(j)->isAlive == true)
+				{
+					//not alive anymore
+					//MessageBox(0, L"You have Collided",
+					//	L"LOL", MB_OK);
+					if (room1->enemySpawns.at(k)->Alive.at(j)->GetHealth() <= 10.0f)
+					{
+						room1->enemySpawns.at(k)->Alive.at(j)->isAlive = false;
+						room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(100.0f);
+
+						room1->enemySpawns.at(k)->
+							Queue.push_back(
+								room1->enemySpawns.at(k)->
+								Alive.at(j)
+							);
+
+						room1->enemySpawns.at(k)->
+							Alive.erase(
+								room1->enemySpawns.at(k)->
+								Alive.begin() + j
+							);
+
+					}
+					else
+					{
+						float tmpEnemyHealth = room1->enemySpawns.at(k)->Alive.at(j)->GetHealth();
+						room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(tmpEnemyHealth - 30.0f);
+					}
+					if (player->projectileSystem->projectiles.size() > 0)
 					{
 						if(room1->enemySpawns.at(k)->Alive.at(j)->GetHealth() > 0.0f)
 						{
@@ -117,6 +237,7 @@ void GameState::Update(double deltaTime)
 
 
 					}
+//<<<<<<< HEAD
 					j++;
 				}
 			}
@@ -125,6 +246,14 @@ void GameState::Update(double deltaTime)
 		/*if (index < 1)
 		{
 			index++;
+//=======
+
+
+				}
+				j++;
+			}
+
+//>>>>>>> refs/remotes/origin/Game-Logic-Johan
 		}
 		else if (index == 1)
 		{
@@ -132,7 +261,9 @@ void GameState::Update(double deltaTime)
 			index++;
 		}*/
 	}
+
 }
+	
 
 void GameState::ProcessInput(double* deltaTime)
 {
@@ -243,7 +374,6 @@ void GameState::Render()
 	room1->Render();
 	player->Render();
 	gameUI->Render();
-
 }
 
 void GameState::OnEnter()

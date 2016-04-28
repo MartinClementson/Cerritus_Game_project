@@ -1,7 +1,5 @@
 #include "EnemySpawn.h"
 
-
-
 EnemySpawn::EnemySpawn()
 {
 	this->collision = Collision::GetInstance();
@@ -31,11 +29,13 @@ void EnemySpawn::Release()
 {
 
 }
+
 void EnemySpawn::Update(double deltaTime)
 {
 	for (size_t i = 0; i < Alive.size(); i++)
 	{
 		Alive.at(i)->Update(deltaTime);
+
 		if (Alive.at(i)->GetHealth() <= 0 &&
 			Alive.at(i)->GetStateMachine()->
 			GetActiveState() == EnemyState::ENEMY_ATTACK_STATE)
@@ -84,10 +84,7 @@ void EnemySpawn::Update(double deltaTime)
 		}
 		
 	}
-	for (int i = 0; i < (int)Alive.size(); i++)
-	{
-		if (Alive.at(i)->isAlive == true)
-		{
+
 
 			if (collision->PlayerCollision(Alive.at(i)) )
 			{
@@ -104,8 +101,9 @@ void EnemySpawn::Update(double deltaTime)
 		}
 	}
 	
-	
+
 }
+	
 
 void EnemySpawn::SpawnEnemy()
 {
@@ -141,7 +139,9 @@ void EnemySpawn::SpawnEnemy()
 
 void EnemySpawn::InitEnemy()
 {
+
 	unsigned int waveAmount = 10;
+
 
 
 	for (size_t i = 0; i < waveAmount; i++)

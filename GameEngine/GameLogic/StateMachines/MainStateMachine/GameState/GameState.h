@@ -27,6 +27,7 @@ public:
 	int index;
 	float GetPoints();
 
+
 private:
 	void OnEnter();
 	void OnExit();

@@ -34,8 +34,12 @@ void Enemy::Initialize()
 
 	health = 100.0f;
 	DoT = 0;
-	damage = 22.0f;
+	damage = 5.0f;
 	rotation = { 0,0,0 }; 
+	
+	radius = 2.0f;
+	radius2 = 3.0f;
+
 	DoTDur = 0;
 	slowTimer = 0; 
 	index = 0.0f; 
@@ -121,6 +125,11 @@ XMFLOAT3 Enemy::GetPosition()
 	return this->position; 
 }
 
+void Enemy::SetPosition(XMFLOAT3 pos)
+{
+	pos = position;
+}
+
 float Enemy::GetRadius() 
 {
 	return this->radius; 
@@ -155,3 +164,58 @@ void Enemy::AIPattern(Player* player, double deltaTime)
 		//here they go to die 
 	}
 }
+float Enemy::GetRadius2()
+{
+	return this->radius2;
+}
+
+void Enemy::AIPattern(Player * player, double deltaTime)
+{
+	XMFLOAT3 playerPos = player->GetPosition();
+	Vec3 vect;
+
+	vect.x = playerPos.x - position.x;
+	vect.z = playerPos.z - position.z;
+		
+	vect.Normalize();
+
+	this->position.x +=  vect.x *(float)deltaTime * movementSpeed;
+	this->position.z +=  vect.z *(float)deltaTime * movementSpeed;
+}
+
+void Enemy::EnemyWithEnemyCollision(Enemy* enemy, Enemy* enemys, double deltaTime)
+{
+	XMFLOAT3 enemyPos;
+	XMFLOAT3 enemyPos2;
+	Vec3 dir;
+
+	enemyPos = enemy->GetPosition();
+	enemyPos2 = enemys->GetPosition();
+
+	dir.x = enemyPos.x - enemyPos2.x;
+	dir.z = enemyPos.z - enemyPos2.z;
+	
+	dir.Normalize();
+
+	enemys->position.x -= dir.x * (float)deltaTime * movementSpeed;
+	enemys->position.z -= dir.z * (float)deltaTime * movementSpeed;
+}
+
+//void Enemy::EnemyWithBeartrap(BearTrap* bear, Enemy* enemy, double deltaTime)
+//{
+//	XMFLOAT3 enemyPos;
+//	XMFLOAT3 bearPos;
+//	Vec3 dir;
+//	
+//	enemyPos = enemy->GetPosition();
+//	bearPos = bear->GetPosition();
+//
+//	dir.x = enemyPos.x - bearPos.x;
+//	dir.z = enemyPos.z - bearPos.z;
+//
+//	dir.Normalize();
+//
+//	enemy->position.x -= dir.x * (float)deltaTime * movementSpeed;
+//	enemy->position.z -= dir.z * (float)deltaTime * movementSpeed;
+//}
+//
