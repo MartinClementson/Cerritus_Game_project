@@ -7,6 +7,10 @@ DirectX::XMMATRIX SkeletonManager::GetParentBindPose(int parentID)
 	return DirectX::XMMATRIX();
 }
 
+void SkeletonManager::AddSkeleton()
+{
+}
+
 void SkeletonManager::Initialize()
 {
 }
