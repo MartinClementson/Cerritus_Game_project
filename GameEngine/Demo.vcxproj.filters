@@ -230,6 +230,9 @@
     <Filter Include="ResourceEngine\Graphics\ShadowBuffer">
       <UniqueIdentifier>{60a46c0d-4e44-4a76-bd3f-e1dd176a2744}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\LightManager">
+      <UniqueIdentifier>{076a7aae-c3d3-4936-8aaa-73819d554bea}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameLogic\Animation\Animation.cpp">
@@ -396,6 +399,9 @@
     </ClCompile>
     <ClCompile Include="ResourceEngine\Graphics\ShadowBuffer\ShadowBuffer.cpp">
       <Filter>ResourceEngine\Graphics\ShadowBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="LightManager.cpp">
+      <Filter>ResourceEngine\ResourceManager\LightManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -575,6 +581,9 @@
     </ClInclude>
     <ClInclude Include="ResourceEngine\Graphics\ShadowBuffer\ShadowBuffer.h">
       <Filter>ResourceEngine\Graphics\ShadowBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="LightManager.h">
+      <Filter>ResourceEngine\ResourceManager\LightManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
