@@ -8,7 +8,7 @@ Texture2DArray shadowTex		 : register(t6);
 SamplerState linearSampler		 : register(s0);
 SamplerState pointSampler		 : register(s1);
 
-cbuffer cameraConstantBuffer     : register(b0)
+cbuffer cbufferPerFrame     : register(b0)
 {
 
 	matrix view;
@@ -16,6 +16,9 @@ cbuffer cameraConstantBuffer     : register(b0)
 	matrix invViewProjMatrix;
 	float4 camPos;
 	float4 mousePos;
+	int numPointLights;
+	int numSpotLights;
+	int numDirLights;
 	//float3 camLook;
 
 };
@@ -24,19 +27,7 @@ cbuffer worldConstantBuffer		 : register(b1)
 	matrix world;				 
 };								 
 								 
-cbuffer lightBuffer				 : register(b2)
-{								 
-	float4 lightPosition;
-	matrix lightView;
-	matrix lightProjection;
-	float4 lightDir;
-	float4 lightDiffuse;
-	float intensity;
-	float lightRange;
-	float attenuation;
-	float pad;
-	bool castShadow;
-};								 
+		
 cbuffer textureSampleBuffer		 : register(b3)
 {
 	bool diffuseMap;
@@ -45,6 +36,27 @@ cbuffer textureSampleBuffer		 : register(b3)
 	bool glowMap;
 };
 
+struct PointLight
+{
+	float4 lightPosition;
+	matrix lightView;
+	matrix lightProjection;
+	float4 lightLookAt;
+	float4 lightDiffuse;
+	
+	float intensity;
+	float3 padI;
+
+	float lightRange;
+	float3 padR;
+
+	float attenuation;
+	float aPad;
+	bool castShadow;
+
+};
+
+StructuredBuffer<PointLight> pointlights : register(t7);
 struct GBUFFER_VS_IN
 {
 	float3 Pos			 : POSITION;
@@ -294,7 +306,7 @@ struct GBUFFER_SHADOWDEPTH_VS_OUT
 GBUFFER_SHADOWDEPTH_VS_OUT GBUFFER_SHADOWDEPTH_VS_main(GBUFFER_VS_IN input)
 {
 	GBUFFER_SHADOWDEPTH_VS_OUT output = (GBUFFER_SHADOWDEPTH_VS_OUT)0;
-	matrix combinedMatrix = mul(world, mul(lightView, lightProjection));
+	matrix combinedMatrix = mul(world, mul(pointlights[0].lightView, pointlights[0].lightProjection));
 
 		output.position = float4(input.Pos, 1);
 

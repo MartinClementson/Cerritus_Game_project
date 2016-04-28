@@ -5,6 +5,24 @@
 struct PointLight
 {
 
+
+	DirectX::XMFLOAT4		lightPosition;
+	DirectX::XMFLOAT4X4		lightView;
+	DirectX::XMFLOAT4X4		lightProjection;
+	DirectX::XMFLOAT4		lightLookAt;
+	DirectX::XMFLOAT4		lightDiffuse;
+	float intensity;
+	float padIntensity[3];
+
+	float lightRange;
+	float padRange[3];
+
+	float attenuation;
+	float padatt[3];
+	
+	BOOL castShadow;
+	float padShadow[3];
+
 	
 	PointLight() { 
 		
@@ -20,18 +38,6 @@ struct PointLight
 	
 	
 	};
-
-	DirectX::XMFLOAT4		lightPosition;
-	DirectX::XMFLOAT4X4		lightView;
-	DirectX::XMFLOAT4X4		lightProjection;
-	DirectX::XMFLOAT4		lightLookAt;
-	DirectX::XMFLOAT4		lightDiffuse;
-	float intensity;
-	float lightRange;
-	float attenuation;
-	float pad;
-	BOOL castShadow;
-
 	
 
 	void SetMatrices(float fov, float aspectRatio, float nearZ, float farZ) {

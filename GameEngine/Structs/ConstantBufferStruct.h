@@ -3,14 +3,19 @@
 #include "../Source/LibIncluder.h"
 #include "../Constants.h"
 #include "../../LightStructs.h"
-struct CamMatrices
+struct CbufferPerFrame
 {
 	DirectX::XMFLOAT4X4 camView;
 	DirectX::XMFLOAT4X4 projection;
 	DirectX::XMFLOAT4X4 invViewProjMatrix;
 	DirectX::XMFLOAT4 worldPos;
 	DirectX::XMFLOAT4 mousePos;
+	int numPointLights = 0;
+	int numSpotLights = 0;
+	int numDirLights = 0;
+	float pad;
 };
+
 //CamMatrices camMatrices;
 
 struct WorldMatrix
@@ -20,11 +25,26 @@ struct WorldMatrix
 //WorldMatrix worldMatrix;
 
 
-struct LightStruct
+struct PointLightStruct
 {
-	PointLight		 pointLights		[ MAX_NUM_POINTLIGHTS];
-	DirectionalLight directionalLights	[ MAX_NUM_DIRLIGHTS  ];
-	SpotLight		 spotlights			[ MAX_NUM_SPOTLIGHTS ];
+	PointLight	pointLights		[ MAX_NUM_POINTLIGHTS];
+	
+
+
+};
+
+struct SpotLightStruct
+{
+	
+	SpotLight	spotlights[MAX_NUM_SPOTLIGHTS];
+
+};
+
+struct DirLightStruct
+{
+	
+	DirectionalLight directionalLights[MAX_NUM_DIRLIGHTS];
+
 
 };
 

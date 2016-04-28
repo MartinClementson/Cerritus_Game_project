@@ -1,10 +1,11 @@
 #pragma once
+#include "../LibIncluder.h"
 #include "../../Structs/ConstantBufferStruct.h"
 
 
-#define NUM_SPOTLIGHTS 2
+#define NUM_SPOTLIGHTS 1
 #define NUM_DIRLIGHTS	1
-#define NUM_POINTLIGHTS 5
+#define NUM_POINTLIGHTS 1
 class LightManager
 {
 
@@ -17,7 +18,9 @@ private:
 	DirectionalLight*	 dirLights		[ MAX_NUM_DIRLIGHTS	];
 	SpotLight*			 spotLights		[ MAX_NUM_SPOTLIGHTS];
 
-	LightStruct lightStructure;
+	PointLightStruct pointLightStruct;
+	SpotLightStruct  spotLightStruct  ;
+	DirLightStruct  dirLightStruct	  ;
 
 public:
 	LightManager();
@@ -28,6 +31,8 @@ public:
 	int GetNumActivePointLights()	 {  return this->numActivePointLights; };
 	int GetNumActiveSpotLights()	 {	return this->numActiveSpotLights;  };
 	int GetNumActiveDirLights()		 {	return this->numActiveDirLights;   };
-	LightStruct* GetLightStructure();
+	PointLightStruct* GetPointLightStruct();
+	SpotLightStruct*  GetSpotLightStruct();
+	DirLightStruct*		GetDirLightStruct();
 };
 

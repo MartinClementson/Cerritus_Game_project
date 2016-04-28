@@ -96,7 +96,7 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 		DoTDur = 0.0f;
 	}
 
-	health -= DoT*deltaTime;
+	health -= DoT*(float)deltaTime;
 	if (health <= 0)
 	{
 

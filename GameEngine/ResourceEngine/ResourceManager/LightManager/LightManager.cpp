@@ -22,34 +22,55 @@ LightManager::LightManager()
 
 LightManager::~LightManager()
 {
+
+	for (size_t i = 0; i < NUM_POINTLIGHTS; i++)
+	{
+
+		delete pointLights[i];
+	}
 }
 
 void LightManager::Initialize()
 {
-	
+	for (size_t i = 0; i < NUM_POINTLIGHTS; i++)
+	{
+		this->pointLights[i] = new PointLight();
+		pointLights[i]->lightPosition = DirectX::XMFLOAT4(0.0f, 30.0f, 0.0f, 1.0f); //Pos
+		pointLights[i]->lightLookAt = DirectX::XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);	//Direct
+		pointLights[i]->lightDiffuse = DirectX::XMFLOAT4(3.0f, 1.0f, 5.0f, 1.0f);	//Color
+		pointLights[i]->SetMatrices(DirectX::XM_PI*0.8f, 1.0f, 5.0f, 40.0f);
+		pointLights[i]->intensity = 1.0f;
+		this->numActivePointLights += 1;
+
+	}
 
 }
+void LightManager::Release()			  
 
-void LightManager::Release()
 {
 }
 
-LightStruct * LightManager::GetLightStructure()
+PointLightStruct * LightManager::GetPointLightStruct()
 {
 
-	for (size_t i = 0; i < numActiveSpotLights; i++)
-		lightStructure.spotlights[i] = *spotLights[i];
-	
 	for (size_t i = 0; i < numActivePointLights; i++)
-		lightStructure.pointLights[i] = *pointLights[i];
+		pointLightStruct.pointLights[i] = *pointLights[i];
+	return &pointLightStruct;
+}
 
+SpotLightStruct * LightManager::GetSpotLightStruct()
+{
+	
+		for (size_t i = 0; i < numActiveSpotLights; i++)
+			spotLightStruct.spotlights[i] = *spotLights[i];
+
+	return &spotLightStruct;
+}
+
+DirLightStruct * LightManager::GetDirLightStruct()
+{
 	for (size_t i = 0; i < numActiveDirLights; i++)
-		lightStructure.directionalLights[i] = *dirLights[i];
-	
+		dirLightStruct.directionalLights[i] = *dirLights[i];
 
-	
-
-
-
-	return &lightStructure;
+	return &dirLightStruct;
 }

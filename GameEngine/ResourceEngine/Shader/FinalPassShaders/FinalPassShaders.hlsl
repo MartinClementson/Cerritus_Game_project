@@ -1,4 +1,4 @@
-cbuffer cameraConstantBuffer  : register(b0)
+cbuffer cbufferPerFrame  : register(b0)
 {
 
 	matrix view;
@@ -6,7 +6,10 @@ cbuffer cameraConstantBuffer  : register(b0)
 	matrix invViewProjMatrix;
 	float4 camPos;
 	float4 mousePos;
-	//float3 camLook;
+	int numPointLights;
+	int numSpotLights;
+	int numDirLights;
+	float pad;
 
 };
 cbuffer worldConstantBuffer	: register(b1)
@@ -24,7 +27,7 @@ cbuffer lightBuffer			: register(b2)
 	float intensity;
 	float lightRange;
 	float attenuation;
-	float pad;
+	float lPad;
 	bool castShadow;
 };
 cbuffer textureSampleBuffer : register(b3)
@@ -34,6 +37,30 @@ cbuffer textureSampleBuffer : register(b3)
 	bool specularMap;
 	bool glowMap;
 };
+
+
+struct PointLight
+{
+	float4 lightPosition;
+	matrix lightView;
+	matrix lightProjection;
+	float4 lightLookAt;
+	float4 lightDiffuse;
+
+	float intensity;
+	float3 padI;
+
+	float lightRange;
+	float3 padR;
+
+	float attenuation;
+	float aPad;
+
+	bool castShadow;
+	float3 shadPad;
+
+};
+
 
 
 struct VS_IN
@@ -62,16 +89,18 @@ VS_OUT VS_main( VS_IN input)
 }
 
 
-SamplerState linearSampler			 : register(s0);
-SamplerState pointSampler			 : register(s1);
+SamplerState	 linearSampler			 : register(s0);
+SamplerState	 pointSampler			 : register(s1);
 
-Texture2D		diffuseTexture		 : register(t0);
-Texture2D		specularTexture		 : register(t1);
-Texture2D		normalTexture		 : register(t2);
-Texture2D		depthTexture		 : register(t3);
-Texture2D		positionTexture		 : register(t4);
-Texture2D		glowTexture			 : register(t5);
-Texture2DArray  shadowTex			 : register(t6);
+Texture2D		diffuseTexture			 : register(t0);
+Texture2D		specularTexture			 : register(t1);
+Texture2D		normalTexture			 : register(t2);
+Texture2D		depthTexture			 : register(t3);
+Texture2D		positionTexture			 : register(t4);
+Texture2D		glowTexture				 : register(t5);
+Texture2DArray  shadowTex				 : register(t6);
+
+StructuredBuffer<PointLight> pointlights : register(t7);
 
 static const float SSAO_RAD = 0.005f;
 
@@ -152,7 +181,7 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 	//The light ray from the vert position to the light
 	//normalized to be used as a direction vector
 	
-	float3 vRay				= (float3)(lightPosition - worldPos);
+	float3 vRay				= (float3)(pointlights[0].lightPosition - worldPos);
 	float rayLength			= length(vRay);
 	vRay					/= rayLength;
 
@@ -162,7 +191,7 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 							
 	float fDot				= saturate(dot(vRay, normal.xyz));					 //Calculate how much of the pixel is to be lit "intensity"
 							
-	float4 lightColor		= mul(lightDiffuse,intensity);
+	float4 lightColor		= mul(pointlights[0].lightDiffuse, pointlights[0].intensity);
 							
 	float shinyPower		= 20.0f;//specularTexture.Sample(SampleType,input.Uv).r; //How much light is to be reflected
 							
@@ -174,12 +203,12 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 
 	float4 lightDiffuse		= saturate( lightColor * fDot ) + float4(specularLight, 1.0f);
 	
-	float3 spotDir			= normalize(lightDir - lightPosition);
+	float3 spotDir			= normalize(pointlights[0].lightLookAt - pointlights[0].lightPosition);
 
     //lightDiffuse			*= pow(max(dot(-vRay, spotDir), 0.0f), 30.0f);
 
 	float radio			= 80.0f;
-	float lightLength	= length(lightDir - worldPos);
+	float lightLength	= length(pointlights[0].lightLookAt - worldPos);
 	if (lightLength > radio)
 		lightDiffuse *= 0.0;
 	else
@@ -226,7 +255,7 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 
 
 
-	return finalCol;
+	return pointlights[0].lightDiffuse;
 }
 
 

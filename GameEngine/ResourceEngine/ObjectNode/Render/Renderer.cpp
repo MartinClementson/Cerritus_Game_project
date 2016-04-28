@@ -6,13 +6,16 @@ Renderer::Renderer()
 {
 	this->sceneCam			= new Camera();
 	this->resourceManager	= new ResourceManager();
-	this->sceneLightArray = new PointLight();
+	pointLightStruct		= new PointLightStruct();
+	spotLightStruct			= new SpotLightStruct();
+	dirLightStruct			= new DirLightStruct();
+	
 
-	sceneLightArray->lightPosition		 = XMFLOAT4(0.0f, 30.0f, 0.0f, 1.0f); //Pos
-	sceneLightArray->lightLookAt		 = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);	//Direction
-	sceneLightArray->lightDiffuse		 = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	//Color
-	sceneLightArray->SetMatrices(XM_PI*0.8f, 1.0f, 5.0f, 40.0f);
-	sceneLightArray->intensity			 = 1.0f;
+	//sceneLightArray->lightPosition		 = XMFLOAT4(0.0f, 30.0f, 0.0f, 1.0f); //Pos
+	//sceneLightArray->lightLookAt		 = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);	//Direction
+	//sceneLightArray->lightDiffuse		 = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	//Color
+	//sceneLightArray->SetMatrices(XM_PI*0.8f, 1.0f, 5.0f, 40.0f);
+	//sceneLightArray->intensity			 = 1.0f;
 }
 
 
@@ -20,13 +23,16 @@ Renderer::~Renderer()
 {
 	delete sceneCam;
 	delete resourceManager;
-	delete sceneLightArray;
+	delete pointLightStruct;
+	delete spotLightStruct;
+	delete dirLightStruct;
 }
 
 void Renderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext)
 {
 	this->gDeviceContext = gDeviceContext;
 	this->gDevice = gDevice;
+	this->lightmanager.Initialize();
 	this->CreateConstantBuffers();
 	resourceManager->Initialize(gDevice, gDeviceContext);
 	sceneCam->Initialize(gDevice, gDeviceContext);
@@ -34,13 +40,21 @@ void Renderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCon
 }
 void Renderer::Release()
 {
+	lightmanager.Release();
 	resourceManager->Release();
 	sceneCam->Release();
 
 	SAFE_RELEASE(worldBuffer);
-	SAFE_RELEASE(camBuffer);
-	SAFE_RELEASE(lightBuffer);
+	SAFE_RELEASE(cbufferPerFrame);
+	
 	SAFE_RELEASE(sampleBoolsBuffer);
+	for (size_t i = 0; i < 3; i++)
+		SAFE_RELEASE(lightBuffers[i]);
+
+	
+	SAFE_RELEASE(pointLightStructuredBuffer);
+	SAFE_RELEASE(spotLightStructuredBuffer);
+	SAFE_RELEASE(dirLightStructuredBuffer);
 
 }
 
@@ -120,7 +134,7 @@ void Renderer::Render(RenderInfoChar * object)
 
 	//Update the camera view matrix!
 	this->sceneCam->Updateview( object->position);
-	this->UpdateCameraBuffer();
+	this->UpdateCbufferPerFrame();
 
 	Render(objectInstruction);
 
@@ -270,26 +284,122 @@ void Renderer::Render(RenderInstructions * object)
 
 }
 
-void Renderer::UpdateCameraBuffer()
+void Renderer::MapLightBufferStructures()
+{
+	//////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////
+	//Map point light structure
+	PointLightStruct* pPointLights = this->lightmanager.GetPointLightStruct();
+	this->mNumPointLights		   = this->lightmanager.GetNumActivePointLights();
+
+	//D3D11_MAPPED_SUBRESOURCE mapRes;
+	HRESULT hr = S_OK;
+	/*
+	hr = gDeviceContext->Map(lightBuffers[BUFFER_POINTLIGHTS], 0, D3D11_MAP_WRITE_DISCARD, 0, &mapRes);
+	memcpy(mapRes.pData, (void*)pPointLights, sizeof(PointLightStruct));
+	gDeviceContext->Unmap(lightBuffers[BUFFER_POINTLIGHTS], 0);
+	this->gDeviceContext->PSSetShaderResources(POINTLIGHTS_BUFFER_INDEX, 1, &pointLightStructuredBuffer);
+*/
+
+
+
+	D3D11_MAPPED_SUBRESOURCE mappedResourceWorld;
+	ZeroMemory(&mappedResourceWorld, sizeof(mappedResourceWorld));
+
+	//mapping to the matrixbuffer
+	this->gDeviceContext->Map(lightBuffers[BUFFER_POINTLIGHTS], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResourceWorld);
+
+	PointLightStruct* temporaryWorld = (PointLightStruct*)mappedResourceWorld.pData;
+
+	*temporaryWorld = *pPointLights;
+
+
+
+	this->gDeviceContext->Unmap(lightBuffers[BUFFER_POINTLIGHTS], 0);
+	this->gDeviceContext->PSSetShaderResources(POINTLIGHTS_BUFFER_INDEX, 1, &pointLightStructuredBuffer);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////
+	//Map Spotlight structure
+	SpotLightStruct* pSpotLights = this->lightmanager.GetSpotLightStruct();
+	this->mNumSpotLights		= this->lightmanager.GetNumActiveSpotLights();
+
+	D3D11_MAPPED_SUBRESOURCE mapResSpot;
+	hr = S_OK;
+
+	hr = gDeviceContext->Map(lightBuffers[BUFFER_SPOTLIGHTS], 0, D3D11_MAP_WRITE_DISCARD, 0, &mapResSpot);
+	memcpy(mapResSpot.pData, (void*)pSpotLights, sizeof(SpotLightStruct));
+	gDeviceContext->Unmap(lightBuffers[BUFFER_SPOTLIGHTS], 0);
+	this->gDeviceContext->PSSetShaderResources(SPOTLIGHTS_BUFFER_INDEX, 1, &spotLightStructuredBuffer);
+	//////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////
+
+	//////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////
+	//Map Dirlight structure
+	DirLightStruct* pDirLights		= this->lightmanager.GetDirLightStruct();
+	this->mNumDirLights				= this->lightmanager.GetNumActiveDirLights();
+
+	D3D11_MAPPED_SUBRESOURCE mapResDir;
+	 hr = S_OK;
+
+	hr = gDeviceContext->Map(lightBuffers[BUFFER_DIRLIGHTS], 0, D3D11_MAP_WRITE_DISCARD, 0, &mapResDir);
+	memcpy(mapResDir.pData, (void*)pDirLights, sizeof(DirLightStruct));
+
+	gDeviceContext->Unmap(lightBuffers[BUFFER_DIRLIGHTS], 0);
+	this->gDeviceContext->PSSetShaderResources(DIRLIGHTS_BUFFER_INDEX, 1, &dirLightStructuredBuffer);
+	//////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+}
+
+void Renderer::UpdateCbufferPerFrame()
 {
 
-	CamMatrices* tempCam				= this->sceneCam->GetCameraMatrices();
-	tempCam->mousePos					= this->mouseWorldPos;
+	CbufferPerFrame* tempStruct				= this->sceneCam->GetCameraMatrices();
+	tempStruct->mousePos					= this->mouseWorldPos;
+	tempStruct->numPointLights				= this->mNumPointLights;
+	tempStruct->numSpotLights				= this->mNumSpotLights;
+	tempStruct->numDirLights				= this->mNumDirLights;
+
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
-	gDeviceContext->Map(this->camBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+	gDeviceContext->Map(this->cbufferPerFrame, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
 
-	CamMatrices* tempCamMatrices		= (CamMatrices*)mappedResource.pData;
-	*tempCamMatrices					= *tempCam;
+	CbufferPerFrame* tempStructMatrices		= (CbufferPerFrame*)mappedResource.pData;
+	*tempStructMatrices						= *tempStruct;
 	
 	
 
-	gDeviceContext->Unmap(this->camBuffer, 0);
+	gDeviceContext->Unmap(this->cbufferPerFrame, 0);
 	
-	gDeviceContext->GSSetConstantBuffers(CAMERABUFFER_INDEX, 1, &this->camBuffer);
-	gDeviceContext->PSSetConstantBuffers(CAMERABUFFER_INDEX, 1, &this->camBuffer);
+	gDeviceContext->GSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
+	gDeviceContext->PSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
 
 
 
@@ -298,6 +408,9 @@ void Renderer::UpdateCameraBuffer()
 void Renderer::UpdateLightBuffer()
 {
 
+	MapLightBufferStructures();
+
+/*
 	PointLight* tempLight = this->sceneLightArray;
 	
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
@@ -314,7 +427,7 @@ void Renderer::UpdateLightBuffer()
 	gDeviceContext->Unmap(this->lightBuffer, 0);
 
 	gDeviceContext->GSSetConstantBuffers(LIGHTBUFFER_INDEX, 1, &this->lightBuffer);
-	gDeviceContext->PSSetConstantBuffers(LIGHTBUFFER_INDEX, 1, &this->lightBuffer);
+	gDeviceContext->PSSetConstantBuffers(LIGHTBUFFER_INDEX, 1, &this->lightBuffer);*/
 
 }
 
@@ -370,28 +483,28 @@ bool Renderer::CreateConstantBuffers()
 	HRESULT hr;
 
 //-----------------------------------------------------------------------------------------------------------------------------------
-		//CAMERA CONSTANT BUFFER
+		//CbufferPerFrame CONSTANT BUFFER
 //-----------------------------------------------------------------------------------------------------------------------------------
 
-	//Creating the Camera constant buffer
+	//Creating the cbufferPerFrame constant buffer
 	CD3D11_BUFFER_DESC bufferDesc;
 	ZeroMemory(&bufferDesc, sizeof(bufferDesc));
 
-	bufferDesc.ByteWidth			 = sizeof(CamMatrices);
+	bufferDesc.ByteWidth			 = sizeof(CbufferPerFrame);
 	bufferDesc.BindFlags			 = D3D11_BIND_CONSTANT_BUFFER;
 	bufferDesc.Usage				 = D3D11_USAGE_DYNAMIC;
 	bufferDesc.CPUAccessFlags		 = D3D11_CPU_ACCESS_WRITE;
 	bufferDesc.MiscFlags			 = 0;
 	bufferDesc.StructureByteStride	 = 0;
 
-	hr = this->gDevice->CreateBuffer( &bufferDesc , nullptr , &camBuffer );
+	hr = this->gDevice->CreateBuffer( &bufferDesc , nullptr , &cbufferPerFrame);
 	if (FAILED(hr))
-		MessageBox(NULL, L"Failed to create Camera buffer", L"Error", MB_ICONERROR | MB_OK);
+		MessageBox(NULL, L"Failed to create cbufferPerFrame buffer", L"Error", MB_ICONERROR | MB_OK);
 	if (SUCCEEDED(hr))
 	{
 
-		this->gDeviceContext->GSSetConstantBuffers(CAMERABUFFER_INDEX, 1 , &this->camBuffer );
-		this->gDeviceContext->PSSetConstantBuffers(CAMERABUFFER_INDEX, 1, &this->camBuffer);
+		this->gDeviceContext->GSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1 , &this->cbufferPerFrame);
+		this->gDeviceContext->PSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
 	}
 
 //-----------------------------------------------------------------------------------------------------------------------------------
@@ -421,21 +534,21 @@ bool Renderer::CreateConstantBuffers()
 		//LIGHT CONSTANT BUFFER
 //-----------------------------------------------------------------------------------------------------------------------------------
 
-	CD3D11_BUFFER_DESC bufferDescLight;
-	ZeroMemory(&bufferDescLight, sizeof(bufferDescLight));
+	//CD3D11_BUFFER_DESC bufferDescLight;
+	//ZeroMemory(&bufferDescLight, sizeof(bufferDescLight));
 
-	bufferDescLight.ByteWidth				 = sizeof(PointLight);
-	bufferDescLight.BindFlags				 = D3D11_BIND_CONSTANT_BUFFER;
-	bufferDescLight.Usage					 = D3D11_USAGE_DYNAMIC;
-	bufferDescLight.CPUAccessFlags			 = D3D11_CPU_ACCESS_WRITE;
-	bufferDescLight.MiscFlags				 = 0;
-	bufferDescLight.StructureByteStride		 = 0;
+	//bufferDescLight.ByteWidth				 = sizeof(PointLight);
+	//bufferDescLight.BindFlags				 = D3D11_BIND_CONSTANT_BUFFER;
+	//bufferDescLight.Usage					 = D3D11_USAGE_DYNAMIC;
+	//bufferDescLight.CPUAccessFlags			 = D3D11_CPU_ACCESS_WRITE;
+	//bufferDescLight.MiscFlags				 = 0;
+	//bufferDescLight.StructureByteStride		 = 0;
 
-	hr = this->gDevice->CreateBuffer(&bufferDescLight, nullptr, &lightBuffer);
-	if (FAILED(hr))
-		MessageBox(NULL, L"Failed to create light buffer", L"Error", MB_ICONERROR | MB_OK);
-	if (SUCCEEDED(hr))
-		this->gDeviceContext->PSSetConstantBuffers(	LIGHTBUFFER_INDEX, 1, &lightBuffer);
+	//hr = this->gDevice->CreateBuffer(&bufferDescLight, nullptr, &lightBuffer);
+	//if (FAILED(hr))
+	//	MessageBox(NULL, L"Failed to create light buffer", L"Error", MB_ICONERROR | MB_OK);
+	//if (SUCCEEDED(hr))
+	//	this->gDeviceContext->PSSetConstantBuffers(	LIGHTBUFFER_INDEX, 1, &lightBuffer);
 
 
 	//-----------------------------------------------------------------------------------------------------------------------------------
@@ -460,9 +573,90 @@ bool Renderer::CreateConstantBuffers()
 	if (SUCCEEDED(hr))
 		this->gDeviceContext->PSSetConstantBuffers(SAMPLEBOOLSBUFFER_INDEX, 1, &sampleBoolsBuffer);
 
+	
 
 
+	//-----------------------------------------------------------------------------------------------------------------------------------
+	// LIGHT STRUCTURED BUFFERS (PS)
+	//-----------------------------------------------------------------------------------------------------------------------------------
 
+	//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
+	//POINT LIGHTS
+	//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
+	//Light buffer for structured buffer
+	D3D11_BUFFER_DESC lightBufferDesc;
+	ZeroMemory(&lightBufferDesc, sizeof(lightBufferDesc));
+	lightBufferDesc.BindFlags			= D3D11_BIND_SHADER_RESOURCE;
+	lightBufferDesc.Usage				= D3D11_USAGE_DYNAMIC;
+	lightBufferDesc.CPUAccessFlags		=  D3D11_CPU_ACCESS_WRITE;
+	lightBufferDesc.MiscFlags			= D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+	lightBufferDesc.ByteWidth			= sizeof(PointLightStruct);
+	lightBufferDesc.StructureByteStride = sizeof(PointLight);
+
+	if (FAILED(hr = gDevice->CreateBuffer(&lightBufferDesc, nullptr, &lightBuffers[BUFFER_POINTLIGHTS])))
+		MessageBox(NULL, L"Failed to create PointLight buffer", L"Error", MB_ICONERROR | MB_OK);
+
+	if (FAILED(hr = gDevice->CreateShaderResourceView(lightBuffers[BUFFER_POINTLIGHTS], nullptr, &pointLightStructuredBuffer)))
+		MessageBox(NULL, L"Failed to create PointLight buffer", L"Error", MB_ICONERROR | MB_OK);
+	
+	this->gDeviceContext->PSSetShaderResources(POINTLIGHTS_BUFFER_INDEX, 1, &pointLightStructuredBuffer);
+	//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
+	//SPOT LIGHTS
+	//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
+	
+	//Light buffer for structured buffer
+	//D3D11_BUFFER_DESC lightBufferDesc;
+	ZeroMemory(&lightBufferDesc, sizeof(lightBufferDesc));
+	lightBufferDesc.BindFlags			= D3D11_BIND_SHADER_RESOURCE;
+	lightBufferDesc.Usage				= D3D11_USAGE_DYNAMIC;
+	lightBufferDesc.CPUAccessFlags		= D3D11_CPU_ACCESS_WRITE;
+	lightBufferDesc.MiscFlags		    = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+	lightBufferDesc.ByteWidth		    = sizeof(SpotLightStruct);
+	lightBufferDesc.StructureByteStride = sizeof(SpotLight);
+
+	if (FAILED(hr = gDevice->CreateBuffer(&lightBufferDesc, nullptr, &lightBuffers[BUFFER_SPOTLIGHTS])))
+		MessageBox(NULL, L"Failed to create SpotLight buffer", L"Error", MB_ICONERROR | MB_OK);
+
+	if (FAILED(hr = gDevice->CreateShaderResourceView(lightBuffers[BUFFER_SPOTLIGHTS], nullptr, &spotLightStructuredBuffer)))
+		MessageBox(NULL, L"Failed to create SpotLight buffer", L"Error", MB_ICONERROR | MB_OK);
+
+	this->gDeviceContext->PSSetShaderResources(SPOTLIGHTS_BUFFER_INDEX, 1, &spotLightStructuredBuffer);
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
+	//DIRECTIONAL LIGHTS
+	//////////////////////////////////////////////////////////////////////////////////////////
+	//////////////////////////////////////////////////////////////////////////////////////////
+
+	//Light buffer for structured buffer
+	//D3D11_BUFFER_DESC lightBufferDesc;
+	ZeroMemory(&lightBufferDesc, sizeof(lightBufferDesc));
+	lightBufferDesc.BindFlags			 = D3D11_BIND_SHADER_RESOURCE;
+	lightBufferDesc.Usage				 = D3D11_USAGE_DYNAMIC;
+	lightBufferDesc.CPUAccessFlags		 = D3D11_CPU_ACCESS_WRITE;
+	lightBufferDesc.MiscFlags			 = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+	lightBufferDesc.ByteWidth			 = sizeof(DirLightStruct);
+	lightBufferDesc.StructureByteStride  = sizeof(DirectionalLight);
+
+	if (FAILED(hr = gDevice->CreateBuffer(&lightBufferDesc, nullptr, &lightBuffers[BUFFER_DIRLIGHTS])))
+		MessageBox(NULL, L"Failed to create DirLight buffer", L"Error", MB_ICONERROR | MB_OK);
+
+	if (FAILED(hr = gDevice->CreateShaderResourceView(lightBuffers[BUFFER_DIRLIGHTS], nullptr, &dirLightStructuredBuffer)))
+		MessageBox(NULL, L"Failed to create DirLight buffer", L"Error", MB_ICONERROR | MB_OK);
+
+
+	this->gDeviceContext->PSSetShaderResources(DIRLIGHTS_BUFFER_INDEX, 1, &dirLightStructuredBuffer);
+	////////////////////////////////////////////////////////////////////////////////////////////////////////
 	return true;
 }
 
