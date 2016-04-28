@@ -227,6 +227,9 @@
     <Filter Include="ResourceEngine\ResourceManager\LightManager">
       <UniqueIdentifier>{076a7aae-c3d3-4936-8aaa-73819d554bea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\SkeletonManager">
+      <UniqueIdentifier>{e192e60f-6436-453c-9199-6e09db3a6c68}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameLogic\Animation\Animation.cpp">
@@ -393,6 +396,9 @@
     </ClCompile>
     <ClCompile Include="ResourceEngine\ResourceManager\LightManager\LightManager.cpp">
       <Filter>ResourceEngine\ResourceManager\LightManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ResourceManager\SkeletonManager\SkeletonManager.cpp">
+      <Filter>ResourceEngine\ResourceManager\SkeletonManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -575,6 +581,12 @@
     </ClInclude>
     <ClInclude Include="ResourceEngine\ResourceManager\LightManager\LightManager.h">
       <Filter>ResourceEngine\ResourceManager\LightManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ResourceManager\SkeletonManager\SkeletonManager.h">
+      <Filter>ResourceEngine\ResourceManager\SkeletonManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Structs\SkeletonStructs.h">
+      <Filter>Structs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

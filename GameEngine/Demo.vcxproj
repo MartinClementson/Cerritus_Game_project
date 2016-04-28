@@ -198,6 +198,7 @@
     <ClCompile Include="ResourceEngine\ResourceManager\MeshManager\MeshManager.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\ShaderManager\ShaderManager.cpp" />
+    <ClCompile Include="ResourceEngine\ResourceManager\SkeletonManager\SkeletonManager.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\TextureManager\TextureManager.cpp" />
     <ClCompile Include="Source\EngineClass\Engine.cpp" />
     <ClCompile Include="Source\GameTimer\GameTimer.cpp" />
@@ -255,6 +256,7 @@
     <ClInclude Include="ResourceEngine\ResourceManager\MeshManager\MeshManager.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\ResourceManager.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\ShaderManager\ShaderManager.h" />
+    <ClInclude Include="ResourceEngine\ResourceManager\SkeletonManager\SkeletonManager.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\TextureManager\TextureManager.h" />
     <ClInclude Include="Source\Constants.h" />
     <ClInclude Include="Source\EngineClass\Engine.h" />
@@ -263,6 +265,7 @@
     <ClInclude Include="Structs\ConstantBufferStruct.h" />
     <ClInclude Include="Structs\DataTypes.h" />
     <ClInclude Include="Structs\RenderInfo.h" />
+    <ClInclude Include="Structs\SkeletonStructs.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ResourceEngine\Shader\FinalPassShaders\FinalPassShaders.hlsl">
