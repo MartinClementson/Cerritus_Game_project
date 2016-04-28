@@ -49,6 +49,7 @@ public:
 	void EnemyWithEnemyCollision(Enemy * enemy, Enemy * enemys, double deltaTime);
 	//void EnemyWithBeartrap(BearTrap * bear, Enemy * enemys, double deltaTime);
 	void Respawn(XMFLOAT3 spawn);
+	void Spawn(XMFLOAT3 spawn);
 
 
 	XMFLOAT3 direction;

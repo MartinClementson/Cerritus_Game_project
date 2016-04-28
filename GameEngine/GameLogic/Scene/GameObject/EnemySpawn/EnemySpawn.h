@@ -33,5 +33,6 @@ public:
 	void Update(double deltaTime);
 	void InitEnemy();
 	void SpawnEnemy();
+	void RespawnEnemy();
 };
 

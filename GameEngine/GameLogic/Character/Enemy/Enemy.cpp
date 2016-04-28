@@ -30,7 +30,7 @@ Enemy::~Enemy()
 void Enemy::Initialize()
 {
 	graphics = Graphics::GetInstance();
-	movementSpeed = 15.0f;
+	movementSpeed = 20.0f;
 
 	health = 100.0f;
 	DoT = 0;
@@ -55,21 +55,16 @@ void Enemy::Release()
 
 void Enemy::Update(double deltaTime)
 {
+	
 	if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
 	{
-		if (index > 3)
-		{
-			index = 0;
-		}
 		index += (float)deltaTime;
-
 	}
-	if (index >= 3)
+	if (3 < index && index < 4)
 	{
-
+		index++;
 		enemyStateMachine->SetActiveState(ENEMY_ATTACK_STATE);
 
-		index++;
 	}
 	health -= DoT;//deltaTime;
 
@@ -117,6 +112,17 @@ void Enemy::Respawn(XMFLOAT3 spawn)
 	this->isAlive  = true;
 	this->health = 100.0f;
 	this->DoT = 0.0f;
+	this->index = 5.0f;
+	this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
+}
+
+void Enemy::Spawn(XMFLOAT3 spawn)
+{
+	this->position = spawn;
+	this->isAlive = true;
+	this->health = 100.0f;
+	this->DoT = 0.0f;
+	this->index = 0.0f;
 	this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_IDLE_STATE);
 }
 
@@ -171,18 +177,31 @@ float Enemy::GetRadius2()
 
 void Enemy::EnemyWithEnemyCollision(Enemy* enemy, Enemy* enemys, double deltaTime)
 {
-	XMFLOAT3 enemyPos;
-	XMFLOAT3 enemyPos2;
-	Vec3 dir;
-
-	enemyPos = enemy->GetPosition();
-	enemyPos2 = enemys->GetPosition();
-
-	dir.x = enemyPos.x - enemyPos2.x;
-	dir.z = enemyPos.z - enemyPos2.z;
 	
-	dir.Normalize();
 
-	enemys->position.x -= dir.x * (float)deltaTime * movementSpeed;
-	enemys->position.z -= dir.z * (float)deltaTime * movementSpeed;
+	if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE)
+	{
+		XMFLOAT3 enemyPos;
+		XMFLOAT3 enemyPos2;
+		Vec3 dir;
+
+		enemyPos = enemy->GetPosition();
+		enemyPos2 = enemys->GetPosition();
+
+		dir.x = enemyPos.x - enemyPos2.x;
+		dir.z = enemyPos.z - enemyPos2.z;
+
+		dir.Normalize();
+
+		enemys->position.x -= dir.x * (float)deltaTime * movementSpeed;
+		enemys->position.z -= dir.z * (float)deltaTime * movementSpeed;
+	}
+	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
+	{
+		
+	}
+	else if (enemyStateMachine->GetActiveState() == ENEMY_DEATH_STATE)
+	{
+		//here they go to die 
+	}
 }
