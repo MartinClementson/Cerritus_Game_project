@@ -257,7 +257,6 @@ bool Collision::TrapandEnemyLottery(Enemy* enemys)
 	}
 	
 	return false;
-
 }
 
 Collision::~Collision()

@@ -34,6 +34,19 @@ void EnemySpawn::Update(double deltaTime)
 {
 	for (size_t i = 0; i < Alive.size(); i++)
 	{
+		if (collision->PlayerCollision(Alive.at(i)))
+		{
+			////not alive anymore
+			//MessageBox(0, L"You have Collided",
+			//	L"LOL", MB_OK);
+
+			Alive.at(i)->isAlive = false;
+			Queue.push_back(Alive.at(i));
+			Alive.erase(Alive.begin() + i);
+			Player* player;
+			player = collision->GetPlayer();
+		}
+
 		Alive.at(i)->Update(deltaTime);
 
 		if (Alive.at(i)->GetHealth() <= 0 &&
@@ -71,20 +84,6 @@ void EnemySpawn::Update(double deltaTime)
 			Queue.push_back(Alive.at(i));
 
 			Alive.erase(Alive.begin() + i);
-		}
-
-
-		if (collision->PlayerCollision(Alive.at(i)))
-		{
-			////not alive anymore
-			//MessageBox(0, L"You have Collided",
-			//	L"LOL", MB_OK);
-
-			Alive.at(i)->isAlive = false;
-			Queue.push_back(Alive.at(i));
-			Alive.erase(Alive.begin() + i);
-			Player* player;
-			player = collision->GetPlayer();
 		}
 	}
 
