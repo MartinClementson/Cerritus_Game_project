@@ -24,6 +24,8 @@ public:
 	std::vector<Enemy*> Alive;
 	EnemySpawn();
 	~EnemySpawn();
+	float spawnTimer;
+	bool firstSpawn;
 
 	void Release();
 	void Initialize(XMFLOAT3 spawnPosition);

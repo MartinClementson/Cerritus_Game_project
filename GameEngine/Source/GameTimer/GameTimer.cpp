@@ -15,6 +15,13 @@ GameTimer::GameTimer()
 	mSecondsPerCount = 1.0 / (double)countsPerSec;
 }
 
+GameTimer * GameTimer::GetInstance()
+{
+	static GameTimer instance;
+
+	return &instance;
+}
+
 double GameTimer::GameTime() const
 {
 	return 0.0;
