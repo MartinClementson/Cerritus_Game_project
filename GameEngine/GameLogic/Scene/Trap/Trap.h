@@ -15,11 +15,13 @@ public:
 	virtual void Render();
 	virtual float GetDamage();
 	virtual void SetDamage(float damage);
-	virtual DirectX::XMFLOAT3 GetPosition();
-	virtual DirectX::XMFLOAT3 GetRotation();
+	virtual XMFLOAT3 GetPosition();
+	virtual XMFLOAT3 GetRotation();
 	virtual void SetPosition(DirectX::XMFLOAT3 position);  // la till virtual på get och set då de inte ska användas i denna klass
 	virtual void SetRotation(DirectX::XMFLOAT3 rotation);
 	virtual float GetRadius() { return this->radius; }
+	virtual float GetRadius2() { return this->radius; }
+
 
 	void initTrap();
 	bool isActive;
@@ -33,7 +35,7 @@ protected:
 	DirectX::XMFLOAT3 position;
 	DirectX::XMFLOAT3 rotation;
 	float damage;
-	float radius;
+	float radius, radius2;
 	
 };
 

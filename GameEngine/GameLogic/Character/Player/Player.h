@@ -73,6 +73,7 @@ public:
 
 	XMFLOAT3 GetPosition() { return this->position; };
 	float GetRadius() { return this->radius; };
+	float GetRadius2() { return this->radius2; };
 	float VelocityMax; 
 	float slowTimer;
 	float GetHealth();
@@ -90,7 +91,7 @@ public:
 private:
 	MeshEnum meshID;//enum
 	RenderInfoChar renderInfo;
-	
+
 
 	XMFLOAT3 direction;
 	//Collision();
