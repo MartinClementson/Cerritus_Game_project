@@ -32,8 +32,8 @@ struct PointLight
 		lightDiffuse	 = DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	
 		 intensity		 = 1.0f;
-		 lightRange		 = 10.0f;
-		 attenuation	 = 80;
+		 lightRange		 = 60.0f;
+		 attenuation	 = 0.005f;
 		 castShadow		 = FALSE;
 	
 	
@@ -77,7 +77,7 @@ struct SpotLight
 		lightDiffuse	 = DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 
 		intensity		 = 1.0f;
-		lightRange		 = 10.0f;
+		lightRange		 = 50.0f;
 		spotRadius		 = 80.0f;
 		attenuation		 = 0.05f;
 		castShadow		 = FALSE;

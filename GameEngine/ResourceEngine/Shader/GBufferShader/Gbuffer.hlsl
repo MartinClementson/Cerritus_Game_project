@@ -28,7 +28,7 @@ cbuffer worldConstantBuffer		 : register(b1)
 };								 
 								 
 		
-cbuffer textureSampleBuffer		 : register(b3)
+cbuffer textureSampleBuffer		 : register(b2)
 {
 	bool diffuseMap;
 	bool normalMap;
@@ -43,20 +43,17 @@ struct PointLight
 	matrix lightProjection;
 	float4 lightLookAt;
 	float4 lightDiffuse;
-	
 	float intensity;
-	float3 padI;
-
+	float3 padd;
 	float lightRange;
-	float3 padR;
-
+	float3 pad;
 	float attenuation;
-	float aPad;
+	float3 paddd;
 	bool castShadow;
 
 };
 
-StructuredBuffer<PointLight> pointlights : register(t7);
+StructuredBuffer<PointLight> pointlights : register(t8);
 struct GBUFFER_VS_IN
 {
 	float3 Pos			 : POSITION;
@@ -244,7 +241,7 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	else
 	{
 		
-		output.diffuseRes = float4(0.4, 0.4, 0.4, col.x); //Alpha == laserpointer color
+		output.diffuseRes = float4(1.0, 0.0, 0.0, col.x); //Alpha == laserpointer color
 	}
 
 
@@ -306,11 +303,11 @@ struct GBUFFER_SHADOWDEPTH_VS_OUT
 GBUFFER_SHADOWDEPTH_VS_OUT GBUFFER_SHADOWDEPTH_VS_main(GBUFFER_VS_IN input)
 {
 	GBUFFER_SHADOWDEPTH_VS_OUT output = (GBUFFER_SHADOWDEPTH_VS_OUT)0;
-	matrix combinedMatrix = mul(world, mul(pointlights[0].lightView, pointlights[0].lightProjection));
+	//matrix combinedMatrix = mul(world, mul(lightView, lightProjection));
 
 		output.position = float4(input.Pos, 1);
 
-		output.position = mul(output.position, combinedMatrix);
+		//output.position = mul(output.position, combinedMatrix);
 
 	return output;
 }

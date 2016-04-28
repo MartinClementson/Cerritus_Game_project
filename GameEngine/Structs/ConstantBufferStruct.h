@@ -28,15 +28,12 @@ struct WorldMatrix
 struct PointLightStruct
 {
 	PointLight	pointLights		[ MAX_NUM_POINTLIGHTS];
-	
-
-
 };
 
 struct SpotLightStruct
 {
 	
-	SpotLight	spotlights[MAX_NUM_SPOTLIGHTS];
+	SpotLight	spotlights		[MAX_NUM_SPOTLIGHTS];
 
 };
 
