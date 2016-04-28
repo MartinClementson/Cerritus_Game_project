@@ -8,7 +8,9 @@ private:
 	std::vector<Skeleton*> skeletons;
 	DirectX::XMMATRIX GetParentBindPose(int parentID);
 public:
-	void AddSkeleton();
+	void AddSkeleton(BRFImporterLib::SkeletonHeader* skelInfo, BRFImporterLib::JointHeader* joints[],
+		BRFImporterLib::AnimationHeader* animations[], BRFImporterLib::JointCountHeader* animatedjoints[],
+		BRFImporterLib::FrameHeader* frames[]);
 	void Initialize();
 	void Release();
 	SkeletonManager();

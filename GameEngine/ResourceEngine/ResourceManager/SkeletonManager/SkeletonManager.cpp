@@ -7,7 +7,7 @@ DirectX::XMMATRIX SkeletonManager::GetParentBindPose(int parentID)
 	return DirectX::XMMATRIX();
 }
 
-void SkeletonManager::AddSkeleton()
+void SkeletonManager::AddSkeleton(BRFImporterLib::SkeletonHeader* skelInfo, BRFImporterLib::JointHeader* joints[])
 {
 }
 
