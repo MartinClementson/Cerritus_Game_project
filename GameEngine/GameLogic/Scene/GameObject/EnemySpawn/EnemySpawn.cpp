@@ -33,7 +33,6 @@ void EnemySpawn::Release()
 }
 void EnemySpawn::Update(double deltaTime)
 {
-
 	for (size_t i = 0; i < Alive.size(); i++)
 	{
 		Alive.at(i)->Update(deltaTime);
@@ -142,7 +141,7 @@ void EnemySpawn::SpawnEnemy()
 
 void EnemySpawn::InitEnemy()
 {
-	unsigned int waveAmount = 20;
+	unsigned int waveAmount = 10;
 
 
 	for (size_t i = 0; i < waveAmount; i++)

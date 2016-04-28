@@ -25,8 +25,8 @@ void ShaderManager::Initialize(ID3D11Device * gDevice, ID3D11DeviceContext * gDe
 void ShaderManager::Release()
 {
 
-	SAFE_RELEASE(gSampleState);
-
+	SAFE_RELEASE(linearSampleState);
+	SAFE_RELEASE(pointSampleState );
 
 	
 	SAFE_RELEASE(FINAL_VS);
@@ -81,7 +81,8 @@ void ShaderManager::Release()
 
 void ShaderManager::SetActiveShader(Shaders* shader)
 {
-	gDeviceContext->PSSetSamplers(0, 1, &this->gSampleState);
+	gDeviceContext->PSSetSamplers(0, 1, &this->linearSampleState);
+	gDeviceContext->PSSetSamplers(1, 1, &this->pointSampleState);
 	switch (*shader)
 	{
 	case FINAL_SHADER:
@@ -199,26 +200,26 @@ bool ShaderManager::CreateFinalPassShaders()
 
 	D3D11_SAMPLER_DESC samplerDesc;
 	// use linear interpolation for minification, magnification, and mip-level sampling (quite expensive)
-	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR;
+	samplerDesc.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;// D3D11_FILTER_MIN_MAG_POINT_MIP_LINEAR;
 	//for all filters: https://msdn.microsoft.com/en-us/library/windows/desktop/ff476132(v=vs.85).aspx
 
-	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_BORDER;
-	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_BORDER; //wrap, (repeat) for use of tiling texutures
-	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_BORDER;
-	samplerDesc.MipLODBias = 0.0f; //mipmap offset level
-	samplerDesc.MaxAnisotropy = 1; //Clamping value used if D3D11_FILTER_ANISOTROPIC or D3D11_FILTER_COMPARISON_ANISOTROPIC is specified in Filter. Valid values are between 1 and 16.
-	samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
-	samplerDesc.MinLOD = 0; //0 most detailed mipmap level, higher number == less detail
-	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
-	samplerDesc.BorderColor[0] = 0.0f;
-	samplerDesc.BorderColor[1] = 0.0f;
-	samplerDesc.BorderColor[2] = 0.0f;
-	samplerDesc.BorderColor[3] = 1.0f;
+	samplerDesc.AddressU		= D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.AddressV		= D3D11_TEXTURE_ADDRESS_WRAP; //wrap, (repeat) for use of tiling texutures
+	samplerDesc.AddressW		= D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc.MipLODBias		= 0.0f; //mipmap offset level
+	samplerDesc.MaxAnisotropy   = 1; //Clamping value used if D3D11_FILTER_ANISOTROPIC or D3D11_FILTER_COMPARISON_ANISOTROPIC is specified in Filter. Valid values are between 1 and 16.
+	samplerDesc.ComparisonFunc  = D3D11_COMPARISON_ALWAYS;
+	samplerDesc.MinLOD			= 0; //0 most detailed mipmap level, higher number == less detail
+	samplerDesc.MaxLOD			= D3D11_FLOAT32_MAX;
+	samplerDesc.BorderColor[0]  = 0.0f;
+	samplerDesc.BorderColor[1]  = 0.0f;
+	samplerDesc.BorderColor[2]  = 0.0f;
+	samplerDesc.BorderColor[3]  = 1.0f;
 
 
 
 
-	hr = gDevice->CreateSamplerState(&samplerDesc, &gSampleState);
+	hr = gDevice->CreateSamplerState(&samplerDesc, &linearSampleState);
 
 
 	if (FAILED(hr))
@@ -230,9 +231,53 @@ bool ShaderManager::CreateFinalPassShaders()
 	else
 	{
 		//Set sampler to pixel shader and the compute shader
-		gDeviceContext->PSSetSamplers(0, 1, &this->gSampleState);
-		gDeviceContext->CSSetSamplers(0, 1, &this->gSampleState);
+		gDeviceContext->PSSetSamplers(0, 1, &this->linearSampleState);
+		gDeviceContext->CSSetSamplers(0, 1, &this->linearSampleState);
 	}
+
+
+
+
+	//Create a sample state first
+
+	
+
+	D3D11_SAMPLER_DESC samplerDescPoint;
+	// use linear interpolation for minification, magnification, and mip-level sampling (quite expensive)
+	samplerDescPoint.Filter = D3D11_FILTER_MIN_MAG_MIP_POINT;
+														 //for all filters: https://msdn.microsoft.com/en-us/library/windows/desktop/ff476132(v=vs.85).aspx
+
+	samplerDescPoint.AddressU		 = D3D11_TEXTURE_ADDRESS_BORDER;
+	samplerDescPoint.AddressV		 = D3D11_TEXTURE_ADDRESS_BORDER;
+	samplerDescPoint.AddressW		 = D3D11_TEXTURE_ADDRESS_BORDER;
+	samplerDescPoint.MipLODBias		 = 0.0f;  //mipmap offset level
+	samplerDescPoint.MaxAnisotropy	 = 1;  //Clamping value used if D3D11_FILTER_ANISOTROPIC or D3D11_FILTER_COMPARISON_ANISOTROPIC is specified in Filter. Valid values are between 1 and 16.
+	samplerDescPoint.ComparisonFunc  = D3D11_COMPARISON_ALWAYS;
+	samplerDescPoint.MinLOD			 = 0;			//0 most detailed mipmap level, higher number == less detail
+	samplerDescPoint.MaxLOD			 = D3D11_FLOAT32_MAX;
+	
+
+
+
+
+	hr = gDevice->CreateSamplerState(&samplerDesc, &pointSampleState);
+
+
+	if (FAILED(hr))
+	{
+		return false;
+
+
+	}
+	else
+	{
+		//Set sampler to pixel shader and the compute shader
+		gDeviceContext->PSSetSamplers(1, 1, &this->pointSampleState);
+		gDeviceContext->CSSetSamplers(1, 1, &this->pointSampleState);
+	}
+
+
+
 
 	//Load the shaders
 
