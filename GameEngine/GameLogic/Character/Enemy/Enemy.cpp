@@ -71,7 +71,7 @@ void Enemy::Update(double deltaTime)
 
 	if (DoT != 0)
 	{
-		DoTDur += deltaTime;
+		DoTDur += (float)deltaTime;
 	}
 	if (DoTDur >= 3)
 	{
@@ -80,7 +80,7 @@ void Enemy::Update(double deltaTime)
 	}
 	if (movementSpeed != 20.0f)
 	{
-		slowTimer += deltaTime;
+		slowTimer += (float)deltaTime;
 	}
 	if (slowTimer >= 3)
 	{
