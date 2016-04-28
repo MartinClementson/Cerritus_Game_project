@@ -44,9 +44,79 @@ bool Collision::bearTrapPlayerCollision(BearTrap * trap)
 		if (trap->isActive)
 		{
 			player->VelocityMax = 0.2f;
+			player->SetMulti(1);
 		}
 		return true;
 		
+	}
+
+	return false;
+}
+
+bool Collision::PlayerProxyTrap(BearTrap * trap)
+{
+
+	XMFLOAT3 playPos = player->GetPosition();
+	float playRad = player->GetRadius();
+
+	trapPos = trap->GetPosition();
+	trapRad = 5;
+
+	if (pow(playPos.x - trapPos.x, 2)
+		+ pow(playPos.z - trapPos.z, 2)
+		< pow(playRad + trapRad, 2))
+	{
+		if (trap->isActive)
+		{
+			player->VelocityMax = 0.2f;
+			player->SetMulti(1);
+		}
+		return true;
+
+	}
+
+	return false;
+}
+
+bool Collision::bearTrapEnemyCollision(BearTrap * trap, Enemy * enemy)
+{
+	trapPos = trap->GetPosition();
+	trapRad = trap->GetRadius();
+
+	enemyPos = enemy->GetPosition();
+	enemyRad = enemy->GetRadius();
+
+	if (pow(trapPos.x - enemyPos.x, 2)
+		+ pow(trapPos.z - enemyPos.z, 2)
+		< pow(trapRad + enemyRad, 2))
+	{
+		if (trap->isActive)
+		{
+			enemy->movementSpeed = 10.0f; // all hail the glorious satan
+		}
+		return true;
+	}
+
+	return false;
+}
+
+bool Collision::EnemyProxTrap(BearTrap * trap, Enemy * enemy)
+{
+	trapPos = trap->GetPosition();
+	trapRad = 5;
+
+	enemyPos = enemy->GetPosition();
+	enemyRad = enemy->GetRadius();
+
+	if (pow(trapPos.x - enemyPos.x, 2)
+		+ pow(trapPos.z - enemyPos.z, 2)
+		< pow(trapRad + enemyRad, 2))
+	{
+		if (trap->isActive)
+		{
+			enemy->movementSpeed = 10.0f; // all hail the glorious satan
+		}
+		return true;
 	}
 
 	return false;
@@ -68,7 +138,7 @@ bool Collision::fireTrapPlayerCollision(FireTrap * trap)
 		{
 			player->DoT = trap->GetDot();
 		}
-		return true;
+ 		return true;
 
 	}
 	return false;
@@ -86,6 +156,10 @@ bool Collision::fireTrapEnemyCollision(FireTrap * trap, Enemy * enemy)
 		+ pow(trapPos.z - enemyPos.z, 2)
 		< pow(trapRad + enemyRad, 2))
 	{
+		if (trap->isActive)
+		{
+			enemy->DoT = trap->GetDot();
+		}
 		return true;
 	}
 
@@ -133,6 +207,11 @@ bool Collision::ProjectileEnemyCollision(Projectile* projectile,Enemy* enemy)
 Collision::~Collision()
 {
 
+}
+
+Player* Collision::GetPlayer()
+{
+	return this->player;
 }
 
 

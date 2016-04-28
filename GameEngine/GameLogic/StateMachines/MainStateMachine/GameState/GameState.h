@@ -8,7 +8,7 @@
 #include "../../../GUI/GUI.h"
 #include "../../../Character/Enemy/Enemy.h"
 #include "../../../Collision/Collision.h"
-
+#include "../../../../Source/GameTimer/GameTimer.h"
 class GameState :
 	public StateClass
 {
@@ -20,6 +20,12 @@ public:
 	void Update(double deltaTime);
 	void Render();
 	void ProcessInput(double* deltaTime);
+	bool isPlayerDead;
+	void SetIsActive(bool isPlayerDead);
+	bool GetIsActive();
+	float timeSincePaused;
+	int index;
+	float GetPoints();
 
 private:
 	void OnEnter();
@@ -35,5 +41,6 @@ private:
 	MainPausedState* pause;
 	MainDeathState* death;
 	Collision* collision;
+	GameTimer* gameTimer;
 };
 

@@ -13,6 +13,9 @@ public:
 	void Release();
 	void Update(double deltaTime);
 	void Render();
+	TrapState GetTrapState();
+	void SetTrapState(TrapState state);
+	
 private:
 	ActiveState* activeState;
 	InactiveState* inactiveState;

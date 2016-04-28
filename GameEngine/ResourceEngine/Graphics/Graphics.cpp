@@ -156,15 +156,17 @@ void Graphics::Render() //manage RenderPasses here
 
 void Graphics::RenderScene()
 {
-	
-	
+
 	//Always render the char first! This is because we set the camera matrix with the characters position
-	renderer->Render(charObjects->at(0));
-	
+	if (charObjects->size() != 0)
+	{
+		renderer->Render(charObjects->at(0));
+	}
 #pragma region Temporary code for early testing
 	RenderInfoObject tempInfo;					 //TEMPORARY
 											//TEMPORARY
 	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
+	tempInfo.rotation = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
 	tempInfo.object = MeshEnum::LEVEL_1;
 	this->renderer->Render(&tempInfo);			 //TEMPORARY
 	
