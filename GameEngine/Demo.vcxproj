@@ -199,6 +199,7 @@
     <ClCompile Include="ResourceEngine\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\ShaderManager\ShaderManager.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\SkeletonManager\SkeletonManager.cpp" />
+    <ClCompile Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton\Skeleton.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\TextureManager\TextureManager.cpp" />
     <ClCompile Include="Source\EngineClass\Engine.cpp" />
     <ClCompile Include="Source\GameTimer\GameTimer.cpp" />
@@ -257,6 +258,7 @@
     <ClInclude Include="ResourceEngine\ResourceManager\ResourceManager.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\ShaderManager\ShaderManager.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\SkeletonManager\SkeletonManager.h" />
+    <ClInclude Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton\Skeleton.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\TextureManager\TextureManager.h" />
     <ClInclude Include="Source\Constants.h" />
     <ClInclude Include="Source\EngineClass\Engine.h" />
