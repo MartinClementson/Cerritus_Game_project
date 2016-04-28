@@ -169,20 +169,6 @@ float Enemy::GetRadius2()
 	return this->radius2;
 }
 
-void Enemy::AIPattern(Player * player, double deltaTime)
-{
-	XMFLOAT3 playerPos = player->GetPosition();
-	Vec3 vect;
-
-	vect.x = playerPos.x - position.x;
-	vect.z = playerPos.z - position.z;
-		
-	vect.Normalize();
-
-	this->position.x +=  vect.x *(float)deltaTime * movementSpeed;
-	this->position.z +=  vect.z *(float)deltaTime * movementSpeed;
-}
-
 void Enemy::EnemyWithEnemyCollision(Enemy* enemy, Enemy* enemys, double deltaTime)
 {
 	XMFLOAT3 enemyPos;

@@ -57,6 +57,5 @@ public:
 	bool TrapandEnemyLottery(Enemy * enemys);
 
 	~Collision();
-	Player* GetPlayer();
 };
 

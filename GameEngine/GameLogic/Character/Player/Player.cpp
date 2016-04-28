@@ -102,7 +102,7 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 	health -= DoT*deltaTime;
 	if (health <= 0)
 	{
-
+		
 		/*MessageBox(0, L"You Died",
 		L"Continue", MB_OK);*/
 		//health = 100.0f;

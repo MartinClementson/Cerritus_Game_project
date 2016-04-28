@@ -55,8 +55,8 @@ void EnemySpawn::Update(double deltaTime)
 			Alive.erase(Alive.begin() + i);
 		}
 		else if (Alive.at(i)->GetHealth() <= 0 &&
-		Alive.at(i)->GetStateMachine()->
-		GetActiveState() == EnemyState::ENEMY_IDLE_STATE)
+			Alive.at(i)->GetStateMachine()->
+			GetActiveState() == EnemyState::ENEMY_IDLE_STATE)
 		{
 			Player* player;
 			player = collision->GetPlayer();
@@ -72,8 +72,22 @@ void EnemySpawn::Update(double deltaTime)
 
 			Alive.erase(Alive.begin() + i);
 		}
+
+
+		if (collision->PlayerCollision(Alive.at(i)))
+		{
+			////not alive anymore
+			//MessageBox(0, L"You have Collided",
+			//	L"LOL", MB_OK);
+
+			Alive.at(i)->isAlive = false;
+			Queue.push_back(Alive.at(i));
+			Alive.erase(Alive.begin() + i);
+			Player* player;
+			player = collision->GetPlayer();
+		}
 	}
-	
+
 	if (Alive.size() == 0)
 	{
 		spawnTimer += (float)deltaTime;
@@ -82,27 +96,14 @@ void EnemySpawn::Update(double deltaTime)
 			SpawnEnemy();
 			spawnTimer = 0;
 		}
-		
+
 	}
 
 
-			if (collision->PlayerCollision(Alive.at(i)) )
-			{
-				////not alive anymore
-				//MessageBox(0, L"You have Collided",
-				//	L"LOL", MB_OK);
-				
-				Alive.at(i)->isAlive = false;
-				Queue.push_back(Alive.at(i));	
-				Alive.erase(Alive.begin() + i);
-				Player* player;
-				player = collision->GetPlayer();
-			}
-		}
-	}
 	
-
 }
+	
+	
 	
 
 void EnemySpawn::SpawnEnemy()
