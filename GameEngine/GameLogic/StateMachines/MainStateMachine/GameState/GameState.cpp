@@ -10,6 +10,7 @@ GameState::GameState()
 	this->input = Input::GetInstance();
 	this->room1 = new Scene();
 	this->collision = Collision::GetInstance();
+	this->gameTimer = GameTimer::GetInstance();
 }
 
 
@@ -30,14 +31,16 @@ void GameState::Initialize()
 	pause->Initialize();
 	death->isActive = false;
 	pause->isActive = false;
-	
+	isPlayerDead = false;
 	//Create room one here
+	timeSincePaused = 0.0f;
 	room1->Initialize();
 	room1->InitBearTrap();
 	room1->InitFireTrap();
 	room1->AddEnemySpawn(XMFLOAT3( 10.0f, 0.0f,  5.0f));
 	room1->AddEnemySpawn(XMFLOAT3(-30.0f, 0.0f, -20.0f));
 	room1->AddEnemySpawn(XMFLOAT3(0.0f, 0.0f, -50.0f));
+	index = 0;
 	OnEnter();
 
 }
@@ -54,104 +57,104 @@ void GameState::Release()
 
 void GameState::Update(double deltaTime)
 {
+
 	ProcessInput(&deltaTime);
-	XMFLOAT2 mouseXY = input->GetMousePosition();
-
-	XMFLOAT3 dir = Graphics::GetInstance()->GetPlayerDirection( mouseXY, player->GetPosition());
-	
-	for (size_t j = 0; j < room1->enemySpawns.size(); j++)
+	if (!pause->isActive)
 	{
 
-		for (size_t i = 0; i < room1->enemySpawns.at(j)->Alive.size(); i++)
+		if (player->GetHealth() <= 0)
 		{
-			room1->enemySpawns.at(j)->Alive.at(i)->AIPattern(player, deltaTime);
+			isPlayerDead = true;
+			//isActive = false;
 		}
-	}
+		ProcessInput(&deltaTime);
+		XMFLOAT2 mouseXY = input->GetMousePosition();
 
-		
-	player->Update(deltaTime,dir);
+		XMFLOAT3 dir = Graphics::GetInstance()->GetPlayerDirection(mouseXY, player->GetPosition());
 
-	room1->Update(deltaTime);
-
-	size_t i = 0;
-	while( i < player->projectileSystem->projectiles.size())
-	{
-		for (size_t k = 0; k < room1->enemySpawns.size(); k++)
+		for (size_t j = 0; j < room1->enemySpawns.size(); j++)
 		{
 
-			size_t j = 0;
-			while(j < room1->enemySpawns.at(k)->Alive.size())
+			for (size_t i = 0; i < room1->enemySpawns.at(j)->Alive.size(); i++)
 			{
-				if (collision->ProjectileEnemyCollision(
-					player->projectileSystem->
-					projectiles.at(i),
-					
-					room1->enemySpawns.at(k)->
-					Alive.at(j))
+				room1->enemySpawns.at(j)->Alive.at(i)->AIPattern(player, deltaTime);
+			}
+		}
 
-					&& room1->enemySpawns.at(k)->
-					Alive.at(j)->isAlive == true)
+
+		player->Update(deltaTime, dir);
+
+		room1->Update(deltaTime);
+
+		size_t i = 0;
+		while (i < player->projectileSystem->projectiles.size())
+		{
+			for (size_t k = 0; k < room1->enemySpawns.size(); k++)
+			{
+
+				size_t j = 0;
+				while (j < room1->enemySpawns.at(k)->Alive.size())
 				{
-					//not alive anymore
-					//MessageBox(0, L"You have Collided",
-					//	L"LOL", MB_OK);
-					if (room1->enemySpawns.at(k)->Alive.at(j)->GetHealth() <= 10.0f)
-					{
-
-						room1->enemySpawns.at(k)->Alive.at(j)->isAlive = false;
-						room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(100.0f);
+					if (collision->ProjectileEnemyCollision(
+						player->projectileSystem->
+						projectiles.at(i),
 
 						room1->enemySpawns.at(k)->
-							Queue.push_back(
-								room1->enemySpawns.at(k)->
-								Alive.at(j)
-								);
+						Alive.at(j))
 
-						room1->enemySpawns.at(k)->
-							Alive.erase(
-								room1->enemySpawns.at(k)->
-								Alive.begin() + j
-								);
+						&& room1->enemySpawns.at(k)->
+						Alive.at(j)->isAlive == true)
+					{
+						if(room1->enemySpawns.at(k)->Alive.at(j)->GetHealth() > 0.0f)
+						{
+							float tmpEnemyHealth = room1->enemySpawns.at(k)->Alive.at(j)->GetHealth();
+							room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(tmpEnemyHealth - 30.0f);
+						}
+						if (player->projectileSystem->projectiles.size() > 0)
+						{
+							player->projectileSystem->projectiles.at(i)->SetFired(false);
+						}
+
 
 					}
-					else
-					{
-						float tmpEnemyHealth = room1->enemySpawns.at(k)->Alive.at(j)->GetHealth();
-						room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(tmpEnemyHealth - 30.0f);
-					}
-					if (player->projectileSystem->projectiles.size() >0)
-					{
-						player->projectileSystem->projectiles.at(i)->SetFired(false);
-					}
-				
-				
+					j++;
 				}
-				j++;
+			}
+			i++;
 		}
+		/*if (index < 1)
+		{
+			index++;
 		}
-		i++;
+		else if (index == 1)
+		{
+			pause->isActive = true;
+			index++;
+		}*/
 	}
-	
-	
 }
 
 void GameState::ProcessInput(double* deltaTime)
 {
+	timeSincePaused += (float)*deltaTime;
 	XMFLOAT2 temp = input->GetMousePosition();
-
+	
 	if (death->isActive)
 	{
 
 	}
 	else if (pause->isActive)
 	{
-		if (input->IsKeyPressed(KEY_ESC))
+		if (input->IsKeyPressed(KEY_ENTER) && timeSincePaused > 0.2f)
 		{
 			pause->isActive = false;
+			timeSincePaused = 0.0f;
+			
 		}
 	}
 	else
 	{
+		
 		int					 moveKeysPressed		 = 0;		//How many have been clicked
 		int					 maxMoveKeysPressed		 = 2;		// Maximum amount of movement keys that can be clicked each frame.
 		MovementDirection	 directions[2];						//This should be as big as MaxMoveKeysPressed
@@ -208,9 +211,10 @@ void GameState::ProcessInput(double* deltaTime)
 #pragma endregion
 
 
-		if (input->IsKeyPressed(KEY_ESC))
+		if (input->IsKeyPressed(KEY_ENTER) && timeSincePaused >0.2f)
 		{
 			pause->isActive = true;
+			timeSincePaused = 0.0f;
 		}
 
 		if (input->IsKeyPressed(KEY_SPACE))
@@ -222,6 +226,16 @@ void GameState::ProcessInput(double* deltaTime)
 			player->Shoot(MOUSE_LEFT, deltaTime[0]);
 		}
 	}
+}
+
+void GameState::SetIsActive(bool isPlayerDead)
+{
+	this->isPlayerDead = isPlayerDead;
+}
+
+bool GameState::GetIsActive()
+{
+	return isPlayerDead;
 }
 
 void GameState::Render()
@@ -241,4 +255,9 @@ void GameState::OnEnter()
 void GameState::OnExit()
 {
 
+}
+
+float GameState::GetPoints()
+{
+	return player->GetPoints();
 }

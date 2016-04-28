@@ -9,10 +9,13 @@ private: // For variables.
 	EnemyIdleState* idleState;
 	AttackState* attackState;
 	EnemyDeathState* deathState;
-	EnemyState activeState;//enum
+	//enum
 private: // For Functions
 
 public:
+	EnemyState activeState;
+	EnemyState GetActiveState();
+	void SetActiveState(EnemyState state);
 	EnemyStateMachine();
 	~EnemyStateMachine();
 	void Initialize();
