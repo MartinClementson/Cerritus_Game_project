@@ -22,6 +22,10 @@ cbuffer lightBuffer			: register(b2)
 	float4 lightDir;
 	float4 lightDiffuse;
 	float intensity;
+	float lightRange;
+	float attenuation;
+	float pad;
+	bool castShadow;
 };
 cbuffer textureSampleBuffer : register(b3)
 {	

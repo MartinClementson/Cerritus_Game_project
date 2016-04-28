@@ -6,12 +6,13 @@ Renderer::Renderer()
 {
 	this->sceneCam			= new Camera();
 	this->resourceManager	= new ResourceManager();
-	this->sceneLightArray	= new PointLight(
-		XMFLOAT4(0.0f, 30.0f, 0.0f, 1.0f), //Pos
-		XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f),	//Direction
-		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));	//Color
+	this->sceneLightArray = new PointLight();
+
+	sceneLightArray->lightPosition		 = XMFLOAT4(0.0f, 30.0f, 0.0f, 1.0f); //Pos
+	sceneLightArray->lightLookAt		 = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);	//Direction
+	sceneLightArray->lightDiffuse		 = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	//Color
 	sceneLightArray->SetMatrices(XM_PI*0.8f, 1.0f, 5.0f, 40.0f);
-	sceneLightArray->intensity = 1.0f;
+	sceneLightArray->intensity			 = 1.0f;
 }
 
 
@@ -64,7 +65,6 @@ void Renderer::RenderFinalPass()
 	this->gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	this->gDeviceContext->IASetIndexBuffer(objectInstruction->indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-
 
 
 	this->gDeviceContext->DrawIndexed((UINT)*objectInstruction->indexCount, 0, 0);

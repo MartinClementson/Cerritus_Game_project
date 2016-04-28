@@ -26,11 +26,16 @@ cbuffer worldConstantBuffer		 : register(b1)
 								 
 cbuffer lightBuffer				 : register(b2)
 {								 
-	float4 lightPosition;		 
-	matrix lightView;			 
-	matrix lightProjection;		 
-	float4 lightDir;			 
-	float4 lightDiffuse;		 
+	float4 lightPosition;
+	matrix lightView;
+	matrix lightProjection;
+	float4 lightDir;
+	float4 lightDiffuse;
+	float intensity;
+	float lightRange;
+	float attenuation;
+	float pad;
+	bool castShadow;
 };								 
 cbuffer textureSampleBuffer		 : register(b3)
 {
