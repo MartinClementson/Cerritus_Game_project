@@ -169,20 +169,6 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 		importedMaterial tempMaterial;
 		tempMaterial.materialName = (std::string)currentFile->fetch->Material(i)->matName;
 
-		unsigned int tempMaterialID = currentFile->fetch->Material(i)->Id;
-		tempMaterial.materialID = materialID;
-		materialID++;
-
-
-		for (size_t j = meshes->size()-meshsize; j < meshes->size(); j++)
-		{
-			unsigned int importedMatID = meshes->at(j).GetMaterialID();
-			if (importedMatID == tempMaterialID)
-			{
-				meshes->at(j).SetMaterialID(tempMaterial.materialID);
-			}
-		}
-
 		//getting the diffuse values
 		tempMaterial.diffuseValue = {
 			(float)currentFile->fetch->Material(i)->diffuseVal[0],
@@ -201,6 +187,36 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 		tempMaterial.normalTex = (std::string)currentFile->fetch->Material(i)->normalMap;
 		tempMaterial.glowTex = (std::string)currentFile->fetch->Material(i)->glowMap;
 
+
+
+		unsigned int tempMaterialID = currentFile->fetch->Material(i)->Id;
+		tempMaterial.materialID = materialID;
+		if (materialManager->CompareImportMaterials(&tempMaterial))
+		{
+			unsigned int materialOffset = materialSize;
+			for (unsigned int j = 0; j < meshes->size()-materialSize; j++)
+			{
+				unsigned int importedMatID = meshes->at(j).GetMaterialID();
+				if (materialManager->CompareMaterialsAt(&tempMaterial, importedMatID))
+				{
+					tempMaterial.materialID = importedMatID;
+					meshes->at(meshes->size() - materialOffset).SetMaterialID(importedMatID);
+					materialOffset--;
+				}
+			}
+		}
+		else
+		{
+			for (size_t j = meshes->size() - meshsize; j < meshes->size(); j++)
+			{
+				unsigned int importedMatID = meshes->at(j).GetMaterialID();
+				if (importedMatID == tempMaterialID)
+				{
+					meshes->at(j).SetMaterialID(tempMaterial.materialID);
+				}
+			}
+			materialID++;
+		}
 		importedMaterials.push_back(tempMaterial);
 	}
 	importedMaterials.shrink_to_fit();
