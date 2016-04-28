@@ -187,18 +187,20 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 		tempMaterial.normalTex = (std::string)currentFile->fetch->Material(i)->normalMap;
 		tempMaterial.glowTex = (std::string)currentFile->fetch->Material(i)->glowMap;
 
+
+
 		unsigned int tempMaterialID = currentFile->fetch->Material(i)->Id;
 		tempMaterial.materialID = materialID;
-		materialID++;
-
-
 		if (materialManager->CompareImportMaterials(&tempMaterial))
 		{
 			for (unsigned int j = 0; j < meshes->size(); j++)
 			{
 				unsigned int importedMatID = meshes->at(j).GetMaterialID();
 				if (materialManager->CompareMaterialsAt(&tempMaterial, importedMatID))
+				{
 					tempMaterial.materialID = importedMatID;
+					break;
+				}
 			}
 		}
 		else
@@ -211,6 +213,7 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 					meshes->at(j).SetMaterialID(tempMaterial.materialID);
 				}
 			}
+			materialID++;
 		}
 		importedMaterials.push_back(tempMaterial);
 	}
