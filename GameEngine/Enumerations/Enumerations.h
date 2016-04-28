@@ -58,8 +58,9 @@ enum UITextures
 
 enum LightType
 {
-	POINTLIGHT,
-	AREALIGHT
+	POINT_LIGHT,
+	SPOT_LIGHT,
+	DIRECTIONAL_LIGHT
 };
 
 #pragma endregion

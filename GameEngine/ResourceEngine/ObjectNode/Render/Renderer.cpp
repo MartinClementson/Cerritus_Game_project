@@ -6,7 +6,7 @@ Renderer::Renderer()
 {
 	this->sceneCam			= new Camera();
 	this->resourceManager	= new ResourceManager();
-	this->sceneLightArray	= new LightStruct(
+	this->sceneLightArray	= new PointLight(
 		XMFLOAT4(0.0f, 30.0f, 0.0f, 1.0f), //Pos
 		XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f),	//Direction
 		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));	//Color
@@ -298,7 +298,7 @@ void Renderer::UpdateCameraBuffer()
 void Renderer::UpdateLightBuffer()
 {
 
-	LightStruct* tempLight = this->sceneLightArray;
+	PointLight* tempLight = this->sceneLightArray;
 	
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
@@ -306,7 +306,7 @@ void Renderer::UpdateLightBuffer()
 	gDeviceContext->Map(this->lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
 
-	LightStruct* tempLightData = (LightStruct*)mappedResource.pData;
+	PointLight* tempLightData = (PointLight*)mappedResource.pData;
 	*tempLightData = *tempLight;
 
 
@@ -424,7 +424,7 @@ bool Renderer::CreateConstantBuffers()
 	CD3D11_BUFFER_DESC bufferDescLight;
 	ZeroMemory(&bufferDescLight, sizeof(bufferDescLight));
 
-	bufferDescLight.ByteWidth				 = sizeof(LightStruct);
+	bufferDescLight.ByteWidth				 = sizeof(PointLight);
 	bufferDescLight.BindFlags				 = D3D11_BIND_CONSTANT_BUFFER;
 	bufferDescLight.Usage					 = D3D11_USAGE_DYNAMIC;
 	bufferDescLight.CPUAccessFlags			 = D3D11_CPU_ACCESS_WRITE;
