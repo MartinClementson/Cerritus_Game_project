@@ -21,6 +21,14 @@ struct WorldMatrix
 
 struct LightStruct
 {
+
+
+};
+
+
+struct PointLight
+{
+
 	DirectX::XMFLOAT4 lightPosition;
 	DirectX::XMFLOAT4X4 lightView;
 	DirectX::XMFLOAT4X4 lightProjection;
@@ -29,7 +37,7 @@ struct LightStruct
 	float intensity;
 	DirectX::XMFLOAT3 Pad;
 	void SetMatrices(float fov, float aspectRatio, float nearZ, float farZ) {
-		
+
 		DirectX::XMMATRIX tempView = DirectX::XMMatrixLookAtLH(
 			DirectX::XMLoadFloat4(&this->lightPosition),
 			DirectX::XMLoadFloat4(&this->lightDir),
@@ -42,13 +50,14 @@ struct LightStruct
 		DirectX::XMStoreFloat4x4(&this->lightProjection, DirectX::XMMatrixTranspose(tempProj));
 	};
 
-	LightStruct() {};
-	LightStruct(DirectX::XMFLOAT4 pos, DirectX::XMFLOAT4 dir, DirectX::XMFLOAT4 diffuse)
+	PointLight() {};
+	PointLight(DirectX::XMFLOAT4 pos, DirectX::XMFLOAT4 dir, DirectX::XMFLOAT4 diffuse)
 	{
-		this->lightPosition			 = pos;
-		this->lightDir				 = dir;
-		this->lightDiffuse			 = diffuse;
+		this->lightPosition = pos;
+		this->lightDir = dir;
+		this->lightDiffuse = diffuse;
 	};
+
 
 
 };

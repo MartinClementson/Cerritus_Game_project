@@ -12,6 +12,27 @@ MaterialManager::~MaterialManager()
 	delete textureManager;
 }
 
+bool MaterialManager::CompareMaterialsAt(importedMaterial * import, unsigned int materialID)
+{
+	if (import->materialName == materials->at(materialID).materialName)
+	{
+		if (materials->at(materialID).diffuse_ID == textureManager->FindDiffuseID(import->diffuseTex))
+		{
+			if (materials->at(materialID).normal_ID == textureManager->FindNormalID(import->normalTex))
+			{
+				if (materials->at(materialID).specular_ID == textureManager->FindSpecularID(import->specularTex))
+				{
+					if (materials->at(materialID).glow_ID == textureManager->FindGlowID(import->glowTex))
+					{
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
+
 bool MaterialManager::CompareImportMaterials(importedMaterial * import)
 {
 	for (unsigned int j = 0; j < materials->size(); j++)
@@ -52,8 +73,8 @@ void MaterialManager::addMaterials(std::vector<importedMaterial>* import)
 	{
 		if (materials->size() > 0)
 		{
-			//if (!CompareImportMaterials(&import->at(i)))
-			//{
+			if (!CompareImportMaterials(&import->at(i)))
+			{
 				Material tempMaterial;
 				tempMaterial.materialName = import->at(i).materialName;
 				tempMaterial.materialID = import->at(i).materialID;
@@ -68,7 +89,7 @@ void MaterialManager::addMaterials(std::vector<importedMaterial>* import)
 				tempMaterial.glow_ID = textureManager->GetGlowID(import->at(i).glowTex);
 
 				materials->push_back(tempMaterial);
-			//}
+			}
 		}
 		else
 		{
