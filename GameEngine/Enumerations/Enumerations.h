@@ -132,6 +132,9 @@ enum InputKeys
 	KEY_SPACE,
 	KEY_ENTER,
 	KEY_ESC,
+	KEY_Z,
+	KEY_X,
+	KEY_C,
 
 	MOUSE_RIGHT,
 	MOUSE_LEFT
@@ -173,6 +176,14 @@ enum ParticleType
 
 #pragma endregion
 
+
+enum UpgradeType
+{
+	ONE_SHOT,
+	TWO_SHOT,
+	THREE_SHOT,
+
+};
 
 enum GbufferTextures
 {

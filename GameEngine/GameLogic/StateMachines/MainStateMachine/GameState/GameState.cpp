@@ -253,20 +253,15 @@ void GameState::ProcessInput(double* deltaTime)
 
 		if (moveKeysPressed > 0)
 		{
-
 			player->Move(directions, moveKeysPressed ,deltaTime[0]);
-
 		}
-
 #pragma endregion
-
 
 		if (input->IsKeyPressed(KEY_ENTER) && timeSincePaused >0.2f)
 		{
 			pause->isActive = true;
 			timeSincePaused = 0.0f;
 		}
-
 		if (input->IsKeyPressed(KEY_SPACE))
 		{
 			player->Shoot(KEY_SPACE, deltaTime[0]);
@@ -274,6 +269,18 @@ void GameState::ProcessInput(double* deltaTime)
 		else if (input->isMouseClicked(MOUSE_LEFT))
 		{
 			player->Shoot(MOUSE_LEFT, deltaTime[0]);
+		}
+		else if (input->IsKeyPressed(KEY_Z))
+		{
+			player->Shoot(KEY_Z, deltaTime[0]);
+		}
+		else if (input->IsKeyPressed(KEY_X))
+		{
+			player->Shoot(KEY_X, deltaTime[0]);
+		}
+		else if (input->IsKeyPressed(KEY_C))
+		{
+			player->Shoot(KEY_C, deltaTime[0]);
 		}
 	}
 }
