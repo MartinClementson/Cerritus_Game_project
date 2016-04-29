@@ -110,7 +110,7 @@ void Camera::Updateview( DirectX::XMFLOAT3 playerPos)
 
 }
 
-CamMatrices * Camera::GetCameraMatrices()
+CbufferPerFrame * Camera::GetCameraMatrices()
 {
 
 	return &this->camMatrices;

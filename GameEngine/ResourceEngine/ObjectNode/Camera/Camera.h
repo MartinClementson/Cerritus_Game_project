@@ -21,7 +21,7 @@ private:
 	XMFLOAT3 viewPosition;
 	XMFLOAT3 viewLookAt;
 
-	CamMatrices camMatrices;
+	CbufferPerFrame camMatrices;
 
 
 	XMFLOAT4 camPosition	= { 0, 1, 1, 1  };
@@ -40,7 +40,7 @@ public:
 	void Updateview( DirectX::XMFLOAT3 playerPos);
 	
 	
-	CamMatrices* GetCameraMatrices();
+	CbufferPerFrame* GetCameraMatrices();
 
 
 
