@@ -5,7 +5,7 @@
 
 #define NUM_SPOTLIGHTS 1
 #define NUM_DIRLIGHTS	1
-#define NUM_POINTLIGHTS 3
+#define NUM_POINTLIGHTS 5
 class LightManager
 {
 

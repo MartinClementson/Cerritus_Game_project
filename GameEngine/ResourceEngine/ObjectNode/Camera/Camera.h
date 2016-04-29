@@ -5,7 +5,7 @@
 #include "..\..\..\Source\LibIncluder.h"
 #include "..\..\..\Structs\ConstantBufferStruct.h"
 
-#define ZOOM 20.0f
+#define ZOOM 10.0f
 using namespace DirectX;
 
 class Camera : ObjectNode

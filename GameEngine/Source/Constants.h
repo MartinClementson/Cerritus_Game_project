@@ -11,7 +11,7 @@
 #define SHADOWMAPAMOUNT 1
 #define LIGHT_SHADOW_AMOUNT 4
 
-#define MAX_NUM_POINTLIGHTS 4
+#define MAX_NUM_POINTLIGHTS 5
 #define MAX_NUM_DIRLIGHTS	1
 #define MAX_NUM_SPOTLIGHTS	2
 ////////////////////////////////////

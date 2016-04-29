@@ -1,3 +1,7 @@
+
+static const uint MAX_SHADOWMAP_AMOUNT = 4;
+
+
 cbuffer cbufferPerFrame  : register(b0)
 {
 
@@ -123,30 +127,27 @@ StructuredBuffer<DirectionalLight>  dirLights    : register(t9);
 
 static const float SSAO_RAD = 0.005f;
 
-float sampleShadowStencils(float4 worldPos)
+float sampleShadowStencils(float4 worldPos, matrix lightView, matrix lightProj,int shadowMapIndex)
 {
 
 	//shadowmap stuff
 	float4 shadowSample = float4(1, 1, 1, 1);
 	float tempCooef = 0;
 	float SMAP_SIZE = 2048.0;
-	uint lightAmount = 1;
-	for (uint i = 0; i < lightAmount; i++)
-	{
-
+	
 		float bias;
 		float2 projectTexCoord;
 		float depthValue;
 		float lightDepthValue;
 		float lightIntensity;
 		float4 lightPos;
-
+		//worldPos.xyz = worldPos.xyz / worldPos.w;
 
 		////////////////BIAS IS HERE
 		bias = 0.001f;
 
 		lightPos = mul(worldPos, lightView);
-		lightPos = mul(lightPos, lightProjection);
+		lightPos = mul(lightPos, lightProj);
 
 		projectTexCoord.x = lightPos.x / lightPos.w;
 		projectTexCoord.y = lightPos.y / lightPos.w;
@@ -155,26 +156,27 @@ float sampleShadowStencils(float4 worldPos)
 
 		projectTexCoord.x = projectTexCoord.x * 0.5f + 0.5f;
 		projectTexCoord.y = projectTexCoord.y * -0.5f + 0.5f;
+		
 
-		depthValue = shadowTex.Sample(linearSampler, float3(projectTexCoord.xy, i)).r + bias;
+		depthValue = shadowTex.Sample(linearSampler, float3(projectTexCoord.xy, shadowMapIndex)).r + bias;
 
 		//float tempSample = shadowTex.Sample(samplerTypeState, float3(projectTexCoord, i)).r
 
 		float dx = 1.0f / SMAP_SIZE;
-		float s0 = (shadowTex.Sample(linearSampler, float3(projectTexCoord, i)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
-		float s1 = (shadowTex.Sample(linearSampler, float3(projectTexCoord, i) + float3(dx, 0.0f, 0.0f)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
-		float s2 = (shadowTex.Sample(linearSampler, float3(projectTexCoord, i) + float3(0.0f, dx, 0.0f)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
-		float s3 = (shadowTex.Sample(linearSampler, float3(projectTexCoord, i) + float3(dx, dx, 0.0f)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
+		float s0 = (shadowTex.Sample(linearSampler, float3(projectTexCoord, shadowMapIndex)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
+		float s1 = (shadowTex.Sample(linearSampler, float3(projectTexCoord, shadowMapIndex) + float3(dx, 0.0f, 0.0f)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
+		float s2 = (shadowTex.Sample(linearSampler, float3(projectTexCoord, shadowMapIndex) + float3(0.0f, dx, 0.0f)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
+		float s3 = (shadowTex.Sample(linearSampler, float3(projectTexCoord, shadowMapIndex) + float3(dx, dx, 0.0f)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
 
 		float2 texelpos = projectTexCoord * SMAP_SIZE;
 		float2 lerps = frac(texelpos);
 		float shadowcooef = lerp(lerp(s0, s1, lerps.x), lerp(s2, s3, lerps.x), lerps.y);
 
 		tempCooef += shadowcooef;
-	}
+	
 	shadowSample = shadowSample * tempCooef;
 	shadowSample = saturate(shadowSample);
-	return shadowSample.x;
+	return tempCooef;
 
 
 
@@ -262,6 +264,9 @@ void ComputeDirectionalLight(DirectionalLight light, Material mat, float3 toEye,
 }
 float4 PS_main(VS_OUT input) : SV_TARGET
 {
+
+	int shadowMapsProcessed = 0;
+
 	float depthSample				= depthTexture.Sample(pointSampler, input.Uv).x;
 
 	float4 depthPrepare				= mul(float4(input.Uv.x *2.0f - 1.0f, input.Uv.y * -2.0f + 1.0f, depthSample, 1.0f), invViewProjMatrix);
@@ -272,7 +277,7 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 	float4 diffuseSamp			= diffuseTexture.Sample(pointSampler,input.Uv);
 	float4 normal					= normalTexture.Sample(pointSampler, input.Uv);
 	float4 specularSample				= specularTexture.Sample(pointSampler, input.Uv);
-	float4 shadow					= sampleShadowStencils(float4(worldPos, 1.0f));
+	float shadow = 1.0;// = sampleShadowStencils(float4(worldPos, 1.0f));
 
 	Material pixelMat;
 	pixelMat.diffuseSample	    = diffuseSamp	;
@@ -290,20 +295,58 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 
 			
 	float3 v				= normalize(camPos.xyz - worldPos);				 //create a ray from the vert pos to the camera.
+	
 	for (int i = 0; i < numPointLights; i++)
 	{
 
 			ComputePointLight(pointlights[i], pixelMat, worldPos, v,
 				A, D, S);
-				ambient		+= A;
-				diffuse		+= D;
-				specular	+= S;
+				if (pointlights[i].castShadow != 0) //if the light casts shadows
+				{
+					if (shadowMapsProcessed < MAX_SHADOWMAP_AMOUNT)
+					{
+
+						shadow += sampleShadowStencils(float4(worldPos, 1.0f), pointlights[i].lightView, pointlights[i].lightProjection, shadowMapsProcessed);
+						shadowMapsProcessed += 1;
+					}
+
+					ambient		+= A;
+					diffuse		+= shadow * D;
+					specular	+= shadow * S;
+				}
+				else
+				{
+					ambient += A;
+					diffuse += D;
+					specular += S;
+				}
+
 	}
 
-	ComputeDirectionalLight(dirLights[0], pixelMat, v, A, D, S);
-		ambient  += A;
-		diffuse  += D;
-		specular += S;
+	for (int d = 0; d < numDirLights; d++)
+	{
+			ComputeDirectionalLight(dirLights[d], pixelMat, v, A, D, S);
+		if (dirLights[d].castShadow != 0) //if the light casts shadows
+		{
+			if (shadowMapsProcessed < MAX_SHADOWMAP_AMOUNT)
+			{
+				
+				shadow += sampleShadowStencils(float4(worldPos, 1.0f), dirLights[d].lightView, dirLights[d].lightProjection, shadowMapsProcessed);
+				shadowMapsProcessed += 1;
+			ambient += A;
+			diffuse += shadow  *D;
+			specular+= shadow  *S;
+			}
+		}
+		else
+		{
+			ambient += A;
+			diffuse += D;
+			specular+= S;
+		}
+
+	}
+
 	//saturate(diffuse);
 	//saturate(specular);
 	//float4 combinedLightDiffuse = { 0.0f,0.0f,0.0f,1.0f };
@@ -383,7 +426,7 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 	//finalCol.r += diffuseSample.a; //Laser point color
 	//finalCol = saturate(finalCol);
 
-	float4 finalCol = saturate(ambient /** ssao)*/ + diffuse + specular);
+	float4 finalCol = saturate(ambient /** ssao*/ + (diffuse + specular));//* shadow));
 	finalCol.r += diffuseSamp.a; //Laser point color
 	finalCol.w = 1.0f;
 

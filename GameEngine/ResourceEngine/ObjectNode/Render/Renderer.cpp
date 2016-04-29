@@ -65,8 +65,9 @@ void Renderer::RenderFinalPass()
 
 	objectInstruction = this->resourceManager->GetFullScreenQuad();
 	this->resourceManager->SetShader(Shaders::FINAL_SHADER);
-	MapLightBufferStructures();
-	//this->gDeviceContext->PSSetShaderResources(POINTLIGHTS_BUFFER_INDEX, 1, &pointLightStructuredBuffer);
+	//MapLightBufferStructures();
+	this->gDeviceContext->PSSetShaderResources(POINTLIGHTS_BUFFER_INDEX, 1, &pointLightStructuredBuffer);
+	this->gDeviceContext->PSSetShaderResources(DIRLIGHTS_BUFFER_INDEX, 1, &dirLightStructuredBuffer);
 	UINT32 vertexSize;
 
 		vertexSize = sizeof(Vertex);
@@ -216,8 +217,8 @@ void Renderer::GetInverseProjectionMatrix(XMMATRIX & matrix)
 //Private rendering call
 void Renderer::Render(RenderInstructions * object)
 {
-
-	
+	this->gDeviceContext->GSSetShaderResources(POINTLIGHTS_BUFFER_INDEX, 1, &pointLightStructuredBuffer);
+	this->gDeviceContext->GSSetShaderResources(DIRLIGHTS_BUFFER_INDEX, 1, &dirLightStructuredBuffer);
 	UpdateWorldBuffer(&object->worldBuffer);
 
 #pragma region Check what vertex is to be used
@@ -306,6 +307,7 @@ void Renderer::MapLightBufferStructures()
 
 	memcpy(mapRes.pData, (void*)pPointLights, sizeof(PointLightStruct));
 	gDeviceContext->Unmap(lightBuffers[BUFFER_POINTLIGHTS], 0);
+	this->gDeviceContext->GSSetShaderResources(POINTLIGHTS_BUFFER_INDEX, 1, &pointLightStructuredBuffer);
 	this->gDeviceContext->PSSetShaderResources(POINTLIGHTS_BUFFER_INDEX, 1, &pointLightStructuredBuffer);
 
 
@@ -348,6 +350,7 @@ void Renderer::MapLightBufferStructures()
 	memcpy(mapResDir.pData, (void*)pDirLights, sizeof(DirLightStruct));
 
 	gDeviceContext->Unmap(lightBuffers[BUFFER_DIRLIGHTS], 0);
+	this->gDeviceContext->GSSetShaderResources(DIRLIGHTS_BUFFER_INDEX, 1, &dirLightStructuredBuffer);
 	this->gDeviceContext->PSSetShaderResources(DIRLIGHTS_BUFFER_INDEX, 1, &dirLightStructuredBuffer);
 	////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////
@@ -595,7 +598,7 @@ bool Renderer::CreateConstantBuffers()
 	srvDesc.Buffer.NumElements = MAX_NUM_POINTLIGHTS;
 	if (FAILED(hr = gDevice->CreateShaderResourceView(lightBuffers[BUFFER_POINTLIGHTS], &srvDesc, &pointLightStructuredBuffer)))
 		MessageBox(NULL, L"Failed to create PointLight buffer", L"Error", MB_ICONERROR | MB_OK);
-	
+	this->gDeviceContext->GSSetShaderResources(POINTLIGHTS_BUFFER_INDEX, 1, &pointLightStructuredBuffer);
 	this->gDeviceContext->PSSetShaderResources(POINTLIGHTS_BUFFER_INDEX, 1, &pointLightStructuredBuffer);
 	//////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////
@@ -655,6 +658,7 @@ bool Renderer::CreateConstantBuffers()
 		MessageBox(NULL, L"Failed to create DirLight buffer", L"Error", MB_ICONERROR | MB_OK);
 
 
+	this->gDeviceContext->GSSetShaderResources(DIRLIGHTS_BUFFER_INDEX, 1, &dirLightStructuredBuffer);
 	this->gDeviceContext->PSSetShaderResources(DIRLIGHTS_BUFFER_INDEX, 1, &dirLightStructuredBuffer);
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 	return true;
