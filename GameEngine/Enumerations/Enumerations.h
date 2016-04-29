@@ -39,7 +39,8 @@ enum MeshEnum
 	PROJECTILE_1,
 	TRAP_BEAR,
 	TRAP_FIRE,
-	LEVEL_1
+	LEVEL_1,
+	LEVEL_2
 };
 
 #pragma endregion
