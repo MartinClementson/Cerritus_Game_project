@@ -56,6 +56,7 @@ void LightManager::Initialize()
 
 	//}
 
+#pragma region Temp lights
 
 	this->pointLights[0] = new PointLight();
 	pointLights[0]->lightPosition = DirectX::XMFLOAT4(-40.0f, 10.0f, 0.0f, 1.0f); //Pos
@@ -86,6 +87,16 @@ void LightManager::Initialize()
 	this->numActivePointLights += 1;
 
 
+
+
+	this->dirLights[0] = new DirectionalLight();
+	this->dirLights[0]->lightPosition = DirectX::XMFLOAT4(0.0f, 100.0f, 100.0f,1.0f);
+	this->dirLights[0]->lightDiffuse  = DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
+	this->dirLights[0]->lightLookAt = DirectX::XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);	//Direct
+	numActiveDirLights +=1;
+#pragma endregion
+
+
 }
 void LightManager::Release()			  
 
@@ -98,7 +109,7 @@ PointLightStruct * LightManager::GetPointLightStruct()
 	static float x = 5.5f;						 //TEMPORARY
 	for (size_t i = 0; i < numActivePointLights; i++)
 	{
-		pointLights[i]->lightPosition.z = 60;
+		pointLights[i]->lightPosition.z = 60; //TEMPORARY
 		//pointLights[i]->lightPosition.x = +z;
 		pointLightStruct.pointLights[i] = *pointLights[i];
 		x +=  (float) cos(z)* 0.006f * i;					 //TEMPORARY

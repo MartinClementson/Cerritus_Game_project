@@ -34,13 +34,6 @@ private:
 	ID3D11Buffer* cbufferPerFrame							= nullptr; 
 	ID3D11Buffer* sampleBoolsBuffer							= nullptr; //samplingState constBuffer (Controls if a mesh has normalmap,specmap, etc)
 	
-	struct test {
-		int i;
-	};
-
-	test testArray[2];
-	ID3D11ShaderResourceView* testStructuredBufferSRV = nullptr;
-	ID3D11Buffer*				testStructBuffer = nullptr;
 
 
 	LightManager lightmanager;

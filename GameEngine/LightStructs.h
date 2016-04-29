@@ -68,6 +68,18 @@ struct PointLight
 struct SpotLight
 {
 
+	DirectX::XMFLOAT4	 lightPosition;
+	DirectX::XMFLOAT4X4  lightView;
+	DirectX::XMFLOAT4X4  lightProjection;
+	DirectX::XMFLOAT4	 lightLookAt;
+	DirectX::XMFLOAT4	 lightDiffuse;
+						 
+	float intensity;
+	float lightRange;
+	float attenuation;
+	float spotRadius;
+
+	BOOL castShadow;
 	
 	SpotLight() {
 
@@ -85,18 +97,6 @@ struct SpotLight
 
 	};
 
-	DirectX::XMFLOAT4	 lightPosition;
-	DirectX::XMFLOAT4X4  lightView;
-	DirectX::XMFLOAT4X4  lightProjection;
-	DirectX::XMFLOAT4	 lightLookAt;
-	DirectX::XMFLOAT4	 lightDiffuse;
-						 
-	float intensity;
-	float lightRange;
-	float attenuation;
-	float spotRadius;
-
-	BOOL castShadow;
 	
 
 };
@@ -105,6 +105,17 @@ struct SpotLight
 
 struct DirectionalLight
 {
+	DirectX::XMFLOAT4	 lightPosition;
+	DirectX::XMFLOAT4X4  lightView;
+	DirectX::XMFLOAT4X4  lightProjection;
+	DirectX::XMFLOAT4	 lightLookAt;
+	DirectX::XMFLOAT4	 lightDiffuse;
+
+	float intensity;
+	float padIntensity[3];
+	
+	BOOL castShadow;
+	float padShadow[3];
 
 	DirectionalLight() {
 
@@ -116,17 +127,6 @@ struct DirectionalLight
 		intensity = 1.0f;
 		castShadow = FALSE;
 	};
-
-	DirectX::XMFLOAT4	 lightPosition;
-	DirectX::XMFLOAT4X4  lightView;
-	DirectX::XMFLOAT4X4  lightProjection;
-	DirectX::XMFLOAT4	 lightLookAt;
-	DirectX::XMFLOAT4	 lightDiffuse;
-
-	float intensity;
-	DirectX::XMFLOAT3 pad;
-	
-	BOOL castShadow;
 
 
 

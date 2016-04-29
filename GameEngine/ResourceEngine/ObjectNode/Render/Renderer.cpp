@@ -9,8 +9,7 @@ Renderer::Renderer()
 	pointLightStruct		= new PointLightStruct();
 	spotLightStruct			= new SpotLightStruct();
 	dirLightStruct			= new DirLightStruct();
-	this->testArray[0].i = 1222;
-	this->testArray[1].i = 15;
+	
 
 	//sceneLightArray->lightPosition		 = XMFLOAT4(0.0f, 30.0f, 0.0f, 1.0f); //Pos
 	//sceneLightArray->lightLookAt		 = XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);	//Direction
@@ -290,22 +289,8 @@ void Renderer::Render(RenderInstructions * object)
 void Renderer::MapLightBufferStructures()
 {
 
-	//test* pPointLights = this->testArray;//this->lightmanager.GetPointLightStruct();
-	////this->mNumPointLights		   = this->lightmanager.GetNumActivePointLights();
-
-	//D3D11_MAPPED_SUBRESOURCE mapRes;
-	//HRESULT hr = S_OK;
-	//
-	//hr = gDeviceContext->Map(testStructBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapRes);
-	//if (FAILED(hr))
-	//	MessageBox(NULL, L"Failed to update point lights buffer", L"Error", MB_ICONERROR | MB_OK);
-
-	//memcpy(mapRes.pData, (void*)pPointLights, sizeof(test)*2);
-	//gDeviceContext->Unmap(testStructBuffer, 0);
-	//this->gDeviceContext->PSSetShaderResources(POINTLIGHTS_BUFFER_INDEX, 1, &testStructuredBufferSRV);
-
-
-
+	
+#pragma region Map point lights
 	////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////
 	////Map point light structure
@@ -328,7 +313,9 @@ void Renderer::MapLightBufferStructures()
 
 	////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////
+#pragma endregion
 
+#pragma region Map SpotLights
 	////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////
 	////Map Spotlight structure
@@ -344,24 +331,27 @@ void Renderer::MapLightBufferStructures()
 	//this->gDeviceContext->PSSetShaderResources(SPOTLIGHTS_BUFFER_INDEX, 1, &spotLightStructuredBuffer);
 	////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////
-
+#pragma endregion
+#pragma region Map DirLights
 	////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////
 	////Map Dirlight structure
-	//DirLightStruct* pDirLights		= this->lightmanager.GetDirLightStruct();
-	//this->mNumDirLights				= this->lightmanager.GetNumActiveDirLights();
+	DirLightStruct* pDirLights		= this->lightmanager.GetDirLightStruct();
+	this->mNumDirLights				= this->lightmanager.GetNumActiveDirLights();
 
-	//D3D11_MAPPED_SUBRESOURCE mapResDir;
-	// hr = S_OK;
+	D3D11_MAPPED_SUBRESOURCE mapResDir;
+	 hr = S_OK;
 
-	//hr = gDeviceContext->Map(lightBuffers[BUFFER_DIRLIGHTS], 0, D3D11_MAP_WRITE_DISCARD, 0, &mapResDir);
-	//memcpy(mapResDir.pData, (void*)pDirLights, sizeof(DirLightStruct));
+	hr = gDeviceContext->Map(lightBuffers[BUFFER_DIRLIGHTS], 0, D3D11_MAP_WRITE_DISCARD, 0, &mapResDir);
+	if (FAILED(hr))
+		MessageBox(NULL, L"Failed to update directional lights buffer", L"Error", MB_ICONERROR | MB_OK);
+	memcpy(mapResDir.pData, (void*)pDirLights, sizeof(DirLightStruct));
 
-	//gDeviceContext->Unmap(lightBuffers[BUFFER_DIRLIGHTS], 0);
-	//this->gDeviceContext->PSSetShaderResources(DIRLIGHTS_BUFFER_INDEX, 1, &dirLightStructuredBuffer);
+	gDeviceContext->Unmap(lightBuffers[BUFFER_DIRLIGHTS], 0);
+	this->gDeviceContext->PSSetShaderResources(DIRLIGHTS_BUFFER_INDEX, 1, &dirLightStructuredBuffer);
 	////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////
-
+#pragma endregion
 
 
 
@@ -575,29 +565,6 @@ bool Renderer::CreateConstantBuffers()
 
 
 
-	//D3D11_BUFFER_DESC lightBufferDesc;
-	//ZeroMemory(&lightBufferDesc, sizeof(lightBufferDesc));
-	//lightBufferDesc.BindFlags			= D3D11_BIND_SHADER_RESOURCE;
-	//lightBufferDesc.Usage				= D3D11_USAGE_DYNAMIC;
-	//lightBufferDesc.CPUAccessFlags		= D3D11_CPU_ACCESS_WRITE;
-	//lightBufferDesc.MiscFlags			= D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
-	//lightBufferDesc.ByteWidth			= sizeof(test)*2;
-	//lightBufferDesc.StructureByteStride = sizeof(test);
-
-	//if (FAILED(hr = gDevice->CreateBuffer(&lightBufferDesc, nullptr, &testStructBuffer)))
-	//	MessageBox(NULL, L"Failed to create PointLight buffer", L"Error", MB_ICONERROR | MB_OK);
-
-
-	//D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
-	//srvDesc.Format = DXGI_FORMAT_UNKNOWN;
-	//srvDesc.ViewDimension = D3D11_SRV_DIMENSION_BUFFEREX;
-	//srvDesc.Buffer.ElementOffset = 0;
-	//srvDesc.Buffer.ElementWidth = sizeof(test);
-	//srvDesc.Buffer.NumElements = 2;
-	//if (FAILED(hr = gDevice->CreateShaderResourceView(testStructBuffer, &srvDesc, &testStructuredBufferSRV)))
-	//	MessageBox(NULL, L"Failed to create PointLight buffer", L"Error", MB_ICONERROR | MB_OK);
-	//
-	//this->gDeviceContext->PSSetShaderResources(POINTLIGHTS_BUFFER_INDEX, 1, &testStructuredBufferSRV);
 
 
 	//////////////////////////////////////////////////////////////////////////////////////////
@@ -665,24 +632,30 @@ bool Renderer::CreateConstantBuffers()
 	////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////////////////////////////////
 
-	////Light buffer for structured buffer
-	////D3D11_BUFFER_DESC lightBufferDesc;
-	//ZeroMemory(&lightBufferDesc, sizeof(lightBufferDesc));
-	//lightBufferDesc.BindFlags			 = D3D11_BIND_SHADER_RESOURCE;
-	//lightBufferDesc.Usage				 = D3D11_USAGE_DYNAMIC;
-	//lightBufferDesc.CPUAccessFlags		 = D3D11_CPU_ACCESS_WRITE;
-	//lightBufferDesc.MiscFlags			 = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
-	//lightBufferDesc.ByteWidth			 = sizeof(DirLightStruct);
-	//lightBufferDesc.StructureByteStride  = sizeof(DirectionalLight);
+	//Light buffer for structured buffer
+	//D3D11_BUFFER_DESC lightBufferDesc;
+	ZeroMemory(&lightBufferDesc, sizeof(lightBufferDesc));
+	lightBufferDesc.BindFlags			 = D3D11_BIND_SHADER_RESOURCE;
+	lightBufferDesc.Usage				 = D3D11_USAGE_DYNAMIC;
+	lightBufferDesc.CPUAccessFlags		 = D3D11_CPU_ACCESS_WRITE;
+	lightBufferDesc.MiscFlags			 = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+	lightBufferDesc.ByteWidth			 = sizeof(DirLightStruct);
+	lightBufferDesc.StructureByteStride  = sizeof(DirectionalLight);
 
-	//if (FAILED(hr = gDevice->CreateBuffer(&lightBufferDesc, nullptr, &lightBuffers[BUFFER_DIRLIGHTS])))
-	//	MessageBox(NULL, L"Failed to create DirLight buffer", L"Error", MB_ICONERROR | MB_OK);
+	if (FAILED(hr = gDevice->CreateBuffer(&lightBufferDesc, nullptr, &lightBuffers[BUFFER_DIRLIGHTS])))
+		MessageBox(NULL, L"Failed to create DirLight buffer", L"Error", MB_ICONERROR | MB_OK);
 
-	//if (FAILED(hr = gDevice->CreateShaderResourceView(lightBuffers[BUFFER_DIRLIGHTS], nullptr, &dirLightStructuredBuffer)))
-	//	MessageBox(NULL, L"Failed to create DirLight buffer", L"Error", MB_ICONERROR | MB_OK);
+	D3D11_SHADER_RESOURCE_VIEW_DESC srvDescDir;
+	srvDescDir.Format = DXGI_FORMAT_UNKNOWN;
+	srvDescDir.ViewDimension = D3D11_SRV_DIMENSION_BUFFEREX;
+	srvDescDir.Buffer.ElementOffset = 0;
+	
+	srvDescDir.Buffer.NumElements = MAX_NUM_DIRLIGHTS;
+	if (FAILED(hr = gDevice->CreateShaderResourceView(lightBuffers[BUFFER_DIRLIGHTS], &srvDescDir, &dirLightStructuredBuffer)))
+		MessageBox(NULL, L"Failed to create DirLight buffer", L"Error", MB_ICONERROR | MB_OK);
 
 
-	//this->gDeviceContext->PSSetShaderResources(DIRLIGHTS_BUFFER_INDEX, 1, &dirLightStructuredBuffer);
+	this->gDeviceContext->PSSetShaderResources(DIRLIGHTS_BUFFER_INDEX, 1, &dirLightStructuredBuffer);
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////
 	return true;
 }

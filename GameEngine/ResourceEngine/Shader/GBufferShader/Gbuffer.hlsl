@@ -241,7 +241,7 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	else
 	{
 		
-		output.diffuseRes = float4(1.0, 0.0, 0.0, col.x); //Alpha == laserpointer color
+		output.diffuseRes = float4(0.5, 0.5, 0.5, col.x); //Alpha == laserpointer color
 	}
 
 
