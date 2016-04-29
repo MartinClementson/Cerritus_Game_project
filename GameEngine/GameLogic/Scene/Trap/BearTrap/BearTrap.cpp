@@ -14,7 +14,7 @@ BearTrap::BearTrap(XMFLOAT3 position)
 	trapState->Initialize();
 	
 	radius = 1.0f;
-	radius2 = 3.0f;
+	radius2 = 10.0f;
 }
 
 BearTrap::BearTrap()

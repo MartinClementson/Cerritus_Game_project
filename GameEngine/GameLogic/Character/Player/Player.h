@@ -82,11 +82,14 @@ public:
 	float GetPoints();
 	void SetMulti(float multi);
 	float GetMulti();
+	UpgradeType upgrade;
 
 
 public:
 	Input* userInput;
 	ProjectileSystem* projectileSystem;
+	UpgradeType GetUpgrade();
+	void SetUpgrade(UpgradeType upgrade);
 
 private:
 	MeshEnum meshID;//enum

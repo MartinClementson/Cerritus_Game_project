@@ -107,8 +107,12 @@ void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * to
 		this->gameMeshes->at(3).GetMeshRenderInfo(toRender);
 	else if (*meshEnum == MeshEnum::LEVEL_1)
 		this->gameMeshes->at(4).GetMeshRenderInfo(toRender);
-	else if (*meshEnum == MeshEnum::PROJECTILE_1)
+	else if (*meshEnum == MeshEnum::LEVEL_2)
 		this->gameMeshes->at(5).GetMeshRenderInfo(toRender);
+
+	else if (*meshEnum == MeshEnum::PROJECTILE_1)
+		this->gameMeshes->at(6).GetMeshRenderInfo(toRender);
+
 	else
 	{
 		this->gameMeshes->at(6).GetMeshRenderInfo(toRender);

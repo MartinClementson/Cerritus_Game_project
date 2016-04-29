@@ -44,9 +44,9 @@ void GameState::Initialize()
 	room1->Initialize();
 	room1->InitBearTrap();
 	room1->InitFireTrap();
-	room1->AddEnemySpawn(XMFLOAT3( 10.0f, 0.0f,  5.0f));
-	room1->AddEnemySpawn(XMFLOAT3(-30.0f, 0.0f, -20.0f));
-	room1->AddEnemySpawn(XMFLOAT3(0.0f, 0.0f, -50.0f));
+	room1->AddEnemySpawn(XMFLOAT3( 30.0f, 0.0f,  20.0f));
+	room1->AddEnemySpawn(XMFLOAT3(-50.0f, 0.0f, -50.0f));
+	room1->AddEnemySpawn(XMFLOAT3(-50.0f, 0.0f, 30.0f));
 	index = 0;
 	OnEnter();
 
@@ -72,6 +72,7 @@ void GameState::Update(double deltaTime)
 	
 		if (!pause->isActive) //&& !menu->isActive)
 		{
+
 			UITextures::HUD;
 			if (player->GetHealth() <= 0)
 			{
@@ -80,6 +81,11 @@ void GameState::Update(double deltaTime)
 			}
 			ProcessInput(&deltaTime);
 			XMFLOAT2 mouseXY = input->GetMousePosition();
+
+			isPlayerDead = true;
+			//isActive = false;
+		}
+		XMFLOAT2 mouseXY = input->GetMousePosition();
 
 			XMFLOAT3 dir = Graphics::GetInstance()->GetPlayerDirection(mouseXY, player->GetPosition());
 
@@ -91,6 +97,7 @@ void GameState::Update(double deltaTime)
 					room1->enemySpawns.at(j)->Alive.at(i)->AIPattern(player, deltaTime);
 				}
 			}
+
 
 
 
@@ -162,6 +169,9 @@ void GameState::Update(double deltaTime)
 			i++;
 		}
 
+
+		room1->Update(deltaTime);
+
 		for (size_t k = 0; k < room1->enemySpawns.size(); k++)
 		{
 			size_t j = 0;
@@ -172,27 +182,35 @@ void GameState::Update(double deltaTime)
 				{
 					if (room1->enemySpawns.at(k)->Alive.at(p)->isAlive == true)
 					{
-						if (j == p)
+						if (j == p || collision->PlayerDistanceCollision(
+							room1->enemySpawns.at(k)->Alive.at(p)))
 						{
 							room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
 								collision->GetPlayer(),
 								deltaTime);
 						}
-						else if (collision->EnemyCollision(
-							room1->enemySpawns.at(k)->Alive.at(p),
-							room1->enemySpawns.at(k)->Alive.at(p))
+						/*else if (collision->EnemyCollision(
+						room1->enemySpawns.at(k)->Alive.at(p),
+						room1->enemySpawns.at(k)->Alive.at(p))
 
+						&& collision->PlayerDistanceCollision(
+						room1->enemySpawns.at(k)->Alive.at(p))
 
-							&& collision->PlayerDistanceCollision(
-								room1->enemySpawns.at(k)->Alive.at(p))
-							&& j == p
-							)
+						)
 						{
-							room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
-								collision->GetPlayer(),
-								deltaTime);
-						}
-
+						room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
+						collision->GetPlayer(),
+						deltaTime);
+						}*/
+						/*else if (collision->PlayerDistanceCollision(
+						room1->enemySpawns.at(k)->Alive.at(p))
+						&& j != p
+						)
+						{
+						room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
+						collision->GetPlayer(),
+						deltaTime);
+						}*/
 						else if (collision->EnemyCollision(
 							room1->enemySpawns.at(k)->Alive.at(p),
 							room1->enemySpawns.at(k)->Alive.at(j)))
@@ -202,27 +220,27 @@ void GameState::Update(double deltaTime)
 								room1->enemySpawns.at(k)->Alive.at(j),
 								deltaTime);
 						}
-						//else if (collision->TrapandEnemyLottery(room1->enemySpawns.at(k)->Alive.at(p)))
-						//{
-						//	for (size_t i = 0; i < room1->bearTraps.size(); i++)
-						//	{
-						//		/*int randoms = rand() % 5 + 1;
+						else if (collision->TrapandEnemyLottery(room1->enemySpawns.at(k)->Alive.at(p)))
+						{
+							for (size_t i = 0; i < room1->bearTraps.size(); i++)
+							{
+								int randoms = rand() % 100 + 1;
 
-						//		if (randoms == 1 && room1->bearTraps.at(i)->isActive)
-						//		{*/
-						//		room1->EvadeTrap(room1->enemySpawns.at(k)->Alive.at(p)
-						//			, room1->bearTraps.at(i), deltaTime);
-						//		/*}*/
+								if (randoms == 1 && room1->bearTraps.at(i)->isActive)
+								{
+								room1->EvadeTrap(room1->enemySpawns.at(k)->Alive.at(p)
+									, room1->bearTraps.at(i), deltaTime);
+								}
 
-						//	}
-						//}
+							}
+						}
 
 						/*	else
-							{
-								room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
-									collision->GetPlayer(),
-									deltaTime);
-							}*/
+						{
+						room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
+						collision->GetPlayer(),
+						deltaTime);
+						}*/
 
 
 						}
@@ -233,7 +251,41 @@ void GameState::Update(double deltaTime)
 				i++;
 			}
 		}
+
 		gameUI->Update(deltaTime);
+
+
+		size_t i = 0;
+		while (i < player->projectileSystem->projectiles.size())
+		{
+			for (size_t k = 0; k < room1->enemySpawns.size(); k++)
+			{
+
+				size_t j = 0;
+				while (j < room1->enemySpawns.at(k)->Alive.size())
+				{
+					if (collision->ProjectileEnemyCollision(
+						player->projectileSystem->
+						projectiles.at(i),
+
+						room1->enemySpawns.at(k)->
+						Alive.at(j))
+
+						&& room1->enemySpawns.at(k)->
+						Alive.at(j)->isAlive == true)
+					{
+						room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(
+						room1->enemySpawns.at(k)->Alive.at(j)->GetHealth() - 10);
+					}
+						
+
+				j++;
+				}
+			}
+			i++;
+		}
+	}
+
 }
 	
 
@@ -306,12 +358,10 @@ void GameState::ProcessInput(double* deltaTime)
 
 		if (moveKeysPressed > 0)
 		{
-
 			player->Move(directions, moveKeysPressed ,deltaTime[0]);
-
 		}
-
 #pragma endregion
+
 
 		if (input->IsKeyPressed(KEY_P))
 		{
@@ -320,13 +370,13 @@ void GameState::ProcessInput(double* deltaTime)
 			UITextures::MENU;
 		}
 
+
 		if (input->IsKeyPressed(KEY_ENTER) && timeSincePaused >0.2f)
 		{
 			pause->isActive = true;
 			timeSincePaused = 0.0f;
 			UITextures::PAUSE;
 		}
-
 		if (input->IsKeyPressed(KEY_SPACE))
 		{
 			player->Shoot(KEY_SPACE, deltaTime[0]);
@@ -336,6 +386,18 @@ void GameState::ProcessInput(double* deltaTime)
 		{
 			player->Shoot(MOUSE_LEFT, deltaTime[0]);
 			UITextures::AMMO;
+		}
+		else if (input->IsKeyPressed(KEY_Z))
+		{
+			player->Shoot(KEY_Z, deltaTime[0]);
+		}
+		else if (input->IsKeyPressed(KEY_X))
+		{
+			player->Shoot(KEY_X, deltaTime[0]);
+		}
+		else if (input->IsKeyPressed(KEY_C))
+		{
+			player->Shoot(KEY_C, deltaTime[0]);
 		}
 	}
 }

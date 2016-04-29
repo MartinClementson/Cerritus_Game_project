@@ -39,7 +39,8 @@ enum MeshEnum
 	PROJECTILE_1,
 	TRAP_BEAR,
 	TRAP_FIRE,
-	LEVEL_1
+	LEVEL_1,
+	LEVEL_2
 };
 
 #pragma endregion
@@ -140,7 +141,11 @@ enum InputKeys
 	KEY_SPACE,
 	KEY_ENTER,
 	KEY_ESC,
-	
+
+	KEY_Z,
+	KEY_X,
+	KEY_C,
+
 
 	MOUSE_RIGHT,
 	MOUSE_LEFT
@@ -182,6 +187,14 @@ enum ParticleType
 
 #pragma endregion
 
+
+enum UpgradeType
+{
+	ONE_SHOT,
+	TWO_SHOT,
+	THREE_SHOT,
+
+};
 
 enum GbufferTextures
 {
