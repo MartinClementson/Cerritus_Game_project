@@ -6,7 +6,6 @@ class SkeletonManager
 {
 private:
 	std::vector<Skeleton*> skeletons;
-	DirectX::XMMATRIX GetParentBindPose(int parentID);
 public:
 	void AddSkeleton(BRFImporterLib::SkeletonHeader* skelInfo, BRFImporterLib::JointHeader* joints[],
 		BRFImporterLib::AnimationHeader* animations[], BRFImporterLib::JointCountHeader* animatedjoints[],

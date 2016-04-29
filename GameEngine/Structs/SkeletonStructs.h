@@ -3,13 +3,13 @@
 #include "../LibIncluder.h"
 struct Joint
 {
-	DirectX::XMMATRIX bindPose;
+	DirectX::XMFLOAT4X4 bindPose;
 	int parentID;
 	int jointID;
 };
 struct Frames
 {
-	DirectX::XMMATRIX transformation;
+	DirectX::XMFLOAT4X4 transformation;
 };
 struct AnimationFrames
 {

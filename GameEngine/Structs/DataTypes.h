@@ -208,3 +208,16 @@ struct importedMaterial
 	std::string specularTex;
 	std::string glowTex;
 };
+struct importedSkeleton
+{
+	
+};
+struct importedAnimation
+{
+
+};
+struct importedJoints
+{
+	DirectX::XMFLOAT4X4 bindPose;
+	int parentID;
+};

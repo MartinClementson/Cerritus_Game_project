@@ -1,12 +1,6 @@
 #include "SkeletonManager.h"
 
 
-
-DirectX::XMMATRIX SkeletonManager::GetParentBindPose(int parentID)
-{
-	return DirectX::XMMATRIX();
-}
-
 void SkeletonManager::AddSkeleton(BRFImporterLib::SkeletonHeader* skelInfo, BRFImporterLib::JointHeader* joints[])
 {
 }
@@ -28,6 +22,6 @@ SkeletonManager::~SkeletonManager()
 {
 	for (unsigned int i = 0; i < skeletons.size(); i++)
 	{
-		
+		delete skeletons.at(i);
 	}
 }
