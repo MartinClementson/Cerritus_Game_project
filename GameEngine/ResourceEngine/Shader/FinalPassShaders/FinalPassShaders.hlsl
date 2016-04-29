@@ -394,7 +394,7 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 
 	//========== Screen Space Ambient Occlusion =============
 	 //quite fake. Use AO maps if possible. dis should be for objects without AO maps
-	float ssao = 0.0f;
+	/*float ssao = 0.0f;
 
 	float2 vec[8] = { 
 		float2(1.0f, 0.0f),		 float2(-1.0f, 0.0f),
@@ -418,7 +418,7 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 		}
 	}
 
-	ssao = 1.0f - ssao / 16.0f;
+	ssao = 1.0f - ssao / 16.0f;*/
 
 
 

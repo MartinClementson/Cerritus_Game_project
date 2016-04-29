@@ -266,11 +266,11 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	{
 		specularSample.rgba  = float4(0, 0, 0, 0);
 		specularSample		 = diffuseTex.Sample(linearSampler, input.Uv);
-		output.specularRes	 = specularSample;
+		output.specularRes = specularSample;
 	}
 	else
 	{
-		specularSample.rgba	 = float4(0, 0, 0, 0);
+		specularSample.rgba	 = float4(0.5, 0.5, 0.5, 0);
 		output.specularRes	 = specularSample;
 	}
 
