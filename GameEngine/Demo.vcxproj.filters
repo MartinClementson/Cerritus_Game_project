@@ -611,7 +611,7 @@
     <FxCompile Include="ResourceEngine\Shader\ShadowShader\ShadowShader.hlsl">
       <Filter>ResourceEngine\Shaders\ShadowShader</Filter>
     </FxCompile>
-    <FxCompile Include="UIShader.hlsl">
+    <FxCompile Include="ResourceEngine\Shader\UIShader\UIShader.hlsl">
       <Filter>ResourceEngine\Shaders\UIShader</Filter>
     </FxCompile>
   </ItemGroup>

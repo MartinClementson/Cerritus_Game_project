@@ -261,6 +261,6 @@ void MeshManager::GetFullScreenQuadInfo(RenderInstructions * toRender)
 void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions * toRender)
 {
 	fullScreenQuad.GetMeshRenderInfo(toRender);
-	toRender->materialID = 5; //temp
+	toRender->materialID = 6; //temp
 }
 #pragma endregion

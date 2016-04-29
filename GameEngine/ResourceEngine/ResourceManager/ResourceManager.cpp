@@ -37,8 +37,8 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	std::vector<importedMaterial> temp;
 	importedMaterial ui;
 	ui.materialName = "yo-gi-uh";
-	ui.diffuseTex = "HUD.png";
-	ui.materialID = 5;
+	ui.diffuseTex = "HUD.tif";
+	ui.materialID = 6;
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 	

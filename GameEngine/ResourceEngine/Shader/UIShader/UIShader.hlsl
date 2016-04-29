@@ -22,7 +22,7 @@ VS_OUT VS_main(VS_IN input)
 	return output;
 }
 
-float4 PS_main(VS_OUT input)
+float4 PS_main(VS_OUT input) : SV_TARGET
 {
 
 	float4 color = (0.0f, 0.0f, 0.0f, 1.0f);
@@ -32,7 +32,7 @@ float4 PS_main(VS_OUT input)
 	float4 txSample = diffuseTex.Sample(linearSampler, input.uv);
 
 
-	//clip(txSample.a < 0.1f ? -1 : 1);
+	clip(txSample.a < 0.1f ? -1 : 1);
 
 
 
