@@ -10,9 +10,14 @@ public:
 	void Release();
 	void Update(double deltaTime);
 	void Render();
+	RenderInfoUI renderInfo;
+	Graphics* grapichs;
 private:
+	UITextures texture;
 	std::vector<GUIElement*>* items;
 	DirectX::XMFLOAT2 size;
 	DirectX::XMFLOAT2 position;
+	//DirectX::XMFLOAT3 position;
+	//DirectX::XMFLOAT3 rotation;
 };
 

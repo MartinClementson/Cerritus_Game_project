@@ -45,11 +45,11 @@ struct RenderInfoObject {
 
 
 struct RenderInfoUI {
-	XMFLOAT3 position;
-	XMFLOAT3 rotation;
+	XMFLOAT2 size;
+	XMFLOAT2 position;
 
-	MeshEnum object;
-	Shaders shader;	//these are enum
+	UITextures object;
+	/*Shaders shader;*/	//these are enum
 };
 
 struct RenderInfoEnemy {

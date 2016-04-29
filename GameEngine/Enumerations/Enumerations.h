@@ -48,7 +48,14 @@ enum MeshEnum
 enum UITextures
 {
 	HEALTHBAR,
-	WAVECOUNTER
+	WAVECOUNTER,
+	ENEMYSLEFT,
+	AMMO,
+	WAVECOMPLETE,
+	HUD,
+	MENU,
+	PAUSE,
+	GAMEOVER
 };
 
 #pragma endregion

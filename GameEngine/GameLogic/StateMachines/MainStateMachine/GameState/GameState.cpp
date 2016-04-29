@@ -12,6 +12,7 @@ GameState::GameState()
 	this->room1 = new Scene();
 	this->collision = Collision::GetInstance();
 	this->gameTimer = GameTimer::GetInstance();
+	this->gameUI = new GUI();
 }
 
 
@@ -22,6 +23,7 @@ GameState::~GameState()
 	delete this->player;
 	delete this->room1;
 	delete this->menu;
+	delete this->gameUI;
 
 }
 
@@ -36,6 +38,7 @@ void GameState::Initialize()
 	pause->isActive = false;
 	isPlayerDead = false;
 	toMenu = false;
+	gameUI->Initialize();
 	//Create room one here
 	timeSincePaused = 0.0f;
 	room1->Initialize();
@@ -57,6 +60,7 @@ void GameState::Release()
 	player->Release();
 	room1->Release();
 	menu->Release();
+	gameUI->Release();
 
 }
 
@@ -161,7 +165,7 @@ void GameState::Update(double deltaTime)
 				index++;
 			}*/
 		}
-	
+		gameUI->Update(deltaTime);
 }
 
 void GameState::ProcessInput(double* deltaTime)
@@ -295,7 +299,9 @@ bool GameState::GetPaused()
 void GameState::Render()
 {
 	room1->Render();
+
 	player->Render();
+
 	gameUI->Render();
 
 }
