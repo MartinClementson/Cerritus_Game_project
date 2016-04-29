@@ -8,6 +8,7 @@ Collision::Collision()
 Collision* Collision::GetInstance()
 {
 	static Collision instance;
+	
 	return &instance;
 }
 
@@ -24,6 +25,11 @@ void Collision::AddPlayer(Player* player)
 void Collision::AddTrap(BearTrap *bTrap)
 {
 	bearTrap.push_back(bTrap);
+}
+
+void Collision::ClearTraps()
+{
+	this->bearTrap.clear();
 }
 
 bool Collision::BearTrapPlayerCollision(BearTrap * trap)
@@ -76,6 +82,23 @@ bool Collision::PlayerProxyTrap(BearTrap * trap)
 	return false;
 }
 
+bool Collision::PlayerProxyEnemy(Enemy * enemy)
+{
+	XMFLOAT3 playPos = player->GetPosition();
+	float playRad = player->GetRadius();
+
+	enemyPos = enemy->GetPosition();
+	enemyRad = 40;
+
+	if (pow(playPos.x - enemyPos.x, 2)
+		+ pow(playPos.z - enemyPos.z, 2)
+		< pow(playRad + enemyRad, 2))
+	{
+		return true;
+	}
+	return false;
+}
+
 bool Collision::BearTrapEnemyCollision(BearTrap * trap, Enemy * enemy)
 {
 	trapPos = trap->GetPosition();
@@ -90,7 +113,7 @@ bool Collision::BearTrapEnemyCollision(BearTrap * trap, Enemy * enemy)
 	{
 		if (trap->isActive)
 		{
-			enemy->movementSpeed = 10.0f; // all hail the glorious satan
+			enemy->movementSpeed = 1.0f;
 		}
 		return true;
 	}
@@ -102,7 +125,7 @@ bool Collision::BearTrapEnemyCollision(BearTrap * trap, Enemy * enemy)
 bool Collision::EnemyProxTrap(BearTrap * trap, Enemy * enemy)
 {
 	trapPos = trap->GetPosition();
-	trapRad = 5;
+	trapRad = 10;
 
 	enemyPos = enemy->GetPosition();
 	enemyRad = enemy->GetRadius();
@@ -113,7 +136,7 @@ bool Collision::EnemyProxTrap(BearTrap * trap, Enemy * enemy)
 	{
 		if (trap->isActive)
 		{
-			enemy->movementSpeed = 10.0f; // all hail the glorious satan
+			enemy->movementSpeed = 10.0f;
 		}
 		return true;
 	}
@@ -169,7 +192,7 @@ bool Collision::FireTrapEnemyCollision(FireTrap * trap, Enemy * enemy)
 bool Collision::PlayerCollision(Enemy* enemy)
 {
 	XMFLOAT3 playPos = player->GetPosition();
-	float playRad = player->GetRadius();
+	float playRad = 2;
 	
 	enemyPos =  enemy->GetPosition();
 	enemyRad = enemy->GetRadius();
@@ -177,8 +200,9 @@ bool Collision::PlayerCollision(Enemy* enemy)
 		+ pow(playPos.z - enemyPos.z, 2)
 		< pow(playRad + enemyRad, 2)) 
 	{
-		if (enemy->isAlive)
+		if (enemy->isAlive && enemy->movementSpeed > 0)
 		{
+			enemy->movementSpeed = 0;
 			player->SetHealth(player->GetHealth() - 15.0f);
 		}
 		return true;
@@ -242,17 +266,22 @@ bool Collision::TrapandEnemyLottery(Enemy* enemys)
 {
 	for (size_t i = 0; i < this->bearTrap.size(); i++)
 	{
-		trapPos = this->bearTrap.at(i)->GetPosition();
-		trapRad = this->bearTrap.at(i)->GetRadius2();
-
-		enemyPos = enemys->GetPosition();
-		enemyRad = enemys->GetRadius2();
-
-		if (pow(trapPos.x - enemyPos.x, 2)
-			+ pow(trapPos.z - enemyPos.z, 2)
-			< pow(trapRad + enemyRad, 2))
+		if (this->bearTrap.at(i)->isActive)
 		{
-			return true;
+
+
+			trapPos = this->bearTrap.at(i)->GetPosition();
+			trapRad = this->bearTrap.at(i)->GetRadius2();
+
+			enemyPos = enemys->GetPosition();
+			enemyRad = enemys->GetRadius2();
+
+			if (pow(trapPos.x - enemyPos.x, 2)
+				+ pow(trapPos.z - enemyPos.z, 2)
+				< pow(trapRad + enemyRad, 2))
+			{
+				return true;
+			}
 		}
 	}
 	
@@ -261,7 +290,7 @@ bool Collision::TrapandEnemyLottery(Enemy* enemys)
 
 Collision::~Collision()
 {
-
+	
 }
 
 Player* Collision::GetPlayer()

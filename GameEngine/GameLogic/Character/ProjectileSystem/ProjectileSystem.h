@@ -16,18 +16,22 @@ public:
 
 private:
 
-
+	XMFLOAT4X4 rotationMatrix;
+	XMFLOAT4X4 rotationMatrix2;
 	//Projectile projectiles[100];
 	//Projectile firedProjectiles[100];
 	float lifeSpan;
 	int maxProjectiles;
 	RenderInfoObject renderInfo;
 	float timeOffset;
+	UpgradeType upgrade;
 
 public:
 	void FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction);
 	void UpdateProjectiles(double deltaTime);
 	void DeleteProjectile(int index);
+	void SetUpgrade(UpgradeType upgrade);
+	UpgradeType GetUpgrade();
 
 
 	Graphics* graphics;

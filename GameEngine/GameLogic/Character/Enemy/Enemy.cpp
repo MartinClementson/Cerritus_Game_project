@@ -2,8 +2,6 @@
 
 EnemyStateMachine * Enemy::GetStateMachine()
 {
-
-	
 	return this->enemyStateMachine;
 }
 
@@ -37,13 +35,12 @@ void Enemy::Initialize()
 	damage = 5.0f;
 	rotation = { 0,0,0 }; 
 	
-	radius = 2.0f;
-	radius2 = 3.0f;
+	radius = 1.0f;
+	radius2 = 2.0f;
 
 	DoTDur = 0;
 	slowTimer = 0; 
 	index = 0.0f; 
-	radius = 1.0f;
 
 	isAlive = false;
 }
@@ -54,18 +51,8 @@ void Enemy::Release()
 }
 
 void Enemy::Update(double deltaTime)
-{
+{                 
 	
-	if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
-	{
-		index += (float)deltaTime;
-	}
-	if (3 < index && index < 4)
-	{
-		index++;
-		enemyStateMachine->SetActiveState(ENEMY_ATTACK_STATE);
-
-	}
 	health -= DoT;//deltaTime;
 
 	if (DoT != 0)
@@ -81,7 +68,7 @@ void Enemy::Update(double deltaTime)
 	{
 		slowTimer += (float)deltaTime;
 	}
-	if (slowTimer >= 3)
+	if (slowTimer >= 2)
 	{
 		movementSpeed = 20.0f;
 		slowTimer = 0.0f; 
@@ -133,7 +120,7 @@ XMFLOAT3 Enemy::GetPosition()
 
 void Enemy::SetPosition(XMFLOAT3 pos)
 {
-	pos = position;
+	this->position = pos;
 }
 
 float Enemy::GetRadius() 
@@ -148,22 +135,20 @@ void Enemy::AIPattern(Player* player, double deltaTime)
 		XMFLOAT3 playerPos = player->GetPosition();
 		Vec3 vect;
 
-		vect.x = playerPos.x - position.x;
-		vect.z = playerPos.z - position.z;
+		vect.x = playerPos.x - GetPosition().x;
+		vect.z = playerPos.z - GetPosition().z;
+
 		vect.Normalize();
+
+		//XMFLOAT3 temp = GetPosition();
 		this->position.x += vect.x *(float)deltaTime * movementSpeed;
 		this->position.z += vect.z *(float)deltaTime * movementSpeed;
+		//SetPosition(temp);
+
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
 	{
-		/*XMFLOAT3 playerPos = player->GetPosition();
-		Vec3 vect;
-
-		vect.x = playerPos.x - position.x;
-		vect.z = playerPos.z - position.z;
-		vect.Normalize();
-		this->position.x -= vect.x *(float)deltaTime * movementSpeed;
-		this->position.z -= vect.z *(float)deltaTime * movementSpeed;*/
+		
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_DEATH_STATE)
 	{
@@ -177,8 +162,6 @@ float Enemy::GetRadius2()
 
 void Enemy::EnemyWithEnemyCollision(Enemy* enemy, Enemy* enemys, double deltaTime)
 {
-	
-
 	if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE)
 	{
 		XMFLOAT3 enemyPos;

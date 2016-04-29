@@ -19,10 +19,7 @@ void MainStateMachine::Update(double deltaTime)
 {
 	if (gameState->isActive)
 	{
-		
 		gameState->Update(deltaTime);
-		
-		
 	}
 	else if (gameOverState->isActive)
 	{

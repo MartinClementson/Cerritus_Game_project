@@ -30,8 +30,10 @@ public:
 	void AddEnemy(Enemy* enemy);
 	void AddPlayer(Player* player);
 	void AddTrap(BearTrap* bTraps);
+	void ClearTraps();
 
 	bool PlayerProxyTrap(BearTrap * trap);
+	bool PlayerProxyEnemy(Enemy * enemy);
 	bool Collision::EnemyProxTrap(BearTrap * trap, Enemy * enemy);
 
 	bool BearTrapPlayerCollision(BearTrap * trap);
