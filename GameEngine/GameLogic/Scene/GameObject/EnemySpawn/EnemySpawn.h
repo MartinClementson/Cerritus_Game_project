@@ -15,12 +15,15 @@ private:
 
 	//std::vector<Enemy*> enemies;
 private:
-	
+	unsigned int waveAmount;
 	Collision* collision;
 	XMFLOAT3 spawnPosition;
 public:
-	std::vector<Enemy*> Queue;
-	std::vector<Enemy*> Alive;
+	std::vector<Enemy*> StandardQueue;
+	std::vector<Enemy*> StandardAlive;
+
+	std::vector<Enemy*> FastQueue;
+	std::vector<Enemy*> FastAlive;
 	EnemySpawn();
 	~EnemySpawn();
 	float spawnTimer;
@@ -34,5 +37,13 @@ public:
 	void InitEnemy();
 	void SpawnEnemy();
 	void RespawnEnemy();
+	std::vector<Enemy*> GetStandardQueue();
+	std::vector<Enemy*> GetStandardAlive();
+
+	std::vector<Enemy*> GetFastQueue();
+	std::vector<Enemy*> GetFastAlive();
+
+
+
 };
 

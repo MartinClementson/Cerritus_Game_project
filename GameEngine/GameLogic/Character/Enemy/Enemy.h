@@ -26,7 +26,7 @@ public:
 
 	EnemyStateMachine* GetStateMachine();
 	
-	Enemy(XMFLOAT3 spawn);
+	Enemy(XMFLOAT3 spawn, bool fast);
 
 	bool isAlive;
 
@@ -50,6 +50,8 @@ public:
 	//void EnemyWithBeartrap(BearTrap * bear, Enemy * enemys, double deltaTime);
 	void Respawn(XMFLOAT3 spawn);
 	void Spawn(XMFLOAT3 spawn);
+	bool fast;
+	float originalMovementSpeed = 0;
 
 
 	XMFLOAT3 direction;

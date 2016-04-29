@@ -38,5 +38,7 @@ public:
 	void EvadeTrap(Enemy * enemy, BearTrap * bear, double deltaTime);
 
 	void AddEnemySpawn(XMFLOAT3 spawnPosition);
+
+	std::vector<EnemySpawn*> GetEnemySpawn();
 };
 

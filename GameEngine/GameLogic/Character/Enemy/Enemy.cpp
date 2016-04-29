@@ -5,9 +5,10 @@ EnemyStateMachine * Enemy::GetStateMachine()
 	return this->enemyStateMachine;
 }
 
-Enemy::Enemy(XMFLOAT3 spawn)
+Enemy::Enemy(XMFLOAT3 spawn, bool fast)
 {
 	this->position = spawn;
+	this->fast = fast;
 	Initialize();
 	this->enemyStateMachine = new EnemyStateMachine();
 	enemyStateMachine->Initialize();
@@ -28,21 +29,44 @@ Enemy::~Enemy()
 void Enemy::Initialize()
 {
 	graphics = Graphics::GetInstance();
-	movementSpeed = 20.0f;
+	if (this->fast)
+	{
+		movementSpeed = 30.0f;
+		originalMovementSpeed = movementSpeed;
 
-	health = 100.0f;
-	DoT = 0;
-	damage = 5.0f;
-	rotation = { 0,0,0 }; 
+		health = 30.0f;
+		DoT = 0;
+		damage = 5.0f;
+		rotation = { 0,0,0 };
+
+		radius = 1.0f;
+		radius2 = 2.0f;
+
+		DoTDur = 0;
+		slowTimer = 0;
+		index = 0.0f;
+
+		isAlive = false;
+	}
+	else
+	{
+		movementSpeed = 20.0f;
+		originalMovementSpeed = movementSpeed;
+		health = 100.0f;
+		DoT = 0;
+		damage = 5.0f;
+		rotation = { 0,0,0 };
+
+		radius = 1.0f;
+		radius2 = 2.0f;
+
+		DoTDur = 0;
+		slowTimer = 0;
+		index = 0.0f;
+
+		isAlive = false;
+	}
 	
-	radius = 1.0f;
-	radius2 = 2.0f;
-
-	DoTDur = 0;
-	slowTimer = 0; 
-	index = 0.0f; 
-
-	isAlive = false;
 }
 
 void Enemy::Release()
@@ -64,14 +88,14 @@ void Enemy::Update(double deltaTime)
 		DoT = 0;
 		DoTDur = 0;
 	}
-	if (movementSpeed != 20.0f)
+	if (movementSpeed != originalMovementSpeed)
 	{
 		slowTimer += (float)deltaTime;
 	}
 	if (slowTimer >= 2)
 	{
-		movementSpeed = 20.0f;
-		slowTimer = 0.0f; 
+		movementSpeed = originalMovementSpeed;
+		slowTimer = 0.0f;
 	}
 	enemyStateMachine->Update(deltaTime);
 	renderInfo = { position, rotation };
@@ -95,22 +119,48 @@ void Enemy::Render()
 
 void Enemy::Respawn(XMFLOAT3 spawn)
 {
-	this->position = spawn;
-	this->isAlive  = true;
-	this->health = 100.0f;
-	this->DoT = 0.0f;
-	this->index = 5.0f;
-	this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
+	if (this->fast)
+	{
+		this->position = spawn;
+		this->isAlive = true;
+		this->health = 30.0f;
+		this->DoT = 0.0f;
+		this->index = 0.0f;
+		this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
+	}
+	else
+	{
+
+		this->position = spawn;
+		this->isAlive = true;
+		this->health = 100.0f;
+		this->DoT = 0.0f;
+		this->index = 0.0f;
+		this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
+	}
 }
 
 void Enemy::Spawn(XMFLOAT3 spawn)
 {
-	this->position = spawn;
-	this->isAlive = true;
-	this->health = 100.0f;
-	this->DoT = 0.0f;
-	this->index = 0.0f;
-	this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_IDLE_STATE);
+	if (this->fast)
+	{
+		this->position = spawn;
+		this->isAlive = true;
+		this->health = 30.0f;
+		this->DoT = 0.0f;
+		this->index = 0.0f;
+		this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_IDLE_STATE);
+	}
+	else
+	{
+
+		this->position = spawn;
+		this->isAlive = true;
+		this->health = 100.0f;
+		this->DoT = 0.0f;
+		this->index = 0.0f;
+		this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_IDLE_STATE);
+	}
 }
 
 XMFLOAT3 Enemy::GetPosition() 

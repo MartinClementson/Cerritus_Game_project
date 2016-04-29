@@ -78,17 +78,17 @@ void GameState::Update(double deltaTime)
 		for (size_t k = 0; k < room1->enemySpawns.size(); k++)
 		{
 			size_t j = 0;
-			while (j < room1->enemySpawns.at(k)->Alive.size())
+			while (j < room1->enemySpawns.at(k)->StandardAlive.size())
 			{
 				for (size_t p = 0; p < room1->enemySpawns
-					.at(k)->Alive.size(); p++)
+					.at(k)->StandardAlive.size(); p++)
 				{
-					if (room1->enemySpawns.at(k)->Alive.at(p)->isAlive == true)
+					if (room1->enemySpawns.at(k)->StandardAlive.at(p)->isAlive == true)
 					{
 						if (j == p || collision->PlayerDistanceCollision(
-							room1->enemySpawns.at(k)->Alive.at(p)))
+							room1->enemySpawns.at(k)->StandardAlive.at(p)))
 						{
-							room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
+							room1->enemySpawns.at(k)->StandardAlive.at(p)->AIPattern(
 								collision->GetPlayer(),
 								deltaTime);
 						}
@@ -115,15 +115,15 @@ void GameState::Update(double deltaTime)
 						deltaTime);
 						}*/
 						else if (collision->EnemyCollision(
-							room1->enemySpawns.at(k)->Alive.at(p),
-							room1->enemySpawns.at(k)->Alive.at(j)))
+							room1->enemySpawns.at(k)->StandardAlive.at(p),
+							room1->enemySpawns.at(k)->StandardAlive.at(j)))
 						{
-							room1->enemySpawns.at(k)->Alive.at(p)->EnemyWithEnemyCollision(
-								room1->enemySpawns.at(k)->Alive.at(p),
-								room1->enemySpawns.at(k)->Alive.at(j),
+							room1->enemySpawns.at(k)->StandardAlive.at(p)->EnemyWithEnemyCollision(
+								room1->enemySpawns.at(k)->StandardAlive.at(p),
+								room1->enemySpawns.at(k)->StandardAlive.at(j),
 								deltaTime);
 						}
-						else if (collision->TrapandEnemyLottery(room1->enemySpawns.at(k)->Alive.at(p)))
+						else if (collision->TrapandEnemyLottery(room1->enemySpawns.at(k)->StandardAlive.at(p)))
 						{
 							for (size_t i = 0; i < room1->bearTraps.size(); i++)
 							{
@@ -131,7 +131,7 @@ void GameState::Update(double deltaTime)
 
 								if (randoms == 1 && room1->bearTraps.at(i)->isActive)
 								{
-								room1->EvadeTrap(room1->enemySpawns.at(k)->Alive.at(p)
+								room1->EvadeTrap(room1->enemySpawns.at(k)->StandardAlive.at(p)
 									, room1->bearTraps.at(i), deltaTime);
 								}
 
@@ -158,20 +158,20 @@ void GameState::Update(double deltaTime)
 			{
 
 				size_t j = 0;
-				while (j < room1->enemySpawns.at(k)->Alive.size())
+				while (j < room1->enemySpawns.at(k)->StandardAlive.size())
 				{
 					if (collision->ProjectileEnemyCollision(
 						player->projectileSystem->
 						projectiles.at(i),
 
 						room1->enemySpawns.at(k)->
-						Alive.at(j))
+						StandardAlive.at(j))
 
 						&& room1->enemySpawns.at(k)->
-						Alive.at(j)->isAlive == true)
+						StandardAlive.at(j)->isAlive == true)
 					{
-						room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(
-						room1->enemySpawns.at(k)->Alive.at(j)->GetHealth() - 10);
+						room1->enemySpawns.at(k)->StandardAlive.at(j)->SetHealth(
+						room1->enemySpawns.at(k)->StandardAlive.at(j)->GetHealth() - 10);
 					}
 						
 
@@ -270,7 +270,7 @@ void GameState::ProcessInput(double* deltaTime)
 		{
 			player->Shoot(MOUSE_LEFT, deltaTime[0]);
 		}
-		else if (input->IsKeyPressed(KEY_Z))
+		if (input->IsKeyPressed(KEY_Z))
 		{
 			player->Shoot(KEY_Z, deltaTime[0]);
 		}
