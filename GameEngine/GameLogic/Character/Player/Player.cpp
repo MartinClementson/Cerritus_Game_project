@@ -62,7 +62,7 @@ void Player::Initialize()
 	points = 0;
 	multiplier = 1;
 	radius = 2.0f;
-	radius2 = 5.0f;
+	radius2 = 2.0f;
 
 
 	DoT = 0.0f;

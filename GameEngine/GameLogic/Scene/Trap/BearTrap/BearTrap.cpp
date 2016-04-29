@@ -12,7 +12,7 @@ BearTrap::BearTrap(XMFLOAT3 position)
 	this->renderInfo.object = MeshEnum::TRAP_BEAR;
 
 	radius = 1.0f;
-	radius2 = 3.0f;
+	radius2 = 10.0f;
 }
 
 BearTrap::BearTrap()

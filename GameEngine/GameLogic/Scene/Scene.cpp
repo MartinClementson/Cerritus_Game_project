@@ -20,8 +20,7 @@ Scene::~Scene()
 
 	for (size_t i = 0; i < enemySpawns.size(); i++)
 	{
-
-	delete this->enemySpawns.at(i);
+		delete this->enemySpawns.at(i);
 	}
 	
 	/*delete this->sceneModels;
@@ -34,7 +33,6 @@ Scene::~Scene()
 		if (fireTraps.at(i))
 			delete fireTraps.at(i);
 	}
-
 	for (unsigned int i = 0; i < bearTraps.size(); i++)
 	{
 		if (bearTraps.at(i))
@@ -45,10 +43,8 @@ Scene::~Scene()
 
 void Scene::Initialize()
 {
-
-	
 	trapAmount = 5;
-
+	collision->ClearTraps();
 	InitBearTrap();
 	InitFireTrap();
 
