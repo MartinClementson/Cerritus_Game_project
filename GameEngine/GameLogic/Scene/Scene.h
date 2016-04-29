@@ -13,8 +13,8 @@ private:
 	std::vector<Model>* sceneModels;
 	std::vector<Light>* sceneLights;
 
-	std::vector<BearTrap*> bearTraps;
-	std::vector<FireTrap*> fireTraps;
+	//std::vector<BearTrap*> bearTraps;
+	//std::vector<FireTrap*> fireTraps;
 
 	Trap * trap;
 	Collision* collision;
@@ -26,8 +26,8 @@ public:
 
 	
 
-	//std::vector<BearTrap*> bearTraps;
-	//std::vector<FireTrap*> fireTraps;
+	std::vector<BearTrap*> bearTraps;
+	std::vector<FireTrap*> fireTraps;
 
 	std::vector<EnemySpawn*> enemySpawns;
 	Scene();

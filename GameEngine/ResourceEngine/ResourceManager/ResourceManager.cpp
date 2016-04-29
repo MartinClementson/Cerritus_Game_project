@@ -27,7 +27,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	brfImporterHandler->Initialize(this->meshManager, this->materialManager);
 
 
-	brfImporterHandler->LoadFile("models/player_Model.BRF", true, true, true);
+	brfImporterHandler->LoadFile("models/MainChar.BRF", true, true, true);
 	brfImporterHandler->LoadFile("models/enemy_0.BRF", true, true, true);
 	brfImporterHandler->LoadFile("models/FireTrap.BRF", true, true, true);
 	brfImporterHandler->LoadFile("models/BearTrap.BRF", true, true, true);
@@ -71,8 +71,8 @@ void ResourceManager::Release()
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoUI * object)
 	{
 		currentUI = RenderInstructions();
-		currentUI.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->size, &object->position);
-		
+		//currentUI.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->size, &object->position);
+	
 		UITextures uiType = object->object;
 		meshManager->GetFullScreenQuadInfoUI(&uiType,&currentUI);
 		materialManager->GetMaterialRenderInfo(&currentUI);

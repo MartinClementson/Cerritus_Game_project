@@ -487,6 +487,54 @@ bool ShaderManager::CreateBillboardShader()
 }
 bool ShaderManager::CreateUiShader()
 {
-	return false;
+	HRESULT hr;
+
+	//Vertex Shader
+	ID3DBlob* pVS = nullptr;
+
+	D3DCompileFromFile(
+		L"ResourceEngine/Shader/UIShader/UIShader.hlsl",
+		nullptr,
+		nullptr,
+		"VS_main",
+		"vs_5_0",
+		0,
+		0,
+		&pVS,
+		nullptr);
+
+	hr = this->gDevice->CreateVertexShader(pVS->GetBufferPointer(), pVS->GetBufferSize(), nullptr, &UI_VS);
+
+	if (FAILED(hr))
+		return false;
+
+	D3D11_INPUT_ELEMENT_DESC inputDesc[] =
+	{
+		/*POSITION*/{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,	  0,		 0,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+			/*UV*/	{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT ,	  0,		12,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },    
+		///*UV*/{ "TEXCOORD",	1, DXGI_FORMAT_R32G32_FLOAT,			  0,		24,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		///*BITANGENT*/{ "TEXCOORD",	2, DXGI_FORMAT_R32G32_FLOAT,	  0,		32,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		///*TANGENT*/{ "TEXCOORD",	3, DXGI_FORMAT_R32G32_FLOAT,	  0,		40,		 D3D11_INPUT_PER_VERTEX_DATA		,0 }
+	};
+	//pixel shader
+	ID3DBlob* pPS = nullptr;
+	D3DCompileFromFile(
+		L"ResourceEngine/Shader/UIShader/UIShader.hlsl",
+		nullptr,
+		nullptr,
+		"PS_main",
+		"ps_5_0",
+		0,
+		0,
+		&pPS,
+		nullptr);
+
+	hr = this->gDevice->CreatePixelShader(pPS->GetBufferPointer(), pPS->GetBufferSize(), nullptr, &UI_PS);
+	pPS->Release();
+
+	if (FAILED(hr))
+		return false;
+
+	return true;
 }
 #pragma endregion
