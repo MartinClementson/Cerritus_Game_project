@@ -96,7 +96,13 @@ void Renderer::Render(RenderInfoObject * object)
 //Render 2d textures for the ui
 void Renderer::Render(RenderInfoUI * object)
 {
+	RenderInstructions* renderObject;
+	renderObject = this->resourceManager->GetRenderInfo(object);
+	//Render with the given render instruction
+	/*this->sceneCam->Updateview(object->position);
+	this->UpdateCameraBuffer();*/
 
+	this->Render(renderObject);
 }
 
 //Render an enemy mesh
@@ -170,6 +176,29 @@ void Renderer::RenderPlaceHolderPlane()
 	Render(objectPlane);
 
 }
+//void Renderer::RenderUIPass()
+//{
+//	RenderInstructions * objectInstruction;
+//
+//	objectInstruction = this->resourceManager->GetFullScreenQuad();
+//	this->resourceManager->GetRenderInfo(U)
+//	
+//	UINT32 vertexSize;
+//
+//	vertexSize = sizeof(Vertex);
+//
+//	UINT32 offset = 0;
+//
+//	//an exception handling can be implemented here to handle if there is no buffer
+//	// to set. Then the handling can be to use a standard cube instead.
+//
+//	this->gDeviceContext->IASetVertexBuffers(0, 1, &objectInstruction->vertexBuffer, &vertexSize, &offset);
+//
+//	this->gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+//
+//	this->gDeviceContext->IASetIndexBuffer(objectInstruction->indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+//
+//}
 #pragma endregion
 
 void Renderer::SetMouseWorldPos(XMFLOAT4 position)

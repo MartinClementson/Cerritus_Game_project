@@ -72,7 +72,7 @@ void GameState::Update(double deltaTime)
 	
 		if (!pause->isActive) //&& !menu->isActive)
 		{
-
+			UITextures::HUD;
 			if (player->GetHealth() <= 0)
 			{
 				isPlayerDead = true;
@@ -232,23 +232,8 @@ void GameState::Update(double deltaTime)
 
 				i++;
 			}
-			/*if (index < 1)
-			{
-				index++;
-			}
-			else if (index == 1)
-			{
-				pause->isActive = true;
-				index++;
-			}*/
 		}
 		gameUI->Update(deltaTime);
-
-				j++;
-			}
-		}
-	}
-
 }
 	
 
@@ -259,7 +244,7 @@ void GameState::ProcessInput(double* deltaTime)
 	
 	if (death->isActive)
 	{
-
+		UITextures::GAMEOVER;
 	}
 	else if (pause->isActive)
 	{
@@ -332,21 +317,25 @@ void GameState::ProcessInput(double* deltaTime)
 		{
 			menu->isActive = true;
 			toMenu = true;
+			UITextures::MENU;
 		}
 
 		if (input->IsKeyPressed(KEY_ENTER) && timeSincePaused >0.2f)
 		{
 			pause->isActive = true;
 			timeSincePaused = 0.0f;
+			UITextures::PAUSE;
 		}
 
 		if (input->IsKeyPressed(KEY_SPACE))
 		{
 			player->Shoot(KEY_SPACE, deltaTime[0]);
+			UITextures::AMMO;
 		}
 		else if (input->isMouseClicked(MOUSE_LEFT))
 		{
 			player->Shoot(MOUSE_LEFT, deltaTime[0]);
+			UITextures::AMMO;
 		}
 	}
 }

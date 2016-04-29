@@ -109,9 +109,13 @@ void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * to
 		this->gameMeshes->at(4).GetMeshRenderInfo(toRender);
 	else if (*meshEnum == MeshEnum::PROJECTILE_1)
 		this->gameMeshes->at(5).GetMeshRenderInfo(toRender);
-
 	else
-		this->placeHolder.GetMeshRenderInfo(toRender);
+	{
+		this->gameMeshes->at(6).GetMeshRenderInfo(toRender);
+	}
+
+	//else
+	//	this->placeHolder.GetMeshRenderInfo(toRender);
 
 
 }
@@ -249,5 +253,10 @@ void MeshManager::GetPlaceHolderPlaneInfo(RenderInstructions * toRender)
 void MeshManager::GetFullScreenQuadInfo(RenderInstructions * toRender)
 {
 	fullScreenQuad.GetMeshRenderInfo(toRender);
+}
+void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions * toRender)
+{
+	fullScreenQuad.GetMeshRenderInfo(toRender);
+	toRender->materialID = 5; //temp
 }
 #pragma endregion

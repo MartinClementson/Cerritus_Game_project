@@ -49,6 +49,7 @@ public:
 	void RenderPlaceHolder(XMFLOAT3* position);
 	void RenderPlaceHolder(XMFLOAT3* position, XMFLOAT3* rotation);
 	void RenderPlaceHolderPlane();
+	/*void RenderUIPass();*/
 
 
 	void SetMouseWorldPos(XMFLOAT4 position);
