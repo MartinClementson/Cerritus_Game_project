@@ -144,6 +144,12 @@ void Graphics::Render() //manage RenderPasses here
 	gBuffer->SetToRead(gBackBufferRTV); 
 
 	this->renderer->RenderFinalPass();
+
+	for (unsigned int i = 0; i < uiObjects->size(); i++)
+	{
+		renderer->Render(uiObjects->at(i));
+
+	}
 	gBuffer->ClearGbuffer();
 										
 	
@@ -199,11 +205,6 @@ void Graphics::RenderScene()
 
 	}
 
-	for (unsigned int i = 0; i < uiObjects->size(); i++)
-	{
-		renderer->Render(uiObjects->at(i));
-
-	}
 
 
 

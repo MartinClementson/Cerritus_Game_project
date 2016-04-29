@@ -15,8 +15,8 @@ GUI::~GUI()
 
 void GUI::Initialize()
 {
-	size = size;
-	position = position;
+	size = { 1,1,1 };
+	position = { 0,4,0 };
 	grapichs = Graphics::GetInstance();
 	this->renderInfo.object = UITextures::HUD;
 }

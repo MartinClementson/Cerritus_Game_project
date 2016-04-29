@@ -97,6 +97,7 @@ void Renderer::Render(RenderInfoObject * object)
 void Renderer::Render(RenderInfoUI * object)
 {
 	RenderInstructions* renderObject;
+
 	renderObject = this->resourceManager->GetRenderInfo(object);
 	//Render with the given render instruction
 	/*this->sceneCam->Updateview(object->position);

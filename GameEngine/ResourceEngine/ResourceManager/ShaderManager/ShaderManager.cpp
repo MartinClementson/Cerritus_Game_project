@@ -66,7 +66,7 @@ void ShaderManager::Release()
 
 	//Shaders for UI 
 	SAFE_RELEASE(UI_VS);
-	SAFE_RELEASE(UI_GS);
+	//SAFE_RELEASE(UI_GS);
 	SAFE_RELEASE(UI_PS);
 	SAFE_RELEASE(gVertexLayoutUI);
 
@@ -165,7 +165,7 @@ void ShaderManager::SetActiveShader(Shaders* shader)
 			this->gDeviceContext->VSSetShader(UI_VS, nullptr, 0);
 			this->gDeviceContext->HSSetShader(nullptr, nullptr, 0);
 			this->gDeviceContext->DSSetShader(nullptr, nullptr, 0);
-			this->gDeviceContext->GSSetShader(UI_GS, nullptr, 0);
+			this->gDeviceContext->GSSetShader(nullptr, nullptr, 0);
 			this->gDeviceContext->PSSetShader(UI_PS, nullptr, 0);
 			this->gDeviceContext->IASetInputLayout(gVertexLayoutUI);
 			
@@ -185,6 +185,8 @@ void ShaderManager::CreateShaders()
 		MessageBox(NULL, L"Error compiling Gbuffer shaders", L"Shader error", MB_ICONERROR | MB_OK);
 	if (!CreateShadowShader())
 		MessageBox(NULL, L"Error compiling Shadow shaders", L"Shader error", MB_ICONERROR | MB_OK);
+	if(!CreateUiShader())
+		MessageBox(NULL, L"Error compiling UI shaders", L"Shader error", MB_ICONERROR | MB_OK);
 }
 
 
@@ -511,7 +513,7 @@ bool ShaderManager::CreateUiShader()
 	D3D11_INPUT_ELEMENT_DESC inputDesc[] =
 	{
 		/*POSITION*/{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,	  0,		 0,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
-			/*UV*/	{ "TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT ,	  0,		12,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },    
+			/*UV*/	{ "TEXCOORD",	1, DXGI_FORMAT_R32G32_FLOAT ,	  0,		24,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },    
 		///*UV*/{ "TEXCOORD",	1, DXGI_FORMAT_R32G32_FLOAT,			  0,		24,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
 		///*BITANGENT*/{ "TEXCOORD",	2, DXGI_FORMAT_R32G32_FLOAT,	  0,		32,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
 		///*TANGENT*/{ "TEXCOORD",	3, DXGI_FORMAT_R32G32_FLOAT,	  0,		40,		 D3D11_INPUT_PER_VERTEX_DATA		,0 }

@@ -32,7 +32,7 @@ float4 PS_main(VS_OUT input)
 	float4 txSample = diffuseTex.Sample(linearSampler, input.uv);
 
 
-	clip(txSample.a < 0.1f ? -1 : 1);
+	//clip(txSample.a < 0.1f ? -1 : 1);
 
 
 
