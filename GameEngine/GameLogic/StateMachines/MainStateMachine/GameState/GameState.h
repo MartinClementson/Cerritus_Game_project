@@ -29,9 +29,13 @@ public:
 	bool GetIsActive();
 	float timeSincePaused;
 	int index;
+
 	bool gamePaused;
 	void SetIsPaused(bool gamePaused);
 	bool GetPaused();
+
+	float GetPoints();
+
 
 private:
 	void OnEnter();

@@ -14,6 +14,7 @@ BearTrap::BearTrap(XMFLOAT3 position)
 	trapState->Initialize();
 	
 	radius = 1.0f;
+	radius2 = 3.0f;
 }
 
 BearTrap::BearTrap()
@@ -36,8 +37,9 @@ void BearTrap::Initialize(XMFLOAT3 position, XMFLOAT3 rotation)
 	this->isActive = true;
 	this->renderInfo.object = MeshEnum::TRAP_BEAR;
 	
-	radius = 1.0f;
-	
+	//radius = 1.0f;
+
+	radius2 = 3.0f;
 
 }
 

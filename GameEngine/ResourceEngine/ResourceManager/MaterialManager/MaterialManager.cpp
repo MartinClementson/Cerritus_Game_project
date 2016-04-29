@@ -12,6 +12,27 @@ MaterialManager::~MaterialManager()
 	delete textureManager;
 }
 
+bool MaterialManager::CompareMaterialsAt(importedMaterial * import, unsigned int materialID)
+{
+	if (import->materialName == materials->at(materialID).materialName)
+	{
+		if (materials->at(materialID).diffuse_ID == textureManager->FindDiffuseID(import->diffuseTex))
+		{
+			if (materials->at(materialID).normal_ID == textureManager->FindNormalID(import->normalTex))
+			{
+				if (materials->at(materialID).specular_ID == textureManager->FindSpecularID(import->specularTex))
+				{
+					if (materials->at(materialID).glow_ID == textureManager->FindGlowID(import->glowTex))
+					{
+						return true;
+					}
+				}
+			}
+		}
+	}
+	return false;
+}
+
 bool MaterialManager::CompareImportMaterials(importedMaterial * import)
 {
 	for (unsigned int j = 0; j < materials->size(); j++)
@@ -54,16 +75,12 @@ void MaterialManager::addMaterials(std::vector<importedMaterial>* import)
 		{
 			if (!CompareImportMaterials(&import->at(i)))
 			{
-				//materials = new std::vector<Material>;
 				Material tempMaterial;
 				tempMaterial.materialName = import->at(i).materialName;
 				tempMaterial.materialID = import->at(i).materialID;
 
 				tempMaterial.diffuseValue = import->at(i).diffuseValue;
 				tempMaterial.specularValue = import->at(i).specularValue;
-
-				//temp for showcase
-				import->at(i).diffuseTex = "textur_monster_flip.tif";
 
 				//getting the IDs for the textures
 				tempMaterial.diffuse_ID = textureManager->GetDiffuseID(import->at(i).diffuseTex);
@@ -76,16 +93,12 @@ void MaterialManager::addMaterials(std::vector<importedMaterial>* import)
 		}
 		else
 		{
-			//materials = new std::vector<Material>;
 			Material tempMaterial;
 			tempMaterial.materialName = import->at(i).materialName;
 			tempMaterial.materialID = import->at(i).materialID;
 
 			tempMaterial.diffuseValue = import->at(i).diffuseValue;
 			tempMaterial.specularValue = import->at(i).specularValue;
-
-			//temp for showcase
-			import->at(i).diffuseTex = "checkers2.jpg";
 
 			//getting the IDs for the textures
 			tempMaterial.diffuse_ID = textureManager->GetDiffuseID(import->at(i).diffuseTex);
@@ -100,9 +113,10 @@ void MaterialManager::addMaterials(std::vector<importedMaterial>* import)
 
 void MaterialManager::GetMaterialRenderInfo(RenderInstructions * toRender)
 {
-	if (materials->at(toRender->materialID).diffuse_ID != -1)
-		toRender->diffuseMap = textureManager->GetDiffuseTexture(materials->at(toRender->materialID).diffuse_ID);
-	//toRender->diffuseMap = textureManager->GetDiffuseTexture(0);
+	toRender->diffuseMap = textureManager->GetDiffuseTexture(materials->at(toRender->materialID).diffuse_ID);
+	toRender->normalMap = textureManager->GetNormalTexture(materials->at(toRender->materialID).normal_ID);
+	toRender->specularMap = textureManager->GetSpecularTexture(materials->at(toRender->materialID).specular_ID);
+	toRender->glowMap = textureManager->GetGlowTexture(materials->at(toRender->materialID).glow_ID);
 }
 
 //RenderInstructions * MaterialManager::GetMaterialRenderInfo(unsigned int materialID)

@@ -38,7 +38,8 @@ enum MeshEnum
 	ENEMY_1,
 	PROJECTILE_1,
 	TRAP_BEAR,
-	TRAP_FIRE
+	TRAP_FIRE,
+	LEVEL_1
 };
 
 #pragma endregion
@@ -64,8 +65,9 @@ enum UITextures
 
 enum LightType
 {
-	POINTLIGHT,
-	AREALIGHT
+	POINT_LIGHT,
+	SPOT_LIGHT,
+	DIRECTIONAL_LIGHT
 };
 
 #pragma endregion
@@ -80,7 +82,7 @@ enum Shaders
 	UI_SHADER,
 	ANIMATION_SHADER,
 	GBUFFER_SHADER,
-	GBUFFER_SHADOW_SHADER
+	SHADOW_SHADER
 };
 
 #pragma endregion

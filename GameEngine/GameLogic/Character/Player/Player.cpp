@@ -9,6 +9,7 @@ inline DirectX::XMFLOAT3 operator+(DirectX::XMFLOAT3 a, DirectX::XMFLOAT3 b) {
 
 	return result;
 }
+
 inline DirectX::XMFLOAT3 operator*(DirectX::XMFLOAT3 a, float b) {
 	DirectX::XMFLOAT3 result;
 
@@ -28,21 +29,18 @@ inline DirectX::XMFLOAT3 operator+(DirectX::XMFLOAT3 a, Vec3 b) {
 
 	return result;
 }
+
 inline float get_degrees(float radian)
 {
 
 	return (radian * 180) / XM_PI;
 }
 
-
-
-
 Player::Player()
 {
 	this->projectileSystem = new ProjectileSystem;
 
 }
-
 
 Player::~Player()
 {
@@ -59,7 +57,14 @@ void Player::Initialize()
 	this->rotation		 = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	VelocityMax = 4.0f;
 	slowTimer = 0;
-	radius				 = 1.0f;
+
+
+	points = 0;
+	multiplier = 1;
+	radius = 2.0f;
+	radius2 = 5.0f;
+
+
 	DoT = 0.0f;
 	DoTDur = 0.0f;
 	health = 100.0f;
@@ -78,7 +83,7 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 		slowTimer += (float)deltaTime;
 		
 	}
-	if (slowTimer > 3.0f)
+	if (slowTimer > 2.0f)
 	{
 		VelocityMax = 4.0f;
 		slowTimer = 0.0f;
@@ -88,16 +93,16 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 	{
 		DoTDur += (float)deltaTime;
 	}
-	if (DoTDur > 20)
+	if (DoTDur > 2)
 	{
 		DoT = 0.0f;
 		DoTDur = 0.0f;
 	}
 
-	health -= DoT*deltaTime;
+	health -= DoT*(float)deltaTime;
 	if (health <= 0)
 	{
-
+		
 		/*MessageBox(0, L"You Died",
 		L"Continue", MB_OK);*/
 		//health = 100.0f;
@@ -162,8 +167,6 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 projectileSystem->UpdateProjectiles(deltaTime);
 }
 
-
-
 void Player::Render()
 {
 	graphics->QueueRender(&renderInfo);
@@ -220,8 +223,6 @@ void Player::Shoot(InputKeys input, double deltaTime)
 	{
 		projectileSystem->FireProjectile(this->position, direction);
 	}
-
-
 }
 
 float Player::GetHealth()
@@ -232,4 +233,24 @@ float Player::GetHealth()
 void Player::SetHealth(float health)
 {
 	this->health = health;
+}
+
+void Player::SetPoints(float points)
+{
+	this->points = points;
+}
+
+float Player::GetPoints()
+{
+	return this->points;
+}
+
+void Player::SetMulti(float multi)
+{
+	this->multiplier = multi;
+}
+
+float Player::GetMulti()
+{
+	return this->multiplier;
 }

@@ -27,11 +27,12 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	brfImporterHandler->Initialize(this->meshManager, this->materialManager);
 
 
-	brfImporterHandler->LoadFile("MainChar.BRF", true, true, true);
-	brfImporterHandler->LoadFile("EnemyChar.BRF", true, true, true);
-	brfImporterHandler->LoadFile("FireTrap.BRF", true, true, true);
-	brfImporterHandler->LoadFile("BearTrap.BRF", true, true, true);
-
+	brfImporterHandler->LoadFile("models/MainChar.BRF", true, true, true);
+	brfImporterHandler->LoadFile("models/enemy_0.BRF", true, true, true);
+	brfImporterHandler->LoadFile("models/FireTrap.BRF", true, true, true);
+	brfImporterHandler->LoadFile("models/BearTrap.BRF", true, true, true);
+	brfImporterHandler->LoadFile("models/test_scene.BRF", true, true, true);
+	brfImporterHandler->LoadFile("models/test_bullet.BRF", true, true, true);
 }
 
 void ResourceManager::Release()
@@ -53,12 +54,6 @@ void ResourceManager::Release()
 		meshManager		->GetMeshRenderInfo( &meshType, &currentMesh ); //Get the mesh data
 		materialManager ->GetMaterialRenderInfo (&currentMesh );	    //Get the material data
 	
-		if (!gbufferPass)
-		{
-
-			Shaders temp = FINAL_SHADER;
-			this->shaderManager->SetActiveShader(&temp);
-		}
 	
 		return &currentMesh;
 		
@@ -78,11 +73,7 @@ void ResourceManager::Release()
 		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
 		materialManager->GetMaterialRenderInfo(&currentMesh);
 		
-		if (!gbufferPass)
-		{
-			Shaders temp = FINAL_SHADER;
-			this->shaderManager->SetActiveShader(&temp);
-		}
+	
 		return &currentMesh;
 	}
 
@@ -95,12 +86,7 @@ void ResourceManager::Release()
 		meshManager->GetMeshRenderInfo(&meshType,&currentMesh);
 		materialManager->GetMaterialRenderInfo(&currentMesh);
 		
-		if (!gbufferPass)
-		{
-
-			Shaders temp = FINAL_SHADER;
-			this->shaderManager->SetActiveShader(&temp);
-		}
+		
 
 		return &currentMesh;
 
@@ -115,12 +101,7 @@ void ResourceManager::Release()
  		MeshEnum meshType = object->object;
 		
 		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
-		if (!gbufferPass)
-		{
-
-			Shaders temp = FINAL_SHADER;
-			this->shaderManager->SetActiveShader(&temp);
-		}
+	
 		return &currentMesh;
 	}
 
@@ -137,12 +118,7 @@ void ResourceManager::Release()
 
 
 		meshManager->GetPlaceHolderMeshInfo(&currentMesh);
-		if (!gbufferPass)
-		{
-
-			Shaders temp = FINAL_SHADER;
-			this->shaderManager->SetActiveShader(&temp);
-		}
+	
 		return &currentMesh;
 	}
 
@@ -155,13 +131,7 @@ void ResourceManager::Release()
 
 		meshManager->GetPlaceHolderMeshInfo(&currentMesh);
 
-		if (!gbufferPass)
-		{
-
-			Shaders temp = FINAL_SHADER;
-			this->shaderManager->SetActiveShader(&temp);
-		}
-
+	
 		return &currentMesh;
 	}
 
@@ -179,11 +149,7 @@ void ResourceManager::Release()
 
 		meshManager->GetPlaceHolderPlaneInfo(&currentMesh);
 
-		if (!gbufferPass)
-		{
-			Shaders temp = FINAL_SHADER;
-			this->shaderManager->SetActiveShader(&temp);
-		}
+
 
 		return &currentMesh;
 		
@@ -252,5 +218,21 @@ void ResourceManager::Release()
 
 
 	}
+
+	void ResourceManager::SetShadowPass(bool x)
+	{
+		if (this->shadowPass != x)
+			this->shadowPass = x;
+		if (shadowPass == true)
+		{
+			Shaders  temp = SHADOW_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
+
+
+
+	}
+
+	
 
 #pragma endregion

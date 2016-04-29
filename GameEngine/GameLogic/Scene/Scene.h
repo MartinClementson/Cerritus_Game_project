@@ -12,8 +12,10 @@ class Scene
 private:
 	std::vector<Model>* sceneModels;
 	std::vector<Light>* sceneLights;
+
 	std::vector<BearTrap*> bearTraps;
 	std::vector<FireTrap*> fireTraps;
+
 	Trap * trap;
 	Collision* collision;
 	int trapAmount;
@@ -21,7 +23,12 @@ private:
 	//TrapStateMachine *trapStateMachine;
 
 public:
+
 	
+
+	//std::vector<BearTrap*> bearTraps;
+	//std::vector<FireTrap*> fireTraps;
+
 	std::vector<EnemySpawn*> enemySpawns;
 	Scene();
 	virtual ~Scene();
@@ -32,7 +39,9 @@ public:
 	void Update(double deltaTime);
 	void Render();
 	void load();
-	void AddEnemySpawn(XMFLOAT3 spawnPosition);
 
+	void EvadeTrap(Enemy * enemy, BearTrap * bear, double deltaTime);
+
+	void AddEnemySpawn(XMFLOAT3 spawnPosition);
 };
 

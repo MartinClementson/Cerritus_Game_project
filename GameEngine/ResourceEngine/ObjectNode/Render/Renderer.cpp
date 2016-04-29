@@ -6,6 +6,12 @@ Renderer::Renderer()
 {
 	this->sceneCam			= new Camera();
 	this->resourceManager	= new ResourceManager();
+	this->sceneLightArray	= new PointLight(
+		XMFLOAT4(0.0f, 30.0f, 0.0f, 1.0f), //Pos
+		XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f),	//Direction
+		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));	//Color
+	sceneLightArray->SetMatrices(XM_PI*0.8f, 1.0f, 5.0f, 40.0f);
+	sceneLightArray->intensity = 1.0f;
 }
 
 
@@ -13,6 +19,7 @@ Renderer::~Renderer()
 {
 	delete sceneCam;
 	delete resourceManager;
+	delete sceneLightArray;
 }
 
 void Renderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext)
@@ -22,6 +29,7 @@ void Renderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCon
 	this->CreateConstantBuffers();
 	resourceManager->Initialize(gDevice, gDeviceContext);
 	sceneCam->Initialize(gDevice, gDeviceContext);
+	this->UpdateLightBuffer();
 }
 void Renderer::Release()
 {
@@ -68,17 +76,17 @@ void Renderer::RenderFinalPass()
 //Render scene objects, mostly static stuff
 void Renderer::Render(RenderInfoObject * object)
 {
-	//RenderInstructions* renderObject;
+	RenderInstructions* renderObject;
 
 	//Send the info of the object into the resource manager
 	//The resource manager gathers all the rendering info and sends back a renderInstruction
-	//renderObject = this->resourceManager->GetRenderInfo(object);
+	renderObject = this->resourceManager->GetRenderInfo(object);
 
 	//Render with the given render instruction
 
-	//this->Render(renderObject);
+	this->Render(renderObject);
 
-	RenderPlaceHolder(&object->position,&object->rotation);
+	//RenderPlaceHolder(&object->position,&object->rotation);
 
 	//RenderPlaceHolder(&object->position);
 
@@ -193,7 +201,7 @@ void Renderer::GetInverseProjectionMatrix(XMMATRIX & matrix)
 void Renderer::Render(RenderInstructions * object)
 {
 
-	
+	UpdateLightBuffer();
 	UpdateWorldBuffer(&object->worldBuffer);
 
 #pragma region Check what vertex is to be used
@@ -279,9 +287,34 @@ void Renderer::UpdateCameraBuffer()
 	
 
 	gDeviceContext->Unmap(this->camBuffer, 0);
+	
 	gDeviceContext->GSSetConstantBuffers(CAMERABUFFER_INDEX, 1, &this->camBuffer);
+	gDeviceContext->PSSetConstantBuffers(CAMERABUFFER_INDEX, 1, &this->camBuffer);
 
 
+
+}
+
+void Renderer::UpdateLightBuffer()
+{
+
+	PointLight* tempLight = this->sceneLightArray;
+	
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+	gDeviceContext->Map(this->lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+
+	PointLight* tempLightData = (PointLight*)mappedResource.pData;
+	*tempLightData = *tempLight;
+
+
+
+	gDeviceContext->Unmap(this->lightBuffer, 0);
+
+	gDeviceContext->GSSetConstantBuffers(LIGHTBUFFER_INDEX, 1, &this->lightBuffer);
+	gDeviceContext->PSSetConstantBuffers(LIGHTBUFFER_INDEX, 1, &this->lightBuffer);
 
 }
 
@@ -303,25 +336,7 @@ void Renderer::UpdateWorldBuffer(WorldMatrix* worldStruct)
 
 	this->gDeviceContext->Unmap(worldBuffer, 0);
 	gDeviceContext->GSSetConstantBuffers(WORLDBUFFER_INDEX, 1, &this->worldBuffer);
-
-}
-
-void Renderer::UpdateLightBuffer(LightStruct * lightStruct)
-{
-	D3D11_MAPPED_SUBRESOURCE mappedResourceLight;
-	ZeroMemory(&mappedResourceLight, sizeof(mappedResourceLight));
-
-	//mapping to the matrixbuffer
-	this->gDeviceContext->Map(lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResourceLight);
-
-	LightStruct* temporaryWorld = (LightStruct*)mappedResourceLight.pData;
-
-	*temporaryWorld = *lightStruct;
-
-
-
-	this->gDeviceContext->Unmap(lightBuffer, 0);
-	gDeviceContext->GSSetConstantBuffers(LIGHTBUFFER_INDEX, 1, &this->lightBuffer);
+	gDeviceContext->PSSetConstantBuffers(WORLDBUFFER_INDEX, 1, &this->worldBuffer);
 
 }
 
@@ -373,8 +388,11 @@ bool Renderer::CreateConstantBuffers()
 	if (FAILED(hr))
 		MessageBox(NULL, L"Failed to create Camera buffer", L"Error", MB_ICONERROR | MB_OK);
 	if (SUCCEEDED(hr))
-		this->gDeviceContext->GSSetConstantBuffers(CAMERABUFFER_INDEX, 1 , &this->camBuffer );
+	{
 
+		this->gDeviceContext->GSSetConstantBuffers(CAMERABUFFER_INDEX, 1 , &this->camBuffer );
+		this->gDeviceContext->PSSetConstantBuffers(CAMERABUFFER_INDEX, 1, &this->camBuffer);
+	}
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 		//WORLD CONSTANT BUFFER
@@ -406,7 +424,7 @@ bool Renderer::CreateConstantBuffers()
 	CD3D11_BUFFER_DESC bufferDescLight;
 	ZeroMemory(&bufferDescLight, sizeof(bufferDescLight));
 
-	bufferDescLight.ByteWidth				 = sizeof(LightStruct);
+	bufferDescLight.ByteWidth				 = sizeof(PointLight);
 	bufferDescLight.BindFlags				 = D3D11_BIND_CONSTANT_BUFFER;
 	bufferDescLight.Usage					 = D3D11_USAGE_DYNAMIC;
 	bufferDescLight.CPUAccessFlags			 = D3D11_CPU_ACCESS_WRITE;

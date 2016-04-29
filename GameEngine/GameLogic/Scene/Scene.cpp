@@ -1,13 +1,10 @@
 #include "Scene.h"
 #include <time.h>
 
-
-
 Scene::Scene()
 {
 	collision = Collision::GetInstance();
 }
-
 
 Scene::~Scene()
 {
@@ -41,6 +38,11 @@ void Scene::Initialize()
 
 	InitBearTrap();
 	InitFireTrap();
+
+	for (size_t i = 0; i < this->bearTraps.size(); i++)
+	{
+		collision->AddTrap(bearTraps.at(i));
+	}
 	RespawnTimer = 0;
 }	
 
@@ -95,18 +97,12 @@ void Scene::InitBearTrap()
 	}
 }
 
-	
-
-
 void Scene::AddEnemySpawn(XMFLOAT3 spawnPosition)
 {
 	EnemySpawn* spawnPoint = new EnemySpawn();
 	spawnPoint->Initialize(spawnPosition);
 	enemySpawns.push_back(spawnPoint);
 }
-
-
-
 
 void Scene::Release()
 {
@@ -147,10 +143,21 @@ void Scene::Update(double deltaTime)
 
 	for (size_t i = 0; i < bearTraps.size(); i++)
 	{
-		if (collision->bearTrapPlayerCollision(bearTraps.at(i)))
+		if (collision->BearTrapPlayerCollision(bearTraps.at(i)))
 		{
 			if (bearTraps.at(i)->isActive)
 			{
+				collision->PlayerProxyTrap(bearTraps.at(i));
+				for (size_t j = 0; j < enemySpawns.size(); j++)
+				{
+					for (size_t k = 0; k < enemySpawns.at(j)->Alive.size(); k++)
+					{
+						collision->EnemyProxTrap(bearTraps.at(i),
+							enemySpawns.at(j)->Alive.at(k))
+							&& bearTraps.at(i)->isActive;
+						
+					}
+				}
 				bearTraps.at(i)->isActive = false;
 			}
 
@@ -159,11 +166,21 @@ void Scene::Update(double deltaTime)
 		{
 			for (size_t k = 0; k < enemySpawns.at(j)->Alive.size(); k++)
 			{
-				if (collision->bearTrapEnemyCollision(bearTraps.at(i),
+				if (collision->BearTrapEnemyCollision(bearTraps.at(i),
 					enemySpawns.at(j)->Alive.at(k))
 					&& bearTraps.at(i)->isActive)
 				{
-					//shitall
+					collision->PlayerProxyTrap(bearTraps.at(i));
+					for (size_t j2 = 0; j2 < enemySpawns.size(); j2++)
+					{
+						for (size_t k2 = 0; k2 < enemySpawns.at(j2)->Alive.size(); k2++)
+						{
+							collision->EnemyProxTrap(bearTraps.at(i),
+								enemySpawns.at(j2)->Alive.at(k2))
+								&& bearTraps.at(i)->isActive;
+						}
+					}
+					bearTraps.at(i)->isActive = false;
 				}
 			}
 		}
@@ -171,7 +188,7 @@ void Scene::Update(double deltaTime)
 
 	for (size_t i = 0; i < fireTraps.size(); i++)
 	{
-		if (collision->fireTrapPlayerCollision(fireTraps.at(i)) && fireTraps.at(i)->isActive)
+		if (collision->FireTrapPlayerCollision(fireTraps.at(i)) && fireTraps.at(i)->isActive)
 		{
 			fireTraps.at(i)->isActive = false;
 		}
@@ -179,7 +196,7 @@ void Scene::Update(double deltaTime)
 		{
 			for (size_t k = 0; k < enemySpawns.at(j)->Alive.size(); k++)
 			{
-				if (collision->fireTrapEnemyCollision(fireTraps.at(i),
+				if (collision->FireTrapEnemyCollision(fireTraps.at(i),
 					enemySpawns.at(j)->Alive.at(k))
 					&& fireTraps.at(i)->isActive)
 				{
@@ -240,4 +257,29 @@ void Scene::Render()
 void Scene::load()
 {
 
+}
+
+void Scene::EvadeTrap(Enemy* enemy, BearTrap* bear, double deltaTime)
+{
+	XMFLOAT3 enemyPos;
+	XMFLOAT3 trapPos;
+	float trapRadius;
+	Vec3 dir;
+
+	trapRadius = bear->GetRadius2();
+	enemyPos = enemy->GetPosition();
+	trapPos = bear->GetPosition();
+
+	dir.x = trapPos.x - enemyPos.x;
+	dir.z = trapPos.z - enemyPos.z;
+
+	dir.Normalize();
+	
+	enemy->position.x -= dir.x * (float)deltaTime /* * enemy->movementSpeed*/;
+	enemy->position.z -= dir.z * (float)deltaTime /** enemy->movementSpeed*/;
+
+	/*enemy->position.x = dir.x += trapRadius;
+	enemy->position.y = dir.y += trapRadius;*/
+	/** (float)deltaTime * enemy->movementSpeed*/
+	//enemy->position.z = trapRadius /** (float)deltaTime * enemy->movementSpeed*/;
 }

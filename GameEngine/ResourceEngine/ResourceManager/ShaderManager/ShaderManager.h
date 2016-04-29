@@ -33,8 +33,8 @@ private:
 	ID3D11DeviceContext* gDeviceContext				 = nullptr;
 
 	//SamplerStates
-	ID3D11SamplerState* gSampleState				 = nullptr;
-
+	ID3D11SamplerState* linearSampleState			 = nullptr;
+	ID3D11SamplerState* pointSampleState			 = nullptr;
 
 	//Shaders for phong shading
 	ID3D11VertexShader*		FINAL_VS				 = nullptr;
@@ -49,11 +49,15 @@ private:
 	ID3D11InputLayout*		gVertexLayoutAnimation   = nullptr;
 
 	//Shaders for GBuffer
-	ID3D11VertexShader*		GBUFFER_SHADOWDEPTH_VS	 = nullptr;
 	ID3D11VertexShader*		GBUFFER_VS				 = nullptr;
 	ID3D11GeometryShader*	GBUFFER_GS				 = nullptr;
 	ID3D11PixelShader*		GBUFFER_PS				 = nullptr;
 	ID3D11InputLayout*		gVertexLayoutGBuffer	 = nullptr;
+
+	//Shaders for ShadowShader
+	ID3D11VertexShader*		SHADOW_VS				 = nullptr;
+	ID3D11GeometryShader*	SHADOW_GS				 = nullptr;
+	//USE GBUFFER VERTEXLAYOUT!
 
 	//Shaders for particle shading
 	ID3D11VertexShader*		PARTICLE_VS				 = nullptr;
@@ -91,6 +95,7 @@ private:
 	bool CreateFinalPassShaders();
 	bool CreateAnimationShader();
 	bool CreateGbufferShader();
+	bool CreateShadowShader();
 	bool CreateParticleShader();
 	bool CreateBillboardShader();
 	bool CreateUiShader();

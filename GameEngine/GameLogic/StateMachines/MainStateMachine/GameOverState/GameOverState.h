@@ -17,6 +17,9 @@ public:
 	void ProcessInput(double* deltaTime);
 	Input* input;
 	bool replay;
+	void SetPoints(float points);
+	float GetPoints();
+	void SetLastHigh(float high);
 
 private:
 	void OnEnter();
@@ -24,5 +27,7 @@ private:
 private:
 	Scene* GameOverScene;
 	GUI* gameOverGUI;
+	float points;
+	float lastHighscore;
 };
 

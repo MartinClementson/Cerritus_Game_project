@@ -8,6 +8,7 @@
 #include "../../Structs/RenderInfo.h"
 #include "../ObjectNode/Render/Renderer.h"
 #include "Gbuffer\Gbuffer.h"
+#include "../Graphics/ShadowBuffer/ShadowBuffer.h"
 
 #pragma endregion
 
@@ -32,7 +33,7 @@ private:
 	HWND* wndHandle									 = nullptr;
 	//Gbuffer class, for deferred shading
 	Gbuffer* gBuffer								 = nullptr;
-
+	ShadowBuffer* shadowBuffer						 = nullptr;
 
 	//Compute shader related
 	ID3D11UnorderedAccessView* gBackBufferUAV		 = nullptr;

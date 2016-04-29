@@ -11,9 +11,8 @@ public:
 	virtual ~Character();
 
 protected:
-	XMFLOAT3 position;
 	XMFLOAT3 rotation;
-	float radius;
+	float radius, radius2;
 
 	float health, damage;
 	bool dead, idle, active;
@@ -24,6 +23,7 @@ protected:
 	
 
 public:
+	XMFLOAT3 position;
 
 	float movementSpeed;
 

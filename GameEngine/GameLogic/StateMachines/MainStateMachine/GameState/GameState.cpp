@@ -93,6 +93,7 @@ void GameState::Update(double deltaTime)
 			}
 
 
+
 			player->Update(deltaTime, dir);
 
 			room1->Update(deltaTime);
@@ -106,6 +107,7 @@ void GameState::Update(double deltaTime)
 					size_t j = 0;
 					while (j < room1->enemySpawns.at(k)->Alive.size())
 					{
+
 						if (collision->ProjectileEnemyCollision(
 							player->projectileSystem->
 							projectiles.at(i),
@@ -149,10 +151,85 @@ void GameState::Update(double deltaTime)
 							}
 
 
+						room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(
+						room1->enemySpawns.at(k)->Alive.at(j)->GetHealth() - 10);
+					}
+						
+
+				j++;
+				}
+			}
+			i++;
+		}
+
+		for (size_t k = 0; k < room1->enemySpawns.size(); k++)
+		{
+			size_t j = 0;
+			while (j < room1->enemySpawns.at(k)->Alive.size())
+			{
+				for (size_t p = 0; p < room1->enemySpawns
+					.at(k)->Alive.size(); p++)
+				{
+					if (room1->enemySpawns.at(k)->Alive.at(p)->isAlive == true)
+					{
+						if (j == p)
+						{
+							room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
+								collision->GetPlayer(),
+								deltaTime);
+						}
+						else if (collision->EnemyCollision(
+							room1->enemySpawns.at(k)->Alive.at(p),
+							room1->enemySpawns.at(k)->Alive.at(p))
+
+
+							&& collision->PlayerDistanceCollision(
+								room1->enemySpawns.at(k)->Alive.at(p))
+							&& j == p
+							)
+						{
+							room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
+								collision->GetPlayer(),
+								deltaTime);
+						}
+
+						else if (collision->EnemyCollision(
+							room1->enemySpawns.at(k)->Alive.at(p),
+							room1->enemySpawns.at(k)->Alive.at(j)))
+						{
+							room1->enemySpawns.at(k)->Alive.at(p)->EnemyWithEnemyCollision(
+								room1->enemySpawns.at(k)->Alive.at(p),
+								room1->enemySpawns.at(k)->Alive.at(j),
+								deltaTime);
+						}
+						//else if (collision->TrapandEnemyLottery(room1->enemySpawns.at(k)->Alive.at(p)))
+						//{
+						//	for (size_t i = 0; i < room1->bearTraps.size(); i++)
+						//	{
+						//		/*int randoms = rand() % 5 + 1;
+
+						//		if (randoms == 1 && room1->bearTraps.at(i)->isActive)
+						//		{*/
+						//		room1->EvadeTrap(room1->enemySpawns.at(k)->Alive.at(p)
+						//			, room1->bearTraps.at(i), deltaTime);
+						//		/*}*/
+
+						//	}
+						//}
+
+						/*	else
+							{
+								room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
+									collision->GetPlayer(),
+									deltaTime);
+							}*/
+
+
 						}
 						j++;
 					}
 				}
+
 				i++;
 			}
 			/*if (index < 1)
@@ -166,7 +243,14 @@ void GameState::Update(double deltaTime)
 			}*/
 		}
 		gameUI->Update(deltaTime);
+
+				j++;
+			}
+		}
+	}
+
 }
+	
 
 void GameState::ProcessInput(double* deltaTime)
 {
@@ -303,7 +387,6 @@ void GameState::Render()
 	player->Render();
 
 	gameUI->Render();
-
 }
 
 void GameState::OnEnter()
@@ -315,4 +398,9 @@ void GameState::OnEnter()
 void GameState::OnExit()
 {
 
+}
+
+float GameState::GetPoints()
+{
+	return player->GetPoints();
 }

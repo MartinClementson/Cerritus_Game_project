@@ -135,12 +135,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)\ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>$(SolutionDir)\ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -185,17 +187,20 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.cpp" />
     <ClCompile Include="ResourceEngine\Graphics\Graphics.cpp" />
+    <ClCompile Include="ResourceEngine\Graphics\ShadowBuffer\ShadowBuffer.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\Camera\Camera.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\Mesh\Mesh.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\ObjectNode.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\Render\Renderer.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.cpp" />
+    <ClCompile Include="ResourceEngine\ResourceManager\LightManager\LightManager.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\MaterialManager\MaterialManager.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\MeshManager\MeshManager.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\ResourceManager.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\ShaderManager\ShaderManager.cpp" />
+    <ClCompile Include="ResourceEngine\ResourceManager\SkeletonManager\SkeletonManager.cpp" />
+    <ClCompile Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton\Skeleton.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\TextureManager\TextureManager.cpp" />
-    <ClCompile Include="ResourceEngine\ResourceManager\TextureManager\TextureResource\TextureResource.cpp" />
     <ClCompile Include="Source\EngineClass\Engine.cpp" />
     <ClCompile Include="Source\GameTimer\GameTimer.cpp" />
   </ItemGroup>
@@ -238,19 +243,23 @@
     <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\IldeState\TrapIdleState.h" />
     <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\InactiveState\InactiveState.h" />
     <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\TrapStateMachine.h" />
+    <ClInclude Include="LightStructs.h" />
     <ClInclude Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.h" />
     <ClInclude Include="ResourceEngine\Graphics\Graphics.h" />
+    <ClInclude Include="ResourceEngine\Graphics\ShadowBuffer\ShadowBuffer.h" />
     <ClInclude Include="ResourceEngine\ObjectNode\Camera\Camera.h" />
     <ClInclude Include="ResourceEngine\ObjectNode\Mesh\Mesh.h" />
     <ClInclude Include="ResourceEngine\ObjectNode\ObjectNode.h" />
     <ClInclude Include="ResourceEngine\ObjectNode\Render\Renderer.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.h" />
+    <ClInclude Include="ResourceEngine\ResourceManager\LightManager\LightManager.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\MaterialManager\MaterialManager.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\MeshManager\MeshManager.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\ResourceManager.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\ShaderManager\ShaderManager.h" />
+    <ClInclude Include="ResourceEngine\ResourceManager\SkeletonManager\SkeletonManager.h" />
+    <ClInclude Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton\Skeleton.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\TextureManager\TextureManager.h" />
-    <ClInclude Include="ResourceEngine\ResourceManager\TextureManager\TextureResource\TextureResource.h" />
     <ClInclude Include="Source\Constants.h" />
     <ClInclude Include="Source\EngineClass\Engine.h" />
     <ClInclude Include="Source\GameTimer\GameTimer.h" />
@@ -258,6 +267,7 @@
     <ClInclude Include="Structs\ConstantBufferStruct.h" />
     <ClInclude Include="Structs\DataTypes.h" />
     <ClInclude Include="Structs\RenderInfo.h" />
+    <ClInclude Include="Structs\SkeletonStructs.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ResourceEngine\Shader\FinalPassShaders\FinalPassShaders.hlsl">
@@ -266,6 +276,10 @@
     </FxCompile>
     <FxCompile Include="ResourceEngine\Shader\GBufferShader\Gbuffer.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">GBUFFER_VS_main</EntryPointName>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\ShadowShader\ShadowShader.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">SHADOW_VS_main</EntryPointName>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
     </FxCompile>
   </ItemGroup>

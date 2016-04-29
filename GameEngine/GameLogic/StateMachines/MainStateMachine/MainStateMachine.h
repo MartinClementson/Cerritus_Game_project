@@ -12,6 +12,7 @@ public:
 	void Render();
 	void Initialize();
 	float delay;
+	float lastHighscore;
 	void Release();
 private:
 	GameState* gameState;
