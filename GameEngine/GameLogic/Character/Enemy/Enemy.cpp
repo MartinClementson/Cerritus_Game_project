@@ -51,7 +51,7 @@ void Enemy::Release()
 }
 
 void Enemy::Update(double deltaTime)
-{
+{                 
 	
 	health -= DoT;//deltaTime;
 
@@ -148,14 +148,7 @@ void Enemy::AIPattern(Player* player, double deltaTime)
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
 	{
-		/*XMFLOAT3 playerPos = player->GetPosition();
-		Vec3 vect;
-
-		vect.x = playerPos.x - position.x;
-		vect.z = playerPos.z - position.z;
-		vect.Normalize();
-		this->position.x -= vect.x *(float)deltaTime * movementSpeed;
-		this->position.z -= vect.z *(float)deltaTime * movementSpeed;*/
+		
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_DEATH_STATE)
 	{
