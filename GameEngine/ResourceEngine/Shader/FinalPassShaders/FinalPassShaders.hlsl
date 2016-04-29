@@ -186,6 +186,7 @@ float sampleShadowStencils(float4 worldPos)
 void ComputePointLight(PointLight light, Material mat, float3 wPos,float3 toEye,
 	out float4 ambient, out float4 diffuse, out float4 spec)
 {
+	//Initialize output
 	ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	spec	= float4(0.0f, 0.0f, 0.0f, 0.0f);
@@ -231,6 +232,34 @@ void ComputePointLight(PointLight light, Material mat, float3 wPos,float3 toEye,
 
 }
 
+
+
+void ComputeDirectionalLight(DirectionalLight light, Material mat, float3 toEye,
+	out float4 ambient, out float4 diffuse, out float4 spec)
+{
+	//Initialize output
+	ambient = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	spec	= float4(0.0f, 0.0f, 0.0f, 0.0f);
+
+	float3 lightVec = -normalize(light.lightLookAt.xyz - light.lightPosition.xyz);
+
+	//ambient = mat.ambient * light.ambient; <-- none of which exists
+
+	//Add diffuse and specular term if the surface is in line of sight of the light
+
+	float fDot = dot(lightVec, mat.normal.xyz);
+
+	[flatten]
+	if (fDot > 0.0f)
+	{
+		float3 v = reflect(-lightVec, mat.normal.xyz);
+		float specFactor = pow(max(dot(v, toEye), 0.0f), 20.0f); //20.0f SHOULD BE SHINYPOWER, which will be in mat.specular.w
+		diffuse = fDot * mat.diffuseSample * light.lightDiffuse;
+		spec = specFactor * mat.specular * light.lightDiffuse; //3rd multiplier SHOULD BE LIGHTS SPECULAR COLOR, BUT WE HAVE NONE, WE USE LIGHT COLOR
+	}
+
+}
 float4 PS_main(VS_OUT input) : SV_TARGET
 {
 	float depthSample				= depthTexture.Sample(pointSampler, input.Uv).x;
@@ -270,6 +299,11 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 				diffuse		+= D;
 				specular	+= S;
 	}
+
+	ComputeDirectionalLight(dirLights[0], pixelMat, v, A, D, S);
+		ambient  += A;
+		diffuse  += D;
+		specular += S;
 	//saturate(diffuse);
 	//saturate(specular);
 	//float4 combinedLightDiffuse = { 0.0f,0.0f,0.0f,1.0f };
