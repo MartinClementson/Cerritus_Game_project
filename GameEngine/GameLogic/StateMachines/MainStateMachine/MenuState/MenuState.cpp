@@ -37,10 +37,13 @@ void MenuState::Update(double deltaTime)
 	float vx = ((2.0f * mousePos.x) / (float)WIN_HEIGHT - 1.0f);
 	float vy = ((2.0f * -mousePos.y) / (float)WIN_WIDTH + 1.0f);
 
-	XMFLOAT2 exit = { 1.250f,4.598f };
+	XMFLOAT2 Maxexit = { 47.0f ,391.0f };
+	XMFLOAT2 Minexit = { 245.0f,456.0f };
 
-	float ex = ((2.0f * exit.x) / (float)WIN_HEIGHT - 1.0f);
-	float ey = ((2.0f * -exit.y) / (float)WIN_WIDTH + 1.0f);
+	float Maxex = ((2.0f * Maxexit.x) / (float)WIN_HEIGHT - 1.0f);
+	float Maxey = ((2.0f * -Maxexit.y) / (float)WIN_WIDTH + 1.0f);
+	float Minex = ((2.0f * Minexit.x) / (float)WIN_HEIGHT - 1.0f);
+	float Miney = ((2.0f * -Minexit.y) / (float)WIN_WIDTH + 1.0f);
 	
 	XMFLOAT2 newGame = {1.250f,2.736f};
 
@@ -54,14 +57,17 @@ void MenuState::Update(double deltaTime)
 	
 	//XMVECTOR rayOrigin = XMVectorSet(vx, vy, 0.0f, 1.0f);
 	//XMVECTOR rayDir = rayOrigin;
-	
-	
-	// i think this is the exit position 
-	
-	if (vx == ex && vy == ey)
+	if (vx > Maxex && vy < Maxey && vx < Minex && vy > Miney)
 	{
 		OnExit();
 	}
+
+	/*if (vx == 0 || vy == 0)
+	{
+		OnExit();
+	}*/
+	
+	// i think this is the exit positi
 	//{
 	//	//New Game
 	//}
