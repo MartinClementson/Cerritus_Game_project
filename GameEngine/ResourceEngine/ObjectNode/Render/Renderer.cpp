@@ -2,6 +2,7 @@
 
 
 
+
 Renderer::Renderer()
 {
 	this->sceneCam			= new Camera();
@@ -126,9 +127,11 @@ void Renderer::Render(RenderInfoEnemy * object)
 	RenderInstructions * objectInstruction;
 
 	objectInstruction = this->resourceManager->GetRenderInfo(object);
-	
 
-	Render(objectInstruction);
+	if (sceneCam->frustum->CheckCube(object->position.x, object->position.y, object->position.z, object->radius - 0.9f) == true)
+	{
+		Render(objectInstruction);
+	}
 }
 
 void Renderer::RenderInstanced(RenderInfoEnemy* object, InstancedData* arrayData, unsigned int amount)
@@ -172,8 +175,10 @@ void Renderer::Render(RenderInfoTrap * object)
 	renderObject = this->resourceManager->GetRenderInfo(object);
 
 	//Render with the given render instruction
-
-	this->Render(renderObject);
+	if (sceneCam->frustum->CheckCube(object->position.x, object->position.y, object->position.z, object->radius -0.9f) == true)
+	{
+		Render(renderObject);
+	}
 }
 
 
