@@ -13,13 +13,15 @@ public:
 	RenderInfoUI renderInfo;
 	Graphics* grapichs;
 	UITextures getUI();
+	XMFLOAT2 getPos();
+	void setPos(XMFLOAT2 position);
 	void setUI(UITextures texture);
 
 private:
 	UITextures texture;
 	std::vector<GUIElement*>* items;
-	DirectX::XMFLOAT3 size;
-	DirectX::XMFLOAT3 position;
+	DirectX::XMFLOAT2 size;
+	DirectX::XMFLOAT2 position;
 	//DirectX::XMFLOAT3 position;
 	//DirectX::XMFLOAT3 rotation;
 };

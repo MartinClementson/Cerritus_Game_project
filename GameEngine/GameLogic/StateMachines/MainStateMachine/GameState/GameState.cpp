@@ -259,6 +259,7 @@ void GameState::ProcessInput(double* deltaTime)
 			timeSincePaused = 0.0f;
 			gameUI->setUI(UITextures::PAUSE);
 			InputHandler::GetInstance()->GetMousePosition();
+			
 		}
 		if (input->IsKeyPressed(KEY_SPACE))
 		{

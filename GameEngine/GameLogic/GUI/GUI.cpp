@@ -15,8 +15,8 @@ GUI::~GUI()
 
 void GUI::Initialize()
 {
-	size = { 1,1,1 };
-	position = { 0,4,0 };
+	size = size;
+	position = position;
 	grapichs = Graphics::GetInstance();
 	texture = UITextures::MENU;
 }
@@ -27,7 +27,14 @@ void GUI::Release()
 
 void GUI::Update(double deltaTime)
 {
-	renderInfo = { size,position };
+
+	renderInfo = { size,position };	
+
+	//få fram positionen av en knapp i ndc
+
+
+	
+	//position på knappar
 	
 	this->renderInfo.object = texture;
 }
@@ -45,6 +52,16 @@ void GUI::Render()
 UITextures GUI::getUI()
 {
 	return texture;
+}
+
+XMFLOAT2 GUI::getPos()
+{
+	return position;
+}
+
+void GUI::setPos(XMFLOAT2 position)
+{
+	this->position = position;
 }
 
 void GUI::setUI(UITextures texture)
