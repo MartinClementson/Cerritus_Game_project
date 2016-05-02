@@ -139,6 +139,7 @@ void GameState::Update(double deltaTime)
 				j++;
 			}
 		}
+
 	}
 }
 	

@@ -8,7 +8,7 @@ Texture2DArray shadowTex		 : register(t6);
 SamplerState linearSampler		 : register(s0);
 SamplerState pointSampler		 : register(s1);
 
-cbuffer cameraConstantBuffer     : register(b0)
+cbuffer cbufferPerFrame     : register(b0)
 {
 
 	matrix view;
@@ -16,6 +16,9 @@ cbuffer cameraConstantBuffer     : register(b0)
 	matrix invViewProjMatrix;
 	float4 camPos;
 	float4 mousePos;
+	int numPointLights;
+	int numSpotLights;
+	int numDirLights;
 	//float3 camLook;
 
 };
@@ -24,15 +27,8 @@ cbuffer worldConstantBuffer		 : register(b1)
 	matrix world;				 
 };								 
 								 
-cbuffer lightBuffer				 : register(b2)
-{								 
-	float4 lightPosition;		 
-	matrix lightView;			 
-	matrix lightProjection;		 
-	float4 lightDir;			 
-	float4 lightDiffuse;		 
-};								 
-cbuffer textureSampleBuffer		 : register(b3)
+		
+cbuffer textureSampleBuffer		 : register(b2)
 {
 	bool diffuseMap;
 	bool normalMap;
@@ -40,6 +36,24 @@ cbuffer textureSampleBuffer		 : register(b3)
 	bool glowMap;
 };
 
+struct PointLight
+{
+	float4 lightPosition;
+	matrix lightView;
+	matrix lightProjection;
+	float4 lightLookAt;
+	float4 lightDiffuse;
+	float intensity;
+	float3 padd;
+	float lightRange;
+	float3 pad;
+	float attenuation;
+	float3 paddd;
+	bool castShadow;
+
+};
+
+StructuredBuffer<PointLight> pointlights : register(t8);
 struct GBUFFER_VS_IN
 {
 	float3 Pos			 : POSITION;
@@ -227,7 +241,7 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	else
 	{
 		
-		output.diffuseRes = float4(0.4, 0.4, 0.4, col.x); //Alpha == laserpointer color
+		output.diffuseRes = float4(0.5, 0.5, 0.5, col.x); //Alpha == laserpointer color
 	}
 
 
@@ -252,11 +266,11 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	{
 		specularSample.rgba  = float4(0, 0, 0, 0);
 		specularSample		 = diffuseTex.Sample(linearSampler, input.Uv);
-		output.specularRes	 = specularSample;
+		output.specularRes = specularSample;
 	}
 	else
 	{
-		specularSample.rgba	 = float4(0, 0, 0, 0);
+		specularSample.rgba	 = float4(0.5, 0.5, 0.5, 0);
 		output.specularRes	 = specularSample;
 	}
 
@@ -289,11 +303,11 @@ struct GBUFFER_SHADOWDEPTH_VS_OUT
 GBUFFER_SHADOWDEPTH_VS_OUT GBUFFER_SHADOWDEPTH_VS_main(GBUFFER_VS_IN input)
 {
 	GBUFFER_SHADOWDEPTH_VS_OUT output = (GBUFFER_SHADOWDEPTH_VS_OUT)0;
-	matrix combinedMatrix = mul(world, mul(lightView, lightProjection));
+	//matrix combinedMatrix = mul(world, mul(lightView, lightProjection));
 
 		output.position = float4(input.Pos, 1);
 
-		output.position = mul(output.position, combinedMatrix);
+		//output.position = mul(output.position, combinedMatrix);
 
 	return output;
 }

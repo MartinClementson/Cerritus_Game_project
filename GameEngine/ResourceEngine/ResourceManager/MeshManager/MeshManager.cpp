@@ -106,11 +106,18 @@ void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * to
 	else if (*meshEnum == MeshEnum::TRAP_FIRE)
 		this->gameMeshes->at(3).GetMeshRenderInfo(toRender);
 	else if (*meshEnum == MeshEnum::LEVEL_1)
+	{
+		this->gameMeshes->at(4).SetMaterialID(3); //FULLÖSNING
 		this->gameMeshes->at(4).GetMeshRenderInfo(toRender);
+	}
 	else if (*meshEnum == MeshEnum::LEVEL_2)
 		this->gameMeshes->at(5).GetMeshRenderInfo(toRender);
-	else if (*meshEnum == MeshEnum::PROJECTILE_1)
+	else if (*meshEnum == MeshEnum::LEVEL_3)
 		this->gameMeshes->at(6).GetMeshRenderInfo(toRender);
+	else if (*meshEnum == MeshEnum::LEVEL_4)
+		this->gameMeshes->at(7).GetMeshRenderInfo(toRender);
+	else if (*meshEnum == MeshEnum::PROJECTILE_1)
+		this->gameMeshes->at(8).GetMeshRenderInfo(toRender);
 
 	else
 		this->placeHolder.GetMeshRenderInfo(toRender);
@@ -165,6 +172,7 @@ void MeshManager::CreatePlaceHolderPlane()
 
 	Vertex planeVerts[4];
 
+
 	(Float3)planeVerts[0].position = Float3(-200, -0.1, 200.0);		//0
 	planeVerts[0].uv.x = 0.0f;
 	planeVerts[0].uv.y = 0.0f;
@@ -176,10 +184,12 @@ void MeshManager::CreatePlaceHolderPlane()
 	planeVerts[1].uv.y = 0.0f;
 	(Float3)planeVerts[1].normal = Float3(0.0f, 1.0f, 0.0f);
 
+
 	(Float3)planeVerts[2].position = Float3(200.0, -0.1, -200.0);		//5
 	planeVerts[2].uv.x = 1.0f;
 	planeVerts[2].uv.y = 1.0f;
 	(Float3)planeVerts[2].normal = Float3(0.0f, 1.0f, 0.0f);
+
 
 	(Float3)planeVerts[3].position = Float3(-200.0, -0.1, -200.0);		//7
 	planeVerts[3].uv.x = 0.0f;
