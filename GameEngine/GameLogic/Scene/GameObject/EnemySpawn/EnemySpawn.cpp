@@ -207,7 +207,7 @@ void EnemySpawn::InitEnemy()
 {
 	for (size_t i = 0; i < waveAmount; i++)
 	{
-		int spawnPointRandom = rand() % 4 + 1;
+		int spawnPointRandom = rand() % 5 + 1;
 
 		if (spawnPointRandom == 1)
 		{
@@ -219,7 +219,7 @@ void EnemySpawn::InitEnemy()
 			spawn.y = 0;
 			spawn.z = spawnZ;
 
-			StandardQueue.push_back( new Enemy(spawn,false) );
+			StandardQueue.push_back(new Enemy(spawn, false));
 		}
 		if (spawnPointRandom == 2)
 		{
@@ -231,7 +231,7 @@ void EnemySpawn::InitEnemy()
 			spawn.y = 0;
 			spawn.z = spawnZ;
 
-			StandardQueue.push_back( new Enemy(spawn,true) );
+			StandardQueue.push_back(new Enemy(spawn, true));
 		}
 		if (spawnPointRandom == 3)
 		{
@@ -243,7 +243,7 @@ void EnemySpawn::InitEnemy()
 			spawn.y = 0;
 			spawn.z = spawnZ;
 
-			StandardQueue.push_back(new Enemy(spawn,false));
+			StandardQueue.push_back(new Enemy(spawn, false));
 		}
 		if (spawnPointRandom == 4)
 		{
@@ -256,6 +256,18 @@ void EnemySpawn::InitEnemy()
 			spawn.z = spawnZ;
 
 			StandardQueue.push_back(new Enemy(spawn, true));
+		}
+		if (spawnPointRandom == 5)
+		{
+			float spawnX = float(rand() % 15 + 5.0f);
+			float spawnZ = float(rand() % 50 + 5.0f);
+
+			XMFLOAT3 spawn;
+			spawn.x = spawnX;
+			spawn.y = 0;
+			spawn.z = spawnZ;
+
+			StandardQueue.push_back(new Healer(spawn));
 		}
 	}
 	for(int i = 0; i < (int)StandardQueue.size(); i++)

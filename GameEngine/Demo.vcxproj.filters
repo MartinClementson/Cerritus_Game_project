@@ -415,6 +415,9 @@
     <ClCompile Include="GameLogic\QuadTree\QuadTree.cpp">
       <Filter>GameLogic\QuadTree</Filter>
     </ClCompile>
+    <ClCompile Include="GameLogic\Character\Enemy\Healer.cpp">
+      <Filter>GameLogic\Character\Enemy</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enumerations\Enumerations.h">
@@ -608,6 +611,9 @@
     </ClInclude>
     <ClInclude Include="GameLogic\QuadTree\QuadTree.h">
       <Filter>GameLogic\QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Character\Enemy\Healer.h">
+      <Filter>GameLogic\Character\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

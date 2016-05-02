@@ -2,6 +2,7 @@
 #include "../GameObject.h"
 #include "../../../Character/Enemy/Enemy.h"
 #include "../../../Collision/Collision.h"
+#include "../../../Character/Enemy/Healer.h"
 
 #include <time.h>
 #include <stdlib.h>
