@@ -18,8 +18,10 @@ private:
 
 	XMFLOAT4X4 rotationMatrix;
 	XMFLOAT4X4 rotationMatrix2;
-	//Projectile projectiles[100];
+	Projectile projectiles[100];
 	//Projectile firedProjectiles[100];
+
+	unsigned int firedProjectiles;
 	float lifeSpan;
 	int maxProjectiles;
 	RenderInfoObject renderInfo;
@@ -36,7 +38,7 @@ public:
 
 	Graphics* graphics;
 
-	std::vector<Projectile*> projectiles;
+	//std::vector<Projectile*> projectiles;
 	//float lifeSpan; //travel time
 	//int maxProjectiles; // amout of projectiles
 	//Player* pos;
