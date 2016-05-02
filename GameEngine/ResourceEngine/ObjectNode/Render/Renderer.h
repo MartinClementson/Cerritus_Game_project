@@ -14,7 +14,7 @@
 
 #define LIGHTBUFFER_AMOUNT 3
 #define INSTANCED_BUFFER_AMOUNT 1
-#define MAX_INSTANCED_GEOMETRY 400
+
 
 enum LIGHTBUFFERS {
 	BUFFER_POINTLIGHTS,
@@ -81,7 +81,7 @@ public:
 	void RenderPlaceHolder(XMFLOAT3* position, XMFLOAT3* rotation);
 	void RenderPlaceHolderPlane();
 
-	void RenderInstanced(RenderInfoEnemy** arrayToBeRendered,unsigned int amount);
+	void RenderInstanced(RenderInfoEnemy* object, InstancedData* arrayData ,unsigned int amount);
 
 
 	void SetMouseWorldPos(XMFLOAT4 position);
@@ -93,6 +93,7 @@ public:
 private:
 	void Render(RenderInstructions* object);
 	void RenderInstanced(RenderInstructions* object, ID3D11Buffer* instanceBuffer, unsigned int amount);
+	
 	void MapLightBufferStructures();
 	void UpdateCbufferPerFrame();
 	void UpdateLightBuffer();

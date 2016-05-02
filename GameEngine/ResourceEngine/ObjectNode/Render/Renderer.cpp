@@ -131,14 +131,14 @@ void Renderer::Render(RenderInfoEnemy * object)
 	Render(objectInstruction);
 }
 
-void Renderer::RenderInstanced(RenderInfoEnemy ** arrayToBeRendered, unsigned int amount)
+void Renderer::RenderInstanced(RenderInfoEnemy* object, InstancedData* arrayData, unsigned int amount)
 {
 	RenderInstructions * objectInstruction;
 
-	objectInstruction = this->resourceManager->GetRenderInfo(arrayToBeRendered[0]);
+	objectInstruction = this->resourceManager->GetRenderInfo(object);
 
 	ID3D11Buffer* instanceBuffer;
-	if (arrayToBeRendered[0]->object == MeshEnum::ENEMY_1)
+	if (object->object == MeshEnum::ENEMY_1)
 		instanceBuffer = this->instancedBuffers[INSTANCED_WORLD];
 
 	RenderInstanced(objectInstruction, instanceBuffer, amount);

@@ -42,13 +42,14 @@ private:
 
 #pragma region Private members
 	D3D11_VIEWPORT vp; //Viewport
-	Renderer*	renderer	
-		= nullptr;
+	Renderer*	renderer							 = nullptr;
 	std::vector<RenderInfoObject*>* gameObjects		 = nullptr;
 	std::vector<RenderInfoUI*>*     uiObjects		 = nullptr;
 	std::vector<RenderInfoEnemy*>*  enemyObjects	 = nullptr;
 	std::vector<RenderInfoChar*>*   charObjects		 = nullptr;
 	std::vector<RenderInfoTrap*>*   trapObjects		 = nullptr;
+
+	InstancedData* instancedDataPerFrame			 = nullptr; //this contains the world matrices every frame.
 	
 #pragma endregion
 
@@ -60,6 +61,11 @@ private:
 
 	void SetShadowViewPort();
 	void SetShadowMap();
+
+	void CullGeometry();
+
+	XMFLOAT4X4 CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation);
+	XMFLOAT4X4 CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation, XMFLOAT3* scale);
 
 	Graphics();
 public:
