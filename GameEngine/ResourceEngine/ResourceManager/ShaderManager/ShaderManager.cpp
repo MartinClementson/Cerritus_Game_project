@@ -14,12 +14,12 @@ ShaderManager::~ShaderManager()
 
 void ShaderManager::Initialize(ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceContext)
 {
-	this->gDevice			 = gDevice;
-	this->gDeviceContext	 = gDeviceContext;
+	this->gDevice = gDevice;
+	this->gDeviceContext = gDeviceContext;
 	CreateShaders();
 
 
-	
+
 }
 
 void ShaderManager::Release()
@@ -70,7 +70,7 @@ void ShaderManager::Release()
 	SAFE_RELEASE(UI_PS);
 	SAFE_RELEASE(gVertexLayoutUI);
 
-
+	SAFE_RELEASE(mInstancedLayout);
 
 
 
@@ -303,11 +303,11 @@ bool ShaderManager::CreateFinalPassShaders()
 	//Create input layout (every vertex)
 	D3D11_INPUT_ELEMENT_DESC inputDesc[] =
 	{
-	/*POSITION*/	{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,	  0,		 0,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
-	/*NORMAL*/		//{ "TEXCOORD",	0, DXGI_FORMAT_R32G32B32_FLOAT ,  0,		12,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
-	/*UV*/			{ "TEXCOORD",	1, DXGI_FORMAT_R32G32_FLOAT,	  0,		24,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
-	/*BITANGENT*/	//{ "TEXCOORD",	2, DXGI_FORMAT_R32G32_FLOAT,	  0,		32,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
-	/*TANGENT*/		//{ "TEXCOORD",	3, DXGI_FORMAT_R32G32_FLOAT,	  0,		40,		 D3D11_INPUT_PER_VERTEX_DATA		,0 }
+		/*POSITION*/{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,	  0,		 0,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*NORMAL*/{		"NORMAL",	0, DXGI_FORMAT_R32G32B32_FLOAT ,  0,		12,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*UV*/{			"TEXCOORD",	0, DXGI_FORMAT_R32G32_FLOAT,	  0,		24,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*BITANGENT*/{ "TEXCOORD",	1, DXGI_FORMAT_R32G32_FLOAT,	  0,		32,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*TANGENT*/{ "TEXCOORD",	2, DXGI_FORMAT_R32G32_FLOAT,	  0,		40,		 D3D11_INPUT_PER_VERTEX_DATA		,0 }
 	};
 
 	hr = this->gDevice->CreateInputLayout(inputDesc, ARRAYSIZE(inputDesc), pVS->GetBufferPointer(), pVS->GetBufferSize(), &this->gVertexLayoutFinal);
@@ -373,17 +373,37 @@ bool ShaderManager::CreateGbufferShader()
 	//Create input layout (every vertex)
 	D3D11_INPUT_ELEMENT_DESC inputDesc[] =
 	{
-		/*POSITION*/{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,	  0,		 0,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
-		/*NORMAL*/{ "TEXCOORD",	0, DXGI_FORMAT_R32G32B32_FLOAT ,	  0,		12,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
-		/*UV*/{ "TEXCOORD",	1, DXGI_FORMAT_R32G32_FLOAT,			  0,		24,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
-		/*BITANGENT*/{ "TEXCOORD",	2, DXGI_FORMAT_R32G32_FLOAT,	  0,		32,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
-		/*TANGENT*/{ "TEXCOORD",	3, DXGI_FORMAT_R32G32_FLOAT,	  0,		40,		 D3D11_INPUT_PER_VERTEX_DATA		,0 }
+		/*POSITION*/	{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,	  0,		 0,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*NORMAL*/		{ "TEXCOORD",	0, DXGI_FORMAT_R32G32B32_FLOAT ,  0,		12,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*UV*/			{ "TEXCOORD",	1, DXGI_FORMAT_R32G32_FLOAT,	  0,		24,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*BITANGENT*/	{ "TEXCOORD",	2, DXGI_FORMAT_R32G32_FLOAT,	  0,		32,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*TANGENT*/		{ "TEXCOORD",	3, DXGI_FORMAT_R32G32_FLOAT,	  0,		40,		 D3D11_INPUT_PER_VERTEX_DATA		,0 }
 	};
 
 	hr = this->gDevice->CreateInputLayout(inputDesc, ARRAYSIZE(inputDesc), pVS->GetBufferPointer(), pVS->GetBufferSize(), &this->gVertexLayoutGBuffer);
-	pVS->Release();
 	if (FAILED(hr))
 		return false;
+
+	//Create instanced vert layout
+	D3D11_INPUT_ELEMENT_DESC inputDescI[] =
+	{
+		/*POSITION*/	 { "POSITION",	0,  DXGI_FORMAT_R32G32B32_FLOAT,	 0,		 0,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*NORMAL*/		 { "TEXCOORD",	0,	DXGI_FORMAT_R32G32B32_FLOAT ,	 0,		12,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*UV*/			 { "TEXCOORD",	1,	DXGI_FORMAT_R32G32_FLOAT,		 0,		24,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*BITANGENT*/	 { "TEXCOORD",	2,  DXGI_FORMAT_R32G32_FLOAT,		 0,		32,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*TANGENT*/		 { "TEXCOORD",	3,  DXGI_FORMAT_R32G32_FLOAT,		 0,		40,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*WORLD MATRIX*/ { "WORLD",		0,	DXGI_FORMAT_R32G32B32A32_FLOAT,	 1,		0,		 D3D11_INPUT_PER_INSTANCE_DATA		,1 },
+		/*WORLD MATRIX*/ { "WORLD",		1,	DXGI_FORMAT_R32G32B32A32_FLOAT,	 1,		16,		 D3D11_INPUT_PER_INSTANCE_DATA		,1 },
+		/*WORLD MATRIX*/ { "WORLD",		2,	DXGI_FORMAT_R32G32B32A32_FLOAT,	 1,		32,		 D3D11_INPUT_PER_INSTANCE_DATA		,1 },
+		/*WORLD MATRIX*/ { "WORLD",		3,	DXGI_FORMAT_R32G32B32A32_FLOAT,	 1,		48,		 D3D11_INPUT_PER_INSTANCE_DATA		,1 }
+	};
+
+	hr = this->gDevice->CreateInputLayout(inputDescI, ARRAYSIZE(inputDescI), pVS->GetBufferPointer(), pVS->GetBufferSize(), &this->mInstancedLayout);
+	pVS->Release();
+	if (FAILED(hr))
+		MessageBox(NULL, L"Error creating instanced layout", L"Shader error", MB_ICONERROR | MB_OK);
+
+
 
 
 	//Geometry shader

@@ -10,13 +10,21 @@
 #include "../../../LightStructs.h"
 #include "../../../Structs/ConstantBufferStruct.h"
 #include "../../ResourceManager/LightManager/LightManager.h"
-
-
 #pragma endregion
-enum BUFFERS {
+
+#define LIGHTBUFFER_AMOUNT 3
+#define INSTANCED_BUFFER_AMOUNT 1
+
+enum LIGHTBUFFERS {
 	BUFFER_POINTLIGHTS,
 	BUFFER_SPOTLIGHTS,
 	BUFFER_DIRLIGHTS
+};
+
+enum INSTANCED_BUFFERS
+{
+	INSTANCED_WORLD
+
 };
 
 class Renderer
@@ -30,15 +38,15 @@ private:
 	Camera* sceneCam										= nullptr;
 
 	//Buffers
-	ID3D11Buffer* worldBuffer								= nullptr; //world constBuffer
-	ID3D11Buffer* cbufferPerFrame							= nullptr; 
-	ID3D11Buffer* sampleBoolsBuffer							= nullptr; //samplingState constBuffer (Controls if a mesh has normalmap,specmap, etc)
+	ID3D11Buffer* worldBuffer								= nullptr;	   //world constBuffer
+	ID3D11Buffer* cbufferPerFrame							= nullptr;	   
+	ID3D11Buffer* sampleBoolsBuffer							= nullptr;	   //samplingState constBuffer (Controls if a mesh has normalmap,specmap, etc)
 	
-
+	ID3D11Buffer* instancedBuffers[INSTANCED_BUFFER_AMOUNT] = { nullptr };
 
 	LightManager lightmanager;
+	ID3D11Buffer* lightBuffers[LIGHTBUFFER_AMOUNT]			= { nullptr }; //Light constBuffers
 
-	ID3D11Buffer* lightBuffers[3]							= { nullptr }; //Light constBuffers
 
 	PointLightStruct* pointLightStruct						= nullptr;
 	SpotLightStruct*  spotLightStruct						= nullptr;

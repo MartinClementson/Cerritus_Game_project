@@ -79,6 +79,9 @@ private:
 	ID3D11InputLayout*		gVertexLayoutUI			= nullptr;
 
 
+	//Input layout for instanced geometry
+	ID3D11InputLayout* mInstancedLayout				= nullptr;
+
 
 public:
 	ShaderManager();
