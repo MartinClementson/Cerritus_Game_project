@@ -54,6 +54,12 @@ private:
 	ID3D11PixelShader*		GBUFFER_PS				 = nullptr;
 	ID3D11InputLayout*		gVertexLayoutGBuffer	 = nullptr;
 
+	//Shaders for GBuffer INSTANCED
+	ID3D11VertexShader*		INSTANCED_GBUFFER_VS = nullptr;
+	ID3D11GeometryShader*	INSTANCED_GBUFFER_GS = nullptr;
+	ID3D11PixelShader*		INSTANCED_GBUFFER_PS = nullptr;
+	ID3D11InputLayout*		mInstancedLayout = nullptr;
+
 	//Shaders for ShadowShader
 	ID3D11VertexShader*		SHADOW_VS				 = nullptr;
 	ID3D11GeometryShader*	SHADOW_GS				 = nullptr;
@@ -80,7 +86,7 @@ private:
 
 
 	//Input layout for instanced geometry
-	ID3D11InputLayout* mInstancedLayout				= nullptr;
+	
 
 
 public:
@@ -89,7 +95,7 @@ public:
 
 	void Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext);
 	void Release();
-	void SetActiveShader(Shaders* shader);
+	void SetActiveShader(Shaders shader);
 
 private:
 
@@ -98,6 +104,7 @@ private:
 	bool CreateFinalPassShaders();
 	bool CreateAnimationShader();
 	bool CreateGbufferShader();
+	bool CreateInstancedGbufferShader();
 	bool CreateShadowShader();
 	bool CreateParticleShader();
 	bool CreateBillboardShader();

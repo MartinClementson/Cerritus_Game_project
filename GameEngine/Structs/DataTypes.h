@@ -132,6 +132,11 @@ struct Vertex
 
 };
 
+struct InstancedData
+{
+	DirectX::XMFLOAT4X4 worldMatrix;
+};
+
 struct AnimVert
 {
 	Float3 position;
