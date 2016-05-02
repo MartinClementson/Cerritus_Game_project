@@ -21,7 +21,7 @@ EnemySpawn::~EnemySpawn()
 
 void EnemySpawn::Initialize(XMFLOAT3 spawnPosition)
 {
-	waveAmount = 20;
+	waveAmount = 40;
 	this->spawnPosition = spawnPosition;
 	InitEnemy();
 }

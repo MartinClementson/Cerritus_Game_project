@@ -83,6 +83,25 @@ void GameState::Update(double deltaTime)
 				for (size_t p = 0; p < room1->enemySpawns
 					.at(k)->StandardAlive.size(); p++)
 				{
+					size_t i = 0;
+					while (i < player->projectileSystem->projectiles.size())
+					{
+						if (collision->ProjectileEnemyCollision(
+							player->projectileSystem->
+							projectiles.at(i),
+
+							room1->enemySpawns.at(k)->
+							StandardAlive.at(j))
+
+							&& room1->enemySpawns.at(k)->
+							StandardAlive.at(j)->isAlive == true)
+						{
+							room1->enemySpawns.at(k)->StandardAlive.at(j)->SetHealth(
+								room1->enemySpawns.at(k)->StandardAlive.at(j)->GetHealth() - 10);
+						}
+
+						i++;
+					}
 					if (room1->enemySpawns.at(k)->StandardAlive.at(p)->isAlive == true)
 					{
 						if (j == p || collision->PlayerDistanceCollision(
@@ -92,28 +111,6 @@ void GameState::Update(double deltaTime)
 								collision->GetPlayer(),
 								deltaTime);
 						}
-						/*else if (collision->EnemyCollision(
-						room1->enemySpawns.at(k)->Alive.at(p),
-						room1->enemySpawns.at(k)->Alive.at(p))
-
-						&& collision->PlayerDistanceCollision(
-						room1->enemySpawns.at(k)->Alive.at(p))
-
-						)
-						{
-						room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
-						collision->GetPlayer(),
-						deltaTime);
-						}*/
-						/*else if (collision->PlayerDistanceCollision(
-						room1->enemySpawns.at(k)->Alive.at(p))
-						&& j != p
-						)
-						{
-						room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
-						collision->GetPlayer(),
-						deltaTime);
-						}*/
 						else if (collision->EnemyCollision(
 							room1->enemySpawns.at(k)->StandardAlive.at(p),
 							room1->enemySpawns.at(k)->StandardAlive.at(j)))
@@ -137,48 +134,10 @@ void GameState::Update(double deltaTime)
 
 							}
 						}
-
-						/*	else
-						{
-						room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
-						collision->GetPlayer(),
-						deltaTime);
-						}*/
-
 					}
 				}
 				j++;
 			}
-		}
-
-		size_t i = 0;
-		while (i < player->projectileSystem->projectiles.size())
-		{
-			for (size_t k = 0; k < room1->enemySpawns.size(); k++)
-			{
-
-				size_t j = 0;
-				while (j < room1->enemySpawns.at(k)->StandardAlive.size())
-				{
-					if (collision->ProjectileEnemyCollision(
-						player->projectileSystem->
-						projectiles.at(i),
-
-						room1->enemySpawns.at(k)->
-						StandardAlive.at(j))
-
-						&& room1->enemySpawns.at(k)->
-						StandardAlive.at(j)->isAlive == true)
-					{
-						room1->enemySpawns.at(k)->StandardAlive.at(j)->SetHealth(
-						room1->enemySpawns.at(k)->StandardAlive.at(j)->GetHealth() - 10);
-					}
-						
-
-				j++;
-				}
-			}
-			i++;
 		}
 	}
 }
