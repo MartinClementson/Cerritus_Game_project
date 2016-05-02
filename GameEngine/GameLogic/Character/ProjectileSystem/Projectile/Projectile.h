@@ -8,7 +8,6 @@ using namespace DirectX;
 class Projectile
 {
 private:
-	Projectile();
 	DirectX::XMFLOAT3 position;
 	DirectX::XMFLOAT3 direction;
 	DirectX::XMFLOAT3 rotation;
@@ -17,6 +16,7 @@ private:
 	bool isFired, collided;
 	MeshEnum projectileModel;
 public:
+	Projectile();
 	
 
 	void Initialize(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction, DirectX::XMFLOAT3 rotation);
