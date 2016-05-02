@@ -233,6 +233,9 @@
     <Filter Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton">
       <UniqueIdentifier>{e5b50575-3019-4c2f-a233-575c3ef749b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceEngine\Shaders\UIShader">
+      <UniqueIdentifier>{9d6bbd34-a1f8-4b57-acc3-0a4e577f8201}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameLogic\Animation\Animation.cpp">
@@ -607,6 +610,12 @@
     </FxCompile>
     <FxCompile Include="ResourceEngine\Shader\ShadowShader\ShadowShader.hlsl">
       <Filter>ResourceEngine\Shaders\ShadowShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\UIShader\UIShader.hlsl">
+      <Filter>ResourceEngine\Shaders\UIShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\GBufferShader\GbufferShader_Instanced.hlsl">
+      <Filter>ResourceEngine\Shaders\GBufferShader</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
