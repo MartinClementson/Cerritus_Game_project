@@ -11,7 +11,7 @@ ProjectileSystem::ProjectileSystem()
 	timeOffset = 0;
 	maxProjectiles = 200;
 	firedProjectiles = 0;
-	for (unsigned int i = 0; i < maxProjectiles; i++)
+	for (unsigned int i = 0; (int)i < maxProjectiles; i++)
 		projectiles[i] = new Projectile;
 }
 
