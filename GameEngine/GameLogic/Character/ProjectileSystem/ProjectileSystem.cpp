@@ -5,20 +5,26 @@ inline float get_degrees(float radian)
 
 	return (radian * 180) / XM_PI;
 }
+
 ProjectileSystem::ProjectileSystem()
 {
 	timeOffset = 0;
 	maxProjectiles = 200;
+	firedProjectiles = 0;
+	for (unsigned int i = 0; i < maxProjectiles; i++)
+		projectiles[i] = new Projectile;
 }
 
 
 ProjectileSystem::~ProjectileSystem()
 {
-	for (unsigned int i = 0; i < projectiles.size(); i++)
+	/*for (unsigned int i = 0; i < projectiles.size(); i++)
 	{
 		if (projectiles.at(i))
 			delete projectiles.at(i);
-	}
+	}*/
+	for (unsigned int i = 0; i < maxProjectiles; i++)
+		delete projectiles[i];
 }
 
 
@@ -47,167 +53,182 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 	XMFLOAT3 originalDirection = direction;
 	if (timeOffset > 0.2f)
 	{
-		if ((int)projectiles.size() >= maxProjectiles)
+		if ((int)firedProjectiles >= maxProjectiles)
 		{
 			//delete projectiles.at(9);
 		}
 		else
 		{
-
+			for (unsigned int i = 0; (int)i < maxProjectiles; i++)
+			{
 #pragma region Calculate rotation of projectile mesh
-			XMFLOAT3 rotation(90.0f, 0.0f, 0.0f);
+				if (!projectiles[i]->GetFired())
+				{
+					XMFLOAT3 rotation(90.0f, 0.0f, 0.0f);
 
-			// placeholder direction is now (0,0,1)
+					// placeholder direction is now (0,0,1)
 
-			/*	result = dot product of direction and placeholder direction
-			acos(result)
-			*/
-			if (GetUpgrade() == UpgradeType::ONE_SHOT)
-			{
-				XMVECTOR shotDirection = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
-				XMVECTOR meshDirection = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+					/*	result = dot product of direction and placeholder direction
+					acos(result)
+					*/
+					if (GetUpgrade() == UpgradeType::ONE_SHOT)
+					{
+						XMVECTOR shotDirection = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
+						XMVECTOR meshDirection = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 
 
-				//Calculate angle between meshDir and shotDir
-				float cosAngle = XMVector3Dot(shotDirection, meshDirection).m128_f32[0];
-				float angle = acos(cosAngle);
-				float degrees = get_degrees(angle);
-				////////////////////////////////////////////////////
+						//Calculate angle between meshDir and shotDir
+						float cosAngle = XMVector3Dot(shotDirection, meshDirection).m128_f32[0];
+						float angle = acos(cosAngle);
+						float degrees = get_degrees(angle);
+						////////////////////////////////////////////////////
 
-				if (direction.x < 0)
-					degrees = -degrees;
+						if (direction.x < 0)
+							degrees = -degrees;
 
-				rotation.y = degrees;
+						rotation.y = degrees;
+
+
+#pragma endregion
+						projectiles[i]->Initialize(origin, direction, rotation);
+						firedProjectiles++;
+						//projectiles.push_back(new Projectile(origin, direction, rotation));
+						break;
+					}
+					else if (GetUpgrade() == UpgradeType::TWO_SHOT)
+					{
+						XMVECTOR tmp = XMVector3TransformCoord(XMLoadFloat3(&direction), XMLoadFloat4x4(&rotationMatrix));
+						XMStoreFloat3(&direction, tmp);
+						XMVECTOR shotDirection = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
+						XMVECTOR meshDirection = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+
+
+						//Calculate angle between meshDir and shotDir
+						float cosAngle = XMVector3Dot(shotDirection, meshDirection).m128_f32[0];
+						float angle = acos(cosAngle);
+						float degrees = get_degrees(angle);
+						////////////////////////////////////////////////////
+
+						if (direction.x < 0)
+							degrees = -degrees;
+
+						rotation.y = degrees;
+						//projectiles.push_back(new Projectile(origin, direction, rotation));
+						projectiles[i]->Initialize(origin, direction, rotation);
+						firedProjectiles++;
+						///////////////////////////////////////////////////
+						direction = originalDirection;
+
+						tmp = XMVector3TransformCoord(XMLoadFloat3(&direction), XMLoadFloat4x4(&rotationMatrix2));
+						XMStoreFloat3(&direction, tmp);
+						shotDirection = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
+						meshDirection = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+
+
+
+
+						//Calculate angle between meshDir and shotDir
+						cosAngle = XMVector3Dot(shotDirection, meshDirection).m128_f32[0];
+
+						angle = acos(cosAngle);
+						degrees = get_degrees(angle);
+						////////////////////////////////////////////////////
+
+						if (direction.x < 0)
+							degrees = -degrees;
+
+						rotation.y = degrees;
+
+
+						//projectiles.push_back(new Projectile(origin, direction, rotation));
+						projectiles[i+1]->Initialize(origin, direction, rotation);
+						firedProjectiles++;
+						break;
+					}
+					else if (GetUpgrade() == UpgradeType::THREE_SHOT)
+					{
+
+
+						XMVECTOR shotDirection = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
+						XMVECTOR meshDirection = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+
+
+						//Calculate angle between meshDir and shotDir
+						float cosAngle = XMVector3Dot(shotDirection, meshDirection).m128_f32[0];
+						float angle = acos(cosAngle);
+						float degrees = get_degrees(angle);
+						////////////////////////////////////////////////////
+
+						if (direction.x < 0)
+							degrees = -degrees;
+
+						rotation.y = degrees;
 
 
 #pragma endregion
 
-				projectiles.push_back(new Projectile(origin, direction, rotation));
+						//projectiles.push_back(new Projectile(origin, direction, rotation));
+						projectiles[i]->Initialize(origin, direction, rotation);
+						firedProjectiles++;
+						////////////////////////////////////////////////////
+						XMVECTOR tmp = XMVector3TransformCoord(XMLoadFloat3(&direction), XMLoadFloat4x4(&rotationMatrix));
+						XMStoreFloat3(&direction, tmp);
+						shotDirection = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
+						meshDirection = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+
+
+
+
+						//Calculate angle between meshDir and shotDir
+						cosAngle = XMVector3Dot(shotDirection, meshDirection).m128_f32[0];
+
+						angle = acos(cosAngle);
+						degrees = get_degrees(angle);
+						////////////////////////////////////////////////////
+
+						if (direction.x < 0)
+							degrees = -degrees;
+
+						rotation.y = degrees;
+
+
+						//projectiles.push_back(new Projectile(origin, direction, rotation));
+						projectiles[i+1]->Initialize(origin, direction, rotation);
+						firedProjectiles++;
+
+
+						////////////////////////////////////////////////////
+						direction = originalDirection;
+						tmp = XMVector3TransformCoord(XMLoadFloat3(&direction), XMLoadFloat4x4(&rotationMatrix2));
+						XMStoreFloat3(&direction, tmp);
+						shotDirection = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
+						meshDirection = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+
+
+
+
+						//Calculate angle between meshDir and shotDir
+						cosAngle = XMVector3Dot(shotDirection, meshDirection).m128_f32[0];
+
+						angle = acos(cosAngle);
+						degrees = get_degrees(angle);
+						////////////////////////////////////////////////////
+
+						if (direction.x < 0)
+							degrees = -degrees;
+
+						rotation.y = degrees;
+
+
+						//projectiles.push_back(new Projectile(origin, direction, rotation));
+						projectiles[i+2]->Initialize(origin, direction, rotation);
+						firedProjectiles++;
+						break;
+					}
+				}
 			}
-			else if (GetUpgrade() == UpgradeType::TWO_SHOT)
-			{
-				XMVECTOR tmp = XMVector3TransformCoord(XMLoadFloat3(&direction), XMLoadFloat4x4(&rotationMatrix));
-				XMStoreFloat3(&direction, tmp);
-				XMVECTOR shotDirection = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
-				XMVECTOR meshDirection = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-
-
-				//Calculate angle between meshDir and shotDir
-				float cosAngle = XMVector3Dot(shotDirection, meshDirection).m128_f32[0];
-				float angle = acos(cosAngle);
-				float degrees = get_degrees(angle);
-				////////////////////////////////////////////////////
-
-				if (direction.x < 0)
-					degrees = -degrees;
-
-				rotation.y = degrees;
-				projectiles.push_back(new Projectile(origin, direction, rotation));
-
-
-				///////////////////////////////////////////////////
-				direction = originalDirection;
-
-				tmp = XMVector3TransformCoord(XMLoadFloat3(&direction), XMLoadFloat4x4(&rotationMatrix2));
-				XMStoreFloat3(&direction, tmp);
-				shotDirection = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
-				meshDirection = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-
-
-
-
-				//Calculate angle between meshDir and shotDir
-				cosAngle = XMVector3Dot(shotDirection, meshDirection).m128_f32[0];
-
-				angle = acos(cosAngle);
-				degrees = get_degrees(angle);
-				////////////////////////////////////////////////////
-
-				if (direction.x < 0)
-					degrees = -degrees;
-
-				rotation.y = degrees;
-
-
-				projectiles.push_back(new Projectile(origin, direction, rotation));
-			}
-			else if (GetUpgrade() == UpgradeType::THREE_SHOT)
-			{
-
-
-				XMVECTOR shotDirection = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
-				XMVECTOR meshDirection = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-
-
-				//Calculate angle between meshDir and shotDir
-				float cosAngle = XMVector3Dot(shotDirection, meshDirection).m128_f32[0];
-				float angle = acos(cosAngle);
-				float degrees = get_degrees(angle);
-				////////////////////////////////////////////////////
-
-				if (direction.x < 0)
-					degrees = -degrees;
-
-				rotation.y = degrees;
-
-
-#pragma endregion
-
-				projectiles.push_back(new Projectile(origin, direction, rotation));
-
-				////////////////////////////////////////////////////
-				XMVECTOR tmp = XMVector3TransformCoord(XMLoadFloat3(&direction), XMLoadFloat4x4(&rotationMatrix));
-				XMStoreFloat3(&direction, tmp);
-				shotDirection = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
-				meshDirection = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-
-
-
-
-				//Calculate angle between meshDir and shotDir
-				cosAngle = XMVector3Dot(shotDirection, meshDirection).m128_f32[0];
-
-				angle = acos(cosAngle);
-				degrees = get_degrees(angle);
-				////////////////////////////////////////////////////
-
-				if (direction.x < 0)
-					degrees = -degrees;
-
-				rotation.y = degrees;
-
-
-				projectiles.push_back(new Projectile(origin, direction, rotation));
-
-
-
-				////////////////////////////////////////////////////
-				direction = originalDirection;
-				tmp = XMVector3TransformCoord(XMLoadFloat3(&direction), XMLoadFloat4x4(&rotationMatrix2));
-				XMStoreFloat3(&direction, tmp);
-				shotDirection = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
-				meshDirection = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
-
-
-
-
-				//Calculate angle between meshDir and shotDir
-				cosAngle = XMVector3Dot(shotDirection, meshDirection).m128_f32[0];
-
-				angle = acos(cosAngle);
-				degrees = get_degrees(angle);
-				////////////////////////////////////////////////////
-
-				if (direction.x < 0)
-					degrees = -degrees;
-
-				rotation.y = degrees;
-
-
-				projectiles.push_back(new Projectile(origin, direction, rotation));
-			}
+			timeOffset = 0;
 		}
-		timeOffset = 0;
 	}
 
 }
@@ -234,13 +255,13 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 	timeOffset += 0.030f;
 	if (timeOffset > 10)
 		timeOffset = 10.0f;
-	for (size_t i = 0; i < projectiles.size(); i++)
+	for (size_t i = 0; i < firedProjectiles; i++)
 	{
 
 
-		projectiles.at(i)->Update(deltaTime);
+		projectiles[i]->Update(deltaTime);
 
-		if (projectiles.at(i)->GetAge() >= lifeSpan || projectiles.at(i)->GetFired()==false)
+		if (projectiles[i]->GetAge() >= lifeSpan || projectiles[i]->GetFired()==false)
 		{
 			DeleteProjectile((int)i);
 		}
@@ -258,9 +279,17 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 
 void ProjectileSystem::DeleteProjectile(int index)
 {
-	delete projectiles.at(index);
+	/*delete projectiles.at(index);
 	projectiles.erase(projectiles.begin()+index);
-	projectiles.shrink_to_fit();
+	projectiles.shrink_to_fit();*/
+	projectiles[index]->SetFired(false);
+	firedProjectiles--;
+
+	//swapping
+	Projectile *temp;
+	temp = projectiles[index];
+	projectiles[index] = projectiles[firedProjectiles];
+	projectiles[firedProjectiles] = temp;
 }
 
 void ProjectileSystem::SetUpgrade(UpgradeType upgrade)
@@ -311,13 +340,13 @@ void ProjectileSystem::Render()
 {
 
 
-	for (size_t i = 0; i < projectiles.size(); i++)
+	for (size_t i = 0; i < firedProjectiles; i++)
 	{
 
-		if (projectiles.at(i)->GetFired())
+		if (projectiles[i]->GetFired())
 		{
 			//renderInfo = { projectiles.at(i)->GetPos(),projectiles.at(i)->GetDir() };
-			graphics->QueueRender(&projectiles.at(i)->renderInfo);
+			graphics->QueueRender(&projectiles[i]->renderInfo);
 		}
 
 	}
