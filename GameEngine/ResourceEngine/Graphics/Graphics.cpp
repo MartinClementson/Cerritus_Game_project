@@ -169,6 +169,10 @@ void Graphics::RenderScene()
 	tempInfo.rotation = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
 	tempInfo.object = MeshEnum::LEVEL_1;
 	this->renderer->Render(&tempInfo);			 //TEMPORARY
+	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
+	tempInfo.rotation = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
+	tempInfo.object = MeshEnum::LEVEL_2;
+	this->renderer->Render(&tempInfo);			 //TEMPORARY
 	
 	
 #pragma endregion
