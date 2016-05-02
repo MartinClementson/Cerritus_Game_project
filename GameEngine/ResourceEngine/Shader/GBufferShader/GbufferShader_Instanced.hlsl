@@ -66,7 +66,7 @@ struct GBUFFER_VS_OUT
 	float2 Uv			 : TEXCOORD1;
 	float3 BiTangent	 : TEXCOORD2;
 	float3 Tangent		 : TEXCOORD3;
-	float4x4 worldMatrix : WORLD;
+	float4 wPos			 : WORLDPOS;
 };
 struct GBUFFER_GS_OUT
 {
@@ -96,19 +96,27 @@ GBUFFER_VS_OUT GBUFFER_VS_main(GBUFFER_VS_IN input)
 {
 	GBUFFER_VS_OUT output;
 
-	output.Pos = float4(input.Pos, 1.0f);
-	output.Normal = input.Normal;
-	output.Uv = input.Uv;
-	output.BiTangent.xy = input.BiTangent;					
-	output.Tangent.xy = input.Tangent;						
+	output.Pos = mul(float4(input.Pos, 1.0f),input.worldMatrix);
+	output.wPos = output.Pos;
+	output.Pos = mul(output.Pos, view);
+	output.Pos = mul(output.Pos, projection);
+	
 
-	output.BiTangent.z = (1 - length(input.BiTangent));
-	output.Tangent.z = (1 - length(input.Tangent));
+	output.BiTangent= float3(input.BiTangent, (1 - length(input.BiTangent)));
+	output.Tangent = float3 (input.Tangent, (1 - length(input.Tangent)));
 
-	normalize(output.BiTangent);
-	normalize(output.Tangent);
+	//output.BiTangent.z = (1 - length(input.BiTangent));
+	//output.Tangent.z = (1 - length(input.Tangent));
 
-	output.worldMatrix = input.worldMatrix;
+
+	
+
+
+
+	output.Normal		= normalize(mul(float4(input.Normal,    0.0f),	 input.worldMatrix).xyz).xyz;
+	output.BiTangent	= normalize(mul(float4(output.BiTangent, 0.0f),  input.worldMatrix).xyz).xyz;
+	output.Tangent		= normalize(mul(float4(output.Tangent,   0.0f),  input.worldMatrix).xyz).xyz;
+	output.Uv			= input.Uv;
 	return output;
 }
 
@@ -119,21 +127,23 @@ void GBUFFER_GS_main(
 	triangle GBUFFER_VS_OUT input[3],
 	inout TriangleStream< GBUFFER_GS_OUT > output)
 {
-	matrix combinedMatrix =  mul(view, projection);
+	
 
 	for (uint i = 0; i < 3; i++)
 	{
-		combinedMatrix = mul(input[i].worldMatrix, combinedMatrix);
+		
 
 		GBUFFER_GS_OUT element;
-		element.Pos = mul(input[i].Pos, combinedMatrix);
-		element.Normal    = normalize	 (mul(float4(input[i].Normal,    0.0f), input[i].worldMatrix).xyz).xyz;
-		element.BiTangent = normalize	 (mul(float4(input[i].BiTangent, 0.0f), input[i].worldMatrix).xyz).xyz;
-		element.Tangent   = normalize	 (mul(float4(input[i].Tangent,   0.0f), input[i].worldMatrix).xyz).xyz;
-		element.Uv		  = input[i].Uv;
-		element.wPos	  = mul(input[i].Pos, input[i].worldMatrix);
-		element.camPos	  = camPos;
-		element.mousePos  = mousePos;
+		//element.Pos			 = mul(input[i].Pos, view);
+		//element.Pos			 = mul(input[i].Pos, projection);
+		element.Pos			 = input[i].Pos;
+		element.Normal		 = input[i].Normal     ;
+		element.BiTangent	 = input[i].BiTangent  ;
+		element.Tangent		 = input[i].Tangent	   ;
+		element.Uv			 = input[i].Uv;
+		element.wPos		 = input[i].wPos;
+		element.camPos		 = camPos;
+		element.mousePos	 = mousePos;
 
 		output.Append(element);
 	}

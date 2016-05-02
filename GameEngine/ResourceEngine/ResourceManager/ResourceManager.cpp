@@ -73,6 +73,10 @@ void ResourceManager::Release()
 		if (meshType == MeshEnum::ENEMY_1 && gbufferPass == true)
 			shaderManager->SetActiveShader(Shaders::GBUFFER_SHADER_INSTANCED);
 		
+		else if (shadowPass)
+			shaderManager->SetActiveShader(Shaders::SHADOW_SHADER_INSTANCED);
+		
+		
 
 
 		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
@@ -216,7 +220,11 @@ void ResourceManager::Release()
 			this->gbufferPass = x;
 
 		if (gbufferPass == true)
+		{
+
 			this->shaderManager->SetActiveShader(GBUFFER_SHADER);
+			shadowPass = false;
+		}
 	}
 
 
@@ -225,7 +233,10 @@ void ResourceManager::Release()
 		if (this->shadowPass != x)
 			this->shadowPass = x;
 		if (shadowPass == true)
+		{
 			this->shaderManager->SetActiveShader(SHADOW_SHADER);
+			gbufferPass = false;
+		}
 	}
 
 	

@@ -29,6 +29,9 @@ Graphics::~Graphics()
 	if (gBuffer != nullptr)
 		delete gBuffer;
 
+	if (instancedDataPerFrame != nullptr)
+		delete instancedDataPerFrame;
+
 	
 }
 
@@ -117,6 +120,7 @@ void Graphics::Release()
 
 void Graphics::Render() //manage RenderPasses here
 {
+	CullGeometry(); //Remove geometry out of reach
 
 	SetShadowViewPort();
 
@@ -129,7 +133,7 @@ void Graphics::Render() //manage RenderPasses here
 
 	gBuffer->SetToRender(depthStencilView);	
 	shadowBuffer->ShadowSetToRead();
-
+	renderer->SetShadowPass(false);
 	SetViewPort();
 
 
@@ -145,7 +149,7 @@ void Graphics::Render() //manage RenderPasses here
 
 	this->renderer->RenderFinalPass();
 	gBuffer->ClearGbuffer();
-										
+	this->renderer->SetGbufferPass(false);
 	
 	//RenderScene();// TEMPORARY, REMOVE WHEN GBUFFER WORKS
 
@@ -194,10 +198,15 @@ void Graphics::RenderScene()
 
 	}
 
-	for (unsigned int i = 0; i < enemyObjects->size(); i++)
+	//Render instanced enemies
+	if (enemyInstancesToRender > 0)
+		renderer->RenderInstanced(this->enemyObjects->at(0), instancedDataPerFrame, enemyInstancesToRender);
+
+
+	/*for (unsigned int i = 0; i < enemyObjects->size(); i++)
 	{
 		renderer->Render(enemyObjects->at(i));
-	}
+	}*/
 
 	for (unsigned int i = 0; i < trapObjects->size(); i++)
 	{
@@ -224,6 +233,7 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 	uiObjects	 ->clear();	//clear the queue
 
 	memset(instancedDataPerFrame, 0, sizeof(instancedDataPerFrame)); //reset instance array
+	enemyInstancesToRender = 0;
 
 	this->gSwapChain->Present(VSYNC, 0); //Change front and back buffer after rendering
 	
@@ -276,9 +286,7 @@ void Graphics::CullGeometry()
 	{
 		//if object is visible
 		this->instancedDataPerFrame[i].worldMatrix = CalculateWorldMatrix(&this->enemyObjects->at(i)->position, &this->enemyObjects->at(i)->rotation);
-
-
-
+		enemyInstancesToRender += 1;
 	}
 
 

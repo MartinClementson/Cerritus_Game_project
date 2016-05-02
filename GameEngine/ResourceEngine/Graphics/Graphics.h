@@ -50,6 +50,7 @@ private:
 	std::vector<RenderInfoTrap*>*   trapObjects		 = nullptr;
 
 	InstancedData* instancedDataPerFrame			 = nullptr; //this contains the world matrices every frame.
+	unsigned int enemyInstancesToRender				 = 0; //The amount of enemies to render, (AFTER CULLING)
 	
 #pragma endregion
 

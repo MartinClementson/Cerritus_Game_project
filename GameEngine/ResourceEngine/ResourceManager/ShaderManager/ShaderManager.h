@@ -55,15 +55,20 @@ private:
 	ID3D11InputLayout*		gVertexLayoutGBuffer	 = nullptr;
 
 	//Shaders for GBuffer INSTANCED
-	ID3D11VertexShader*		INSTANCED_GBUFFER_VS = nullptr;
-	ID3D11GeometryShader*	INSTANCED_GBUFFER_GS = nullptr;
-	ID3D11PixelShader*		INSTANCED_GBUFFER_PS = nullptr;
-	ID3D11InputLayout*		mInstancedLayout = nullptr;
+	ID3D11VertexShader*		INSTANCED_GBUFFER_VS	= nullptr;
+	ID3D11GeometryShader*	INSTANCED_GBUFFER_GS	= nullptr;
+	ID3D11PixelShader*		INSTANCED_GBUFFER_PS	= nullptr;
+	ID3D11InputLayout*		mInstancedGbufferLayout = nullptr;
 
 	//Shaders for ShadowShader
 	ID3D11VertexShader*		SHADOW_VS				 = nullptr;
 	ID3D11GeometryShader*	SHADOW_GS				 = nullptr;
 	//USE GBUFFER VERTEXLAYOUT!
+
+	//Shaders for InstancedShadowShader
+	ID3D11VertexShader*		INSTANCED_SHADOW_VS	   = nullptr;
+	ID3D11GeometryShader*	INSTANCED_SHADOW_GS	   = nullptr;
+	//USE INSTANCEDGBUFFER VERTEXLAYOUT!
 
 	//Shaders for particle shading
 	ID3D11VertexShader*		PARTICLE_VS				 = nullptr;
@@ -106,6 +111,7 @@ private:
 	bool CreateGbufferShader();
 	bool CreateInstancedGbufferShader();
 	bool CreateShadowShader();
+	bool CreateInstancedShadowShader();
 	bool CreateParticleShader();
 	bool CreateBillboardShader();
 	bool CreateUiShader();

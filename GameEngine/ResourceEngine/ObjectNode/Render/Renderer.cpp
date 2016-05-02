@@ -142,9 +142,53 @@ void Renderer::RenderInstanced(RenderInfoEnemy* object, InstancedData* arrayData
 
 	ID3D11Buffer* instanceBuffer;
 	if (object->object == MeshEnum::ENEMY_1)
+	{
 		instanceBuffer = this->instancedBuffers[INSTANCED_WORLD];
+		
+	}
 
-	RenderInstanced(objectInstruction, instanceBuffer, amount);
+
+
+
+
+	//D3D11_MAPPED_SUBRESOURCE mapRes;
+	//HRESULT hr = S_OK;
+
+	//hr = gDeviceContext->Map(instancedBuffers[INSTANCED_WORLD], 0, D3D11_MAP_WRITE_DISCARD, 0, &mapRes);
+	//if (FAILED(hr))
+	//	MessageBox(NULL, L"Failed to update instanced buffer", L"Error", MB_ICONERROR | MB_OK);
+
+	//memcpy(mapRes.pData, (void*)arrayData, sizeof(InstancedData)*amount);
+	//gDeviceContext->Unmap(instancedBuffers[INSTANCED_WORLD], 0);
+
+
+
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+	gDeviceContext->Map(instancedBuffers[INSTANCED_WORLD], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+
+	InstancedData* tempStructMatrices = (InstancedData*)mappedResource.pData;
+
+	//*tempStructMatrices = *arrayData;
+	memcpy(tempStructMatrices, (void*)arrayData, sizeof(InstancedData)*amount);
+
+
+	gDeviceContext->Unmap(instancedBuffers[INSTANCED_WORLD], 0);
+
+
+
+
+
+	RenderInstanced(objectInstruction, this->instancedBuffers[INSTANCED_WORLD], amount);
+
+
+	//Reset the shaders to normal shaders for the next objects to rener
+	if(this->resourceManager->IsGbufferPass())
+		resourceManager->SetGbufferPass(true);
+	if (this->resourceManager->IsShadowPass())
+		resourceManager->SetShadowPass(true);
 }
 
 
@@ -175,7 +219,7 @@ void Renderer::Render(RenderInfoTrap * object)
 	renderObject = this->resourceManager->GetRenderInfo(object);
 
 	//Render with the given render instruction
-	if (sceneCam->frustum->CheckCube(object->position.x, object->position.y, object->position.z, object->radius -0.9f) == true)
+	if (sceneCam->frustum->CheckCube(object->position.x, object->position.y, object->position.z, object->radius ) == true)
 	{
 		Render(renderObject);
 	}
@@ -332,7 +376,7 @@ void Renderer::RenderInstanced(RenderInstructions * object, ID3D11Buffer* instan
 {
 	this->gDeviceContext->GSSetShaderResources(POINTLIGHTS_BUFFER_INDEX, 1, &pointLightStructuredBuffer);
 	this->gDeviceContext->GSSetShaderResources(DIRLIGHTS_BUFFER_INDEX, 1, &dirLightStructuredBuffer);
-	UpdateWorldBuffer(&object->worldBuffer);
+	
 
 #pragma region Check what vertex is to be used
 
@@ -357,17 +401,6 @@ void Renderer::RenderInstanced(RenderInstructions * object, ID3D11Buffer* instan
 	
 	this->gDeviceContext->IASetVertexBuffers(0, 2 ,vbs, vertexSize, offset);
 	this->gDeviceContext->IASetIndexBuffer(object->indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-
-	this->gDeviceContext->DrawIndexedInstanced((UINT)*object->indexCount, amount, 0, 0, 0);
-
-
-
-
-
-	//this->gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	//this->gDeviceContext->IASetIndexBuffer(object->indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-
 
 
 
@@ -417,10 +450,14 @@ void Renderer::RenderInstanced(RenderInstructions * object, ID3D11Buffer* instan
 	this->UpdateSampleBoolsBuffer(&sampleBools);
 #pragma endregion
 
-	this->gDeviceContext->DrawIndexed((UINT)*object->indexCount, 0, 0);
 
 
-
+	gDeviceContext->GSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
+	gDeviceContext->VSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
+	gDeviceContext->PSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
+	
+	//this->gDeviceContext->DrawInstanced(*object->vertexCount, amount, 0, 0);
+	this->gDeviceContext->DrawIndexedInstanced((UINT)*object->indexCount, amount, 0, 0, 0);
 }
 
 void Renderer::MapLightBufferStructures()

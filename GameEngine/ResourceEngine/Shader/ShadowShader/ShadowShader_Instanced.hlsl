@@ -73,12 +73,12 @@ struct SHADOW_GS_OUT
 
 
 
-SHADOW_VS_OUT SHADOW_VS_main( SHADOW_VS_IN input )
+SHADOW_VS_OUT SHADOW_VS_main(SHADOW_VS_IN input) : SV_POSITION
 {
 	SHADOW_VS_OUT output = (SHADOW_VS_OUT)0;
-	output.position = input.position;
+output.position = input.position;
 
-	return output;
+return output;
 }
 
 
@@ -94,55 +94,55 @@ void SHADOW_GS_main( //GO THROUGH VARIABLES
 {
 	//matrix combinedMatrix = mul(world, mul(view, projection));
 	SHADOW_GS_OUT element;
-		uint rt_index = 0; //Current shadow map to write to
+	uint rt_index = 0; //Current shadow map to write to
 
-		for (int d = 0; d < numDirLights; d++) // go through all the direction lights
+	for (int d = 0; d < numDirLights; d++) // go through all the direction lights
+	{
+
+		if (dirLights[d].castShadow != 0) //if the light casts shadows
 		{
-
-			if (dirLights[d].castShadow != 0) //if the light casts shadows
-			{
-				if (rt_index < MAX_SHADOWMAP_AMOUNT) //check that we havent reached maximum shadowmaps
-				{
-
-					[unroll]
-					for (int i = 0; i < 3; i++) //loop through the verts of the face
-					{
-						element.rtIndex			= rt_index;
-						matrix combinedMatrix   = mul(world, mul(dirLights[d].lightView, dirLights[d].lightProjection));
-						element.position		= mul(input[i].position, combinedMatrix);
-
-						output.Append(element);
-					}
-					output.RestartStrip();
-					rt_index += 1; // add 1 to the shadowmap index.
-				}
-			}
-	
-		}
-		for (int i = 0; i < numPointLights; i++)
-		{
-			if (pointlights[i].castShadow != 0)
+			if (rt_index < MAX_SHADOWMAP_AMOUNT) //check that we havent reached maximum shadowmaps
 			{
 
-
-				if (rt_index < MAX_SHADOWMAP_AMOUNT) //check that we havent reached maximum shadowmaps
+				[unroll]
+				for (int i = 0; i < 3; i++) //loop through the verts of the face
 				{
+					element.rtIndex = rt_index;
+					matrix combinedMatrix = mul(world, mul(dirLights[d].lightView, dirLights[d].lightProjection));
+					element.position = mul(input[i].position, combinedMatrix);
 
-					[unroll]
-					for (int j = 0; j < 3; j++) //loop through the verts of the face
-					{
-						element.rtIndex = rt_index;
-						matrix combinedMatrix = mul(world, mul(pointlights[i].lightView, pointlights[i].lightProjection));
-						element.position = mul(input[j].position, combinedMatrix);
-
-						output.Append(element);
-					}
-					output.RestartStrip();
-					rt_index += 1; // add 1 to the shadowmap index.
+					output.Append(element);
 				}
+				output.RestartStrip();
+				rt_index += 1; // add 1 to the shadowmap index.
 			}
-
 		}
+
+	}
+	for (int i = 0; i < numPointLights; i++)
+	{
+		if (pointlights[i].castShadow != 0)
+		{
+
+
+			if (rt_index < MAX_SHADOWMAP_AMOUNT) //check that we havent reached maximum shadowmaps
+			{
+
+				[unroll]
+				for (int j = 0; j < 3; j++) //loop through the verts of the face
+				{
+					element.rtIndex = rt_index;
+					matrix combinedMatrix = mul(world, mul(pointlights[i].lightView, pointlights[i].lightProjection));
+					element.position = mul(input[j].position, combinedMatrix);
+
+					output.Append(element);
+				}
+				output.RestartStrip();
+				rt_index += 1; // add 1 to the shadowmap index.
+			}
+		}
+
+	}
 
 
 

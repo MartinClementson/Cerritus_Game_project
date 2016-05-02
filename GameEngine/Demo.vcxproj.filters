@@ -623,6 +623,9 @@
     <FxCompile Include="ResourceEngine\Shader\GBufferShader\GbufferShader_Instanced.hlsl">
       <Filter>ResourceEngine\Shaders\GBufferShader</Filter>
     </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\ShadowShader\ShadowShader_Instanced.hlsl">
+      <Filter>ResourceEngine\Shaders\ShadowShader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\Fetch.obj">
