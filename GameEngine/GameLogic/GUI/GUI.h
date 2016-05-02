@@ -12,6 +12,9 @@ public:
 	void Render();
 	RenderInfoUI renderInfo;
 	Graphics* grapichs;
+	UITextures getUI();
+	void setUI(UITextures texture);
+
 private:
 	UITextures texture;
 	std::vector<GUIElement*>* items;

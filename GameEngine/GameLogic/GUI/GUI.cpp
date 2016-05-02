@@ -18,7 +18,7 @@ void GUI::Initialize()
 	size = { 1,1,1 };
 	position = { 0,4,0 };
 	grapichs = Graphics::GetInstance();
-	this->renderInfo.object = UITextures::HUD;
+	texture = UITextures::MENU;
 }
 
 void GUI::Release()
@@ -27,16 +27,27 @@ void GUI::Release()
 
 void GUI::Update(double deltaTime)
 {
-	
-		
 	renderInfo = { size,position };
-	this->renderInfo.object = UITextures::HUD;
-
-
+	
+	this->renderInfo.object = texture;
 }
 
 void GUI::Render()
 {
+	renderInfo = { size,position };
+
+	this->renderInfo.object = texture;
+
 	grapichs->QueueRender(&renderInfo);
 	
+}
+
+UITextures GUI::getUI()
+{
+	return texture;
+}
+
+void GUI::setUI(UITextures texture)
+{
+	this->texture = texture;
 }

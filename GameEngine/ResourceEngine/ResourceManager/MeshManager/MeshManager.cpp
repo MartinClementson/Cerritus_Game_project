@@ -260,7 +260,30 @@ void MeshManager::GetFullScreenQuadInfo(RenderInstructions * toRender)
 }
 void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions * toRender)
 {
-	fullScreenQuad.GetMeshRenderInfo(toRender);
-	toRender->materialID = 6; //temp
+	if (*uiEnum == UITextures::HUD)
+	{
+		fullScreenQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 6;
+	}
+	else if (*uiEnum == UITextures::MENU)
+	{
+		fullScreenQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 7;
+	}
+	else if (*uiEnum == UITextures::GAMEOVER)
+	{
+		fullScreenQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 8;
+	}
+	else if (*uiEnum == UITextures::PAUSE)
+	{
+		fullScreenQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 9;
+	}
+	//fullScreenQuad.GetMeshRenderInfo(toRender);
+	//toRender->materialID = 6;
+	//toRender->materialID = 7;
+//	toRender->materialID = 8;
+//	toRender->materialID = 6; //temp
 }
 #pragma endregion

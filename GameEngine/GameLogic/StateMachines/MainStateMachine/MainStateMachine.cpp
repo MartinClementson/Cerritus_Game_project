@@ -5,6 +5,7 @@ MainStateMachine::MainStateMachine()
 	this->gameState = new GameState();
 	this->gameOverState = new GameOverState();
 	this->menuState = new MenuState();
+	
 }
 
 

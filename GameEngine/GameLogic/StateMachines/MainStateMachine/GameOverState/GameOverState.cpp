@@ -6,34 +6,34 @@
 
 GameOverState::GameOverState()
 {
-
+	gameOverGUI = new GUI();
 }
 
 
 GameOverState::~GameOverState()
 {
+	delete gameOverGUI;
 }
 
 void GameOverState::Initialize()
 {
 	input = Input::GetInstance();
 	replay = false;
+	gameOverGUI->Initialize();
+	gameOverGUI->setUI(UITextures::GAMEOVER);
 }
 
 void GameOverState::Release()
 {
-
+	gameOverGUI->Release();
 }
 
 void GameOverState::Update(double deltaTime)
 {
 	//game over screen msg YOU DIED, HIGHSCORE, RESTART OPTION,
 	//TIMER, EXIT GAME OPTION, GO TO MENU OPTION
-
+	gameOverGUI->Update(deltaTime);
 	
-
-	
-
 	/*std::wstring stemp = s2ws(a);*/
 	
 	
@@ -89,7 +89,7 @@ void GameOverState::Update(double deltaTime)
 
 void GameOverState::Render()
 {
-
+	gameOverGUI->Render();
 }
 
 void GameOverState::ProcessInput(double * deltaTime)
@@ -123,10 +123,10 @@ void GameOverState::SetLastHigh(float high)
 
 void GameOverState::OnEnter()
 {
-
+	replay = false;
 }
 
 void GameOverState::OnExit()
 {
-
+	replay = true;
 }

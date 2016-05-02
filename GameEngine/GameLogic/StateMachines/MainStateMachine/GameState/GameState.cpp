@@ -7,6 +7,7 @@ GameState::GameState()
 	this->death = new MainDeathState();
 	this->pause = new MainPausedState();
 	this->player = new Player();
+	this->menu = new MenuState();
 	this->input = Input::GetInstance();
 	this->room1 = new Scene();
 	this->collision = Collision::GetInstance();
@@ -22,6 +23,7 @@ GameState::~GameState()
 	delete this->player;
 	delete this->room1;
 	delete this->gameUI;
+	delete this->menu;
 }
 
 void GameState::Initialize()
@@ -30,10 +32,13 @@ void GameState::Initialize()
 	player->Initialize();
 	death->Initialize();
 	pause->Initialize();
+	menu->Initialize();
+	menu->isActive = false;
 	death->isActive = false;
 	pause->isActive = false;
 	gameUI->Initialize();
 	isPlayerDead = false;
+	toMenu = false;
 	//Create room one here
 	timeSincePaused = 0.0f;
 	room1->Initialize();
@@ -55,6 +60,7 @@ void GameState::Release()
 	player->Release();
 	room1->Release();
 	gameUI->Release();
+	menu->Release();
 }
 
 void GameState::Update(double deltaTime)
@@ -63,7 +69,8 @@ void GameState::Update(double deltaTime)
 	ProcessInput(&deltaTime);
 	if (!pause->isActive)
 	{
-		UITextures::HUD;
+		gameUI->setUI(UITextures::HUD);
+
 		if (player->GetHealth() <= 0)
 		{
 			isPlayerDead = true;
@@ -180,6 +187,7 @@ void GameState::ProcessInput(double* deltaTime)
 		{
 			pause->isActive = false;
 			timeSincePaused = 0.0f;
+			gameUI->setUI(UITextures::HUD);
 
 		}
 	}
@@ -237,11 +245,20 @@ void GameState::ProcessInput(double* deltaTime)
 			player->Move(directions, moveKeysPressed, deltaTime[0]);
 		}
 #pragma endregion
+		if (input->IsKeyPressed(KEY_P))
+		{
+			toMenu = true;
+			menu->isActive = true;
+			//gameUI->setUI(UITextures::MENU);
+			//UITextures::MENU;
+		}
 
 		if (input->IsKeyPressed(KEY_ENTER) && timeSincePaused >0.2f)
 		{
 			pause->isActive = true;
 			timeSincePaused = 0.0f;
+			gameUI->setUI(UITextures::PAUSE);
+			InputHandler::GetInstance()->GetMousePosition();
 		}
 		if (input->IsKeyPressed(KEY_SPACE))
 		{

@@ -26,6 +26,7 @@ void GUIElement::Release()
 void GUIElement::Update(double deltaTime)
 {
 	renderInfo = { size,position };
+
 }
 
 void GUIElement::Render()

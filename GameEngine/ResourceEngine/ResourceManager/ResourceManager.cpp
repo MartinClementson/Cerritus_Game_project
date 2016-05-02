@@ -33,15 +33,36 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	brfImporterHandler->LoadFile("models/BearTrap.BRF", true, true, true);
 	brfImporterHandler->LoadFile("models/test_scene.BRF", true, true, true);
 	brfImporterHandler->LoadFile("models/test_bullet.BRF", true, true, true);
+	
+	
+
 
 	std::vector<importedMaterial> temp;
 	importedMaterial ui;
 	ui.materialName = "yo-gi-uh";
 	ui.diffuseTex = "HUD.tif";
 	ui.materialID = 6;
+	
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
+	ui.materialName = "Menumaterial";
+	ui.diffuseTex = "menu.png";
+	ui.materialID = 7;
 	
+	temp.push_back(ui);
+	materialManager->addMaterials(&temp);
+	ui.materialName = "gameover";
+	ui.diffuseTex = "GameOver.png";
+	ui.materialID = 8;
+
+	temp.push_back(ui);
+	materialManager->addMaterials(&temp);
+	ui.materialName = "pause";
+	ui.diffuseTex = "PausUI.tif";
+	ui.materialID = 9;
+
+	temp.push_back(ui);
+	materialManager->addMaterials(&temp);
 }
 
 void ResourceManager::Release()
@@ -71,6 +92,7 @@ void ResourceManager::Release()
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoUI * object)
 	{
 		currentUI = RenderInstructions();
+		
 		//currentUI.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->size, &object->position);
 		Shaders tmp = UI_SHADER;
 		UITextures uiType = object->object;
