@@ -21,7 +21,7 @@ EnemySpawn::~EnemySpawn()
 
 void EnemySpawn::Initialize(XMFLOAT3 spawnPosition)
 {
-	waveAmount = 40;
+	waveAmount = 5;
 	this->spawnPosition = spawnPosition;
 	InitEnemy();
 }
@@ -33,21 +33,24 @@ void EnemySpawn::Release()
 
 void EnemySpawn::Update(double deltaTime)
 {
+	
+
 	for (size_t i = 0; i < StandardAlive.size(); i++)
 	{
-		if(collision->PlayerProxyEnemy(StandardAlive.at(i)))
+		if (StandardAlive.at(i)->GetStateMachine()->
+			GetActiveState() == EnemyState::ENEMY_IDLE_STATE)
 		{
-			for (size_t j = 0; j < StandardAlive.size(); j++)
+			if (collision->PlayerProxyEnemy(StandardAlive.at(i)))
 			{
-				StandardAlive.at(j)->GetStateMachine()->
-					SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
+				for (size_t j = 0; j < StandardAlive.size(); j++)
+				{
+
+
+					StandardAlive.at(j)->GetStateMachine()->
+						SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
+				}
 			}
 		}
-	}
-
-
-	for (size_t i = 0; i < StandardAlive.size(); i++)
-	{
 		StandardAlive.at(i)->Update(deltaTime);
 		if (StandardAlive.at(i)->GetHealth() <= 0 &&
 			StandardAlive.at(i)->GetStateMachine()->
@@ -84,8 +87,10 @@ void EnemySpawn::Update(double deltaTime)
 			StandardQueue.push_back(StandardAlive.at(i));
 
 			StandardAlive.erase(StandardAlive.begin() + i);
+			StandardAlive.shrink_to_fit();
 		}
 	}
+	
 
 	if (StandardAlive.size() == 0)
 	{
@@ -116,9 +121,8 @@ void EnemySpawn::Update(double deltaTime)
 		}
 	}
 }
-	
-	
-	
+
+
 
 void EnemySpawn::SpawnEnemy()
 {
@@ -141,13 +145,14 @@ void EnemySpawn::SpawnEnemy()
 			
 			StandardQueue.at(i)->Spawn(spawn); //sets position and isAlive to TRUE
 			StandardAlive.push_back(StandardQueue.at(i));
-			StandardQueue.erase(StandardQueue.begin() + i);
+			//StandardQueue.erase(StandardQueue.begin() + i);
 			
 
 			//done = true;
 		}
 		//i++;
 	}
+	StandardQueue.clear();
 }
 
 void EnemySpawn::RespawnEnemy()
@@ -170,13 +175,12 @@ void EnemySpawn::RespawnEnemy()
 
 			StandardQueue.at(i)->Respawn(spawn); //sets position and isAlive to TRUE
 			StandardAlive.push_back(StandardQueue.at(i));
-			StandardQueue.erase(StandardQueue.begin() + i);
+			//StandardQueue.erase(StandardQueue.begin() + i);
 
-
-			//done = true;
 		}
-		//i++;
 	}
+
+	StandardQueue.clear();
 }
 
 std::vector<Enemy*> EnemySpawn::GetStandardQueue()

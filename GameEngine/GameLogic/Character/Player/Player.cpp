@@ -96,13 +96,13 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 	{
 		DoTDur += (float)deltaTime;
 	}
-	if (DoTDur > 2)
+	if (DoTDur > 1)
 	{
 		DoT = 0.0f;
 		DoTDur = 0.0f;
 	}
 
-	health -= DoT*(float)deltaTime;
+	health -= DoT;
 	if (health <= 0)
 	{
 		
@@ -239,7 +239,7 @@ void Player::Shoot(InputKeys input, double deltaTime)
 
 float Player::GetHealth()
 {
-	return 1000000;// this->health;
+	return this->health;
 }
 
 void Player::SetHealth(float health)

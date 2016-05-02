@@ -31,13 +31,13 @@ void Enemy::Initialize()
 	graphics = Graphics::GetInstance();
 	if (this->fast)
 	{
-		movementSpeed = 30.0f;
+		movementSpeed = 25.0f;
 		originalMovementSpeed = movementSpeed;
 
 		health = 30.0f;
 		DoT = 0;
 		damage = 5.0f;
-		rotation = { 0,0,0 };
+		rotation = { 0,90,0 };
 
 		radius = 1.0f;
 		radius2 = 2.0f;
@@ -50,7 +50,7 @@ void Enemy::Initialize()
 	}
 	else
 	{
-		movementSpeed = 20.0f;
+		movementSpeed = 15.0f;
 		originalMovementSpeed = movementSpeed;
 		health = 100.0f;
 		DoT = 0;
