@@ -28,7 +28,7 @@ private:
 	UpgradeType upgrade;
 
 public:
-	Projectile projectiles[200];
+	Projectile *projectiles[200];
 	void FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction);
 	void UpdateProjectiles(double deltaTime);
 	void DeleteProjectile(int index);

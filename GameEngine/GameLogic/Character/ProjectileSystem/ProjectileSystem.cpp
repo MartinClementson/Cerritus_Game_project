@@ -11,6 +11,8 @@ ProjectileSystem::ProjectileSystem()
 	timeOffset = 0;
 	maxProjectiles = 200;
 	firedProjectiles = 0;
+	for (unsigned int i = 0; i < maxProjectiles; i++)
+		projectiles[i] = new Projectile;
 }
 
 
@@ -21,6 +23,8 @@ ProjectileSystem::~ProjectileSystem()
 		if (projectiles.at(i))
 			delete projectiles.at(i);
 	}*/
+	for (unsigned int i = 0; i < maxProjectiles; i++)
+		delete projectiles[i];
 }
 
 
@@ -58,7 +62,7 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 			for (unsigned int i = 0; (int)i < maxProjectiles; i++)
 			{
 #pragma region Calculate rotation of projectile mesh
-				if (!projectiles[i].GetFired())
+				if (!projectiles[i]->GetFired())
 				{
 					XMFLOAT3 rotation(90.0f, 0.0f, 0.0f);
 
@@ -86,7 +90,7 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 
 
 #pragma endregion
-						projectiles[i].Initialize(origin, direction, rotation);
+						projectiles[i]->Initialize(origin, direction, rotation);
 						firedProjectiles++;
 						//projectiles.push_back(new Projectile(origin, direction, rotation));
 						break;
@@ -247,9 +251,9 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 	{
 
 
-		projectiles[i].Update(deltaTime);
+		projectiles[i]->Update(deltaTime);
 
-		if (projectiles[i].GetAge() >= lifeSpan || projectiles[i].GetFired()==false)
+		if (projectiles[i]->GetAge() >= lifeSpan || projectiles[i]->GetFired()==false)
 		{
 			DeleteProjectile((int)i);
 		}
@@ -270,8 +274,14 @@ void ProjectileSystem::DeleteProjectile(int index)
 	/*delete projectiles.at(index);
 	projectiles.erase(projectiles.begin()+index);
 	projectiles.shrink_to_fit();*/
-	projectiles[index].SetFired(false);
+	projectiles[index]->SetFired(false);
 	firedProjectiles--;
+
+	//swapping
+	Projectile *temp;
+	temp = projectiles[index];
+	projectiles[index] = projectiles[firedProjectiles];
+	projectiles[firedProjectiles] = temp;
 }
 
 void ProjectileSystem::SetUpgrade(UpgradeType upgrade)
@@ -325,10 +335,10 @@ void ProjectileSystem::Render()
 	for (size_t i = 0; i < firedProjectiles; i++)
 	{
 
-		if (projectiles[i].GetFired())
+		if (projectiles[i]->GetFired())
 		{
 			//renderInfo = { projectiles.at(i)->GetPos(),projectiles.at(i)->GetDir() };
-			graphics->QueueRender(&projectiles[i].renderInfo);
+			graphics->QueueRender(&projectiles[i]->renderInfo);
 		}
 
 	}
