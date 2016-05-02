@@ -50,9 +50,6 @@
     <Filter Include="ResourceEngine\ObjectNode\Mesh">
       <UniqueIdentifier>{0f2edb97-95a0-4a91-af0e-b3313897eccc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ResourceEngine\ObjectNode\Camera\Frustrum">
-      <UniqueIdentifier>{a737e2e0-8dfc-4b2b-8dd9-d47248cf787c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Main\GameTimer">
       <UniqueIdentifier>{ff22ab3d-d573-4a36-8f37-d9a36683ae30}</UniqueIdentifier>
     </Filter>
@@ -236,6 +233,9 @@
     <Filter Include="ResourceEngine\Shaders\UIShader">
       <UniqueIdentifier>{9d6bbd34-a1f8-4b57-acc3-0a4e577f8201}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceEngine\ObjectNode\Camera\Frustum">
+      <UniqueIdentifier>{a737e2e0-8dfc-4b2b-8dd9-d47248cf787c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameLogic\Animation\Animation.cpp">
@@ -408,6 +408,9 @@
     </ClCompile>
     <ClCompile Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton\Skeleton.cpp">
       <Filter>ResourceEngine\ResourceManager\SkeletonManager\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ObjectNode\Camera\Frustum\Frustum.cpp">
+      <Filter>ResourceEngine\ObjectNode\Camera\Frustum</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -599,6 +602,9 @@
     </ClInclude>
     <ClInclude Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton\Skeleton.h">
       <Filter>ResourceEngine\ResourceManager\SkeletonManager\Skeleton</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ObjectNode\Camera\Frustum\Frustum.h">
+      <Filter>ResourceEngine\ObjectNode\Camera\Frustum</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

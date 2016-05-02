@@ -197,7 +197,6 @@ void Graphics::RenderScene()
 	for (unsigned int i = 0; i < enemyObjects->size(); i++)
 	{
 		renderer->Render(enemyObjects->at(i));
-
 	}
 
 	for (unsigned int i = 0; i < trapObjects->size(); i++)

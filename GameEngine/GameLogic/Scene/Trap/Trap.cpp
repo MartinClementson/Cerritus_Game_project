@@ -24,7 +24,9 @@ void Trap::Release()
 }
 void Trap::Update(double deltaTime)
 {
-	renderInfo = { position,rotation }; 
+	renderInfo.position = position;
+	renderInfo.rotation = rotation;
+	renderInfo.radius = radius;
 }
 
 void Trap::Render()

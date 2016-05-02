@@ -122,9 +122,11 @@ void Renderer::Render(RenderInfoEnemy * object)
 	RenderInstructions * objectInstruction;
 
 	objectInstruction = this->resourceManager->GetRenderInfo(object);
+	if (sceneCam->frustum->CheckCube(object->position.x, object->position.y, object->position.z, object->radius - 0.9f) == true)
+	{
+		Render(objectInstruction);
+	}
 
-
-	Render(objectInstruction);
 }
 
 
@@ -155,8 +157,10 @@ void Renderer::Render(RenderInfoTrap * object)
 	renderObject = this->resourceManager->GetRenderInfo(object);
 
 	//Render with the given render instruction
-
-	this->Render(renderObject);
+	if (sceneCam->frustum->CheckCube(object->position.x, object->position.y, object->position.z, object->radius -0.9f) == true)
+	{
+		Render(renderObject);
+	}
 }
 
 
