@@ -64,7 +64,7 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 #pragma region Calculate rotation of projectile mesh
 				if (!projectiles[i]->GetFired())
 				{
-					XMFLOAT3 rotation(90.0f, 0.0f, 0.0f);
+					XMFLOAT3 rotation(-90.0f, 0.0f, 0.0f);
 
 					// placeholder direction is now (0,0,1)
 
