@@ -52,7 +52,7 @@ void Renderer::Release()
 	for (size_t i = 0; i < LIGHTBUFFER_AMOUNT; i++)
 		SAFE_RELEASE(lightBuffers[i]);
 
-	for (size_t i = 0; i < INSTANCED_BUFFER_AMOUNT; i++)
+	for (size_t i = 0; i < UNIQUE_INSTANCED_BUFFER_AMOUNT; i++)
 		SAFE_RELEASE(instancedBuffers[i]);
 
 	
@@ -197,6 +197,37 @@ void Renderer::RenderInstanced(RenderInfoObject * object, InstancedData * arrayD
 		resourceManager->SetGbufferPass(true);
 	if (this->resourceManager->IsShadowPass())
 		resourceManager->SetShadowPass(true);
+}
+
+void Renderer::RenderInstanced(RenderInfoTrap * object, InstancedData * arrayData, unsigned int amount)
+{
+
+	RenderInstructions * objectInstruction;
+
+	objectInstruction = this->resourceManager->GetRenderInfo(object);
+
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+	gDeviceContext->Map(instancedBuffers[INSTANCED_WORLD], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+	InstancedData* tempStructMatrices = (InstancedData*)mappedResource.pData;
+
+	memcpy(tempStructMatrices, (void*)arrayData, sizeof(InstancedData)*amount);
+
+	gDeviceContext->Unmap(instancedBuffers[INSTANCED_WORLD], 0);
+
+	RenderInstanced(objectInstruction, this->instancedBuffers[INSTANCED_WORLD], amount);
+
+
+	//Reset the shaders to normal shaders for the next objects to rener
+	if (this->resourceManager->IsGbufferPass())
+		resourceManager->SetGbufferPass(true);
+	if (this->resourceManager->IsShadowPass())
+		resourceManager->SetShadowPass(true);
+
+
+
 }
 
 

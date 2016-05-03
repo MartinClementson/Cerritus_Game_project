@@ -23,23 +23,29 @@
 enum instancedGeometryArray
 {									   
 	ENEMY_1_INSTANCED,				   
-	PROJECTILE_INSTANCED			   
-										
-										
-};
+	PROJECTILE_INSTANCED,										
+	TRAP_BEAR_INSTANCED,										
+	TRAP_FIRE_INSTANCED											
+																
+																
+};																
 class Graphics
 {									   
 
 
 	struct meshIndexInArray 						  
 	{												  
-		 int projectileMesh			= -1;		//This is used for instancing,
-		 int enemy1Mesh				= -1;		//when we render instanced we need to keep track of
-												// what mesh to use. Some arrays have mixed meshes
-		void Reset() {							// (for example objects array) so we can't
-			this->projectileMesh	= -1;		// use the mesh at index 0.
-			this->enemy1Mesh		= -1;		//With this struct we keep track of the mesh 
-		}
+		 int projectileMesh			= -1;		
+		 int enemy1Mesh				= -1;
+		 int trapBearMesh		    = -1;
+		 int trapFireMesh		    = -1;
+												
+		void Reset() {								  //This is used for instancing,
+			this->projectileMesh	= -1;			  //when we render instanced we need to keep track of
+			this->enemy1Mesh		= -1;			  // what mesh to use. Some arrays have mixed meshes
+			this->trapBearMesh		= -1;			  // (for example objects array) so we can't
+			this->trapFireMesh		= -1;			  // use the mesh at index 0.
+		}											  //With this struct we keep track of the mesh 
 		
 	};										      
 private:
@@ -76,8 +82,8 @@ private:
 	std::vector<RenderInfoChar*>*   charObjects					   = nullptr;
 	std::vector<RenderInfoTrap*>*   trapObjects					   = nullptr;
 
-	InstancedData* instancedDataPerFrame [INSTANCED_BUFFER_AMOUNT] = { nullptr }; //this contains the world matrices every frame.
-	unsigned int   instancesToRender	 [INSTANCED_BUFFER_AMOUNT] = { }; //The amount of instanced geometry to render, (AFTER CULLING)
+	InstancedData* instancedWorldDataPerFrame [INSTANCED_WORLD_BUFFER_AMOUNT] = { nullptr }; //this contains the world matrices every frame.
+	unsigned int   instancesToRender		  [INSTANCED_WORLD_BUFFER_AMOUNT]		 = { }; //The amount of instanced geometry to render, (AFTER CULLING)
 	meshIndexInArray instanceMeshIndex;
 #pragma endregion
 
