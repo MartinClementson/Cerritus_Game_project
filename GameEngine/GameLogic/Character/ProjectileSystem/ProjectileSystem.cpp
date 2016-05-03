@@ -64,7 +64,7 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 #pragma region Calculate rotation of projectile mesh
 				if (!projectiles[i]->GetFired())
 				{
-					XMFLOAT3 rotation(-90.0f, 0.0f, 0.0f);
+					XMFLOAT3 rotation(0.0f, 0.0f, 0.0f);
 
 					// placeholder direction is now (0,0,1)
 
@@ -282,8 +282,9 @@ void ProjectileSystem::DeleteProjectile(int index)
 	/*delete projectiles.at(index);
 	projectiles.erase(projectiles.begin()+index);
 	projectiles.shrink_to_fit();*/
-	projectiles[index]->SetFired(false);
-	firedProjectiles--;
+  	projectiles[index]->SetFired(false);
+	if (firedProjectiles != 0)
+		firedProjectiles--;
 
 	//swapping
 	Projectile *temp;
