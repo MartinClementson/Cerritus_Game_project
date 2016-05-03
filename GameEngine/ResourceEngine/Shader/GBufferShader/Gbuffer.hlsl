@@ -176,27 +176,6 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	GBUFFER_PS_OUT output = (GBUFFER_PS_OUT)0;
 
 
-	//float attenuation = 0.05;
-	//float4 playerPos = { input.camPos.x,0.0,input.camPos.z + 10.0f ,1.0 };
-
-
-
-
-	//float4 lightOne = { 20.0, 0.0, -20, 1.0 };
-	//col.y += 1.0 - saturate(abs(distance(lightOne, pixelPos) * attenuation));
-
-
-	//float4 lightTwo = { -20.0, 0.0, 20.0, 1.0 };
-	//col.z += 1.0 - saturate(abs(distance(lightTwo, pixelPos) * attenuation));
-
-
-	//float4 lightThree = { -20.0, 0.0, -20.0, 1.0 };
-	//col.xz += 1.0 - saturate(abs(distance(lightThree, pixelPos) * attenuation));
-
-
-	//float4 lightFour = { 20.0, 0.0,  20.0, 1.0 };
-	//col.xy += 1.0 - saturate(abs(distance(lightFour, pixelPos) * attenuation));
-
 
 	float4 pixelPos		 = { input.wPos.x, 0.0 , input.wPos.z, 1.0 };
 	float4 col			 = { 1.0,0.0,0.0,1.0 };

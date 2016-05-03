@@ -38,34 +38,34 @@ struct RenderInstructions
 struct RenderInfoObject {
 	XMFLOAT3 position;
 	XMFLOAT3 rotation;
-
 	MeshEnum object;
-	Shaders shader;		//these are enum
+	bool render = true;
+	float radius;
 };
 
 
 struct RenderInfoUI {
 	XMFLOAT3 position;
 	XMFLOAT3 rotation;
-
 	MeshEnum object;
 	Shaders shader;	//these are enum
+	float radius;
 };
 
 struct RenderInfoEnemy {
 	XMFLOAT3 position;
 	XMFLOAT3 rotation;
-	float radius;
 
 	MeshEnum object;
-	//Shaders shader;	
+	bool render = true;
+	float radius;
 	//EnemyAnimations enemyAnim;	//these are enum
 };
 
 struct RenderInfoChar {
 	XMFLOAT3 position;
 	XMFLOAT3 rotation;
-
+	float radius;
 	//MeshEnum object;
 	//Shaders shader;
 	//PlayerAnimation playerAnim; //these are enum
@@ -74,15 +74,15 @@ struct RenderInfoChar {
 struct RenderInfoTrap {
 	XMFLOAT3 position;
 	XMFLOAT3 rotation;
-	float radius;
 
 	MeshEnum object;
+	float radius;
 	//Shaders shader;
 	//TrapAnimations trapAnim;*/ //these are enum
 };
 struct RenderInfoProjectile {
 	XMFLOAT3 origin;
 	XMFLOAT3 direction;
-
+	float radius;
 
 };

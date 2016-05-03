@@ -30,7 +30,13 @@ Graphics::~Graphics()
 		delete gBuffer;
 
 	if (instancedDataPerFrame != nullptr)
-		delete instancedDataPerFrame;
+	{
+		for (size_t i = 0; i < INSTANCED_BUFFER_AMOUNT; i++)
+		{
+
+			delete instancedDataPerFrame[i];
+		}
+	}
 
 	
 }
@@ -48,8 +54,12 @@ void Graphics::Initialize(HWND * window)
 	enemyObjects	 = new std::vector<RenderInfoEnemy*>;
 	trapObjects		 = new std::vector<RenderInfoTrap*>;
 
-	instancedDataPerFrame = new InstancedData[MAX_INSTANCED_GEOMETRY];
+	instancedDataPerFrame[ENEMY_1_INSTANCED]	= new InstancedData[MAX_INSTANCED_GEOMETRY];
 
+	instancedDataPerFrame[PROJECTILE_INSTANCED] = new InstancedData[MAX_INSTANCED_GEOMETRY];
+
+
+	memset(instancesToRender, 0, sizeof(instancesToRender)); //reset instances to render amount
 
 	renderer = new Renderer();
 	renderer->Initialize(gDevice,this->gDeviceContext);
@@ -120,6 +130,7 @@ void Graphics::Release()
 
 void Graphics::Render() //manage RenderPasses here
 {
+	renderer->UpdateCamera(charObjects->at(0)->position);
 	CullGeometry(); //Remove geometry out of reach
 
 	SetShadowViewPort();
@@ -185,27 +196,43 @@ void Graphics::RenderScene()
 	tempInfo.rotation = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
 	tempInfo.object = MeshEnum::LEVEL_4;
 	this->renderer->Render(&tempInfo);				 //TEMPORARY
-	
+
 #pragma endregion
-	
-	
-	
-	
-		
+
+
+
+
+
 	for (unsigned int i = 0; i < gameObjects->size(); i++)
 	{
-		renderer->Render(gameObjects->at(i));
+		if (!gameObjects->at(i)->render)
+			continue;
+		else
+			renderer->Render(gameObjects->at(i));
 
 	}
 
-	//Render instanced enemies
-	if (enemyInstancesToRender > 0)
-		renderer->RenderInstanced(this->enemyObjects->at(0), instancedDataPerFrame, enemyInstancesToRender);
+	//Render instanced projectiles
+	if (instancesToRender[PROJECTILE_INSTANCED] > 0)
+	{
+		renderer->RenderInstanced(this->gameObjects->at(instanceMeshIndex.projectileMesh),
+			instancedDataPerFrame[ PROJECTILE_INSTANCED ], instancesToRender[ PROJECTILE_INSTANCED ] );
+	}
 
+	////Render instanced enemies
+	if (instancesToRender[ENEMY_1_INSTANCED] > 0)
+	{
+		renderer->RenderInstanced(this->enemyObjects->at(instanceMeshIndex.enemy1Mesh ),
+			instancedDataPerFrame[ ENEMY_1_INSTANCED ], instancesToRender[ ENEMY_1_INSTANCED ]);
+	}
+	
 
 	/*for (unsigned int i = 0; i < enemyObjects->size(); i++)
 	{
-		renderer->Render(enemyObjects->at(i));
+		if (!enemyObjects->at(i)->render)
+			continue;
+		else
+			renderer->Render(enemyObjects->at(i));
 	}*/
 
 	for (unsigned int i = 0; i < trapObjects->size(); i++)
@@ -232,8 +259,9 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 	trapObjects	 ->clear();	//clear the queue
 	uiObjects	 ->clear();	//clear the queue
 
-	memset(instancedDataPerFrame, 0, sizeof(instancedDataPerFrame)); //reset instance array
-	enemyInstancesToRender = 0;
+	memset(instancedDataPerFrame[ENEMY_1_INSTANCED], 0, sizeof(instancedDataPerFrame[ENEMY_1_INSTANCED])); //reset instance array
+	memset(instancesToRender, 0, sizeof(instancesToRender)); //reset instances to render amount
+	instanceMeshIndex.Reset();
 
 	this->gSwapChain->Present(VSYNC, 0); //Change front and back buffer after rendering
 	
@@ -281,12 +309,54 @@ void Graphics::CullGeometry()
 
 
 	//Do frustum culling here, the things that are seen have their world matrices calculated. and added to instanced array
+	unsigned int projectileIndex = 0;
+	unsigned int enemyIndex = 0;
 
 	for (size_t i = 0; i < this->enemyObjects->size(); i++)
 	{
-		//if object is visible
-		this->instancedDataPerFrame[i].worldMatrix = CalculateWorldMatrix(&this->enemyObjects->at(i)->position, &this->enemyObjects->at(i)->rotation);
-		enemyInstancesToRender += 1;
+		//Frustum culling
+		if (renderer->FrustumCheck(enemyObjects->at(i)->position, enemyObjects->at(i)->radius) == false)
+		{	
+			//If its not visible
+			this->enemyObjects->at(i)->render = false;
+			continue;
+		}
+		 
+		else {
+
+			//if object is visible and is enemy_1_type
+			this->instancedDataPerFrame[ENEMY_1_INSTANCED][enemyIndex].worldMatrix = CalculateWorldMatrix(&this->enemyObjects->at(i)->position, &this->enemyObjects->at(i)->rotation);
+			instancesToRender		   [ENEMY_1_INSTANCED] += 1;
+			enemyIndex									  += 1;
+			this->enemyObjects->at(i)->render = false; //Remove this from normal rendering, since we render instanced
+				if (instanceMeshIndex.enemy1Mesh == -1) //if this is the first thing we found of that mesh, store the index.
+					instanceMeshIndex.enemy1Mesh = (int)i;
+		}
+		//endif  object is visible
+	}
+
+	for (size_t i = 0; i < this->gameObjects->size(); i++)
+	{
+		//Frustum culling
+		if (renderer->FrustumCheck(gameObjects->at(i)->position, gameObjects->at(i)->radius) == false)
+		{	//If its not visible
+     			this->gameObjects->at(i)->render = false;
+			continue;
+		}
+		else //if it's inside the frustum
+		{
+			if (this->gameObjects->at(i)->object == MeshEnum::PROJECTILE_1)
+			{
+				this->instancedDataPerFrame[PROJECTILE_INSTANCED][projectileIndex].worldMatrix = CalculateWorldMatrix(&this->gameObjects->at(i)->position, &this->gameObjects->at(i)->rotation);
+				instancesToRender[PROJECTILE_INSTANCED] += 1;
+				projectileIndex							+= 1;
+				this->gameObjects->at(i)->render		 = false; //We don't want to render this with nonInstance rendering
+				
+				if (instanceMeshIndex.projectileMesh == -1) //if this is the first thing we found of that mesh, store the index.
+					instanceMeshIndex.projectileMesh = (int)i;
+			}
+		}
+
 	}
 
 

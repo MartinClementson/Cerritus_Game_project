@@ -94,6 +94,7 @@ void Enemy::Render()
 	renderInfo.position = position;
 	renderInfo.rotation = rotation;
 	renderInfo.radius = radius;
+	renderInfo.render = true;
 	graphics->QueueRender(&renderInfo);
 }
 

@@ -147,45 +147,53 @@ void Renderer::RenderInstanced(RenderInfoEnemy* object, InstancedData* arrayData
 		
 	}
 
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
+	gDeviceContext->Map(instancedBuffers[INSTANCED_WORLD], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
+	InstancedData* tempStructMatrices = (InstancedData*)mappedResource.pData;
 
+	memcpy(tempStructMatrices, (void*)arrayData, sizeof(InstancedData)*amount);
 
-	//D3D11_MAPPED_SUBRESOURCE mapRes;
-	//HRESULT hr = S_OK;
+	gDeviceContext->Unmap(instancedBuffers[INSTANCED_WORLD], 0);
 
-	//hr = gDeviceContext->Map(instancedBuffers[INSTANCED_WORLD], 0, D3D11_MAP_WRITE_DISCARD, 0, &mapRes);
-	//if (FAILED(hr))
-	//	MessageBox(NULL, L"Failed to update instanced buffer", L"Error", MB_ICONERROR | MB_OK);
+	RenderInstanced(objectInstruction, this->instancedBuffers[INSTANCED_WORLD], amount);
 
-	//memcpy(mapRes.pData, (void*)arrayData, sizeof(InstancedData)*amount);
-	//gDeviceContext->Unmap(instancedBuffers[INSTANCED_WORLD], 0);
+	//Reset the shaders to normal shaders for the next objects to rener
+	if(this->resourceManager->IsGbufferPass())
+		resourceManager->SetGbufferPass(true);
+	if (this->resourceManager->IsShadowPass())
+		resourceManager->SetShadowPass(true);
+}
 
+void Renderer::RenderInstanced(RenderInfoObject * object, InstancedData * arrayData, unsigned int amount)
+{
 
+	RenderInstructions * objectInstruction;
+
+	objectInstruction = this->resourceManager->GetRenderInfo(object);
+
+	ID3D11Buffer* instanceBuffer;
+	if (object->object == MeshEnum::PROJECTILE_1)
+		instanceBuffer = this->instancedBuffers[INSTANCED_WORLD];
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
 	gDeviceContext->Map(instancedBuffers[INSTANCED_WORLD], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-
 	InstancedData* tempStructMatrices = (InstancedData*)mappedResource.pData;
 
-	//*tempStructMatrices = *arrayData;
 	memcpy(tempStructMatrices, (void*)arrayData, sizeof(InstancedData)*amount);
 
-
 	gDeviceContext->Unmap(instancedBuffers[INSTANCED_WORLD], 0);
-
-
-
-
 
 	RenderInstanced(objectInstruction, this->instancedBuffers[INSTANCED_WORLD], amount);
 
 
 	//Reset the shaders to normal shaders for the next objects to rener
-	if(this->resourceManager->IsGbufferPass())
+	if (this->resourceManager->IsGbufferPass())
 		resourceManager->SetGbufferPass(true);
 	if (this->resourceManager->IsShadowPass())
 		resourceManager->SetShadowPass(true);
@@ -198,14 +206,8 @@ void Renderer::Render(RenderInfoChar * object)
 	RenderInstructions * objectInstruction;
 	
 	objectInstruction = this->resourceManager->GetRenderInfo(object);
-
-	//Update the camera view matrix!
-	this->sceneCam->Updateview( object->position);
-	this->UpdateCbufferPerFrame();
-
 	Render(objectInstruction);
 
-	
 
 }
 
@@ -279,6 +281,15 @@ void Renderer::GetInverseProjectionMatrix(XMMATRIX & matrix)
 	XMVECTOR det = XMMatrixDeterminant(matrix);
 	matrix = XMMatrixInverse(&det, matrix);
 
+}
+
+bool Renderer::FrustumCheck(XMFLOAT3 pos, float radius)
+{
+	
+	if (sceneCam->frustum->CheckCube(pos.x, pos.y, pos.z, radius) == true)
+		return true;
+	else 
+		return false;
 }
 
 //Private rendering call
