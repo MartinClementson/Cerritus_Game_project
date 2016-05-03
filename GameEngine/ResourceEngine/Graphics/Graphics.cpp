@@ -382,11 +382,11 @@ void Graphics::CullGeometry()
 				//this->instancedWorldDataPerFrame[PROJECTILE_INSTANCED][projectileIndex].worldMatrix = CalculateWorldMatrix(&this->gameObjects->at(i)->position, &this->gameObjects->at(i)->rotation);
 				billBoardArray[projectileIndex].worldPos  = this->gameObjects->at(i)->position;
 				billBoardArray[projectileIndex].direction = this->gameObjects->at(i)->direction;
-				billBoardArray[projectileIndex].height = 10.0f;
-				billBoardArray[projectileIndex].width = 5.0f;
-				instancesToRender[PROJECTILE_INSTANCED] += 1;
-				projectileIndex							+= 1;
-				this->gameObjects->at(i)->render		 = false; //We don't want to render this with nonInstance rendering
+				billBoardArray[projectileIndex].height    = 1.0f;
+				billBoardArray[projectileIndex].width     = 0.5f;
+				instancesToRender[PROJECTILE_INSTANCED]  += 1;
+				projectileIndex							 += 1;
+				this->gameObjects->at(i)->render		  = false; //We don't want to render this with nonInstance rendering
 				
 				if (instanceMeshIndex.projectileMesh == -1) //if this is the first thing we found of that mesh, store the index.
       					instanceMeshIndex.projectileMesh = (int)i;

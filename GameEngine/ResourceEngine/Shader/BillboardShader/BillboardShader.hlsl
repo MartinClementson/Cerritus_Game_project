@@ -98,7 +98,7 @@ void BILLBOARD_GS(point BILLBOARD_VS_OUT input[1],
 	//vecToCam.z = 0.0f;
 	vecToCam = normalize(vecToCam);
 	float3 upVec = normalize(input[0].direction);
-	upVec.y = 0;
+	//upVec.y = 0;
 	upVec = normalize(upVec);
 		
 	float3 rightVec = normalize(cross(-vecToCam, upVec));
