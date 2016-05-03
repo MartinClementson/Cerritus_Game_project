@@ -147,6 +147,8 @@ void Graphics::Render() //manage RenderPasses here
 													//Set the gBuffer as a subResource, send in the new RenderTarget
 	gBuffer->SetToRead(gBackBufferRTV); 
 
+	//blurpass
+
 	this->renderer->RenderFinalPass();
 	gBuffer->ClearGbuffer();
 	this->renderer->SetGbufferPass(false);
