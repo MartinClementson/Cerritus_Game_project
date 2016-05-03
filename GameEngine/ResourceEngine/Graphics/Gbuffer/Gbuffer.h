@@ -14,6 +14,8 @@ private:
 	ID3D11Texture2D				*gBufferTextures		[TEXTUREAMOUNT] = { nullptr };
 
 	ID3D11UnorderedAccessView   *blurUAV				 = nullptr;
+	//ID3D11ShaderResourceView	*blurSRV				 = nullptr;
+	void CreateBlurPassUAV();
 public:
 	Gbuffer();
 	~Gbuffer();

@@ -425,17 +425,17 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 	//float4 finalCol = diffuseSample * ( ambient * ssao + (combinedLightDiffuse * shadow) );
 	//finalCol.r += diffuseSample.a; //Laser point color
 	//finalCol = saturate(finalCol);
-
-	float4 finalCol = saturate(ambient /** ssao*/ + (diffuse + specular));//* shadow));
+	float4 glow = glowTexture.Sample(linearSampler, input.Uv);
+	glow *= glow.a;
+	float4 finalCol = saturate(ambient /** ssao*/ + (diffuse + specular)+glow);//* shadow));
 	finalCol.r += diffuseSamp.a; //Laser point color
 	finalCol.w = 1.0f;
 
 	//justglow
-	float4 glow = glowTexture.Sample(linearSampler, input.Uv);
 	//float4 specularSample = specularTexture.Sample(pointSampler, input.Uv);
 
-	//return finalCol;
-	return glow;
+	return finalCol;
+	//return glow;
 }
 
 

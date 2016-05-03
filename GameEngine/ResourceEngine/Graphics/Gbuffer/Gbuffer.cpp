@@ -2,6 +2,7 @@
 
 
 
+
 Gbuffer::Gbuffer()
 {
 }
@@ -12,12 +13,32 @@ Gbuffer::~Gbuffer()
 	
 }
 
+void Gbuffer::CreateBlurPassUAV()
+{
+	ID3D11Texture2D *tempTex;
+	HRESULT hr;
+	D3D11_TEXTURE2D_DESC textureDesc;
+	ZeroMemory(&textureDesc, sizeof(textureDesc));
+	textureDesc.BindFlags = D3D11_BIND_UNORDERED_ACCESS;
+	textureDesc.Width = (UINT)WIN_WIDTH;
+	textureDesc.Height = (UINT)WIN_HEIGHT;
+	textureDesc.MipLevels = 1;
+	textureDesc.ArraySize = 1;
+	textureDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT; //ändra till 16b
+	textureDesc.SampleDesc.Count = 1;
+
+	hr = gDevice->CreateTexture2D(&textureDesc, 0, &tempTex);
+
+	hr = this->gDevice->CreateUnorderedAccessView(tempTex, nullptr, &blurUAV);
+	SAFE_RELEASE(tempTex);
+}
+
 void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext)
 {
 	//HRESULT hr;
 	this->gDevice = gDevice;
 	this->gDeviceContext = gDeviceContext;
-
+	CreateBlurPassUAV();
 
 	for (int i = 0; i < TEXTUREAMOUNT; i++)
 	{
@@ -35,12 +56,12 @@ void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCont
 		textureDesc.Height = (UINT) WIN_HEIGHT;
 		textureDesc.MipLevels = 1;
 		textureDesc.ArraySize = 1;
-		textureDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+		textureDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT; //ändra till 16b
 		textureDesc.SampleDesc.Count = 1;
 		if (i == 5)
 		{
 			textureDesc.Usage = D3D11_USAGE_DEFAULT;
-			textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
+			textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
 		}
 		else
 		{
@@ -83,8 +104,8 @@ void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCont
 		if (FAILED(hr))
 			MessageBox(NULL, L"Failed to create  Gbuffer", L"Error", MB_ICONERROR | MB_OK);
 
-		if (i == 5)
-			hr = this->gDevice->CreateUnorderedAccessView(gBufferTextures[5], nullptr, &blurUAV);
+		//if (i == 5)
+			//hr = this->gDevice->CreateUnorderedAccessView(gBufferTextures[5], nullptr, &blurUAV);
 	}
 
 	for (int i = 0; i < TEXTUREAMOUNT; i++)

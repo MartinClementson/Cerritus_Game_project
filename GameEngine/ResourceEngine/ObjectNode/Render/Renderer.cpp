@@ -78,15 +78,19 @@ void Renderer::RenderBlurPass(ID3D11UnorderedAccessView* uav, ID3D11ShaderResour
 
 	ID3D11UnorderedAccessView* uavA[] = { uav };
 	gDeviceContext->CSSetUnorderedAccessViews(0, 1, uavA, nullptr);
-
-
+	ID3D11Resource* source,* target;
 	gDeviceContext->Dispatch(32, 30, 1);
 
+	uav->GetResource(&source);
+	srv->GetResource(&target);
+	gDeviceContext->CopyResource(target, source);
+	SAFE_RELEASE(source);
+	SAFE_RELEASE(target);
 	ID3D11ShaderResourceView* NullSRV[1] = { nullptr };
 	uavA[0] = nullptr;
-	gDeviceContext->CSSetShader(nullptr, nullptr, 0);
+	/*gDeviceContext->CSSetShader(nullptr, nullptr, 0);
 	gDeviceContext->CSSetUnorderedAccessViews(0, 1, uavA, nullptr);
-	gDeviceContext->CSSetShaderResources(0, 1, NullSRV);
+	gDeviceContext->CSSetShaderResources(0, 1, NullSRV);*/
 
 	//this->gDeviceContext->OMSetRenderTargets(1, &rtv, nullptr);
 }
