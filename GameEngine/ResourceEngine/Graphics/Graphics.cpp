@@ -148,6 +148,9 @@ void Graphics::Render() //manage RenderPasses here
 	gBuffer->SetToRead(gBackBufferRTV); 
 
 	//blurpass
+	//hr = this->gDevice->CreateUnorderedAccessView(pBackBuffer, nullptr, &gBackBufferUAV);
+	ID3D11UnorderedAccessView* uav = ()
+	this->renderer->RenderBlurPass();
 
 	this->renderer->RenderFinalPass();
 	gBuffer->ClearGbuffer();

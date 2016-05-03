@@ -62,9 +62,19 @@ void Renderer::Release()
 
 }
 
-void Renderer::RenderBlurPass()
+void Renderer::RenderBlurPass(ID3D11UnorderedAccessView* uav)
 {
+
+	ID3D11UnorderedAccessView* uavA[] = { uav };
+
+	gDeviceContext->CSSetUnorderedAccessViews(0, 1, uavA, nullptr);
 	this->resourceManager->SetShader(Shaders::BLUR_SHADER);
+
+	gDeviceContext->Dispatch(32, 30, 1);
+
+	uavA[0] = nullptr;
+	gDeviceContext->CSSetShader(nullptr, nullptr, 0);
+	gDeviceContext->CSSetUnorderedAccessViews(0, 1, uavA, nullptr);
 }
 
 void Renderer::RenderFinalPass()
