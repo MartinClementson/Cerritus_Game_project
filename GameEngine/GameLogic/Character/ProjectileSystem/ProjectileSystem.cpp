@@ -252,7 +252,7 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 	//		}*/
 	//	
 	//}
-	timeOffset += 0.030f;
+	timeOffset += 2.0f * float(deltaTime);
 	if (timeOffset > 10)
 		timeOffset = 10.0f;
 	for (size_t i = 0; i < firedProjectiles; i++)
