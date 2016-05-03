@@ -172,7 +172,7 @@ void GameState::Update(double deltaTime)
 					{
 						room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(
 						room1->enemySpawns.at(k)->Alive.at(j)->GetHealth() - 10);
-						player->projectileSystem->DeleteProjectile(i);
+						player->projectileSystem->projectiles[i]->SetFired(false);
 					}
 						
 

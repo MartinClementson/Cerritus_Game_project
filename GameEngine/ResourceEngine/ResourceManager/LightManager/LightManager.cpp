@@ -116,7 +116,7 @@ void LightManager::Initialize()
 
 
 
-	pointLights[0]->attenuation = 0.002;
+	pointLights[0]->attenuation = 0.002f;
 	/*pointLights[1]->attenuation = 0.02;
 	pointLights[2]->attenuation = 0.02;
 	pointLights[4]->attenuation = 0.02;

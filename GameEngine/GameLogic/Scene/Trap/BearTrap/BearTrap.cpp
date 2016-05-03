@@ -56,6 +56,7 @@ void BearTrap::Update(double deltaTime)
 	renderInfo.position = position;
 	renderInfo.rotation = rotation; // kinda works
 	renderInfo.radius = radius;
+	renderInfo.render = true;
 
 }
 

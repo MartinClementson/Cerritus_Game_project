@@ -236,6 +236,9 @@
     <Filter Include="ResourceEngine\ObjectNode\Camera\Frustum">
       <UniqueIdentifier>{a737e2e0-8dfc-4b2b-8dd9-d47248cf787c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceEngine\Shaders\ComputeShaders">
+      <UniqueIdentifier>{88002722-a9bd-4fd3-a07e-9e09175b14ce}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameLogic\Animation\Animation.cpp">
@@ -625,6 +628,9 @@
     </FxCompile>
     <FxCompile Include="ResourceEngine\Shader\ShadowShader\ShadowShader_Instanced.hlsl">
       <Filter>ResourceEngine\Shaders\ShadowShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\ComputeShaders\BlurCS.hlsl">
+      <Filter>ResourceEngine\Shaders\ComputeShaders</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
