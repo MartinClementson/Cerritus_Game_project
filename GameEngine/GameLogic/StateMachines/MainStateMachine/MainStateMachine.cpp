@@ -102,6 +102,23 @@ void MainStateMachine::Update(double deltaTime)
 		
 		this->activeState = MAIN_GAME_STATE;
 	}
+	else if (this->activeState == MAIN_GAMEOVER_STATE && gameOverState->toMenu == true)
+	{
+		gameOverState->isActive = false;
+
+
+		if (menuState)
+		{
+			menuState->Release();
+			delete menuState;
+		}
+
+		this->menuState = new MenuState();
+		menuState->Initialize();
+		menuState->isActive = true;
+
+		this->activeState = MAIN_MENU_STATE;
+	}
 	//key esc pressed menu
 	
 }

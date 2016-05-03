@@ -280,6 +280,36 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 		fullScreenQuad.GetMeshRenderInfo(toRender);
 		toRender->materialID = 9;
 	}
+	else if (*uiEnum == UITextures::EXITMENU)
+	{
+		fullScreenQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 10;
+	}
+	else if (*uiEnum == UITextures::RESTARTMENU)
+	{
+		fullScreenQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 11;
+	}
+	else if (*uiEnum == UITextures::CONTROLSBUTTONMENU)
+	{
+		fullScreenQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 12;
+	}
+	else if (*uiEnum == UITextures::CONTROLS)
+	{
+		fullScreenQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 13;
+	}
+	//else if (*uiEnum == UITextures::RESUMEPAUSE)
+	//{
+	//	fullScreenQuad.GetMeshRenderInfo(toRender);
+	//	toRender->materialID = 14;
+	//}
+	//else if (*uiEnum == UITextures::EXITPAUSE)
+	//{
+	//	fullScreenQuad.GetMeshRenderInfo(toRender);
+	//	toRender->materialID = 15;
+	//}
 	//fullScreenQuad.GetMeshRenderInfo(toRender);
 	//toRender->materialID = 6;
 	//toRender->materialID = 7;

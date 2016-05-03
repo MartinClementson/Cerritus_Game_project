@@ -15,6 +15,7 @@ GUI::~GUI()
 
 void GUI::Initialize()
 {
+	items = new std::vector<GUIElement*>;
 	size = size;
 	position = position;
 	grapichs = Graphics::GetInstance();
@@ -27,16 +28,14 @@ void GUI::Release()
 
 void GUI::Update(double deltaTime)
 {
-
-	renderInfo = { size,position };	
-
-	//få fram positionen av en knapp i ndc
-
-
 	
-	//position på knappar
-	
+	renderInfo = { size,position };		
 	this->renderInfo.object = texture;
+	
+	
+	
+
+
 }
 
 void GUI::Render()

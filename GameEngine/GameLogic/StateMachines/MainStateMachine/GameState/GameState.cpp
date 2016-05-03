@@ -168,6 +168,74 @@ void GameState::Update(double deltaTime)
 			i++;
 		}
 	}
+	else if (pause->isActive)
+	{
+		XMFLOAT2 mousePos = InputHandler::GetInstance()->GetMousePosition();
+
+		float vx = ((2.0f * mousePos.x) / (float)WIN_HEIGHT - 1.0f);
+		float vy = ((2.0f * -mousePos.y) / (float)WIN_WIDTH + 1.0f);
+		//resumeButton
+		XMFLOAT2 MaxResume = { 496.0f,183.0f };
+		XMFLOAT2 MinResume = { 714.0f,243.0f };
+
+		float MaxRx = ((2.0f * MaxResume.x) / (float)WIN_HEIGHT - 1.0f);
+		float MaxRy = ((2.0f * -MaxResume.y) / (float)WIN_WIDTH + 1.0f);
+		float MinRx = ((2.0f * MinResume.x) / (float)WIN_HEIGHT - 1.0f);
+		float MinRy = ((2.0f * -MinResume.y) / (float)WIN_WIDTH + 1.0f);
+
+		// RestartButton
+		XMFLOAT2 MaxRestart = {496.0f,299.0f};
+		XMFLOAT2 MinRestart = {714.0f,358.0f};
+
+		float Maxrex = ((2.0f * MaxRestart.x) / (float)WIN_HEIGHT - 1.0f);
+		float Maxrey = ((2.0f * -MaxRestart.y) / (float)WIN_WIDTH + 1.0f);
+		float Minrex = ((2.0f * MinRestart.x) / (float)WIN_HEIGHT - 1.0f);
+		float Minrey = ((2.0f * -MinRestart.y) / (float)WIN_WIDTH + 1.0f);
+
+		//ExitButton = to menu
+		XMFLOAT2 MaxExit = {496.0f,410.0f};
+		XMFLOAT2 MinExit = {714.0f,470.0f};
+		float Maxex = ((2.0f * MaxExit.x) / (float)WIN_HEIGHT - 1.0f);
+		float Maxey = ((2.0f * -MaxExit.y) / (float)WIN_WIDTH + 1.0f);
+		float Minex = ((2.0f * MinExit.x) / (float)WIN_HEIGHT - 1.0f);
+		float Miney = ((2.0f * -MinExit.y) / (float)WIN_WIDTH + 1.0f);
+
+		if (vx > MaxRx && vy < MaxRy && vx < MinRx && vy > MinRy && timeSincePaused > 0.2f)
+		{
+			
+			//gameUI->setUI(UITextures::TEXTATLAS);
+
+			if (input->isMouseClicked(MOUSE_LEFT))
+			{
+				pause->isActive = false;
+				timeSincePaused = 0.0f;
+				gameUI->setUI(UITextures::HUD);
+			}
+		}
+		else if (vx > Maxex && vy < Maxey && vx < Minex && vy > Miney && timeSincePaused > 0.2f)
+		{
+		//	gameUI->setPos()
+			//gameUI->setUI(UITextures::TEXTATLAS);
+			if(input->isMouseClicked(MOUSE_LEFT))
+			{
+				toMenu = true;
+				menu->isActive = true;
+				timeSincePaused = 0.0f;
+			}
+					}
+		else if (vx > Maxrex && vy < Maxrey && vx < Minrex && vy > Minrey && timeSincePaused > 0.2f)
+		{
+			//gameUI->setUI(UITextures::TEXTATLAS);
+			if (input->isMouseClicked(MOUSE_LEFT))
+			{
+
+			}
+		}
+		else
+		{
+			gameUI->setUI(UITextures::PAUSE);
+		}
+	}
 	gameUI->Update(deltaTime);
 }
 
@@ -183,13 +251,67 @@ void GameState::ProcessInput(double* deltaTime)
 	}
 	else if (pause->isActive)
 	{
-		if (input->IsKeyPressed(KEY_ENTER) && timeSincePaused > 0.2f)
-		{
-			pause->isActive = false;
-			timeSincePaused = 0.0f;
-			gameUI->setUI(UITextures::HUD);
+		//XMFLOAT2 mousePos = InputHandler::GetInstance()->GetMousePosition();
 
-		}
+		//float vx = ((2.0f * mousePos.x) / (float)WIN_HEIGHT - 1.0f);
+		//float vy = ((2.0f * -mousePos.y) / (float)WIN_WIDTH + 1.0f);
+		////resumeButton
+		//XMFLOAT2 MaxResume = { 496.0f,183.0f };
+		//XMFLOAT2 MinResume = { 714.0f,243.0f };
+
+		//float MaxRx = ((2.0f * MaxResume.x) / (float)WIN_HEIGHT - 1.0f);
+		//float MaxRy = ((2.0f * -MaxResume.y) / (float)WIN_WIDTH + 1.0f);
+		//float MinRx = ((2.0f * MinResume.x) / (float)WIN_HEIGHT - 1.0f);
+		//float MinRy = ((2.0f * -MinResume.y) / (float)WIN_WIDTH + 1.0f);
+
+		//// RestartButton
+		//XMFLOAT2 MaxRestart = {496.0f,299.0f};
+		//XMFLOAT2 MinRestart = {714.0f,358.0f};
+
+		//float Maxrex = ((2.0f * MaxRestart.x) / (float)WIN_HEIGHT - 1.0f);
+		//float Maxrey = ((2.0f * -MaxRestart.y) / (float)WIN_WIDTH + 1.0f);
+		//float Minrex = ((2.0f * MinRestart.x) / (float)WIN_HEIGHT - 1.0f);
+		//float Minrey = ((2.0f * -MinRestart.y) / (float)WIN_WIDTH + 1.0f);
+
+		////ExitButton = to menu
+		//XMFLOAT2 MaxExit = {496.0f,410.0f};
+		//XMFLOAT2 MinExit = {714.0f,470.0f};
+		//float Maxex = ((2.0f * MaxExit.x) / (float)WIN_HEIGHT - 1.0f);
+		//float Maxey = ((2.0f * -MaxExit.y) / (float)WIN_WIDTH + 1.0f);
+		//float Minex = ((2.0f * MinExit.x) / (float)WIN_HEIGHT - 1.0f);
+		//float Miney = ((2.0f * -MinExit.y) / (float)WIN_WIDTH + 1.0f);
+
+		//if (vx > MaxRx && vy < MaxRy && vx < MinRx && vy > MinRy)
+		//{
+		//	
+		//	gameUI->setUI(UITextures::RESUMEPAUSE);
+
+		//	if (input->isMouseClicked(MOUSE_LEFT))
+		//	{
+		//		pause->isActive = false;
+		//		gameUI->setUI(UITextures::HUD);
+		//	}
+		//}
+		//else if (vx > Maxex && vy < Maxey && vx < Minex && vy > Miney)
+		//{
+
+		//	gameUI->setUI(UITextures::EXITPAUSE);
+		//	if(input->isMouseClicked(MOUSE_LEFT))
+		//	{
+		//		toMenu = true;
+		//		menu->isActive = true;
+		//		
+		//	}
+		//}
+		//else if (vx > Maxrex && vy < Maxrey && vx < Minrex && vy > Minrey)
+		//{
+		//	gameUI->setUI(UITextures::RESTARTPAUSE);
+		//	if (input->isMouseClicked(MOUSE_LEFT))
+		//	{
+
+		//	}
+		//}
+		
 	}
 	else
 	{
@@ -260,6 +382,7 @@ void GameState::ProcessInput(double* deltaTime)
 			gameUI->setUI(UITextures::PAUSE);
 			InputHandler::GetInstance()->GetMousePosition();
 			
+
 		}
 		if (input->IsKeyPressed(KEY_SPACE))
 		{

@@ -57,7 +57,17 @@ enum UITextures
 	HUD,
 	MENU,
 	PAUSE,
-	GAMEOVER
+	GAMEOVER,
+	TEXTATLAS,
+	RESTARTMENU, // newGameMenu
+	RESTARTPAUSE, // restart Pause
+	EXITMENU, // ExitButton menu
+	EXITPAUSE, // Exitbutton Pause 
+	CONTROLS,
+	CONTROLSBUTTONMENU,//ControlButton Menu
+	CONTROLSEXIT,
+	RESUMEPAUSE, // Resumebutton Pause
+
 };
 
 #pragma endregion

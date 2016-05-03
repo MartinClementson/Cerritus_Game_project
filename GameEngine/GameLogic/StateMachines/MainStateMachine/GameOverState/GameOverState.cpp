@@ -19,6 +19,7 @@ void GameOverState::Initialize()
 {
 	input = Input::GetInstance();
 	replay = false;
+	toMenu = false;
 	gameOverGUI->Initialize();
 	gameOverGUI->setUI(UITextures::GAMEOVER);
 }
@@ -38,7 +39,7 @@ void GameOverState::Update(double deltaTime)
 	
 	
 
-	
+	/*
 	if (this->GetPoints() > lastHighscore)
 	{
 		std::wstring a = std::to_wstring((int)this->GetPoints());
@@ -79,10 +80,53 @@ void GameOverState::Update(double deltaTime)
 		
 		MessageBox(0, result,
 			print, MB_OK);
-	}
-	
+	}*/
+	XMFLOAT2 mousePos = InputHandler::GetInstance()->GetMousePosition();
 
-	replay = true;
+	float vx = ((2.0f * mousePos.x) / (float)WIN_HEIGHT - 1.0f);
+	float vy = ((2.0f * -mousePos.y) / (float)WIN_WIDTH + 1.0f);
+
+	XMFLOAT2 Maxexit = { 47.0f ,391.0f };
+	XMFLOAT2 Minexit = { 245.0f,456.0f };
+
+	float Maxex = ((2.0f * Maxexit.x) / (float)WIN_HEIGHT - 1.0f);
+	float Maxey = ((2.0f * -Maxexit.y) / (float)WIN_WIDTH + 1.0f);
+	float Minex = ((2.0f * Minexit.x) / (float)WIN_HEIGHT - 1.0f);
+	float Miney = ((2.0f * -Minexit.y) / (float)WIN_WIDTH + 1.0f);
+
+	XMFLOAT2 MaxNewGame = { 959.0f,329.0f };
+	XMFLOAT2 MinNewGame = { 1266.0f,383.0f };
+	float Maxnx = ((2.0f * MaxNewGame.x) / (float)WIN_HEIGHT - 1.0f);
+	float Maxny = ((2.0f * -MaxNewGame.y) / (float)WIN_WIDTH + 1.0f);
+	float Minnx = ((2.0f * MinNewGame.x) / (float)WIN_HEIGHT - 1.0f);
+	float Minny = ((2.0f * -MinNewGame.y) / (float)WIN_WIDTH + 1.0f);
+
+
+	XMFLOAT2 MaxMenu = { 959.0f,436.0f };
+	XMFLOAT2 MinMenu = { 1266.0f,491.0f };
+	float Maxmx = ((2.0f * MaxMenu.x) / (float)WIN_HEIGHT - 1.0f);
+	float Maxmy = ((2.0f * -MaxMenu.y) / (float)WIN_WIDTH + 1.0f);
+	float Minmx = ((2.0f * MinMenu.x) / (float)WIN_HEIGHT - 1.0f);
+	float Minmy = ((2.0f * -MinMenu.y) / (float)WIN_WIDTH + 1.0f);
+
+	if (vx > Maxmx && vy < Maxmy && vx < Minmx && vy > Minmy)
+	{
+		if (input->isMouseClicked(MOUSE_LEFT))
+		{
+			toMenu = true;
+		}
+		
+		//OnExit();
+	}
+	else if (vx > Maxnx && vy < Maxny && vx < Minnx && vy > Minny)
+	{
+		if (input->isMouseClicked(MOUSE_LEFT))
+		{
+			OnExit();
+		}
+	}
+
+	//replay = true;
 	
 	ProcessInput(&deltaTime);
 }
