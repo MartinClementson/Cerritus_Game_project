@@ -42,10 +42,10 @@ void main(uint3 DTid : SV_DispatchThreadID)
 	//For example, if it's the pixel at the location [3,3]. We will first check
 	//the pixel at [0,0] and multiply it by 0.000840725 (which is the first value
 	//in our harcoded matrix)
-	float4 finalColor = { 0.0, 0.0, 0.0, 1.0 };
-	for (uint x = 0; x < 7; x++)
+	float4 finalColor = { 1.0, 1.0, 1.0, 1.0 };
+	/*for (uint x = 0; x < 7; x++)
 		for (uint y = 0; y < 7; y++)
-			finalColor += inputTexture.Load(texturelocation + int3(x, y, 0)) * gaussianFilter[x][y];
+			finalColor += inputTexture.Load(texturelocation + int3(x, y, 0)) * gaussianFilter[x][y];*/
 
 	output[DTid.xy] = finalColor;
 }

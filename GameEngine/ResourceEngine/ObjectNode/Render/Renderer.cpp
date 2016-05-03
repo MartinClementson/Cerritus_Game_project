@@ -73,18 +73,20 @@ void Renderer::RenderBlurPass(ID3D11UnorderedAccessView* uav, ID3D11ShaderResour
 	//Set the postProcess texture as a subresource
 	ID3D11ShaderResourceView* shaderResourceViewz = srv;
 	//Apply the renderTexture(postProcess texture) to the compute shader
+	this->resourceManager->SetShader(Shaders::BLUR_SHADER);
 	this->gDeviceContext->CSSetShaderResources(0, 1, &shaderResourceViewz);
 
 	ID3D11UnorderedAccessView* uavA[] = { uav };
-
 	gDeviceContext->CSSetUnorderedAccessViews(0, 1, uavA, nullptr);
-	this->resourceManager->SetShader(Shaders::BLUR_SHADER);
+
 
 	gDeviceContext->Dispatch(32, 30, 1);
 
+	ID3D11ShaderResourceView* NullSRV[1] = { nullptr };
 	uavA[0] = nullptr;
 	gDeviceContext->CSSetShader(nullptr, nullptr, 0);
 	gDeviceContext->CSSetUnorderedAccessViews(0, 1, uavA, nullptr);
+	gDeviceContext->CSSetShaderResources(0, 1, NullSRV);
 
 	//this->gDeviceContext->OMSetRenderTargets(1, &rtv, nullptr);
 }

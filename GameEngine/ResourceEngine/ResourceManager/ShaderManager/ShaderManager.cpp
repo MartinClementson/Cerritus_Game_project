@@ -230,6 +230,8 @@ void ShaderManager::CreateShaders()
 		MessageBox(NULL, L"Error compiling Instanced Gbuffer shaders", L"Shader error", MB_ICONERROR | MB_OK);
 	if (!CreateInstancedShadowShader())
 		MessageBox(NULL, L"Error compiling instanced Shadow shaders", L"Shader error", MB_ICONERROR | MB_OK);
+	if (!CreateBlurComputeShader())
+		MessageBox(NULL, L"Error compiling compute shader", L"Shader error", MB_ICONERROR | MB_OK);
 }
 
 
