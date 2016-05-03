@@ -49,15 +49,18 @@ void ResourceManager::Release()
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoObject * object)
 	{
 		currentMesh = RenderInstructions();
-		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
 		MeshEnum meshType = object->object;
 
 
-		if (	 meshType == MeshEnum::PROJECTILE_1 && gbufferPass == true)
+		if      ( meshType == MeshEnum::PROJECTILE_1 && gbufferPass == true)
 			shaderManager->SetActiveShader(Shaders::GBUFFER_SHADER_INSTANCED);
 
-		else if (meshType == MeshEnum::PROJECTILE_1  && shadowPass == true)
+		else if ( meshType == MeshEnum::PROJECTILE_1  && shadowPass == true)
 			shaderManager->SetActiveShader(Shaders::SHADOW_SHADER_INSTANCED);
+
+		else
+			currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+
 
 		meshManager		->GetMeshRenderInfo( &meshType, &currentMesh ); //Get the mesh data
 		materialManager ->GetMaterialRenderInfo (&currentMesh );	    //Get the material data
@@ -75,7 +78,6 @@ void ResourceManager::Release()
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoEnemy * object)
 	{
 		currentMesh							= RenderInstructions();
-		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
 		MeshEnum meshType					= MeshEnum::ENEMY_1;//temporary
 
 		if (     meshType == MeshEnum::ENEMY_1 && gbufferPass == true)
@@ -83,6 +85,9 @@ void ResourceManager::Release()
 		
 		else if (meshType == MeshEnum::ENEMY_1 && shadowPass  == true)
 			shaderManager->SetActiveShader(Shaders::SHADOW_SHADER_INSTANCED);
+
+		else
+			currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
 		
 		
 
@@ -118,9 +123,19 @@ void ResourceManager::Release()
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoTrap * object)
 	{
 		currentMesh = RenderInstructions();
-		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
  		MeshEnum meshType = object->object;
-		
+
+
+		if (   meshType == MeshEnum::TRAP_BEAR && gbufferPass == true
+			|| meshType == MeshEnum::TRAP_FIRE && gbufferPass == true)
+				shaderManager->SetActiveShader(Shaders::GBUFFER_SHADER_INSTANCED);
+
+		else if ( meshType == MeshEnum::TRAP_BEAR && shadowPass == true
+				|| meshType == MeshEnum::TRAP_FIRE && shadowPass == true)
+				shaderManager->SetActiveShader(Shaders::SHADOW_SHADER_INSTANCED);
+		else
+			currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+
 		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
 	
 		return &currentMesh;

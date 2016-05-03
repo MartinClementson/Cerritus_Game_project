@@ -43,7 +43,7 @@ private:
 	ID3D11Buffer* cbufferPerFrame							= nullptr;	   
 	ID3D11Buffer* sampleBoolsBuffer							= nullptr;	   //samplingState constBuffer (Controls if a mesh has normalmap,specmap, etc)
 	
-	ID3D11Buffer* instancedBuffers[INSTANCED_BUFFER_AMOUNT] = { nullptr };
+	ID3D11Buffer* instancedBuffers[UNIQUE_INSTANCED_BUFFER_AMOUNT] = { nullptr };
 
 	LightManager lightmanager;
 	ID3D11Buffer* lightBuffers[LIGHTBUFFER_AMOUNT]			= { nullptr }; //Light constBuffers
@@ -77,13 +77,14 @@ public:
 	void Render(RenderInfoChar* object);
 	void Render(RenderInfoTrap* object);
 
+	void RenderInstanced(RenderInfoEnemy* object,  InstancedData* arrayData ,unsigned int amount);
+	void RenderInstanced(RenderInfoObject* object, InstancedData* arrayData, unsigned int amount);
+	void RenderInstanced(RenderInfoTrap* object,   InstancedData* arrayData, unsigned int amount);
+
+
 	void RenderPlaceHolder(XMFLOAT3* position);
 	void RenderPlaceHolder(XMFLOAT3* position, XMFLOAT3* rotation);
 	void RenderPlaceHolderPlane();
-
-	void RenderInstanced(RenderInfoEnemy* object,  InstancedData* arrayData ,unsigned int amount);
-	void RenderInstanced(RenderInfoObject* object, InstancedData* arrayData, unsigned int amount);
-
 
 	void SetMouseWorldPos(XMFLOAT4 position);
 
