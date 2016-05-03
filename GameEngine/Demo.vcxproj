@@ -150,6 +150,7 @@
     <ClCompile Include="GameLogic\Animation\Animation.cpp" />
     <ClCompile Include="GameLogic\Character\Character.cpp" />
     <ClCompile Include="GameLogic\Character\Enemy\Enemy.cpp" />
+    <ClCompile Include="GameLogic\Character\Enemy\EnemyBase.cpp" />
     <ClCompile Include="GameLogic\Character\Enemy\Healer.cpp" />
     <ClCompile Include="GameLogic\Character\Player\Player.cpp" />
     <ClCompile Include="GameLogic\Character\ProjectileSystem\ProjectileSystem.cpp" />
@@ -160,7 +161,6 @@
     <ClCompile Include="GameLogic\GUI\GUIElement\GUIElement.cpp" />
     <ClCompile Include="GameLogic\InputHandler\InputHandler.cpp" />
     <ClCompile Include="GameLogic\InputHandler\Input\Input.cpp" />
-    <ClCompile Include="GameLogic\QuadTree\QuadTree.cpp" />
     <ClCompile Include="GameLogic\Scene\GameObject\EnemySpawn\EnemySpawn.cpp" />
     <ClCompile Include="GameLogic\Scene\GameObject\GameObject.cpp" />
     <ClCompile Include="GameLogic\Scene\GameObject\Light\Light.cpp" />
@@ -211,6 +211,7 @@
     <ClInclude Include="GameLogic\Animation\Animation.h" />
     <ClInclude Include="GameLogic\Character\Character.h" />
     <ClInclude Include="GameLogic\Character\Enemy\Enemy.h" />
+    <ClInclude Include="GameLogic\Character\Enemy\EnemyBase.h" />
     <ClInclude Include="GameLogic\Character\Enemy\Healer.h" />
     <ClInclude Include="GameLogic\Character\Player\Player.h" />
     <ClInclude Include="GameLogic\Character\ProjectileSystem\ProjectileSystem.h" />
@@ -221,7 +222,6 @@
     <ClInclude Include="GameLogic\GUI\GUIElement\GUIElement.h" />
     <ClInclude Include="GameLogic\InputHandler\InputHandler.h" />
     <ClInclude Include="GameLogic\InputHandler\Input\Input.h" />
-    <ClInclude Include="GameLogic\QuadTree\QuadTree.h" />
     <ClInclude Include="GameLogic\Scene\GameObject\EnemySpawn\EnemySpawn.h" />
     <ClInclude Include="GameLogic\Scene\GameObject\GameObject.h" />
     <ClInclude Include="GameLogic\Scene\GameObject\Light\Light.h" />

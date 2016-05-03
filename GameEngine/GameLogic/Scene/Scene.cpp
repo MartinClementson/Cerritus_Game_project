@@ -250,7 +250,7 @@ void Scene::load()
 
 }
 
-void Scene::EvadeTrap(Enemy* enemy, BearTrap* bear, double deltaTime)
+void Scene::EvadeTrap(EnemyBase* enemy, BearTrap* bear, double deltaTime)
 {
 	XMFLOAT3 enemyPos;
 	XMFLOAT3 trapPos;

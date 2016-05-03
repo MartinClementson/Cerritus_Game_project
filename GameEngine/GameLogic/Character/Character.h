@@ -4,6 +4,7 @@
 #include "../Scene/GameObject/Model/Model.h"
 #include "../../ResourceEngine/Graphics/Graphics.h"
 
+
 class Character
 {
 public:
@@ -20,8 +21,6 @@ protected:
 	Animation* animations;
 	Model* meshes;
 
-	
-
 public:
 	XMFLOAT3 position;
 
@@ -31,6 +30,7 @@ public:
 	virtual void Release();
 	virtual void Update(double deltaTime);
 	virtual void Render();
+	virtual XMFLOAT3 GetPosition();
 	float DoT;
 	float DoTDur;
 

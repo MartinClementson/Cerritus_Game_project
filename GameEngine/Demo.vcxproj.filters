@@ -236,9 +236,6 @@
     <Filter Include="ResourceEngine\Shaders\UIShader">
       <UniqueIdentifier>{9d6bbd34-a1f8-4b57-acc3-0a4e577f8201}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogic\QuadTree">
-      <UniqueIdentifier>{0ffbc5e0-3f7c-4dbb-91ff-410354eb8b48}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameLogic\Animation\Animation.cpp">
@@ -412,10 +409,10 @@
     <ClCompile Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton\Skeleton.cpp">
       <Filter>ResourceEngine\ResourceManager\SkeletonManager\Skeleton</Filter>
     </ClCompile>
-    <ClCompile Include="GameLogic\QuadTree\QuadTree.cpp">
-      <Filter>GameLogic\QuadTree</Filter>
-    </ClCompile>
     <ClCompile Include="GameLogic\Character\Enemy\Healer.cpp">
+      <Filter>GameLogic\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Character\Enemy\EnemyBase.cpp">
       <Filter>GameLogic\Character\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
@@ -609,10 +606,10 @@
     <ClInclude Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton\Skeleton.h">
       <Filter>ResourceEngine\ResourceManager\SkeletonManager\Skeleton</Filter>
     </ClInclude>
-    <ClInclude Include="GameLogic\QuadTree\QuadTree.h">
-      <Filter>GameLogic\QuadTree</Filter>
-    </ClInclude>
     <ClInclude Include="GameLogic\Character\Enemy\Healer.h">
+      <Filter>GameLogic\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Character\Enemy\EnemyBase.h">
       <Filter>GameLogic\Character\Enemy</Filter>
     </ClInclude>
   </ItemGroup>

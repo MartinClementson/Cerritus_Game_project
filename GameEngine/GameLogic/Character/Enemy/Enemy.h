@@ -1,5 +1,5 @@
 #pragma once
-#include "../Character.h"
+#include "EnemyBase.h"
 #include "../../../Source//LibIncluder.h"
 #include "../../../Enumerations/Enumerations.h"
 #include "../../InputHandler/Input/Input.h"
@@ -8,16 +8,18 @@
 #include "../../../Structs/DataTypes.h"
 #include "../Player/Player.h"
 #include "../../Scene/Trap/BearTrap/BearTrap.h"
+#include "Healer.h"
+
 
 
 class Enemy :
-	public Character
+	public EnemyBase
 {
 private:
-	RenderInfoEnemy renderInfo;
-	EnemyStateMachine* enemyStateMachine;
-	Player * player;
-	bool fast;
+	//RenderInfoEnemy renderInfo;
+	//EnemyStateMachine* enemyStateMachine;
+	//Player * player;
+	//bool fast;
 public:
 	void Release();
 	Enemy();
@@ -27,11 +29,14 @@ public:
 	
 	Enemy(XMFLOAT3 spawn, bool fast);
 
-	bool isAlive;
+	//bool isAlive = false;
 
-	virtual ~Enemy();
+	~Enemy();
 
+	
 	void Initialize();
+
+
 
 	void Update(double deltaTime);
 
@@ -45,12 +50,11 @@ public:
 	float GetRadius();
 	float GetRadius2();
 	void AIPattern(Player * player, double deltaTime);
+	void AIPatternHeal(EnemyBase * player, double deltaTime);
+	CharacterType GetCharType();
 	void EnemyWithEnemyCollision(Enemy * enemy, Enemy * enemys, double deltaTime);
+	
 	//void EnemyWithBeartrap(BearTrap * bear, Enemy * enemys, double deltaTime);
 	void Respawn(XMFLOAT3 spawn);
 	void Spawn(XMFLOAT3 spawn);
-
-	float originalMovementSpeed = 0;
-	float slowTimer;
-	
 };

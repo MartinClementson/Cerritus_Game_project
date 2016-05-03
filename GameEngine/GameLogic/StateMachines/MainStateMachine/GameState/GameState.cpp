@@ -64,7 +64,7 @@ void GameState::Update(double deltaTime)
 	{
 		if (player->GetHealth() <= 0)
 		{
-			isPlayerDead = true;
+			//isPlayerDead = true;
 			//isActive = false;
 		}
 		XMFLOAT2 mouseXY = input->GetMousePosition();
@@ -107,40 +107,77 @@ void GameState::Update(double deltaTime)
 						{
 								
 
-
-								if (j == p || collision->PlayerDistanceCollision(
-									room1->enemySpawns.at(k)->StandardAlive.at(p)))
+							if (75.0f > room1->enemySpawns.at(k)->StandardAlive.at(j)->GetHealth()
+								&& room1->enemySpawns.at(k)->StandardAlive.at(j)->GetCharType() != CharacterType::HEALER)
+							{
+								EnemyBase* tmp = nullptr;
+								for (size_t q = 0; q < room1->enemySpawns.at(k)->StandardAlive.size(); q++)
+								{
+									if (room1->enemySpawns.at(k)->StandardAlive.at(q)->
+										GetCharType() == CharacterType::HEALER)
+									{
+										tmp = room1->enemySpawns.at(k)->StandardAlive.at(q);
+									}
+								}
+								if (tmp != nullptr)
+								{
+									room1->enemySpawns.at(k)->StandardAlive.at(p)->AIPatternHeal(
+										tmp,
+										deltaTime);
+									if (collision->HealerProximity(room1->enemySpawns.at(k)->
+										StandardAlive.at(p), tmp))
+									{
+										if (tmp->isAlive && room1->enemySpawns.at(k)->
+											StandardAlive.at(p)->GetHealth() < 75.0f)
+										{
+											room1->enemySpawns.at(k)->
+												StandardAlive.at(p)->SetHealth(
+													room1->enemySpawns.at(k)->
+													StandardAlive.at(p)->
+													GetHealth() + 0.50f);
+										}
+									}
+								}
+								else
 								{
 									room1->enemySpawns.at(k)->StandardAlive.at(p)->AIPattern(
 										collision->GetPlayer(),
 										deltaTime);
 								}
-								else if (collision->EnemyCollision(
-									room1->enemySpawns.at(k)->StandardAlive.at(p),
-									room1->enemySpawns.at(k)->StandardAlive.at(j)))
-								{
-									room1->enemySpawns.at(k)->StandardAlive.at(p)->EnemyWithEnemyCollision(
-										room1->enemySpawns.at(k)->StandardAlive.at(p),
-										room1->enemySpawns.at(k)->StandardAlive.at(j),
-										deltaTime);
-									index = 0;
-								}
-								else if (collision->TrapandEnemyLottery(room1->enemySpawns.at(k)->StandardAlive.at(p)))
-								{
-									for (size_t i = 0; i < room1->bearTraps.size(); i++)
-									{
-										int randoms = rand() % 100 + 1;
-
-										if (randoms == 1 && room1->bearTraps.at(i)->isActive)
-										{
-											room1->EvadeTrap(room1->enemySpawns.at(k)->StandardAlive.at(p)
-												, room1->bearTraps.at(i), deltaTime);
-										}
-
-									}
-								}
-									
 							}
+							else if (j == p || collision->PlayerDistanceCollision(
+								room1->enemySpawns.at(k)->StandardAlive.at(p)))
+							{
+								room1->enemySpawns.at(k)->StandardAlive.at(p)->AIPattern(
+									collision->GetPlayer(),
+									deltaTime);
+							}
+							else if (collision->EnemyCollision(
+								room1->enemySpawns.at(k)->StandardAlive.at(p),
+								room1->enemySpawns.at(k)->StandardAlive.at(j)))
+							{
+								room1->enemySpawns.at(k)->StandardAlive.at(p)->EnemyWithEnemyCollision(
+									room1->enemySpawns.at(k)->StandardAlive.at(p),
+									room1->enemySpawns.at(k)->StandardAlive.at(j),
+									deltaTime);
+								index = 0;
+							}
+							else if (collision->TrapandEnemyLottery(room1->enemySpawns.at(k)->StandardAlive.at(p)))
+							{
+								for (size_t i = 0; i < room1->bearTraps.size(); i++)
+								{
+									int randoms = rand() % 100 + 1;
+
+									if (randoms == 1 && room1->bearTraps.at(i)->isActive)
+									{
+										room1->EvadeTrap(room1->enemySpawns.at(k)->StandardAlive.at(p)
+											, room1->bearTraps.at(i), deltaTime);
+									}
+
+								}
+							}
+									
+						}
 								
 							
 					}

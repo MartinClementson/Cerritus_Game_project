@@ -20,8 +20,8 @@ private:
 	Collision* collision;
 	XMFLOAT3 spawnPosition;
 public:
-	std::vector<Enemy*> StandardQueue;
-	std::vector<Enemy*> StandardAlive;
+	std::vector<EnemyBase*> StandardQueue;
+	std::vector<EnemyBase*> StandardAlive;
 
 	std::vector<Enemy*> FastQueue;
 	std::vector<Enemy*> FastAlive;
@@ -38,11 +38,8 @@ public:
 	void InitEnemy();
 	void SpawnEnemy();
 	void RespawnEnemy();
-	std::vector<Enemy*> GetStandardQueue();
-	std::vector<Enemy*> GetStandardAlive();
-
-	std::vector<Enemy*> GetFastQueue();
-	std::vector<Enemy*> GetFastAlive();
+	std::vector<EnemyBase*> GetStandardQueue();
+	std::vector<EnemyBase*> GetStandardAlive();
 
 
 

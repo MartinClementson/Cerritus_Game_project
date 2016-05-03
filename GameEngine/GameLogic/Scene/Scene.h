@@ -35,7 +35,7 @@ public:
 	void Render();
 	void load();
 
-	void EvadeTrap(Enemy * enemy, BearTrap * bear, double deltaTime);
+	void EvadeTrap(EnemyBase * enemy, BearTrap * bear, double deltaTime);
 
 	void AddEnemySpawn(XMFLOAT3 spawnPosition);
 

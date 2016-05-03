@@ -10,7 +10,7 @@ EnemySpawn::~EnemySpawn()
 {
 	for (size_t i = 0; i < StandardQueue.size(); i++)
 	{
-			delete StandardQueue.at(i);
+		delete StandardQueue.at(i);
 	}
 
 	for (size_t i = 0; i < StandardAlive.size(); i++)
@@ -24,6 +24,7 @@ void EnemySpawn::Initialize(XMFLOAT3 spawnPosition)
 	waveAmount = 5;
 	this->spawnPosition = spawnPosition;
 	InitEnemy();
+	
 }
 
 void EnemySpawn::Release()
@@ -33,10 +34,11 @@ void EnemySpawn::Release()
 
 void EnemySpawn::Update(double deltaTime)
 {
-	
+
 
 	for (size_t i = 0; i < StandardAlive.size(); i++)
 	{
+		StandardAlive.at(i)->Update(deltaTime);
 		if (StandardAlive.at(i)->GetStateMachine()->
 			GetActiveState() == EnemyState::ENEMY_IDLE_STATE)
 		{
@@ -51,7 +53,7 @@ void EnemySpawn::Update(double deltaTime)
 				}
 			}
 		}
-		StandardAlive.at(i)->Update(deltaTime);
+		
 		if (StandardAlive.at(i)->GetHealth() <= 0 &&
 			StandardAlive.at(i)->GetStateMachine()->
 			GetActiveState() == EnemyState::ENEMY_ATTACK_STATE)
@@ -163,6 +165,7 @@ void EnemySpawn::RespawnEnemy()
 	{
 		if (!StandardQueue.at(i)->isAlive)
 		{
+			
 
 			float spawnX = spawnPosition.x + float(rand() % 15 + 5.0f);
 			float spawnZ = spawnPosition.z + float(rand() % 50 + 5.0f);
@@ -183,24 +186,14 @@ void EnemySpawn::RespawnEnemy()
 	StandardQueue.clear();
 }
 
-std::vector<Enemy*> EnemySpawn::GetStandardQueue()
+std::vector<EnemyBase*> EnemySpawn::GetStandardQueue()
 {
 	return StandardQueue;
 }
 
-std::vector<Enemy*> EnemySpawn::GetStandardAlive()
+std::vector<EnemyBase*> EnemySpawn::GetStandardAlive()
 {
 	return StandardAlive;
-}
-
-std::vector<Enemy*> EnemySpawn::GetFastQueue()
-{
-	return FastQueue;
-}
-
-std::vector<Enemy*> EnemySpawn::GetFastAlive()
-{
-	return FastAlive;
 }
 
 void EnemySpawn::InitEnemy()

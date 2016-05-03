@@ -49,8 +49,11 @@ Player::~Player()
 
 }
 
+
+
 void Player::Initialize()
 {
+	
 	graphics			 = Graphics::GetInstance();
 
 	this->position		 = XMFLOAT3(-5.0f, Y_OFFSET, -5.0f);

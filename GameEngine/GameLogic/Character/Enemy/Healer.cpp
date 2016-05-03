@@ -21,6 +21,7 @@ void Healer::Update(double deltaTime)
 
 void Healer::Initialize()
 {
+	this->charType = CharacterType::HEALER;
 	movementSpeed = 5.0f;
 	health = 300;
 	damage = 5.0f;
@@ -37,11 +38,15 @@ void Healer::Initialize()
 Healer::Healer(XMFLOAT3 spawn)
 {
 	this->position = spawn;
+
 	Initialize();
 	this->enemyStateMachine = new EnemyStateMachine();
 	enemyStateMachine->Initialize();
 	this->graphics = Graphics::GetInstance();
+	renderInfo = { position, rotation };
 }
+
+
 
 float Healer::GetHealth()
 {
@@ -84,8 +89,8 @@ void Healer::Respawn(XMFLOAT3 spawn)
 	this->position = spawn;
 	this->isAlive = true;
 	this->health = 300.0f;
-	this->DoT = 0.0f;
 	this->index = 0.0f;
+	this->movementSpeed = 5.0f;
 	this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
 }
 
@@ -94,12 +99,11 @@ void Healer::Spawn(XMFLOAT3 spawn)
 	this->position = spawn;
 	this->isAlive = true;
 	this->health = 300.0f;
-	this->DoT = 0.0f;
 	this->index = 0.0f;
 	this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_IDLE_STATE);
 }
 
-void Healer::AIPattern(Player * player, double deltaTime)
+void Healer::AIPattern(Player* player, double deltaTime)
 {
 	if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE)
 	{
@@ -127,8 +131,76 @@ void Healer::AIPattern(Player * player, double deltaTime)
 	}
 }
 
+CharacterType Healer::GetCharType()
+{
+	return this->charType;
+}
+
+void Healer::EnemyWithEnemyCollision(Healer* enemy, EnemyBase* enemys, double deltaTime)
+{
+	if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE)
+	{
+		XMFLOAT3 enemyPos;
+		XMFLOAT3 enemyPos2;
+		Vec3 dir;
+
+		enemyPos = enemy->GetPosition();
+		enemyPos2 = enemys->GetPosition();
+
+		dir.x = enemyPos.x - enemyPos2.x;
+		dir.z = enemyPos.z - enemyPos2.z;
+
+		dir.Normalize();
+
+		enemys->position.x -= dir.x * (float)deltaTime * movementSpeed;
+		enemys->position.z -= dir.z * (float)deltaTime * movementSpeed;
+	}
+	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
+	{
+
+	}
+	else if (enemyStateMachine->GetActiveState() == ENEMY_DEATH_STATE)
+	{
+		//here they go to die 
+	}
+}
+
+
+void Healer::EnemyWithEnemyCollision(EnemyBase* enemy, Healer* enemys, double deltaTime)
+{
+	if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE)
+	{
+		XMFLOAT3 enemyPos;
+		XMFLOAT3 enemyPos2;
+		Vec3 dir;
+
+		enemyPos = enemy->GetPosition();
+		enemyPos2 = enemys->GetPosition();
+
+		dir.x = enemyPos.x - enemyPos2.x;
+		dir.z = enemyPos.z - enemyPos2.z;
+
+		dir.Normalize();
+
+		enemys->position.x -= dir.x * (float)deltaTime * movementSpeed;
+		enemys->position.z -= dir.z * (float)deltaTime * movementSpeed;
+	}
+	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
+	{
+
+	}
+	else if (enemyStateMachine->GetActiveState() == ENEMY_DEATH_STATE)
+	{
+		//here they go to die 
+	}
+}
 
 
 void Healer::Release()
 {
+}
+
+EnemyStateMachine* Healer::GetStateMachine()
+{
+	return this->enemyStateMachine;
 }

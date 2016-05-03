@@ -47,6 +47,14 @@ enum MeshEnum
 
 #pragma endregion
 
+enum CharacterType
+{
+	PLAYER,
+	SLOW_ENEMY,
+	FAST_ENEMY,
+	HEALER
+};
+
 #pragma region UI
 
 enum UITextures

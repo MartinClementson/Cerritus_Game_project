@@ -9,10 +9,11 @@ Enemy::Enemy(XMFLOAT3 spawn, bool fast)
 {
 	this->position = spawn;
 	this->fast = fast;
-	Initialize();
+	this->Initialize();
 	this->enemyStateMachine = new EnemyStateMachine();
 	enemyStateMachine->Initialize();
 	this->graphics = Graphics::GetInstance();
+	renderInfo = { position, rotation };
 
 }
 
@@ -34,7 +35,7 @@ void Enemy::Initialize()
 		movementSpeed = 25.0f;
 		originalMovementSpeed = movementSpeed;
 
-		health = 30.0f;
+		health = 50.0f;
 		DoT = 0;
 		damage = 5.0f;
 		rotation = { 0,90,0 };
@@ -50,7 +51,7 @@ void Enemy::Initialize()
 	}
 	else
 	{
-		movementSpeed = 15.0f;
+		movementSpeed = 18.0f;
 		originalMovementSpeed = movementSpeed;
 		health = 100.0f;
 		DoT = 0;
@@ -68,6 +69,8 @@ void Enemy::Initialize()
 	}
 	
 }
+
+
 
 void Enemy::Release()
 {
@@ -123,7 +126,7 @@ void Enemy::Respawn(XMFLOAT3 spawn)
 	{
 		this->position = spawn;
 		this->isAlive = true;
-		this->health = 30.0f;
+		this->health = 50.0f;
 		this->DoT = 0.0f;
 		this->index = 0.0f;
 		this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
@@ -144,22 +147,23 @@ void Enemy::Spawn(XMFLOAT3 spawn)
 {
 	if (this->fast)
 	{
+		this->charType = CharacterType::FAST_ENEMY;
 		this->position = spawn;
 		this->isAlive = true;
-		this->health = 30.0f;
+		this->health = 50.0f;
 		this->DoT = 0.0f;
 		this->index = 0.0f;
-		this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_IDLE_STATE);
+		//this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_IDLE_STATE);
 	}
 	else
 	{
-
+		this->charType = CharacterType::SLOW_ENEMY;
 		this->position = spawn;
 		this->isAlive = true;
 		this->health = 100.0f;
 		this->DoT = 0.0f;
 		this->index = 0.0f;
-		this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_IDLE_STATE);
+		//this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_IDLE_STATE);
 	}
 }
 
@@ -180,8 +184,39 @@ float Enemy::GetRadius()
 
 void Enemy::AIPattern(Player* player, double deltaTime)
 {
+	
 	if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE)
 	{
+		
+		XMFLOAT3 playerPos = player->GetPosition();
+		Vec3 vect;
+
+		vect.x = playerPos.x - GetPosition().x;
+		vect.z = playerPos.z - GetPosition().z;
+
+		vect.Normalize();
+
+		//XMFLOAT3 temp = GetPosition();
+		this->position.x += vect.x *(float)deltaTime * movementSpeed;
+		this->position.z += vect.z *(float)deltaTime * movementSpeed;
+		//SetPosition(temp);
+		
+
+	}
+	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
+	{
+		
+	}
+	else if (enemyStateMachine->GetActiveState() == ENEMY_DEATH_STATE)
+	{
+		//here they go to die 
+	}
+}
+void Enemy::AIPatternHeal(EnemyBase* player, double deltaTime)
+{
+	if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE)
+	{
+
 		XMFLOAT3 playerPos = player->GetPosition();
 		Vec3 vect;
 
@@ -195,15 +230,21 @@ void Enemy::AIPattern(Player* player, double deltaTime)
 		this->position.z += vect.z *(float)deltaTime * movementSpeed;
 		//SetPosition(temp);
 
+
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
 	{
-		
+
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_DEATH_STATE)
 	{
 		//here they go to die 
 	}
+}
+
+CharacterType Enemy::GetCharType()
+{
+	return this->charType;
 }
 float Enemy::GetRadius2()
 {

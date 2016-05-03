@@ -12,7 +12,7 @@ Collision* Collision::GetInstance()
 	return &instance;
 }
 
-void Collision::AddEnemy(Enemy* enemy)
+void Collision::AddEnemy(EnemyBase* enemy)
 {
 	enemyBox.push_back(enemy);
 }
@@ -82,7 +82,7 @@ bool Collision::PlayerProxyTrap(BearTrap * trap)
 	return false;
 }
 
-bool Collision::PlayerProxyEnemy(Enemy * enemy)
+bool Collision::PlayerProxyEnemy(EnemyBase * enemy)
 {
 	XMFLOAT3 playPos = player->GetPosition();
 	float playRad = player->GetRadius();
@@ -99,7 +99,28 @@ bool Collision::PlayerProxyEnemy(Enemy * enemy)
 	return false;
 }
 
-bool Collision::BearTrapEnemyCollision(BearTrap * trap, Enemy * enemy)
+bool Collision::HealerProximity(EnemyBase* enemy,EnemyBase* healer)
+{
+
+	XMFLOAT3 enemyPos = enemy->GetPosition();
+	float enemyRad = enemy->GetRadius();
+
+	XMFLOAT3 healerPos = healer->GetPosition();
+	float healerRad = 10;
+
+	if (pow(enemyPos.x - healerPos.x, 2)
+		+ pow(enemyPos.z - healerPos.z, 2)
+		< pow(enemyRad + healerRad, 2))
+	{
+		
+		return true;
+
+	}
+
+	return false;
+}
+
+bool Collision::BearTrapEnemyCollision(BearTrap * trap, EnemyBase * enemy)
 {
 	trapPos = trap->GetPosition();
 	trapRad = trap->GetRadius();
@@ -122,7 +143,7 @@ bool Collision::BearTrapEnemyCollision(BearTrap * trap, Enemy * enemy)
 }
 
 
-bool Collision::EnemyProxTrap(BearTrap * trap, Enemy * enemy)
+bool Collision::EnemyProxTrap(BearTrap * trap, EnemyBase * enemy)
 {
 	trapPos = trap->GetPosition();
 	trapRad = 10;
@@ -167,7 +188,7 @@ bool Collision::FireTrapPlayerCollision(FireTrap * trap)
 	return false;
 }
 
-bool Collision::FireTrapEnemyCollision(FireTrap * trap, Enemy * enemy)
+bool Collision::FireTrapEnemyCollision(FireTrap * trap, EnemyBase * enemy)
 {
 	trapPos = trap->GetPosition();
 	trapRad = trap->GetRadius();
@@ -189,7 +210,7 @@ bool Collision::FireTrapEnemyCollision(FireTrap * trap, Enemy * enemy)
 	return false;
 }
 
-bool Collision::PlayerCollision(Enemy* enemy)
+bool Collision::PlayerCollision(EnemyBase* enemy)
 {
 	XMFLOAT3 playPos = player->GetPosition();
 	float playRad = 2;
@@ -211,7 +232,7 @@ bool Collision::PlayerCollision(Enemy* enemy)
 	return false;
 }
 
-bool Collision::PlayerDistanceCollision(Enemy* enemy)
+bool Collision::PlayerDistanceCollision(EnemyBase* enemy)
 {
 	XMFLOAT3 playPos = player->GetPosition();
 	float playRad = player->GetRadius2();
@@ -228,7 +249,7 @@ bool Collision::PlayerDistanceCollision(Enemy* enemy)
 	return false;
 }
 
-bool Collision::ProjectileEnemyCollision(Projectile* projectile,Enemy* enemy)
+bool Collision::ProjectileEnemyCollision(Projectile* projectile, EnemyBase* enemy)
 {
 	XMFLOAT3 proPos = projectile->GetPos();
 	float proRad = projectile->GetRadius();
@@ -245,7 +266,7 @@ bool Collision::ProjectileEnemyCollision(Projectile* projectile,Enemy* enemy)
 	return false;
 }
 
-bool Collision::EnemyCollision(Enemy* enemy, Enemy* enemys)
+bool Collision::EnemyCollision(EnemyBase* enemy, EnemyBase* enemys)
 {
 	enemyPos = enemy->GetPosition();
 	enemyRad2 = enemy->GetRadius2();
@@ -262,7 +283,7 @@ bool Collision::EnemyCollision(Enemy* enemy, Enemy* enemys)
 	return false;
 }
 
-bool Collision::TrapandEnemyLottery(Enemy* enemys)
+bool Collision::TrapandEnemyLottery(EnemyBase* enemys)
 {
 	for (size_t i = 0; i < this->bearTrap.size(); i++)
 	{

@@ -32,3 +32,8 @@ void Character::Render()
 {
 
 }
+
+XMFLOAT3 Character::GetPosition()
+{
+	return XMFLOAT3();
+}

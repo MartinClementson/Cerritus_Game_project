@@ -1,14 +1,15 @@
 #pragma once
-#include "./Enemy.h"
+#include "./EnemyBase.h"
 class Healer :
-	public Enemy
+	public EnemyBase
 {
 public:
-	virtual ~Healer();
+	~Healer();
 
 	void Update(double deltaTime);
 	void Initialize();
 	Healer(XMFLOAT3 spawn);
+
 	float GetHealth();
 	void SetHealth(float health);
 	XMFLOAT3 GetPosition();
@@ -20,9 +21,16 @@ public:
 	void Respawn(XMFLOAT3 spawn);
 	void Spawn(XMFLOAT3 spawn);
 
-	void AIPattern(Player * player, double deltaTime);
+	
+	void AIPattern(Player* player, double deltaTime);
 
+	CharacterType GetCharType();
+	
+	void EnemyWithEnemyCollision(Healer * enemy, EnemyBase * enemys, double deltaTime);
+	void EnemyWithEnemyCollision(EnemyBase * enemy, Healer * enemys, double deltaTime);
 	void Release();
+
+	EnemyStateMachine * GetStateMachine();
 
 private:
 	RenderInfoEnemy renderInfo;
