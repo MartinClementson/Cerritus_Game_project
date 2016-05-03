@@ -15,7 +15,7 @@ GUI::~GUI()
 
 void GUI::Initialize()
 {
-	items = new std::vector<GUIElement*>;
+	//items = new std::vector<GUIElement*>;
 	size = size;
 	position = position;
 	grapichs = Graphics::GetInstance();
