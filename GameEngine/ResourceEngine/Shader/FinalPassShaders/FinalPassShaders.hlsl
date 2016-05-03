@@ -430,7 +430,12 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 	finalCol.r += diffuseSamp.a; //Laser point color
 	finalCol.w = 1.0f;
 
-	return finalCol;
+	//justglow
+	float4 glow = glowTexture.Sample(linearSampler, input.Uv);
+	//float4 specularSample = specularTexture.Sample(pointSampler, input.Uv);
+
+	//return finalCol;
+	return glow;
 }
 
 
