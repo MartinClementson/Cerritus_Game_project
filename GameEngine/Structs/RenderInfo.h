@@ -55,8 +55,9 @@ struct RenderInfoUI {
 struct RenderInfoEnemy {
 	XMFLOAT3 position;
 	XMFLOAT3 rotation;
+	float radius;
 
-	//MeshEnum object;
+	MeshEnum object;
 	//Shaders shader;	
 	//EnemyAnimations enemyAnim;	//these are enum
 };
@@ -73,6 +74,7 @@ struct RenderInfoChar {
 struct RenderInfoTrap {
 	XMFLOAT3 position;
 	XMFLOAT3 rotation;
+	float radius;
 
 	MeshEnum object;
 	//Shaders shader;
