@@ -283,8 +283,8 @@ void ProjectileSystem::DeleteProjectile(int index)
 	projectiles.erase(projectiles.begin()+index);
 	projectiles.shrink_to_fit();*/
   	projectiles[index]->SetFired(false);
-	if (firedProjectiles != 0)
-		firedProjectiles--;
+	//if (firedProjectiles != 0)
+	firedProjectiles--;
 
 	//swapping
 	Projectile *temp;
