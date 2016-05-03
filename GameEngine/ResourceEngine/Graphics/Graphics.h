@@ -37,7 +37,6 @@ private:
 
 	//Compute shader related
 	ID3D11UnorderedAccessView* gBackBufferUAV		 = nullptr;
-	ID3D11UnorderedAccessView* blurPassUAV			 = nullptr;
 	ID3D11ShaderResourceView*  BackBufferTexture	 = nullptr;
 #pragma endregion
 

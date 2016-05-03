@@ -149,8 +149,7 @@ void Graphics::Render() //manage RenderPasses here
 
 	//blurpass
 	//hr = this->gDevice->CreateUnorderedAccessView(pBackBuffer, nullptr, &gBackBufferUAV);
-	ID3D11UnorderedAccessView* uav = ()
-	this->renderer->RenderBlurPass();
+	this->renderer->RenderBlurPass(this->gBuffer->GetBlurUAV());
 
 	this->renderer->RenderFinalPass();
 	gBuffer->ClearGbuffer();
@@ -487,8 +486,6 @@ HRESULT Graphics::CreateDirect3DContext()
 			MessageBox(*wndHandle, L"Failed to create UAV", L"Error", MB_ICONERROR | MB_OK);
 			return hr;
 		}
-
-
 
 
 		hr = this->gDevice->CreateShaderResourceView(pBackBuffer, nullptr, &BackBufferTexture);

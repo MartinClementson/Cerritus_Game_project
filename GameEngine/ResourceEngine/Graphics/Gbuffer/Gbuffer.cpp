@@ -14,6 +14,7 @@ Gbuffer::~Gbuffer()
 
 void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext)
 {
+	HRESULT hr;
 	this->gDevice = gDevice;
 	this->gDeviceContext = gDeviceContext;
 
@@ -36,8 +37,16 @@ void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCont
 		textureDesc.ArraySize = 1;
 		textureDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 		textureDesc.SampleDesc.Count = 1;
-		textureDesc.Usage = D3D11_USAGE_DEFAULT;
-		textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+		if (i == 5)
+		{
+			textureDesc.Usage = D3D11_USAGE_DEFAULT;
+			textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
+		}
+		else
+		{
+			textureDesc.Usage = D3D11_USAGE_DEFAULT;
+			textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+		}
 		textureDesc.CPUAccessFlags = 0;
 		textureDesc.MiscFlags = 0;
 
@@ -69,21 +78,26 @@ void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCont
 
 		//Create the resourceView;
 
+
 		hr = gDevice->CreateShaderResourceView(gBufferTextures[i], &resourceViewDesc, &shaderResourceViews[i]);
 		if (FAILED(hr))
 			MessageBox(NULL, L"Failed to create  Gbuffer", L"Error", MB_ICONERROR | MB_OK);
 
+		if (i == 5)
+			hr = this->gDevice->CreateUnorderedAccessView(gBufferTextures[5], nullptr, &blurUAV);
 	}
 
 	for (int i = 0; i < TEXTUREAMOUNT; i++)
 	{
-
 		SAFE_RELEASE(gBufferTextures[i]);
 	}
+
+	//hr = this->gDevice->CreateUnorderedAccessView(gBufferTextures[5], nullptr, &blurUAV);
 }
 
 void Gbuffer::Release()
 {
+	SAFE_RELEASE(blurUAV);
 	for (int i = 0; i < TEXTUREAMOUNT; i++)
 	{
 		SAFE_RELEASE(textureRTVs[i]);
