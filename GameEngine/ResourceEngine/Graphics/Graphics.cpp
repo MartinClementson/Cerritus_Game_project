@@ -432,7 +432,6 @@ XMFLOAT4X4 Graphics::CalculateWorldMatrix(XMFLOAT3 * position, XMFLOAT3 * rotati
 HRESULT Graphics::CreateDirect3DContext()
 {
 
-
 	//Swap chain description
 	DXGI_SWAP_CHAIN_DESC scd;
 
