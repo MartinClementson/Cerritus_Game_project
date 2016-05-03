@@ -38,14 +38,14 @@ cbuffer textureSampleBuffer		 : register(b2)
 struct BILLBOARD_VS_IN
 {
 	float3 worldPos		 : POSITION;
-	float2 height		 : HEIGHT;
-	float2 width		 : WIDTH;
+	float  height		 : HEIGHT;
+	float  width		 : WIDTH;
 };
 struct BILLBOARD_VS_OUT
 {
 	float4 worldPos		 : SV_POSITION;
-	float2 height		 : HEIGHT;
-	float2 width		 : WIDTH;
+	float  height		 : HEIGHT;
+	float  width		 : WIDTH;
 };
 
 struct BILLBOARD_GS_OUT
@@ -86,38 +86,178 @@ BILLBOARD_VS_OUT BILLBOARD_VS(BILLBOARD_VS_IN input )
 
 
 
-[maxvertexcount(3)]
+[maxvertexcount(4)]
 
 void BILLBOARD_GS(triangle BILLBOARD_VS_OUT input[3],
 	inout TriangleStream< BILLBOARD_GS_OUT > output)
 {
-	for (uint i = 0; i < 3; i++)
+	float3 vecToCam = normalize((input[0].worldPos - camPos.xyz));
+	float3 rightVec = float3(1.0f, 0.0f, 0.0f);
+	float3 upVec = normalize(cross(vecToCam, rightVec));
+
+	//Get vertices for the quad
+	float3 vert[4];
+	vert[0] = input[0].worldPos - rightVec * input[0].width - upVec * input[0].height;
+	vert[1] = input[0].worldPos - rightVec * input[0].width + upVec * input[0].height;
+	vert[2] = input[0].worldPos + rightVec * input[0].width - upVec * input[0].height;
+	vert[3] = input[0].worldPos + rightVec * input[0].width + upVec * input[0].height;
+
+	//Get texture coordinates
+	float2 texCoord[4];
+	texCoord[0] = float2(0.0f, 1.0f);
+	texCoord[3] = float2(0.0f, 0.0f);
+	texCoord[2] = float2(1.0f, 1.0f);
+	texCoord[1] = float2(1.0f, 0.0f);
+
+	BILLBOARD_GS_OUT outputVert = (BILLBOARD_GS_OUT)0;
+	[unroll]
+	for (int i = 0; i < 4; i++)
 	{
+		outputVert.Pos = mul(mul(float4(vert[i], 1.0f), view), projection);
+		outputVert.Uv = texCoord[i];
+		outputVert.Normal = vecToCam;
+		outputVert.BiTangent = float3(1.0f, 1.0f, 1.0f);
+		outputVert.Tangent   = float3(1.0f, 1.0f, 1.0f);
+		
+		outputVert.wPos = float4(vert[i], 1.0f);
+		outputVert.camPos = camPos;
+		outputVert.mousePos = mousePos;
 
 
-		BILLBOARD_GS_OUT element;
-		//element.Pos			 = mul(input[i].Pos, view);
-		//element.Pos			 = mul(input[i].Pos, projection);
-		element.Pos = input[i].worldPos;
-		element.Normal		= float3 (1.0f, 1.0f, 1.0f);
-		element.BiTangent	= float3 (1.0f, 1.0f, 1.0f);
-		element.Tangent		= float3 (1.0f, 1.0f, 1.0f);
-		element.Uv = float2 (1.0f, 1.0f);
-		element.wPos = input[i].worldPos;
-		element.camPos = camPos;
-		element.mousePos = mousePos;
-
-		output.Append(element);
+		output.Append(outputVert);
 	}
 
 }
 
+float3 normalToWorldSpace(float3 normalMapSample, float3 normal, float3 tangent, float3 biTangent) //Function for normal mapping  
+{
+
+	// here we build the tbn basis. to transform the sampled normal to texture space
+	//then we return the normal and use it with our calculations
+
+	//Convert from [0,1] to [-1,1]
+	float3 normalT = 2.0f * normalMapSample - 1.0f;
+
+	//Build basis
+	float3 N = normal;
+
+	//Make sure tangent is completely orthogonal to normal
+	float3 T = normalize(tangent - dot(tangent, N)* N); //Read page 582
+	float3 B = biTangent;						//cross(N, T); //Bitangent
+
+												//Create the "Texture Space" matrix
+	float3x3 TBN = float3x3(T, B, N);
+
+	//Convert normal from normal map to texture space and store in input.normal
+
+	float3 bumpedNormal = mul(normalT, TBN);
+
+	return normalize(bumpedNormal);
+
+}
 
 
 BILLBOARD_PS_OUT BILLBOARD_PS(BILLBOARD_GS_OUT input)
 {
 
 	BILLBOARD_PS_OUT output;
+
+
+	float4 pixelPos = { input.wPos.x, 0.0 , input.wPos.z, 1.0 };
+	float4 col = { 1.0,0.0,0.0,1.0 };
+	//float dist = distance(input.mousePos.xz, pixelPos.xz);
+	float laserFalloff = 0.4f;
+
+
+
+
+
+
+	float3 start = camPos.xyz - float3(0.0f, 9.7f, -14.0f);
+	float3 stop = input.mousePos.xyz;
+	stop.y = 0.0f;
+
+	float3 position = (start + stop) * 0.5f;
+
+	float lajnLength = length(start - stop);
+
+	float3 toPixel = input.wPos.xyz - position;
+	float3 lajn = normalize(stop - position);
+	float3 projection = dot(toPixel, lajn) * lajn;
+	float3 toLajn = toPixel - projection;
+
+	float projectionLength = clamp(length(projection), 0.0f, lajnLength * 0.5f);
+	float3 projectionLine = normalize(projection) * projectionLength;
+
+	float dist = min(distance(input.mousePos.xyz, pixelPos.xyz), length(toPixel - projectionLine) * 6.0f);
+
+	col.x -= saturate(abs(dist* laserFalloff));  //Laser color
+
+	float4 ambientValue = float4(1, 1, 1, 1);
+
+	float4 textureSample;
+
+	if (diffuseMap)
+	{
+		textureSample = diffuseTex.Sample(linearSampler, input.Uv);
+		if (textureSample.a < 0.1)
+			clip(-1);
+		textureSample.a = col.x; //laser pointer color
+		output.diffuseRes = textureSample;
+	}
+	else
+	{
+
+		output.diffuseRes = float4(0.5, 0.5, 0.5, col.x); //Alpha == laserpointer color
+	}
+
+
+	if (normalMap)
+	{
+
+		float4 norMap;
+
+
+		norMap = normalTex.Sample(linearSampler, input.Uv);
+		norMap.xyz = normalToWorldSpace(norMap.xyz, input.Normal, input.Tangent, input.BiTangent);
+		output.normalRes = norMap;
+	}
+	else
+	{
+
+		output.normalRes = float4(input.Normal, 1);
+	}
+
+	float4 specularSample;
+	if (specularMap)
+	{
+		specularSample.rgba = float4(0, 0, 0, 0);
+		specularSample = diffuseTex.Sample(linearSampler, input.Uv);
+		output.specularRes = specularSample;
+	}
+	else
+	{
+		specularSample.rgba = float4(0.5, 0.5, 0.5, 0);
+		output.specularRes = specularSample;
+	}
+
+	float4 glowSample;
+	if (glowMap)
+	{
+		glowSample = glowTex.Sample(linearSampler, input.Uv);
+		output.glowRes = glowSample;
+	}
+	else
+	{
+		glowSample = float4 (0, 0, 0, 0);
+		output.glowRes = glowSample;
+	}
+
+
+	output.positionRes = input.wPos;
+
+	float depth = input.Pos.z / input.Pos.w;
+	output.depthRes = float4(depth, depth, depth, 1.0);
 
 	return output;
 }

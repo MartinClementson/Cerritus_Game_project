@@ -52,13 +52,9 @@ void ResourceManager::Release()
 		MeshEnum meshType = object->object;
 
 
-		if      ( meshType == MeshEnum::PROJECTILE_1 && gbufferPass == true)
-			shaderManager->SetActiveShader(Shaders::GBUFFER_SHADER_INSTANCED);
+		
 
-		else if ( meshType == MeshEnum::PROJECTILE_1  && shadowPass == true)
-			shaderManager->SetActiveShader(Shaders::SHADOW_SHADER_INSTANCED);
-
-		else
+		if(meshType != MeshEnum::PROJECTILE_1)
 			currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
 
 

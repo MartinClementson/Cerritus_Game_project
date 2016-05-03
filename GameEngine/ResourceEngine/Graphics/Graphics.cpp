@@ -20,7 +20,6 @@ Graphics::~Graphics()
 	if (trapObjects != nullptr)
 		delete trapObjects;
 
-
 	if (shadowBuffer != nullptr)
 		delete shadowBuffer;
 	if (renderer != nullptr)
@@ -59,6 +58,8 @@ void Graphics::Initialize(HWND * window)
 	instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED]	 = new InstancedData[MAX_INSTANCED_GEOMETRY];
 	instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED]	 = new InstancedData[MAX_INSTANCED_GEOMETRY];
 
+	
+	memset(billBoardArray,	  0, sizeof(billBoardArray));
 	memset(instancesToRender, 0, sizeof(instancesToRender)); //reset instances to render amount
 
 	renderer = new Renderer();
@@ -104,24 +105,12 @@ void Graphics::Release()
 
 	if (DEBUG == 2)
 	{
-		
 		if (debug)
 		{
-
 			debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
 			SAFE_RELEASE(debug);
 		}
-
 	}
-
-
-
-
-
-
-
-	
-
 	while (gDevice->Release() > 0);
 	//SAFE_RELEASE(gDevice);
 
@@ -215,9 +204,16 @@ void Graphics::RenderScene()
 	//Render instanced projectiles
 	if (instancesToRender[PROJECTILE_INSTANCED] > 0)
 	{
+		////////////BILLBOARD RENDERING
+		//renderer->RenderBillBoard(this->gameObjects->at(instanceMeshIndex.projectileMesh), billBoardArray, instancesToRender[PROJECTILE_INSTANCED]);
+
+
+		//////////////INSTANCE RENDERING
 		renderer->RenderInstanced(this->gameObjects->at(instanceMeshIndex.projectileMesh),
 			instancedWorldDataPerFrame[ PROJECTILE_INSTANCED ], instancesToRender[ PROJECTILE_INSTANCED ] );
 	}
+
+
 
 	////Render instanced enemies
 	if (instancesToRender[ENEMY_1_INSTANCED] > 0)
@@ -284,6 +280,7 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 	memset(instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED],  0, sizeof(instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED]));	 //reset instance array
 	memset(instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED],  0, sizeof(instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED]));	 //reset instance array
 
+	memset(billBoardArray, 0, sizeof(billBoardArray));
 
 
 
@@ -369,10 +366,10 @@ void Graphics::CullGeometry()
 #pragma endregion
 
 #pragma region Cull game objects
-	for (size_t i = 0; i < this->gameObjects->size(); i++)
+ 	for (size_t i = 0; i < this->gameObjects->size(); i++)
 	{
 		//Frustum culling
-		if (renderer->FrustumCheck(gameObjects->at(i)->position, gameObjects->at(i)->radius) == false)
+	if (renderer->FrustumCheck(gameObjects->at(i)->position, gameObjects->at(i)->radius) == false)
 		{	//If its not visible
      			this->gameObjects->at(i)->render = false;
 			continue;
@@ -381,13 +378,17 @@ void Graphics::CullGeometry()
 		{
 			if (this->gameObjects->at(i)->object == MeshEnum::PROJECTILE_1)
 			{
-				this->instancedWorldDataPerFrame[PROJECTILE_INSTANCED][projectileIndex].worldMatrix = CalculateWorldMatrix(&this->gameObjects->at(i)->position, &this->gameObjects->at(i)->rotation);
+
+				//this->instancedWorldDataPerFrame[PROJECTILE_INSTANCED][projectileIndex].worldMatrix = CalculateWorldMatrix(&this->gameObjects->at(i)->position, &this->gameObjects->at(i)->rotation);
+				/*billBoardArray[projectileIndex].worldPos = this->gameObjects->at(i)->position;
+				billBoardArray[projectileIndex].height = 10.0f;
+				billBoardArray[projectileIndex].width = 5.0f;*/
 				instancesToRender[PROJECTILE_INSTANCED] += 1;
 				projectileIndex							+= 1;
 				this->gameObjects->at(i)->render		 = false; //We don't want to render this with nonInstance rendering
 				
 				if (instanceMeshIndex.projectileMesh == -1) //if this is the first thing we found of that mesh, store the index.
-					instanceMeshIndex.projectileMesh = (int)i;
+      					instanceMeshIndex.projectileMesh = (int)i;
 			}
 		}
 

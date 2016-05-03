@@ -24,8 +24,8 @@ enum LIGHTBUFFERS {
 
 enum INSTANCED_BUFFERS
 {
-	INSTANCED_WORLD
-
+	INSTANCED_WORLD,
+	BILLBOARD_BUFFER
 };
 
 class Renderer
@@ -81,6 +81,8 @@ public:
 	void RenderInstanced(RenderInfoObject* object, InstancedData* arrayData, unsigned int amount);
 	void RenderInstanced(RenderInfoTrap* object,   InstancedData* arrayData, unsigned int amount);
 
+	void RenderBillBoard(RenderInfoObject* object, BillboardData* arrayData, unsigned int amount);
+
 
 	void RenderPlaceHolder(XMFLOAT3* position);
 	void RenderPlaceHolder(XMFLOAT3* position, XMFLOAT3* rotation);
@@ -97,7 +99,8 @@ public:
 private:
 	void Render(RenderInstructions* object);
 	void RenderInstanced(RenderInstructions* object, ID3D11Buffer* instanceBuffer, unsigned int amount);
-	
+	void RenderBillBoard(RenderInstructions* object, ID3D11Buffer* instanceBuffer, unsigned int amount);
+
 	void MapLightBufferStructures();
 	void UpdateCbufferPerFrame();
 	void UpdateLightBuffer();
