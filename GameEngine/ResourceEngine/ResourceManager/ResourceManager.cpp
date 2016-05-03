@@ -32,7 +32,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	brfImporterHandler->LoadFile("models/FireTrap.BRF", true, true, true);
 	brfImporterHandler->LoadFile("models/BearTrap.BRF", true, true, true);
 	brfImporterHandler->LoadFile("models/Scene2.BRF", true, true, true);
-	brfImporterHandler->LoadFile("models/test_bullet.BRF", true, true, true);
+	brfImporterHandler->LoadFile("models/quadBullet.BRF", true, true, true);
 }
 
 void ResourceManager::Release()
@@ -68,7 +68,16 @@ void ResourceManager::Release()
 	{
 		currentMesh = RenderInstructions();
 		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
-		MeshEnum meshType = MeshEnum::ENEMY_1;
+		MeshEnum meshType = MeshEnum::ENEMY_1;//temporary
+
+		if (meshType == MeshEnum::ENEMY_1 && gbufferPass == true)
+			shaderManager->SetActiveShader(Shaders::GBUFFER_SHADER_INSTANCED);
+		
+		else if (shadowPass)
+			shaderManager->SetActiveShader(Shaders::SHADOW_SHADER_INSTANCED);
+		
+		
+
 
 		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
 		materialManager->GetMaterialRenderInfo(&currentMesh);
@@ -158,8 +167,8 @@ void ResourceManager::Release()
 	RenderInstructions * ResourceManager::GetFullScreenQuad()
 	{
 		currentMesh = RenderInstructions();
-		Shaders temp = FINAL_SHADER;
-		this->shaderManager->SetActiveShader(&temp);
+		
+		this->shaderManager->SetActiveShader(FINAL_SHADER);
 		meshManager->GetFullScreenQuadInfo(&currentMesh);
 
 		return &currentMesh;
@@ -209,15 +218,15 @@ void ResourceManager::Release()
 	{
 		if (this->gbufferPass != x)
 			this->gbufferPass = x;
+
 		if (gbufferPass == true)
 		{
-			Shaders  temp = GBUFFER_SHADER;
-			this->shaderManager->SetActiveShader(&temp);
+
+			this->shaderManager->SetActiveShader(GBUFFER_SHADER);
+			shadowPass = false;
 		}
-
-
-
 	}
+
 
 	void ResourceManager::SetShadowPass(bool x)
 	{
@@ -225,12 +234,9 @@ void ResourceManager::Release()
 			this->shadowPass = x;
 		if (shadowPass == true)
 		{
-			Shaders  temp = SHADOW_SHADER;
-			this->shaderManager->SetActiveShader(&temp);
+			this->shaderManager->SetActiveShader(SHADOW_SHADER);
+			gbufferPass = false;
 		}
-
-
-
 	}
 
 	

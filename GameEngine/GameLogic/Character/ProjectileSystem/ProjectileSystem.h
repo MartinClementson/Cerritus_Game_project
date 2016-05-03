@@ -18,8 +18,9 @@ private:
 
 	XMFLOAT4X4 rotationMatrix;
 	XMFLOAT4X4 rotationMatrix2;
-	//Projectile projectiles[100];
 	//Projectile firedProjectiles[100];
+
+	unsigned int firedProjectiles;
 	float lifeSpan;
 	int maxProjectiles;
 	RenderInfoObject renderInfo;
@@ -27,16 +28,17 @@ private:
 	UpgradeType upgrade;
 
 public:
+	Projectile *projectiles[200];
 	void FireProjectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction);
 	void UpdateProjectiles(double deltaTime);
 	void DeleteProjectile(int index);
 	void SetUpgrade(UpgradeType upgrade);
 	UpgradeType GetUpgrade();
 
-
+	int GetFiredProjectiles() { return firedProjectiles; }
 	Graphics* graphics;
 
-	std::vector<Projectile*> projectiles;
+	//std::vector<Projectile*> projectiles;
 	//float lifeSpan; //travel time
 	//int maxProjectiles; // amout of projectiles
 	//Player* pos;

@@ -10,11 +10,12 @@
 #define TEXTUREAMOUNT 6
 #define SHADOWMAPAMOUNT 1
 #define LIGHT_SHADOW_AMOUNT 4
+////////////////////////////////////
 
 #define MAX_NUM_POINTLIGHTS 5
 #define MAX_NUM_DIRLIGHTS	1
 #define MAX_NUM_SPOTLIGHTS	2
-////////////////////////////////////
+#define MAX_INSTANCED_GEOMETRY 20
 
 #define WINDOWED true
 #define WIREFRAME false
@@ -35,9 +36,9 @@
 #define new new(_NORMAL_BLOCK, __FILE__, __LINE__)
 
 
-#define CBUFFERPERFRAME_INDEX	 0	// BUFFER INDEX
-#define WORLDBUFFER_INDEX		 1	// BUFFER INDEX
-#define SAMPLEBOOLSBUFFER_INDEX  2	// BUFFER INDEX
+#define CBUFFERPERFRAME_INDEX			 0	// BUFFER INDEX
+#define WORLDBUFFER_INDEX				 1	// BUFFER INDEX
+#define SAMPLEBOOLSBUFFER_INDEX			 2	// BUFFER INDEX
 
 
 
