@@ -17,7 +17,7 @@ public:
 	Gbuffer();
 	~Gbuffer();
 
-
+	ID3D11Texture2D* GetGlowTexture() { return this->gBufferTextures[5]; }
 	void Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext);
 	void Release();
 
