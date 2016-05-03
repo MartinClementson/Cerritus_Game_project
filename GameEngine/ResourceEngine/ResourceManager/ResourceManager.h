@@ -23,6 +23,8 @@ public:
 	~ResourceManager();
 
 
+	bool IsShadowPass() { return this->shadowPass; };
+	bool IsGbufferPass() { return this->gbufferPass; };
 
 	void Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext);
 	void Release();
@@ -40,7 +42,7 @@ public:
 	RenderInstructions* GetPlaceHolderMesh(XMFLOAT3 position, XMFLOAT3 rotation);
 	RenderInstructions* GetPlaceHolderPlane();
 	RenderInstructions* GetFullScreenQuad();
-	void SetShader(Shaders type) { this->shaderManager->SetActiveShader(&type); };
+	void SetShader(Shaders type) { this->shaderManager->SetActiveShader(type); };
 private:
 	XMFLOAT4X4 CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation);
 

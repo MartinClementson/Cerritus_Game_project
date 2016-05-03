@@ -88,14 +88,14 @@ struct Material
 struct VS_IN
 {
 	float3 Pos			 : POSITION;
-	float2 Uv			 : TEXCOORD1;
+	float2 Uv			 : TEXCOORD0;
 };
 
 struct VS_OUT
 {
 
 	float4 Pos			 : SV_POSITION;
-	float2 Uv			 : TEXCOORD1;
+	float2 Uv			 : TEXCOORD0;
 
 };
 

@@ -74,7 +74,9 @@ void Enemy::Update(double deltaTime)
 		slowTimer = 0.0f; 
 	}
 	enemyStateMachine->Update(deltaTime);
-	renderInfo = { position, rotation };
+	renderInfo.position = position;
+	renderInfo.rotation = rotation;
+	renderInfo.radius = radius;
 }
 
 float Enemy::GetHealth()
@@ -89,7 +91,9 @@ void Enemy::SetHealth(float health)
 
 void Enemy::Render()
 {
-	renderInfo = { position, rotation };
+	renderInfo.position = position;
+	renderInfo.rotation = rotation;
+	renderInfo.radius = radius;
 	graphics->QueueRender(&renderInfo);
 }
 
