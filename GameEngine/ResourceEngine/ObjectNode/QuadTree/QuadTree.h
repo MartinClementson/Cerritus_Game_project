@@ -12,7 +12,9 @@ private:
 	{
 		Float2 position;
 		float width;
-		unsigned int tria3ngleCount;
+		unsigned int triangleCount;
+		ID3D11Buffer *vertexBuffer;
+		ID3D11Buffer *indexBuffer;
 		NodeType* nodes[4];
 	};
 
