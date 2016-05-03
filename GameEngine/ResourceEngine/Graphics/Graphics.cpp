@@ -1,5 +1,5 @@
 #include "Graphics.h"
-
+#define toRadian(degrees) ((degrees)* (XM_PI/180.0f))
 
 
 Graphics::Graphics()
@@ -29,6 +29,9 @@ Graphics::~Graphics()
 	if (gBuffer != nullptr)
 		delete gBuffer;
 
+	if (instancedDataPerFrame != nullptr)
+		delete instancedDataPerFrame;
+
 	
 }
 
@@ -45,7 +48,7 @@ void Graphics::Initialize(HWND * window)
 	enemyObjects	 = new std::vector<RenderInfoEnemy*>;
 	trapObjects		 = new std::vector<RenderInfoTrap*>;
 
-
+	instancedDataPerFrame = new InstancedData[MAX_INSTANCED_GEOMETRY];
 
 
 	renderer = new Renderer();
@@ -117,6 +120,7 @@ void Graphics::Release()
 
 void Graphics::Render() //manage RenderPasses here
 {
+	CullGeometry(); //Remove geometry out of reach
 
 	SetShadowViewPort();
 
@@ -129,7 +133,7 @@ void Graphics::Render() //manage RenderPasses here
 
 	gBuffer->SetToRender(depthStencilView);	
 	shadowBuffer->ShadowSetToRead();
-
+	renderer->SetShadowPass(false);
 	SetViewPort();
 
 
@@ -145,7 +149,7 @@ void Graphics::Render() //manage RenderPasses here
 
 	this->renderer->RenderFinalPass();
 	gBuffer->ClearGbuffer();
-										
+	this->renderer->SetGbufferPass(false);
 	
 	//RenderScene();// TEMPORARY, REMOVE WHEN GBUFFER WORKS
 
@@ -194,11 +198,15 @@ void Graphics::RenderScene()
 
 	}
 
-	for (unsigned int i = 0; i < enemyObjects->size(); i++)
+	//Render instanced enemies
+	if (enemyInstancesToRender > 0)
+		renderer->RenderInstanced(this->enemyObjects->at(0), instancedDataPerFrame, enemyInstancesToRender);
+
+
+	/*for (unsigned int i = 0; i < enemyObjects->size(); i++)
 	{
 		renderer->Render(enemyObjects->at(i));
-
-	}
+	}*/
 
 	for (unsigned int i = 0; i < trapObjects->size(); i++)
 	{
@@ -219,10 +227,13 @@ void Graphics::RenderScene()
 void Graphics::FinishFrame() // this one clears the graphics for this frame. So that it can start a new cycle next frame
 {
 	gameObjects  ->clear(); //clear the queue
-	charObjects  ->clear();
-	enemyObjects ->clear();
-	trapObjects	 ->clear();
-	uiObjects	 ->clear();
+	charObjects  ->clear();	//clear the queue
+	enemyObjects ->clear();	//clear the queue
+	trapObjects	 ->clear();	//clear the queue
+	uiObjects	 ->clear();	//clear the queue
+
+	memset(instancedDataPerFrame, 0, sizeof(instancedDataPerFrame)); //reset instance array
+	enemyInstancesToRender = 0;
 
 	this->gSwapChain->Present(VSYNC, 0); //Change front and back buffer after rendering
 	
@@ -263,6 +274,88 @@ void Graphics::SetShadowViewPort()
 void Graphics::SetShadowMap()
 {
 
+}
+
+void Graphics::CullGeometry()
+{
+
+
+	//Do frustum culling here, the things that are seen have their world matrices calculated. and added to instanced array
+
+	for (size_t i = 0; i < this->enemyObjects->size(); i++)
+	{
+		//if object is visible
+		this->instancedDataPerFrame[i].worldMatrix = CalculateWorldMatrix(&this->enemyObjects->at(i)->position, &this->enemyObjects->at(i)->rotation);
+		enemyInstancesToRender += 1;
+	}
+
+
+}
+
+XMFLOAT4X4 Graphics::CalculateWorldMatrix(XMFLOAT3 * position, XMFLOAT3 * rotation)
+{
+	DirectX::XMMATRIX scaleMatrix = XMMatrixIdentity();
+
+	//We convert from degrees to radians here. Before this point we work in degrees to make it easier for the programmer and user
+	DirectX::XMMATRIX rotationMatrixX = DirectX::XMMatrixRotationX(toRadian(rotation->x));
+	DirectX::XMMATRIX rotationMatrixY = DirectX::XMMatrixRotationY(toRadian(rotation->y));
+	DirectX::XMMATRIX rotationMatrixZ = DirectX::XMMatrixRotationZ(toRadian(rotation->z));
+
+	//Create the rotation matrix
+	DirectX::XMMATRIX rotationMatrix = DirectX::XMMatrixMultiply(rotationMatrixZ, rotationMatrixX);
+	rotationMatrix = DirectX::XMMatrixMultiply(rotationMatrix, rotationMatrixY);
+
+	//Intoduce the world matrix, multiply rotation and scale. (world translation comes later)
+	DirectX::XMMATRIX world = DirectX::XMMatrixMultiply(rotationMatrix, scaleMatrix);
+
+
+	//Create the world translation matrix
+	DirectX::XMMATRIX translationMatrix = DirectX::XMMatrixTranslation(position->x, position->y, position->z);
+
+
+	//Multiply the (scale*rotation) matrix with the world translation matrix
+	world = DirectX::XMMatrixMultiply(world, translationMatrix);
+
+
+	world = XMMatrixTranspose(world);
+
+	XMFLOAT4X4 toReturn;
+
+	XMStoreFloat4x4(&toReturn, world);
+
+	return toReturn;
+}
+
+XMFLOAT4X4 Graphics::CalculateWorldMatrix(XMFLOAT3 * position, XMFLOAT3 * rotation, XMFLOAT3 * scale)
+{
+	DirectX::XMMATRIX scaleMatrix	  = XMMatrixScaling(scale->x,scale->y,scale->z);
+
+	//We convert from degrees to radians here. Before this point we work in degrees to make it easier for the programmer and user
+	DirectX::XMMATRIX rotationMatrixX = DirectX::XMMatrixRotationX(toRadian(rotation->x));
+	DirectX::XMMATRIX rotationMatrixY = DirectX::XMMatrixRotationY(toRadian(rotation->y));
+	DirectX::XMMATRIX rotationMatrixZ = DirectX::XMMatrixRotationZ(toRadian(rotation->z));
+
+	//Create the rotation matrix
+	DirectX::XMMATRIX rotationMatrix  = DirectX::XMMatrixMultiply(rotationMatrixZ, rotationMatrixX);
+	rotationMatrix					  = DirectX::XMMatrixMultiply(rotationMatrix, rotationMatrixY);
+
+	//Intoduce the world matrix, multiply rotation and scale. (world translation comes later)
+	DirectX::XMMATRIX world			  = DirectX::XMMatrixMultiply(rotationMatrix, scaleMatrix);
+
+
+	//Create the world translation matrix
+	DirectX::XMMATRIX translationMatrix = DirectX::XMMatrixTranslation(position->x, position->y, position->z);
+
+
+	//Multiply the (scale*rotation) matrix with the world translation matrix
+	world = DirectX::XMMatrixMultiply(world, translationMatrix);
+	world = XMMatrixTranspose(world);
+
+	XMFLOAT4X4 toReturn;
+
+	XMStoreFloat4x4(&toReturn, world);
+
+	return toReturn;
 }
 
 
