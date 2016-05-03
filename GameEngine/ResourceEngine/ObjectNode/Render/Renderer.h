@@ -13,7 +13,7 @@
 #pragma endregion
 
 #define LIGHTBUFFER_AMOUNT 3
-#define INSTANCED_BUFFER_AMOUNT 1
+
 
 
 enum LIGHTBUFFERS {
@@ -81,7 +81,8 @@ public:
 	void RenderPlaceHolder(XMFLOAT3* position, XMFLOAT3* rotation);
 	void RenderPlaceHolderPlane();
 
-	void RenderInstanced(RenderInfoEnemy* object, InstancedData* arrayData ,unsigned int amount);
+	void RenderInstanced(RenderInfoEnemy* object,  InstancedData* arrayData ,unsigned int amount);
+	void RenderInstanced(RenderInfoObject* object, InstancedData* arrayData, unsigned int amount);
 
 
 	void SetMouseWorldPos(XMFLOAT4 position);
@@ -89,6 +90,8 @@ public:
 	void GetInverseViewMatrix(XMMATRIX &matrix);
 	void GetInverseProjectionMatrix(XMMATRIX &matrix);
 
+	
+	bool FrustumCheck(XMFLOAT3 pos, float radius);
 	
 private:
 	void Render(RenderInstructions* object);
@@ -100,5 +103,6 @@ private:
 	void UpdateWorldBuffer(WorldMatrix* worldStruct);
 	void UpdateSampleBoolsBuffer(SampleBoolStruct* sampleStruct);
 	bool CreateBuffers();
-
+public:
+	void UpdateCamera(XMFLOAT3 position) { this->sceneCam->Updateview(position); this->UpdateCbufferPerFrame(); };
 };

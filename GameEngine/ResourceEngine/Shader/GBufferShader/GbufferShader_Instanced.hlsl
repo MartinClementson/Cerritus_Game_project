@@ -223,6 +223,8 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	if (diffuseMap)
 	{
 		textureSample = diffuseTex.Sample(linearSampler, input.Uv);
+		if (textureSample.a < 0.1)
+			clip(-1);
 		textureSample.a = col.x; //laser pointer color
 		output.diffuseRes = textureSample;
 	}
