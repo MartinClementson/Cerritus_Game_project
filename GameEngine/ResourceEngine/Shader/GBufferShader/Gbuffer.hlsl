@@ -175,7 +175,7 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 {
 	GBUFFER_PS_OUT output = (GBUFFER_PS_OUT)0;
 
-
+//
 
 	float4 pixelPos		 = { input.wPos.x, 0.0 , input.wPos.z, 1.0 };
 	float4 col			 = { 1.0,0.0,0.0,1.0 };
