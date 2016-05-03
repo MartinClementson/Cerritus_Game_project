@@ -23,7 +23,7 @@ ProjectileSystem::~ProjectileSystem()
 		if (projectiles.at(i))
 			delete projectiles.at(i);
 	}*/
-	for (unsigned int i = 0; i < maxProjectiles; i++)
+	for (unsigned int i = 0; (int)i < maxProjectiles; i++)
 		delete projectiles[i];
 }
 

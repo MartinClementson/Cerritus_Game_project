@@ -272,7 +272,9 @@
     <ClInclude Include="Structs\SkeletonStructs.h" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="ResourceEngine\Shader\ComputeShaders\BlurCS.hlsl" />
+    <FxCompile Include="ResourceEngine\Shader\ComputeShaders\BlurCS.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="ResourceEngine\Shader\FinalPassShaders\FinalPassShaders.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS_main</EntryPointName>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
