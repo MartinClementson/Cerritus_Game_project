@@ -110,7 +110,8 @@ void ResourceManager::Release()
  		MeshEnum meshType = object->object;
 		
 		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
-	
+		materialManager->GetMaterialRenderInfo(&currentMesh);
+		
 		return &currentMesh;
 	}
 
