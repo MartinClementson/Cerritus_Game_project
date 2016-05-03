@@ -117,5 +117,6 @@ private:
 	bool CreateParticleShader();
 	bool CreateBillboardShader();
 	bool CreateUiShader();
+	bool CreateBlurComputeShader();
 };
 
