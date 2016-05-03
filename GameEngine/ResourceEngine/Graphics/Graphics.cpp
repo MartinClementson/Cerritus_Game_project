@@ -237,7 +237,10 @@ void Graphics::RenderScene()
 
 	for (unsigned int i = 0; i < trapObjects->size(); i++)
 	{
-		renderer->Render(trapObjects->at(i));
+		if (!trapObjects->at(i)->render)
+			continue;
+		else
+			renderer->Render(trapObjects->at(i));
 
 	}
 
@@ -312,6 +315,7 @@ void Graphics::CullGeometry()
 	unsigned int projectileIndex = 0;
 	unsigned int enemyIndex = 0;
 
+#pragma region Cull enemy objects
 	for (size_t i = 0; i < this->enemyObjects->size(); i++)
 	{
 		//Frustum culling
@@ -334,7 +338,9 @@ void Graphics::CullGeometry()
 		}
 		//endif  object is visible
 	}
+#pragma endregion
 
+#pragma region Cull game objects
 	for (size_t i = 0; i < this->gameObjects->size(); i++)
 	{
 		//Frustum culling
@@ -359,7 +365,24 @@ void Graphics::CullGeometry()
 
 	}
 
+#pragma endregion
 
+
+#pragma region Cull trap objects
+
+	for (size_t i = 0; i < this->trapObjects->size(); i++)
+	{
+		//Frustum culling
+		if (renderer->FrustumCheck(trapObjects->at(i)->position, trapObjects->at(i)->radius) == false)
+		{
+			//If its not visible
+			this->trapObjects->at(i)->render = false;
+			continue;
+		}
+	}
+
+
+#pragma endregion
 }
 
 XMFLOAT4X4 Graphics::CalculateWorldMatrix(XMFLOAT3 * position, XMFLOAT3 * rotation)
