@@ -483,7 +483,7 @@ void Renderer::RenderInstanced(RenderInstructions * object, ID3D11Buffer* instan
 	
 	this->gDeviceContext->IASetVertexBuffers(0, 2 ,vbs, vertexSize, offset);
 	this->gDeviceContext->IASetIndexBuffer(object->indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-
+	this->gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 
 #pragma region Set the objects texture maps to the shader
@@ -551,6 +551,7 @@ void Renderer::RenderBillBoard(RenderInstructions * object, ID3D11Buffer * insta
 	UINT32 vertexSize= sizeof(BillboardData) ;
 	UINT32 offset = 0;
 
+	this->gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
 	this->gDeviceContext->IASetVertexBuffers(0, 1, &instanceBuffer, &vertexSize, &offset);
 
 #pragma region Set the objects texture maps to the shader

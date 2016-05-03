@@ -205,12 +205,12 @@ void Graphics::RenderScene()
 	if (instancesToRender[PROJECTILE_INSTANCED] > 0)
 	{
 		////////////BILLBOARD RENDERING
-		//renderer->RenderBillBoard(this->gameObjects->at(instanceMeshIndex.projectileMesh), billBoardArray, instancesToRender[PROJECTILE_INSTANCED]);
+ 		renderer->RenderBillBoard(this->gameObjects->at(instanceMeshIndex.projectileMesh), billBoardArray, instancesToRender[PROJECTILE_INSTANCED]);
 
 
 		//////////////INSTANCE RENDERING
-		renderer->RenderInstanced(this->gameObjects->at(instanceMeshIndex.projectileMesh),
-			instancedWorldDataPerFrame[ PROJECTILE_INSTANCED ], instancesToRender[ PROJECTILE_INSTANCED ] );
+		//renderer->RenderInstanced(this->gameObjects->at(instanceMeshIndex.projectileMesh),
+			//instancedWorldDataPerFrame[ PROJECTILE_INSTANCED ], instancesToRender[ PROJECTILE_INSTANCED ] );
 	}
 
 
@@ -376,13 +376,14 @@ void Graphics::CullGeometry()
 		}
 		else //if it's inside the frustum
 		{
-			if (this->gameObjects->at(i)->object == MeshEnum::PROJECTILE_1)
+ 			if (this->gameObjects->at(i)->object == MeshEnum::PROJECTILE_1)
 			{
 
 				//this->instancedWorldDataPerFrame[PROJECTILE_INSTANCED][projectileIndex].worldMatrix = CalculateWorldMatrix(&this->gameObjects->at(i)->position, &this->gameObjects->at(i)->rotation);
-				/*billBoardArray[projectileIndex].worldPos = this->gameObjects->at(i)->position;
+				billBoardArray[projectileIndex].worldPos  = this->gameObjects->at(i)->position;
+				billBoardArray[projectileIndex].direction = this->gameObjects->at(i)->direction;
 				billBoardArray[projectileIndex].height = 10.0f;
-				billBoardArray[projectileIndex].width = 5.0f;*/
+				billBoardArray[projectileIndex].width = 5.0f;
 				instancesToRender[PROJECTILE_INSTANCED] += 1;
 				projectileIndex							+= 1;
 				this->gameObjects->at(i)->render		 = false; //We don't want to render this with nonInstance rendering

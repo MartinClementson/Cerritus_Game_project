@@ -38,12 +38,14 @@ cbuffer textureSampleBuffer		 : register(b2)
 struct BILLBOARD_VS_IN
 {
 	float3 worldPos		 : POSITION;
+	float3 direction	 : DIRECTION;
 	float  height		 : HEIGHT;
 	float  width		 : WIDTH;
 };
 struct BILLBOARD_VS_OUT
 {
 	float4 worldPos		 : SV_POSITION;
+	float3 direction	 : DIRECTION;
 	float  height		 : HEIGHT;
 	float  width		 : WIDTH;
 };
@@ -78,6 +80,7 @@ BILLBOARD_VS_OUT BILLBOARD_VS(BILLBOARD_VS_IN input )
 {
 	BILLBOARD_VS_OUT output;
 	output.worldPos		= float4(input.worldPos,1.0f);
+	output.direction	= input.direction;
 	output.width		= input.width;
 	output.height		= input.height;
 
@@ -88,12 +91,17 @@ BILLBOARD_VS_OUT BILLBOARD_VS(BILLBOARD_VS_IN input )
 
 [maxvertexcount(4)]
 
-void BILLBOARD_GS(triangle BILLBOARD_VS_OUT input[3],
+void BILLBOARD_GS(point BILLBOARD_VS_OUT input[1],
 	inout TriangleStream< BILLBOARD_GS_OUT > output)
 {
-	float3 vecToCam = normalize((input[0].worldPos - camPos.xyz));
-	float3 rightVec = float3(1.0f, 0.0f, 0.0f);
-	float3 upVec = normalize(cross(vecToCam, rightVec));
+	float3 vecToCam = (input[0].worldPos - camPos.xyz);
+	//vecToCam.z = 0.0f;
+	vecToCam = normalize(vecToCam);
+	float3 upVec = normalize(input[0].direction);
+	upVec.y = 0;
+	upVec = normalize(upVec);
+		
+	float3 rightVec = normalize(cross(-vecToCam, upVec));
 
 	//Get vertices for the quad
 	float3 vert[4];
@@ -104,23 +112,23 @@ void BILLBOARD_GS(triangle BILLBOARD_VS_OUT input[3],
 
 	//Get texture coordinates
 	float2 texCoord[4];
-	texCoord[0] = float2(0.0f, 1.0f);
-	texCoord[3] = float2(0.0f, 0.0f);
-	texCoord[2] = float2(1.0f, 1.0f);
-	texCoord[1] = float2(1.0f, 0.0f);
+	texCoord[3] = float2(0.0f, 1.0f);
+	texCoord[2] = float2(0.0f, 0.0f);
+	texCoord[1] = float2(1.0f, 1.0f);
+	texCoord[0] = float2(1.0f, 0.0f);
 
 	BILLBOARD_GS_OUT outputVert = (BILLBOARD_GS_OUT)0;
 	[unroll]
 	for (int i = 0; i < 4; i++)
 	{
-		outputVert.Pos = mul(mul(float4(vert[i], 1.0f), view), projection);
-		outputVert.Uv = texCoord[i];
-		outputVert.Normal = vecToCam;
+		outputVert.Pos		 = mul(mul(float4(vert[i], 1.0f), view), projection);
+		outputVert.Uv		 = texCoord[i];
+		outputVert.Normal	 = -vecToCam;
 		outputVert.BiTangent = float3(1.0f, 1.0f, 1.0f);
 		outputVert.Tangent   = float3(1.0f, 1.0f, 1.0f);
 		
-		outputVert.wPos = float4(vert[i], 1.0f);
-		outputVert.camPos = camPos;
+		outputVert.wPos		= float4(vert[i], 1.0f);
+		outputVert.camPos	= camPos;
 		outputVert.mousePos = mousePos;
 
 
@@ -200,7 +208,7 @@ BILLBOARD_PS_OUT BILLBOARD_PS(BILLBOARD_GS_OUT input)
 	if (diffuseMap)
 	{
 		textureSample = diffuseTex.Sample(linearSampler, input.Uv);
-		if (textureSample.a < 0.1)
+		if (textureSample.a < 0.3)
 			clip(-1);
 		textureSample.a = col.x; //laser pointer color
 		output.diffuseRes = textureSample;
@@ -208,7 +216,7 @@ BILLBOARD_PS_OUT BILLBOARD_PS(BILLBOARD_GS_OUT input)
 	else
 	{
 
-		output.diffuseRes = float4(0.5, 0.5, 0.5, col.x); //Alpha == laserpointer color
+		output.diffuseRes = float4(1.0, 0.5, 0.5, col.x); //Alpha == laserpointer color
 	}
 
 

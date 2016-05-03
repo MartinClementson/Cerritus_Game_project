@@ -288,9 +288,9 @@ void ProjectileSystem::DeleteProjectile(int index)
 
 	//swapping
 	Projectile *temp;
-	temp = projectiles[index];
-	projectiles[index] = projectiles[firedProjectiles];
-	projectiles[firedProjectiles] = temp;
+	temp							  = projectiles[index];
+	projectiles[index]				  = projectiles[firedProjectiles];
+	projectiles[firedProjectiles]     = temp;
 }
 
 void ProjectileSystem::SetUpgrade(UpgradeType upgrade)
