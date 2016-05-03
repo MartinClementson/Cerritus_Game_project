@@ -81,12 +81,12 @@ void Projectile::Update(double deltatime)
 
 		renderInfo.position = position;
 		renderInfo.rotation = this->rotation;
-		renderInfo.rotation.x += 90;
+		//renderInfo.rotation.x += 90;
 		//renderInfo.rotation.y += 180;
 		
 	}
-	if (age >= 2.5f)
-		isFired = false;
+	/*if (age >= 2.5f)
+		isFired = false;*/
 
 
 }
