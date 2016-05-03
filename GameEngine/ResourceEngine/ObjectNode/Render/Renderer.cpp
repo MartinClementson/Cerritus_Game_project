@@ -394,8 +394,8 @@ void Renderer::RenderInstanced(RenderInstructions * object, ID3D11Buffer* instan
 
 #pragma endregion
 
-	vertexSize[1] = sizeof(InstancedData);
-	UINT32 offset[2] = { 0,0 };
+	vertexSize[1]		 = sizeof(InstancedData);
+	UINT32 offset[2]	 = { 0,0 };
 
 	ID3D11Buffer* vbs[2] = { object->vertexBuffer,instanceBuffer };
 	
@@ -452,8 +452,8 @@ void Renderer::RenderInstanced(RenderInstructions * object, ID3D11Buffer* instan
 
 
 
-	gDeviceContext->GSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
 	gDeviceContext->VSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
+	gDeviceContext->GSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
 	gDeviceContext->PSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
 	
 	//this->gDeviceContext->DrawInstanced(*object->vertexCount, amount, 0, 0);
