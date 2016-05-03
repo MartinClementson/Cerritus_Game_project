@@ -14,7 +14,7 @@ Gbuffer::~Gbuffer()
 
 void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext)
 {
-	HRESULT hr;
+	//HRESULT hr;
 	this->gDevice = gDevice;
 	this->gDeviceContext = gDeviceContext;
 

@@ -68,7 +68,7 @@ public:
 	void Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext);
 	void Release();
 	
-	void RenderBlurPass(ID3D11UnorderedAccessView* uav);
+	void RenderBlurPass(ID3D11UnorderedAccessView* uav, ID3D11ShaderResourceView* srv, ID3D11RenderTargetView* rtv, ID3D11DepthStencilView* dsv);
 	void RenderFinalPass();
 	void SetGbufferPass(bool x) { this->resourceManager->SetGbufferPass(x); };
 	void SetShadowPass(bool x) { this->resourceManager->SetShadowPass(x);  };
