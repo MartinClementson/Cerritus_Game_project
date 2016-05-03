@@ -1,9 +1,9 @@
 #include "QuadTree.h"
-//FINISH ME
+//FINISH ME might be depricated
 void QuadTree::UpdateWorldMatrix()
 {
 }
-//FINISH ME
+//FINISH ME might be depricated
 void QuadTree::SendToConstantBuffer()
 {
 }
@@ -104,6 +104,198 @@ void QuadTree::CalculateMeshDimensions(int count, float & x, float & z, float & 
 
 void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, ID3D11Device * gDevice)
 {
+	/* This function Builds the quad tree. It is recursive and therefore it will call itself numerous times
+	It starts with the parent, Then goes down.
+	When it reaches a leaf node, it loads the vertex data into that node
+	*/
+
+	int numTriangles, i, count, vertexCount, index, vertexIndex;
+
+	float offsetX, offsetZ;
+
+	Vertex* vertices;
+
+	unsigned long* indices;
+
+	bool result;
+	D3D11_BUFFER_DESC vertexBufferDesc, indexBufferDesc;
+	D3D11_SUBRESOURCE_DATA vertexData, indexData;
+
+	//Initialize the node and set it's position in the world
+
+	//Store the node position and size
+	parent->position.x = position.x;
+	parent->position.y = position.y;
+	parent->width = width;
+
+	//Set triangle count to Zero
+
+	parent->triangleCount = 0;
+
+	//Set index and vertex buffers to null;
+	parent->indexBuffer = 0;
+	parent->vertexBuffer = 0;
+
+	//Set the children nodes of this node to null
+	parent->nodes[0] = 0;
+	parent->nodes[1] = 0;
+	parent->nodes[2] = 0;
+	parent->nodes[3] = 0;
+
+	//Count the number of triangles that are inside this node
+	numTriangles = countTriangles(x, z, width);
+	/*
+	PROBLEM!
+
+	numTriangles always get's the same amount!!
+
+	Update: 29/2.
+	Now it seems like it splits the vertices up like it should, and stops when it goes below 10k.
+	However it is hard to see what nodes are being processed. But this does not seem to be the problem no more. Might still be something fishy though.
+	*/
+
+
+	//Case 1: If there are no triangles in this node, return it as empty
+	if (numTriangles == 0)
+		return;
+
+	//Case 2: IF there are too many triangles in this node, then split it into four smaller nodes
+	if (numTriangles > maxTriangles)
+	{
+		for (i = 0; i < 4; i++)
+		{
+			//Calculate position offset for the new child node
+			if (float(i % 2) < 1)							//
+				offsetX = -1.0f * (width / 4.0f);		// c-style representation would be
+			else                                        // offsetX = (((i % 2) < 1) ? -1.0f : 1.0f) * (width / 4.0f);
+				offsetX = 1.0f * (width / 4.0f);        // condition ? valueIfTrue : valueIfFalse
+														// Changed to c++ if statement for easier understanding
+
+			if (float(i % 4) < 2)
+				offsetZ = -1.0f * (width / 4.0f);
+			else
+				offsetZ = 1.0f * (width / 4.0f);
+			//offsetX = (((i % 2) < 1) ? -1.0f : 1.0f) * (width / 4.0f);
+			//offsetZ = (((i % 4) < 2) ? -1.0f : 1.0f) * (width / 4.0f);
+
+
+			//See if there are any triangles in the new node
+			count = countTriangles((x + offsetX), (z + offsetZ), (width / 2.0f));
+
+			if (count > 0)
+			{
+				//If there are triangles inside where this new node would be, then we create the child node
+				parent->nodes[i] = new NodeType;
+
+				//Extend the tree starting from this new child node
+				createTreeNode(parent->nodes[i], (x + offsetX), (z + offsetZ), (width / 2), gDevice);
+			}
+
+		}
+		return;
+	}
+
+	//Case 3: If there are the right number of triangles, then create and load the vertex and index buffer
+	//from the terrain list into this node.. (We have determined that this is a leaf node)
+
+	parent->triangleCount = numTriangles;
+
+	//Calculate the number of vertices
+	vertexCount = numTriangles * 3;
+
+	//Create vertex array
+	vertices = new Vertex[vertexCount];
+
+	//Create the index array
+	indices = new unsigned long[vertexCount];
+	//std::vector<UINT> indices2;
+
+	//Initialize the index
+	index = 0;
+	UINT indexCount = 0;
+	bool alreadyExist = false;
+	//Loop through all the triangles in the vertex list
+
+	for (i = 0; i < m_triangleCount; i++)
+	{
+		//If the triangle is inside this node then add it to the vertex array
+		result = isTriangleContained(i, x, z, width);
+
+		if (result == true)
+		{
+			//Calculate the index into the terrain vertex list
+			vertexIndex = i * 3;
+
+			//Get the three vertices of this triangle from the vertex list.
+			vertices[index] = m_vertexList[m_indexList[vertexIndex]];
+			indices[index] = index;
+			index++;
+			indexCount++;
+			vertexIndex++;
+
+
+			vertices[index] = m_vertexList[m_indexList[vertexIndex]];
+			indices[index] = index;
+			index++;
+			indexCount++;
+			vertexIndex++;
+
+
+			vertices[index] = m_vertexList[m_indexList[vertexIndex]];
+			indices[index] = index;
+			index++;
+			indexCount++;
+
+
+		}
+
+
+	}
+
+	//Set up the description for the vertex buffer
+	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	vertexBufferDesc.ByteWidth = sizeof(Vertex)* vertexCount;
+	vertexBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	vertexBufferDesc.CPUAccessFlags = 0;
+	vertexBufferDesc.MiscFlags = 0;
+	vertexBufferDesc.StructureByteStride = 0;
+
+	//Give the subresource structure a pointer to the vertex data
+	vertexData.pSysMem = vertices;
+	vertexData.SysMemPitch = 0;
+	vertexData.SysMemSlicePitch = 0;
+	HRESULT hr;
+	//Create the vertex buffer
+	hr = gDevice->CreateBuffer(&vertexBufferDesc, &vertexData, &parent->vertexBuffer);
+
+	//Set up the description of the index buffer
+
+	indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	indexBufferDesc.ByteWidth = sizeof(unsigned long) * vertexCount;
+	indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	indexBufferDesc.CPUAccessFlags = 0;
+	indexBufferDesc.MiscFlags = 0;
+	indexBufferDesc.StructureByteStride = 0;
+
+	//Give the subresource structure a pointer to the index data
+	indexData.pSysMem = indices;
+	indexData.SysMemPitch = 0;
+	indexData.SysMemSlicePitch = 0;
+
+	//Create index buffer
+	hr = gDevice->CreateBuffer(&indexBufferDesc, &indexData, &parent->indexBuffer);
+
+	//Delete the vertices and indices arrays, as they are now stored in the buffers
+
+	delete[] vertices;
+	vertices = 0;
+	delete[] indices;
+	indices = 0;
+
+	return;
+
+
+
 }
 
 int QuadTree::CountTriangles(Float2 position, float width)
@@ -187,6 +379,7 @@ QuadTree::QuadTree()
 
 QuadTree::QuadTree(const QuadTree & parent)
 {
+
 }
 
 QuadTree::~QuadTree()

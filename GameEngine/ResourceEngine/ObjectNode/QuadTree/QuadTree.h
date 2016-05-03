@@ -36,6 +36,8 @@ private:
 	NodeType*		 m_parentNode;
 	unsigned long*	 m_indexList;
 
+	unsigned int indexCount;
+
 	void ReleaseNode(NodeType *node);
 	void RenderNode(NodeType *node, ID3D11DeviceContext *gDeviceContext, Frustum* frustum, ID3D11Buffer* worldBuffer);
 	void CalculateMeshDimensions(int count, float &x, float &z, float &meshWidth);
