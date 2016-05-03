@@ -51,6 +51,14 @@ void ResourceManager::Release()
 		currentMesh = RenderInstructions();
 		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
 		MeshEnum meshType = object->object;
+
+
+		if (	 meshType == MeshEnum::PROJECTILE_1 && gbufferPass == true)
+			shaderManager->SetActiveShader(Shaders::GBUFFER_SHADER_INSTANCED);
+
+		else if (meshType == MeshEnum::PROJECTILE_1  && shadowPass == true)
+			shaderManager->SetActiveShader(Shaders::SHADOW_SHADER_INSTANCED);
+
 		meshManager		->GetMeshRenderInfo( &meshType, &currentMesh ); //Get the mesh data
 		materialManager ->GetMaterialRenderInfo (&currentMesh );	    //Get the material data
 	
@@ -66,14 +74,14 @@ void ResourceManager::Release()
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoEnemy * object)
 	{
-		currentMesh = RenderInstructions();
+		currentMesh							= RenderInstructions();
 		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
-		MeshEnum meshType = MeshEnum::ENEMY_1;//temporary
+		MeshEnum meshType					= MeshEnum::ENEMY_1;//temporary
 
-		if (meshType == MeshEnum::ENEMY_1 && gbufferPass == true)
+		if (     meshType == MeshEnum::ENEMY_1 && gbufferPass == true)
 			shaderManager->SetActiveShader(Shaders::GBUFFER_SHADER_INSTANCED);
 		
-		else if (shadowPass)
+		else if (meshType == MeshEnum::ENEMY_1 && shadowPass  == true)
 			shaderManager->SetActiveShader(Shaders::SHADOW_SHADER_INSTANCED);
 		
 		
@@ -91,6 +99,10 @@ void ResourceManager::Release()
 		currentMesh = RenderInstructions();
 		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
 		MeshEnum meshType = MeshEnum::MAIN_CHARACTER;
+
+
+
+
 
 		meshManager->GetMeshRenderInfo(&meshType,&currentMesh);
 		materialManager->GetMaterialRenderInfo(&currentMesh);

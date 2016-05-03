@@ -12,46 +12,73 @@
 
 #pragma endregion
 
-class Graphics
-{
 
+
+
+
+
+
+
+
+enum instancedGeometryArray
+{									   
+	ENEMY_1_INSTANCED,				   
+	PROJECTILE_INSTANCED			   
+										
+										
+};
+class Graphics
+{									   
+
+
+	struct meshIndexInArray 						  
+	{												  
+		 int projectileMesh			= -1;		//This is used for instancing,
+		 int enemy1Mesh				= -1;		//when we render instanced we need to keep track of
+												// what mesh to use. Some arrays have mixed meshes
+		void Reset() {							// (for example objects array) so we can't
+			this->projectileMesh	= -1;		// use the mesh at index 0.
+			this->enemy1Mesh		= -1;		//With this struct we keep track of the mesh 
+		}
+		
+	};										      
 private:
 #pragma region DirectX Related
 	//Device and context
-	ID3D11Device*			gDevice 				 = nullptr;
-	ID3D11DeviceContext*	gDeviceContext			 = nullptr;
-	IDXGISwapChain*			gSwapChain				 = nullptr;
-	ID3D11RenderTargetView* gBackBufferRTV			 = nullptr;
-	ID3D11Debug*			debug; //Debug COM
+	ID3D11Device*			gDevice 							   = nullptr;
+	ID3D11DeviceContext*	gDeviceContext						   = nullptr;
+	IDXGISwapChain*			gSwapChain							   = nullptr;
+	ID3D11RenderTargetView* gBackBufferRTV						   = nullptr;
+	ID3D11Debug*			debug; //Debug COM					   
+																   
+	//Depth stencil and buffer									   
+	ID3D11DepthStencilState* depthState							   = nullptr;
+	ID3D11DepthStencilView*  depthStencilView					   = nullptr;
+	ID3D11Texture2D*		 depthBuffer						   = nullptr;
+																   
+	//window handle												   
+	HWND* wndHandle												   = nullptr;
+	//Gbuffer class, for deferred shading						   
+	Gbuffer* gBuffer											   = nullptr;
+	ShadowBuffer* shadowBuffer									   = nullptr;
+																   
+	//Compute shader related									   
+	ID3D11UnorderedAccessView* gBackBufferUAV					   = nullptr;
+	ID3D11ShaderResourceView*  BackBufferTexture				   = nullptr;
+#pragma endregion												   
+																   
+#pragma region Private members									   
+	D3D11_VIEWPORT vp; //Viewport								   
+	Renderer*	renderer										   = nullptr;
+	std::vector<RenderInfoObject*>* gameObjects					   = nullptr;
+	std::vector<RenderInfoUI*>*     uiObjects					   = nullptr;
+	std::vector<RenderInfoEnemy*>*  enemyObjects				   = nullptr;
+	std::vector<RenderInfoChar*>*   charObjects					   = nullptr;
+	std::vector<RenderInfoTrap*>*   trapObjects					   = nullptr;
 
-	//Depth stencil and buffer
-	ID3D11DepthStencilState* depthState				 = nullptr;
-	ID3D11DepthStencilView*  depthStencilView		 = nullptr;
-	ID3D11Texture2D*		 depthBuffer			 = nullptr;
-
-	//window handle
-	HWND* wndHandle									 = nullptr;
-	//Gbuffer class, for deferred shading
-	Gbuffer* gBuffer								 = nullptr;
-	ShadowBuffer* shadowBuffer						 = nullptr;
-
-	//Compute shader related
-	ID3D11UnorderedAccessView* gBackBufferUAV		 = nullptr;
-	ID3D11ShaderResourceView*  BackBufferTexture	 = nullptr;
-#pragma endregion
-
-#pragma region Private members
-	D3D11_VIEWPORT vp; //Viewport
-	Renderer*	renderer							 = nullptr;
-	std::vector<RenderInfoObject*>* gameObjects		 = nullptr;
-	std::vector<RenderInfoUI*>*     uiObjects		 = nullptr;
-	std::vector<RenderInfoEnemy*>*  enemyObjects	 = nullptr;
-	std::vector<RenderInfoChar*>*   charObjects		 = nullptr;
-	std::vector<RenderInfoTrap*>*   trapObjects		 = nullptr;
-
-	InstancedData* instancedDataPerFrame			 = nullptr; //this contains the world matrices every frame.
-	unsigned int enemyInstancesToRender				 = 0; //The amount of enemies to render, (AFTER CULLING)
-	
+	InstancedData* instancedDataPerFrame [INSTANCED_BUFFER_AMOUNT] = { nullptr }; //this contains the world matrices every frame.
+	unsigned int   instancesToRender	 [INSTANCED_BUFFER_AMOUNT] = { }; //The amount of instanced geometry to render, (AFTER CULLING)
+	meshIndexInArray instanceMeshIndex;
 #pragma endregion
 
 private:
