@@ -392,14 +392,15 @@ QuadTree::~QuadTree()
 bool QuadTree::Initialize(Mesh * terrain, ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceContext, ID3D11Buffer * worldBuffer)
 {
 
-	this->worldBuffer = worldBuffer;
+	this->worldBuffer = worldBuffer;		//blir nog en helt ny ist
 	this->gDeviceContext = gDeviceContext;
+	this->gDevice = gDevice;
 	this->worldStruct = new worldConstantBuffer;
 	this->updateWorldMatrix();
 
 	int vertexCount, indexCount;
-	float centerX, centerZ, width;
-
+	float width;
+	Float2 centerPos;
 
 	//Get the number of vertices in the terrain
 	vertexCount = terrain->getVertexCount();
@@ -419,10 +420,9 @@ bool QuadTree::Initialize(Mesh * terrain, ID3D11Device * gDevice, ID3D11DeviceCo
 	//Copy the vertices from the terrain into the vertex list
 	terrain->copyVertexArray((void*)m_vertexList);
 	terrain->copyIndexArray((void*)m_indexList); //<-- this could be wrong
-
 												 //Calculate the parent node. It's the upper most quad, covering the whole terrain
 												 //Calculates center x,z and width
-	CalculateMeshDimensions(vertexCount, centerX, centerZ, width);
+	CalculateMeshDimensions(vertexCount, centerPos.x, centerPos.y, width);
 
 	//Create the parent node of the mesh
 	m_parentNode = new NodeType;
@@ -430,7 +430,7 @@ bool QuadTree::Initialize(Mesh * terrain, ID3D11Device * gDevice, ID3D11DeviceCo
 		return false;
 
 	//Recursively build the quad tree, based on the vertex list and mesh dimensions
-	createTreeNode(m_parentNode, centerX, centerZ, width, gDevice);
+	CreateTreeNode(m_parentNode, centerPos, width, gDevice);
 
 	//Now the vertex list is no longer needed
 	if (m_vertexList)
