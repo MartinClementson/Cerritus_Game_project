@@ -205,6 +205,12 @@ void ShaderManager::SetActiveShader(Shaders shader)
 			this->gDeviceContext->IASetInputLayout(gVertexLayoutUI);
 			
 		break;
+
+	case BLUR_SHADER:
+
+			this->gDeviceContext->CSSetShader(BLUR_CS, nullptr, 0);
+
+		break;
 	}
 
 }

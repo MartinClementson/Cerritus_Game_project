@@ -68,6 +68,7 @@ public:
 	void Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext);
 	void Release();
 	
+	void RenderBlurPass();
 	void RenderFinalPass();
 	void SetGbufferPass(bool x) { this->resourceManager->SetGbufferPass(x); };
 	void SetShadowPass(bool x) { this->resourceManager->SetShadowPass(x);  };

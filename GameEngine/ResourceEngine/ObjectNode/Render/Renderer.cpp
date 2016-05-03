@@ -62,6 +62,11 @@ void Renderer::Release()
 
 }
 
+void Renderer::RenderBlurPass()
+{
+	this->resourceManager->SetShader(Shaders::BLUR_SHADER);
+}
+
 void Renderer::RenderFinalPass()
 {
 
