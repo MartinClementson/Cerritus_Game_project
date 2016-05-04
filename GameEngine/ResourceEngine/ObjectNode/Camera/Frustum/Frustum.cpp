@@ -90,6 +90,7 @@ bool Frustum::CheckCircle(float xCenter, float yCenter, float zCenter, float rad
 			planes[i].normal.z,
 			planes[i].distance
 		};
+
 		if (DirectX::XMPlaneDotCoord(DirectX::XMLoadFloat4(&plane), DirectX::XMLoadFloat3(&centerPoint)).m128_f32[0] < -radius)
 		{
 			return false;
