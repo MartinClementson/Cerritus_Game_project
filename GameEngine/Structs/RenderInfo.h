@@ -17,6 +17,7 @@ struct RenderInstructions
 	Then this struct is returned to the Renderer that proceeds to update the buffers, resources and finally draws the geometry.
 
 	*/
+	unsigned int materialID;
 
 	bool* isAnimated						 = nullptr; //this is important to make sure we use the right vert struct
 
@@ -44,11 +45,11 @@ struct RenderInfoObject {
 
 
 struct RenderInfoUI {
-	XMFLOAT3 position;
-	XMFLOAT3 rotation;
+	XMFLOAT2 size;
+	XMFLOAT2 position;
 
-	MeshEnum object;
-	Shaders shader;	//these are enum
+	UITextures object;
+	/*Shaders shader;*/	//these are enum
 };
 
 struct RenderInfoEnemy {
@@ -73,9 +74,9 @@ struct RenderInfoTrap {
 	XMFLOAT3 position;
 	XMFLOAT3 rotation;
 
-	/*MeshEnum object;
-	Shaders shader;
-	TrapAnimations trapAnim;*/ //these are enum
+	MeshEnum object;
+	//Shaders shader;
+	//TrapAnimations trapAnim;*/ //these are enum
 };
 struct RenderInfoProjectile {
 	XMFLOAT3 origin;

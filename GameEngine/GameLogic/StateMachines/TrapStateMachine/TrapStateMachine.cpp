@@ -19,25 +19,32 @@ TrapStateMachine::~TrapStateMachine()
 
 void TrapStateMachine::Initialize()
 {
-	activeState->Initialize();
+
+	activeStateEnum = TrapState::TRAP_IDLE_STATE;
+	//activeState->Initialize();
+	//idleState->Initialize();
+	//inactiveState->Initialize();
+
 }
 
 void TrapStateMachine::Release()
 {
-
+	this->activeState->Release();
+	this->inactiveState->Release();
+	this->idleState->Release();
 }
 
 void TrapStateMachine::Update(double deltaTime)
 {
-	if (activeState->isActive)
+	if (activeStateEnum == TRAP_IDLE_STATE)
 	{
 		activeState->Update(deltaTime);
 	}
-	else if (inactiveState->isActive)
+	else if (activeStateEnum == TRAP_INACTIVE_STATE)
 	{
 		inactiveState->Update(deltaTime);
 	}
-	else if (idleState->isActive)
+	else if (activeStateEnum == TRAP_ACTIVE_STATE)
 	{
 		idleState->Update(deltaTime);
 	}
@@ -57,4 +64,15 @@ void TrapStateMachine::Render()
 	{
 		idleState->Render();
 	}
+}
+
+TrapState TrapStateMachine::GetTrapState()
+{
+	
+	return activeStateEnum;
+}
+
+void TrapStateMachine::SetTrapState(TrapState state)
+{
+	this->activeStateEnum = state;
 }

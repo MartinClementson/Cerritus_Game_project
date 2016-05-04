@@ -38,7 +38,9 @@ enum MeshEnum
 	ENEMY_1,
 	PROJECTILE_1,
 	TRAP_BEAR,
-	TRAP_FIRE
+	TRAP_FIRE,
+	LEVEL_1,
+	LEVEL_2
 };
 
 #pragma endregion
@@ -48,7 +50,24 @@ enum MeshEnum
 enum UITextures
 {
 	HEALTHBAR,
-	WAVECOUNTER
+	WAVECOUNTER,
+	ENEMYSLEFT,
+	AMMO,
+	WAVECOMPLETE,
+	HUD,
+	MENU,
+	PAUSE,
+	GAMEOVER,
+	TEXTATLAS,
+	RESTARTMENU, // newGameMenu
+	RESTARTPAUSE, // restart Pause
+	EXITMENU, // ExitButton menu
+	EXITPAUSE, // Exitbutton Pause 
+	CONTROLS,
+	CONTROLSBUTTONMENU,//ControlButton Menu
+	CONTROLSEXIT,
+	RESUMEPAUSE, // Resumebutton Pause
+
 };
 
 #pragma endregion
@@ -57,8 +76,9 @@ enum UITextures
 
 enum LightType
 {
-	POINTLIGHT,
-	AREALIGHT
+	POINT_LIGHT,
+	SPOT_LIGHT,
+	DIRECTIONAL_LIGHT
 };
 
 #pragma endregion
@@ -67,11 +87,13 @@ enum LightType
 
 enum Shaders
 {
-	PHONG_SHADER,
+	FINAL_SHADER,
 	PARTICLE_SHADER,
 	BILLBOARD_SHADER,
 	UI_SHADER,
-	ANIMATION_SHADER
+	ANIMATION_SHADER,
+	GBUFFER_SHADER,
+	SHADOW_SHADER
 };
 
 #pragma endregion
@@ -121,6 +143,7 @@ enum InputKeys
 	KEY_A,
 	KEY_S,
 	KEY_D,
+	KEY_P,
 	KEY_LEFT,
 	KEY_RIGHT,
 	KEY_UP,
@@ -128,6 +151,11 @@ enum InputKeys
 	KEY_SPACE,
 	KEY_ENTER,
 	KEY_ESC,
+
+	KEY_Z,
+	KEY_X,
+	KEY_C,
+
 
 	MOUSE_RIGHT,
 	MOUSE_LEFT
@@ -169,6 +197,14 @@ enum ParticleType
 
 #pragma endregion
 
+
+enum UpgradeType
+{
+	ONE_SHOT,
+	TWO_SHOT,
+	THREE_SHOT,
+
+};
 
 enum GbufferTextures
 {

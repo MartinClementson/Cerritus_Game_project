@@ -72,8 +72,6 @@ void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCont
 		hr = gDevice->CreateShaderResourceView(gBufferTextures[i], &resourceViewDesc, &shaderResourceViews[i]);
 		if (FAILED(hr))
 			MessageBox(NULL, L"Failed to create  Gbuffer", L"Error", MB_ICONERROR | MB_OK);
-	
-
 
 	}
 
@@ -82,10 +80,6 @@ void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCont
 
 		SAFE_RELEASE(gBufferTextures[i]);
 	}
-
-
-
-
 }
 
 void Gbuffer::Release()
@@ -98,7 +92,6 @@ void Gbuffer::Release()
 
 		SAFE_RELEASE(gBufferTextures[i]);
 	}
-
 }
 
 void Gbuffer::SetToRender(ID3D11DepthStencilView* depthStencilView) ///Set the textures as RTVs so that we can render to them
@@ -110,13 +103,12 @@ void Gbuffer::SetToRender(ID3D11DepthStencilView* depthStencilView) ///Set the t
 		tab[i] = NULL;
 
 	this->gDeviceContext->PSSetShaderResources(0, TEXTUREAMOUNT, tab);
-
-
 	gDeviceContext->OMSetRenderTargets(TEXTUREAMOUNT, this->textureRTVs, depthStencilView);
 
 
-}
 
+
+}
 void Gbuffer::SetToRead(ID3D11RenderTargetView* newTarget)
 {
 	this->gDeviceContext->OMSetRenderTargets(1, &newTarget,  NULL);

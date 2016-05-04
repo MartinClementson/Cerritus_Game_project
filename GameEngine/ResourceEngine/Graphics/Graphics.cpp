@@ -21,7 +21,8 @@ Graphics::~Graphics()
 		delete trapObjects;
 
 
-
+	if (shadowBuffer != nullptr)
+		delete shadowBuffer;
 	if (renderer != nullptr)
 		delete renderer;
 
@@ -43,7 +44,6 @@ void Graphics::Initialize(HWND * window)
 	uiObjects		 = new std::vector<RenderInfoUI*>;
 	enemyObjects	 = new std::vector<RenderInfoEnemy*>;
 	trapObjects		 = new std::vector<RenderInfoTrap*>;
-	//projectileObjects= new std::vector<RenderInfoProjectile*>;
 
 
 
@@ -51,8 +51,11 @@ void Graphics::Initialize(HWND * window)
 	renderer = new Renderer();
 	renderer->Initialize(gDevice,this->gDeviceContext);
 	
-	//gBuffer = new Gbuffer();
-	//gBuffer->Initialize(this->gDevice,this->gDeviceContext);
+	gBuffer = new Gbuffer();
+	gBuffer->Initialize(this->gDevice,this->gDeviceContext);
+
+	shadowBuffer = new ShadowBuffer();
+	shadowBuffer->Initialize(this->gDevice, this->gDeviceContext);
 }
 
 void Graphics::Release()
@@ -66,7 +69,8 @@ void Graphics::Release()
 
 
 
-	//gBuffer->Release();
+	gBuffer->Release();
+	shadowBuffer->Release();
 
 	SAFE_RELEASE(depthState);
 	SAFE_RELEASE(depthStencilView);
@@ -85,25 +89,25 @@ void Graphics::Release()
 
 
 
-	//if (DEBUG == 2)
-	//{
-	//	
-	//	if (debug)
-	//	{
+	if (DEBUG == 2)
+	{
+		
+		if (debug)
+		{
 
-	//		debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
-	//		SAFE_RELEASE(debug);
-	//	}
+			debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
+			SAFE_RELEASE(debug);
+		}
 
-	//}
-
-
+	}
 
 
 
 
 
 
+
+	
 
 	while (gDevice->Release() > 0);
 	//SAFE_RELEASE(gDevice);
@@ -113,19 +117,43 @@ void Graphics::Release()
 
 void Graphics::Render() //manage RenderPasses here
 {
+
+	SetShadowViewPort();
+
+	shadowBuffer->ClearShadowGbuffer();
+
+	shadowBuffer->ShadowSetToRender();
+	renderer->SetShadowPass(true);
+
+	this->RenderScene();
+
+	gBuffer->SetToRender(depthStencilView);	
+	shadowBuffer->ShadowSetToRead();
+
 	SetViewPort();
 
-	this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
-	//gBuffer->SetToRender(depthStencilView);		//Set The gbuffer pass
 
-	//RenderScene();								//Render to the gBuffer
+
+
+	//this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
+
+			//Set The gbuffer pass
+	this->renderer->SetGbufferPass(true);
+	RenderScene();									//Render to the gBuffer
 													//Set the gBuffer as a subResource, send in the new RenderTarget
-	//gBuffer->SetToRead(gBackBufferRTV); 
-	
-	//gBuffer->ClearGbuffer();
+	gBuffer->SetToRead(gBackBufferRTV); 
+
+	this->renderer->RenderFinalPass();
+
+	for (unsigned int i = 0; i < uiObjects->size(); i++)
+	{
+		renderer->Render(uiObjects->at(i));
+
+	}
+	gBuffer->ClearGbuffer();
 										
 	
-	RenderScene();// TEMPORARY, REMOVE WHEN GBUFFER WORKS
+	//RenderScene();// TEMPORARY, REMOVE WHEN GBUFFER WORKS
 
 	FinishFrame();
 
@@ -134,40 +162,31 @@ void Graphics::Render() //manage RenderPasses here
 
 void Graphics::RenderScene()
 {
-	
-	
+
 	//Always render the char first! This is because we set the camera matrix with the characters position
-	renderer->Render(charObjects->at(0));
-	
+	if (charObjects->size() != 0)
+	{
+		renderer->Render(charObjects->at(0));
+	}
 #pragma region Temporary code for early testing
-	RenderInfoEnemy tempInfo;					 //TEMPORARY
-	static float z = 5.5f;						 //TEMPORARY
-	static float x = 5.5f;						 //TEMPORARY
-	tempInfo.position = XMFLOAT3(0.0f, 0.0f, z); //TEMPORARY
-	
+	RenderInfoObject tempInfo;					 //TEMPORARY
+											//TEMPORARY
+	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
+	tempInfo.rotation = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
+	tempInfo.object = MeshEnum::LEVEL_1;
+	this->renderer->Render(&tempInfo);			 //TEMPORARY
+	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
+	tempInfo.rotation = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
+	tempInfo.object = MeshEnum::LEVEL_2;
 	this->renderer->Render(&tempInfo);			 //TEMPORARY
 	
 	
-
-	tempInfo.position = XMFLOAT3(0.0f, 0.0f, -z);//TEMPORARY
-	this->renderer->Render(&tempInfo);			 //TEMPORARY
-
-	tempInfo.position = XMFLOAT3(-x, 0.0f, 0.0f);//TEMPORARY
-	this->renderer->Render(&tempInfo);			 //TEMPORARY
-
-	tempInfo.position = XMFLOAT3(x, 0.0f, 0.0f); //TEMPORARY
-	this->renderer->Render(&tempInfo);			 //TEMPORARY
-												 
-	this->renderer->RenderPlaceHolderPlane();	 //TEMPORARY
-												 
-	x +=  (float) cos(z)* 0.1f;					 //TEMPORARY
-	z +=  (float)sin(x)* 0.1f;					 //TEMPORARY
 #pragma endregion
 	
 	
 	
 	
-	
+		
 	for (unsigned int i = 0; i < gameObjects->size(); i++)
 	{
 		renderer->Render(gameObjects->at(i));
@@ -186,11 +205,6 @@ void Graphics::RenderScene()
 
 	}
 
-	for (unsigned int i = 0; i < uiObjects->size(); i++)
-	{
-		renderer->Render(uiObjects->at(i));
-
-	}
 
 
 
@@ -227,6 +241,7 @@ void Graphics::SetViewPort()
 	this->gDeviceContext->RSSetViewports(1, &vp);
 
 }
+
 void Graphics::SetShadowViewPort()
 {
 	vp.Width	=	(float)SHADOW_WIDTH;
@@ -241,16 +256,7 @@ void Graphics::SetShadowViewPort()
 
 void Graphics::SetShadowMap()
 {
-	SetShadowViewPort();
 
-
-
-
-	///Render shadow map
-
-
-
-	SetViewPort();
 }
 
 
@@ -343,23 +349,8 @@ HRESULT Graphics::CreateDirect3DContext()
 	{
 		ID3D11Texture2D* pBackBuffer = nullptr;
 
-		//D3D11_TEXTURE2D_DESC texDesc;
-		//ZeroMemory(&texDesc, sizeof(texDesc));
-		//texDesc.Width = WINDOW_WIDTH;
-		//texDesc.Height = WINDOW_HEIGHT;
-		//texDesc.MipLevels = 0;
-		//texDesc.ArraySize = 1;
-		//texDesc.SampleDesc.Count = 1;
-		//texDesc.SampleDesc.Quality = 0;
-		//texDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		//texDesc.Usage = D3D11_USAGE_DEFAULT;
-		//texDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-		//texDesc.CPUAccessFlags = 0;
-		//texDesc.MiscFlags = 0;
-
-		this->gSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
-
 	
+		this->gSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (LPVOID*)&pBackBuffer);
 
 
 		hr = this->gDevice->CreateRenderTargetView(pBackBuffer, NULL, &this->gBackBufferRTV);

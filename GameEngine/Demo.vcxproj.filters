@@ -38,12 +38,6 @@
     <Filter Include="ResourceEngine\ResourceManager\TextureManager">
       <UniqueIdentifier>{fc9c308f-1725-46b8-9f42-b608713d736c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ResourceEngine\ResourceManager\TextureManager\TextureResource">
-      <UniqueIdentifier>{3b65fe9d-975f-4663-bb4d-de652b61c38b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ResourceEngine\ResourceManager\TextureManager\TextureResource\RenderTexture">
-      <UniqueIdentifier>{aae9c9d9-abe4-466b-85f1-b79b795bc5b9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ResourceEngine\ObjectNode">
       <UniqueIdentifier>{8dd3f6f5-aa04-4634-80a1-9babea07067c}</UniqueIdentifier>
     </Filter>
@@ -152,9 +146,6 @@
     <Filter Include="ResourceEngine\ObjectNode\Renderer">
       <UniqueIdentifier>{d4e49cfc-aa90-41ca-83f8-90e046321ba9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ResourceEngine\Shaders\PhongShader">
-      <UniqueIdentifier>{6c2301a3-74d7-4408-a32c-b7ffa6988eac}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ResourceEngine\Shaders\AnimationShader">
       <UniqueIdentifier>{805a5c83-81bb-472e-9ca9-91e2a452fdd2}</UniqueIdentifier>
     </Filter>
@@ -223,6 +214,27 @@
     </Filter>
     <Filter Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib">
       <UniqueIdentifier>{4415b8d0-e7b2-4b07-9dcd-5da1e2189453}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\Shaders\FinalPassShaders">
+      <UniqueIdentifier>{6c2301a3-74d7-4408-a32c-b7ffa6988eac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\Shaders\ShadowShader">
+      <UniqueIdentifier>{88b4d587-29cf-485f-8527-c919b3a3f675}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\Graphics\ShadowBuffer">
+      <UniqueIdentifier>{60a46c0d-4e44-4a76-bd3f-e1dd176a2744}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\LightManager">
+      <UniqueIdentifier>{076a7aae-c3d3-4936-8aaa-73819d554bea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\SkeletonManager">
+      <UniqueIdentifier>{e192e60f-6436-453c-9199-6e09db3a6c68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton">
+      <UniqueIdentifier>{e5b50575-3019-4c2f-a233-575c3ef749b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\Shaders\UIShader">
+      <UniqueIdentifier>{9d6bbd34-a1f8-4b57-acc3-0a4e577f8201}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -375,6 +387,27 @@
     </ClCompile>
     <ClCompile Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.cpp">
       <Filter>ResourceEngine\ResourceManager\BRFImporterHandler</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ResourceManager\MaterialManager\MaterialManager.cpp">
+      <Filter>ResourceEngine\ResourceManager\MaterialManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ResourceManager\TextureManager\TextureManager.cpp">
+      <Filter>ResourceEngine\ResourceManager\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXTK\Src\WICTextureLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\Graphics\ShadowBuffer\ShadowBuffer.cpp">
+      <Filter>ResourceEngine\Graphics\ShadowBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ResourceManager\LightManager\LightManager.cpp">
+      <Filter>ResourceEngine\ResourceManager\LightManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ResourceManager\SkeletonManager\SkeletonManager.cpp">
+      <Filter>ResourceEngine\ResourceManager\SkeletonManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton\Skeleton.cpp">
+      <Filter>ResourceEngine\ResourceManager\SkeletonManager\Skeleton</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -531,9 +564,6 @@
     <ClInclude Include="GameLogic\Game.h">
       <Filter>GameLogic</Filter>
     </ClInclude>
-    <ClInclude Include="Gbuffer.h">
-      <Filter>ResourceEngine\Graphics\Gbuffer</Filter>
-    </ClInclude>
     <ClInclude Include="Source\GameTimer\GameTimer.h">
       <Filter>Source Files\Main\GameTimer</Filter>
     </ClInclude>
@@ -543,13 +573,46 @@
     <ClInclude Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.h">
       <Filter>ResourceEngine\ResourceManager\BRFImporterHandler</Filter>
     </ClInclude>
+    <ClInclude Include="ResourceEngine\ResourceManager\MaterialManager\MaterialManager.h">
+      <Filter>ResourceEngine\ResourceManager\MaterialManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ResourceManager\TextureManager\TextureManager.h">
+      <Filter>ResourceEngine\ResourceManager\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.h">
+      <Filter>ResourceEngine\Graphics\Gbuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\Graphics\ShadowBuffer\ShadowBuffer.h">
+      <Filter>ResourceEngine\Graphics\ShadowBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="LightStructs.h">
+      <Filter>Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ResourceManager\LightManager\LightManager.h">
+      <Filter>ResourceEngine\ResourceManager\LightManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ResourceManager\SkeletonManager\SkeletonManager.h">
+      <Filter>ResourceEngine\ResourceManager\SkeletonManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Structs\SkeletonStructs.h">
+      <Filter>Structs</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton\Skeleton.h">
+      <Filter>ResourceEngine\ResourceManager\SkeletonManager\Skeleton</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="ResourceEngine\Shader\PhongShader\PhongShaders.hlsl">
-      <Filter>ResourceEngine\Shaders\PhongShader</Filter>
-    </FxCompile>
-    <FxCompile Include="Gbuffer.hlsl">
+    <FxCompile Include="ResourceEngine\Shader\GBufferShader\Gbuffer.hlsl">
       <Filter>ResourceEngine\Shaders\GBufferShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\FinalPassShaders\FinalPassShaders.hlsl">
+      <Filter>ResourceEngine\Shaders\FinalPassShaders</Filter>
+    </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\ShadowShader\ShadowShader.hlsl">
+      <Filter>ResourceEngine\Shaders\ShadowShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\UIShader\UIShader.hlsl">
+      <Filter>ResourceEngine\Shaders\UIShader</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>

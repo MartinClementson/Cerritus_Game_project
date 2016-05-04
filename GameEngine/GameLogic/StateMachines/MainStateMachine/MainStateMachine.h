@@ -11,12 +11,17 @@ public:
 	void Update(double deltaTime);
 	void Render();
 	void Initialize();
+	float delay;
+	float lastHighscore;
 	void Release();
+	
 private:
+
 	GameState* gameState;
 	GameOverState* gameOverState;
 	MenuState* menuState;
 	MainStates activeState;//enum
+	
 
 };
 

@@ -6,6 +6,12 @@ Renderer::Renderer()
 {
 	this->sceneCam			= new Camera();
 	this->resourceManager	= new ResourceManager();
+	this->sceneLightArray	= new PointLight(
+		XMFLOAT4(0.0f, 30.0f, 0.0f, 1.0f), //Pos
+		XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f),	//Direction
+		XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f));	//Color
+	sceneLightArray->SetMatrices(XM_PI*0.8f, 1.0f, 5.0f, 40.0f);
+	sceneLightArray->intensity = 1.0f;
 }
 
 
@@ -13,6 +19,7 @@ Renderer::~Renderer()
 {
 	delete sceneCam;
 	delete resourceManager;
+	delete sceneLightArray;
 }
 
 void Renderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext)
@@ -22,6 +29,7 @@ void Renderer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCon
 	this->CreateConstantBuffers();
 	resourceManager->Initialize(gDevice, gDeviceContext);
 	sceneCam->Initialize(gDevice, gDeviceContext);
+	this->UpdateLightBuffer();
 }
 void Renderer::Release()
 {
@@ -35,22 +43,50 @@ void Renderer::Release()
 
 }
 
+void Renderer::RenderFinalPass()
+{
+
+	RenderInstructions * objectInstruction;
+
+	objectInstruction = this->resourceManager->GetFullScreenQuad();
+	this->resourceManager->SetShader(Shaders::FINAL_SHADER);
+	UINT32 vertexSize;
+
+		vertexSize = sizeof(Vertex);
+
+	UINT32 offset = 0;
+
+	//an exception handling can be implemented here to handle if there is no buffer
+	// to set. Then the handling can be to use a standard cube instead.
+
+	this->gDeviceContext->IASetVertexBuffers(0, 1, &objectInstruction->vertexBuffer, &vertexSize, &offset);
+
+	this->gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	this->gDeviceContext->IASetIndexBuffer(objectInstruction->indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+
+
+	this->gDeviceContext->DrawIndexed((UINT)*objectInstruction->indexCount, 0, 0);
+
+}
+
 #pragma region Overloaded Render functions
 
 //Render scene objects, mostly static stuff
 void Renderer::Render(RenderInfoObject * object)
 {
-	//RenderInstructions* renderObject;
+	RenderInstructions* renderObject;
 
 	//Send the info of the object into the resource manager
 	//The resource manager gathers all the rendering info and sends back a renderInstruction
-	//renderObject = this->resourceManager->GetRenderInfo(object);
+	renderObject = this->resourceManager->GetRenderInfo(object);
 
 	//Render with the given render instruction
 
-	//this->Render(renderObject);
+	this->Render(renderObject);
 
-	RenderPlaceHolder(&object->position,&object->rotation);
+	//RenderPlaceHolder(&object->position,&object->rotation);
 
 	//RenderPlaceHolder(&object->position);
 
@@ -60,22 +96,34 @@ void Renderer::Render(RenderInfoObject * object)
 //Render 2d textures for the ui
 void Renderer::Render(RenderInfoUI * object)
 {
+	RenderInstructions* renderObject;
 
+	renderObject = this->resourceManager->GetRenderInfo(object);
+	//Render with the given render instruction
+	/*this->sceneCam->Updateview(object->position);
+	this->UpdateCameraBuffer();*/
+
+	this->Render(renderObject);
 }
 
 //Render an enemy mesh
 void Renderer::Render(RenderInfoEnemy * object)
 {
-	RenderPlaceHolder(&object->position);
+	RenderInstructions * objectInstruction;
+
+	objectInstruction = this->resourceManager->GetRenderInfo(object);
+
+
+	Render(objectInstruction);
 }
 
 
 //Render the character, Update the camera to follow the position of the character
 void Renderer::Render(RenderInfoChar * object)
 {
-
 	RenderInstructions * objectInstruction;
-	objectInstruction = this->resourceManager->GetPlaceHolderMesh(object->position);
+	
+	objectInstruction = this->resourceManager->GetRenderInfo(object);
 
 	//Update the camera view matrix!
 	this->sceneCam->Updateview( object->position);
@@ -90,13 +138,15 @@ void Renderer::Render(RenderInfoChar * object)
 
 void Renderer::Render(RenderInfoTrap * object)
 {
-	RenderInstructions * renderTrap;
+	RenderInstructions* renderObject;
 
-	renderTrap = this->resourceManager->GetPlaceHolderMesh(object->position);
+	//Send the info of the object into the resource manager
+	//The resource manager gathers all the rendering info and sends back a renderInstruction
+	renderObject = this->resourceManager->GetRenderInfo(object);
 
-	Render(renderTrap);
-	//RenderPlaceHolder(&object->position);
+	//Render with the given render instruction
 
+	this->Render(renderObject);
 }
 
 
@@ -127,6 +177,29 @@ void Renderer::RenderPlaceHolderPlane()
 	Render(objectPlane);
 
 }
+//void Renderer::RenderUIPass()
+//{
+//	RenderInstructions * objectInstruction;
+//
+//	objectInstruction = this->resourceManager->GetFullScreenQuad();
+//	this->resourceManager->GetRenderInfo(U)
+//	
+//	UINT32 vertexSize;
+//
+//	vertexSize = sizeof(Vertex);
+//
+//	UINT32 offset = 0;
+//
+//	//an exception handling can be implemented here to handle if there is no buffer
+//	// to set. Then the handling can be to use a standard cube instead.
+//
+//	this->gDeviceContext->IASetVertexBuffers(0, 1, &objectInstruction->vertexBuffer, &vertexSize, &offset);
+//
+//	this->gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+//
+//	this->gDeviceContext->IASetIndexBuffer(objectInstruction->indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+//
+//}
 #pragma endregion
 
 void Renderer::SetMouseWorldPos(XMFLOAT4 position)
@@ -158,7 +231,7 @@ void Renderer::GetInverseProjectionMatrix(XMMATRIX & matrix)
 void Renderer::Render(RenderInstructions * object)
 {
 
-	
+	UpdateLightBuffer();
 	UpdateWorldBuffer(&object->worldBuffer);
 
 #pragma region Check what vertex is to be used
@@ -230,8 +303,8 @@ void Renderer::Render(RenderInstructions * object)
 void Renderer::UpdateCameraBuffer()
 {
 
-	CamMatrices* tempCam			= this->sceneCam->GetCameraMatrices();
-	tempCam->mousePos				= this->mouseWorldPos;
+	CamMatrices* tempCam				= this->sceneCam->GetCameraMatrices();
+	tempCam->mousePos					= this->mouseWorldPos;
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
@@ -244,9 +317,34 @@ void Renderer::UpdateCameraBuffer()
 	
 
 	gDeviceContext->Unmap(this->camBuffer, 0);
+	
 	gDeviceContext->GSSetConstantBuffers(CAMERABUFFER_INDEX, 1, &this->camBuffer);
+	gDeviceContext->PSSetConstantBuffers(CAMERABUFFER_INDEX, 1, &this->camBuffer);
 
 
+
+}
+
+void Renderer::UpdateLightBuffer()
+{
+
+	PointLight* tempLight = this->sceneLightArray;
+	
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+	gDeviceContext->Map(this->lightBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+
+	PointLight* tempLightData = (PointLight*)mappedResource.pData;
+	*tempLightData = *tempLight;
+
+
+
+	gDeviceContext->Unmap(this->lightBuffer, 0);
+
+	gDeviceContext->GSSetConstantBuffers(LIGHTBUFFER_INDEX, 1, &this->lightBuffer);
+	gDeviceContext->PSSetConstantBuffers(LIGHTBUFFER_INDEX, 1, &this->lightBuffer);
 
 }
 
@@ -268,6 +366,7 @@ void Renderer::UpdateWorldBuffer(WorldMatrix* worldStruct)
 
 	this->gDeviceContext->Unmap(worldBuffer, 0);
 	gDeviceContext->GSSetConstantBuffers(WORLDBUFFER_INDEX, 1, &this->worldBuffer);
+	gDeviceContext->PSSetConstantBuffers(WORLDBUFFER_INDEX, 1, &this->worldBuffer);
 
 }
 
@@ -286,7 +385,7 @@ void Renderer::UpdateSampleBoolsBuffer(SampleBoolStruct * sampleStruct)
 
 
 	this->gDeviceContext->Unmap(sampleBoolsBuffer, 0);
-	gDeviceContext->GSSetConstantBuffers(SAMPLEBOOLSBUFFER_INDEX, 1, &this->sampleBoolsBuffer);
+	gDeviceContext->PSSetConstantBuffers(SAMPLEBOOLSBUFFER_INDEX, 1, &this->sampleBoolsBuffer);
 
 }
 
@@ -319,8 +418,11 @@ bool Renderer::CreateConstantBuffers()
 	if (FAILED(hr))
 		MessageBox(NULL, L"Failed to create Camera buffer", L"Error", MB_ICONERROR | MB_OK);
 	if (SUCCEEDED(hr))
-		this->gDeviceContext->GSSetConstantBuffers(CAMERABUFFER_INDEX, 1 , &this->camBuffer );
+	{
 
+		this->gDeviceContext->GSSetConstantBuffers(CAMERABUFFER_INDEX, 1 , &this->camBuffer );
+		this->gDeviceContext->PSSetConstantBuffers(CAMERABUFFER_INDEX, 1, &this->camBuffer);
+	}
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 		//WORLD CONSTANT BUFFER
@@ -352,7 +454,7 @@ bool Renderer::CreateConstantBuffers()
 	CD3D11_BUFFER_DESC bufferDescLight;
 	ZeroMemory(&bufferDescLight, sizeof(bufferDescLight));
 
-	bufferDescLight.ByteWidth				 = sizeof(LightStruct);
+	bufferDescLight.ByteWidth				 = sizeof(PointLight);
 	bufferDescLight.BindFlags				 = D3D11_BIND_CONSTANT_BUFFER;
 	bufferDescLight.Usage					 = D3D11_USAGE_DYNAMIC;
 	bufferDescLight.CPUAccessFlags			 = D3D11_CPU_ACCESS_WRITE;

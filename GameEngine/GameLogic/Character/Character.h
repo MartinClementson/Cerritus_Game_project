@@ -11,11 +11,10 @@ public:
 	virtual ~Character();
 
 protected:
-	XMFLOAT3 position;
 	XMFLOAT3 rotation;
-	float radius;
+	float radius, radius2;
 
-	float movementSpeed, health, damage;
+	float health, damage;
 	bool dead, idle, active;
 	Graphics* graphics;
 	Animation* animations;
@@ -24,10 +23,17 @@ protected:
 	
 
 public:
+	XMFLOAT3 position;
+
+	float movementSpeed;
+
 	virtual void Initialize();
 	virtual void Release();
 	virtual void Update(double deltaTime);
 	virtual void Render();
+	float DoT;
+	float DoTDur;
+
 
 	//Collision();
 };

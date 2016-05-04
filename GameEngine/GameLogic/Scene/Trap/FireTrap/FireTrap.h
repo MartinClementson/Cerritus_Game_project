@@ -5,20 +5,22 @@ class FireTrap :
 	public Trap
 {
 public:
-	FireTrap();
+	FireTrap(XMFLOAT3 position);
 	virtual ~FireTrap();
 	void Initialize(XMFLOAT3 position, XMFLOAT3 rotation);
 	void Release();
 	void Update(double deltaTime);
 	void Render();
 	float GetDot();
-	void SetDot(float dotDuration);
+	void SetDotDur(float dotDuration);
 	RenderInfoTrap renderInfo;
+	TrapStateMachine* GetState();
 
 	//Collision();
 private:
+	FireTrap();
 	float dotDuration;
-	TrapStateMachine* TrapState;
+	TrapStateMachine* trapState;
 	//RenderInfoTrap renderInfo;
 	//RenderInfoTrap* renderInfo;
 	Graphics* grapichs;

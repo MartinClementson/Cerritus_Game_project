@@ -3,9 +3,9 @@
 class GameTimer
 {
 public:
-	GameTimer();
 	
-
+	
+	static GameTimer* GetInstance();
 
 	double GameTime()const; //in seconds
 	double DeltaTime()const; //in seconds
@@ -18,6 +18,7 @@ public:
 
 	 ~GameTimer();
 private:
+	GameTimer();
 	double mSecondsPerCount;
 	double mDeltaTime;
 

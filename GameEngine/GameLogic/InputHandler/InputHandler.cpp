@@ -132,6 +132,28 @@ bool InputHandler::IsKeyPressed(InputKeys* key)
 	{
 		return true;
 	}
+	else if (*key == KEY_ENTER && keyboardState[DIK_RETURN])
+	{
+		return true;
+	}
+	else if (*key == KEY_P && keyboardState[DIK_P])
+	{
+		return true;
+	}
+
+	else if (*key == KEY_Z && keyboardState[DIK_Z])
+	{
+		return true;
+	}
+	else if (*key == KEY_X && keyboardState[DIK_X])
+	{
+		return true;
+	}
+	else if (*key == KEY_C && keyboardState[DIK_C])
+
+	{
+		return true;
+	}
 	else
 	{
 		return false;
@@ -140,6 +162,7 @@ bool InputHandler::IsKeyPressed(InputKeys* key)
 
 bool InputHandler::IsKeyHeld(InputKeys* key)
 {
+		
 	return false;
 }
 
@@ -147,7 +170,7 @@ XMFLOAT2 InputHandler::GetMousePosition()
 {
 
 	POINT point;
-	ShowCursor(FALSE);
+	ShowCursor(TRUE);
 
 	GetCursorPos(&point);
 	ScreenToClient(*this->hwndP, &point);

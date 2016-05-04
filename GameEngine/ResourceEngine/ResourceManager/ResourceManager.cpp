@@ -7,7 +7,7 @@ ResourceManager::ResourceManager()
 	meshManager = new MeshManager();
 	shaderManager = new ShaderManager();
 	brfImporterHandler = new BRFImporterHandler();
-
+	materialManager = new MaterialManager();
 }
 
 
@@ -16,14 +16,81 @@ ResourceManager::~ResourceManager()
 	delete meshManager;
 	delete shaderManager;
 	delete brfImporterHandler;
+	delete materialManager;
 }
 
 void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext)
 {
 	shaderManager->Initialize(gDevice, gDeviceContext);
 	meshManager->Initialize(gDevice, gDeviceContext);
-	brfImporterHandler->Initialize(this->meshManager);
-	brfImporterHandler->LoadFile("2meshes.BRF", true, true, true);
+	materialManager->Initialize(gDevice);
+	brfImporterHandler->Initialize(this->meshManager, this->materialManager);
+
+
+	brfImporterHandler->LoadFile("models/MainChar.BRF", true, true, true);
+	brfImporterHandler->LoadFile("models/enemy_0.BRF", true, true, true);
+	brfImporterHandler->LoadFile("models/FireTrap.BRF", true, true, true);
+	brfImporterHandler->LoadFile("models/BearTrap.BRF", true, true, true);
+	brfImporterHandler->LoadFile("models/test_scene.BRF", true, true, true);
+	brfImporterHandler->LoadFile("models/test_bullet.BRF", true, true, true);
+	
+	
+
+
+	std::vector<importedMaterial> temp;
+	importedMaterial ui;
+	ui.materialName = "yo-gi-uh";
+	ui.diffuseTex = "HUD.tif";
+	ui.materialID = 6;
+	
+	temp.push_back(ui);
+
+	materialManager->addMaterials(&temp);
+	ui.materialName = "Menumaterial";
+	ui.diffuseTex = "menu.png";
+	ui.materialID = 7;
+	
+	temp.push_back(ui);
+
+	materialManager->addMaterials(&temp);
+	ui.materialName = "gameover";
+	ui.diffuseTex = "GameOver.png";
+	ui.materialID = 8;
+
+	temp.push_back(ui);
+
+	materialManager->addMaterials(&temp);
+	ui.materialName = "pause";
+	ui.diffuseTex = "PausUI.tif";
+	ui.materialID = 9;
+	temp.push_back(ui);
+
+	materialManager->addMaterials(&temp);
+	ui.materialName = "MenuExit";
+	ui.diffuseTex = "ExitButtonMenu.png";
+	ui.materialID = 10;
+	temp.push_back(ui);
+
+	materialManager->addMaterials(&temp);
+	ui.materialName = "MenuNew";
+	ui.diffuseTex = "NewGameMenu.png";
+	ui.materialID = 11;
+	temp.push_back(ui);
+
+	materialManager->addMaterials(&temp);
+	ui.materialName = "MenuControls";
+	ui.diffuseTex = "ControlsMenuButton.png";
+	ui.materialID = 12;
+	temp.push_back(ui);
+
+	materialManager->addMaterials(&temp);
+	materialManager->addMaterials(&temp);
+	ui.materialName = "Controls";
+	ui.diffuseTex = "Controls.png";
+	ui.materialID = 13;
+	temp.push_back(ui);
+
+	materialManager->addMaterials(&temp);
 }
 
 void ResourceManager::Release()
@@ -31,7 +98,7 @@ void ResourceManager::Release()
 	this->shaderManager->Release();
 	this->meshManager->Release();
 	this->brfImporterHandler->Release();
-
+	this->materialManager->Release();
 }
 
 
@@ -39,27 +106,70 @@ void ResourceManager::Release()
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoObject * object)
 	{
-		return nullptr;
+		currentMesh = RenderInstructions();
+		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+		MeshEnum meshType = object->object;
+		meshManager		->GetMeshRenderInfo( &meshType, &currentMesh ); //Get the mesh data
+		materialManager ->GetMaterialRenderInfo (&currentMesh );	    //Get the material data
+	
+	
+		return &currentMesh;
+		
 	}
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoUI * object)
 	{
-		return nullptr;
+		currentUI = RenderInstructions();
+		
+		//currentUI.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->size, &object->position);
+		Shaders tmp = UI_SHADER;
+		UITextures uiType = object->object;
+		this->shaderManager->SetActiveShader(&tmp);
+		meshManager->GetFullScreenQuadInfoUI(&uiType,&currentUI);
+		materialManager->GetMaterialRenderInfo(&currentUI);
+	
+		return &currentUI;
 	}
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoEnemy * object)
 	{
-		return nullptr;
+		currentMesh = RenderInstructions();
+		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+		MeshEnum meshType = MeshEnum::ENEMY_1;
+
+		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
+		materialManager->GetMaterialRenderInfo(&currentMesh);
+		
+	
+		return &currentMesh;
 	}
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoChar * object)
 	{
-		return nullptr;
+		currentMesh = RenderInstructions();
+		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+		MeshEnum meshType = MeshEnum::MAIN_CHARACTER;
+
+		meshManager->GetMeshRenderInfo(&meshType,&currentMesh);
+		materialManager->GetMaterialRenderInfo(&currentMesh);
+		
+		
+
+		return &currentMesh;
+
+
+		
 	}
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoTrap * object)
 	{
-		return nullptr;
+		currentMesh = RenderInstructions();
+		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+ 		MeshEnum meshType = object->object;
+		
+		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
+	
+		return &currentMesh;
 	}
 
 	RenderInstructions * ResourceManager::GetPlaceHolderMesh(XMFLOAT3 position)
@@ -70,33 +180,32 @@ void ResourceManager::Release()
 		rotation += 0.1f;
 		XMFLOAT3 tempRotation = XMFLOAT3(0.0, rotation, 0.0);
 		////////////////////////////////////////////////////////////
-
+		currentMesh = RenderInstructions();
 		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&position, &tempRotation);
 
 
 		meshManager->GetPlaceHolderMeshInfo(&currentMesh);
-		Shaders temp = PHONG_SHADER;
-		this->shaderManager->SetActiveShader(&temp);
+	
 		return &currentMesh;
 	}
 
 	RenderInstructions * ResourceManager::GetPlaceHolderMesh(XMFLOAT3 position, XMFLOAT3 rotation)
 	{
 		
-
+		currentMesh = RenderInstructions();
 		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&position, &rotation);
 
 
 		meshManager->GetPlaceHolderMeshInfo(&currentMesh);
-		Shaders temp = PHONG_SHADER;
-		this->shaderManager->SetActiveShader(&temp);
+
+	
 		return &currentMesh;
 	}
 
 	RenderInstructions * ResourceManager::GetPlaceHolderPlane()
 	{
 
-
+		currentMesh = RenderInstructions();
 		////////////TEMPORARY////////////////////////////////
 		XMFLOAT3 tempPos = XMFLOAT3(0.0f, 0.0f, -1.5f);
 		
@@ -105,13 +214,24 @@ void ResourceManager::Release()
 
 		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&tempPos, &tempRotation);
 
-
 		meshManager->GetPlaceHolderPlaneInfo(&currentMesh);
-		Shaders temp = PHONG_SHADER;
-		this->shaderManager->SetActiveShader(&temp);
+
+
+
 		return &currentMesh;
 		
 	}
+
+	RenderInstructions * ResourceManager::GetFullScreenQuad()
+	{
+		currentMesh = RenderInstructions();
+		Shaders temp = FINAL_SHADER;
+		this->shaderManager->SetActiveShader(&temp);
+		meshManager->GetFullScreenQuadInfo(&currentMesh);
+
+		return &currentMesh;
+	}
+
 
 	XMFLOAT4X4 ResourceManager::CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation)
 	{
@@ -151,5 +271,35 @@ void ResourceManager::Release()
 	{
 		return XMFLOAT4X4();
 	}
+
+	void ResourceManager::SetGbufferPass(bool x)
+	{
+		if (this->gbufferPass != x)
+			this->gbufferPass = x;
+		if (gbufferPass == true)
+		{
+			Shaders  temp = GBUFFER_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
+
+
+
+	}
+
+	void ResourceManager::SetShadowPass(bool x)
+	{
+		if (this->shadowPass != x)
+			this->shadowPass = x;
+		if (shadowPass == true)
+		{
+			Shaders  temp = SHADOW_SHADER;
+			this->shaderManager->SetActiveShader(&temp);
+		}
+
+
+
+	}
+
+	
 
 #pragma endregion

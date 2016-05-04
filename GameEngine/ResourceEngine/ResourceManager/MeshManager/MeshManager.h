@@ -15,9 +15,11 @@ private:
 	std::vector<Mesh>* gameMeshes		=	nullptr;
 	Mesh placeHolder;
 	Mesh placeHolderPlane;
+	Mesh fullScreenQuad;
 
 	void CreatePlaceHolder();
 	void CreatePlaceHolderPlane();
+	void CreateFullScreenQuad();
 public:
 	MeshManager();
 	~MeshManager();
@@ -28,7 +30,7 @@ public:
 	void AddMesh(
 		bool hasSkeleton,
 		unsigned int skeletonID,
-		unsigned int materialID,
+		int materialID,
 		unsigned int vertexCount,
 		UINT indexCount,
 		std::vector<Vertex> vertices,
@@ -36,10 +38,12 @@ public:
 		std::vector<UINT> indices
 		);
 
-
+	std::vector<Mesh>* GetMeshes() { return this->gameMeshes; }
 	void GetMeshRenderInfo(MeshEnum* meshEnum, RenderInstructions* toRender);
 
 	void GetPlaceHolderMeshInfo(RenderInstructions* toRender);
 	void GetPlaceHolderPlaneInfo(RenderInstructions* toRender);
+	void GetFullScreenQuadInfo(RenderInstructions* toRender);
+	void GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions* toRender);
 };
 

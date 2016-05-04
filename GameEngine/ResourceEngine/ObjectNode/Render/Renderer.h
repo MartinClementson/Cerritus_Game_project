@@ -21,6 +21,7 @@ private:
 	ResourceManager* resourceManager		 = nullptr;
 
 	Camera* sceneCam						 = nullptr;
+	PointLight* sceneLightArray				 = nullptr;
 
 	//Buffers
 	ID3D11Buffer* worldBuffer				 = nullptr; //world constBuffer
@@ -36,7 +37,9 @@ public:
 	void Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext);
 	void Release();
 	
-	
+	void RenderFinalPass();
+	void SetGbufferPass(bool x) { this->resourceManager->SetGbufferPass(x); };
+	void SetShadowPass(bool x) { this->resourceManager->SetShadowPass(x);  };
 	void Render(RenderInfoObject* object);
 	void Render(RenderInfoUI* object);
 	void Render(RenderInfoEnemy* object);
@@ -46,16 +49,20 @@ public:
 	void RenderPlaceHolder(XMFLOAT3* position);
 	void RenderPlaceHolder(XMFLOAT3* position, XMFLOAT3* rotation);
 	void RenderPlaceHolderPlane();
+	/*void RenderUIPass();*/
 
 
 	void SetMouseWorldPos(XMFLOAT4 position);
 
 	void GetInverseViewMatrix(XMMATRIX &matrix);
 	void GetInverseProjectionMatrix(XMMATRIX &matrix);
+
+	
 private:
 	void Render(RenderInstructions* object);
 
 	void UpdateCameraBuffer();
+	void UpdateLightBuffer();
 	void UpdateWorldBuffer(WorldMatrix* worldStruct);
 	void UpdateSampleBoolsBuffer(SampleBoolStruct* sampleStruct);
 	bool CreateConstantBuffers();
