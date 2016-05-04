@@ -19,7 +19,7 @@ ProjectileSystem::ProjectileSystem()
 ProjectileSystem::~ProjectileSystem()
 {
 	
-	for (unsigned int i = 0; i < maxProjectiles; i++)
+	for (int i = 0; i < maxProjectiles; i++)
 		delete projectiles[i];
 }
 
