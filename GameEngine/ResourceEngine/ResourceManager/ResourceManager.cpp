@@ -29,8 +29,8 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 
 	brfImporterHandler->LoadFile("models/player_Model.BRF", true, true, true);
 	brfImporterHandler->LoadFile("models/enemy_0.BRF", true, true, true);
+	brfImporterHandler->LoadFile("models/slow_Trap.BRF", true, true, true);
 	brfImporterHandler->LoadFile("models/FireTrap.BRF", true, true, true);
-	brfImporterHandler->LoadFile("models/BearTrap.BRF", true, true, true);
 	brfImporterHandler->LoadFile("models/Scene2.BRF", true, true, true);
 	brfImporterHandler->LoadFile("models/quadBullet.BRF", true, true, true);
 }
@@ -133,7 +133,8 @@ void ResourceManager::Release()
 			currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
 
 		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
-	
+		materialManager->GetMaterialRenderInfo(&currentMesh);
+		
 		return &currentMesh;
 	}
 
