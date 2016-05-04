@@ -171,28 +171,28 @@ BILLBOARD_PS_OUT BILLBOARD_PS(BILLBOARD_GS_OUT input)
 	BILLBOARD_PS_OUT output;
 
 
-	float4 pixelPos = { input.wPos.x, 0.0 , input.wPos.z, 1.0 };
-	float4 col = { 1.0,0.0,0.0,1.0 };
-	//float dist = distance(input.mousePos.xz, pixelPos.xz);
+	float4 pixelPos    = { input.wPos.x, 0.0 , input.wPos.z, 1.0 };
+	float4 col		   = { 1.0,0.0,0.0,1.0 };
 	float laserFalloff = 0.4f;
+	//float dist = distance(input.mousePos.xz, pixelPos.xz);
 
 
 
 
 
 
-	float3 start = camPos.xyz - float3(0.0f, 9.7f, -14.0f);
-	float3 stop = input.mousePos.xyz;
+	float3 start			= camPos.xyz - float3(0.0f, 14.7f, -15.0f);
+	float3 stop				= input.mousePos.xyz;
 	stop.y = 0.0f;
 
-	float3 position = (start + stop) * 0.5f;
+	float3 position			= (start + stop) * 0.5f;
 
-	float lajnLength = length(start - stop);
+	float lajnLength		= length(start - stop);
 
-	float3 toPixel = input.wPos.xyz - position;
-	float3 lajn = normalize(stop - position);
-	float3 projection = dot(toPixel, lajn) * lajn;
-	float3 toLajn = toPixel - projection;
+	float3 toPixel			= input.wPos.xyz - position;
+	float3 lajn				= normalize(stop - position);
+	float3 projection		= dot(toPixel, lajn) * lajn;
+	float3 toLajn			= toPixel - projection;
 
 	float projectionLength = clamp(length(projection), 0.0f, lajnLength * 0.5f);
 	float3 projectionLine = normalize(projection) * projectionLength;

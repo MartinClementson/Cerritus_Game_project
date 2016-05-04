@@ -198,7 +198,7 @@ float sampleShadowStencils(float4 worldPos, matrix lightView, matrix lightProj,i
 			for (int l = -1; l < 1; l++)
 				shadowSamples += shadowTex.Sample( linearSampler , float3(smTex + float2(dx * k, dx * l),0) ).r + bias < depth ? 0.0f : 1.0f;
 
-			float shadowFactor = shadowSamples / *0.125f;//divisin by 8      // * 0.0625f; // division by 16.0f;
+			float shadowFactor = shadowSamples  *0.125f;//divisin by 8      // * 0.0625f; // division by 16.0f;
 
 
 		//tempCooef += shadowcooef;

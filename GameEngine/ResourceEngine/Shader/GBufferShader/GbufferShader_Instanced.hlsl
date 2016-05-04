@@ -96,17 +96,17 @@ GBUFFER_VS_OUT GBUFFER_VS_main(GBUFFER_VS_IN input)
 {
 	GBUFFER_VS_OUT output;
 
-	output.Pos = mul(float4(input.Pos, 1.0f),input.worldMatrix);
-	output.wPos = output.Pos;
-	output.Pos = mul(output.Pos, view);
-	output.Pos = mul(output.Pos, projection);
+	output.Pos			= mul(float4(input.Pos, 1.0f),input.worldMatrix);
+	output.wPos			= output.Pos;
+	output.Pos			= mul(output.Pos, view);
+	output.Pos			= mul(output.Pos, projection);
+
+	output.BiTangent.xy = input.BiTangent.xy;
+	output.Tangent.xy	= input.Tangent.xy;
+
+	output.BiTangent.z  = sqrt(1 - pow(input.BiTangent.x, 2) + pow(input.BiTangent.y, 2));
+	output.Tangent.z	= sqrt(1 - pow(input.Tangent.x, 2) + pow(input.Tangent.y, 2));
 	
-
-	output.BiTangent= float3(input.BiTangent, (1 - length(input.BiTangent)));
-	output.Tangent = float3 (input.Tangent, (1 - length(input.Tangent)));
-
-	//output.BiTangent.z = (1 - length(input.BiTangent));
-	//output.Tangent.z = (1 - length(input.Tangent));
 
 
 	
@@ -114,9 +114,10 @@ GBUFFER_VS_OUT GBUFFER_VS_main(GBUFFER_VS_IN input)
 
 
 	output.Normal		= normalize(mul(float4(input.Normal,    0.0f),	 input.worldMatrix).xyz).xyz;
-	output.BiTangent	= normalize(mul(float4(output.BiTangent, 0.0f),  input.worldMatrix).xyz).xyz;
-	output.Tangent		= normalize(mul(float4(output.Tangent,   0.0f),  input.worldMatrix).xyz).xyz;
+	output.BiTangent	= normalize(mul(float4(output.BiTangent,0.0f),  input.worldMatrix).xyz).xyz;
+	output.Tangent		= normalize(mul(float4(output.Tangent,0.0f),  input.worldMatrix).xyz).xyz;
 	output.Uv			= input.Uv;
+
 	return output;
 }
 
