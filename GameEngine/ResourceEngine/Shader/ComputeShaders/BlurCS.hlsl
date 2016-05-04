@@ -1,10 +1,10 @@
 //We made the Gaussian calculation offline and hardcoded the result.
 //It would be much more demanding if we were to calculate the matrix
 //each time we ran this CS
+//used sigma 6 and size 7 kernel
 static const float gaussianFilter[7] = {
 	//These are the Weights that the neighbouring pixels will contribute to the blur
 
-	/*first row = seventh row*/
 
 	0.133142,	0.142694,	0.148751,	0.150826,	0.148751,	0.142694,	0.133142
 };
