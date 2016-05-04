@@ -2,14 +2,14 @@
 #define WIN_WIDTH 800.0
 #define WIN_HEIGHT 600.0
 
-#define SHADOW_WIDTH 2048.0
-#define SHADOW_HEIGHT 2048.0
+#define SHADOW_WIDTH 512.0f
+#define SHADOW_HEIGHT 512.0f
 
 //////////////////////////////////////////
 //DIS IS BECAUSE JOHAN ASKED ME TO CHANGE AMOUNT OF TEXTURES TO MUCH
 #define TEXTUREAMOUNT 6
 #define SHADOWMAPAMOUNT 1
-#define LIGHT_SHADOW_AMOUNT 4
+#define LIGHT_SHADOW_AMOUNT 1
 ////////////////////////////////////
 
 #define MAX_NUM_POINTLIGHTS 5
