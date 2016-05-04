@@ -62,34 +62,34 @@ class Player :
 {
 public:
 	Player();
-	virtual ~Player();
+	virtual ~Player ();
 
-	void Initialize();
-	void Release();
-	void Update(double deltaTime,XMFLOAT3 direction);
-	void Render();
-	void Move(MovementDirection* dir,int keyAmount, double deltaTime);
-	void Shoot(InputKeys input, double deltaTime);
+	void Initialize ();
+	void Release	();
+	void Update		(double deltaTime,XMFLOAT3 direction);
+	void Render		();
+	void Move		(MovementDirection* dir,int keyAmount, double deltaTime);
+	void Shoot		(InputKeys input, double deltaTime);
 
-	XMFLOAT3 GetPosition() { return this->position; };
-	float GetRadius() { return this->radius; };
-	float GetRadius2() { return this->radius2; };
-	float VelocityMax; 
-	float slowTimer;
+	XMFLOAT3 GetPosition()  { return this->position; };
+	float GetRadius()		{ return this->radius;   };
+	float GetRadius2()		{ return this->radius2;  };
+	void  SetHealth(float health);
+	void  SetPoints(float points);
+	void  SetMulti(float multi);
 	float GetHealth();
-	void SetHealth(float health);
-	void SetPoints(float points);
 	float GetPoints();
-	void SetMulti(float multi);
 	float GetMulti();
-	UpgradeType upgrade;
 
+	UpgradeType		  GetUpgrade();
+	void SetUpgrade(UpgradeType upgrade);
 
 public:
-	Input* userInput;
+	UpgradeType upgrade;
+	Input*			  userInput;
 	ProjectileSystem* projectileSystem;
-	UpgradeType GetUpgrade();
-	void SetUpgrade(UpgradeType upgrade);
+	float VelocityMax; 
+	float slowTimer;
 
 private:
 	MeshEnum meshID;//enum

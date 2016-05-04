@@ -197,7 +197,7 @@ enum GbufferTextures
 	G_DIFFUSE,
 	G_SPECULAR,
 	G_NORMAL,
-	G_DEPTH,
+	G_OVERLAY,
 	G_SHADOW,
 	G_GLOW
 

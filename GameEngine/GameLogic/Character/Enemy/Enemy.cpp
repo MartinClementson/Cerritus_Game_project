@@ -13,6 +13,7 @@ Enemy::Enemy(XMFLOAT3 spawn)
 	enemyStateMachine->Initialize();
 	this->graphics = Graphics::GetInstance();
 
+	this->maxHealth = 75.0f;
 }
 
 Enemy::Enemy()
@@ -95,6 +96,15 @@ void Enemy::Render()
 	renderInfo.rotation = rotation;
 	renderInfo.radius = radius;
 	renderInfo.render = true;
+	if (this->health < (maxHealth * 0.95))
+	{
+		renderInfo.showHealthBar = true;
+		renderInfo.normalizedHealthVal = health / maxHealth;
+	}
+	else
+		renderInfo.showHealthBar = false;
+
+
 	graphics->QueueRender(&renderInfo);
 }
 

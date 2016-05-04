@@ -404,13 +404,15 @@ void Graphics::CullGeometry()
 
 				if (enemyObjects->at(i)->showHealthBar)
 				{
-					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].direction = XMFLOAT3(0.0f, 1.0f, 0.0f);
-					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].height = 0.1f;
-					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].width  = 2.0f * enemyObjects->at(i)->normalizedHealthVal;
-					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].worldPos = 
-						XMFLOAT3(	enemyObjects->at(i)->position.x - (2.0f * enemyObjects->at(i)->normalizedHealthVal), 	   //pos. x
-									5.0f ,								   //. height of the healthbar. 0 == on ground
-									enemyObjects->at(i)->position.z);	   // pos z.
+					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].direction  = XMFLOAT3(0.0f, 1.0f, 0.0f);
+					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].height		= 0.1f;
+					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].width		= 2.0f * enemyObjects->at(i)->normalizedHealthVal;
+					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].worldPos	= 
+						XMFLOAT3(	enemyObjects->at(i)->position.x - (2.0f - (billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width)), 	   // pos. x - (2 - width)
+									5.0f ,																									       //height of the healthbar. 0 == on ground
+									enemyObjects->at(i)->position.z);																		       // pos z.
+					
+					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + enemyObjects->at(i)->normalizedHealthVal - 0.2f;		// -0.2f is just to make the red appear sooner
 					billBoardArray    [HEALTH_BAR_BILLBOARD];
 					billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;
 					healthBarIndex							 += 1;
