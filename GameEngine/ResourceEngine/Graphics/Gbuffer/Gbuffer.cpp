@@ -35,15 +35,14 @@ void Gbuffer::CreateBlurPassUAV()
 
 void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext)
 {
-	//HRESULT hr;
 	this->gDevice = gDevice;
 	this->gDeviceContext = gDeviceContext;
 	CreateBlurPassUAV();
+	ID3D11Texture2D *gBufferTextures[TEXTUREAMOUNT] = { nullptr };
 
 	for (int i = 0; i < TEXTUREAMOUNT; i++)
 	{
 		HRESULT hr;
-
 		D3D11_TEXTURE2D_DESC textureDesc;
 		D3D11_RENDER_TARGET_VIEW_DESC renderTargetDesc;
 		D3D11_SHADER_RESOURCE_VIEW_DESC resourceViewDesc;
@@ -104,8 +103,6 @@ void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCont
 		if (FAILED(hr))
 			MessageBox(NULL, L"Failed to create  Gbuffer", L"Error", MB_ICONERROR | MB_OK);
 
-		//if (i == 5)
-			//hr = this->gDevice->CreateUnorderedAccessView(gBufferTextures[5], nullptr, &blurUAV);
 	}
 
 	for (int i = 0; i < TEXTUREAMOUNT; i++)
@@ -113,7 +110,6 @@ void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCont
 		SAFE_RELEASE(gBufferTextures[i]);
 	}
 
-	//hr = this->gDevice->CreateUnorderedAccessView(gBufferTextures[5], nullptr, &blurUAV);
 }
 
 void Gbuffer::Release()
@@ -125,7 +121,6 @@ void Gbuffer::Release()
 
 		SAFE_RELEASE(shaderResourceViews[i]);
 
-		SAFE_RELEASE(gBufferTextures[i]);
 	}
 }
 

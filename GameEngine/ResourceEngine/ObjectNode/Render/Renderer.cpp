@@ -62,22 +62,15 @@ void Renderer::Release()
 
 }
 
-void Renderer::RenderBlurPass(ID3D11UnorderedAccessView* uav, ID3D11ShaderResourceView* srv, ID3D11RenderTargetView* rtv, ID3D11DepthStencilView* dsv)
+void Renderer::RenderBlurPass(ID3D11UnorderedAccessView* uav, ID3D11ShaderResourceView* srv)
 {
-
-	//this->gDeviceContext->OMSetRenderTargets(1, &rtv, nullptr); //change render target,  because we want the postprocess texture as an input now, 
-																						  //and if it's set as a render target, then it wont work.
-	//currentRTV = &gBackbufferRTV;
-
-	/////////////////////////////////
-	//Set the postProcess texture as a subresource
-	ID3D11ShaderResourceView* shaderResourceViewz = srv;
-	//Apply the renderTexture(postProcess texture) to the compute shader
 	this->resourceManager->SetShader(Shaders::BLUR_SHADER);
-	this->gDeviceContext->CSSetShaderResources(0, 1, &shaderResourceViewz);
+	this->gDeviceContext->CSSetShaderResources(0, 1, &srv);
 
 	ID3D11UnorderedAccessView* uavA[] = { uav };
 	gDeviceContext->CSSetUnorderedAccessViews(0, 1, uavA, nullptr);
+
+	//declaring variables to use for memory copying later
 	ID3D11Resource* source,* target;
 	gDeviceContext->Dispatch(32, 30, 1);
 
@@ -88,11 +81,6 @@ void Renderer::RenderBlurPass(ID3D11UnorderedAccessView* uav, ID3D11ShaderResour
 	SAFE_RELEASE(target);
 	ID3D11ShaderResourceView* NullSRV[1] = { nullptr };
 	uavA[0] = nullptr;
-	/*gDeviceContext->CSSetShader(nullptr, nullptr, 0);
-	gDeviceContext->CSSetUnorderedAccessViews(0, 1, uavA, nullptr);
-	gDeviceContext->CSSetShaderResources(0, 1, NullSRV);*/
-
-	//this->gDeviceContext->OMSetRenderTargets(1, &rtv, nullptr);
 }
 
 void Renderer::RenderFinalPass()

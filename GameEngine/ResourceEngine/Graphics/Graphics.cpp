@@ -147,8 +147,8 @@ void Graphics::Render() //manage RenderPasses here
 													//Set the gBuffer as a subResource, send in the new RenderTarget
 	gBuffer->SetToRead(gBackBufferRTV); 
 	
-	//blurpass
-	this->renderer->RenderBlurPass(this->gBuffer->GetBlurUAV(), this->gBuffer->GetGlowSRV(), this->gBuffer->GetGlowRTV(), this->depthStencilView);
+	//blurpass , this->gBuffer->GetGlowRTV(), this->depthStencilView
+	this->renderer->RenderBlurPass(this->gBuffer->GetBlurUAV(), this->gBuffer->GetGlowSRV());
 
 	this->renderer->RenderFinalPass();
 	gBuffer->ClearGbuffer();
