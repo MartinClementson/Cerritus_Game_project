@@ -389,7 +389,7 @@ QuadTree::~QuadTree()
 }
 
 //FINHJISH ME!
-bool QuadTree::Initialize(Mesh * terrain, ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceContext, ID3D11Buffer * worldBuffer)
+bool QuadTree::Initialize(Mesh * scene, ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceContext, ID3D11Buffer * worldBuffer)
 {
 
 	this->worldBuffer = worldBuffer;		//blir nog en helt ny ist
@@ -403,8 +403,8 @@ bool QuadTree::Initialize(Mesh * terrain, ID3D11Device * gDevice, ID3D11DeviceCo
 	Float2 centerPos;
 
 	//Get the number of vertices in the terrain
-	vertexCount = terrain->getVertexCount();
-	this->indexCount = terrain->getIndexCount();
+	vertexCount = scene->GetVertexCount();
+	this->indexCount = scene->GetIndexCount();
 
 	//Store the total triangle countW
 	m_triangleCount = this->indexCount / 3;
@@ -418,8 +418,8 @@ bool QuadTree::Initialize(Mesh * terrain, ID3D11Device * gDevice, ID3D11DeviceCo
 		return false;
 
 	//Copy the vertices from the terrain into the vertex list
-	terrain->copyVertexArray((void*)m_vertexList);
-	terrain->copyIndexArray((void*)m_indexList); //<-- this could be wrong
+	scene->copyVertexArray((void*)m_vertexList);
+	scene->copyIndexArray((void*)m_indexList); //<-- this could be wrong
 												 //Calculate the parent node. It's the upper most quad, covering the whole terrain
 												 //Calculates center x,z and width
 	CalculateMeshDimensions(vertexCount, centerPos.x, centerPos.y, width);

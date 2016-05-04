@@ -1,4 +1,5 @@
 #include "Mesh.h"
+#include "../QuadTree/QuadTree.h"
 
 
 
@@ -54,31 +55,42 @@ void Mesh::GetMeshRenderInfo(RenderInstructions * toRender)
 
 }
 
-void Mesh::CreateVertexBuffer(Vertex * vertices, unsigned int amount)
+void Mesh::CreateVertexBuffer(Vertex * vertices, unsigned int amount, bool isScene)
 {
-	if (this->vertexBuffer != nullptr)
-		SAFE_RELEASE(vertexBuffer);
+
+	if (isScene == true)
+	{
+		this->sceneVerts = vertices;
+		this->vertCount = amount;
+	}
+	else
+	{
+		if (this->vertexBuffer != nullptr)
+			SAFE_RELEASE(vertexBuffer);
 	
 	
 
-	D3D11_BUFFER_DESC bufferDesc;
-	memset(&bufferDesc, 0, sizeof(bufferDesc));
-	bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	bufferDesc.ByteWidth = sizeof(Vertex)* amount;
+		D3D11_BUFFER_DESC bufferDesc;
+		memset(&bufferDesc, 0, sizeof(bufferDesc));
+		bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+		bufferDesc.Usage = D3D11_USAGE_DEFAULT;
+		bufferDesc.ByteWidth = sizeof(Vertex)* amount;
 
 
 
-	D3D11_SUBRESOURCE_DATA data;
-	//Send the array of vertices in to pSysMem
-	data.pSysMem = vertices;
-	HRESULT hr;
-	hr = gDevice->CreateBuffer(&bufferDesc, &data, &vertexBuffer);
+		D3D11_SUBRESOURCE_DATA data;
+		//Send the array of vertices in to pSysMem
+		data.pSysMem = vertices;
+		HRESULT hr;
+		hr = gDevice->CreateBuffer(&bufferDesc, &data, &vertexBuffer);
 
-	if (FAILED(hr))
-		MessageBox(NULL, L"Error creating vertexbuffer", L"Error in mesh class", MB_ICONERROR | MB_OK);
+		if (FAILED(hr))
+			MessageBox(NULL, L"Error creating vertexbuffer", L"Error in mesh class", MB_ICONERROR | MB_OK);
 	
-	this->vertCount = amount;
+		this->vertCount = amount;
+	}
+	
+
 
 
 }
@@ -108,34 +120,43 @@ void Mesh::CreateVertexBuffer(AnimVert * vertices, unsigned int amount)
 		MessageBox(NULL, L"Error creating vertexbuffer", L"Error in mesh class", MB_ICONERROR | MB_OK);
 
 	this->vertCount = amount;
-
 }
 
-void Mesh::CreateIndexBuffer(UINT * indices, unsigned int amount)
+void Mesh::CreateIndexBuffer(UINT * indices, unsigned int amount, bool isScene)
 {
-	if (this->indexBuffer != nullptr)
-		SAFE_RELEASE(indexBuffer);
+
+	if (isScene == true)
+	{
+		this->sceneIndex = indices;
+		this->indexCount = (UINT)amount;
+	}
+	else
+	{
+		if (this->indexBuffer != nullptr)
+			SAFE_RELEASE(indexBuffer);
 		
 	
 
-	D3D11_BUFFER_DESC ibd;
+		D3D11_BUFFER_DESC ibd;
 
-	ibd.Usage = D3D11_USAGE_IMMUTABLE;
-	ibd.ByteWidth = sizeof(UINT) * amount;
-	ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	ibd.CPUAccessFlags = 0;
-	ibd.MiscFlags = 0;
-	ibd.StructureByteStride = 0;
+		ibd.Usage = D3D11_USAGE_IMMUTABLE;
+		ibd.ByteWidth = sizeof(UINT) * amount;
+		ibd.BindFlags = D3D11_BIND_INDEX_BUFFER;
+		ibd.CPUAccessFlags = 0;
+		ibd.MiscFlags = 0;
+		ibd.StructureByteStride = 0;
 
-	D3D11_SUBRESOURCE_DATA ibdData;
-	ibdData.pSysMem = indices;
+		D3D11_SUBRESOURCE_DATA ibdData;
+		ibdData.pSysMem = indices;
 
-	HRESULT hr;
-	hr = gDevice->CreateBuffer(&ibd, &ibdData, &indexBuffer);
+		HRESULT hr;
+		hr = gDevice->CreateBuffer(&ibd, &ibdData, &indexBuffer);
 
-	if(FAILED(hr))
-		MessageBox(NULL, L"Error creating indexbuffer", L"Error in mesh class", MB_ICONERROR | MB_OK);
+		if(FAILED(hr))
+			MessageBox(NULL, L"Error creating indexbuffer", L"Error in mesh class", MB_ICONERROR | MB_OK);
 
-	this->indexCount = (UINT)amount;
+		this->indexCount = (UINT)amount;
+
+	}
 
 }

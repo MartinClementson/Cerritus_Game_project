@@ -10,7 +10,7 @@ BRFImporterHandler::~BRFImporterHandler()
 {
 }
 
-void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material, bool skeleton)
+void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material, bool skeleton, bool isScene)
 {
 
 	this->currentFile->LoadFile(fileName, mesh, skeleton, material);
@@ -156,7 +156,7 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 
 #pragma endregion
 
-		this->meshManager->AddMesh(tempHasSkeleton, tempSkeletonID, tempMaterialID, tempVertexCount, tempIndexCount, tempVertices, tempAniVertices, tempIndices);					//Keep me!
+		this->meshManager->AddMesh(tempHasSkeleton, tempSkeletonID, tempMaterialID, tempVertexCount, tempIndexCount, tempVertices, tempAniVertices, tempIndices, isScene);					//Keep me!
 	}
 #pragma endregion
 #pragma region Loop for reading material info & provide to materialManager.

@@ -35,7 +35,8 @@ public:
 		UINT indexCount,
 		std::vector<Vertex> vertices,
 		std::vector<AnimVert> aniVertices,
-		std::vector<UINT> indices
+		std::vector<UINT> indices,
+		bool isScene
 		);
 
 	std::vector<Mesh>* GetMeshes() { return this->gameMeshes; }

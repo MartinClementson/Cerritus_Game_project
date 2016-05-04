@@ -40,7 +40,7 @@ void MeshManager::Release()
 
 }
 
-void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materialID, unsigned int vertexCount, UINT indexCount, std::vector<Vertex> vertices, std::vector<AnimVert> aniVertices, std::vector<UINT> indices)
+void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materialID, unsigned int vertexCount, UINT indexCount, std::vector<Vertex> vertices, std::vector<AnimVert> aniVertices, std::vector<UINT> indices, bool isScene)
 {
 	if (aniVertices.size() <= 0)
 	{
@@ -58,8 +58,8 @@ void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materia
 
 		Mesh newMesh = Mesh(hasSkeleton, skeletonID, materialID);
 		newMesh.Initialize(this->gDevice, this->gDeviceContext);
-		newMesh.CreateVertexBuffer(newVertices, vertexCount);
-		newMesh.CreateIndexBuffer(newIndices, indexCount);
+		newMesh.CreateVertexBuffer(newVertices, vertexCount, isScene);
+		newMesh.CreateIndexBuffer(newIndices, indexCount, isScene);
 		this->gameMeshes->push_back(newMesh);
 		delete[] newVertices;
 		delete[] newIndices;

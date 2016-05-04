@@ -24,7 +24,7 @@ private:
 	ID3D11Buffer* worldBuffer			 = nullptr;		//ptr to engine world constantbuffer
 
 	XMFLOAT4X4 worldMatrix;
-	XMFLOAT4X4 normalWorld;								//might be depricated
+	XMFLOAT4X4 normalWorld;								//depricated
 
 	void UpdateWorldMatrix();
 	void SendToConstantBuffer();
@@ -49,7 +49,7 @@ public:
 	QuadTree(const QuadTree &parent);
 	~QuadTree();
 
-	bool Initialize(Mesh *terrain, ID3D11Device *gDevice, ID3D11DeviceContext *gDeviceContext, ID3D11Buffer* worldBuffer);
+	bool Initialize(Mesh *scene, ID3D11Device *gDevice, ID3D11DeviceContext *gDeviceContext, ID3D11Buffer* worldBuffer);
 	void Release();
 	void Render(ID3D11DeviceContext *gDeviceContext, Frustum * frustum, ID3D11Buffer* worldBuffer);
 	int  GetDrawCount();
