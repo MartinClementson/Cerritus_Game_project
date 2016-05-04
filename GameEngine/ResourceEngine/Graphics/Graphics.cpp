@@ -209,8 +209,6 @@ void Graphics::RenderScene()
 	{
 		////////////BILLBOARD RENDERING
  		renderer->RenderBillBoard(this->gameObjects->at(instanceMeshIndex.projectileMesh), billBoardArray, instancesToRender[PROJECTILE_INSTANCED]);
-
-
 		//////////////INSTANCE RENDERING
 		//renderer->RenderInstanced(this->gameObjects->at(instanceMeshIndex.projectileMesh),
 			//instancedWorldDataPerFrame[ PROJECTILE_INSTANCED ], instancesToRender[ PROJECTILE_INSTANCED ] );
@@ -225,7 +223,7 @@ void Graphics::RenderScene()
 			instancedWorldDataPerFrame[ ENEMY_1_INSTANCED ], instancesToRender[ ENEMY_1_INSTANCED ]);
 	}
 	
-
+	 //Take back when we have more enemy types
 	/*for (unsigned int i = 0; i < enemyObjects->size(); i++)
 	{
 		if (!enemyObjects->at(i)->render)
@@ -338,10 +336,10 @@ void Graphics::CullGeometry()
 
 
 	//Do frustum culling here, the things that are seen have their world matrices calculated. and added to instanced array
-	unsigned int projectileIndex = 0;
-	unsigned int enemyIndex		 = 0;
-	unsigned int bearTrapIndex	 = 0;
-	unsigned int fireTrapIndex	 = 0;
+	unsigned int	 projectileIndex	 = 0;
+	unsigned int	 enemyIndex			 = 0;
+	unsigned int	 bearTrapIndex		 = 0;
+	unsigned int	 fireTrapIndex		 = 0;
 
 #pragma region Cull enemy objects
 	for (size_t i = 0; i < this->enemyObjects->size(); i++)
@@ -394,6 +392,9 @@ void Graphics::CullGeometry()
 				if (instanceMeshIndex.projectileMesh == -1) //if this is the first thing we found of that mesh, store the index.
       					instanceMeshIndex.projectileMesh = (int)i;
 			}
+			else
+				this->gameObjects->at(i)->render = true;
+
 		}
 
 	}
@@ -445,30 +446,28 @@ void Graphics::CullGeometry()
 
 XMFLOAT4X4 Graphics::CalculateWorldMatrix(XMFLOAT3 * position, XMFLOAT3 * rotation)
 {
-	DirectX::XMMATRIX scaleMatrix = XMMatrixIdentity();
+	DirectX::XMMATRIX scaleMatrix		 =  XMMatrixIdentity();
 
 	//We convert from degrees to radians here. Before this point we work in degrees to make it easier for the programmer and user
-	DirectX::XMMATRIX rotationMatrixX = DirectX::XMMatrixRotationX(toRadian(rotation->x));
-	DirectX::XMMATRIX rotationMatrixY = DirectX::XMMatrixRotationY(toRadian(rotation->y));
-	DirectX::XMMATRIX rotationMatrixZ = DirectX::XMMatrixRotationZ(toRadian(rotation->z));
+	DirectX::XMMATRIX rotationMatrixX	 =  DirectX::XMMatrixRotationX(toRadian(rotation->x));
+	DirectX::XMMATRIX rotationMatrixY	 =  DirectX::XMMatrixRotationY(toRadian(rotation->y));
+	DirectX::XMMATRIX rotationMatrixZ	 =  DirectX::XMMatrixRotationZ(toRadian(rotation->z));
 
 	//Create the rotation matrix
-	DirectX::XMMATRIX rotationMatrix = DirectX::XMMatrixMultiply(rotationMatrixZ, rotationMatrixX);
-	rotationMatrix = DirectX::XMMatrixMultiply(rotationMatrix, rotationMatrixY);
+	DirectX::XMMATRIX rotationMatrix	 = DirectX::XMMatrixMultiply(rotationMatrixZ, rotationMatrixX);
+	rotationMatrix						 = DirectX::XMMatrixMultiply(rotationMatrix, rotationMatrixY);
 
 	//Intoduce the world matrix, multiply rotation and scale. (world translation comes later)
-	DirectX::XMMATRIX world = DirectX::XMMatrixMultiply(rotationMatrix, scaleMatrix);
+	DirectX::XMMATRIX world				 = DirectX::XMMatrixMultiply(rotationMatrix, scaleMatrix);
 
 
 	//Create the world translation matrix
-	DirectX::XMMATRIX translationMatrix = DirectX::XMMatrixTranslation(position->x, position->y, position->z);
+	DirectX::XMMATRIX translationMatrix  = DirectX::XMMatrixTranslation(position->x, position->y, position->z);
 
 
 	//Multiply the (scale*rotation) matrix with the world translation matrix
-	world = DirectX::XMMatrixMultiply(world, translationMatrix);
-
-
-	world = XMMatrixTranspose(world);
+	world								 = DirectX::XMMatrixMultiply(world, translationMatrix);
+	world								 = XMMatrixTranspose(world);
 
 	XMFLOAT4X4 toReturn;
 

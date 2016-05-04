@@ -131,11 +131,15 @@ float sampleShadowStencils(float4 worldPos, matrix lightView, matrix lightProj,i
 {
 
 	//shadowmap stuff
+	float shadowSamples = 0.0f;
+
 	float4 shadowSample = float4(1, 1, 1, 1);
 	float tempCooef = 0;
-	float SMAP_SIZE = 2048.0;
+	float SMAP_SIZE = 512.0f;
 	
-		float bias;
+	float bias;
+	float dx = 1.0f / SMAP_SIZE;
+
 		float2 projectTexCoord;
 		float depthValue;
 		float lightDepthValue;
@@ -143,40 +147,65 @@ float sampleShadowStencils(float4 worldPos, matrix lightView, matrix lightProj,i
 		float4 lightPos;
 		//worldPos.xyz = worldPos.xyz / worldPos.w;
 
+
+		//lightPos = mul(worldPos, lightView);
+		//lightPos = mul(lightPos, lightProj);
+
+		//projectTexCoord.x = lightPos.x / lightPos.w;
+		//projectTexCoord.y = lightPos.y / lightPos.w;
+
+		//lightDepthValue = lightPos.z / lightPos.w;
+
+		//projectTexCoord.x = projectTexCoord.x * 0.5f + 0.5f;
+		//projectTexCoord.y = projectTexCoord.y * -0.5f + 0.5f;
+		//
+
+		//depthValue = shadowTex.Sample(linearSampler, float3(projectTexCoord.xy, shadowMapIndex)).r + bias;
+
+		////float tempSample = shadowTex.Sample(samplerTypeState, float3(projectTexCoord, i)).r
+
+		//float s0 = (shadowTex.Sample(linearSampler, float3(projectTexCoord, shadowMapIndex)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
+		//float s1 = (shadowTex.Sample(linearSampler, float3(projectTexCoord, shadowMapIndex) + float3(dx, 0.0f, 0.0f)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
+		//float s2 = (shadowTex.Sample(linearSampler, float3(projectTexCoord, shadowMapIndex) + float3(0.0f, dx, 0.0f)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
+		//float s3 = (shadowTex.Sample(linearSampler, float3(projectTexCoord, shadowMapIndex) + float3(dx, dx, 0.0f)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
+
+		//float2 texelpos = projectTexCoord * SMAP_SIZE;
+		//float2 lerps = frac(texelpos);
+		//float shadowcooef = lerp(lerp(s0, s1, lerps.x), lerp(s2, s3, lerps.x), lerps.y);
+
+
+
+
+
+		float4 posLightH = mul(float4(worldPos.xyz, 1.0f), lightView);
+		posLightH = mul(posLightH, lightProj);
+		posLightH.xy /= posLightH.w;
+
+		float2 smTex = float2(posLightH.x, -posLightH.y) * 0.5f + 0.5f;
+
+		float depth = posLightH.z / posLightH.w;
+
+		smTex -= float2(dx, dx) * 0.5f;
+
 		////////////////BIAS IS HERE
-		bias = 0.001f;
+		bias = 0.0001f;
 
-		lightPos = mul(worldPos, lightView);
-		lightPos = mul(lightPos, lightProj);
+		//16 samples == -2 till 2
+		//8 samples == -1 till 1
+		[unroll]
+		for (int k = -1; k < 1; k++) 
+			[unroll]
+			for (int l = -1; l < 1; l++)
+				shadowSamples += shadowTex.Sample( linearSampler , float3(smTex + float2(dx * k, dx * l),0) ).r + bias < depth ? 0.0f : 1.0f;
 
-		projectTexCoord.x = lightPos.x / lightPos.w;
-		projectTexCoord.y = lightPos.y / lightPos.w;
+			float shadowFactor = shadowSamples / *0.125f;//divisin by 8      // * 0.0625f; // division by 16.0f;
 
-		lightDepthValue = lightPos.z / lightPos.w;
 
-		projectTexCoord.x = projectTexCoord.x * 0.5f + 0.5f;
-		projectTexCoord.y = projectTexCoord.y * -0.5f + 0.5f;
-		
-
-		depthValue = shadowTex.Sample(linearSampler, float3(projectTexCoord.xy, shadowMapIndex)).r + bias;
-
-		//float tempSample = shadowTex.Sample(samplerTypeState, float3(projectTexCoord, i)).r
-
-		float dx = 1.0f / SMAP_SIZE;
-		float s0 = (shadowTex.Sample(linearSampler, float3(projectTexCoord, shadowMapIndex)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
-		float s1 = (shadowTex.Sample(linearSampler, float3(projectTexCoord, shadowMapIndex) + float3(dx, 0.0f, 0.0f)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
-		float s2 = (shadowTex.Sample(linearSampler, float3(projectTexCoord, shadowMapIndex) + float3(0.0f, dx, 0.0f)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
-		float s3 = (shadowTex.Sample(linearSampler, float3(projectTexCoord, shadowMapIndex) + float3(dx, dx, 0.0f)).r + bias < lightDepthValue) ? 0.0f : 1.0f;
-
-		float2 texelpos = projectTexCoord * SMAP_SIZE;
-		float2 lerps = frac(texelpos);
-		float shadowcooef = lerp(lerp(s0, s1, lerps.x), lerp(s2, s3, lerps.x), lerps.y);
-
-		tempCooef += shadowcooef;
+		//tempCooef += shadowcooef;
 	
-	shadowSample = shadowSample * tempCooef;
-	shadowSample = saturate(shadowSample);
-	return tempCooef;
+	//shadowSample = shadowSample * tempCooef;
+	//shadowSample = saturate(shadowSample);
+	return shadowFactor;
 
 
 
