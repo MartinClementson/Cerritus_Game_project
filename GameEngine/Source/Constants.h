@@ -2,7 +2,7 @@
 #define WIN_WIDTH 800.0
 #define WIN_HEIGHT 600.0
 
-#define SHADOW_WIDTH 512.0f
+#define SHADOW_WIDTH 512.0f //IF YOU CHANGE THIS SIZE; CHANGE IT IN THE FINAL PASS AS WELL.
 #define SHADOW_HEIGHT 512.0f
 
 //////////////////////////////////////////
