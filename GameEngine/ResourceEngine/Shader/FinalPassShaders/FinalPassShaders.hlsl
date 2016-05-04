@@ -434,7 +434,7 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 	//justglow
 	//float4 specularSample = specularTexture.Sample(pointSampler, input.Uv);
 
-	return finalCol;
+	return glow;
 	//return glow;
 }
 
