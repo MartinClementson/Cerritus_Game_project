@@ -57,8 +57,10 @@ struct RenderInfoEnemy {
 	XMFLOAT3 position;
 	XMFLOAT3 rotation;
 	MeshEnum object;
-	bool render = true;
+	bool render		   = true;
+	bool showHealthBar = true;
 	float radius;
+
 	//EnemyAnimations enemyAnim;	//these are enum
 };
 
