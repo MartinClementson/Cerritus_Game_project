@@ -239,6 +239,9 @@
     <Filter Include="ResourceEngine\Shaders\ComputeShaders">
       <UniqueIdentifier>{88002722-a9bd-4fd3-a07e-9e09175b14ce}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceEngine\ObjectNode\QuadTree">
+      <UniqueIdentifier>{1d340038-b887-4f3c-b390-182959ce1737}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameLogic\Animation\Animation.cpp">
@@ -414,6 +417,9 @@
     </ClCompile>
     <ClCompile Include="ResourceEngine\ObjectNode\Camera\Frustum\Frustum.cpp">
       <Filter>ResourceEngine\ObjectNode\Camera\Frustum</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ObjectNode\QuadTree\QuadTree.cpp">
+      <Filter>ResourceEngine\ObjectNode\QuadTree</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -608,6 +614,9 @@
     </ClInclude>
     <ClInclude Include="ResourceEngine\ObjectNode\Camera\Frustum\Frustum.h">
       <Filter>ResourceEngine\ObjectNode\Camera\Frustum</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ObjectNode\QuadTree\QuadTree.h">
+      <Filter>ResourceEngine\ObjectNode\QuadTree</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

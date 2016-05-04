@@ -138,6 +138,14 @@ struct InstancedData
 	DirectX::XMFLOAT4X4 worldMatrix;
 };
 
+struct BillboardData
+{
+	DirectX::XMFLOAT3 worldPos  = DirectX::XMFLOAT3(0.0f,0.0f,0.0f);
+	DirectX::XMFLOAT3 direction = DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f);
+	float height = 1.0f;
+	float width	 = 1.0f;
+};
+
 struct AnimVert
 {
 	Float3 position;

@@ -60,6 +60,7 @@ void FireTrap::Update(double deltaTime)
 	renderInfo.position = position ;
 	renderInfo.rotation = rotation;
 	renderInfo.radius = radius;
+	renderInfo.render = true;
 }	
 
 void FireTrap::Render()
