@@ -4,8 +4,8 @@
 static const float gaussianFilter[7] = {
 	//These are the Weights that the neighbouring pixels will contribute to the blur
 
-	0.121597, 0.142046, 0.155931,
-	0.160854, 0.155931, 0.142046, 0.121597,
+
+	0.133142,	0.142694,	0.148751,	0.150826,	0.148751,	0.142694,	0.133142
 };
 
 Texture2D inputTexture : register(t0);
