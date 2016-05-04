@@ -257,8 +257,9 @@ BILLBOARD_PS_OUT BILLBOARD_PS(BILLBOARD_GS_OUT input)
 	}
 	else
 	{
+		//textureSample = diffuseTex.Sample(linearSampler, input.Uv);
 		glowSample = float4 (0, 0, 0, 0);
-		output.glowRes = glowSample;
+		output.glowRes = textureSample;
 	}
 
 
