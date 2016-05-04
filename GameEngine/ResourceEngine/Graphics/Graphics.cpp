@@ -1,6 +1,25 @@
 #include "Graphics.h"
 #define toRadian(degrees) ((degrees)* (XM_PI/180.0f))
 
+inline DirectX::XMFLOAT3 operator+(DirectX::XMFLOAT3 a, DirectX::XMFLOAT3 b) {
+	DirectX::XMFLOAT3 result;
+
+	result.x = a.x + b.x;
+	result.y = a.y + b.y;
+	result.z = a.z + b.z;
+
+	return result;
+}
+
+inline DirectX::XMFLOAT3 operator*(DirectX::XMFLOAT3 a, float b) {
+	DirectX::XMFLOAT3 result;
+
+	result.x = a.x * b;
+	result.y = a.y * b;
+	result.z = a.z * b;
+
+	return result;
+}
 
 Graphics::Graphics()
 {
@@ -361,6 +380,11 @@ void Graphics::CullGeometry()
 			this->enemyObjects->at(i)->render = false; //Remove this from normal rendering, since we render instanced
 				if (instanceMeshIndex.enemy1Mesh == -1) //if this is the first thing we found of that mesh, store the index.
 					instanceMeshIndex.enemy1Mesh = (int)i;
+
+				/*if (enemyObjects->at(i)->showHealthBar)
+				{
+
+				}*/
 		}
 		//endif  object is visible
 	}
@@ -381,10 +405,11 @@ void Graphics::CullGeometry()
 			{
 
 				//this->instancedWorldDataPerFrame[PROJECTILE_INSTANCED][projectileIndex].worldMatrix = CalculateWorldMatrix(&this->gameObjects->at(i)->position, &this->gameObjects->at(i)->rotation);
-				billBoardArray[projectileIndex].worldPos  = this->gameObjects->at(i)->position;
 				billBoardArray[projectileIndex].direction = this->gameObjects->at(i)->direction;
-				billBoardArray[projectileIndex].height    = 1.0f;
-				billBoardArray[projectileIndex].width     = 0.5f;
+				billBoardArray[projectileIndex].height    = 3.0f;
+				billBoardArray[projectileIndex].width     = 0.15f;
+				billBoardArray[projectileIndex].worldPos  = this->gameObjects->at(i)->position + (this->gameObjects->at(i)->direction *(billBoardArray[projectileIndex].height * 0.9));
+
 				instancesToRender[PROJECTILE_INSTANCED]  += 1;
 				projectileIndex							 += 1;
 				this->gameObjects->at(i)->render		  = false; //We don't want to render this with nonInstance rendering
