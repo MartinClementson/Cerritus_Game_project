@@ -21,6 +21,7 @@ protected:
 	bool fast;
 	CharacterType charType;
 	float maxHealth;
+	EnemyBase* closestHealer;
 	
 	EnemyBase();
 public:
@@ -44,7 +45,7 @@ public:
 	virtual float GetHealth();
 
 	virtual float GetMaxHealth();
-	virtual void SetClosestHealer(vector<EnemyBase*> healer);
+	virtual void SetClosestHealer(std::vector<EnemyBase*> healer);
 	virtual EnemyBase* GetClosestHealer();
 
 	virtual void SetHealth(float health);

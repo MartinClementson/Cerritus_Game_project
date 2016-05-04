@@ -289,7 +289,7 @@ void Enemy::EnemyWithEnemyCollision(Enemy* enemy, Enemy* enemys, double deltaTim
 	}
 }
 
-void Enemy::SetClosestHealer(vector<EnemyBase*> healer)
+void Enemy::SetClosestHealer(std::vector<EnemyBase*> healer)
 {
 	EnemyBase* tmpCloseHealer;
 
@@ -301,49 +301,59 @@ void Enemy::SetClosestHealer(vector<EnemyBase*> healer)
 	tmp.y = 0;
 	bool first = false;
 
-	if (healer.size() == 0)
-	{
-		closestHealer = nullptr;
-	}
-	else
+	if (healer.size() > 0)
 	{
 		for (size_t i = 0; i < healer.size(); i++)
 		{
 			healPos = healer.at(i)->position;
 
 			//////////////////
-
-			tmp.x = healPos.x - position.x;
-			if (tmp.x < 0)
+			if (healer.at(i)->isAlive)
 			{
-				tmp.x = -tmp.x;
-			}
 
 
-			tmp.z = healPos.z - position.z;
-			if (tmp.z < 0)
-			{
-				tmp.z = -tmp.z;
-			}
-
-			//////////////////
-
-			if (first = false)
-			{
-				first = true;
-				closest = tmp;
-				tmpCloseHealer = healer.at(i);
-			}
-			else
-			{
-				if (closest.x > tmp.x && closest.z > tmp.z)
+				tmp.x = healPos.x - this->position.x;
+				if (tmp.x < 0)
 				{
+					tmp.x = -tmp.x;
+				}
+
+
+				tmp.z = healPos.z - this->position.z;
+				if (tmp.z < 0)
+				{
+					tmp.z = -tmp.z;
+				}
+
+				//////////////////
+
+				if (first == false)
+				{
+					first = true;
 					closest = tmp;
 					tmpCloseHealer = healer.at(i);
 				}
+				else
+				{
+					if (closest.x > tmp.x && closest.z > tmp.z && healer.at(i)->isAlive)
+					{
+						closest = tmp;
+						tmpCloseHealer = healer.at(i);
+					}
+
+				}
 			}
+			else
+			{
+				tmpCloseHealer = nullptr;
+			}
+			this->closestHealer = tmpCloseHealer;
 		}
-		closestHealer = tmpCloseHealer;
+	}
+	else
+	{
+		this->closestHealer = nullptr;
+		
 	}
 }
 

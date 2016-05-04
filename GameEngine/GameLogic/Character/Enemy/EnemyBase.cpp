@@ -49,9 +49,8 @@ float EnemyBase::GetMaxHealth()
 	return 0.0f;
 }
 
-void EnemyBase::SetClosestHealer(vector<EnemyBase*> healer)
-{
-	return;
+void EnemyBase::SetClosestHealer(std::vector<EnemyBase*> healer)
+{	
 }
 
 EnemyBase * EnemyBase::GetClosestHealer()

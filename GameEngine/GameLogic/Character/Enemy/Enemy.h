@@ -15,11 +15,6 @@
 class Enemy :
 	public EnemyBase
 {
-private:
-	//RenderInfoEnemy renderInfo;
-	//EnemyStateMachine* enemyStateMachine;
-	//Player * player;
-	//bool fast;
 public:
 	void Release();
 	Enemy();
@@ -33,10 +28,7 @@ public:
 
 	~Enemy();
 
-	
 	void Initialize();
-
-
 
 	void Update(double deltaTime);
 
@@ -53,11 +45,10 @@ public:
 	void AIPatternHeal(EnemyBase * player, double deltaTime);
 	CharacterType GetCharType();
 	void EnemyWithEnemyCollision(Enemy * enemy, Enemy * enemys, double deltaTime);
-	void SetClosestHealer(vector<EnemyBase*> healer);
+	void SetClosestHealer(std::vector<EnemyBase*> healer);
 	EnemyBase* GetClosestHealer();
 	//void EnemyWithBeartrap(BearTrap * bear, Enemy * enemys, double deltaTime);
 	void Respawn(XMFLOAT3 spawn);
 	float GetMaxHealth();
 	void Spawn(XMFLOAT3 spawn);
-	EnemyBase* closestHealer;
 };

@@ -132,7 +132,7 @@ bool Collision::BearTrapEnemyCollision(BearTrap * trap, EnemyBase * enemy)
 		+ pow(trapPos.z - enemyPos.z, 2)
 		< pow(trapRad + enemyRad, 2))
 	{
-		if (trap->isActive)
+		if (trap->isActive && enemy->GetCharType() != CharacterType::HEALER)
 		{
 			enemy->movementSpeed = 1.0f;
 		}
@@ -155,7 +155,7 @@ bool Collision::EnemyProxTrap(BearTrap * trap, EnemyBase * enemy)
 		+ pow(trapPos.z - enemyPos.z, 2)
 		< pow(trapRad + enemyRad, 2))
 	{
-		if (trap->isActive)
+		if (trap->isActive && enemy->GetCharType() != CharacterType::HEALER)
 		{
 			enemy->movementSpeed = 10.0f;
 		}
@@ -221,7 +221,7 @@ bool Collision::PlayerCollision(EnemyBase* enemy)
 		+ pow(playPos.z - enemyPos.z, 2)
 		< pow(playRad + enemyRad, 2)) 
 	{
-		if (enemy->isAlive && enemy->movementSpeed > 0)
+		if (enemy->isAlive && enemy->movementSpeed > 0 && enemy->GetCharType() != CharacterType::HEALER)
 		{
 			enemy->movementSpeed = 0;
 			player->SetHealth(player->GetHealth() - 15.0f);
