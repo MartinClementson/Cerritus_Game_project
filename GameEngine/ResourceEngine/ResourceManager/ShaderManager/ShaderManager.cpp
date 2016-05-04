@@ -211,6 +211,12 @@ void ShaderManager::SetActiveShader(Shaders shader)
 			this->gDeviceContext->CSSetShader(BLUR_CS, nullptr, 0);
 
 		break;
+
+	case BLUR_SECOND_SHADER:
+
+			this->gDeviceContext->CSSetShader(BLUR_SECOND_CS, nullptr, 0);
+
+		break;
 	}
 
 }
@@ -678,6 +684,25 @@ bool ShaderManager::CreateBlurComputeShader()
 		pCs->GetBufferSize(), NULL, &BLUR_CS);
 
 	pCs->Release();
+	if (FAILED(hr))
+		return false;
+
+	ID3DBlob *pCss = nullptr;
+	D3DCompileFromFile(
+		L"ResourceEngine/Shader/ComputeShaders/SecondBlurCS.hlsl",
+		nullptr,
+		nullptr,
+		"main",
+		"cs_5_0",
+		0,
+		0,
+		&pCss,
+		nullptr);
+
+	hr = gDevice->CreateComputeShader(pCss->GetBufferPointer(),
+		pCss->GetBufferSize(), NULL, &BLUR_SECOND_CS);
+
+	pCss->Release();
 	if (FAILED(hr))
 		return false;
 

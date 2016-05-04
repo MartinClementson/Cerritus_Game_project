@@ -91,6 +91,7 @@ private:
 
 	//ComputeShaders
 	ID3D11ComputeShader*	BLUR_CS					= nullptr;
+	ID3D11ComputeShader*	BLUR_SECOND_CS			= nullptr;
 
 	//Input layout for instanced geometry
 	
