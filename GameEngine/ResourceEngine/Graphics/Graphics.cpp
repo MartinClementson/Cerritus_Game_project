@@ -28,33 +28,36 @@ Graphics::Graphics()
 
 Graphics::~Graphics()
 {
-	if (gameObjects != nullptr)
+	if (gameObjects  != nullptr)
 		delete gameObjects;
-	if (charObjects != nullptr)
+	if (charObjects  != nullptr)
 		delete charObjects;
-	if (uiObjects != nullptr)
+	if (uiObjects	 != nullptr)
 		delete uiObjects;
 	if (enemyObjects != nullptr)
 		delete enemyObjects;
-	if (trapObjects != nullptr)
+	if (trapObjects  != nullptr)
 		delete trapObjects;
-
 	if (shadowBuffer != nullptr)
 		delete shadowBuffer;
-	if (renderer != nullptr)
+	if (renderer	 != nullptr)
 		delete renderer;
-
-	if (gBuffer != nullptr)
+	if (gBuffer		 != nullptr)
 		delete gBuffer;
 
 	if (instancedWorldDataPerFrame != nullptr)
 	{
 		for (size_t i = 0; i < INSTANCED_WORLD_BUFFER_AMOUNT; i++)
-		{
-
 			delete instancedWorldDataPerFrame[i];
-		}
 	}
+
+	if (billBoardArray != nullptr)
+	{
+			for (size_t i = 0; i < BILLBOARDED_ARRAYS; i++)
+				delete billBoardArray[i];
+			
+	}
+	
 
 	
 }
@@ -76,11 +79,14 @@ void Graphics::Initialize(HWND * window)
 	instancedWorldDataPerFrame[PROJECTILE_INSTANCED] = new InstancedData[MAX_INSTANCED_GEOMETRY];
 	instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED]	 = new InstancedData[MAX_INSTANCED_GEOMETRY];
 	instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED]	 = new InstancedData[MAX_INSTANCED_GEOMETRY];
-
 	
-	memset(billBoardArray,	  0, sizeof(billBoardArray));
+	billBoardArray[PROJECTILE_BILLBOARD]			 = new BillboardData[MAX_BILLBOARDED_GEOMETRY];
+	billBoardArray[HEALTH_BAR_BILLBOARD]			 = new BillboardData[MAX_BILLBOARDED_GEOMETRY];
+	
+	memset(billBoardArray[PROJECTILE_BILLBOARD],	  0, sizeof(billBoardArray[PROJECTILE_BILLBOARD]));
+	memset(billBoardArray[HEALTH_BAR_BILLBOARD],      0, sizeof(billBoardArray[HEALTH_BAR_BILLBOARD]));
 	memset(instancesToRender, 0, sizeof(instancesToRender)); //reset instances to render amount
-
+	memset(billboardsToRender, 0, sizeof(billboardsToRender));
 	renderer = new Renderer();
 	renderer->Initialize(gDevice,this->gDeviceContext);
 	
@@ -227,13 +233,25 @@ void Graphics::RenderScene()
 	if (instancesToRender[PROJECTILE_INSTANCED] > 0)
 	{
 		////////////BILLBOARD RENDERING
- 		renderer->RenderBillBoard(this->gameObjects->at(instanceMeshIndex.projectileMesh), billBoardArray, instancesToRender[PROJECTILE_INSTANCED]);
+ 		renderer->RenderBillBoard(
+			this->gameObjects->at(instanceMeshIndex.projectileMesh),
+			billBoardArray   [PROJECTILE_BILLBOARD], 
+			instancesToRender[PROJECTILE_INSTANCED]);
+
 		//////////////INSTANCE RENDERING
 		//renderer->RenderInstanced(this->gameObjects->at(instanceMeshIndex.projectileMesh),
 			//instancedWorldDataPerFrame[ PROJECTILE_INSTANCED ], instancesToRender[ PROJECTILE_INSTANCED ] );
 	}
 
+	if (billboardsToRender[HEALTH_BAR_BILLBOARD] > 0)
+	{
 
+		////////////BILLBOARD RENDERING
+		renderer->RenderBillBoard(
+			nullptr,
+			billBoardArray    [HEALTH_BAR_BILLBOARD],
+			billboardsToRender[HEALTH_BAR_BILLBOARD]);
+	}
 
 	////Render instanced enemies
 	if (instancesToRender[ENEMY_1_INSTANCED] > 0)
@@ -300,12 +318,14 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 	memset(instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED],  0, sizeof(instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED]));	 //reset instance array
 	memset(instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED],  0, sizeof(instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED]));	 //reset instance array
 
-	memset(billBoardArray, 0, sizeof(billBoardArray));
+	memset(billBoardArray[PROJECTILE_BILLBOARD], 0, sizeof(billBoardArray[PROJECTILE_BILLBOARD]));
+	memset(billBoardArray[HEALTH_BAR_BILLBOARD], 0, sizeof(billBoardArray[HEALTH_BAR_BILLBOARD]));
 
 
 
 	
-	memset(instancesToRender, 0, sizeof(instancesToRender)); //reset instances to render amount
+	memset(instancesToRender,  0, sizeof(instancesToRender)); //reset instances to render amount
+	memset(billboardsToRender, 0, sizeof(billboardsToRender));
 
 	instanceMeshIndex.Reset();
 
@@ -357,6 +377,7 @@ void Graphics::CullGeometry()
 	//Do frustum culling here, the things that are seen have their world matrices calculated. and added to instanced array
 	unsigned int	 projectileIndex	 = 0;
 	unsigned int	 enemyIndex			 = 0;
+	unsigned int	 healthBarIndex		 = 0;
 	unsigned int	 bearTrapIndex		 = 0;
 	unsigned int	 fireTrapIndex		 = 0;
 
@@ -376,15 +397,24 @@ void Graphics::CullGeometry()
 			//if object is visible and is enemy_1_type
 			this->instancedWorldDataPerFrame[ENEMY_1_INSTANCED][enemyIndex].worldMatrix = CalculateWorldMatrix(&this->enemyObjects->at(i)->position, &this->enemyObjects->at(i)->rotation);
 			instancesToRender		   [ENEMY_1_INSTANCED] += 1;
-			enemyIndex									  += 1;
+			enemyIndex									   += 1;
 			this->enemyObjects->at(i)->render = false; //Remove this from normal rendering, since we render instanced
 				if (instanceMeshIndex.enemy1Mesh == -1) //if this is the first thing we found of that mesh, store the index.
 					instanceMeshIndex.enemy1Mesh = (int)i;
 
-				/*if (enemyObjects->at(i)->showHealthBar)
+				if (enemyObjects->at(i)->showHealthBar)
 				{
-
-				}*/
+					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].direction = XMFLOAT3(0.0f, 1.0f, 0.0f);
+					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].height = 0.1f;
+					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].width  = 2.0f * enemyObjects->at(i)->normalizedHealthVal;
+					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].worldPos = 
+						XMFLOAT3(	enemyObjects->at(i)->position.x - (2.0f * enemyObjects->at(i)->normalizedHealthVal), 	   //pos. x
+									5.0f ,								   //. height of the healthbar. 0 == on ground
+									enemyObjects->at(i)->position.z);	   // pos z.
+					billBoardArray    [HEALTH_BAR_BILLBOARD];
+					billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;
+					healthBarIndex							 += 1;
+				}
 		}
 		//endif  object is visible
 	}
@@ -405,10 +435,10 @@ void Graphics::CullGeometry()
 			{
 
 				//this->instancedWorldDataPerFrame[PROJECTILE_INSTANCED][projectileIndex].worldMatrix = CalculateWorldMatrix(&this->gameObjects->at(i)->position, &this->gameObjects->at(i)->rotation);
-				billBoardArray[projectileIndex].direction = this->gameObjects->at(i)->direction;
-				billBoardArray[projectileIndex].height    = 3.0f;
-				billBoardArray[projectileIndex].width     = 0.15f;
-				billBoardArray[projectileIndex].worldPos  = this->gameObjects->at(i)->position + (this->gameObjects->at(i)->direction *(billBoardArray[projectileIndex].height * 0.9));
+				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].direction = this->gameObjects->at(i)->direction;
+				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].height    = 3.0f;
+				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].width     = 0.15f;
+				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].worldPos  = this->gameObjects->at(i)->position + (this->gameObjects->at(i)->direction *(billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].height * 0.9f));
 
 				instancesToRender[PROJECTILE_INSTANCED]  += 1;
 				projectileIndex							 += 1;
