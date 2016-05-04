@@ -192,6 +192,7 @@
     <ClCompile Include="ResourceEngine\ObjectNode\Camera\Frustum\Frustum.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\Mesh\Mesh.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\ObjectNode.cpp" />
+    <ClCompile Include="ResourceEngine\ObjectNode\QuadTree\QuadTree.cpp" />
     <ClCompile Include="ResourceEngine\ObjectNode\Render\Renderer.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.cpp" />
     <ClCompile Include="ResourceEngine\ResourceManager\LightManager\LightManager.cpp" />
@@ -252,6 +253,7 @@
     <ClInclude Include="ResourceEngine\ObjectNode\Camera\Frustum\Frustum.h" />
     <ClInclude Include="ResourceEngine\ObjectNode\Mesh\Mesh.h" />
     <ClInclude Include="ResourceEngine\ObjectNode\ObjectNode.h" />
+    <ClInclude Include="ResourceEngine\ObjectNode\QuadTree\QuadTree.h" />
     <ClInclude Include="ResourceEngine\ObjectNode\Render\Renderer.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.h" />
     <ClInclude Include="ResourceEngine\ResourceManager\LightManager\LightManager.h" />
@@ -277,8 +279,12 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">BILLBOARD_VS</EntryPointName>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">BILLBOARD_VS</EntryPointName>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="ResourceEngine\Shader\ComputeShaders\BlurCS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>

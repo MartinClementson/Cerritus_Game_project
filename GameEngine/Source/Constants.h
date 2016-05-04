@@ -15,8 +15,12 @@
 #define MAX_NUM_POINTLIGHTS 5
 #define MAX_NUM_DIRLIGHTS	1
 #define MAX_NUM_SPOTLIGHTS	2
-#define INSTANCED_BUFFER_AMOUNT 2
-#define MAX_INSTANCED_GEOMETRY 200
+
+#define UNIQUE_INSTANCED_BUFFER_AMOUNT 2 //atm, only two unique buffers are used, for world matrix and billboard
+#define INSTANCED_WORLD_BUFFER_AMOUNT 4
+
+#define MAX_INSTANCED_GEOMETRY   200
+#define MAX_BILLBOARDED_GEOMETRY 500
 
 #define WINDOWED true
 #define WIREFRAME false
