@@ -1,3 +1,5 @@
+
+
 //GBUFFER
 Texture2D diffuseTex			 : register(t0);
 Texture2D normalTex				 : register(t1);
@@ -23,8 +25,6 @@ cbuffer cbufferPerFrame     : register(b0)
 
 };
 
-
-
 cbuffer textureSampleBuffer		 : register(b2)
 {
 	bool diffuseMap;
@@ -33,42 +33,24 @@ cbuffer textureSampleBuffer		 : register(b2)
 	bool glowMap;
 };
 
-struct PointLight
-{
-	float4 lightPosition;
-	matrix lightView;
-	matrix lightProjection;
-	float4 lightLookAt;
-	float4 lightDiffuse;
-	float intensity;
-	float3 padd;
-	float lightRange;
-	float3 pad;
-	float attenuation;
-	float3 paddd;
-	bool castShadow;
 
+
+struct BILLBOARD_VS_IN
+{
+	float3 worldPos		 : POSITION;
+	float3 direction	 : DIRECTION;
+	float  height		 : HEIGHT;
+	float  width		 : WIDTH;
+};
+struct BILLBOARD_VS_OUT
+{
+	float4 worldPos		 : SV_POSITION;
+	float3 direction	 : DIRECTION;
+	float  height		 : HEIGHT;
+	float  width		 : WIDTH;
 };
 
-struct GBUFFER_VS_IN
-{
-	float3 Pos			 : POSITION;
-	float3 Normal		 : TEXCOORD0;
-	float2 Uv			 : TEXCOORD1;
-	float2 BiTangent	 : TEXCOORD2;
-	float2 Tangent		 : TEXCOORD3;
-	float4x4 worldMatrix : WORLD;
-};
-struct GBUFFER_VS_OUT
-{
-	float4 Pos			 : SV_POSITION;
-	float3 Normal		 : TEXCOORD0;
-	float2 Uv			 : TEXCOORD1;
-	float3 BiTangent	 : TEXCOORD2;
-	float3 Tangent		 : TEXCOORD3;
-	float4 wPos			 : WORLDPOS;
-};
-struct GBUFFER_GS_OUT
+struct BILLBOARD_GS_OUT
 {
 	float4 Pos			: SV_POSITION;
 	float3 Normal		: TEXCOORD0;
@@ -81,7 +63,8 @@ struct GBUFFER_GS_OUT
 	float4 camPos		: CAMERAPOS;
 	float4 mousePos		: MOUSEPOS;
 };
-struct GBUFFER_PS_OUT
+
+struct BILLBOARD_PS_OUT
 {
 	float4 diffuseRes	: SV_Target0;
 	float4 specularRes	: SV_Target1;
@@ -91,66 +74,68 @@ struct GBUFFER_PS_OUT
 	float4 glowRes		: SV_Target5;
 };
 
-//Vertex shader
-GBUFFER_VS_OUT GBUFFER_VS_main(GBUFFER_VS_IN input)
+
+
+BILLBOARD_VS_OUT BILLBOARD_VS(BILLBOARD_VS_IN input )
 {
-	GBUFFER_VS_OUT output;
+	BILLBOARD_VS_OUT output;
+	output.worldPos		= float4(input.worldPos,1.0f);
+	output.direction	= input.direction;
+	output.width		= input.width;
+	output.height		= input.height;
 
-	output.Pos = mul(float4(input.Pos, 1.0f),input.worldMatrix);
-	output.wPos = output.Pos;
-	output.Pos = mul(output.Pos, view);
-	output.Pos = mul(output.Pos, projection);
-	
-
-	output.BiTangent= float3(input.BiTangent, (1 - length(input.BiTangent)));
-	output.Tangent = float3 (input.Tangent, (1 - length(input.Tangent)));
-
-	//output.BiTangent.z = (1 - length(input.BiTangent));
-	//output.Tangent.z = (1 - length(input.Tangent));
-
-
-	
-
-
-
-	output.Normal		= normalize(mul(float4(input.Normal,    0.0f),	 input.worldMatrix).xyz).xyz;
-	output.BiTangent	= normalize(mul(float4(output.BiTangent, 0.0f),  input.worldMatrix).xyz).xyz;
-	output.Tangent		= normalize(mul(float4(output.Tangent,   0.0f),  input.worldMatrix).xyz).xyz;
-	output.Uv			= input.Uv;
 	return output;
 }
 
 
-[maxvertexcount(3)]
-//Geometry shader!
-void GBUFFER_GS_main(
-	triangle GBUFFER_VS_OUT input[3],
-	inout TriangleStream< GBUFFER_GS_OUT > output)
+
+[maxvertexcount(4)]
+
+void BILLBOARD_GS(point BILLBOARD_VS_OUT input[1],
+	inout TriangleStream< BILLBOARD_GS_OUT > output)
 {
-	
-
-	for (uint i = 0; i < 3; i++)
-	{
+	float3 vecToCam = (input[0].worldPos - camPos.xyz);
+	//vecToCam.z = 0.0f;
+	vecToCam = normalize(vecToCam);
+	float3 upVec = normalize(input[0].direction);
+	//upVec.y = 0;
+	upVec = normalize(upVec);
 		
+	float3 rightVec = normalize(cross(-vecToCam, upVec));
 
-		GBUFFER_GS_OUT element;
-		//element.Pos			 = mul(input[i].Pos, view);
-		//element.Pos			 = mul(input[i].Pos, projection);
-		element.Pos			 = input[i].Pos;
-		element.Normal		 = input[i].Normal     ;
-		element.BiTangent	 = input[i].BiTangent  ;
-		element.Tangent		 = input[i].Tangent	   ;
-		element.Uv			 = input[i].Uv;
-		element.wPos		 = input[i].wPos;
-		element.camPos		 = camPos;
-		element.mousePos	 = mousePos;
+	//Get vertices for the quad
+	float3 vert[4];
+	vert[0] = input[0].worldPos - rightVec * input[0].width - upVec * input[0].height;
+	vert[1] = input[0].worldPos - rightVec * input[0].width + upVec * input[0].height;
+	vert[2] = input[0].worldPos + rightVec * input[0].width - upVec * input[0].height;
+	vert[3] = input[0].worldPos + rightVec * input[0].width + upVec * input[0].height;
 
-		output.Append(element);
+	//Get texture coordinates
+	float2 texCoord[4];
+	texCoord[3] = float2(0.0f, 1.0f);
+	texCoord[2] = float2(0.0f, 0.0f);
+	texCoord[1] = float2(1.0f, 1.0f);
+	texCoord[0] = float2(1.0f, 0.0f);
+
+	BILLBOARD_GS_OUT outputVert = (BILLBOARD_GS_OUT)0;
+	[unroll]
+	for (int i = 0; i < 4; i++)
+	{
+		outputVert.Pos		 = mul(mul(float4(vert[i], 1.0f), view), projection);
+		outputVert.Uv		 = texCoord[i];
+		outputVert.Normal	 = -vecToCam;
+		outputVert.BiTangent = float3(1.0f, 1.0f, 1.0f);
+		outputVert.Tangent   = float3(1.0f, 1.0f, 1.0f);
+		
+		outputVert.wPos		= float4(vert[i], 1.0f);
+		outputVert.camPos	= camPos;
+		outputVert.mousePos = mousePos;
+
+
+		output.Append(outputVert);
 	}
 
-
 }
-
 
 float3 normalToWorldSpace(float3 normalMapSample, float3 normal, float3 tangent, float3 biTangent) //Function for normal mapping  
 {
@@ -180,10 +165,10 @@ float3 normalToWorldSpace(float3 normalMapSample, float3 normal, float3 tangent,
 }
 
 
-//pixel shader
-GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
+BILLBOARD_PS_OUT BILLBOARD_PS(BILLBOARD_GS_OUT input)
 {
-	GBUFFER_PS_OUT output = (GBUFFER_PS_OUT)0;
+
+	BILLBOARD_PS_OUT output;
 
 
 	float4 pixelPos = { input.wPos.x, 0.0 , input.wPos.z, 1.0 };
@@ -223,7 +208,7 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	if (diffuseMap)
 	{
 		textureSample = diffuseTex.Sample(linearSampler, input.Uv);
-		if (textureSample.a < 0.1)
+		if (textureSample.a < 0.3)
 			clip(-1);
 		textureSample.a = col.x; //laser pointer color
 		output.diffuseRes = textureSample;
@@ -231,7 +216,7 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	else
 	{
 
-		output.diffuseRes = float4(0.5, 0.5, 0.5, col.x); //Alpha == laserpointer color
+		output.diffuseRes = float4(1.0, 0.5, 0.5, col.x); //Alpha == laserpointer color
 	}
 
 
@@ -284,26 +269,3 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 
 	return output;
 }
-
-//GBUFFER shadowmap shader
-struct GBUFFER_SHADOWDEPTH_VS_OUT
-{
-	float4 position		: SV_POSITION;
-};
-GBUFFER_SHADOWDEPTH_VS_OUT GBUFFER_SHADOWDEPTH_VS_main(GBUFFER_VS_IN input)
-{
-	GBUFFER_SHADOWDEPTH_VS_OUT output = (GBUFFER_SHADOWDEPTH_VS_OUT)0;
-	//matrix combinedMatrix = mul(world, mul(lightView, lightProjection));
-
-	output.position = float4(input.Pos, 1);
-
-	//output.position = mul(output.position, combinedMatrix);
-
-	return output;
-}
-
-
-
-
-
-

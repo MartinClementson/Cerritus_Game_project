@@ -13,7 +13,7 @@
 #pragma endregion
 
 #define LIGHTBUFFER_AMOUNT 3
-#define INSTANCED_BUFFER_AMOUNT 1
+
 
 
 enum LIGHTBUFFERS {
@@ -24,8 +24,8 @@ enum LIGHTBUFFERS {
 
 enum INSTANCED_BUFFERS
 {
-	INSTANCED_WORLD
-
+	INSTANCED_WORLD,
+	BILLBOARD_BUFFER
 };
 
 class Renderer
@@ -43,7 +43,7 @@ private:
 	ID3D11Buffer* cbufferPerFrame							= nullptr;	   
 	ID3D11Buffer* sampleBoolsBuffer							= nullptr;	   //samplingState constBuffer (Controls if a mesh has normalmap,specmap, etc)
 	
-	ID3D11Buffer* instancedBuffers[INSTANCED_BUFFER_AMOUNT] = { nullptr };
+	ID3D11Buffer* instancedBuffers[UNIQUE_INSTANCED_BUFFER_AMOUNT] = { nullptr };
 
 	LightManager lightmanager;
 	ID3D11Buffer* lightBuffers[LIGHTBUFFER_AMOUNT]			= { nullptr }; //Light constBuffers
@@ -78,12 +78,16 @@ public:
 	void Render(RenderInfoChar* object);
 	void Render(RenderInfoTrap* object);
 
+	void RenderInstanced(RenderInfoEnemy* object,  InstancedData* arrayData ,unsigned int amount);
+	void RenderInstanced(RenderInfoObject* object, InstancedData* arrayData, unsigned int amount);
+	void RenderInstanced(RenderInfoTrap* object,   InstancedData* arrayData, unsigned int amount);
+
+	void RenderBillBoard(RenderInfoObject* object, BillboardData* arrayData, unsigned int amount);
+
+
 	void RenderPlaceHolder(XMFLOAT3* position);
 	void RenderPlaceHolder(XMFLOAT3* position, XMFLOAT3* rotation);
 	void RenderPlaceHolderPlane();
-
-	void RenderInstanced(RenderInfoEnemy* object, InstancedData* arrayData ,unsigned int amount);
-
 
 	void SetMouseWorldPos(XMFLOAT4 position);
 
@@ -91,15 +95,19 @@ public:
 	void GetInverseProjectionMatrix(XMMATRIX &matrix);
 
 	
+	bool FrustumCheck(XMFLOAT3 pos, float radius);
+	
 private:
 	void Render(RenderInstructions* object);
 	void RenderInstanced(RenderInstructions* object, ID3D11Buffer* instanceBuffer, unsigned int amount);
-	
+	void RenderBillBoard(RenderInstructions* object, ID3D11Buffer* instanceBuffer, unsigned int amount);
+
 	void MapLightBufferStructures();
 	void UpdateCbufferPerFrame();
 	void UpdateLightBuffer();
 	void UpdateWorldBuffer(WorldMatrix* worldStruct);
 	void UpdateSampleBoolsBuffer(SampleBoolStruct* sampleStruct);
 	bool CreateBuffers();
-
+public:
+	void UpdateCamera(XMFLOAT3 position) { this->sceneCam->Updateview(position); this->UpdateCbufferPerFrame(); };
 };

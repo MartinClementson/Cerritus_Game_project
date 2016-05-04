@@ -52,7 +52,7 @@ void Renderer::Release()
 	for (size_t i = 0; i < LIGHTBUFFER_AMOUNT; i++)
 		SAFE_RELEASE(lightBuffers[i]);
 
-	for (size_t i = 0; i < INSTANCED_BUFFER_AMOUNT; i++)
+	for (size_t i = 0; i < UNIQUE_INSTANCED_BUFFER_AMOUNT; i++)
 		SAFE_RELEASE(instancedBuffers[i]);
 
 	
@@ -168,48 +168,127 @@ void Renderer::RenderInstanced(RenderInfoEnemy* object, InstancedData* arrayData
 		
 	}
 
-
-
-
-
-	//D3D11_MAPPED_SUBRESOURCE mapRes;
-	//HRESULT hr = S_OK;
-
-	//hr = gDeviceContext->Map(instancedBuffers[INSTANCED_WORLD], 0, D3D11_MAP_WRITE_DISCARD, 0, &mapRes);
-	//if (FAILED(hr))
-	//	MessageBox(NULL, L"Failed to update instanced buffer", L"Error", MB_ICONERROR | MB_OK);
-
-	//memcpy(mapRes.pData, (void*)arrayData, sizeof(InstancedData)*amount);
-	//gDeviceContext->Unmap(instancedBuffers[INSTANCED_WORLD], 0);
-
-
-
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
 	gDeviceContext->Map(instancedBuffers[INSTANCED_WORLD], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
 
-
 	InstancedData* tempStructMatrices = (InstancedData*)mappedResource.pData;
 
-	//*tempStructMatrices = *arrayData;
 	memcpy(tempStructMatrices, (void*)arrayData, sizeof(InstancedData)*amount);
-
 
 	gDeviceContext->Unmap(instancedBuffers[INSTANCED_WORLD], 0);
 
-
-
-
-
 	RenderInstanced(objectInstruction, this->instancedBuffers[INSTANCED_WORLD], amount);
-
 
 	//Reset the shaders to normal shaders for the next objects to rener
 	if(this->resourceManager->IsGbufferPass())
 		resourceManager->SetGbufferPass(true);
 	if (this->resourceManager->IsShadowPass())
 		resourceManager->SetShadowPass(true);
+}
+
+void Renderer::RenderInstanced(RenderInfoObject * object, InstancedData * arrayData, unsigned int amount)
+{
+
+	RenderInstructions * objectInstruction;
+
+	objectInstruction = this->resourceManager->GetRenderInfo(object);
+
+	MeshEnum meshType = object->object;
+	if (meshType == MeshEnum::PROJECTILE_1 && resourceManager->IsGbufferPass() == true)
+		resourceManager->SetShader(Shaders::GBUFFER_SHADER_INSTANCED);
+
+	else if (meshType == MeshEnum::PROJECTILE_1  && resourceManager->IsShadowPass() == true)
+		resourceManager->SetShader(Shaders::SHADOW_SHADER_INSTANCED);
+
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+	gDeviceContext->Map(instancedBuffers[INSTANCED_WORLD], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+	InstancedData* tempStructMatrices = (InstancedData*)mappedResource.pData;
+
+	memcpy(tempStructMatrices, (void*)arrayData, sizeof(InstancedData)*amount);
+
+	gDeviceContext->Unmap(instancedBuffers[INSTANCED_WORLD], 0);
+
+	RenderInstanced(objectInstruction, this->instancedBuffers[INSTANCED_WORLD], amount);
+
+
+	//Reset the shaders to normal shaders for the next objects to render
+	if (this->resourceManager->IsGbufferPass())
+		resourceManager->SetGbufferPass(true);
+	if (this->resourceManager->IsShadowPass())
+		resourceManager->SetShadowPass(true);
+}
+
+void Renderer::RenderInstanced(RenderInfoTrap * object, InstancedData * arrayData, unsigned int amount)
+{
+
+	RenderInstructions * objectInstruction;
+
+	objectInstruction = this->resourceManager->GetRenderInfo(object);
+
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+	gDeviceContext->Map(instancedBuffers[INSTANCED_WORLD], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+	InstancedData* tempStructMatrices = (InstancedData*)mappedResource.pData;
+
+	memcpy(tempStructMatrices, (void*)arrayData, sizeof(InstancedData)*amount);
+
+	gDeviceContext->Unmap(instancedBuffers[INSTANCED_WORLD], 0);
+
+	RenderInstanced(objectInstruction, this->instancedBuffers[INSTANCED_WORLD], amount);
+
+
+	//Reset the shaders to normal shaders for the next objects to rener
+	if (this->resourceManager->IsGbufferPass())
+		resourceManager->SetGbufferPass(true);
+	if (this->resourceManager->IsShadowPass())
+		resourceManager->SetShadowPass(true);
+
+
+
+}
+
+void Renderer::RenderBillBoard(RenderInfoObject * object, BillboardData * arrayData, unsigned int amount)
+{
+
+	if (this->resourceManager->IsShadowPass()) //Dont cast shadows with billboarded things, just return
+		return;
+
+
+	resourceManager->SetShader(Shaders::BILLBOARD_SHADER);
+
+	RenderInstructions * objectInstruction;
+
+	objectInstruction = this->resourceManager->GetRenderInfo(object);
+
+#pragma region Map the array to the vertex buffer
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+	gDeviceContext->Map(instancedBuffers[BILLBOARD_BUFFER], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+	BillboardData* tempStructMatrices = (BillboardData*)mappedResource.pData;
+
+	memcpy(tempStructMatrices, (void*)arrayData, sizeof(BillboardData)*amount);
+
+	gDeviceContext->Unmap(instancedBuffers[BILLBOARD_BUFFER], 0);
+#pragma endregion
+
+	RenderBillBoard(objectInstruction, this->instancedBuffers[BILLBOARD_BUFFER], amount);
+
+
+	//Reset the shaders to normal shaders for the next objects to render
+	if (this->resourceManager->IsGbufferPass())
+		resourceManager->SetGbufferPass(true);
+
+
 }
 
 
@@ -219,14 +298,8 @@ void Renderer::Render(RenderInfoChar * object)
 	RenderInstructions * objectInstruction;
 	
 	objectInstruction = this->resourceManager->GetRenderInfo(object);
-
-	//Update the camera view matrix!
-	this->sceneCam->Updateview( object->position);
-	this->UpdateCbufferPerFrame();
-
 	Render(objectInstruction);
 
-	
 
 }
 
@@ -300,6 +373,15 @@ void Renderer::GetInverseProjectionMatrix(XMMATRIX & matrix)
 	XMVECTOR det = XMMatrixDeterminant(matrix);
 	matrix = XMMatrixInverse(&det, matrix);
 
+}
+
+bool Renderer::FrustumCheck(XMFLOAT3 pos, float radius)
+{
+	
+	if (sceneCam->frustum->CheckCube(pos.x, pos.y, pos.z, radius) == true)
+		return true;
+	else 
+		return false;
 }
 
 //Private rendering call
@@ -415,14 +497,14 @@ void Renderer::RenderInstanced(RenderInstructions * object, ID3D11Buffer* instan
 
 #pragma endregion
 
-	vertexSize[1] = sizeof(InstancedData);
-	UINT32 offset[2] = { 0,0 };
+	vertexSize[1]		 = sizeof(InstancedData);
+	UINT32 offset[2]	 = { 0,0 };
 
 	ID3D11Buffer* vbs[2] = { object->vertexBuffer,instanceBuffer };
 	
 	this->gDeviceContext->IASetVertexBuffers(0, 2 ,vbs, vertexSize, offset);
 	this->gDeviceContext->IASetIndexBuffer(object->indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-
+	this->gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 
 #pragma region Set the objects texture maps to the shader
@@ -473,12 +555,81 @@ void Renderer::RenderInstanced(RenderInstructions * object, ID3D11Buffer* instan
 
 
 
-	gDeviceContext->GSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
 	gDeviceContext->VSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
+	gDeviceContext->GSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
 	gDeviceContext->PSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
 	
-	//this->gDeviceContext->DrawInstanced(*object->vertexCount, amount, 0, 0);
+	
 	this->gDeviceContext->DrawIndexedInstanced((UINT)*object->indexCount, amount, 0, 0, 0);
+}
+
+void Renderer::RenderBillBoard(RenderInstructions * object, ID3D11Buffer * instanceBuffer, unsigned int amount)
+{
+
+
+
+
+	UINT32 vertexSize= sizeof(BillboardData) ;
+	UINT32 offset = 0;
+
+	this->gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	this->gDeviceContext->IASetVertexBuffers(0, 1, &instanceBuffer, &vertexSize, &offset);
+
+#pragma region Set the objects texture maps to the shader
+
+	SampleBoolStruct sampleBools;
+	if (object->diffuseMap != nullptr)
+	{
+		this->gDeviceContext->PSSetShaderResources(0, 1, &object->diffuseMap);
+		sampleBools.diffuseMap = TRUE;
+	}
+	else
+	{
+		sampleBools.diffuseMap = FALSE;
+	}
+
+	if (object->normalMap != nullptr)
+	{
+		this->gDeviceContext->PSSetShaderResources(1, 1, &object->normalMap);
+		sampleBools.normalMap = TRUE;
+	}
+	else
+	{
+		sampleBools.normalMap = FALSE;
+	}
+
+	if (object->specularMap != nullptr)
+	{
+		this->gDeviceContext->PSSetShaderResources(2, 1, &object->specularMap);
+		sampleBools.specularMap = TRUE;
+	}
+	else
+	{
+		sampleBools.specularMap = FALSE;
+	}
+
+	if (object->glowMap != nullptr)
+	{
+		this->gDeviceContext->PSSetShaderResources(3, 1, &object->glowMap);
+		sampleBools.glowMap = TRUE;
+	}
+	else
+	{
+		sampleBools.glowMap = FALSE;
+	}
+
+	this->UpdateSampleBoolsBuffer(&sampleBools);
+#pragma endregion
+
+
+
+	gDeviceContext->VSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
+	gDeviceContext->GSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
+	gDeviceContext->PSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
+
+	this->gDeviceContext->Draw(amount, 0);
+	
+
 }
 
 void Renderer::MapLightBufferStructures()
@@ -749,6 +900,16 @@ bool Renderer::CreateBuffers()
 
 	if (FAILED(hr = gDevice->CreateBuffer(&bufferInstancedDesc, nullptr, &instancedBuffers[INSTANCED_WORLD])))
 		MessageBox(NULL, L"Failed to create Instance buffer", L"Renderer Error", MB_ICONERROR | MB_OK);
+
+
+	//-----------------------------------------------------------------------------------------------------------------------------------
+	//Billboarded geometry BUFFER
+	//-----------------------------------------------------------------------------------------------------------------------------------
+
+	bufferInstancedDesc.ByteWidth = sizeof(BillboardData) * MAX_BILLBOARDED_GEOMETRY;
+
+	if (FAILED(hr = gDevice->CreateBuffer(&bufferInstancedDesc, nullptr, &instancedBuffers[BILLBOARD_BUFFER])))
+		MessageBox(NULL, L"Failed to create billboard buffer", L"Renderer Error", MB_ICONERROR | MB_OK);
 
 
 	//-----------------------------------------------------------------------------------------------------------------------------------

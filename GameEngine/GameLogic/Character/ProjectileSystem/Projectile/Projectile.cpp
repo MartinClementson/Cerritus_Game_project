@@ -79,8 +79,11 @@ void Projectile::Update(double deltatime)
 
 		position = position + (direction* speed * float(deltatime));
 
-		renderInfo.position = position;
-		renderInfo.rotation = this->rotation;
+		renderInfo.position  = position;
+		renderInfo.rotation  = this->rotation;
+		renderInfo.direction = this->direction;
+		renderInfo.radius    = this->radius;  //Used for frustum culling
+		renderInfo.render    = true;			//Used for frustum culling
 		//renderInfo.rotation.x += 90;
 		//renderInfo.rotation.y += 180;
 		
