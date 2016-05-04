@@ -24,7 +24,7 @@ void Gbuffer::CreateBlurPassUAV()
 	textureDesc.Height = (UINT)WIN_HEIGHT;
 	textureDesc.MipLevels = 1;
 	textureDesc.ArraySize = 1;
-	textureDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT; //ändra till 16b
+	textureDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT; //ändra till 16b
 	textureDesc.SampleDesc.Count = 1;
 
 	hr = gDevice->CreateTexture2D(&textureDesc, 0, &tempTex);
@@ -57,16 +57,8 @@ void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCont
 		textureDesc.ArraySize = 1;
 		textureDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
 		textureDesc.SampleDesc.Count = 1;
-		if (i == 5)
-		{
-			textureDesc.Usage = D3D11_USAGE_DEFAULT;
-			textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-		}
-		else
-		{
-			textureDesc.Usage = D3D11_USAGE_DEFAULT;
-			textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-		}
+		textureDesc.Usage = D3D11_USAGE_DEFAULT;
+		textureDesc.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
 		textureDesc.CPUAccessFlags = 0;
 		textureDesc.MiscFlags = 0;
 
