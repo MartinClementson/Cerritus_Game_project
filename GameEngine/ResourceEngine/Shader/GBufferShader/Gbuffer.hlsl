@@ -122,12 +122,18 @@ void GBUFFER_GS_main(
 {
 	matrix combinedMatrix = mul(world, mul(view, projection));
 
+	//TEMP FIX: DONT FORGET TO CHANGE NORMAL MULTIPLICATION IN THE LOOP
+	float3 faceEdgeA = input[1].Pos - input[0].Pos;
+	float3 faceEdgeB = input[2].Pos - input[0].Pos;
+	float3 faceNormal = normalize(cross(faceEdgeA, faceEdgeB));
+
+
 	for (uint i = 0; i < 3; i++)
 	{
 		GBUFFER_GS_OUT element;
 		element.Pos				 = mul(input[i].Pos, combinedMatrix);
 
-		element.Normal			 = normalize( mul( float4(input[i].Normal,0.0f),    world ).xyz).xyz;
+		element.Normal			 = normalize( mul( float4(faceNormal,0.0f),    world ).xyz).xyz;
 		element.BiTangent		 = normalize( mul(float4(input[i].BiTangent,0.0f), world ).xyz).xyz;
 		element.Tangent			 = normalize( mul(float4(input[i].Tangent,0.0f),   world ).xyz).xyz;
 		element.Uv				 = input[i].Uv;
