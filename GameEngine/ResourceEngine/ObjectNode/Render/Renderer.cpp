@@ -538,7 +538,7 @@ void Renderer::RenderInstanced(RenderInstructions * object, ID3D11Buffer* instan
 	gDeviceContext->GSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
 	gDeviceContext->PSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
 	
-	//this->gDeviceContext->DrawInstanced(*object->vertexCount, amount, 0, 0);
+	
 	this->gDeviceContext->DrawIndexedInstanced((UINT)*object->indexCount, amount, 0, 0, 0);
 }
 
@@ -607,8 +607,7 @@ void Renderer::RenderBillBoard(RenderInstructions * object, ID3D11Buffer * insta
 	gDeviceContext->PSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
 
 	this->gDeviceContext->Draw(amount, 0);
-	//this->gDeviceContext->DrawInstanced(*object->vertexCount, amount, 0, 0);
-	//this->gDeviceContext->DrawIndexedInstanced((UINT)*object->indexCount, amount, 0, 0, 0);
+	
 
 }
 
