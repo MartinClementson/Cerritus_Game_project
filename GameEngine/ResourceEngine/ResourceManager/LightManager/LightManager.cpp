@@ -63,7 +63,7 @@ void LightManager::Initialize()
 	pointLights[0]->lightLookAt = DirectX::XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);	//Direct
 	pointLights[0]->lightDiffuse = DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	//Color
 	pointLights[0]->SetMatrices(DirectX::XM_PI*0.8f, 1.0f, 1.0f, 100.0f);
-	pointLights[0]->castShadow = TRUE;
+	pointLights[0]->castShadow = FALSE;
 	pointLights[0]->intensity = 4.0f;
 	pointLights[0]->lightRange = 5000.0f;
 	
@@ -123,12 +123,12 @@ void LightManager::Initialize()
 	pointLights[3]->attenuation = 0.02;*/
 
 	this->dirLights[0] = new DirectionalLight();
-	this->dirLights[0]->lightPosition = DirectX::XMFLOAT4(40.0f, 40.0f, 0.0f,1.0f);
+	this->dirLights[0]->lightPosition = DirectX::XMFLOAT4(30.0f, 40.0f, 0.0f,1.0f);
 	this->dirLights[0]->lightDiffuse  = DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 	this->dirLights[0]->lightLookAt = DirectX::XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);	//Direct
 	this->dirLights[0]->intensity = 6.0;
-	this->dirLights[0]->SetMatrices(1.0f, 30.0f, 60.0f);
-	this->dirLights[0]->castShadow = FALSE;
+	this->dirLights[0]->SetMatrices(1.0f, 0.0f, 120.0f);
+	this->dirLights[0]->castShadow = TRUE;
 	numActiveDirLights +=1;
 #pragma endregion
 

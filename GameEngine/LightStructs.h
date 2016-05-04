@@ -144,24 +144,7 @@ struct DirectionalLight
 
 		DirectX::XMStoreFloat4x4(&this->lightView, DirectX::XMMatrixTranspose(tempView));
 
-		float sceneBoundsRadius = 500;
-		float l = lightPosition.x - sceneBoundsRadius;
-		float b = lightPosition.y - sceneBoundsRadius;
-		float n = lightPosition.z - sceneBoundsRadius;
-		float r = lightPosition.x + sceneBoundsRadius;
-		float t	= lightPosition.y + sceneBoundsRadius;
-		float f	= lightPosition.z + sceneBoundsRadius;
-
-		DirectX::XMMATRIX tempProj = DirectX::XMMatrixOrthographicOffCenterLH(l, r, b,t, nearZ, farZ);
-			
-		DirectX::XMMATRIX T(
-			0.5f, 0.0f, 0.0f, 0.0f,
-			0.0f, -0.5f, 0.0f, 0.0f,
-			0.0f, 0.0f, 1.0f, 0.0f,
-			0.5f, 0.5f, 0.0f, 1.0f);
-
-		tempProj = DirectX::XMMatrixMultiply(tempProj, T);
-			// DirectX::XMMatrixOrthographicLH(2048.0f, 2048.0f, nearZ, farZ);
+		DirectX::XMMATRIX tempProj = DirectX::XMMatrixOrthographicLH((float)SHADOW_WIDTH*0.35f, (float)SHADOW_HEIGHT*0.35f, nearZ, farZ);
 		//DirectX::XMMATRIX tempProj = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PI*0.8f, aspectRatio, nearZ, farZ);
 		DirectX::XMStoreFloat4x4(&this->lightProjection, DirectX::XMMatrixTranspose(tempProj));
 	};
