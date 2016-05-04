@@ -104,8 +104,8 @@ GBUFFER_VS_OUT GBUFFER_VS_main(GBUFFER_VS_IN input)
 	output.BiTangent.xy	 = input.BiTangent;						  //z value NEEDS TO BE CALCULATED (1 is just a placeholder!!)
 	output.Tangent.xy	 = input.Tangent;						  //z value NEEDS TO BE CALCULATED (1 is just a placeholder!!)
 
-	output.BiTangent.z	 = (1 - length(input.BiTangent));
-	output.Tangent.z	 = (1 - length(input.Tangent));
+	output.BiTangent.z	 = sqrt(1 - pow(input.BiTangent.x,2) + pow (input.BiTangent.y,2));
+	output.Tangent.z	 = sqrt(1 - pow(input.Tangent.x,  2) + pow(input.Tangent.y,   2));
 
 	normalize(output.BiTangent);
 	normalize(output.Tangent);
