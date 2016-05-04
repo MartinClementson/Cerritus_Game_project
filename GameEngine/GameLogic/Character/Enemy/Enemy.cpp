@@ -1,5 +1,7 @@
 #include "Enemy.h"
 
+using namespace std;
+
 EnemyStateMachine * Enemy::GetStateMachine()
 {
 	return this->enemyStateMachine;
@@ -36,6 +38,7 @@ void Enemy::Initialize()
 		originalMovementSpeed = movementSpeed;
 
 		health = 50.0f;
+		this->maxHealth = health;
 		DoT = 0;
 		damage = 5.0f;
 		rotation = { 0,90,0 };
@@ -54,6 +57,7 @@ void Enemy::Initialize()
 		movementSpeed = 18.0f;
 		originalMovementSpeed = movementSpeed;
 		health = 100.0f;
+		this->maxHealth = health;
 		DoT = 0;
 		damage = 5.0f;
 		rotation = { 0,0,0 };
@@ -126,7 +130,7 @@ void Enemy::Respawn(XMFLOAT3 spawn)
 	{
 		this->position = spawn;
 		this->isAlive = true;
-		this->health = 50.0f;
+		this->health = maxHealth;
 		this->DoT = 0.0f;
 		this->index = 0.0f;
 		this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
@@ -136,11 +140,16 @@ void Enemy::Respawn(XMFLOAT3 spawn)
 
 		this->position = spawn;
 		this->isAlive = true;
-		this->health = 100.0f;
+		this->health = maxHealth;
 		this->DoT = 0.0f;
 		this->index = 0.0f;
 		this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
 	}
+}
+
+float Enemy::GetMaxHealth()
+{
+	return this->maxHealth;
 }
 
 void Enemy::Spawn(XMFLOAT3 spawn)
@@ -150,7 +159,7 @@ void Enemy::Spawn(XMFLOAT3 spawn)
 		this->charType = CharacterType::FAST_ENEMY;
 		this->position = spawn;
 		this->isAlive = true;
-		this->health = 50.0f;
+		this->health = maxHealth;
 		this->DoT = 0.0f;
 		this->index = 0.0f;
 		//this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_IDLE_STATE);
@@ -160,7 +169,7 @@ void Enemy::Spawn(XMFLOAT3 spawn)
 		this->charType = CharacterType::SLOW_ENEMY;
 		this->position = spawn;
 		this->isAlive = true;
-		this->health = 100.0f;
+		this->health = maxHealth;
 		this->DoT = 0.0f;
 		this->index = 0.0f;
 		//this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_IDLE_STATE);
@@ -277,5 +286,75 @@ void Enemy::EnemyWithEnemyCollision(Enemy* enemy, Enemy* enemys, double deltaTim
 	else if (enemyStateMachine->GetActiveState() == ENEMY_DEATH_STATE)
 	{
 		//here they go to die 
+	}
+}
+
+void Enemy::SetClosestHealer(vector<EnemyBase*> healer)
+{
+	EnemyBase* tmpCloseHealer;
+
+	XMFLOAT3 healPos;
+	healPos.y = 0;
+	XMFLOAT3 closest;
+	closest.y = 0;
+	XMFLOAT3 tmp;
+	tmp.y = 0;
+	bool first = false;
+
+	if (healer.size() == 0)
+	{
+		closestHealer = nullptr;
+	}
+	else
+	{
+		for (size_t i = 0; i < healer.size(); i++)
+		{
+			healPos = healer.at(i)->position;
+
+			//////////////////
+
+			tmp.x = healPos.x - position.x;
+			if (tmp.x < 0)
+			{
+				tmp.x = -tmp.x;
+			}
+
+
+			tmp.z = healPos.z - position.z;
+			if (tmp.z < 0)
+			{
+				tmp.z = -tmp.z;
+			}
+
+			//////////////////
+
+			if (first = false)
+			{
+				first = true;
+				closest = tmp;
+				tmpCloseHealer = healer.at(i);
+			}
+			else
+			{
+				if (closest.x > tmp.x && closest.z > tmp.z)
+				{
+					closest = tmp;
+					tmpCloseHealer = healer.at(i);
+				}
+			}
+		}
+		closestHealer = tmpCloseHealer;
+	}
+}
+
+EnemyBase* Enemy::GetClosestHealer()
+{
+	if (!closestHealer)
+	{
+		return nullptr;
+	}
+	else
+	{
+		return closestHealer;
 	}
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include "../Character.h"
-#include "../../../Source//LibIncluder.h"
+#include "../../../Source/LibIncluder.h"
 #include "../../../Enumerations/Enumerations.h"
 #include "../../InputHandler/Input/Input.h"
 #include "../../../../GameEngine/Structs/RenderInfo.h"
@@ -20,6 +20,7 @@ protected:
 	Player * player;
 	bool fast;
 	CharacterType charType;
+	float maxHealth;
 	
 	EnemyBase();
 public:
@@ -42,9 +43,11 @@ public:
 
 	virtual float GetHealth();
 
-	virtual void SetHealth(float health);
+	virtual float GetMaxHealth();
+	virtual void SetClosestHealer(vector<EnemyBase*> healer);
+	virtual EnemyBase* GetClosestHealer();
 
-	virtual 
+	virtual void SetHealth(float health);
 
 	virtual void Render();
 	virtual XMFLOAT3 GetPosition();

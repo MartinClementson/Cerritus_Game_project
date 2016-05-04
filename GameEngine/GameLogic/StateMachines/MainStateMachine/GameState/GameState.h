@@ -24,8 +24,9 @@ public:
 	void SetIsActive(bool isPlayerDead);
 	bool GetIsActive();
 	float timeSincePaused;
-	int index;
+	float index;
 	float GetPoints();
+	//EnemyBase* ClosestHealer(vector<EnemyBase*> healers);
 
 
 private:
@@ -33,6 +34,7 @@ private:
 	void OnExit();
 	
 private:
+	vector<EnemyBase*> healers;
 	Scene* room1;
 	Scene* room2;
 	Player* player;

@@ -1,5 +1,6 @@
 #include "EnemyBase.h"
 
+using namespace std;
 
 
 void EnemyBase::Release()
@@ -41,6 +42,21 @@ void EnemyBase::Update(double deltaTime)
 float EnemyBase::GetHealth()
 {
 	return 0.0f;
+}
+
+float EnemyBase::GetMaxHealth()
+{
+	return 0.0f;
+}
+
+void EnemyBase::SetClosestHealer(vector<EnemyBase*> healer)
+{
+	return;
+}
+
+EnemyBase * EnemyBase::GetClosestHealer()
+{
+	return nullptr;
 }
 
 void EnemyBase::SetHealth(float health)

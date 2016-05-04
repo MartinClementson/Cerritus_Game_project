@@ -24,6 +24,7 @@ void Healer::Initialize()
 	this->charType = CharacterType::HEALER;
 	movementSpeed = 5.0f;
 	health = 300;
+	this->maxHealth = health;
 	damage = 5.0f;
 	rotation = { 0,0,90 };
 
@@ -88,7 +89,7 @@ void Healer::Respawn(XMFLOAT3 spawn)
 {
 	this->position = spawn;
 	this->isAlive = true;
-	this->health = 300.0f;
+	this->health = maxHealth;
 	this->index = 0.0f;
 	this->movementSpeed = 5.0f;
 	this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
@@ -98,7 +99,7 @@ void Healer::Spawn(XMFLOAT3 spawn)
 {
 	this->position = spawn;
 	this->isAlive = true;
-	this->health = 300.0f;
+	this->health = maxHealth;
 	this->index = 0.0f;
 	this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_IDLE_STATE);
 }

@@ -53,7 +53,6 @@ void EnemySpawn::Update(double deltaTime)
 				}
 			}
 		}
-		
 		if (StandardAlive.at(i)->GetHealth() <= 0 &&
 			StandardAlive.at(i)->GetStateMachine()->
 			GetActiveState() == EnemyState::ENEMY_ATTACK_STATE)
