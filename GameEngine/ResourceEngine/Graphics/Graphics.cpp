@@ -147,7 +147,7 @@ void Graphics::Render() //manage RenderPasses here
 													//Set the gBuffer as a subResource, send in the new RenderTarget
 	gBuffer->SetToRead(gBackBufferRTV); 
 	
-	//blurpass , this->gBuffer->GetGlowRTV(), this->depthStencilView
+	//blurpass
 	this->renderer->RenderBlurPass(this->gBuffer->GetBlurUAV(), this->gBuffer->GetGlowSRV());
 
 	this->renderer->RenderFinalPass();
@@ -243,7 +243,6 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 	float clearColor[] = { 0, 0, 1, 1 };
 	this->gDeviceContext->ClearDepthStencilView(this->depthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 	this->gDeviceContext->ClearRenderTargetView(gBackBufferRTV, clearColor);
-	//add CS clear here
 	gDeviceContext->ClearState();
 	
 
