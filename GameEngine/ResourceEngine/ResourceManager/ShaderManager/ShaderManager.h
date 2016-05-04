@@ -89,6 +89,8 @@ private:
 	ID3D11PixelShader*		UI_PS					= nullptr;
 	ID3D11InputLayout*		gVertexLayoutUI			= nullptr;
 
+	//ComputeShaders
+	ID3D11ComputeShader*	BLUR_CS					= nullptr;
 
 	//Input layout for instanced geometry
 	
@@ -115,5 +117,6 @@ private:
 	bool CreateParticleShader();
 	bool CreateBillboardShader();
 	bool CreateUiShader();
+	bool CreateBlurComputeShader();
 };
 

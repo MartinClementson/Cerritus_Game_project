@@ -80,7 +80,8 @@ void ShaderManager::Release()
 	SAFE_RELEASE(gVertexLayoutUI);
 
 
-		
+	//ComputeShaders
+	SAFE_RELEASE(BLUR_CS);
 
 	
 
@@ -204,6 +205,12 @@ void ShaderManager::SetActiveShader(Shaders shader)
 			this->gDeviceContext->IASetInputLayout(gVertexLayoutUI);
 			
 		break;
+
+	case BLUR_SHADER:
+
+			this->gDeviceContext->CSSetShader(BLUR_CS, nullptr, 0);
+
+		break;
 	}
 
 }
@@ -223,6 +230,8 @@ void ShaderManager::CreateShaders()
 		MessageBox(NULL, L"Error compiling Instanced Gbuffer shaders", L"Shader error", MB_ICONERROR | MB_OK);
 	if (!CreateInstancedShadowShader())
 		MessageBox(NULL, L"Error compiling instanced Shadow shaders", L"Shader error", MB_ICONERROR | MB_OK);
+	if (!CreateBlurComputeShader())
+		MessageBox(NULL, L"Error compiling compute shader", L"Shader error", MB_ICONERROR | MB_OK);
 	if (!CreateBillboardShader())
 		MessageBox(NULL, L"Error compiling instanced Shadow shaders", L"Shader error", MB_ICONERROR | MB_OK);
 }
@@ -643,6 +652,32 @@ bool ShaderManager::CreateInstancedShadowShader()
 	hr = this->gDevice->CreateGeometryShader(pGS->GetBufferPointer(), pGS->GetBufferSize(), nullptr, &INSTANCED_SHADOW_GS);
 	pGS->Release();
 
+	if (FAILED(hr))
+		return false;
+
+	return true;
+}
+
+bool ShaderManager::CreateBlurComputeShader()
+{
+	HRESULT hr;
+	//Connecting the CS
+	ID3DBlob *pCs = nullptr;
+	D3DCompileFromFile(
+		L"ResourceEngine/Shader/ComputeShaders/BlurCS.hlsl",
+		nullptr,
+		nullptr,
+		"main",
+		"cs_5_0",
+		0,
+		0,
+		&pCs,
+		nullptr);
+
+	hr = gDevice->CreateComputeShader(pCs->GetBufferPointer(),
+		pCs->GetBufferSize(), NULL, &BLUR_CS);
+
+	pCs->Release();
 	if (FAILED(hr))
 		return false;
 

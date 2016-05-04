@@ -11,13 +11,16 @@ private:
 
 	ID3D11RenderTargetView		*textureRTVs			[TEXTUREAMOUNT] = { nullptr	};
 	ID3D11ShaderResourceView	*shaderResourceViews	[TEXTUREAMOUNT] = { nullptr };
-	ID3D11Texture2D				*gBufferTextures		[TEXTUREAMOUNT] = { nullptr };
+	//ID3D11Texture2D				*gBufferTextures		[TEXTUREAMOUNT] = { nullptr };
 
+	ID3D11UnorderedAccessView   *blurUAV				 = nullptr;
+	void CreateBlurPassUAV();
 public:
 	Gbuffer();
 	~Gbuffer();
 
-
+	ID3D11UnorderedAccessView* GetBlurUAV() { return this->blurUAV; }
+	ID3D11ShaderResourceView*  GetGlowSRV() { return this->shaderResourceViews[5]; }
 	void Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext);
 	void Release();
 

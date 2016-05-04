@@ -102,7 +102,10 @@ void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * to
 	else if (*meshEnum == MeshEnum::ENEMY_1)
 		this->gameMeshes->at(1).GetMeshRenderInfo(toRender);
 	else if (*meshEnum == MeshEnum::TRAP_BEAR)
+	{
 		this->gameMeshes->at(2).GetMeshRenderInfo(toRender);
+
+	}
 	else if (*meshEnum == MeshEnum::TRAP_FIRE)
 		this->gameMeshes->at(3).GetMeshRenderInfo(toRender);
 	else if (*meshEnum == MeshEnum::LEVEL_1)

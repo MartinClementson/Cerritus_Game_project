@@ -146,6 +146,9 @@ void Graphics::Render() //manage RenderPasses here
 	RenderScene();									//Render to the gBuffer
 													//Set the gBuffer as a subResource, send in the new RenderTarget
 	gBuffer->SetToRead(gBackBufferRTV); 
+	
+	//blurpass
+	this->renderer->RenderBlurPass(this->gBuffer->GetBlurUAV(), this->gBuffer->GetGlowSRV());
 
 	this->renderer->RenderFinalPass();
 	gBuffer->ClearGbuffer();
@@ -629,8 +632,6 @@ HRESULT Graphics::CreateDirect3DContext()
 			MessageBox(*wndHandle, L"Failed to create UAV", L"Error", MB_ICONERROR | MB_OK);
 			return hr;
 		}
-
-
 
 
 		hr = this->gDevice->CreateShaderResourceView(pBackBuffer, nullptr, &BackBufferTexture);
