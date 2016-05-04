@@ -55,7 +55,7 @@ void Gbuffer::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceCont
 		textureDesc.Height = (UINT) WIN_HEIGHT;
 		textureDesc.MipLevels = 1;
 		textureDesc.ArraySize = 1;
-		textureDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT; //ändra till 16b
+		textureDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT; //ändra till 16b
 		textureDesc.SampleDesc.Count = 1;
 		if (i == 5)
 		{
