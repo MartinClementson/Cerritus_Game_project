@@ -409,6 +409,9 @@
     <ClCompile Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton\Skeleton.cpp">
       <Filter>ResourceEngine\ResourceManager\SkeletonManager\Skeleton</Filter>
     </ClCompile>
+    <ClCompile Include="Sprites.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enumerations\Enumerations.h">
@@ -600,6 +603,7 @@
     <ClInclude Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton\Skeleton.h">
       <Filter>ResourceEngine\ResourceManager\SkeletonManager\Skeleton</Filter>
     </ClInclude>
+    <ClInclude Include="Sprites.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ResourceEngine\Shader\GBufferShader\Gbuffer.hlsl">

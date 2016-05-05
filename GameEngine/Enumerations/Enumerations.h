@@ -58,7 +58,7 @@ enum UITextures
 	MENU,
 	PAUSE,
 	GAMEOVER,
-	TEXTATLAS,
+	NUMBERS,
 	RESTARTMENU, // newGameMenu
 	RESTARTPAUSE, // restart Pause
 	EXITMENU, // ExitButton menu
