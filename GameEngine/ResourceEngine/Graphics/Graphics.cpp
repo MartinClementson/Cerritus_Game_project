@@ -408,7 +408,7 @@ void Graphics::CullGeometry()
 				billBoardArray[projectileIndex].direction = this->gameObjects->at(i)->direction;
 				billBoardArray[projectileIndex].height    = 3.0f;
 				billBoardArray[projectileIndex].width     = 0.15f;
-				billBoardArray[projectileIndex].worldPos  = this->gameObjects->at(i)->position + (this->gameObjects->at(i)->direction *(billBoardArray[projectileIndex].height * 0.9));
+				billBoardArray[projectileIndex].worldPos  = this->gameObjects->at(i)->position + (this->gameObjects->at(i)->direction *(billBoardArray[projectileIndex].height * 0.9f));
 
 				instancesToRender[PROJECTILE_INSTANCED]  += 1;
 				projectileIndex							 += 1;
