@@ -45,18 +45,19 @@ cbuffer textureSampleBuffer : register(b3)
 
 struct PointLight
 {
-	float4 lightPosition;
-	matrix lightView;
-	matrix lightProjection;
-	float4 lightLookAt;
-	float4 lightDiffuse;
-	float intensity;
-	float3 padI;
-	float lightRange;
-	float3 padR;
-	float attenuation;
-	float3 padA;
-	bool castShadow;
+    float4 lightPosition;
+    matrix lightView;
+    matrix lightProjection;
+    float4 lightLookAt;
+    float4 lightDiffuse;
+    float intensity;
+    float3 padd;
+    float lightRange;
+    float3 pad;
+    float attenuation;
+    float3 paddd;
+    bool castShadow;
+    float3 padshadow;
 };
 
 
@@ -463,8 +464,8 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 	//justglow
 	//float4 specularSample = specularTexture.Sample(pointSampler, input.Uv);
 
-	//return finalCol;
-	return glow;
+	return finalCol;
+	//return glow;
 }
 
 
