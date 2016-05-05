@@ -116,11 +116,11 @@ void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * to
 	else if (*meshEnum == MeshEnum::LEVEL_2)
 		this->gameMeshes->at(5).GetMeshRenderInfo(toRender);
 	else if (*meshEnum == MeshEnum::LEVEL_3)
-		this->gameMeshes->at(6).GetMeshRenderInfo(toRender);
-	else if (*meshEnum == MeshEnum::LEVEL_4)
 		this->gameMeshes->at(7).GetMeshRenderInfo(toRender);
-	else if (*meshEnum == MeshEnum::PROJECTILE_1)
+	else if (*meshEnum == MeshEnum::LEVEL_4)
 		this->gameMeshes->at(8).GetMeshRenderInfo(toRender);
+	else if (*meshEnum == MeshEnum::PROJECTILE_1)
+		this->gameMeshes->at(9).GetMeshRenderInfo(toRender);
 
 	else
 	{
