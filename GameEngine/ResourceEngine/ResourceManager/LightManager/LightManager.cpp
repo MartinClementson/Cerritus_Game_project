@@ -60,12 +60,12 @@ void LightManager::Initialize()
 
 	this->pointLights[0] = new PointLight();
 	pointLights[0]->lightPosition = DirectX::XMFLOAT4(0.0f, 40.0f, 0.0f, 1.0f); //Pos
-	pointLights[0]->lightLookAt = DirectX::XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);	//Direct
-	pointLights[0]->lightDiffuse = DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	//Color
+	pointLights[0]->lightLookAt   = DirectX::XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);	//Direct
+	pointLights[0]->lightDiffuse  = DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	//Color
 	pointLights[0]->SetMatrices(DirectX::XM_PI*0.8f, 1.0f, 1.0f, 100.0f);
-	pointLights[0]->castShadow = FALSE;
-	pointLights[0]->intensity = 4.0f;
-	pointLights[0]->lightRange = 5000.0f;
+	pointLights[0]->castShadow	  = FALSE;
+	pointLights[0]->intensity	  =  4.0f;
+	pointLights[0]->lightRange	  = 5000.0f;
 	
 	this->numActivePointLights += 1;
 
@@ -141,15 +141,11 @@ void LightManager::Release()
 
 PointLightStruct * LightManager::GetPointLightStruct()
 {
-	static float z = 5.5f;						 //TEMPORARY
-	static float x = 5.5f;						 //TEMPORARY
+	
 	for (size_t i = 0; i < numActivePointLights; i++)
 	{
-		//pointLights[i]->lightPosition.z = 60; //TEMPORARY
-		//pointLights[i]->lightPosition.x = +z;
 		pointLightStruct.pointLights[i] = *pointLights[i];
-		//x +=  (float) cos(z)* 0.006f * i;					 //TEMPORARY
-		//z +=  (float)sin(x)* 0.06f * i;					 //TEMPORARY
+		
 	}
 	return &pointLightStruct;
 }

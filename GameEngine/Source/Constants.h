@@ -1,6 +1,6 @@
 #pragma once
-#define WIN_WIDTH 800.0
-#define WIN_HEIGHT 600.0
+#define WIN_WIDTH 1920.0
+#define WIN_HEIGHT 1080.0
 
 #define SHADOW_WIDTH 512.0f //IF YOU CHANGE THIS SIZE; CHANGE IT IN THE FINAL PASS AS WELL.
 #define SHADOW_HEIGHT 512.0f
@@ -27,7 +27,7 @@
 #define VSYNC 1 //1 == ON, 0 = OFF
 #define FPS_CAP 60
 
-#define DEBUG 0 /* 2 = debug,  or : D3D11_CREATE_DEVICE_DEBUG */
+#define DEBUG 2/* 2 = debug,  or : D3D11_CREATE_DEVICE_DEBUG */
 
 #define D3D_DEBUG_INFO
 #define TEXTURE_PATH "textures/"

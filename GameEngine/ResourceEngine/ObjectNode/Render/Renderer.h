@@ -32,6 +32,9 @@ class Renderer
 {
 
 private:
+
+	int threadGroupsX = 32, threadGroupsY = 30; //This controls how many groups to dispatch in the compute shader. This value will be calculated att init to match the screen resolution
+
 	ID3D11DeviceContext* gDeviceContext						= nullptr;
 	ID3D11Device * gDevice									= nullptr;
 	ResourceManager* resourceManager						= nullptr;
