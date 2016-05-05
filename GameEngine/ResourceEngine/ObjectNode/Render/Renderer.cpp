@@ -76,6 +76,8 @@ void Renderer::RenderBlurPass(ID3D11UnorderedAccessView* uav, ID3D11ShaderResour
 	uav->GetResource(&source);
 	srv->GetResource(&target);
 	gDeviceContext->CopyResource(target, source);
+	SAFE_RELEASE(source);
+	SAFE_RELEASE(target);
 
 	this->resourceManager->SetShader(Shaders::BLUR_SECOND_SHADER);
 	this->gDeviceContext->CSSetShaderResources(0, 1, &srv);
@@ -491,6 +493,8 @@ void Renderer::RenderInstanced(RenderInstructions * object, ID3D11Buffer* instan
 	this->gDeviceContext->GSSetShaderResources(POINTLIGHTS_BUFFER_INDEX, 1, &pointLightStructuredBuffer);
 	this->gDeviceContext->GSSetShaderResources(DIRLIGHTS_BUFFER_INDEX, 1, &dirLightStructuredBuffer);
 	
+	this->gDeviceContext->PSSetShaderResources(POINTLIGHTS_BUFFER_INDEX, 1, &pointLightStructuredBuffer);
+	this->gDeviceContext->PSSetShaderResources(DIRLIGHTS_BUFFER_INDEX, 1, &dirLightStructuredBuffer);
 
 #pragma region Check what vertex is to be used
 
@@ -955,7 +959,7 @@ bool Renderer::CreateBuffers()
 	srvDesc.Format = DXGI_FORMAT_UNKNOWN;
 	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_BUFFEREX;
 	srvDesc.Buffer.ElementOffset = 0;
-	//srvDesc.Buffer.ElementWidth = sizeof(PointLight);
+	srvDesc.Buffer.ElementWidth = sizeof(PointLight);
 	srvDesc.Buffer.NumElements = MAX_NUM_POINTLIGHTS;
 	if (FAILED(hr = gDevice->CreateShaderResourceView(lightBuffers[BUFFER_POINTLIGHTS], &srvDesc, &pointLightStructuredBuffer)))
 		MessageBox(NULL, L"Failed to create PointLight buffer", L"Error", MB_ICONERROR | MB_OK);
