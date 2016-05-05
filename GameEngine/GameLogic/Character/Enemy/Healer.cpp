@@ -15,6 +15,16 @@ Healer::~Healer()
 
 void Healer::Update(double deltaTime)
 {
+	if (movementSpeed != originalMovementSpeed)
+	{
+		slowTimer += (float)deltaTime;
+	}
+	if (slowTimer >= 2)
+	{
+		movementSpeed = originalMovementSpeed;
+		slowTimer = 0.0f;
+	}
+
 	enemyStateMachine->Update(deltaTime);
 	renderInfo = { position, rotation };
 }
@@ -23,6 +33,7 @@ void Healer::Initialize()
 {
 	this->charType = CharacterType::HEALER;
 	movementSpeed = 5.0f;
+	originalMovementSpeed = movementSpeed;
 	health = 300;
 	this->maxHealth = health;
 	damage = 5.0f;
@@ -32,6 +43,7 @@ void Healer::Initialize()
 	radius2 = 2.0f;
 
 	index = 0.0f;
+	slowTimer = 0.0f;
 
 	isAlive = false;
 }

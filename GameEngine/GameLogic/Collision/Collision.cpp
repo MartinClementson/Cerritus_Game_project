@@ -217,18 +217,17 @@ bool Collision::PlayerCollision(EnemyBase* enemy)
 	
 	enemyPos =  enemy->GetPosition();
 	enemyRad = enemy->GetRadius();
-	if (pow(playPos.x - enemyPos.x, 2) 
+	if (pow(playPos.x - enemyPos.x, 2)
 		+ pow(playPos.z - enemyPos.z, 2)
-		< pow(playRad + enemyRad, 2)) 
+		< pow(playRad + enemyRad, 2))
 	{
-		if (enemy->isAlive && enemy->movementSpeed > 0 && enemy->GetCharType() != CharacterType::HEALER)
+		if (enemy->isAlive && enemy->movementSpeed > 0)
 		{
 			enemy->movementSpeed = 0;
 			player->SetHealth(player->GetHealth() - 15.0f);
 		}
 		return true;
 	}
-
 	return false;
 }
 
@@ -289,8 +288,6 @@ bool Collision::TrapandEnemyLottery(EnemyBase* enemys)
 	{
 		if (this->bearTrap.at(i)->isActive)
 		{
-
-
 			trapPos = this->bearTrap.at(i)->GetPosition();
 			trapRad = this->bearTrap.at(i)->GetRadius2();
 
@@ -305,7 +302,6 @@ bool Collision::TrapandEnemyLottery(EnemyBase* enemys)
 			}
 		}
 	}
-	
 	return false;
 }
 

@@ -46,8 +46,6 @@ void EnemySpawn::Update(double deltaTime)
 			{
 				for (size_t j = 0; j < StandardAlive.size(); j++)
 				{
-
-
 					StandardAlive.at(j)->GetStateMachine()->
 						SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
 				}
@@ -260,6 +258,10 @@ void EnemySpawn::InitEnemy()
 			spawn.z = spawnZ;
 
 			StandardQueue.push_back(new Healer(spawn));
+
+			//For test 
+			//StandardQueue.push_back(new Enemy(spawn, true));
+			
 		}
 	}
 	for(int i = 0; i < (int)StandardQueue.size(); i++)

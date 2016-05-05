@@ -71,7 +71,6 @@ void Enemy::Initialize()
 
 		isAlive = false;
 	}
-	
 }
 
 
@@ -85,6 +84,23 @@ void Enemy::Update(double deltaTime)
 {                 
 	
 	health -= DoT;//deltaTime;
+
+	if (health < maxHealth / 2 && closestHealer != nullptr)
+	{
+		GetStateMachine()->SetActiveState(ENEMY_HEAL_STATE);
+	}
+	else if (health < maxHealth / 2 && closestHealer == nullptr)
+	{
+		GetStateMachine()->SetActiveState(ENEMY_ATTACK_STATE);
+	}
+
+
+	if (GetStateMachine()->GetActiveState() == ENEMY_HEAL_STATE
+		&&
+		GetHealth() == GetMaxHealth())
+	{
+		GetStateMachine()->SetActiveState(ENEMY_ATTACK_STATE);
+	}
 
 	if (DoT != 0)
 	{
@@ -221,34 +237,21 @@ void Enemy::AIPattern(Player* player, double deltaTime)
 		//here they go to die 
 	}
 }
-void Enemy::AIPatternHeal(EnemyBase* player, double deltaTime)
+void Enemy::AIPatternHeal(EnemyBase* healer, double deltaTime)
 {
-	if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE)
-	{
+	
+	XMFLOAT3 playerPos = healer->GetPosition();
+	Vec3 vect;
 
-		XMFLOAT3 playerPos = player->GetPosition();
-		Vec3 vect;
+	vect.x = playerPos.x - GetPosition().x;
+	vect.z = playerPos.z - GetPosition().z;
 
-		vect.x = playerPos.x - GetPosition().x;
-		vect.z = playerPos.z - GetPosition().z;
+	vect.Normalize();
 
-		vect.Normalize();
-
-		//XMFLOAT3 temp = GetPosition();
-		this->position.x += vect.x *(float)deltaTime * movementSpeed;
-		this->position.z += vect.z *(float)deltaTime * movementSpeed;
-		//SetPosition(temp);
-
-
-	}
-	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
-	{
-
-	}
-	else if (enemyStateMachine->GetActiveState() == ENEMY_DEATH_STATE)
-	{
-		//here they go to die 
-	}
+	//XMFLOAT3 temp = GetPosition();
+	this->position.x += vect.x *(float)deltaTime * movementSpeed;
+	this->position.z += vect.z *(float)deltaTime * movementSpeed;
+	//SetPosition(temp);
 }
 
 CharacterType Enemy::GetCharType()
