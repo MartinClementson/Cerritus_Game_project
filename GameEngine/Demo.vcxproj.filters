@@ -236,6 +236,9 @@
     <Filter Include="ResourceEngine\Shaders\UIShader">
       <UniqueIdentifier>{9d6bbd34-a1f8-4b57-acc3-0a4e577f8201}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameLogic\StateMachines\EnemyStateMachine\HealingState">
+      <UniqueIdentifier>{a600160d-e459-4d7e-86f3-92e25235fb77}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameLogic\Animation\Animation.cpp">
@@ -414,6 +417,9 @@
     </ClCompile>
     <ClCompile Include="GameLogic\Character\Enemy\EnemyBase.cpp">
       <Filter>GameLogic\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\HealingState\HealingState.cpp">
+      <Filter>GameLogic\StateMachines\EnemyStateMachine\HealingState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -611,6 +617,9 @@
     </ClInclude>
     <ClInclude Include="GameLogic\Character\Enemy\EnemyBase.h">
       <Filter>GameLogic\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\HealingState\HealingState.h">
+      <Filter>GameLogic\StateMachines\EnemyStateMachine\HealingState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

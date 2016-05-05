@@ -2,6 +2,7 @@
 #include "./DeathState/EnemyDeathState.h"
 #include "./IdleState/EnemyIdleState.h"
 #include "./AttackState/AttackState.h"
+#include "./HealingState/HealingState.h"
 #include "../../../Enumerations/Enumerations.h"
 class EnemyStateMachine
 {
@@ -9,6 +10,7 @@ private: // For variables.
 	EnemyIdleState* idleState;
 	AttackState* attackState;
 	EnemyDeathState* deathState;
+	HealingState* healingState;
 	//enum
 private: // For Functions
 
