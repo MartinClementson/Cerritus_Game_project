@@ -31,10 +31,6 @@ void GUI::Update(double deltaTime)
 	
 	renderInfo = { size,position };		
 	this->renderInfo.object = texture;
-	
-	
-	
-
 
 }
 

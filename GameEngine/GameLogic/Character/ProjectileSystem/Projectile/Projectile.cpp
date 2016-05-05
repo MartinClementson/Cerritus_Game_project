@@ -36,9 +36,9 @@ Projectile::Projectile()
 //
 //}
 
-Projectile::Projectile(DirectX::XMFLOAT3 origin,DirectX::XMFLOAT3 direction, DirectX::XMFLOAT3 rotation)
+Projectile::Projectile(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 direction, DirectX::XMFLOAT3 rotation)
 {
-	Initialize(origin,direction,rotation);
+	Initialize(origin, direction, rotation);
 
 
 }
@@ -53,10 +53,10 @@ void Projectile::Initialize(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 directio
 {
 
 
-	this->position		= origin;
-	position.y			= 1.0f;
-	this->direction		= direction;
-	this->rotation		= rotation;
+	this->position = origin;
+	position.y = 1.0f;
+	this->direction = direction;
+	this->rotation = rotation;
 	this->renderInfo.object = MeshEnum::PROJECTILE_1;
 
 	this->radius = 1.0f;
@@ -66,13 +66,13 @@ void Projectile::Initialize(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 directio
 
 	this->isFired = true;
 	this->collided = false;
-	
+
 }
 
 void Projectile::Update(double deltatime)
 {
 
-	if(isFired == true)
+	if (isFired == true)
 	{
 
 		age += (float)deltatime;
@@ -81,19 +81,22 @@ void Projectile::Update(double deltatime)
 
 		renderInfo.position = position;
 		renderInfo.rotation = this->rotation;
-		renderInfo.rotation.x += 90;
-		//renderInfo.rotation.y += 180;
-		
+		renderInfo.direction = this->direction;
+		renderInfo.radius = this->radius;  //Used for frustum culling
+		renderInfo.render = true;			//Used for frustum culling
+											//renderInfo.rotation.x += 90;
+											//renderInfo.rotation.y += 180;
+
 	}
-	if (age >= 2.5f)
-		isFired = false;
+	/*if (age >= 2.5f)
+	isFired = false;*/
 
 
 }
 
 void Projectile::Release()
 {
-	
+
 }
 
 void Projectile::Collision()

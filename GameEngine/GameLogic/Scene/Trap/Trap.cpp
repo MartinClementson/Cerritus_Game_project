@@ -16,7 +16,7 @@ void Trap::Initialize()
 {
 	damage = 25.0f;
 	initTrap();
-	
+
 }
 void Trap::Release()
 {
@@ -24,12 +24,15 @@ void Trap::Release()
 }
 void Trap::Update(double deltaTime)
 {
-	renderInfo = { position,rotation }; 
+	renderInfo.position = position;
+	renderInfo.rotation = rotation;
+	renderInfo.radius = radius;
+	renderInfo.render = true;
 }
 
 void Trap::Render()
 {
-	grapichs = Graphics::GetInstance();	
+	grapichs = Graphics::GetInstance();
 }
 
 float Trap::GetDamage()
@@ -62,15 +65,9 @@ void Trap::SetRotation(DirectX::XMFLOAT3 rotation)
 	this->rotation = rotation;
 }
 
-//TrapState Trap::GetTrapState()
-//{
-//	return trapState;
-//	
-//}
-
 void Trap::initTrap()
 {
-	
+
 	int randomSpawn = rand() % 2 + 1;
 
 	if (randomSpawn == 1)

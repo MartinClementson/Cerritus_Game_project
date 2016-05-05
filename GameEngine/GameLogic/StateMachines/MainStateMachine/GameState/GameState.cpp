@@ -7,11 +7,11 @@ GameState::GameState()
 	this->death = new MainDeathState();
 	this->pause = new MainPausedState();
 	this->player = new Player();
-	this->menu = new MenuState();
 	this->input = Input::GetInstance();
 	this->room1 = new Scene();
 	this->collision = Collision::GetInstance();
 	this->gameTimer = GameTimer::GetInstance();
+	this->menu = new MenuState();
 	this->gameUI = new GUI();
 }
 
@@ -22,8 +22,9 @@ GameState::~GameState()
 	delete this->pause;
 	delete this->player;
 	delete this->room1;
-	delete this->gameUI;
 	delete this->menu;
+	delete this->gameUI;
+
 }
 
 void GameState::Initialize()
@@ -32,13 +33,13 @@ void GameState::Initialize()
 	player->Initialize();
 	death->Initialize();
 	pause->Initialize();
-	menu->Initialize();
-	menu->isActive = false;
 	death->isActive = false;
 	pause->isActive = false;
-	gameUI->Initialize();
 	isPlayerDead = false;
 	toMenu = false;
+	menu->Initialize();
+	menu->isActive = false;
+	gameUI->Initialize();
 	//Create room one here
 	timeSincePaused = 0.0f;
 	room1->Initialize();
@@ -59,13 +60,13 @@ void GameState::Release()
 	input->Release();
 	player->Release();
 	room1->Release();
-	gameUI->Release();
 	menu->Release();
+	gameUI->Release();
 }
 
 void GameState::Update(double deltaTime)
 {
-
+	gameUI->Update(deltaTime);
 	ProcessInput(&deltaTime);
 	if (!pause->isActive)
 	{
@@ -81,21 +82,9 @@ void GameState::Update(double deltaTime)
 		XMFLOAT3 dir = Graphics::GetInstance()->GetPlayerDirection(mouseXY, player->GetPosition());
 
 
-	room1->Update(deltaTime);
-	int i = 0;
-
-
-	//while(i < (int)player->projectileSystem->projectiles.size())
-	
-	while( i < player->projectileSystem->projectiles.size())
-
-	{
-
-
 		player->Update(deltaTime, dir);
 
 		room1->Update(deltaTime);
-
 		for (size_t k = 0; k < room1->enemySpawns.size(); k++)
 		{
 			size_t j = 0;
@@ -113,6 +102,7 @@ void GameState::Update(double deltaTime)
 								collision->GetPlayer(),
 								deltaTime);
 						}
+						
 						else if (collision->EnemyCollision(
 							room1->enemySpawns.at(k)->Alive.at(p),
 							room1->enemySpawns.at(k)->Alive.at(j)))
@@ -137,12 +127,7 @@ void GameState::Update(double deltaTime)
 							}
 						}
 
-						/*	else
-						{
-						room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
-						collision->GetPlayer(),
-						deltaTime);
-						}*/
+						
 
 					}
 				}
@@ -150,8 +135,8 @@ void GameState::Update(double deltaTime)
 			}
 		}
 
-		size_t i = 0;
-		while (i < player->projectileSystem->projectiles.size())
+		size_t i = 0; 
+		while (i < player->projectileSystem->GetFiredProjectiles())
 		{
 			for (size_t k = 0; k < room1->enemySpawns.size(); k++)
 			{
@@ -161,7 +146,7 @@ void GameState::Update(double deltaTime)
 				{
 					if (collision->ProjectileEnemyCollision(
 						player->projectileSystem->
-						projectiles.at(i),
+						projectiles[i],
 
 						room1->enemySpawns.at(k)->
 						Alive.at(j))
@@ -171,6 +156,7 @@ void GameState::Update(double deltaTime)
 					{
 						room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(
 							room1->enemySpawns.at(k)->Alive.at(j)->GetHealth() - 10);
+						player->projectileSystem->projectiles[i]->SetFired(false);
 					}
 
 
@@ -182,73 +168,8 @@ void GameState::Update(double deltaTime)
 	}
 	else if (pause->isActive)
 	{
-		XMFLOAT2 mousePos = InputHandler::GetInstance()->GetMousePosition();
-
-		float vx = ((2.0f * mousePos.x) / (float)WIN_HEIGHT - 1.0f);
-		float vy = ((2.0f * -mousePos.y) / (float)WIN_WIDTH + 1.0f);
-		//resumeButton
-		XMFLOAT2 MaxResume = { 496.0f,183.0f };
-		XMFLOAT2 MinResume = { 714.0f,243.0f };
-
-		float MaxRx = ((2.0f * MaxResume.x) / (float)WIN_HEIGHT - 1.0f);
-		float MaxRy = ((2.0f * -MaxResume.y) / (float)WIN_WIDTH + 1.0f);
-		float MinRx = ((2.0f * MinResume.x) / (float)WIN_HEIGHT - 1.0f);
-		float MinRy = ((2.0f * -MinResume.y) / (float)WIN_WIDTH + 1.0f);
-
-		// RestartButton
-		XMFLOAT2 MaxRestart = {496.0f,299.0f};
-		XMFLOAT2 MinRestart = {714.0f,358.0f};
-
-		float Maxrex = ((2.0f * MaxRestart.x) / (float)WIN_HEIGHT - 1.0f);
-		float Maxrey = ((2.0f * -MaxRestart.y) / (float)WIN_WIDTH + 1.0f);
-		float Minrex = ((2.0f * MinRestart.x) / (float)WIN_HEIGHT - 1.0f);
-		float Minrey = ((2.0f * -MinRestart.y) / (float)WIN_WIDTH + 1.0f);
-
-		//ExitButton = to menu
-		XMFLOAT2 MaxExit = {496.0f,410.0f};
-		XMFLOAT2 MinExit = {714.0f,470.0f};
-		float Maxex = ((2.0f * MaxExit.x) / (float)WIN_HEIGHT - 1.0f);
-		float Maxey = ((2.0f * -MaxExit.y) / (float)WIN_WIDTH + 1.0f);
-		float Minex = ((2.0f * MinExit.x) / (float)WIN_HEIGHT - 1.0f);
-		float Miney = ((2.0f * -MinExit.y) / (float)WIN_WIDTH + 1.0f);
-
-		if (vx > MaxRx && vy < MaxRy && vx < MinRx && vy > MinRy && timeSincePaused > 0.2f)
-		{
-			
-			//gameUI->setUI(UITextures::TEXTATLAS);
-
-			if (input->isMouseClicked(MOUSE_LEFT))
-			{
-				pause->isActive = false;
-				timeSincePaused = 0.0f;
-				gameUI->setUI(UITextures::HUD);
-			}
-		}
-		else if (vx > Maxex && vy < Maxey && vx < Minex && vy > Miney && timeSincePaused > 0.2f)
-		{
-		//	gameUI->setPos()
-			//gameUI->setUI(UITextures::TEXTATLAS);
-			if(input->isMouseClicked(MOUSE_LEFT))
-			{
-				toMenu = true;
-				menu->isActive = true;
-				timeSincePaused = 0.0f;
-			}
-					}
-		else if (vx > Maxrex && vy < Maxrey && vx < Minrex && vy > Minrey && timeSincePaused > 0.2f)
-		{
-			//gameUI->setUI(UITextures::TEXTATLAS);
-			if (input->isMouseClicked(MOUSE_LEFT))
-			{
-
-			}
-		}
-		else
-		{
-			gameUI->setUI(UITextures::PAUSE);
-		}
+		gameUI->setUI(UITextures::PAUSE);
 	}
-	gameUI->Update(deltaTime);
 }
 
 
@@ -263,67 +184,12 @@ void GameState::ProcessInput(double* deltaTime)
 	}
 	else if (pause->isActive)
 	{
-		//XMFLOAT2 mousePos = InputHandler::GetInstance()->GetMousePosition();
+		if (input->IsKeyPressed(KEY_ENTER) && timeSincePaused > 0.2f)
+		{
+			pause->isActive = false;
+			timeSincePaused = 0.0f;
 
-		//float vx = ((2.0f * mousePos.x) / (float)WIN_HEIGHT - 1.0f);
-		//float vy = ((2.0f * -mousePos.y) / (float)WIN_WIDTH + 1.0f);
-		////resumeButton
-		//XMFLOAT2 MaxResume = { 496.0f,183.0f };
-		//XMFLOAT2 MinResume = { 714.0f,243.0f };
-
-		//float MaxRx = ((2.0f * MaxResume.x) / (float)WIN_HEIGHT - 1.0f);
-		//float MaxRy = ((2.0f * -MaxResume.y) / (float)WIN_WIDTH + 1.0f);
-		//float MinRx = ((2.0f * MinResume.x) / (float)WIN_HEIGHT - 1.0f);
-		//float MinRy = ((2.0f * -MinResume.y) / (float)WIN_WIDTH + 1.0f);
-
-		//// RestartButton
-		//XMFLOAT2 MaxRestart = {496.0f,299.0f};
-		//XMFLOAT2 MinRestart = {714.0f,358.0f};
-
-		//float Maxrex = ((2.0f * MaxRestart.x) / (float)WIN_HEIGHT - 1.0f);
-		//float Maxrey = ((2.0f * -MaxRestart.y) / (float)WIN_WIDTH + 1.0f);
-		//float Minrex = ((2.0f * MinRestart.x) / (float)WIN_HEIGHT - 1.0f);
-		//float Minrey = ((2.0f * -MinRestart.y) / (float)WIN_WIDTH + 1.0f);
-
-		////ExitButton = to menu
-		//XMFLOAT2 MaxExit = {496.0f,410.0f};
-		//XMFLOAT2 MinExit = {714.0f,470.0f};
-		//float Maxex = ((2.0f * MaxExit.x) / (float)WIN_HEIGHT - 1.0f);
-		//float Maxey = ((2.0f * -MaxExit.y) / (float)WIN_WIDTH + 1.0f);
-		//float Minex = ((2.0f * MinExit.x) / (float)WIN_HEIGHT - 1.0f);
-		//float Miney = ((2.0f * -MinExit.y) / (float)WIN_WIDTH + 1.0f);
-
-		//if (vx > MaxRx && vy < MaxRy && vx < MinRx && vy > MinRy)
-		//{
-		//	
-		//	gameUI->setUI(UITextures::RESUMEPAUSE);
-
-		//	if (input->isMouseClicked(MOUSE_LEFT))
-		//	{
-		//		pause->isActive = false;
-		//		gameUI->setUI(UITextures::HUD);
-		//	}
-		//}
-		//else if (vx > Maxex && vy < Maxey && vx < Minex && vy > Miney)
-		//{
-
-		//	gameUI->setUI(UITextures::EXITPAUSE);
-		//	if(input->isMouseClicked(MOUSE_LEFT))
-		//	{
-		//		toMenu = true;
-		//		menu->isActive = true;
-		//		
-		//	}
-		//}
-		//else if (vx > Maxrex && vy < Maxrey && vx < Minrex && vy > Minrey)
-		//{
-		//	gameUI->setUI(UITextures::RESTARTPAUSE);
-		//	if (input->isMouseClicked(MOUSE_LEFT))
-		//	{
-
-		//	}
-		//}
-		
+		}
 	}
 	else
 	{
@@ -379,22 +245,11 @@ void GameState::ProcessInput(double* deltaTime)
 			player->Move(directions, moveKeysPressed, deltaTime[0]);
 		}
 #pragma endregion
-		if (input->IsKeyPressed(KEY_P))
-		{
-			toMenu = true;
-			menu->isActive = true;
-			//gameUI->setUI(UITextures::MENU);
-			//UITextures::MENU;
-		}
 
 		if (input->IsKeyPressed(KEY_ENTER) && timeSincePaused >0.2f)
 		{
 			pause->isActive = true;
 			timeSincePaused = 0.0f;
-			gameUI->setUI(UITextures::PAUSE);
-			InputHandler::GetInstance()->GetMousePosition();
-			
-
 		}
 		if (input->IsKeyPressed(KEY_SPACE))
 		{
@@ -434,6 +289,7 @@ void GameState::Render()
 	room1->Render();
 	player->Render();
 	gameUI->Render();
+
 }
 
 void GameState::OnEnter()

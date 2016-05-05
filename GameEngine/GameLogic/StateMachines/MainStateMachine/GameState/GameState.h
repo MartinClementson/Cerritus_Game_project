@@ -2,7 +2,7 @@
 #include "../../StateClass/StateClass.h"
 #include "./DeathState/MainDeathState.h"
 #include "./PausedState/MainPausedState.h"
-#include"../MenuState/MenuState.h"
+#include "../MenuState/MenuState.h"
 #include "../../../Scene/Scene.h"
 #include "../../../Character/Player/Player.h"
 #include "../../../InputHandler/Input/Input.h"
@@ -22,25 +22,18 @@ public:
 	void Render();
 	void ProcessInput(double* deltaTime);
 	bool isPlayerDead;
-	bool toMenu;
-	void SetMenu(bool toMenu);
-	bool GetMenu();
 	void SetIsActive(bool isPlayerDead);
 	bool GetIsActive();
 	float timeSincePaused;
 	int index;
-
-	bool gamePaused;
-	void SetIsPaused(bool gamePaused);
-	bool GetPaused();
-
 	float GetPoints();
+	bool toMenu;
 
 
 private:
 	void OnEnter();
 	void OnExit();
-	
+
 private:
 	Scene* room1;
 	Scene* room2;
@@ -49,9 +42,8 @@ private:
 	Input* input;
 	GUI* gameUI;
 	MainPausedState* pause;
-	MenuState* menu;
 	MainDeathState* death;
+	MenuState* menu;
 	Collision* collision;
 	GameTimer* gameTimer;
 };
-
