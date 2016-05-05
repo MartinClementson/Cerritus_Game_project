@@ -20,8 +20,13 @@ ProjectileSystem::~ProjectileSystem()
 {
 	/*for (unsigned int i = 0; i < projectiles.size(); i++)
 	{
+<<<<<<< HEAD
 	if (projectiles.at(i))
 	delete projectiles.at(i);
+=======
+		if (projectiles.at(i))
+			delete projectiles.at(i);
+>>>>>>> refs/remotes/origin/master
 	}*/
 	for (unsigned int i = 0; (int)i < maxProjectiles; i++)
 		delete projectiles[i];
@@ -42,57 +47,57 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 		{
 			/*for (unsigned int i = 0; (int)i < maxProjectiles; i++)
 			{
-			*/
-			//if (!projectiles[i]->GetFired())
-			//{
-			XMFLOAT3 rotation(0.0f, 0.0f, 0.0f); //Legacy, now rotation is handled in billboard shader
-			if (GetUpgrade() == UpgradeType::ONE_SHOT)
-			{
+*/
+				//if (!projectiles[i]->GetFired())
+				//{
+					XMFLOAT3 rotation(0.0f, 0.0f, 0.0f); //Legacy, now rotation is handled in billboard shader
+					if (GetUpgrade() == UpgradeType::ONE_SHOT)
+					{
+				
+						projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
+						firedProjectiles++;
+						
+						//break;
+					}
+					else if (GetUpgrade() == UpgradeType::TWO_SHOT)
+					{
+						XMVECTOR tmp = XMVector3TransformCoord(XMLoadFloat3(&direction), XMLoadFloat4x4(&rotationMatrix));
+						XMStoreFloat3(&direction, tmp);
+						
+						projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
+						firedProjectiles++;
+						///////////////////////////////////////////////////
+						direction = originalDirection;
 
-				projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
-				firedProjectiles++;
+						tmp = XMVector3TransformCoord(XMLoadFloat3(&direction), XMLoadFloat4x4(&rotationMatrix2));
+						XMStoreFloat3(&direction, tmp);
+						
+						projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
+						firedProjectiles++;
+						//break;
+					}
+					else if (GetUpgrade() == UpgradeType::THREE_SHOT)
+					{
+				
+						projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
+						firedProjectiles++;
+						////////////////////////////////////////////////////
+						XMVECTOR tmp = XMVector3TransformCoord(XMLoadFloat3(&direction), XMLoadFloat4x4(&rotationMatrix));
+						XMStoreFloat3(&direction, tmp);
+						
+						projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
+						firedProjectiles++;
 
-				//break;
-			}
-			else if (GetUpgrade() == UpgradeType::TWO_SHOT)
-			{
-				XMVECTOR tmp = XMVector3TransformCoord(XMLoadFloat3(&direction), XMLoadFloat4x4(&rotationMatrix));
-				XMStoreFloat3(&direction, tmp);
-
-				projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
-				firedProjectiles++;
-				///////////////////////////////////////////////////
-				direction = originalDirection;
-
-				tmp = XMVector3TransformCoord(XMLoadFloat3(&direction), XMLoadFloat4x4(&rotationMatrix2));
-				XMStoreFloat3(&direction, tmp);
-
-				projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
-				firedProjectiles++;
-				//break;
-			}
-			else if (GetUpgrade() == UpgradeType::THREE_SHOT)
-			{
-
-				projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
-				firedProjectiles++;
-				////////////////////////////////////////////////////
-				XMVECTOR tmp = XMVector3TransformCoord(XMLoadFloat3(&direction), XMLoadFloat4x4(&rotationMatrix));
-				XMStoreFloat3(&direction, tmp);
-
-				projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
-				firedProjectiles++;
-
-				////////////////////////////////////////////////////
-				direction = originalDirection;
-				tmp = XMVector3TransformCoord(XMLoadFloat3(&direction), XMLoadFloat4x4(&rotationMatrix2));
-				XMStoreFloat3(&direction, tmp);
-
-				projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
-				firedProjectiles++;
-				//break;
-			}
-			//}
+						////////////////////////////////////////////////////
+						direction = originalDirection;
+						tmp = XMVector3TransformCoord(XMLoadFloat3(&direction), XMLoadFloat4x4(&rotationMatrix2));
+						XMStoreFloat3(&direction, tmp);
+				
+						projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
+						firedProjectiles++;
+						//break;
+					}
+				//}
 			//}
 			timeOffset = 0;
 		}
@@ -102,7 +107,6 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 
 void ProjectileSystem::UpdateProjectiles(double deltaTime)
 {
-
 	timeOffset += 2.0f * float(deltaTime);
 	if (timeOffset > 10)
 		timeOffset = 10.0f;
@@ -112,11 +116,12 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 
 		projectiles[i]->Update(deltaTime);
 
-		if (projectiles[i]->GetAge() >= lifeSpan || projectiles[i]->GetFired() == false)
+
+		if (projectiles[i]->GetAge() >= lifeSpan || projectiles[i]->GetFired()==false)
 		{
 			DeleteProjectile((int)i);
 		}
-
+	
 	}
 
 
@@ -124,16 +129,16 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 
 void ProjectileSystem::DeleteProjectile(int index)
 {
-
-	projectiles[index]->SetFired(false);
+	
+  	projectiles[index]->SetFired(false);
 	//if (firedProjectiles != 0)
 	firedProjectiles--;
 
 	//swapping
 	Projectile *temp;
-	temp = projectiles[index];
-	projectiles[index] = projectiles[firedProjectiles];
-	projectiles[firedProjectiles] = temp;
+	temp							  = projectiles[index];
+	projectiles[index]				  = projectiles[firedProjectiles];
+	projectiles[firedProjectiles]     = temp;
 }
 
 void ProjectileSystem::SetUpgrade(UpgradeType upgrade)

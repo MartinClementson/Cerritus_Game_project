@@ -3,6 +3,7 @@
 void TextureManager::Initialize(ID3D11Device* gDevice)
 {
 	this->gDevice = gDevice;
+	CoInitialize((LPVOID)0);
 }
 
 void TextureManager::Release()

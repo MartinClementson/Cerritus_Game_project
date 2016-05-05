@@ -14,14 +14,13 @@ Camera::~Camera()
 
 void Camera::Update()
 {
-	
+
 }
 
 void Camera::Initialize(ID3D11Device *gDevice,ID3D11DeviceContext *gDeviceContext)
 {
 	this->gDevice				 = gDevice;
 	this->gDeviceContext		 = gDeviceContext;
-
 
 
 	//_____________________________________________________________________________________________
@@ -40,6 +39,7 @@ void Camera::Initialize(ID3D11Device *gDevice,ID3D11DeviceContext *gDeviceContex
 		(farZ)
 		);
 
+	XMMATRIX frustumProj = tempProj;
 	//Transpose the Projcetion matrix
 	tempProj = XMMatrixTranspose(tempProj);
 
@@ -57,12 +57,19 @@ void Camera::Initialize(ID3D11Device *gDevice,ID3D11DeviceContext *gDeviceContex
 		(XMLoadFloat4(&camUp))
 		);
 
-
+	XMMATRIX frustumView = tempView;
 	//Transpose view matrix
 	tempView = XMMatrixTranspose(tempView);
 
 	//store the view matrix
 	XMStoreFloat4x4(&camMatrices.camView, tempProj);
+
+	this->frustum = new Frustum;
+	XMFLOAT4X4 frustumProjFloat;
+	XMStoreFloat4x4(&frustumProjFloat,frustumProj);
+	XMFLOAT4X4 frustumViewFloat;
+	XMStoreFloat4x4(&frustumViewFloat, frustumView);
+	frustum->CreateFrustum(farZ, frustumProjFloat, frustumViewFloat);
 	
 	
 }
@@ -91,7 +98,7 @@ void Camera::Updateview( DirectX::XMFLOAT3 playerPos)
 		(XMLoadFloat4(&camTarget)),
 		(XMLoadFloat4(&camUp)) );
 
-	
+
 
 
 	XMStoreFloat4x4(&camMatrices.camView, XMMatrixTranspose(tempView));
@@ -99,7 +106,8 @@ void Camera::Updateview( DirectX::XMFLOAT3 playerPos)
 	//We also have to update the invViewProjMatrix!
 	XMMATRIX proj = XMLoadFloat4x4(&camMatrices.projection);
 	proj = XMMatrixTranspose(proj); // transpose it back to cpu alignment
-	
+	XMMATRIX frustumProj = proj;
+
 	XMMATRIX viewProjInv = XMMatrixMultiply(tempView, proj);
 
 	XMVECTOR det		 = XMMatrixDeterminant(viewProjInv);
@@ -108,9 +116,19 @@ void Camera::Updateview( DirectX::XMFLOAT3 playerPos)
 
 	XMStoreFloat4x4(&camMatrices.invViewProjMatrix, XMMatrixTranspose(viewProjInv));
 
+	XMMATRIX view = XMLoadFloat4x4(&camMatrices.camView);
+	view = XMMatrixTranspose(view); // transpose it back to cpu alignment
+	XMMATRIX frustumView = view;
+
+	XMFLOAT4X4 frustumProjFloat;
+	XMStoreFloat4x4(&frustumProjFloat, frustumProj);
+	XMFLOAT4X4 frustumViewFloat;
+	XMStoreFloat4x4(&frustumViewFloat, frustumView);
+
+	frustum->CreateFrustum(200.0f, frustumProjFloat, frustumViewFloat);
 }
 
-CamMatrices * Camera::GetCameraMatrices()
+CbufferPerFrame * Camera::GetCameraMatrices()
 {
 
 	return &this->camMatrices;
@@ -118,5 +136,5 @@ CamMatrices * Camera::GetCameraMatrices()
 
 void Camera::Release()
 {
-
+	delete this->frustum;
 }

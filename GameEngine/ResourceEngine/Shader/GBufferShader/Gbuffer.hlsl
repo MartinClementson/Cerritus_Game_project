@@ -5,10 +5,11 @@ Texture2D specularTex			 : register(t2);
 Texture2D glowTex				 : register(t3);
 Texture2DArray shadowTex		 : register(t6);
 
+
 SamplerState linearSampler		 : register(s0);
 SamplerState pointSampler		 : register(s1);
 
-cbuffer cameraConstantBuffer     : register(b0)
+cbuffer cbufferPerFrame     : register(b0)
 {
 
 	matrix view;
@@ -16,6 +17,9 @@ cbuffer cameraConstantBuffer     : register(b0)
 	matrix invViewProjMatrix;
 	float4 camPos;
 	float4 mousePos;
+	int numPointLights;
+	int numSpotLights;
+	int numDirLights;
 	//float3 camLook;
 
 };
@@ -24,20 +28,31 @@ cbuffer worldConstantBuffer		 : register(b1)
 	matrix world;				 
 };								 
 								 
-cbuffer lightBuffer				 : register(b2)
-{								 
-	float4 lightPosition;		 
-	matrix lightView;			 
-	matrix lightProjection;		 
-	float4 lightDir;			 
-	float4 lightDiffuse;		 
-};								 
-cbuffer textureSampleBuffer		 : register(b3)
+		
+cbuffer textureSampleBuffer		 : register(b2)
 {
 	bool diffuseMap;
 	bool normalMap;
 	bool specularMap;
 	bool glowMap;
+};
+
+struct PointLight
+{
+	float4 lightPosition;
+	float4x4 lightView;
+	float4x4 lightProjection;
+	float4 lightLookAt;
+	float4 lightDiffuse;
+	float intensity;
+	float3 padd;
+	float lightRange;
+	float3 pad;
+	float attenuation;
+	float3 paddd;
+	bool castShadow;
+    float3 padshadow;
+
 };
 
 struct GBUFFER_VS_IN
@@ -90,8 +105,8 @@ GBUFFER_VS_OUT GBUFFER_VS_main(GBUFFER_VS_IN input)
 	output.BiTangent.xy	 = input.BiTangent;						  //z value NEEDS TO BE CALCULATED (1 is just a placeholder!!)
 	output.Tangent.xy	 = input.Tangent;						  //z value NEEDS TO BE CALCULATED (1 is just a placeholder!!)
 
-	output.BiTangent.z	 = (1 - length(input.BiTangent));
-	output.Tangent.z	 = (1 - length(input.Tangent));
+	output.BiTangent.z	 = sqrt(1 - pow(input.BiTangent.x,2) + pow (input.BiTangent.y,2));
+	output.Tangent.z	 = sqrt(1 - pow(input.Tangent.x,  2) + pow(input.Tangent.y,   2));
 
 	normalize(output.BiTangent);
 	normalize(output.Tangent);
@@ -161,28 +176,7 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 {
 	GBUFFER_PS_OUT output = (GBUFFER_PS_OUT)0;
 
-
-	//float attenuation = 0.05;
-	//float4 playerPos = { input.camPos.x,0.0,input.camPos.z + 10.0f ,1.0 };
-
-
-
-
-	//float4 lightOne = { 20.0, 0.0, -20, 1.0 };
-	//col.y += 1.0 - saturate(abs(distance(lightOne, pixelPos) * attenuation));
-
-
-	//float4 lightTwo = { -20.0, 0.0, 20.0, 1.0 };
-	//col.z += 1.0 - saturate(abs(distance(lightTwo, pixelPos) * attenuation));
-
-
-	//float4 lightThree = { -20.0, 0.0, -20.0, 1.0 };
-	//col.xz += 1.0 - saturate(abs(distance(lightThree, pixelPos) * attenuation));
-
-
-	//float4 lightFour = { 20.0, 0.0,  20.0, 1.0 };
-	//col.xy += 1.0 - saturate(abs(distance(lightFour, pixelPos) * attenuation));
-
+//
 
 	float4 pixelPos		 = { input.wPos.x, 0.0 , input.wPos.z, 1.0 };
 	float4 col			 = { 1.0,0.0,0.0,1.0 };
@@ -221,13 +215,15 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	if (diffuseMap)
 	{
 		textureSample		= diffuseTex.Sample(linearSampler, input.Uv);
+		if (textureSample.a < 0.1)
+			clip(-1);
 		textureSample.a		= col.x; //laser pointer color
 		output.diffuseRes	= textureSample;
 	}
 	else
 	{
 		
-		output.diffuseRes = float4(0.4, 0.4, 0.4, col.x); //Alpha == laserpointer color
+		output.diffuseRes = float4(0.5, 0.5, 0.5, col.x); //Alpha == laserpointer color
 	}
 
 
@@ -252,11 +248,11 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	{
 		specularSample.rgba  = float4(0, 0, 0, 0);
 		specularSample		 = diffuseTex.Sample(linearSampler, input.Uv);
-		output.specularRes	 = specularSample;
+		output.specularRes = specularSample;
 	}
 	else
 	{
-		specularSample.rgba	 = float4(0, 0, 0, 0);
+		specularSample.rgba	 = float4(0.5, 0.5, 0.5, 0);
 		output.specularRes	 = specularSample;
 	}
 
@@ -289,11 +285,11 @@ struct GBUFFER_SHADOWDEPTH_VS_OUT
 GBUFFER_SHADOWDEPTH_VS_OUT GBUFFER_SHADOWDEPTH_VS_main(GBUFFER_VS_IN input)
 {
 	GBUFFER_SHADOWDEPTH_VS_OUT output = (GBUFFER_SHADOWDEPTH_VS_OUT)0;
-	matrix combinedMatrix = mul(world, mul(lightView, lightProjection));
+	//matrix combinedMatrix = mul(world, mul(lightView, lightProjection));
 
 		output.position = float4(input.Pos, 1);
 
-		output.position = mul(output.position, combinedMatrix);
+		//output.position = mul(output.position, combinedMatrix);
 
 	return output;
 }

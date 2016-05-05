@@ -27,7 +27,7 @@ void ShadowBuffer::Initialize(ID3D11Device * gDevice, ID3D11DeviceContext * gDev
 	ShadowTexDesc.Width = (UINT)SHADOW_WIDTH;
 	ShadowTexDesc.Height = (UINT)SHADOW_HEIGHT;
 	ShadowTexDesc.MipLevels = 1;
-	ShadowTexDesc.ArraySize = LIGHTAMOUNT;
+	ShadowTexDesc.ArraySize = LIGHT_SHADOW_AMOUNT;
 	ShadowTexDesc.Format = DXGI_FORMAT_R32_TYPELESS;
 	ShadowTexDesc.SampleDesc.Count = 1;
 	ShadowTexDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -46,7 +46,7 @@ void ShadowBuffer::Initialize(ID3D11Device * gDevice, ID3D11DeviceContext * gDev
 	ZeroMemory(&descDSV, sizeof(descDSV));
 	descDSV.Format = DXGI_FORMAT_D32_FLOAT;
 	descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DARRAY;
-	descDSV.Texture2DArray.ArraySize = LIGHTAMOUNT;
+	descDSV.Texture2DArray.ArraySize = LIGHT_SHADOW_AMOUNT;
 	descDSV.Texture2DArray.FirstArraySlice = 0;
 	descDSV.Texture2DArray.MipSlice = 0;
 
@@ -59,7 +59,7 @@ void ShadowBuffer::Initialize(ID3D11Device * gDevice, ID3D11DeviceContext * gDev
 
 	resourceViewShadowDesc.Format = DXGI_FORMAT_R32_FLOAT;
 	resourceViewShadowDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
-	resourceViewShadowDesc.Texture2DArray.ArraySize = LIGHTAMOUNT;
+	resourceViewShadowDesc.Texture2DArray.ArraySize = LIGHT_SHADOW_AMOUNT;
 	resourceViewShadowDesc.Texture2DArray.FirstArraySlice = 0;
 	resourceViewShadowDesc.Texture2DArray.MostDetailedMip = 0;
 	resourceViewShadowDesc.Texture2DArray.MipLevels = 1;
