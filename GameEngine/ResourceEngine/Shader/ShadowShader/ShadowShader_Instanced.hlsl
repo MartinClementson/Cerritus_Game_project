@@ -22,18 +22,19 @@ cbuffer worldConstantBuffer : register(b1)
 
 struct PointLight
 {
-	float4 lightPosition;
-	matrix lightView;
-	matrix lightProjection;
-	float4 lightLookAt;
-	float4 lightDiffuse;
-	float intensity;
-	float3 padI;
-	float lightRange;
-	float3 padR;
-	float attenuation;
-	float3 padA;
-	bool castShadow;
+    float4 lightPosition;
+    matrix lightView;
+    matrix lightProjection;
+    float4 lightLookAt;
+    float4 lightDiffuse;
+    float intensity;
+    float3 padd;
+    float lightRange;
+    float3 pad;
+    float attenuation;
+    float3 paddd;
+    bool castShadow;
+    float3 padshadow;
 };
 
 

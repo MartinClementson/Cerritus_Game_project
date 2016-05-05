@@ -829,11 +829,6 @@ void Renderer::UpdateSampleBoolsBuffer(SampleBoolStruct * sampleStruct)
 bool Renderer::CreateBuffers()
 {
 
-
-	/* NOTE!!!
-	
-	The camera and world buffer are set to the geometry shader, the light buffer is set to the pixel shader
-	*/
 	HRESULT hr;
 
 //-----------------------------------------------------------------------------------------------------------------------------------
