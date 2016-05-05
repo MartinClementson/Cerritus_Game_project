@@ -25,7 +25,7 @@ VS_OUT VS_main(VS_IN input)
 float4 PS_main(VS_OUT input) : SV_TARGET
 {
 
-	float4 color = (0.0f, 0.0f, 0.0f, 1.0f);
+	//float4 color = (0.0f, 0.0f, 0.0f, 1.0f);
 
 	//kolla alpha
 

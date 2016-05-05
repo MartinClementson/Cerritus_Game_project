@@ -132,7 +132,7 @@ void ResourceManager::Release()
 		//currentUI.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->size, &object->position);
 		Shaders tmp = UI_SHADER;
 		UITextures uiType = object->object;
-		this->shaderManager->SetActiveShader(&tmp);
+		this->shaderManager->SetActiveShader(tmp);
 		meshManager->GetFullScreenQuadInfoUI(&uiType,&currentUI);
 		materialManager->GetMaterialRenderInfo(&currentUI);
 	
