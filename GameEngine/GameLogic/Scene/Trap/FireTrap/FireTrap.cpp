@@ -40,6 +40,7 @@ void FireTrap::Initialize(XMFLOAT3 position,XMFLOAT3 rotation)
 
 	this->isActive = true;
 	this->renderInfo.object = MeshEnum::TRAP_FIRE;
+	this->renderInfo.radius = radius;
 
 	radius = 1.0f;
 
@@ -61,6 +62,8 @@ void FireTrap::Update(double deltaTime)
 	}
 	renderInfo.position = position ;
 	renderInfo.rotation = rotation;
+	renderInfo.radius = radius;
+	renderInfo.render = true;
 }	
 
 void FireTrap::Render()

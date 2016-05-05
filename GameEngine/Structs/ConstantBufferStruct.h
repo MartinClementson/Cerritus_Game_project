@@ -1,15 +1,21 @@
 #pragma once
 
 #include "../Source/LibIncluder.h"
-
-struct CamMatrices
+#include "../Constants.h"
+#include "../../LightStructs.h"
+struct CbufferPerFrame
 {
 	DirectX::XMFLOAT4X4 camView;
 	DirectX::XMFLOAT4X4 projection;
 	DirectX::XMFLOAT4X4 invViewProjMatrix;
 	DirectX::XMFLOAT4 worldPos;
 	DirectX::XMFLOAT4 mousePos;
+	int numPointLights = 0;
+	int numSpotLights = 0;
+	int numDirLights = 0;
+	float pad;
 };
+
 //CamMatrices camMatrices;
 
 struct WorldMatrix
@@ -19,48 +25,26 @@ struct WorldMatrix
 //WorldMatrix worldMatrix;
 
 
-struct LightStruct
+struct PointLightStruct
 {
+	PointLight	pointLights		[ MAX_NUM_POINTLIGHTS];
+};
+
+struct SpotLightStruct
+{
+	
+	SpotLight	spotlights		[MAX_NUM_SPOTLIGHTS];
+
+};
+
+struct DirLightStruct
+{
+	
+	DirectionalLight directionalLights[MAX_NUM_DIRLIGHTS];
 
 
 };
 
-
-struct PointLight
-{
-
-	DirectX::XMFLOAT4 lightPosition;
-	DirectX::XMFLOAT4X4 lightView;
-	DirectX::XMFLOAT4X4 lightProjection;
-	DirectX::XMFLOAT4 lightDir;
-	DirectX::XMFLOAT4 lightDiffuse;
-	float intensity;
-	DirectX::XMFLOAT3 Pad;
-	void SetMatrices(float fov, float aspectRatio, float nearZ, float farZ) {
-
-		DirectX::XMMATRIX tempView = DirectX::XMMatrixLookAtLH(
-			DirectX::XMLoadFloat4(&this->lightPosition),
-			DirectX::XMLoadFloat4(&this->lightDir),
-			DirectX::XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f));
-
-		DirectX::XMStoreFloat4x4(&this->lightView, DirectX::XMMatrixTranspose(tempView));
-
-		//DirectX::XMMATRIX tempProj = DirectX::XMMatrixOrthographicLH(2048.0f, 2048.0f, nearZ, farZ);
-		DirectX::XMMATRIX tempProj = DirectX::XMMatrixPerspectiveFovLH(fov, aspectRatio, nearZ, farZ);
-		DirectX::XMStoreFloat4x4(&this->lightProjection, DirectX::XMMatrixTranspose(tempProj));
-	};
-
-	PointLight() {};
-	PointLight(DirectX::XMFLOAT4 pos, DirectX::XMFLOAT4 dir, DirectX::XMFLOAT4 diffuse)
-	{
-		this->lightPosition = pos;
-		this->lightDir = dir;
-		this->lightDiffuse = diffuse;
-	};
-
-
-
-};
 
 
 struct SampleBoolStruct

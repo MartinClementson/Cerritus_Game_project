@@ -51,6 +51,7 @@ struct RenderInfoUI {
 	UITextures object;
 	//Shaders shader;	//these are enum
 	//float radius;
+
 };
 
 struct RenderInfoEnemy {

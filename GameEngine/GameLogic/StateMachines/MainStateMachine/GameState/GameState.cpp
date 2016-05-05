@@ -135,7 +135,7 @@ void GameState::Update(double deltaTime)
 			}
 		}
 
-		size_t i = 0; 
+		size_t i = 0; //kolla in denna efter du fixat renderingen
 		while (i < player->projectileSystem->GetFiredProjectiles())
 		{
 			for (size_t k = 0; k < room1->enemySpawns.size(); k++)
@@ -155,7 +155,7 @@ void GameState::Update(double deltaTime)
 						Alive.at(j)->isAlive == true)
 					{
 						room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(
-							room1->enemySpawns.at(k)->Alive.at(j)->GetHealth() - 10);
+						room1->enemySpawns.at(k)->Alive.at(j)->GetHealth() - 10);
 						player->projectileSystem->projectiles[i]->SetFired(false);
 					}
 

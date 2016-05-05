@@ -4,8 +4,9 @@
 #include "../../ObjectNode/ObjectNode.h"
 #include "..\..\..\Source\LibIncluder.h"
 #include "..\..\..\Structs\ConstantBufferStruct.h"
+#include "../Camera/Frustum/Frustum.h"
 
-#define ZOOM 10.0f
+#define ZOOM 15.0f
 using namespace DirectX;
 
 class Camera : ObjectNode
@@ -21,17 +22,19 @@ private:
 	XMFLOAT3 viewPosition;
 	XMFLOAT3 viewLookAt;
 
-	CamMatrices camMatrices;
+	CbufferPerFrame camMatrices;
 
 
 	XMFLOAT4 camPosition	= { 0, 1, 1, 1  };
 	XMFLOAT4 camTarget		= { 1, 0, -1,  1  };
 	XMFLOAT4 camUp			= { 0, 1, 0,  0  };
 
+
 public:
 	Camera();
 	~Camera();
 
+	Frustum * frustum;
 
 	void Update();
 	void Initialize(ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceContext);
@@ -40,7 +43,7 @@ public:
 	void Updateview( DirectX::XMFLOAT3 playerPos);
 	
 	
-	CamMatrices* GetCameraMatrices();
+	CbufferPerFrame* GetCameraMatrices();
 
 
 

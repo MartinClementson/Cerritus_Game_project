@@ -40,7 +40,9 @@ enum MeshEnum
 	TRAP_BEAR,
 	TRAP_FIRE,
 	LEVEL_1,
-	LEVEL_2
+	LEVEL_2,
+	LEVEL_3,
+	LEVEL_4
 };
 
 #pragma endregion
@@ -93,7 +95,11 @@ enum Shaders
 	UI_SHADER,
 	ANIMATION_SHADER,
 	GBUFFER_SHADER,
-	SHADOW_SHADER
+	GBUFFER_SHADER_INSTANCED,
+	SHADOW_SHADER,
+	SHADOW_SHADER_INSTANCED,
+	BLUR_SHADER,
+	BLUR_SECOND_SHADER
 };
 
 #pragma endregion
@@ -212,6 +218,7 @@ enum GbufferTextures
 	G_SPECULAR,
 	G_NORMAL,
 	G_DEPTH,
-	G_SHADOW
+	G_SHADOW,
+	G_GLOW
 
 };
