@@ -10,6 +10,13 @@ Renderer::Renderer()
 	pointLightStruct		= new PointLightStruct();
 	spotLightStruct			= new SpotLightStruct();
 	dirLightStruct			= new DirLightStruct();
+
+	if (float(WIN_WIDTH)  > 800.0f)
+		threadGroupsX = (int)ceil(float(WIN_WIDTH) / 25.0f);
+
+	if (float(WIN_HEIGHT) > 600.0f)
+		threadGroupsY = (int)ceil(float(WIN_HEIGHT) / 20.0f);
+		
 	
 
 	//sceneLightArray->lightPosition		 = XMFLOAT4(0.0f, 30.0f, 0.0f, 1.0f); //Pos
@@ -71,7 +78,10 @@ void Renderer::RenderBlurPass(ID3D11UnorderedAccessView* uav, ID3D11ShaderResour
 
 	//declaring variables to use for memory copying later
 	ID3D11Resource* source,* target;
-	gDeviceContext->Dispatch(32, 30, 1);
+	
+	
+
+	gDeviceContext->Dispatch(threadGroupsX, threadGroupsY, 1);
 
 	uav->GetResource(&source);
 	srv->GetResource(&target);
@@ -84,7 +94,7 @@ void Renderer::RenderBlurPass(ID3D11UnorderedAccessView* uav, ID3D11ShaderResour
 	//uavA[] = { uav };
 	gDeviceContext->CSSetUnorderedAccessViews(0, 1, uavA, nullptr);
 
-	gDeviceContext->Dispatch(32, 30, 1);
+	gDeviceContext->Dispatch(threadGroupsX, threadGroupsY, 1);
 
 	uav->GetResource(&source);
 	srv->GetResource(&target);
