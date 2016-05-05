@@ -84,16 +84,9 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	temp.push_back(ui);
 
 	materialManager->addMaterials(&temp);
-
-//	materialManager->addMaterials(&temp);
+	materialManager->addMaterials(&temp);
 	ui.materialName = "Controls";
 	ui.diffuseTex = "Controls.png";
-	ui.materialID = 13;
-	temp.push_back(ui);
-
-	materialManager->addMaterials(&temp);
-	ui.materialName = "Number";
-	ui.diffuseTex = "numbers.png";
 	ui.materialID = 13;
 	temp.push_back(ui);
 

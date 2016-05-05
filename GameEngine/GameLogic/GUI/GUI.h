@@ -1,8 +1,7 @@
 #pragma once
 #include "../../Source/LibIncluder.h"
 #include "./GUIElement/GUIElement.h"
-#include "SpriteFont.h"
-class GUI : public GUIElement
+class GUI
 {
 public:
 	GUI();
@@ -21,8 +20,9 @@ public:
 private:
 	UITextures texture;
 	std::vector<GUIElement*>* items;
-
 	DirectX::XMFLOAT2 size;
 	DirectX::XMFLOAT2 position;
+	//DirectX::XMFLOAT3 position;
+	//DirectX::XMFLOAT3 rotation;
 };
 
