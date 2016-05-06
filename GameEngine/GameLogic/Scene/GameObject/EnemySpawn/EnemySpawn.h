@@ -2,6 +2,7 @@
 #include "../GameObject.h"
 #include "../../../Character/Enemy/Enemy.h"
 #include "../../../Collision/Collision.h"
+#include "../../GameLogic/Scene/Waves/Waves.h"
 
 #include <time.h>
 #include <stdlib.h>
@@ -19,6 +20,10 @@ private:
 	Collision* collision;
 	XMFLOAT3 spawnPosition;
 public:
+	Waves waves;
+	int currentWave = 1;
+	int enemyWaveAmount = 0;
+
 	std::vector<Enemy*> Queue;
 	std::vector<Enemy*> Alive;
 	EnemySpawn();
@@ -28,6 +33,7 @@ public:
 
 	void Release();
 	void Initialize(XMFLOAT3 spawnPosition);
+	void AddEnemy();
 	void Render();
 
 	void Update(double deltaTime);

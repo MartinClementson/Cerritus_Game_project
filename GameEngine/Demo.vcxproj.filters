@@ -242,6 +242,9 @@
     <Filter Include="ResourceEngine\ObjectNode\QuadTree">
       <UniqueIdentifier>{1d340038-b887-4f3c-b390-182959ce1737}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameLogic\Scene\Waves">
+      <UniqueIdentifier>{f872b398-c3f4-4fb4-852b-91ee4be9c091}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameLogic\Animation\Animation.cpp">
@@ -420,6 +423,9 @@
     </ClCompile>
     <ClCompile Include="ResourceEngine\ObjectNode\QuadTree\QuadTree.cpp">
       <Filter>ResourceEngine\ObjectNode\QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Scene\Waves\Waves.cpp">
+      <Filter>GameLogic\Scene\Waves</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -617,6 +623,9 @@
     </ClInclude>
     <ClInclude Include="ResourceEngine\ObjectNode\QuadTree\QuadTree.h">
       <Filter>ResourceEngine\ObjectNode\QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Scene\Waves\Waves.h">
+      <Filter>GameLogic\Scene\Waves</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

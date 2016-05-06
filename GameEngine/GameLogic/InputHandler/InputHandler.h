@@ -8,8 +8,6 @@ using namespace DirectX;
 
 class InputHandler
 {
-public:
-	~InputHandler();
 private:
 	LPDIRECTINPUT8 input;
 	LPDIRECTINPUTDEVICE8 keyboard;
@@ -28,7 +26,8 @@ private:
 
 	HWND* hwndP;
 public:
-	
+	~InputHandler();
+
 	bool Initialize(HWND* hwndP, HINSTANCE* hInstance);
 	void Release();
 

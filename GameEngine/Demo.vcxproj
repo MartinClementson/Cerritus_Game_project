@@ -169,6 +169,7 @@
     <ClCompile Include="GameLogic\Scene\Trap\BearTrap\BearTrap.cpp" />
     <ClCompile Include="GameLogic\Scene\Trap\FireTrap\FireTrap.cpp" />
     <ClCompile Include="GameLogic\Scene\Trap\Trap.cpp" />
+    <ClCompile Include="GameLogic\Scene\Waves\Waves.cpp" />
     <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\AttackState\AttackState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\DeathState\EnemyDeathState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\EnemyStateMachine.cpp" />
@@ -230,6 +231,7 @@
     <ClInclude Include="GameLogic\Scene\Trap\BearTrap\BearTrap.h" />
     <ClInclude Include="GameLogic\Scene\Trap\FireTrap\FireTrap.h" />
     <ClInclude Include="GameLogic\Scene\Trap\Trap.h" />
+    <ClInclude Include="GameLogic\Scene\Waves\Waves.h" />
     <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\AttackState\AttackState.h" />
     <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\DeathState\EnemyDeathState.h" />
     <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\EnemyStateMachine.h" />
