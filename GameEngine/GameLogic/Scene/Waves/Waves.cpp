@@ -72,6 +72,11 @@ int Waves::GetWaveInformation()
 	return amountOfStandards;
 }
 
+void Waves::TimeBetweenWaves()
+{
+
+}
+
 //Waves * Waves::GetInstance()
 //{
 //	static Waves instance;

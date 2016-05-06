@@ -28,6 +28,7 @@ public:
 	void WaveInformation();
 	void SetWaveInformation(int amountOfEnemies);
 	int GetWaveInformation();
+	void TimeBetweenWaves();
 };
 
 #endif

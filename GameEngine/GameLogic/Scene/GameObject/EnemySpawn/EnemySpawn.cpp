@@ -34,7 +34,7 @@ void EnemySpawn::Release()
 
 void EnemySpawn::Update(double deltaTime)
 {
-	for (size_t i = 0; i < 3; i++)
+	for (size_t i = 0; i < 2; i++)
 	{
 		for (size_t i = 0; i < Alive.size(); i++)
 		{
@@ -97,7 +97,6 @@ void EnemySpawn::Update(double deltaTime)
 			}
 			else if (spawnTimer >= 3 && firstSpawn)
 			{
-				AddEnemy();
 				RespawnEnemy();
 				spawnTimer = 0;
 			}
