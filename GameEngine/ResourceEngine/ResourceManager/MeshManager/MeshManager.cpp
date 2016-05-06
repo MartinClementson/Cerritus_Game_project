@@ -277,22 +277,22 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 	else if (*uiEnum == UITextures::MENU)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 7;
+		//toRender->materialID = 7;
 	}
 	else if (*uiEnum == UITextures::GAMEOVER)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 8;
+		//toRender->materialID = 8;
 	}
 	else if (*uiEnum == UITextures::PAUSE)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 9;
+		//toRender->materialID = 9;
 	}
 	else if (*uiEnum == UITextures::EXITMENU)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 10;
+		//toRender->materialID = 10;
 	}
 	else if (*uiEnum == UITextures::RESTARTMENU)
 	{
