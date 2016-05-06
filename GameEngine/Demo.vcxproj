@@ -333,7 +333,9 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">SHADOW_VS_main</EntryPointName>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="ResourceEngine\Shader\UIShader\UIShader.hlsl" />
+    <FxCompile Include="ResourceEngine\Shader\UIShader\UIShader.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS_main</EntryPointName>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\Fetch.obj" />

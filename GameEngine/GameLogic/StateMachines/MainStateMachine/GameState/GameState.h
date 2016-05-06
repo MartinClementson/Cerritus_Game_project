@@ -2,6 +2,7 @@
 #include "../../StateClass/StateClass.h"
 #include "./DeathState/MainDeathState.h"
 #include "./PausedState/MainPausedState.h"
+#include "../MenuState/MenuState.h"
 #include "../../../Scene/Scene.h"
 #include "../../../Character/Player/Player.h"
 #include "../../../InputHandler/Input/Input.h"
@@ -26,12 +27,13 @@ public:
 	float timeSincePaused;
 	int index;
 	float GetPoints();
+	bool toMenu;
 
 
 private:
 	void OnEnter();
 	void OnExit();
-	
+
 private:
 	Scene* room1;
 	Scene* room2;
@@ -41,7 +43,7 @@ private:
 	GUI* gameUI;
 	MainPausedState* pause;
 	MainDeathState* death;
+	MenuState* menu;
 	Collision* collision;
 	GameTimer* gameTimer;
 };
-

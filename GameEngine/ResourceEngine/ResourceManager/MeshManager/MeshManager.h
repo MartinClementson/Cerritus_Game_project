@@ -44,5 +44,6 @@ public:
 	void GetPlaceHolderMeshInfo(RenderInstructions* toRender);
 	void GetPlaceHolderPlaneInfo(RenderInstructions* toRender);
 	void GetFullScreenQuadInfo(RenderInstructions* toRender);
+	void GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions* toRender);
 };
 

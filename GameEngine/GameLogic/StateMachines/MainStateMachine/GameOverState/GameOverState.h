@@ -20,6 +20,7 @@ public:
 	void SetPoints(float points);
 	float GetPoints();
 	void SetLastHigh(float high);
+	bool toMenu;
 
 private:
 	void OnEnter();

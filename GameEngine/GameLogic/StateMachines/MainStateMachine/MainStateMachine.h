@@ -14,11 +14,14 @@ public:
 	float delay;
 	float lastHighscore;
 	void Release();
+	
 private:
+
 	GameState* gameState;
 	GameOverState* gameOverState;
 	MenuState* menuState;
 	MainStates activeState;//enum
+	
 
 };
 

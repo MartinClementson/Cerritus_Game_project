@@ -162,7 +162,14 @@ void Renderer::Render(RenderInfoObject * object)
 //Render 2d textures for the ui
 void Renderer::Render(RenderInfoUI * object)
 {
+	RenderInstructions* renderObject;
 
+	renderObject = this->resourceManager->GetRenderInfo(object);
+	//Render with the given render instruction
+	/*this->sceneCam->Updateview(object->position);
+	this->UpdateCameraBuffer();*/
+
+	this->Render(renderObject);
 }
 
 //Render an enemy mesh
@@ -373,6 +380,7 @@ void Renderer::RenderPlaceHolderPlane()
 	Render(objectPlane);
 
 }
+
 
 #pragma endregion
 

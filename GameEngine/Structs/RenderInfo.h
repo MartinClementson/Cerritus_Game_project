@@ -1,3 +1,4 @@
+
 #pragma once
 #include "../Source/LibIncluder.h"
 
@@ -6,7 +7,7 @@
 #include "ConstantBufferStruct.h"
 
 
-using namespace DirectX;
+	using namespace DirectX;
 
 struct RenderInstructions
 {
@@ -15,24 +16,23 @@ struct RenderInstructions
 	When we want to render something. We send a set of instructions (see structs below) to the resource handler.
 	Then the resource handler fills this struct with the information of the mesh that is to be rendered.
 	Then this struct is returned to the Renderer that proceeds to update the buffers, resources and finally draws the geometry.
-
 	*/
 	unsigned int materialID;
 
-	bool* isAnimated						 = nullptr; //this is important to make sure we use the right vert struct
+	bool* isAnimated = nullptr; //this is important to make sure we use the right vert struct
 
 	WorldMatrix worldBuffer;
-	
-	ID3D11Buffer* vertexBuffer				 = nullptr;
-	UINT* vertexCount						 = 0;
 
-	ID3D11Buffer* indexBuffer				 = nullptr;
-	UINT* indexCount						 = 0;
+	ID3D11Buffer* vertexBuffer = nullptr;
+	UINT* vertexCount = 0;
 
-	ID3D11ShaderResourceView* diffuseMap	 = nullptr;
-	ID3D11ShaderResourceView* normalMap		 = nullptr;
-	ID3D11ShaderResourceView* specularMap	 = nullptr;
-	ID3D11ShaderResourceView* glowMap		 = nullptr;
+	ID3D11Buffer* indexBuffer = nullptr;
+	UINT* indexCount = 0;
+
+	ID3D11ShaderResourceView* diffuseMap = nullptr;
+	ID3D11ShaderResourceView* normalMap = nullptr;
+	ID3D11ShaderResourceView* specularMap = nullptr;
+	ID3D11ShaderResourceView* glowMap = nullptr;
 };
 
 struct RenderInfoObject {
@@ -46,11 +46,12 @@ struct RenderInfoObject {
 
 
 struct RenderInfoUI {
-	XMFLOAT3 position;
-	XMFLOAT3 rotation;
-	MeshEnum object;
-	Shaders shader;	//these are enum
-	float radius;
+	XMFLOAT2 size;
+	XMFLOAT2 rotation;
+	UITextures object;
+	//Shaders shader;	//these are enum
+	//float radius;
+
 };
 
 struct RenderInfoEnemy {
