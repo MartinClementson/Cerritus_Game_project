@@ -77,7 +77,7 @@ void ShaderManager::Release()
 	SAFE_RELEASE(UI_VS);
 	//SAFE_RELEASE(UI_GS);
 	SAFE_RELEASE(UI_PS);
-	//SAFE_RELEASE(gVertexLayoutUI);
+	SAFE_RELEASE(gVertexLayoutUI);
 
 
 	//ComputeShaders
@@ -204,7 +204,7 @@ void ShaderManager::SetActiveShader(Shaders shader)
 			this->gDeviceContext->DSSetShader(nullptr, nullptr, 0);
 			this->gDeviceContext->GSSetShader(nullptr, nullptr, 0);
 			this->gDeviceContext->PSSetShader(UI_PS, nullptr, 0);
-			this->gDeviceContext->IASetInputLayout(gVertexLayoutFinal);
+			this->gDeviceContext->IASetInputLayout(gVertexLayoutUI);
 			
 		break;
 
@@ -823,18 +823,19 @@ bool ShaderManager::CreateUiShader()
 		nullptr);
 
 	hr = this->gDevice->CreateVertexShader(pVS->GetBufferPointer(), pVS->GetBufferSize(), nullptr, &UI_VS);
-	pVS->Release();
 	if (FAILED(hr))
 		return false;
 
-	//D3D11_INPUT_ELEMENT_DESC inputDesc[] =
-	//{
-	//	/*POSITION*/{ "POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,	  0,		 0,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
-	//		/*UV*/	{ "TEXCOORD",	1, DXGI_FORMAT_R32G32_FLOAT ,	  0,		24,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },    
-	//	///*UV*/{ "TEXCOORD",	1, DXGI_FORMAT_R32G32_FLOAT,			  0,		24,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
-	//	///*BITANGENT*/{ "TEXCOORD",	2, DXGI_FORMAT_R32G32_FLOAT,	  0,		32,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
-	//	///*TANGENT*/{ "TEXCOORD",	3, DXGI_FORMAT_R32G32_FLOAT,	  0,		40,		 D3D11_INPUT_PER_VERTEX_DATA		,0 }
-	//};
+	D3D11_INPUT_ELEMENT_DESC inputDesc[] =
+	{
+		/*POSITION*/{ "SV_POSITION",	0, DXGI_FORMAT_R32G32B32A32_FLOAT,	  0,		 0,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*UV*/{ "TEXCOORD",	0, DXGI_FORMAT_R32G32B32_FLOAT ,  0,		16,		 D3D11_INPUT_PER_VERTEX_DATA		,0 }
+	};
+
+	hr = this->gDevice->CreateInputLayout(inputDesc, ARRAYSIZE(inputDesc), pVS->GetBufferPointer(), pVS->GetBufferSize(), &this->gVertexLayoutUI);
+	if (FAILED(hr))
+		return false;
+	pVS->Release();
 	//pixel shader
 	ID3DBlob *pPs = nullptr;
 	D3DCompileFromFile(
