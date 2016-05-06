@@ -828,8 +828,8 @@ bool ShaderManager::CreateUiShader()
 
 	D3D11_INPUT_ELEMENT_DESC inputDesc[] =
 	{
-		/*POSITION*/{ "SV_POSITION",	0, DXGI_FORMAT_R32G32B32A32_FLOAT,	  0,		 0,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
-		/*UV*/{ "TEXCOORD",	0, DXGI_FORMAT_R32G32B32_FLOAT ,  0,		16,		 D3D11_INPUT_PER_VERTEX_DATA		,0 }
+		/*POSITION*/{ "SV_POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,	  0,		 0,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*UV*/{ "TEXCOORD",	0, DXGI_FORMAT_R32G32B32_FLOAT ,  0,		24,		 D3D11_INPUT_PER_VERTEX_DATA		,0 }
 	};
 
 	hr = this->gDevice->CreateInputLayout(inputDesc, ARRAYSIZE(inputDesc), pVS->GetBufferPointer(), pVS->GetBufferSize(), &this->gVertexLayoutUI);

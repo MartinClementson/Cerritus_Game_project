@@ -273,6 +273,7 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
 		toRender->materialID = 9;
+		//fullScreenQuad.GetMaterialID();
 	}
 	else if (*uiEnum == UITextures::MENU)
 	{
