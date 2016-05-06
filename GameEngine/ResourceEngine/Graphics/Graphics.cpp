@@ -177,7 +177,7 @@ void Graphics::Render() //manage RenderPasses here
 		renderer->Render(uiObjects->at(i));
 
 	}
-	gBuffer->ClearGbuffer();
+	//gBuffer->ClearGbuffer();
 										
 	
 	//RenderScene();// TEMPORARY, REMOVE WHEN GBUFFER WORKS
