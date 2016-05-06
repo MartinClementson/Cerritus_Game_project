@@ -22,18 +22,19 @@ cbuffer worldConstantBuffer : register(b1)
 
 struct PointLight
 {
-	float4 lightPosition;
-	matrix lightView;
-	matrix lightProjection;
-	float4 lightLookAt;
-	float4 lightDiffuse;
-	float intensity;
-	float3 padI;
-	float lightRange;
-	float3 padR;
-	float attenuation;
-	float3 padA;
-	bool castShadow;
+    float4 lightPosition;
+    matrix lightView;
+    matrix lightProjection;
+    float4 lightLookAt;
+    float4 lightDiffuse;
+    float intensity;
+    float3 padd;
+    float lightRange;
+    float3 pad;
+    float attenuation;
+    float3 paddd;
+    bool castShadow;
+    float3 padshadow;
 };
 
 
@@ -58,7 +59,11 @@ StructuredBuffer<DirectionalLight>  dirLights    : register(t9);
 
 struct SHADOW_VS_IN
 {
-	float4 position		: POSITION;
+    float3 Pos           : POSITION;
+    float3 Normal        : TEXCOORD0;
+    float2 Uv            : TEXCOORD1;
+    float2 BiTangent     : TEXCOORD2;
+    float2 Tangent       : TEXCOORD3;
 };
 struct SHADOW_VS_OUT
 {
@@ -76,7 +81,7 @@ struct SHADOW_GS_OUT
 SHADOW_VS_OUT SHADOW_VS_main( SHADOW_VS_IN input )
 {
 	SHADOW_VS_OUT output = (SHADOW_VS_OUT)0;
-	output.position = input.position;
+    output.position = float4(input.Pos,1.0f);
 
 	return output;
 }

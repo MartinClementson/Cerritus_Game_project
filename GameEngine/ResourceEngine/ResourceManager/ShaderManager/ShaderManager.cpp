@@ -82,6 +82,8 @@ void ShaderManager::Release()
 
 	//ComputeShaders
 	SAFE_RELEASE(BLUR_CS);
+	SAFE_RELEASE(BLUR_SECOND_CS);
+
 
 	
 
