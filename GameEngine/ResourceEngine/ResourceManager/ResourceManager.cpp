@@ -91,7 +91,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	ui.materialID = 16;
 	temp.push_back(ui);
 
-	materialManager->addMaterials(&temp);
+	//materialManager->addMaterials(&temp);
 }
 
 void ResourceManager::Release()
