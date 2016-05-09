@@ -38,6 +38,8 @@ private:
 	Scene* room1;
 	Scene* room2;
 	Player* player;
+	int enemiesHealing;
+	int nrOfHealers;
 	//Enemy* enemy;
 	Input* input;
 	GUI* gameUI;

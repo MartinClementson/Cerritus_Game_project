@@ -49,7 +49,7 @@ float EnemyBase::GetMaxHealth()
 	return 0.0f;
 }
 
-void EnemyBase::SetClosestHealer(std::vector<EnemyBase*> healer)
+void EnemyBase::SetClosestHealer(EnemyBase* healer)
 {	
 }
 
@@ -91,6 +91,7 @@ void EnemyBase::AIPattern(Player * player, double deltaTime)
 
 void EnemyBase::EnemyWithEnemyCollision(EnemyBase * enemy, EnemyBase * enemys, double deltaTime)
 {
+	enemy = enemys;
 }
 
 void EnemyBase::Respawn(XMFLOAT3 spawn)

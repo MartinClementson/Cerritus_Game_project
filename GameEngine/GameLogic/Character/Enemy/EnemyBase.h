@@ -26,7 +26,7 @@ protected:
 	EnemyBase();
 public:
 	virtual void Release();
-
+	int healing;
 	virtual CharacterType GetCharType();
 	
 	float index;
@@ -45,7 +45,7 @@ public:
 	virtual float GetHealth();
 
 	virtual float GetMaxHealth();
-	virtual void SetClosestHealer(std::vector<EnemyBase*> healer);
+	virtual void SetClosestHealer(EnemyBase* healer);
 	virtual EnemyBase* GetClosestHealer();
 
 	virtual void SetHealth(float health);

@@ -89,7 +89,13 @@ void Enemy::Update(double deltaTime)
 	{
 		GetStateMachine()->SetActiveState(ENEMY_HEAL_STATE);
 	}
-	else if (health < maxHealth / 2 && closestHealer == nullptr)
+	else if (health >= maxHealth && GetStateMachine()->GetActiveState() == ENEMY_HEAL_STATE)
+	{
+		closestHealer->healing -= 1;
+		GetStateMachine()->SetActiveState(ENEMY_ATTACK_STATE);
+	}
+
+	if (closestHealer == nullptr)
 	{
 		GetStateMachine()->SetActiveState(ENEMY_ATTACK_STATE);
 	}
@@ -210,7 +216,7 @@ float Enemy::GetRadius()
 void Enemy::AIPattern(Player* player, double deltaTime)
 {
 	
-	if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE)
+	if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE || enemyStateMachine->GetActiveState() == ENEMY_HEAL_STATE)
 	{
 		
 		XMFLOAT3 playerPos = player->GetPosition();
@@ -239,19 +245,21 @@ void Enemy::AIPattern(Player* player, double deltaTime)
 }
 void Enemy::AIPatternHeal(EnemyBase* healer, double deltaTime)
 {
-	
-	XMFLOAT3 playerPos = healer->GetPosition();
-	Vec3 vect;
+	if (enemyStateMachine->GetActiveState() == ENEMY_HEAL_STATE)
+	{
+		XMFLOAT3 playerPos = healer->GetPosition();
+		Vec3 vect;
 
-	vect.x = playerPos.x - GetPosition().x;
-	vect.z = playerPos.z - GetPosition().z;
+		vect.x = playerPos.x - GetPosition().x;
+		vect.z = playerPos.z - GetPosition().z;
 
-	vect.Normalize();
+		vect.Normalize();
 
-	//XMFLOAT3 temp = GetPosition();
-	this->position.x += vect.x *(float)deltaTime * movementSpeed;
-	this->position.z += vect.z *(float)deltaTime * movementSpeed;
-	//SetPosition(temp);
+		//XMFLOAT3 temp = GetPosition();
+		this->position.x += vect.x *(float)deltaTime * movementSpeed /2;
+		this->position.z += vect.z *(float)deltaTime * movementSpeed/2;
+		//SetPosition(temp);
+	}
 }
 
 CharacterType Enemy::GetCharType()
@@ -263,9 +271,9 @@ float Enemy::GetRadius2()
 	return this->radius2;
 }
 
-void Enemy::EnemyWithEnemyCollision(Enemy* enemy, Enemy* enemys, double deltaTime)
+void Enemy::EnemyWithEnemyCollision(EnemyBase* enemy, EnemyBase* enemys, double deltaTime)
 {
-	if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE)
+	if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE || enemyStateMachine->GetActiveState() == ENEMY_HEAL_STATE)
 	{
 		XMFLOAT3 enemyPos;
 		XMFLOAT3 enemyPos2;
@@ -279,8 +287,10 @@ void Enemy::EnemyWithEnemyCollision(Enemy* enemy, Enemy* enemys, double deltaTim
 
 		dir.Normalize();
 
+	
 		enemys->position.x -= dir.x * (float)deltaTime * movementSpeed;
 		enemys->position.z -= dir.z * (float)deltaTime * movementSpeed;
+		
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
 	{
@@ -292,79 +302,9 @@ void Enemy::EnemyWithEnemyCollision(Enemy* enemy, Enemy* enemys, double deltaTim
 	}
 }
 
-void Enemy::SetClosestHealer(std::vector<EnemyBase*> healer)
+void Enemy::SetClosestHealer(EnemyBase* healer)
 {
-	EnemyBase* tmpCloseHealer;
-
-	XMFLOAT3 healPos;
-	healPos.y = 0;
-	XMFLOAT3 closest;
-	closest.y = 0;
-	XMFLOAT3 tmp;
-	tmp.y = 0;
-	bool first = false;
-	if (healer.at(0) != nullptr)
-	{
-		if (healer.size() > 0)
-		{
-			for (size_t i = 0; i < healer.size(); i++)
-			{
-				healPos = healer.at(i)->position;
-
-				//////////////////
-				if (healer.at(i)->isAlive)
-				{
-
-
-					tmp.x = healPos.x - this->position.x;
-					if (tmp.x < 0)
-					{
-						tmp.x = -tmp.x;
-					}
-
-
-					tmp.z = healPos.z - this->position.z;
-					if (tmp.z < 0)
-					{
-						tmp.z = -tmp.z;
-					}
-
-					//////////////////
-
-					if (first == false)
-					{
-						first = true;
-						closest = tmp;
-						tmpCloseHealer = healer.at(i);
-					}
-					else
-					{
-						if (closest.x > tmp.x && closest.z > tmp.z && healer.at(i)->isAlive)
-						{
-							closest = tmp;
-							tmpCloseHealer = healer.at(i);
-						}
-
-					}
-				}
-				else
-				{
-					tmpCloseHealer = nullptr;
-				}
-				this->closestHealer = tmpCloseHealer;
-			}
-		}
-		else
-		{
-			this->closestHealer = nullptr;
-
-		}
-	}
-	else
-	{
-		this->closestHealer = nullptr;
-
-	}
+	closestHealer = healer;
 }
 
 EnemyBase* Enemy::GetClosestHealer()

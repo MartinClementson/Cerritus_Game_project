@@ -44,8 +44,8 @@ public:
 	void AIPattern(Player * player, double deltaTime);
 	void AIPatternHeal(EnemyBase * player, double deltaTime);
 	CharacterType GetCharType();
-	void EnemyWithEnemyCollision(Enemy * enemy, Enemy * enemys, double deltaTime);
-	void SetClosestHealer(std::vector<EnemyBase*> healer);
+	void EnemyWithEnemyCollision(EnemyBase * enemy, EnemyBase * enemys, double deltaTime);
+	void SetClosestHealer(EnemyBase* healer);
 	EnemyBase* GetClosestHealer();
 	//void EnemyWithBeartrap(BearTrap * bear, Enemy * enemys, double deltaTime);
 	void Respawn(XMFLOAT3 spawn);

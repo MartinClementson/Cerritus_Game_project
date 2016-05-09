@@ -53,7 +53,8 @@ void EnemySpawn::Update(double deltaTime)
 		}
 		if (StandardAlive.at(i)->GetHealth() <= 0 &&
 			StandardAlive.at(i)->GetStateMachine()->
-			GetActiveState() == EnemyState::ENEMY_ATTACK_STATE)
+			GetActiveState() == EnemyState::ENEMY_ATTACK_STATE
+			)
 		{
 			Player* player;
 			player = collision->GetPlayer();
@@ -88,9 +89,27 @@ void EnemySpawn::Update(double deltaTime)
 			StandardAlive.erase(StandardAlive.begin() + i);
 			StandardAlive.shrink_to_fit();
 		}
+		else if (StandardAlive.at(i)->GetHealth() <= 0 &&
+			StandardAlive.at(i)->GetStateMachine()->
+			GetActiveState() == EnemyState::ENEMY_HEAL_STATE)
+		{
+			Player* player;
+			player = collision->GetPlayer();
+			player->SetPoints(player->GetPoints() + (10.0f*player->GetMulti()));
+			player->SetMulti(player->GetMulti() + 0.1f);
+
+			StandardAlive.at(i)->isAlive = false;
+			StandardAlive.at(i)->SetHealth(100.0f);
+			StandardAlive.at(i)->GetStateMachine()->
+				SetActiveState(EnemyState::ENEMY_DEATH_STATE);
+
+			StandardQueue.push_back(StandardAlive.at(i));
+
+			StandardAlive.erase(StandardAlive.begin() + i);
+		}
 	}
 	
-
+	
 	if (StandardAlive.size() == 0)
 	{
 		spawnTimer += (float)deltaTime;

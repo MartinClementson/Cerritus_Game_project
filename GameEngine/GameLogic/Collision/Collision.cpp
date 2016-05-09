@@ -106,7 +106,7 @@ bool Collision::HealerProximity(EnemyBase* enemy,EnemyBase* healer)
 	float enemyRad = enemy->GetRadius();
 
 	XMFLOAT3 healerPos = healer->GetPosition();
-	float healerRad = 10;
+	float healerRad = 5;
 
 	if (pow(enemyPos.x - healerPos.x, 2)
 		+ pow(enemyPos.z - healerPos.z, 2)
