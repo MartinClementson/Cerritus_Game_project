@@ -303,60 +303,67 @@ void Enemy::SetClosestHealer(std::vector<EnemyBase*> healer)
 	XMFLOAT3 tmp;
 	tmp.y = 0;
 	bool first = false;
-
-	if (healer.size() > 0)
+	if (healer.at(0) != nullptr)
 	{
-		for (size_t i = 0; i < healer.size(); i++)
+		if (healer.size() > 0)
 		{
-			healPos = healer.at(i)->position;
-
-			//////////////////
-			if (healer.at(i)->isAlive)
+			for (size_t i = 0; i < healer.size(); i++)
 			{
-
-
-				tmp.x = healPos.x - this->position.x;
-				if (tmp.x < 0)
-				{
-					tmp.x = -tmp.x;
-				}
-
-
-				tmp.z = healPos.z - this->position.z;
-				if (tmp.z < 0)
-				{
-					tmp.z = -tmp.z;
-				}
+				healPos = healer.at(i)->position;
 
 				//////////////////
+				if (healer.at(i)->isAlive)
+				{
 
-				if (first == false)
-				{
-					first = true;
-					closest = tmp;
-					tmpCloseHealer = healer.at(i);
-				}
-				else
-				{
-					if (closest.x > tmp.x && closest.z > tmp.z && healer.at(i)->isAlive)
+
+					tmp.x = healPos.x - this->position.x;
+					if (tmp.x < 0)
 					{
+						tmp.x = -tmp.x;
+					}
+
+
+					tmp.z = healPos.z - this->position.z;
+					if (tmp.z < 0)
+					{
+						tmp.z = -tmp.z;
+					}
+
+					//////////////////
+
+					if (first == false)
+					{
+						first = true;
 						closest = tmp;
 						tmpCloseHealer = healer.at(i);
 					}
+					else
+					{
+						if (closest.x > tmp.x && closest.z > tmp.z && healer.at(i)->isAlive)
+						{
+							closest = tmp;
+							tmpCloseHealer = healer.at(i);
+						}
 
+					}
 				}
+				else
+				{
+					tmpCloseHealer = nullptr;
+				}
+				this->closestHealer = tmpCloseHealer;
 			}
-			else
-			{
-				tmpCloseHealer = nullptr;
-			}
-			this->closestHealer = tmpCloseHealer;
+		}
+		else
+		{
+			this->closestHealer = nullptr;
+
 		}
 	}
 	else
 	{
 		this->closestHealer = nullptr;
-		
+
 	}
 }
 

@@ -75,28 +75,39 @@ void GameState::Update(double deltaTime)
 		room1->Update(deltaTime);
 
 		//finding all healers
-		if (healers.size() == 0)
+
+		for (size_t k = 0; k < room1->enemySpawns.size(); k++)
 		{
+			size_t j = 0;
+			while (j < room1->enemySpawns.at(k)->StandardAlive.size())
+			{
+				if (room1->enemySpawns.at(k)->StandardAlive.at(j)->
+					GetCharType() == CharacterType::HEALER
+					&& room1->enemySpawns.at(k)->StandardAlive.at(j)->isAlive)
+				{
+					healers.push_back(room1->enemySpawns.at(k)->StandardAlive.at(j));
+				}
+				j++;
+			}
+		}
+
+
+		//Setting closest healer in all enemies
+		if (healers.size() > 0)
+		{
+			
 			for (size_t k = 0; k < room1->enemySpawns.size(); k++)
 			{
 				size_t j = 0;
 				while (j < room1->enemySpawns.at(k)->StandardAlive.size())
 				{
-					if (room1->enemySpawns.at(k)->StandardAlive.at(j)->
-						GetCharType() == CharacterType::HEALER
-						&& room1->enemySpawns.at(k)->StandardAlive.at(j)->isAlive)
-					{
-						healers.push_back(room1->enemySpawns.at(k)->StandardAlive.at(j));
-					}
+					room1->enemySpawns.at(k)->StandardAlive.at(j)->SetClosestHealer(healers);
 					j++;
 				}
 			}
 		}
-
-		//Setting closest healer in all enemies
-		if (healers.size() > 0)
+		else
 		{
-			index = 0.0f;
 			for (size_t k = 0; k < room1->enemySpawns.size(); k++)
 			{
 				size_t j = 0;
@@ -139,7 +150,7 @@ void GameState::Update(double deltaTime)
 
 					if (room1->enemySpawns.at(k)->StandardAlive.at(p)->isAlive == true)
 					{
-						float maxHealth = room1->enemySpawns.at(k)->StandardAlive.at(j)->GetMaxHealth();
+						//float maxHealth = room1->enemySpawns.at(k)->StandardAlive.at(j)->GetMaxHealth();
 
 						if (room1->enemySpawns.at(k)->StandardAlive.at(j)->GetStateMachine()->
 							GetActiveState() == ENEMY_HEAL_STATE
@@ -158,8 +169,8 @@ void GameState::Update(double deltaTime)
 								if (collision->HealerProximity(room1->enemySpawns.at(k)->
 									StandardAlive.at(p), tmpHealer))
 								{
-									if (tmpHealer->isAlive && room1->enemySpawns.at(k)->
-										StandardAlive.at(p)->GetHealth() < maxHealth)
+									if (room1->enemySpawns.at(k)->StandardAlive.at(j)->GetStateMachine()->
+										GetActiveState() == ENEMY_HEAL_STATE)
 									{
 										room1->enemySpawns.at(k)->
 										StandardAlive.at(p)->SetHealth(
