@@ -3,7 +3,7 @@ SamplerState linearSampler		 : register(s0);
 
 struct VS_IN
 {
-	float4 pos : SV_POSITION;
+	float4 pos : POSITION;
 	float2 uv : TEXCOORD;
 };
 

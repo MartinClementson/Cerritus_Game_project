@@ -35,52 +35,6 @@ void GameOverState::Update(double deltaTime)
 	//TIMER, EXIT GAME OPTION, GO TO MENU OPTION
 	gameOverGUI->Update(deltaTime);
 	
-	/*std::wstring stemp = s2ws(a);*/
-	
-	
-
-	/*
-	if (this->GetPoints() > lastHighscore)
-	{
-		std::wstring a = std::to_wstring((int)this->GetPoints());
-		LPCWSTR result = a.c_str();
-		MessageBox(0, result,
-			L"New Highscore!", MB_OK);
-	}
-	else if (this->GetPoints() == lastHighscore && lastHighscore == 0)
-	{
-		std::wstring a = std::to_wstring((int)this->GetPoints());
-		LPCWSTR result = a.c_str();
-		MessageBox(0, result,
-			L"You Can Do Better Than That...", MB_OK);
-	}
-	else if (this->GetPoints() == lastHighscore)
-	{
-		std::wstring a = std::to_wstring((int)this->GetPoints());
-		LPCWSTR result = a.c_str();
-		MessageBox(0, result,
-			L"Equaled The Best", MB_OK);
-	}
-	else if (this->GetPoints() < 0)
-	{
-		std::wstring a = std::to_wstring((int)this->GetPoints());
-		LPCWSTR result = a.c_str();
-		MessageBox(0, result,
-			L"You Aren't Even Trying", MB_OK);
-	}
-	else
-	{
-		
-		LPCWSTR tmp = L"last Highscore: ";
-		std::wstring a = std::to_wstring((int)this->GetPoints());
-		LPCWSTR result = a.c_str();
-		wstring prev(tmp);
-		prev = prev + std::to_wstring((int)lastHighscore);
-		LPCWSTR print = prev.c_str();
-		
-		MessageBox(0, result,
-			print, MB_OK);
-	}*/
 	XMFLOAT2 mousePos = InputHandler::GetInstance()->GetMousePosition();
 
 	float vx = ((2.0f * mousePos.x) / (float)WIN_HEIGHT - 1.0f);

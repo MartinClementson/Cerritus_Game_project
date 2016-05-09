@@ -33,12 +33,12 @@ void GameState::Initialize()
 	player->Initialize();
 	death->Initialize();
 	pause->Initialize();
+	menu->Initialize();
 	death->isActive = false;
 	pause->isActive = false;
+	menu->isActive = false;
 	isPlayerDead = false;
 	toMenu = false;
-	menu->Initialize();
-	menu->isActive = false;
 	gameUI->Initialize();
 	//Create room one here
 	timeSincePaused = 0.0f;
@@ -67,6 +67,7 @@ void GameState::Release()
 void GameState::Update(double deltaTime)
 {
 	gameUI->Update(deltaTime);
+	//menu->Update(deltaTime);
 	ProcessInput(&deltaTime);
 	if (!pause->isActive)
 	{
@@ -75,7 +76,7 @@ void GameState::Update(double deltaTime)
 		if (player->GetHealth() <= 0)
 		{
 			isPlayerDead = true;
-			//isActive = false;
+			isActive = false;
 		}
 		XMFLOAT2 mouseXY = input->GetMousePosition();
 
@@ -168,7 +169,66 @@ void GameState::Update(double deltaTime)
 	}
 	else if (pause->isActive)
 	{
-		gameUI->setUI(UITextures::PAUSE);
+		//gameUI->setUI(UITextures::PAUSE);
+
+		//XMFLOAT2 mousePos = InputHandler::GetInstance()->GetMousePosition();
+
+		//float vx = ((2.0f * mousePos.x) / (float)WIN_HEIGHT - 1.0f);
+		//float vy = ((2.0f * -mousePos.y) / (float)WIN_WIDTH + 1.0f);
+
+		//XMFLOAT2 Maxexit = { 493.0f ,460.0f };
+		//XMFLOAT2 Minexit = { 792.0f,511.0f };
+
+		//float Maxex = ((2.0f * Maxexit.x) / (float)WIN_HEIGHT - 1.0f);
+		//float Maxey = ((2.0f * -Maxexit.y) / (float)WIN_WIDTH + 1.0f);
+		//float Minex = ((2.0f * Minexit.x) / (float)WIN_HEIGHT - 1.0f);
+		//float Miney = ((2.0f * -Minexit.y) / (float)WIN_WIDTH + 1.0f);
+		//
+
+		//XMFLOAT2 MaxResumeGame = { 490.0f,216.0f };
+		//XMFLOAT2 MinResumeGame = { 788.0f,269.0f };
+
+		//float Maxnx = ((2.0f * MaxResumeGame.x) / (float)WIN_HEIGHT - 1.0f);
+		//float Maxny = ((2.0f * -MaxResumeGame.y) / (float)WIN_WIDTH + 1.0f);
+		//float Minnx = ((2.0f * MinResumeGame.x) / (float)WIN_HEIGHT - 1.0f);
+		//float Minny = ((2.0f * -MinResumeGame.y) / (float)WIN_WIDTH + 1.0f);
+
+		//XMFLOAT2 MaxRestart = { 490.0f,333.0f };
+		//XMFLOAT2 MinRestart = { 787.0f,387.0f };
+
+		//float Maxcx = ((2.0f * MaxRestart.x) / (float)WIN_HEIGHT - 1.0f);
+		//float Maxcy = ((2.0f * -MaxRestart.y) / (float)WIN_WIDTH + 1.0f);
+		//float Mincx = ((2.0f * MinRestart.x) / (float)WIN_HEIGHT - 1.0f);
+		//float Mincy = ((2.0f * -MinRestart.y) / (float)WIN_WIDTH + 1.0f);
+
+		//if (vx > Maxex && vy < Maxey && vx < Minex && vy > Miney)
+		//{
+
+		//	if (input->isMouseClicked(MOUSE_LEFT))
+		//	{
+		//		toMenu = true;
+		//		menu->isActive = true;
+		//	}
+		//	ProcessInput(&deltaTime);
+		//	//shutofgame, release everything no memory leaks are allowed
+		//	//OnExit();
+		//}
+		//else if (vx > Maxnx && vy < Maxny && vx < Minnx && vy > Minny)
+		//{
+		//	if (input->isMouseClicked(MOUSE_LEFT))
+		//	{
+		//		pause->isActive = false;
+		//		gameUI->setUI(UITextures::HUD);
+		//	}
+		//}
+		//else if (vx > Maxcx && vy < Maxcy && vx < Mincx && vy > Mincy)
+		//{
+		//	if (input->isMouseClicked(MOUSE_LEFT))
+		//	{
+
+		//	}
+		//}
+		
 	}
 }
 
@@ -184,6 +244,67 @@ void GameState::ProcessInput(double* deltaTime)
 	}
 	else if (pause->isActive)
 	{
+		gameUI->setUI(UITextures::PAUSE);
+
+		XMFLOAT2 mousePos = InputHandler::GetInstance()->GetMousePosition();
+
+		float vx = ((2.0f * mousePos.x) / (float)WIN_HEIGHT - 1.0f);
+		float vy = ((2.0f * -mousePos.y) / (float)WIN_WIDTH + 1.0f);
+
+		XMFLOAT2 Maxexit = { 493.0f ,460.0f };
+		XMFLOAT2 Minexit = { 792.0f,511.0f };
+
+		float Maxex = ((2.0f * Maxexit.x) / (float)WIN_HEIGHT - 1.0f);
+		float Maxey = ((2.0f * -Maxexit.y) / (float)WIN_WIDTH + 1.0f);
+		float Minex = ((2.0f * Minexit.x) / (float)WIN_HEIGHT - 1.0f);
+		float Miney = ((2.0f * -Minexit.y) / (float)WIN_WIDTH + 1.0f);
+		
+
+		XMFLOAT2 MaxResumeGame = { 490.0f,216.0f };
+		XMFLOAT2 MinResumeGame = { 788.0f,269.0f };
+
+		float Maxnx = ((2.0f * MaxResumeGame.x) / (float)WIN_HEIGHT - 1.0f);
+		float Maxny = ((2.0f * -MaxResumeGame.y) / (float)WIN_WIDTH + 1.0f);
+		float Minnx = ((2.0f * MinResumeGame.x) / (float)WIN_HEIGHT - 1.0f);
+		float Minny = ((2.0f * -MinResumeGame.y) / (float)WIN_WIDTH + 1.0f);
+
+		XMFLOAT2 MaxRestart = { 490.0f,333.0f };
+		XMFLOAT2 MinRestart = { 787.0f,387.0f };
+
+		float Maxcx = ((2.0f * MaxRestart.x) / (float)WIN_HEIGHT - 1.0f);
+		float Maxcy = ((2.0f * -MaxRestart.y) / (float)WIN_WIDTH + 1.0f);
+		float Mincx = ((2.0f * MinRestart.x) / (float)WIN_HEIGHT - 1.0f);
+		float Mincy = ((2.0f * -MinRestart.y) / (float)WIN_WIDTH + 1.0f);
+
+		if (vx > Maxex && vy < Maxey && vx < Minex && vy > Miney)
+		{
+
+			if (input->isMouseClicked(MOUSE_LEFT))
+			{
+				
+				toMenu = true;
+				menu->isActive = true;
+				pause->isActive = false;
+			}
+			
+			//shutofgame, release everything no memory leaks are allowed
+			//OnExit();
+		}
+		else if (vx > Maxnx && vy < Maxny && vx < Minnx && vy > Minny)
+		{
+			if (input->isMouseClicked(MOUSE_LEFT))
+			{
+				pause->isActive = false;
+				gameUI->setUI(UITextures::HUD);
+			}
+		}
+		else if (vx > Maxcx && vy < Maxcy && vx < Mincx && vy > Mincy)
+		{
+			if (input->isMouseClicked(MOUSE_LEFT))
+			{
+
+			}
+		}
 		if (input->IsKeyPressed(KEY_ENTER) && timeSincePaused > 0.2f)
 		{
 			pause->isActive = false;
@@ -289,6 +410,7 @@ void GameState::Render()
 	room1->Render();
 	player->Render();
 	gameUI->Render();
+//	menu->Render();
 
 }
 

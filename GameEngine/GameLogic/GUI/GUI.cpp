@@ -19,7 +19,7 @@ void GUI::Initialize()
 	size = size;
 	position = position;
 	grapichs = Graphics::GetInstance();
-	texture = UITextures::MENU;
+	this->texture = texture;
 }
 
 void GUI::Release()
