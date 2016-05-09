@@ -217,13 +217,12 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 		textureSample		= diffuseTex.Sample(linearSampler, input.Uv);
 		if (textureSample.a < 0.1)
 			clip(-1);
-		textureSample.a		= col.x; //laser pointer color
 		output.diffuseRes	= textureSample;
 	}
 	else
 	{
 		
-		output.diffuseRes = float4(0.5, 0.5, 0.5, col.x); //Alpha == laserpointer color
+		output.diffuseRes = float4(0.5, 0.5, 0.5, 1.0f); 
 	}
 
 
@@ -275,7 +274,7 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	output.normalRes.a = depth;
 
 	//output.depthRes			 = float4(depth, depth, depth, 1.0);
-
+	output.overlayRes.a  = col.x; //Alpha == laserpointer color
 	return output;
 }
 

@@ -216,7 +216,7 @@ BILLBOARD_PS_OUT BILLBOARD_PS(BILLBOARD_GS_OUT input)
 		if (textureSample.a < 0.3)
 			clip(-1);
 		textureSample.a = col.x; //laser pointer color
-		output.diffuseRes = float4(0.0f, 0.0f, 0.0f, 1.0f);  // don't give it a diffuse color. billboards are not to be shaded. (for now)
+		output.diffuseRes = float4(0.0f, 0.0f, 0.0f, 0.0f);  // don't give it a diffuse color. billboards are not to be shaded. (for now)
 
 		output.overlayRes = textureSample;
 
@@ -224,7 +224,7 @@ BILLBOARD_PS_OUT BILLBOARD_PS(BILLBOARD_GS_OUT input)
 	else
 	{
 
-		output.diffuseRes = float4(0.0f, 0.0f, 0.0f, 1.0f);  // don't give it a diffuse color. billboards are not to be shaded. (for now)
+		output.diffuseRes = float4(0.0f, 0.0f, 0.0f, 0.0f);  // don't give it a diffuse color. billboards are not to be shaded. (for now)
 
 		output.overlayRes = float4(input.color,1.0f);
 
@@ -268,7 +268,7 @@ BILLBOARD_PS_OUT BILLBOARD_PS(BILLBOARD_GS_OUT input)
 	}
 	else
 	{
-		//textureSample = diffuseTex.Sample(linearSampler, input.Uv);
+		
 		if (diffuseMap)
 			output.glowRes = textureSample;
 		else

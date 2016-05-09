@@ -302,21 +302,25 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 	int shadowMapsProcessed = 0;
 	float4 finalCol = float4(0.0f, 0.0f, 0.0f, 1.0f);
 	float4 overlaySample = overlayTexture.Sample(pointSampler, input.Uv);
+	float4 diffuseSamp = diffuseTexture.Sample(pointSampler,input.Uv);
 
 
-	////finalCol = overlaySample;
-	//
-	//float tester = overlaySample.a;
-	//
-	//if (overlayTexture.Sample(pointSampler, input.Uv).a > 0.1f)
-	//{
-	//	finalCol = overlaySample;
+	////finalCol = overlaySample;									  This doesent work! it would be very nice if it did. we want to skip shading if we have overlay on the pixel
+	//																  This doesent work! it would be very nice if it did. we want to skip shading if we have overlay on the pixel
+	//float tester = overlaySample.a;								  This doesent work! it would be very nice if it did. we want to skip shading if we have overlay on the pixel
+	//																  This doesent work! it would be very nice if it did. we want to skip shading if we have overlay on the pixel
+	//if (overlayTexture.Sample(pointSampler, input.Uv).a > 0.1f)	  This doesent work! it would be very nice if it did. we want to skip shading if we have overlay on the pixel
+	//{																  This doesent work! it would be very nice if it did. we want to skip shading if we have overlay on the pixel
+	//	finalCol = overlaySample;									  This doesent work! it would be very nice if it did. we want to skip shading if we have overlay on the pixel
 	//	return finalCol;
 	//}
+	float4 ambient = float4(0.0f, 0.0f, 0.0f, 0.0f); // Hardcoded ambient. 
+	float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 specular = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 overlay = float4(overlaySample.xyz, 1.0f);
 	
 		float3 worldPos = positionTexture.Sample(pointSampler, input.Uv).xyz;
 
-		float4 diffuseSamp = diffuseTexture.Sample(pointSampler,input.Uv);
 		float4 specularSample = specularTexture.Sample(pointSampler, input.Uv);
 		float shadow = 1.0;
 
@@ -331,17 +335,17 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 		//The light ray from the vert position to the light
 		//normalized to be used as a direction vector
 
-		float4 ambient = float4(0.0f, 0.0f, 0.0f, 0.0f); // Hardcoded ambient. 
-		float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
-		float4 specular = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
 		float4 A, D, S;
 
 
 		float3 v = normalize(camPos.xyz - worldPos);				 //create a ray from the vert pos to the camera.
-		
+			float yo = 1.0f;
 		for (int i = 0; i < numPointLights; i++)
 		{
+
+			if (diffuseSamp.a > 0.1)
+			{
 
 				ComputePointLight(pointlights[i], pixelMat, worldPos, v,
 					A, D, S);
@@ -364,77 +368,36 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 						diffuse += D;
 						specular += S;
 					}
+			}
 
 		}
 		//[unroll]
 		for (int d = 0; d < numDirLights; d++)
 		{
-				ComputeDirectionalLight(dirLights[d], pixelMat, v, A, D, S);
-			if (dirLights[d].castShadow != 0) //if the light casts shadows
+			if (diffuseSamp.a > 0.1)
 			{
-				if (shadowMapsProcessed < (int)MAX_SHADOWMAP_AMOUNT)
+					ComputeDirectionalLight(dirLights[d], pixelMat, v, A, D, S);
+				if (dirLights[d].castShadow != 0) //if the light casts shadows
 				{
+					if (shadowMapsProcessed < (int)MAX_SHADOWMAP_AMOUNT)
+					{
 
-					shadow += sampleShadowStencils(float4(worldPos, 1.0f), dirLights[d].lightView, dirLights[d].lightProjection, shadowMapsProcessed);
-					shadowMapsProcessed += 1;
-					ambient  += A;
-					diffuse  += shadow  *D;
-					specular += shadow  *S;
+						shadow += sampleShadowStencils(float4(worldPos, 1.0f), dirLights[d].lightView, dirLights[d].lightProjection, shadowMapsProcessed);
+						shadowMapsProcessed += 1;
+						ambient  += A;
+						diffuse  += shadow  *D;
+						specular += shadow  *S;
+					}
 				}
-			}
-			else
-			{
-				ambient  += A;
-				diffuse  += D;
-				specular += S;
+				else
+				{
+					ambient  += A;
+					diffuse  += D;
+					specular += S;
+				}
 			}
 
 		}
-
-		//saturate(diffuse);
-		//saturate(specular);
-		//float4 combinedLightDiffuse = { 0.0f,0.0f,0.0f,1.0f };
-
-		//for (int i = 0; i < numPointLights; i++)
-		//{
-
-		//	float3 vRay				= (float3)(pointlights[i].lightPosition - worldPos);
-		//	float rayLength			= length(vRay);
-		//	//if (rayLength > pointlights[i].lightRange)
-		//		//continue;
-		//	vRay					/= rayLength;
-
-		//						
-		//	float3 r				= reflect(-vRay, normal.xyz);						 //Reflect is used in the specular shading
-		//						
-		//	float fDot				= saturate(dot(vRay, normal.xyz));					 //Calculate how much of the pixel is to be lit "intensity"
-
-
-		//	float4 lightColor		= mul(pointlights[i].lightDiffuse, pointlights[0].intensity);
-		//	float shinyPower		= 20.0f;//specularTexture.Sample(SampleType,input.Uv).r; //How much light is to be reflected
-		//						
-		//	float3 KS				= specular.xyz;									 //This is the color of the specularity. For now it is set as the light color
-		//						
-		//	float3 specularLight	= { KS * pow(max(dot(r,v),0.0f),shinyPower) };
-		//			
-		//	float4 lightDiffuse		= saturate(lightColor * fDot ) + float4(specularLight, 1.0f);
-		//
-
-		//
-		//	float3 spotDir			= normalize(pointlights[i].lightLookAt - lightPosition);
-
-		//	//lightDiffuse			*= pow(max(dot(-vRay, spotDir), 0.0f), 30.0f);
-
-		//	float radio			= 30.0f;
-		//	float lightLength	= length(pointlights[i].lightLookAt - worldPos);
-		//	if (lightLength > radio)
-		//		lightDiffuse *= 0.0;
-		//	else
-		//		lightDiffuse *= ((radio - lightLength) / radio);
-		//	combinedLightDiffuse += lightDiffuse;
-		//}
-
-
 
 		//========== Screen Space Ambient Occlusion =============
 		 //quite fake. Use AO maps if possible. dis should be for objects without AO maps
@@ -473,8 +436,8 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 
 		float4 glow = glowTexture.Sample(linearSampler, input.Uv);
 		glow = glow * glow.a;
-		finalCol = saturate(ambient /** ssao*/ + (diffuse + specular) + glow);//* shadow));
-		finalCol.r += diffuseSamp.a; //Laser point color
+		finalCol = saturate(ambient /** ssao*/ + (diffuse + specular) + glow + overlay);//* shadow));
+		finalCol.r += overlaySample.a; //Laser point color
 		finalCol.w = 1.0f;
 
 		//justglow
