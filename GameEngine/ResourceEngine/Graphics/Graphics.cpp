@@ -144,7 +144,9 @@ void Graphics::Release()
 
 void Graphics::Render() //manage RenderPasses here
 {
-	renderer->UpdateCamera(charObjects->at(0)->position);
+	if (charObjects->size() > 0)
+		renderer->UpdateCamera(charObjects->at(0)->position);
+
 
 	CullGeometry();									 //Remove geometry out of view
 
