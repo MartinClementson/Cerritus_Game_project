@@ -32,43 +32,51 @@ void Waves::Update(double deltaTime)
 	}*/
 }
 
-void Waves::SetWave(int wave)
+void Waves::SetWaveGroup(int wave)
 {
 	this->waveNumber = wave;
 }
 
-int Waves::GetWave()
+int Waves::GetWaveGroup()
 {
 	return this->waveNumber;
 }
 
 void Waves::WaveInformation()
 {
-	waveNumber = GetWave();
+	int nextWave = 1;
+	waveNumber = GetWaveGroup();
 	switch (waveNumber) 
 	{
 		case 1:
-			amountOfStandards = 5;
+			amountOfStandards = 2;
 			SetWaveInformation(amountOfStandards);
 			amountOFFast = 3;
 			amountOfHealers = 5;
 			break;
 		case 2:
-			amountOfStandards = 1;
+			amountOfStandards = 4;
 			SetWaveInformation(amountOfStandards);
 			amountOFFast = 2;
 			amountOfHealers = 2;
 			break;
 		case 3:
-			amountOfStandards = 0;
+			amountOfStandards = 8;
 			SetWaveInformation(amountOfStandards);
 			amountOFFast = 5;
 			amountOfHealers = 2;
+			//NextWave(nextWave);
 			break;
 		default: 
-
+			amountOfStandards = 0;
+			SetWaveInformation(amountOfStandards);
 			break;
 	}
+}
+
+void Waves::NextWave(int nextWaveNumber)
+{
+	nextWaveNumber;
 }
 
 void Waves::SetWaveInformation(int amountOfEnemies)

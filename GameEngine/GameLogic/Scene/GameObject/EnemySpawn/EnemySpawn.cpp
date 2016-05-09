@@ -22,7 +22,7 @@ EnemySpawn::~EnemySpawn()
 void EnemySpawn::Initialize(XMFLOAT3 spawnPosition)
 {
 	this->spawnPosition = spawnPosition;
-	waves.SetWave(currentWave);
+	waves.SetWaveGroup(currentWave);
 	waves.WaveInformation();
 	waveAmount = waves.GetWaveInformation();
 	InitEnemy();
@@ -74,7 +74,9 @@ void EnemySpawn::Update(double deltaTime)
 
 					Alive.erase(Alive.begin() + i);
 
-					//waveAmount--;
+					waveAmount--;
+
+
 				}
 				else if (Alive.at(i)->GetHealth() <= 0 &&
 					Alive.at(i)->GetStateMachine()->
@@ -94,7 +96,7 @@ void EnemySpawn::Update(double deltaTime)
 
 					Alive.erase(Alive.begin() + i);
 
-					//waveAmount--;
+					waveAmount--;
 
 				}
 			}
@@ -108,18 +110,15 @@ void EnemySpawn::Update(double deltaTime)
 				}
 				else if (spawnTimer >= 3 && firstSpawn)
 				{
-					
-
 						RespawnEnemy();
 						spawnTimer = 0;
 						enemyWaveAmount++;
-
 				}
 			}
 		}
 		else 
 		{
-				waves.SetWave(currentWave += 1);
+				waves.SetWaveGroup(currentWave += 1);
 				waves.WaveInformation();
 				waveAmount = waves.GetWaveInformation();
 		}
@@ -137,7 +136,6 @@ void EnemySpawn::Update(double deltaTime)
 				}
 			}
 		}	
-
 }
 
 void EnemySpawn::SpawnEnemy()
@@ -198,7 +196,7 @@ void EnemySpawn::InitEnemy()
 
 	int enemyAmount;
 	enemyAmount = waves.GetWaveInformation();*/
-	unsigned int waveAmount = 5;
+	unsigned int waveAmount = 15;
 
 	for (int i = 0; i < waveAmount; i++)
 	{

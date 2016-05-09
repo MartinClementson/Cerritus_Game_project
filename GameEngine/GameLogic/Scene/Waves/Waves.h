@@ -22,13 +22,14 @@ public:
 	void Render();
 	void Update(double deltaTime);
 
-	int GetWave();
-	void SetWave(int wave);
+	int GetWaveGroup();
+	void SetWaveGroup(int wave);
 	
 	void WaveInformation();
+	void NextWave(int nextWaveNumber);
 	void SetWaveInformation(int amountOfEnemies);
 	int GetWaveInformation();
-	void TimeBetweenWaves();
+	//void TimeBetweenWaves();
 };
 
 #endif

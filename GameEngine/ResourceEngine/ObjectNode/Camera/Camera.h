@@ -6,14 +6,14 @@
 #include "..\..\..\Structs\ConstantBufferStruct.h"
 #include "../Camera/Frustum/Frustum.h"
 
-#define ZOOM 15.0f
+#define ZOOM 30.0f
 using namespace DirectX;
 
 class Camera : ObjectNode
 {
 private:
 
-	XMFLOAT3 cameraOffset = { 0.0f, ZOOM ,-ZOOM }; //This is the offset from the players position!
+	XMFLOAT3 cameraOffset = { 0.0f, ZOOM ,-ZOOM/2 }; //This is the offset from the players position!
 	XMFLOAT4X4 projection;
 	XMFLOAT4X4 view;
 
