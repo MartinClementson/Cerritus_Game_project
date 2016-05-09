@@ -50,7 +50,7 @@ void AudioManager::Update(double deltaTime)
 	if (s_retryAudio)
 	{
 		s_retryAudio = false;
-		s_audEngine->reset();
+		s_audEngine->get()->Reset();
 		//if there are any looped sounds, reset them here
 	}
 
