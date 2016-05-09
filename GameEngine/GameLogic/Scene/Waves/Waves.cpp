@@ -88,3 +88,37 @@ int Waves::GetWaveInformation()
 {
 	return amountOfStandards;
 }
+
+void Waves::SpawnPositions(int spawnSwitch)
+{
+	XMFLOAT3 spawnPos;
+	switch (switchSpawnPos)
+	{
+	case 1:
+		spawnPos = { -50.0f, 0.0f, 30.0f};
+		SetSpawnPositions(spawnPos);
+		break;
+	case 2:
+		spawnPos = { 30.0f, 0.0f, 20.0f };
+		SetSpawnPositions(spawnPos);
+		break;
+	case 3:
+		spawnPos = { -50.0f, 0.0f, -50.0f };
+		SetSpawnPositions(spawnPos);
+		break;
+	default:
+		spawnPos = { -50.0f, 0.0f, 30.0f };
+		SetSpawnPositions(spawnPos);
+		break;
+	}
+}
+
+void Waves::SetSpawnPositions(XMFLOAT3 spawnPos)
+{
+	this->spawnPos = spawnPos;
+}
+
+XMFLOAT3 Waves::GetSpawnPositions()
+{
+	return spawnPos;
+}

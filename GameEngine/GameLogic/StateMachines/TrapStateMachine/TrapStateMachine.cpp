@@ -29,7 +29,9 @@ void TrapStateMachine::Initialize()
 
 void TrapStateMachine::Release()
 {
-
+	this->activeState->Release();
+	this->inactiveState->Release();
+	this->idleState->Release();
 }
 
 void TrapStateMachine::Update(double deltaTime)
@@ -38,7 +40,7 @@ void TrapStateMachine::Update(double deltaTime)
 	{
 		activeState->Update(deltaTime);
 	}
-	else if (activeStateEnum==TRAP_INACTIVE_STATE)
+	else if (activeStateEnum == TRAP_INACTIVE_STATE)
 	{
 		inactiveState->Update(deltaTime);
 	}

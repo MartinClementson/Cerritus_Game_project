@@ -150,15 +150,13 @@ void EnemySpawn::SpawnEnemy()
 	{
 		if (!Queue.at(i)->isAlive)
 		{
+			int spawnPos = rand() % 4 + 1;
 
-			float spawnX = float(rand() % 15 + 5.0f);
-			float spawnZ = float(rand() % 50 + 5.0f);
+			waves.SpawnPositions(spawnPos);
 
 			XMFLOAT3 spawn;
-			spawn.x = spawnX;
-			spawn.y = 0;
-			spawn.z = spawnZ;
-			
+			spawn = waves.GetSpawnPositions();
+
 			Queue.at(i)->Spawn(spawn); //sets position and isAlive to TRUE
 			Alive.push_back(Queue.at(i));
 			Queue.erase(Queue.begin() + i);
@@ -207,49 +205,26 @@ void EnemySpawn::InitEnemy()
 
 		if (spawnPointRandom == 1)
 		{
-			float spawnX = float(rand() % 15 + 5.0f);
-			float spawnZ = float(rand() % 50 + 5.0f);
-
 			XMFLOAT3 spawn;
-			spawn.x = spawnX;
-			spawn.y = 0;
-			spawn.z = spawnZ;
-
+	
 			Queue.push_back(new Enemy(spawn));
 		}
 		if (spawnPointRandom == 2)
 		{
-			float spawnX = float(rand() % 15 + 5.0f);
-			float spawnZ = float(rand() % 50 + 5.0f);
-
 			XMFLOAT3 spawn;
-			spawn.x = spawnX;
-			spawn.y = 0;
-			spawn.z = spawnZ;
 
 			Queue.push_back(new Enemy(spawn));
 		}
 		if (spawnPointRandom == 3)
 		{
-			float spawnX = float(rand() % 15 + 5.0f);
-			float spawnZ = float(rand() % 50 + 5.0f);
 
 			XMFLOAT3 spawn;
-			spawn.x = spawnX;
-			spawn.y = 0;
-			spawn.z = spawnZ;
 
 			Queue.push_back(new Enemy(spawn));
 		}
 		if (spawnPointRandom == 4)
 		{
-			float spawnX = float(rand() % 15 + 5.0f);
-			float spawnZ = float(rand() % 50 + 5.0f);
-
 			XMFLOAT3 spawn;
-			spawn.x = spawnX;
-			spawn.y = 0;
-			spawn.z = spawnZ;
 
 			Queue.push_back(new Enemy(spawn));
 		}

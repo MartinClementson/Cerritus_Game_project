@@ -136,6 +136,11 @@ bool InputHandler::IsKeyPressed(InputKeys* key)
 	{
 		return true;
 	}
+	else if (*key == KEY_P && keyboardState[DIK_P])
+	{
+		return true;
+	}
+
 	else if (*key == KEY_Z && keyboardState[DIK_Z])
 	{
 		return true;
@@ -145,6 +150,7 @@ bool InputHandler::IsKeyPressed(InputKeys* key)
 		return true;
 	}
 	else if (*key == KEY_C && keyboardState[DIK_C])
+
 	{
 		return true;
 	}
@@ -156,6 +162,7 @@ bool InputHandler::IsKeyPressed(InputKeys* key)
 
 bool InputHandler::IsKeyHeld(InputKeys* key)
 {
+		
 	return false;
 }
 

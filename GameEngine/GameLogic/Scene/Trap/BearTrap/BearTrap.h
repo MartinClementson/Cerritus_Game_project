@@ -17,14 +17,15 @@ public:
 	float GetRadius() { return this->radius; }
 	XMFLOAT3 GetPosition() { return this->position; }
 	void SetSlow(float slow);
-
+	TrapStateMachine* GetState();
 
 	//Collision();
 private:
 	RenderInfoTrap renderInfo;
 	BearTrap();
 	float slow;
-	TrapStateMachine* TrapState;
+	TrapStateMachine* trapState;
+	
 	//RenderInfoTrap* renderinfo; 
 	Graphics*  grapichs;
 

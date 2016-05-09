@@ -1,14 +1,14 @@
 #pragma once
-#define WIN_WIDTH 800.0
+#define WIN_WIDTH  800.0
 #define WIN_HEIGHT 600.0
 
-#define SHADOW_WIDTH 512.0f //IF YOU CHANGE THIS SIZE; CHANGE IT IN THE FINAL PASS AS WELL.
+#define SHADOW_WIDTH  512.0f //IF YOU CHANGE THIS SIZE; CHANGE IT IN THE FINAL PASS AS WELL.
 #define SHADOW_HEIGHT 512.0f
 
 //////////////////////////////////////////
 //DIS IS BECAUSE JOHAN ASKED ME TO CHANGE AMOUNT OF TEXTURES TO MUCH
-#define TEXTUREAMOUNT 6
-#define SHADOWMAPAMOUNT 1
+#define TEXTUREAMOUNT		6
+#define SHADOWMAPAMOUNT     1
 #define LIGHT_SHADOW_AMOUNT 1
 ////////////////////////////////////
 
@@ -17,21 +17,22 @@
 #define MAX_NUM_SPOTLIGHTS	2
 
 #define UNIQUE_INSTANCED_BUFFER_AMOUNT 2 //atm, only two unique buffers are used, for world matrix and billboard
-#define INSTANCED_WORLD_BUFFER_AMOUNT 4
+#define INSTANCED_WORLD_BUFFER_AMOUNT  4
+
 
 #define MAX_INSTANCED_GEOMETRY   200
 #define MAX_BILLBOARDED_GEOMETRY 500
 
-#define WINDOWED true
-#define WIREFRAME false
-#define VSYNC 1 //1 == ON, 0 = OFF
-#define FPS_CAP 60
+#define WINDOWED    true
+#define WIREFRAME   false
+#define VSYNC		1 //1 == ON, 0 = OFF
+#define FPS_CAP		60
 
-#define DEBUG 0 /* 2 = debug,  or : D3D11_CREATE_DEVICE_DEBUG */
+#define DEBUG 2/* 2 = debug,  or : D3D11_CREATE_DEVICE_DEBUG */
 
 #define D3D_DEBUG_INFO
 #define TEXTURE_PATH "textures/"
-#define MODEL_PATH "models/"
+#define MODEL_PATH   "models/"
 
 //IMPORTANT! This is only to be used with directX COM objects
 #define SAFE_RELEASE(p) { if ( (p) && (p) != nullptr ) { (p)->Release(); (p) = 0; } }

@@ -25,7 +25,7 @@ public:
 	std::vector<FireTrap*> fireTraps;
 	Scene();
 	virtual ~Scene();
-	
+
 	void Initialize();
 	void InitFireTrap();
 	void InitBearTrap();
@@ -37,4 +37,3 @@ public:
 
 	void AddEnemySpawn();
 };
-

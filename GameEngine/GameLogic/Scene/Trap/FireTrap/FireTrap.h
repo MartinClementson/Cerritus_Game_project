@@ -14,12 +14,13 @@ public:
 	float GetDot();
 	void SetDotDur(float dotDuration);
 	RenderInfoTrap renderInfo;
+	TrapStateMachine* GetState();
 
 	//Collision();
 private:
 	FireTrap();
 	float dotDuration;
-	TrapStateMachine* TrapState;
+	TrapStateMachine* trapState;
 	//RenderInfoTrap renderInfo;
 	//RenderInfoTrap* renderInfo;
 	Graphics* grapichs;

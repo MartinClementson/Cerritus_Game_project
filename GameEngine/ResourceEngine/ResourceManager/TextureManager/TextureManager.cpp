@@ -3,6 +3,7 @@
 void TextureManager::Initialize(ID3D11Device* gDevice)
 {
 	this->gDevice = gDevice;
+	CoInitialize((LPVOID)0);
 }
 
 void TextureManager::Release()
@@ -43,6 +44,7 @@ void TextureManager::AddDiffuseTexture(std::string diffuseTex)
 	hr = CreateWICTextureFromFile(gDevice, fileName, nullptr, texture);
 
 	diffuseTextures.push_back(texture);
+	diffuseTextures.shrink_to_fit();
 }
 
 void TextureManager::AddNormalTexture(std::string normalTex)
@@ -56,6 +58,7 @@ void TextureManager::AddNormalTexture(std::string normalTex)
 	hr = CreateWICTextureFromFile(gDevice, fileName, nullptr, texture);
 
 	normalTextures.push_back(texture);
+	normalTextures.shrink_to_fit();
 }
 
 void TextureManager::AddSpecularTexture(std::string specularTex)
@@ -69,6 +72,7 @@ void TextureManager::AddSpecularTexture(std::string specularTex)
 	hr = CreateWICTextureFromFile(gDevice, fileName, nullptr, texture);
 
 	specularTextures.push_back(texture);
+	specularTextures.shrink_to_fit();
 }
 
 void TextureManager::AddGlowTexture(std::string glowTex)
@@ -82,6 +86,7 @@ void TextureManager::AddGlowTexture(std::string glowTex)
 	hr = CreateWICTextureFromFile(gDevice, fileName, nullptr, texture);
 
 	glowTextures.push_back(texture);
+	glowTextures.shrink_to_fit();
 }
 
 int TextureManager::GetDiffuseID(std::string diffuseTex)
@@ -103,6 +108,7 @@ int TextureManager::GetDiffuseID(std::string diffuseTex)
 		}
 	}
 	this->diffuseTex.push_back(diffuseTex);
+	this->diffuseTex.shrink_to_fit();
 	AddDiffuseTexture(diffuseTex);
 	return (int)(this->diffuseTex.size() - 1);
 }
@@ -126,6 +132,7 @@ int TextureManager::GetNormalID(std::string normalTex)
 		}
 	}
 	this->normalTex.push_back(normalTex);
+	this->normalTex.shrink_to_fit();
 	AddNormalTexture(normalTex);
 	return (int)(this->normalTex.size() - 1);
 }
@@ -149,6 +156,7 @@ int TextureManager::GetSpecularID(std::string specularTex)
 		}
 	}
 	this->specularTex.push_back(specularTex);
+	this->specularTex.shrink_to_fit();
 	AddSpecularTexture(specularTex);
 	return (int)(this->specularTex.size() - 1);
 }
@@ -172,6 +180,7 @@ int TextureManager::GetGlowID(std::string glowTex)
 		}
 	}
 	this->glowTex.push_back(glowTex);
+	this->glowTex.shrink_to_fit();
 	AddGlowTexture(glowTex);
 	return (int)(this->glowTex.size() - 1);
 }
