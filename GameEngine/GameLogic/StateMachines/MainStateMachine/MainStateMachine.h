@@ -3,6 +3,7 @@
 #include "./GameOverState/GameOverState.h"
 #include "./MenuState/MenuState.h"
 #include "../../../Enumerations/Enumerations.h"
+#include "../AudioManager/AudioManager.h"
 class MainStateMachine
 {
 public:
@@ -17,6 +18,7 @@ public:
 	
 private:
 
+	AudioManager* audioManager = nullptr;
 	GameState* gameState;
 	GameOverState* gameOverState;
 	MenuState* menuState;

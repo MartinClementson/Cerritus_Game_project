@@ -41,7 +41,7 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 	{
 		if ((int)firedProjectiles >= maxProjectiles)
 		{
-			//delete projectiles.at(9);
+			return;
 		}
 		else
 		{
@@ -56,7 +56,7 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 				
 						projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
 						firedProjectiles++;
-						
+						audioManager->playShotSound();
 						//break;
 					}
 					else if (GetUpgrade() == UpgradeType::TWO_SHOT)
@@ -74,6 +74,7 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 						
 						projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
 						firedProjectiles++;
+						audioManager->playShotSound();
 						//break;
 					}
 					else if (GetUpgrade() == UpgradeType::THREE_SHOT)
@@ -95,6 +96,7 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 				
 						projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
 						firedProjectiles++;
+						audioManager->playShotSound(); 
 						//break;
 					}
 				//}
@@ -102,7 +104,6 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 			timeOffset = 0;
 		}
 	}
-
 }
 
 void ProjectileSystem::UpdateProjectiles(double deltaTime)
@@ -168,10 +169,10 @@ UpgradeType ProjectileSystem::GetUpgrade()
 	return upgrade;
 }
 
-void ProjectileSystem::Initialize()
+void ProjectileSystem::Initialize(AudioManager* audioManager)
 {
 
-
+	this->audioManager = audioManager;
 	graphics = Graphics::GetInstance();
 	lifeSpan = 2.5f;
 	//maxProjectiles = 100;
