@@ -5,7 +5,7 @@ MainStateMachine::MainStateMachine()
 	this->gameState = new GameState();
 	this->gameOverState = new GameOverState();
 	this->menuState = new MenuState();
-	
+	this->audioManager = new AudioManager();
 }
 
 
@@ -14,6 +14,7 @@ MainStateMachine::~MainStateMachine()
 	delete this->gameState;
 	delete this->gameOverState;
 	delete this->menuState;
+	delete this->audioManager;
 }
 
 void MainStateMachine::Update(double deltaTime)
@@ -141,6 +142,7 @@ void MainStateMachine::Render()
 
 void MainStateMachine::Initialize()
 {
+	//audioManager->Initialize();
 	gameState->Initialize();
 	this->activeState = MAIN_GAME_STATE;
 	this->gameState->isActive = true;
@@ -152,5 +154,5 @@ void MainStateMachine::Initialize()
 
 void MainStateMachine::Release()
 {
-
+	audioManager->Release();
 }
