@@ -347,6 +347,11 @@
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MeshData.obj" />
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\SkeletonData.obj" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="DirectXTK\Audio\DirectXTKAudio_Desktop_2015_Win8.vcxproj">
+      <Project>{4f150a30-cecb-49d1-8283-6a3f57438cf5}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
