@@ -91,20 +91,7 @@ void GameState::Update(double deltaTime)
 			}
 		}
 
-		//Setting closest healer in all enemies
-		if (healers.size() > 0)
-		{
-			for (size_t k = 0; k < room1->enemySpawns.size(); k++)
-			{
-				size_t j = 0;
-				while (j < room1->enemySpawns.at(k)->StandardAlive.size())
-				{
-					
-					j++;
-				}
-			}
-		}
-		else
+		if(healers.size() == (size_t)0)
 		{
 			healers.push_back(nullptr);
 			for (size_t k = 0; k < room1->enemySpawns.size(); k++)
@@ -224,6 +211,8 @@ void GameState::Update(double deltaTime)
 							{
 								tmpCloseHealer->healing += 1;
 							}
+
+
 						
 							if (tmpCloseHealer != nullptr)
 							{
