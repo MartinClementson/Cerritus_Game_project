@@ -9,11 +9,15 @@ AudioManager::AudioManager()
 AudioManager::~AudioManager()
 {
 	if (s_audEngine != nullptr)
+	{
 		delete s_audEngine;
+		//delete s_shot;
+	}
 }
 
 void AudioManager::Release()
 {
+	//s_shot.release();
 	//add things later
 }
 
