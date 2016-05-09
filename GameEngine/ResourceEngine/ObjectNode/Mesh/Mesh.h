@@ -21,6 +21,7 @@ class Mesh : public ObjectNode
 	Vertex* sceneVerts				= nullptr;
 	UINT* sceneIndex				= nullptr;
 	QuadTree* quadTree				= nullptr;
+	bool isScene					= false;
 public:
 	Mesh(bool hasSkeleton, unsigned int skeletonID, unsigned int materialID);
 	Mesh();

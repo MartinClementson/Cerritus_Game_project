@@ -62,6 +62,7 @@ void Mesh::CreateVertexBuffer(Vertex * vertices, unsigned int amount, bool isSce
 	{
 		this->sceneVerts = vertices;
 		this->vertCount = amount;
+		this->isScene = isScene;
 	}
 	else
 	{
@@ -88,6 +89,7 @@ void Mesh::CreateVertexBuffer(Vertex * vertices, unsigned int amount, bool isSce
 			MessageBox(NULL, L"Error creating vertexbuffer", L"Error in mesh class", MB_ICONERROR | MB_OK);
 	
 		this->vertCount = amount;
+		this->isScene = isScene;
 	}
 	
 
@@ -120,6 +122,7 @@ void Mesh::CreateVertexBuffer(AnimVert * vertices, unsigned int amount)
 		MessageBox(NULL, L"Error creating vertexbuffer", L"Error in mesh class", MB_ICONERROR | MB_OK);
 
 	this->vertCount = amount;
+	this->isScene = isScene;
 }
 
 void Mesh::CreateIndexBuffer(UINT * indices, unsigned int amount, bool isScene)
@@ -129,6 +132,7 @@ void Mesh::CreateIndexBuffer(UINT * indices, unsigned int amount, bool isScene)
 	{
 		this->sceneIndex = indices;
 		this->indexCount = (UINT)amount;
+		this->isScene = isScene;
 	}
 	else
 	{
@@ -156,6 +160,7 @@ void Mesh::CreateIndexBuffer(UINT * indices, unsigned int amount, bool isScene)
 			MessageBox(NULL, L"Error creating indexbuffer", L"Error in mesh class", MB_ICONERROR | MB_OK);
 
 		this->indexCount = (UINT)amount;
+		this->isScene = isScene;
 
 	}
 

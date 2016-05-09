@@ -12,7 +12,8 @@ private:
 	ID3D11DeviceContext* gDeviceContext = nullptr;
 
 	//This vector will be indexed with the enum "Meshes"
-	std::vector<Mesh>* gameMeshes		=	nullptr;
+	std::vector<Mesh>* gameMeshes		= nullptr;
+	QuadTree* quadTree					= nullptr;
 	Mesh placeHolder;
 	Mesh placeHolderPlane;
 	Mesh fullScreenQuad;
