@@ -89,6 +89,7 @@ void MaterialManager::addMaterials(std::vector<importedMaterial>* import)
 				tempMaterial.glow_ID = textureManager->GetGlowID(import->at(i).glowTex);
 
 				materials->push_back(tempMaterial);
+				materials->shrink_to_fit();
 			}
 		}
 		else

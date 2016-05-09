@@ -3,6 +3,7 @@
 #include "./IldeState/TrapIdleState.h"
 #include "./InactiveState/InactiveState.h"
 #include "../../../Enumerations/Enumerations.h"
+//#include "../../Scene/Scene.h"
 class TrapStateMachine
 {
 public:

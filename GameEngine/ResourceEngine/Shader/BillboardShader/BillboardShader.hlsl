@@ -39,6 +39,7 @@ struct BILLBOARD_VS_IN
 {
 	float3 worldPos		 : POSITION;
 	float3 direction	 : DIRECTION;
+	float3 color		 : COLOR;
 	float  height		 : HEIGHT;
 	float  width		 : WIDTH;
 };
@@ -46,6 +47,7 @@ struct BILLBOARD_VS_OUT
 {
 	float4 worldPos		 : SV_POSITION;
 	float3 direction	 : DIRECTION;
+	float3 color		 : COLOR;
 	float  height		 : HEIGHT;
 	float  width		 : WIDTH;
 };
@@ -53,6 +55,7 @@ struct BILLBOARD_VS_OUT
 struct BILLBOARD_GS_OUT
 {
 	float4 Pos			: SV_POSITION;
+	float3 color		: COLOR;
 	float3 Normal		: TEXCOORD0;
 	float2 Uv			: TEXCOORD1;
 	float3 BiTangent	: TEXCOORD2;
@@ -69,7 +72,7 @@ struct BILLBOARD_PS_OUT
 	float4 diffuseRes	: SV_Target0;
 	float4 specularRes	: SV_Target1;
 	float4 normalRes	: SV_Target2;
-	float4 depthRes		: SV_Target3;
+	float4 overlayRes	: SV_Target3;
 	float4 positionRes	: SV_Target4;
 	float4 glowRes		: SV_Target5;
 };
@@ -81,6 +84,7 @@ BILLBOARD_VS_OUT BILLBOARD_VS(BILLBOARD_VS_IN input )
 	BILLBOARD_VS_OUT output;
 	output.worldPos		= float4(input.worldPos,1.0f);
 	output.direction	= input.direction;
+	output.color		= input.color;
 	output.width		= input.width;
 	output.height		= input.height;
 
@@ -95,7 +99,7 @@ void BILLBOARD_GS(point BILLBOARD_VS_OUT input[1],
 	inout TriangleStream< BILLBOARD_GS_OUT > output)
 {
 	float3 vecToCam = (input[0].worldPos - camPos.xyz);
-	//vecToCam.z = 0.0f;
+	vecToCam.x = 0.0f;
 	vecToCam = normalize(vecToCam);
 	float3 upVec = normalize(input[0].direction);
 	//upVec.y = 0;
@@ -122,6 +126,7 @@ void BILLBOARD_GS(point BILLBOARD_VS_OUT input[1],
 	for (int i = 0; i < 4; i++)
 	{
 		outputVert.Pos		 = mul(mul(float4(vert[i], 1.0f), view), projection);
+		outputVert.color	 = input[0].color;
 		outputVert.Uv		 = texCoord[i];
 		outputVert.Normal	 = -vecToCam;
 		outputVert.BiTangent = float3(1.0f, 1.0f, 1.0f);
@@ -211,12 +216,18 @@ BILLBOARD_PS_OUT BILLBOARD_PS(BILLBOARD_GS_OUT input)
 		if (textureSample.a < 0.3)
 			clip(-1);
 		textureSample.a = col.x; //laser pointer color
-		output.diffuseRes = textureSample;
+		output.diffuseRes = float4(0.0f, 0.0f, 0.0f, 0.0f);  // don't give it a diffuse color. billboards are not to be shaded. (for now)
+
+		output.overlayRes = textureSample;
+
 	}
 	else
 	{
 
-		output.diffuseRes = float4(1.0, 0.5, 0.5, col.x); //Alpha == laserpointer color
+		output.diffuseRes = float4(0.0f, 0.0f, 0.0f, 0.0f);  // don't give it a diffuse color. billboards are not to be shaded. (for now)
+
+		output.overlayRes = float4(input.color,1.0f);
+
 	}
 
 
@@ -240,7 +251,7 @@ BILLBOARD_PS_OUT BILLBOARD_PS(BILLBOARD_GS_OUT input)
 	if (specularMap)
 	{
 		specularSample.rgba = float4(0, 0, 0, 0);
-		specularSample = diffuseTex.Sample(linearSampler, input.Uv);
+		specularSample = specularTex.Sample(linearSampler, input.Uv);
 		output.specularRes = specularSample;
 	}
 	else
@@ -257,16 +268,23 @@ BILLBOARD_PS_OUT BILLBOARD_PS(BILLBOARD_GS_OUT input)
 	}
 	else
 	{
-		//textureSample = diffuseTex.Sample(linearSampler, input.Uv);
-		glowSample = float4 (0, 0, 0, 0);
-		output.glowRes = textureSample;
+		
+		if (diffuseMap)
+			output.glowRes = textureSample;
+		else
+		{
+			glowSample = float4 (0.0f,0.0f,0.0f,0.0f);
+			output.glowRes = glowSample;
+		}
+		
 	}
 
 
-	output.positionRes = input.wPos;
+	output.positionRes = input.wPos; //position buffer
 
 	float depth = input.Pos.z / input.Pos.w;
-	output.depthRes = float4(depth, depth, depth, 1.0);
+	output.normalRes.a = depth;
+	
 
 	return output;
 }

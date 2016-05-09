@@ -26,7 +26,7 @@ public:
 	std::vector<EnemySpawn*> enemySpawns;
 	Scene();
 	virtual ~Scene();
-	
+
 	void Initialize();
 	void InitFireTrap();
 	void InitBearTrap();
@@ -39,4 +39,3 @@ public:
 
 	void AddEnemySpawn(XMFLOAT3 spawnPosition);
 };
-
