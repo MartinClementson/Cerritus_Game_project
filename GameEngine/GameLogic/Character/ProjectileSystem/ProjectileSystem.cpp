@@ -20,8 +20,13 @@ ProjectileSystem::~ProjectileSystem()
 {
 	/*for (unsigned int i = 0; i < projectiles.size(); i++)
 	{
+<<<<<<< HEAD
+	if (projectiles.at(i))
+	delete projectiles.at(i);
+=======
 		if (projectiles.at(i))
 			delete projectiles.at(i);
+>>>>>>> refs/remotes/origin/master
 	}*/
 	for (unsigned int i = 0; (int)i < maxProjectiles; i++)
 		delete projectiles[i];
@@ -102,7 +107,6 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 
 void ProjectileSystem::UpdateProjectiles(double deltaTime)
 {
-	
 	timeOffset += 2.0f * float(deltaTime);
 	if (timeOffset > 10)
 		timeOffset = 10.0f;
@@ -111,6 +115,7 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 
 
 		projectiles[i]->Update(deltaTime);
+
 
 		if (projectiles[i]->GetAge() >= lifeSpan || projectiles[i]->GetFired()==false)
 		{
@@ -155,7 +160,7 @@ void ProjectileSystem::SetUpgrade(UpgradeType upgrade)
 		XMStoreFloat4x4(&rotationMatrix2, XMMatrixRotationY(-0.4f));
 	}
 
-	
+
 }
 
 UpgradeType ProjectileSystem::GetUpgrade()
@@ -165,8 +170,8 @@ UpgradeType ProjectileSystem::GetUpgrade()
 
 void ProjectileSystem::Initialize()
 {
-	
-	
+
+
 	graphics = Graphics::GetInstance();
 	lifeSpan = 2.5f;
 	//maxProjectiles = 100;

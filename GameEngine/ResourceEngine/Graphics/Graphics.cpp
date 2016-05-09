@@ -136,54 +136,58 @@ void Graphics::Release()
 			SAFE_RELEASE(debug);
 		}
 	}
-	while (gDevice->Release() > 0);
-	//SAFE_RELEASE(gDevice);
+	//while (gDevice->Release() > 0);
+	SAFE_RELEASE(gDevice);
 
 	
 }
 
 void Graphics::Render() //manage RenderPasses here
 {
-	renderer->UpdateCamera(charObjects->at(0)->position);
-	CullGeometry(); //Remove geometry out of reach
+	if (charObjects->size() > 0)
+		renderer->UpdateCamera(charObjects->at(0)->position);
+
+
+	CullGeometry();									 //Remove geometry out of view
 
 	SetShadowViewPort();
 
 	shadowBuffer->ClearShadowGbuffer();
 
 	shadowBuffer->ShadowSetToRender();
+
 	renderer->SetShadowPass(true);
 
-	this->RenderScene();
+	this->RenderScene();							//Render shadowPass
 
 	gBuffer->SetToRender(depthStencilView);	
+
 	shadowBuffer->ShadowSetToRead();
+
 	renderer->SetShadowPass(false);
+
 	SetViewPort();
 
-
-
-
-	//this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
-
-			//Set The gbuffer pass
+	//Set The gbuffer pass
 	this->renderer->SetGbufferPass(true);
+
 	RenderScene();									//Render to the gBuffer
 													//Set the gBuffer as a subResource, send in the new RenderTarget
 	gBuffer->SetToRead(gBackBufferRTV); 
 	
 	//blurpass
-	this->renderer->RenderBlurPass(this->gBuffer->GetBlurUAV(), this->gBuffer->GetGlowSRV());
+	this->renderer->RenderBlurPass(this->gBuffer->GetBlurUAV(), this->gBuffer->GetGlowSRV()); //blur the glow map
 
 	this->renderer->RenderFinalPass();
-	gBuffer->ClearGbuffer();
-	this->renderer->SetGbufferPass(false);
+
+	for (unsigned int i = 0; i < uiObjects->size(); i++)
+	{
+		renderer->Render(uiObjects->at(i));
+
+	}
+
 	
-	//RenderScene();// TEMPORARY, REMOVE WHEN GBUFFER WORKS
-
 	FinishFrame();
-
-
 }
 
 void Graphics::RenderScene()
@@ -295,11 +299,11 @@ void Graphics::RenderScene()
 
 	}*/
 
-	for (unsigned int i = 0; i < uiObjects->size(); i++)
+	/*for (unsigned int i = 0; i < uiObjects->size(); i++)
 	{
 		renderer->Render(uiObjects->at(i));
 
-	}
+	}*/
 
 
 
@@ -307,6 +311,13 @@ void Graphics::RenderScene()
 
 void Graphics::FinishFrame() // this one clears the graphics for this frame. So that it can start a new cycle next frame
 {
+
+
+	gBuffer->ClearGbuffer();
+
+	this->renderer->SetGbufferPass(false);
+
+
 	gameObjects  ->clear(); //clear the queue
 	charObjects  ->clear();	//clear the queue
 	enemyObjects ->clear();	//clear the queue

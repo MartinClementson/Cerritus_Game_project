@@ -5,6 +5,7 @@ Texture2D specularTex			 : register(t2);
 Texture2D glowTex				 : register(t3);
 Texture2DArray shadowTex		 : register(t6);
 
+
 SamplerState linearSampler		 : register(s0);
 SamplerState pointSampler		 : register(s1);
 
@@ -39,8 +40,8 @@ cbuffer textureSampleBuffer		 : register(b2)
 struct PointLight
 {
 	float4 lightPosition;
-	matrix lightView;
-	matrix lightProjection;
+	float4x4 lightView;
+	float4x4 lightProjection;
 	float4 lightLookAt;
 	float4 lightDiffuse;
 	float intensity;
@@ -50,10 +51,10 @@ struct PointLight
 	float attenuation;
 	float3 paddd;
 	bool castShadow;
+    float3 padshadow;
 
 };
 
-StructuredBuffer<PointLight> pointlights : register(t8);
 struct GBUFFER_VS_IN
 {
 	float3 Pos			 : POSITION;

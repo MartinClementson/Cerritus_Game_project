@@ -109,10 +109,10 @@ void BILLBOARD_GS(point BILLBOARD_VS_OUT input[1],
 
 	//Get vertices for the quad
 	float3 vert[4];
-	vert[0] = input[0].worldPos - rightVec * input[0].width - upVec * input[0].height;
-	vert[1] = input[0].worldPos - rightVec * input[0].width + upVec * input[0].height;
-	vert[2] = input[0].worldPos + rightVec * input[0].width - upVec * input[0].height;
-	vert[3] = input[0].worldPos + rightVec * input[0].width + upVec * input[0].height;
+	vert[0] = input[0].worldPos.xyz - rightVec * input[0].width - upVec * input[0].height;
+	vert[1] = input[0].worldPos.xyz - rightVec * input[0].width + upVec * input[0].height;
+	vert[2] = input[0].worldPos.xyz + rightVec * input[0].width - upVec * input[0].height;
+	vert[3] = input[0].worldPos.xyz + rightVec * input[0].width + upVec * input[0].height;
 
 	//Get texture coordinates
 	float2 texCoord[4];

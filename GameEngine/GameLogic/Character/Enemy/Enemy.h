@@ -17,7 +17,7 @@ private:
 	RenderInfoEnemy renderInfo;
 	EnemyStateMachine* enemyStateMachine;
 	Player * player;
-	
+
 private:
 	void Release();
 	Enemy();
@@ -25,7 +25,7 @@ public:
 	float index;
 
 	EnemyStateMachine* GetStateMachine();
-	
+
 	Enemy(XMFLOAT3 spawn);
 
 	bool isAlive;
@@ -60,4 +60,3 @@ public:
 	float fallOfFactor = 8.0f; //the bigger number, the faster fallOff , this is like friction
 	float maxAcceleration = 5.0f;
 };
-

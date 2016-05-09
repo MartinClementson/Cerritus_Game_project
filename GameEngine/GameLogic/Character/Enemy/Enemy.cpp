@@ -18,7 +18,7 @@ Enemy::Enemy(XMFLOAT3 spawn)
 
 Enemy::Enemy()
 {
-	
+
 }
 
 Enemy::~Enemy()
@@ -34,14 +34,14 @@ void Enemy::Initialize()
 	health = 100.0f;
 	DoT = 0;
 	damage = 5.0f;
-	rotation = { 0,0,0 }; 
-	
+	rotation = { 0,0,0 };
+
 	radius = 1.0f;
 	radius2 = 2.0f;
 
 	DoTDur = 0;
-	slowTimer = 0; 
-	index = 0.0f; 
+	slowTimer = 0;
+	index = 0.0f;
 
 	isAlive = false;
 }
@@ -52,8 +52,8 @@ void Enemy::Release()
 }
 
 void Enemy::Update(double deltaTime)
-{                 
-	
+{
+
 	health -= DoT;//deltaTime;
 
 	if (DoT != 0)
@@ -72,7 +72,7 @@ void Enemy::Update(double deltaTime)
 	if (slowTimer >= 2)
 	{
 		movementSpeed = 20.0f;
-		slowTimer = 0.0f; 
+		slowTimer = 0.0f;
 	}
 	enemyStateMachine->Update(deltaTime);
 	renderInfo.position = position;
@@ -111,7 +111,7 @@ void Enemy::Render()
 void Enemy::Respawn(XMFLOAT3 spawn)
 {
 	this->position = spawn;
-	this->isAlive  = true;
+	this->isAlive = true;
 	this->health = 100.0f;
 	this->DoT = 0.0f;
 	this->index = 5.0f;
@@ -128,9 +128,9 @@ void Enemy::Spawn(XMFLOAT3 spawn)
 	this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_IDLE_STATE);
 }
 
-XMFLOAT3 Enemy::GetPosition() 
-{ 
-	return this->position; 
+XMFLOAT3 Enemy::GetPosition()
+{
+	return this->position;
 }
 
 void Enemy::SetPosition(XMFLOAT3 pos)
@@ -138,9 +138,9 @@ void Enemy::SetPosition(XMFLOAT3 pos)
 	this->position = pos;
 }
 
-float Enemy::GetRadius() 
+float Enemy::GetRadius()
 {
-	return this->radius; 
+	return this->radius;
 }
 
 void Enemy::AIPattern(Player* player, double deltaTime)
@@ -163,7 +163,7 @@ void Enemy::AIPattern(Player* player, double deltaTime)
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
 	{
-		
+
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_DEATH_STATE)
 	{
@@ -196,7 +196,7 @@ void Enemy::EnemyWithEnemyCollision(Enemy* enemy, Enemy* enemys, double deltaTim
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
 	{
-		
+
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_DEATH_STATE)
 	{
