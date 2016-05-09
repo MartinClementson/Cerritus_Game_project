@@ -19,9 +19,8 @@ EnemySpawn::~EnemySpawn()
 	}
 }
 
-void EnemySpawn::Initialize(XMFLOAT3 spawnPosition)
+void EnemySpawn::Initialize()
 {
-	this->spawnPosition = spawnPosition;
 	waves.SetWaveGroup(currentWave);
 	waves.WaveInformation();
 	waveAmount = waves.GetWaveInformation();
@@ -35,8 +34,6 @@ void EnemySpawn::Release()
 
 void EnemySpawn::Update(double deltaTime)
 {
-	for (size_t i = 0; i < 2; i++)
-	{
 		if (!waveAmount == 0)
 		{
 			for (size_t i = 0; i < Alive.size(); i++)
@@ -121,8 +118,15 @@ void EnemySpawn::Update(double deltaTime)
 				waves.SetWaveGroup(currentWave += 1);
 				waves.WaveInformation();
 				waveAmount = waves.GetWaveInformation();
+				if (waveAmount == 0)
+				{
+					waveTimer += deltaTime;
+					if (waveTimer >= 5)
+					{
+						waves.SetWaveGroup(currentWave = 0);
+					}
+				}
 		}
-	}
 		for (int i = 0; i < (int)Alive.size(); i++)
 		{
 			if (Alive.at(i)->isAlive == true)
@@ -147,8 +151,8 @@ void EnemySpawn::SpawnEnemy()
 		if (!Queue.at(i)->isAlive)
 		{
 
-			float spawnX = spawnPosition.x + float(rand() % 15 + 5.0f);
-			float spawnZ = spawnPosition.z + float(rand() % 50 + 5.0f);
+			float spawnX = float(rand() % 15 + 5.0f);
+			float spawnZ = float(rand() % 50 + 5.0f);
 
 			XMFLOAT3 spawn;
 			spawn.x = spawnX;
@@ -158,7 +162,6 @@ void EnemySpawn::SpawnEnemy()
 			Queue.at(i)->Spawn(spawn); //sets position and isAlive to TRUE
 			Alive.push_back(Queue.at(i));
 			Queue.erase(Queue.begin() + i);
-			
 
 			//done = true;
 		}
@@ -172,8 +175,8 @@ void EnemySpawn::RespawnEnemy()
 	{
 		if (!Queue.at(i)->isAlive)
 		{
-			float spawnX = spawnPosition.x + float(rand() % 15 + 5.0f);
-			float spawnZ = spawnPosition.z + float(rand() % 50 + 5.0f);
+			float spawnX = float(rand() % 15 + 5.0f);
+			float spawnZ = float(rand() % 50 + 5.0f);
 
 			XMFLOAT3 spawn;
 			spawn.x = spawnX;
@@ -212,7 +215,7 @@ void EnemySpawn::InitEnemy()
 			spawn.y = 0;
 			spawn.z = spawnZ;
 
-			Queue.push_back( new Enemy(spawn) );
+			Queue.push_back(new Enemy(spawn));
 		}
 		if (spawnPointRandom == 2)
 		{
@@ -224,7 +227,7 @@ void EnemySpawn::InitEnemy()
 			spawn.y = 0;
 			spawn.z = spawnZ;
 
-			Queue.push_back( new Enemy(spawn) );
+			Queue.push_back(new Enemy(spawn));
 		}
 		if (spawnPointRandom == 3)
 		{
@@ -257,16 +260,10 @@ void EnemySpawn::InitEnemy()
 	}
 }
 
-//void EnemySpawn::GetEnemyInfo(int info)
-//{
-//
-//}
-
 void EnemySpawn::Render()
 {
 	for (unsigned int i = 0; i < (int)Alive.size(); i++)
 	{
-		
-			Alive.at(i)->Render();
+		Alive.at(i)->Render();
 	}
 }

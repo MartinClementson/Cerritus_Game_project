@@ -5,23 +5,18 @@ Scene::Scene()
 {
 	/*this->bearTraps = new std::vector<BearTrap>;
 	this->fireTraps = new std::vector<FireTrap>;*/
-//	this->enemySpawn = new EnemySpawn;
+	this->enemySpawn = new EnemySpawn;
+	AddEnemySpawn();
 	//this->trap = new Trap;
 	collision = Collision::GetInstance();
-
 }
 
 Scene::~Scene()
 {
-
 	//delete this->enemySpawn;
 //	delete this->trap;
 
-
-	for (size_t i = 0; i < enemySpawns.size(); i++)
-	{
-		delete this->enemySpawns.at(i);
-	}
+	delete this->enemySpawn;
 	
 	/*delete this->sceneModels;
 	delete this->sceneLights;
@@ -90,21 +85,14 @@ void Scene::InitBearTrap()
 	}
 }
 
-void Scene::AddEnemySpawn(XMFLOAT3 spawnPosition)
+void Scene::AddEnemySpawn()
 {
-	EnemySpawn* spawnPoint = new EnemySpawn();
-	spawnPoint->Initialize(spawnPosition);
-	enemySpawns.push_back(spawnPoint);
+	enemySpawn->Initialize();
 }
 
 void Scene::Release()
 {
-	for (size_t i = 0; i < enemySpawns.size(); i++)
-	{
-
-		 this->enemySpawns.at(i)->Release();
-	}
-	
+		 this->enemySpawn->Release();
 }
 
 void Scene::Update(double deltaTime)
@@ -127,12 +115,8 @@ void Scene::Update(double deltaTime)
 		{
 			bearTraps.at(i)->GetDamage();
 		}
-
 	}
-	for (size_t i = 0; i < enemySpawns.size(); i++)
-	{
-		enemySpawns.at(i)->Update(deltaTime);
-	}
+	enemySpawn->Update(deltaTime);
 
 	for (size_t i = 0; i < bearTraps.size(); i++)
 	{
@@ -141,42 +125,36 @@ void Scene::Update(double deltaTime)
 			if (bearTraps.at(i)->isActive)
 			{
 				collision->PlayerProxyTrap(bearTraps.at(i));
-				for (size_t j = 0; j < enemySpawns.size(); j++)
-				{
-					for (size_t k = 0; k < enemySpawns.at(j)->Alive.size(); k++)
+					for (size_t k = 0; k < enemySpawn->Alive.size(); k++)
 					{
 						collision->EnemyProxTrap(bearTraps.at(i),
-							enemySpawns.at(j)->Alive.at(k))
+							enemySpawn->Alive.at(k))
 							&& bearTraps.at(i)->isActive;
 						
 					}
-				}
 				bearTraps.at(i)->isActive = false;
 			}
 
 		}
-		for (size_t j = 0; j < enemySpawns.size(); j++)
-		{
-			for (size_t k = 0; k < enemySpawns.at(j)->Alive.size(); k++)
+
+			for (size_t k = 0; k < enemySpawn->Alive.size(); k++)
 			{
 				if (collision->BearTrapEnemyCollision(bearTraps.at(i),
-					enemySpawns.at(j)->Alive.at(k))
+					enemySpawn->Alive.at(k))
 					&& bearTraps.at(i)->isActive)
 				{
 					collision->PlayerProxyTrap(bearTraps.at(i));
-					for (size_t j2 = 0; j2 < enemySpawns.size(); j2++)
-					{
-						for (size_t k2 = 0; k2 < enemySpawns.at(j2)->Alive.size(); k2++)
+
+						for (size_t k2 = 0; k2 < enemySpawn->Alive.size(); k2++)
 						{
 							collision->EnemyProxTrap(bearTraps.at(i),
-								enemySpawns.at(j2)->Alive.at(k2))
+								enemySpawn->Alive.at(k2))
 								&& bearTraps.at(i)->isActive;
 						}
-					}
+					
 					bearTraps.at(i)->isActive = false;
 				}
 			}
-		}
 	}
 
 	for (size_t i = 0; i < fireTraps.size(); i++)
@@ -185,18 +163,17 @@ void Scene::Update(double deltaTime)
 		{
 			fireTraps.at(i)->isActive = false;
 		}
-		for (size_t j = 0; j < enemySpawns.size(); j++)
-		{
-			for (size_t k = 0; k < enemySpawns.at(j)->Alive.size(); k++)
+
+			for (size_t k = 0; k < enemySpawn->Alive.size(); k++)
 			{
 				if (collision->FireTrapEnemyCollision(fireTraps.at(i),
-					enemySpawns.at(j)->Alive.at(k))
+					enemySpawn->Alive.at(k))
 					&& fireTraps.at(i)->isActive)
 				{
 					
 				}
 			}
-		}
+
 	}
 	if (RespawnTimer >= (double)10)
 	{ 
@@ -211,7 +188,6 @@ void Scene::Update(double deltaTime)
 	{
 		RespawnTimer += deltaTime;
 	}
-
 
 }
 
@@ -233,21 +209,9 @@ void Scene::Render()
 		}
 		
 	}
-
 //	enemySpawn->Render();
 
-
-	for (size_t i = 0; i < enemySpawns.size(); i++)
-	{
-
-		enemySpawns.at(i)->Render();
-	}
-	
-}
-
-void Scene::load()
-{
-
+		enemySpawn->Render();
 }
 
 void Scene::EvadeTrap(Enemy* enemy, BearTrap* bear, double deltaTime)
