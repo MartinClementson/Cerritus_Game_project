@@ -19,7 +19,7 @@
 
 
 
-
+#define BILLBOARDED_ARRAYS	2 //atm . projectiles and health bars
 enum instancedGeometryArray
 {									   
 	ENEMY_1_INSTANCED,				   
@@ -27,7 +27,13 @@ enum instancedGeometryArray
 	TRAP_BEAR_INSTANCED,										
 	TRAP_FIRE_INSTANCED											
 																													
-};																
+};	
+enum billBoardArray
+{
+	PROJECTILE_BILLBOARD,
+	HEALTH_BAR_BILLBOARD
+};
+
 class Graphics
 {									   
 
@@ -75,17 +81,19 @@ private:
 #pragma region Private members									   
 	D3D11_VIEWPORT vp; //Viewport								   
 	Renderer*	renderer										   = nullptr;
-	std::vector<RenderInfoObject*>* gameObjects					   = nullptr;
-	std::vector<RenderInfoUI*>*     uiObjects					   = nullptr;
-	std::vector<RenderInfoEnemy*>*  enemyObjects				   = nullptr;
-	std::vector<RenderInfoChar*>*   charObjects					   = nullptr;
-	std::vector<RenderInfoTrap*>*   trapObjects					   = nullptr;
+	std::vector<RenderInfoObject*>*   gameObjects				   = nullptr;
+	std::vector<RenderInfoUI*    >*   uiObjects					   = nullptr;
+	std::vector<RenderInfoEnemy* >*   enemyObjects				   = nullptr;
+	std::vector<RenderInfoChar*  >*   charObjects				   = nullptr;
+	std::vector<RenderInfoTrap*  >*   trapObjects				   = nullptr;
 
 	InstancedData* instancedWorldDataPerFrame [INSTANCED_WORLD_BUFFER_AMOUNT] = { nullptr }; //this contains the world matrices every frame.
 	unsigned int   instancesToRender		  [INSTANCED_WORLD_BUFFER_AMOUNT] = { }; //The amount of instanced geometry to render, (AFTER CULLING)
+
 	meshIndexInArray instanceMeshIndex;
 
-	BillboardData billBoardArray[MAX_BILLBOARDED_GEOMETRY]				= {};
+	BillboardData* billBoardArray             [BILLBOARDED_ARRAYS]	= { nullptr };
+	unsigned int   billboardsToRender		  [BILLBOARDED_ARRAYS]  = { 0		};
 #pragma endregion
 
 private:

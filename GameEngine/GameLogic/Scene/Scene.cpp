@@ -5,7 +5,7 @@ Scene::Scene()
 {
 	/*this->bearTraps = new std::vector<BearTrap>;
 	this->fireTraps = new std::vector<FireTrap>;*/
-//	this->enemySpawn = new EnemySpawn;
+	//	this->enemySpawn = new EnemySpawn;
 	//this->trap = new Trap;
 	collision = Collision::GetInstance();
 
@@ -15,14 +15,14 @@ Scene::~Scene()
 {
 
 	//delete this->enemySpawn;
-//	delete this->trap;
+	//	delete this->trap;
 
 
 	for (size_t i = 0; i < enemySpawns.size(); i++)
 	{
 		delete this->enemySpawns.at(i);
 	}
-	
+
 	/*delete this->sceneModels;
 	delete this->sceneLights;
 	delete this->enemySpawns;*/
@@ -53,7 +53,7 @@ void Scene::Initialize()
 		collision->AddTrap(bearTraps.at(i));
 	}
 	RespawnTimer = 0;
-}	
+}
 
 void Scene::InitFireTrap()
 {
@@ -69,13 +69,13 @@ void Scene::InitFireTrap()
 		XMFLOAT3 pos = { tmp.x,tmp.y,tmp.z };
 		fireTraps.push_back(new FireTrap(pos));
 	}
-	
+
 }
 
 void Scene::InitBearTrap()
 {
 	srand((unsigned int)time(0));
-	
+
 
 	for (int i = 0; i < trapAmount; i++)
 	{
@@ -85,7 +85,7 @@ void Scene::InitBearTrap()
 		tmp.z = rand() % 150 - 85.0f;
 		XMFLOAT3 pos = { tmp.x,tmp.y,tmp.z };
 		BearTrap* temp = new BearTrap(pos);
-		temp->Initialize(pos,temp->GetRotation());
+		temp->Initialize(pos, temp->GetRotation());
 		bearTraps.push_back(temp);
 	}
 }
@@ -102,14 +102,14 @@ void Scene::Release()
 	for (size_t i = 0; i < enemySpawns.size(); i++)
 	{
 
-		 this->enemySpawns.at(i)->Release();
+		this->enemySpawns.at(i)->Release();
 	}
-	
+
 }
 
 void Scene::Update(double deltaTime)
 {
-	
+
 	for (size_t i = 0; i < fireTraps.size(); i++)
 	{
 		fireTraps.at(i)->Update(deltaTime);
@@ -148,7 +148,7 @@ void Scene::Update(double deltaTime)
 						collision->EnemyProxTrap(bearTraps.at(i),
 							enemySpawns.at(j)->Alive.at(k))
 							&& bearTraps.at(i)->isActive;
-						
+
 					}
 				}
 				bearTraps.at(i)->isActive = false;
@@ -193,14 +193,14 @@ void Scene::Update(double deltaTime)
 					enemySpawns.at(j)->Alive.at(k))
 					&& fireTraps.at(i)->isActive)
 				{
-					
+
 				}
 			}
 		}
 	}
 	if (RespawnTimer >= (double)10)
-	{ 
-		for (int i = 0; i < trapAmount-1; i++)
+	{
+		for (int i = 0; i < trapAmount - 1; i++)
 		{
 			fireTraps.at(i)->isActive = true;
 			bearTraps.at(i)->isActive = true;
@@ -223,7 +223,7 @@ void Scene::Render()
 		{
 			fireTraps.at(i)->Render();
 		}
-		
+
 	}
 	for (size_t i = 0; i < bearTraps.size(); i++)
 	{
@@ -231,10 +231,10 @@ void Scene::Render()
 		{
 			bearTraps.at(i)->Render();
 		}
-		
+
 	}
 
-//	enemySpawn->Render();
+	//	enemySpawn->Render();
 
 
 	for (size_t i = 0; i < enemySpawns.size(); i++)
@@ -242,7 +242,7 @@ void Scene::Render()
 
 		enemySpawns.at(i)->Render();
 	}
-	
+
 }
 
 void Scene::load()
@@ -265,7 +265,7 @@ void Scene::EvadeTrap(Enemy* enemy, BearTrap* bear, double deltaTime)
 	dir.z = trapPos.z - enemyPos.z;
 
 	dir.Normalize();
-	
+
 	enemy->position.x -= dir.x * (float)deltaTime /* * enemy->movementSpeed*/;
 	enemy->position.z -= dir.z * (float)deltaTime /** enemy->movementSpeed*/;
 
