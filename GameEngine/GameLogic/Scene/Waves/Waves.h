@@ -12,8 +12,6 @@ public:
 	int waveNumber;
 	int amountOFFast, amountOfStandards, amountOfHealers;
 
-	//static Waves* GetInstance();
-
 	~Waves();
 	Waves();
 
@@ -29,7 +27,6 @@ public:
 	void NextWave(int nextWaveNumber);
 	void SetWaveInformation(int amountOfEnemies);
 	int GetWaveInformation();
-	//void TimeBetweenWaves();
 };
 
 #endif

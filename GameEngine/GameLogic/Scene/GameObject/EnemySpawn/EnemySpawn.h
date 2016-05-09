@@ -33,7 +33,7 @@ public:
 	bool firstSpawn;
 
 	void Release();
-	void Initialize(XMFLOAT3 spawnPosition);
+	void Initialize();
 	//void GetEnemyInfo(int info);
 	void Render();
 

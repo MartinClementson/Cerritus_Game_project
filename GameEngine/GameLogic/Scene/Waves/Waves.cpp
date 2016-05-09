@@ -88,10 +88,3 @@ int Waves::GetWaveInformation()
 {
 	return amountOfStandards;
 }
-
-//Waves * Waves::GetInstance()
-//{
-//	static Waves instance;
-//	return &instance;
-//}
-//

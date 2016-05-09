@@ -160,6 +160,7 @@ void Enemy::AIPattern(Player* player, double deltaTime)
 		//here they go to die 
 	}
 }
+
 float Enemy::GetRadius2()
 {
 	return this->radius2;
