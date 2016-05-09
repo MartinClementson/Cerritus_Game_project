@@ -677,4 +677,9 @@
       <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
     </Object>
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="sounds\Explo1.wav">
+      <Filter>GameLogic\StateMachines\MainStateMachene\AudioManager</Filter>
+    </Media>
+  </ItemGroup>
 </Project>
