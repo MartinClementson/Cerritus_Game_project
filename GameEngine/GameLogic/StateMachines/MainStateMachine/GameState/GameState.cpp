@@ -27,8 +27,9 @@ GameState::~GameState()
 
 }
 
-void GameState::Initialize()
+void GameState::Initialize(AudioManager* audioManager)
 {
+	this->audioManager = audioManager;
 	input->Initialize();
 	player->Initialize();
 	death->Initialize();
@@ -253,6 +254,7 @@ void GameState::ProcessInput(double* deltaTime)
 		}
 		if (input->IsKeyPressed(KEY_SPACE))
 		{
+			audioManager->playShotSound();
 			player->Shoot(KEY_SPACE, deltaTime[0]);
 		}
 		else if (input->isMouseClicked(MOUSE_LEFT))

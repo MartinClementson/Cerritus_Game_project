@@ -27,7 +27,7 @@ void AudioManager::Initialize()
 	s_audEngine = new std::unique_ptr<AudioEngine>(new AudioEngine(eflags));
 
 	//loading the shoot sound
-	//prefix to the soundfolder is "../../../sounds/"
+	//prefix to the soundfolder is "sounds/"
 	s_shot.reset(new SoundEffect(s_audEngine->get(), L"sounds/Explo1.wav" ));
 }
 
@@ -49,4 +49,9 @@ void AudioManager::Update()
 			s_retryAudio = true;
 		}
 	}
+}
+
+void AudioManager::playShotSound()
+{
+	s_shot->Play();
 }

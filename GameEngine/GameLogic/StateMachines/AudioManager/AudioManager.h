@@ -18,5 +18,8 @@ public:
 	void Release();
 	void Initialize();
 	void Update();
+
+	//functions for playing the sounds
+	void playShotSound();
 };
 
