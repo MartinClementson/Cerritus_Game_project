@@ -16,9 +16,13 @@ private:
 	Mesh placeHolder;
 	Mesh placeHolderPlane;
 	Mesh fullScreenQuad;
+	std::vector<Mesh> blendShapeMeshes;
+	ID3D11ShaderResourceView* blendShapeStructuredBuffersSRV[2] = { nullptr };
+	ID3D11Buffer*			  blendShapeStructuredBuffers   [2] = { nullptr };
 
 	void CreatePlaceHolder();
 	void CreatePlaceHolderPlane();
+	void CreatePlaceHolderBlendShape();
 	void CreateFullScreenQuad();
 public:
 	MeshManager();

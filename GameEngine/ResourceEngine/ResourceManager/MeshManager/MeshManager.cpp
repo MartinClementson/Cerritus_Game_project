@@ -26,6 +26,42 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 
 	fullScreenQuad.Initialize(gDevice, gDeviceContext);
 	CreateFullScreenQuad();
+
+	//Create three blendshapes
+	for (int i = 0; i < 2; i++) //if you change amount, change it in release function as well
+		CreatePlaceHolderBlendShape(); 
+
+#pragma region Create structured buffers for the blendshapes
+	HRESULT hr;
+	for (int j = 0; j < 2; j++)
+	{
+
+		D3D11_BUFFER_DESC BufferDesc;
+		ZeroMemory(&BufferDesc, sizeof(BufferDesc));
+		BufferDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		BufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+		BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		BufferDesc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+		BufferDesc.ByteWidth = sizeof(BlendShapeVert) * this->blendShapeMeshes.at(j).GetVertCount();
+		BufferDesc.StructureByteStride = sizeof(BlendShapeVert);
+
+		if (FAILED(hr = gDevice->CreateBuffer(&BufferDesc, nullptr, &blendShapeStructuredBuffers[j])))
+			MessageBox(NULL, L"Failed to create PointLight buffer", L"Error", MB_ICONERROR | MB_OK);
+
+
+		D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+		srvDesc.Format					 = DXGI_FORMAT_UNKNOWN;
+		srvDesc.ViewDimension			 = D3D11_SRV_DIMENSION_BUFFEREX;
+		srvDesc.Buffer.ElementOffset	 = 0;
+		srvDesc.Buffer.ElementWidth		 = sizeof(BlendShapeVert);
+		srvDesc.Buffer.NumElements		 = this->blendShapeMeshes.at(j).GetVertCount();
+		if (FAILED(hr = gDevice->CreateShaderResourceView(blendShapeStructuredBuffers[j], &srvDesc, &blendShapeStructuredBuffersSRV[j])))
+			MessageBox(NULL, L"Failed to create PointLight buffer", L"Error", MB_ICONERROR | MB_OK);
+		this->gDeviceContext->GSSetShaderResources(BLENDSHAPES_BUFFER_START_INDEX + j, 1, &blendShapeStructuredBuffersSRV[j]);
+		this->gDeviceContext->PSSetShaderResources(BLENDSHAPES_BUFFER_START_INDEX + j, 1, &blendShapeStructuredBuffersSRV[j]);
+		}
+
+#pragma endregion
 }
 
 void MeshManager::Release()
@@ -37,6 +73,8 @@ void MeshManager::Release()
 	placeHolder.Release();
 	placeHolderPlane.Release();
 	fullScreenQuad.Release();
+	for (int i = 0; i < 2; i++)
+		this->blendShapeMeshes.at(i).Release();
 
 }
 
@@ -213,6 +251,50 @@ void MeshManager::CreatePlaceHolderPlane()
 	this->placeHolderPlane.CreateVertexBuffer(planeVerts, 4);
 	this->placeHolderPlane.CreateIndexBuffer(indices, 6); 
 	
+}
+
+void MeshManager::CreatePlaceHolderBlendShape()
+{
+
+	static float x = 0.5f;
+	static float y = 1.0f;
+
+	Vertex cubeVerts[8];
+
+	cubeVerts[0].position = Float3(-x, 2.5, 0.5);			//0
+	cubeVerts[1].position = Float3(-x, 0.0, 0.5);			//1
+	cubeVerts[2].position = Float3( x, 0.0, 0.5);			//2
+	cubeVerts[3].position = Float3( x, 2.5, 0.5);			//3
+	cubeVerts[4].position = Float3( x, 0.0, -0.5);			//4
+	cubeVerts[5].position = Float3( x, 2.5, -0.5);			//5
+	cubeVerts[6].position = Float3(-x, 0.0, -0.5);		//6
+	cubeVerts[7].position = Float3(-x, 2.5, -0.5);		//7
+
+
+
+
+
+	UINT indices[36] =
+	{
+		0,1,2,
+		0,2,3,
+		3,2,4,
+		3,4,5,
+		5,4,6,
+		5,6,7,
+		7,6,1,
+		7,1,0,
+		0,3,5,
+		0,5,7,
+		1,4,2,
+		1,6,4 };
+
+	blendShapeMeshes.push_back(Mesh());
+	this->blendShapeMeshes.at(blendShapeMeshes.size() - 1).Initialize(this->gDevice,this->gDeviceContext);
+	this->blendShapeMeshes.at(blendShapeMeshes.size() - 1).CreateVertexBuffer(cubeVerts, 8);
+	this->blendShapeMeshes.at(blendShapeMeshes.size() - 1).CreateIndexBuffer (indices,  36);
+
+	x += 5.0f; 
 }
 
 void MeshManager::CreateFullScreenQuad()

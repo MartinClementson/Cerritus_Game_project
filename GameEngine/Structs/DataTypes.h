@@ -110,19 +110,19 @@ struct Vertex
 
 	Vertex(Float3 pos, Float3 normal, Float2 uv, Float2 tangent, Float2 biTangent)
 	{
-		this->position.x = pos.x;
-		this->position.y = pos.y;
-		this->position.z = pos.z;
+		this->position.x  = pos.x;
+		this->position.y  = pos.y;
+		this->position.z  = pos.z;
+						  
+		this->normal.x	  = normal.x;
+		this->normal.y	  = normal.y;
+		this->normal.z	  = normal.z;
+						  
+		this->uv.x		  = uv.x;
+		this->uv.y		  = uv.y;
 
-		this->normal.x = normal.x;
-		this->normal.y = normal.y;
-		this->normal.z = normal.z;
-
-		this->uv.x = uv.x;
-		this->uv.y = uv.y;
-
-		this->tangent.x = tangent.x;
-		this->tangent.y = tangent.y;
+		this->tangent.x   = tangent.x;
+		this->tangent.y   = tangent.y;
 
 		this->biTangent.x = biTangent.x;
 		this->biTangent.y = biTangent.y;
@@ -143,8 +143,19 @@ struct BillboardData
 	DirectX::XMFLOAT3 worldPos  = DirectX::XMFLOAT3(0.0f,0.0f,0.0f);
 	DirectX::XMFLOAT3 direction = DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f);
 	DirectX::XMFLOAT3 color		= DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f);
-	float height = 1.0f;
-	float width	 = 1.0f;
+	float height				= 1.0f;
+	float width					= 1.0f;
+};
+
+struct BlendShapeVert
+{
+	Float3 position;
+	Float3 normal;
+	Float2 biTangent;
+	Float2 tangent;
+
+	float influence = 0;
+
 };
 
 struct AnimVert

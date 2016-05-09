@@ -81,9 +81,9 @@ public:
 	void Render(RenderInfoChar* object);
 	void Render(RenderInfoTrap* object);
 
-	void RenderInstanced(RenderInfoEnemy* object,  InstancedData* arrayData ,unsigned int amount);
-	void RenderInstanced(RenderInfoObject* object, InstancedData* arrayData, unsigned int amount);
-	void RenderInstanced(RenderInfoTrap* object,   InstancedData* arrayData, unsigned int amount);
+	void RenderInstanced(RenderInfoEnemy*	 object,   InstancedData* arrayData ,unsigned int amount);
+	void RenderInstanced(RenderInfoObject*   object,   InstancedData* arrayData, unsigned int amount);
+	void RenderInstanced(RenderInfoTrap*	 object,   InstancedData* arrayData, unsigned int amount);
 
 	void RenderBillBoard(RenderInfoObject* object, BillboardData* arrayData, unsigned int amount);
 
