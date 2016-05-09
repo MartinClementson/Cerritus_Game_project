@@ -4,7 +4,6 @@ class GameTimer
 {
 public:
 	
-	
 	static GameTimer* GetInstance();
 
 	double GameTime()const; //in seconds
