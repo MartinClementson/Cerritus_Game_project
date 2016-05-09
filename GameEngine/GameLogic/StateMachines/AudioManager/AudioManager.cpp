@@ -27,3 +27,23 @@ void AudioManager::Initialize()
 	audEngine = new std::unique_ptr<AudioEngine>(new AudioEngine(eflags));
 	//audEngine->get()->Update();
 }
+
+void AudioManager::Update()
+{
+	if (m_retryAudio)
+	{
+		m_retryAudio = false;
+		audEngine->reset();
+		//if there are any looped sounds, reset them here
+	}
+
+	else if (!audEngine->get()->Update())
+	{
+		//if this loop is entered, no audio device is detected
+		//trying to reset it.
+		if (audEngine->get()->IsCriticalError())
+		{
+			m_retryAudio = true;
+		}
+	}
+}

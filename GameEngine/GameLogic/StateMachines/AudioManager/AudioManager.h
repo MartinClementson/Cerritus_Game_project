@@ -8,10 +8,12 @@ class AudioManager
 {
 private:
 	std::unique_ptr<AudioEngine>* audEngine = nullptr;
+	bool m_retryAudio = false;
 public:
 	AudioManager();
 	~AudioManager();
 	void Release();
 	void Initialize();
+	void Update();
 };
 
