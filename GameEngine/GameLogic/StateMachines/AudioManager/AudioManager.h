@@ -7,8 +7,11 @@ using namespace DirectX;
 class AudioManager
 {
 private:
-	std::unique_ptr<AudioEngine>* audEngine = nullptr;
-	bool m_retryAudio = false;
+	std::unique_ptr<AudioEngine>* s_audEngine = nullptr;
+
+	std::unique_ptr<SoundEffect> s_shot;
+	bool s_retryAudio = false;
+
 public:
 	AudioManager();
 	~AudioManager();

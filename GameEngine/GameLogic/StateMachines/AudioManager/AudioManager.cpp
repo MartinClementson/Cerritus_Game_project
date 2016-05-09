@@ -1,6 +1,5 @@
 #include "AudioManager.h"
-
-
+//#define AUDIO_FOLDER "../../../sounds/"
 
 AudioManager::AudioManager()
 {
@@ -9,8 +8,8 @@ AudioManager::AudioManager()
 
 AudioManager::~AudioManager()
 {
-	if (audEngine != nullptr)
-		delete audEngine;
+	if (s_audEngine != nullptr)
+		delete s_audEngine;
 }
 
 void AudioManager::Release()
@@ -24,26 +23,30 @@ void AudioManager::Initialize()
 #ifdef _DEBUG
 	eflags = (eflags | AudioEngine_Debug);
 #endif
-	audEngine = new std::unique_ptr<AudioEngine>(new AudioEngine(eflags));
-	//audEngine->get()->Update();
+	//assigning the audio engine
+	s_audEngine = new std::unique_ptr<AudioEngine>(new AudioEngine(eflags));
+
+	//loading the shoot sound
+	//prefix to the soundfolder is "../../../sounds/"
+	s_shot.reset(new SoundEffect(s_audEngine->get(), L"sounds/Explo1.wav" ));
 }
 
 void AudioManager::Update()
 {
-	if (m_retryAudio)
+	if (s_retryAudio)
 	{
-		m_retryAudio = false;
-		audEngine->reset();
+		s_retryAudio = false;
+		s_audEngine->reset();
 		//if there are any looped sounds, reset them here
 	}
 
-	else if (!audEngine->get()->Update())
+	else if (!s_audEngine->get()->Update())
 	{
 		//if this loop is entered, no audio device is detected
 		//trying to reset it.
-		if (audEngine->get()->IsCriticalError())
+		if (s_audEngine->get()->IsCriticalError())
 		{
-			m_retryAudio = true;
+			s_retryAudio = true;
 		}
 	}
 }
