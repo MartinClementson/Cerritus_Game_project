@@ -6,11 +6,13 @@
 MeshManager::MeshManager()
 {
 	this->gameMeshes = new std::vector<Mesh>;
+	this->sceneMeshes = new std::vector<Mesh>;
 	this->quadTree = new QuadTree;
 }
 MeshManager::~MeshManager()
 {
 	delete gameMeshes;
+	delete sceneMeshes;
 	delete quadTree;
 }
 
@@ -38,7 +40,7 @@ void MeshManager::Release()
 	placeHolder.Release();
 	placeHolderPlane.Release();
 	fullScreenQuad.Release();
-
+	quadTree->Release();
 }
 
 void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materialID, unsigned int vertexCount, UINT indexCount, std::vector<Vertex> vertices, std::vector<AnimVert> aniVertices, std::vector<UINT> indices, bool isScene)
@@ -61,7 +63,10 @@ void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materia
 		newMesh.Initialize(this->gDevice, this->gDeviceContext);
 		newMesh.CreateVertexBuffer(newVertices, vertexCount, isScene);
 		newMesh.CreateIndexBuffer(newIndices, indexCount, isScene);
-		this->gameMeshes->push_back(newMesh);
+		if (isScene == true)
+			this->sceneMeshes->push_back(newMesh);
+		else
+			this->gameMeshes->push_back(newMesh);
 		delete[] newVertices;
 		delete[] newIndices;
 	}
@@ -97,9 +102,9 @@ void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materia
 
 
 
-void MeshManager::CreateQuadTree(Mesh* thisMesh, RenderInstructions* currentMesh)
+void MeshManager::CreateQuadTree(RenderInstructions* currentMesh)
 {
-			this->quadTree->Initialize(thisMesh, this->gDevice, this->gDeviceContext, currentMesh);
+	this->quadTree->Initialize(this->sceneMeshes, this->gDevice, this->gDeviceContext, currentMesh);
 }
 
 void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * toRender)
@@ -112,24 +117,20 @@ void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * to
 	else if (*meshEnum == MeshEnum::TRAP_BEAR)
 	{
 		this->gameMeshes->at(2).GetMeshRenderInfo(toRender);
-
 	}
 	else if (*meshEnum == MeshEnum::TRAP_FIRE)
 		this->gameMeshes->at(3).GetMeshRenderInfo(toRender);
-	else if (*meshEnum == MeshEnum::LEVEL_1)
+	else if (*meshEnum == MeshEnum::SCENE)
 	{
-		this->gameMeshes->at(4).SetMaterialID(3); //FULLÖSNING
-		this->gameMeshes->at(4).GetMeshRenderInfo(toRender);
+		//this->gameMeshes->at(4).SetMaterialID(3); //FULLÖSNING
+		//this->gameMeshes->at(4).GetMeshRenderInfo(toRender);
+		//this->gameMeshes->at(5).GetMeshRenderInfo(toRender);
+		//this->gameMeshes->at(6).GetMeshRenderInfo(toRender);
+		//this->gameMeshes->at(7).GetMeshRenderInfo(toRender);
+		this->quadTree->GetQuadTreeRenderInfo(toRender);
 	}
-	else if (*meshEnum == MeshEnum::LEVEL_2)
-		this->gameMeshes->at(5).GetMeshRenderInfo(toRender);
-	else if (*meshEnum == MeshEnum::LEVEL_3)
-		this->gameMeshes->at(6).GetMeshRenderInfo(toRender);
-	else if (*meshEnum == MeshEnum::LEVEL_4)
-		this->gameMeshes->at(7).GetMeshRenderInfo(toRender);
 	else if (*meshEnum == MeshEnum::PROJECTILE_1)
 		this->gameMeshes->at(8).GetMeshRenderInfo(toRender);
-
 	else
 		this->placeHolder.GetMeshRenderInfo(toRender);
 

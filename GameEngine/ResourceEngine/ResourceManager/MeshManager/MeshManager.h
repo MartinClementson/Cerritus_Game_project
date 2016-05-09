@@ -14,6 +14,7 @@ private:
 
 	//This vector will be indexed with the enum "Meshes"
 	std::vector<Mesh>* gameMeshes		= nullptr;
+	std::vector<Mesh>* sceneMeshes		= nullptr;
 	QuadTree* quadTree;
 	Mesh placeHolder;
 	Mesh placeHolderPlane;
@@ -42,7 +43,8 @@ public:
 		);
 
 	std::vector<Mesh>* GetMeshes() { return this->gameMeshes; }
-	void CreateQuadTree(Mesh* thisMesh, RenderInstructions* currentMesh);
+	std::vector<Mesh>* GetSceneMeshes() { return this->sceneMeshes; }
+	void CreateQuadTree(RenderInstructions* currentMesh);
 	void GetMeshRenderInfo(MeshEnum* meshEnum, RenderInstructions* toRender);
 
 	void GetPlaceHolderMeshInfo(RenderInstructions* toRender);

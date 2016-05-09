@@ -43,12 +43,13 @@ void Mesh::Release()
 void Mesh::GetMeshRenderInfo(RenderInstructions * toRender)
 {
 	toRender->isAnimated	=	&this->hasSkeleton;
-	
+
 	toRender->indexBuffer	=	 this->indexBuffer;
 	toRender->indexCount	=	&this->indexCount;
 
 	toRender->vertexBuffer  =	 this->vertexBuffer;
 	toRender->vertexCount	=	&this->vertCount;
+
 	toRender->materialID	=	 this->materialID;
 
 

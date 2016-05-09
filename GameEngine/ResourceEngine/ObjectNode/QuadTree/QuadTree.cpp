@@ -41,6 +41,83 @@ void QuadTree::ReleaseNode(NodeType * node)
 
 void QuadTree::RenderNode(NodeType * node, ID3D11DeviceContext * gDeviceContext, Frustum * frustum, ID3D11Buffer * worldBuffer)
 {
+
+	/*
+	This function does all the drawing for the visible nodes in the quad tree. It takes as input the frustum to check if the camera can see each quad
+	It is recursive and calls itself for all the child nodes it can see
+
+
+
+	IMPORTANT!
+	The terrain shader has to be set as the active shader in engine before this is called.
+
+	*/
+	bool result;
+	int count, i;
+	unsigned int stride, offset;
+
+	//Do a frustum check on the cube
+
+	//Check if the node can be viewed,
+	//result = true;
+	result = frustum->CheckCube(node->position.x, 0.0f, node->position.y, (node->width / 2.0f));
+
+	//if it can't be seen then none of it's children can either so don't continue
+	if (!result)
+		return;
+
+	//If this node can be seen, recursively call this function for each child node
+
+	count = 0;
+	for (i = 0; i < 4; i++)
+	{
+		if (node->nodes[i] != 0)
+		{
+			count++;
+			RenderNode(node->nodes[i], gDeviceContext, frustum, worldBuffer);
+		}
+
+	}
+
+	//If there were any children nodes then there is no need to continue, Parents have nothing to render
+	if (count != 0)
+		return;
+
+	//Render the buffers in this node as normal if they can be seen
+
+	stride = sizeof(Vertex);
+	offset = 0;
+
+
+	//DirectX::XMMATRIX world = DirectX::XMMatrixIdentity();
+	//DirectX::XMFLOAT4X4 worldFloat;
+
+	//DirectX::XMStoreFloat4x4(&worldFloat, world);
+	//D3D11_MAPPED_SUBRESOURCE mappedResourceWorld;
+	//ZeroMemory(&mappedResourceWorld, sizeof(mappedResourceWorld));
+
+	////mapping to the matrixbuffer
+	//gDeviceContext->Map(worldBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResourceWorld);
+
+	//worldConstantBuffer* temporaryWorld = (worldConstantBuffer*)mappedResourceWorld.pData;
+
+	//temporaryWorld->world = worldFloat;
+
+	//gDeviceContext->Unmap(worldBuffer, 0);
+
+	gDeviceContext->IASetVertexBuffers(0, 1, &node->vertexBuffer, &stride, &offset);
+
+	gDeviceContext->IASetIndexBuffer(node->indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+	gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	gDeviceContext->DrawIndexed(node->triangleCount * 3, 0, 0);
+
+	//increase the count of the numder of polygons that have been rendered during this frame
+	m_drawCount += node->triangleCount;
+
+	return;
+
 }
 
 void QuadTree::CalculateMeshDimensions(int count, Float2 & position, float & meshWidth)
@@ -54,8 +131,8 @@ void QuadTree::CalculateMeshDimensions(int count, Float2 & position, float & mes
 	//Sum all the vertices in the mesh
 	for (int i = 0; i < count; i++)
 	{
-		position.x += m_vertexList[m_indexList[i]].position.x;
-		position.y += m_vertexList[m_indexList[i]].position.z;
+		position.x += this->combinedvertices[this->combinedindices[i]].position.x;
+		position.y += this->combinedvertices[this->combinedindices[i]].position.y;
 	}
 	//Divide the sum with the number of vertices to find the mid point in the mesh
 	position.x = position.x / (float)count;
@@ -66,15 +143,15 @@ void QuadTree::CalculateMeshDimensions(int count, Float2 & position, float & mes
 	maxDepth = 0.0f;
 
 	//fabsf Return the absolute value of the argument as FLOAT
-	minWidth = fabsf(m_vertexList[m_indexList[0]].position.x - position.x);
-	minDepth = fabsf(m_vertexList[m_indexList[0]].position.z - position.y);
+	minWidth = fabsf(this->combinedvertices[this->combinedindices[0]].position.x - position.x);
+	minDepth = fabsf(this->combinedvertices[this->combinedindices[0]].position.y - position.y);
 
 	//Loop through all the vertices and find the max/min width and depth
 	for (int i = 0; i < count; i++)
 	{
 
-		width = fabsf(m_vertexList[m_indexList[i]].position.x - position.x);
-		depth = fabsf(m_vertexList[m_indexList[i]].position.z - position.y);
+		width = fabsf(this->combinedvertices[this->combinedindices[i]].position.x - position.x);
+		depth = fabsf(this->combinedvertices[this->combinedindices[i]].position.y - position.y);
 
 		if (width > maxWidth) { maxWidth = width; }
 		if (depth > maxDepth) { maxDepth = depth; }
@@ -93,20 +170,19 @@ void QuadTree::CalculateMeshDimensions(int count, Float2 & position, float & mes
 	return;
 }
 
-void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, ID3D11Device * gDevice)
+void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, ID3D11Device * gDevice, std::vector<Mesh>* terrain)
 {
 	/* This function Builds the quad tree. It is recursive and therefore it will call itself numerous times
 	It starts with the parent, Then goes down.
 	When it reaches a leaf node, it loads the vertex data into that node
 	*/
 
-	int numTriangles, i, count, vertexCount, index, vertexIndex;
-
+	int numTriangles, count, vertexCount, index, vertexIndex;
+	unsigned int i;
 	float offsetX, offsetZ;
 
-	Vertex* vertices;
-
-	UINT* indices;
+	Vertex* vertices = nullptr;
+	UINT* indices = nullptr;
 
 	bool result;
 	D3D11_BUFFER_DESC vertexBufferDesc, indexBufferDesc;
@@ -182,7 +258,7 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 				parent->nodes[i] = new NodeType;
 
 				//Extend the tree starting from this new child node
-				CreateTreeNode(parent->nodes[i], posWithOffset, (width / 2), gDevice);
+				CreateTreeNode(parent->nodes[i], posWithOffset, (width / 2), gDevice, terrain);
 			}
 
 		}
@@ -198,10 +274,10 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 	vertexCount = numTriangles * 3;
 
 	//Create vertex array
-	vertices = new Vertex[vertexCount];
+	combinedvertices = new Vertex[vertexCount];
 
 	//Create the index array
-	indices = new UINT[indexCount];
+	combinedindices = new UINT[indexCount];
 	//std::vector<UINT> indices2;
 
 	//Initialize the index
@@ -221,21 +297,21 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 			vertexIndex = i * 3;
 
 			//Get the three vertices of this triangle from the vertex list.
-			vertices[index] = m_vertexList[m_indexList[vertexIndex]];
+			vertices[index] = this->combinedvertices[this->combinedindices[vertexIndex]];
 			indices[index] = index;
 			index++;
 			indexCount++;
 			vertexIndex++;
 
 
-			vertices[index] = m_vertexList[m_indexList[vertexIndex]];
+			vertices[index] = this->combinedvertices[this->combinedindices[vertexIndex]];
 			indices[index] = index;
 			index++;
 			indexCount++;
 			vertexIndex++;
 
 
-			vertices[index] = m_vertexList[m_indexList[vertexIndex]];
+			vertices[index] = this->combinedvertices[this->combinedindices[vertexIndex]];
 			indices[index] = index;
 			index++;
 			indexCount++;
@@ -281,6 +357,11 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 
 	//Delete the vertices and indices arrays, as they are now stored in the buffers
 
+	delete[] this->combinedvertices;
+	combinedvertices = 0;
+	delete[] this->combinedindices;
+	combinedindices = 0;
+
 	delete[] vertices;
 	vertices = 0;
 	delete[] indices;
@@ -294,7 +375,8 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 
 int QuadTree::CountTriangles(Float2 position, float width)
 {
-	int count, i;
+	int count;
+	unsigned int i;
 	bool result;
 
 	count = 0;
@@ -329,16 +411,16 @@ bool QuadTree::IsTriangleContained(int index, Float2 position, float width)
 	vertexIndex = index * 3;
 
 	//Get the three vertices of this triangle from the vertex list
-	x1 = m_vertexList[m_indexList[vertexIndex]].position.x;
-	z1 = m_vertexList[m_indexList[vertexIndex]].position.z;
+	x1 = this->combinedvertices[this->combinedindices[vertexIndex]].position.x;
+	z1 = this->combinedvertices[this->combinedindices[vertexIndex]].position.z;
 	vertexIndex++;
 
-	x2 = m_vertexList[m_indexList[vertexIndex]].position.x;
-	z2 = m_vertexList[m_indexList[vertexIndex]].position.z;
+	x2 = this->combinedvertices[this->combinedindices[vertexIndex]].position.x;
+	z2 = this->combinedvertices[this->combinedindices[vertexIndex]].position.z;
 	vertexIndex++;
 
-	x3 = m_vertexList[m_indexList[vertexIndex]].position.x;
-	z3 = m_vertexList[m_indexList[vertexIndex]].position.z;
+	x3 = this->combinedvertices[this->combinedindices[vertexIndex]].position.x;
+	z3 = this->combinedvertices[this->combinedindices[vertexIndex]].position.z;
 
 	//Check if the minimum of the x coords of the triangle is inside the node
 	minX = min(x1, min(x2, x3));
@@ -368,6 +450,7 @@ bool QuadTree::IsTriangleContained(int index, Float2 position, float width)
 QuadTree::QuadTree()
 {
 	m_vertexList = nullptr;
+	m_indexList = nullptr;
 	m_parentNode = nullptr;
 }
 
@@ -378,41 +461,76 @@ QuadTree::QuadTree(const QuadTree & parent)
 
 QuadTree::~QuadTree()
 {
-	delete[] m_vertexList;
-	delete[] m_indexList;
+	//delete[] m_vertexList;
+	//delete[] m_indexList;
 }
 
 //FINHJISH ME!
-bool QuadTree::Initialize(Mesh * terrain, ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceContext, RenderInstructions* worldBuffer)
+bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceContext, RenderInstructions* worldBuffer)
 {
 
 	this->gDevice = gDevice;
 	this->gDeviceContext = gDeviceContext;
 	this->worldMatrix = worldBuffer->worldBuffer.worldMatrix;
 
-	int vertexCount, indexCount;
+	unsigned int vertexCount;
+	UINT indexCount;
 	float width;
 	Float2 position;
 
 
 	//Get the number of vertices in the terrain
-	vertexCount = terrain->GetVertexCount();
-	this->indexCount = terrain->GetIndexCount();
+	for (unsigned int i = 0; i < terrain->size(); i++)
+	{
+		vertexCount += terrain->at(i).GetVertexCount();
+		indexCount += terrain->at(i).GetIndexCount();
+	}
 
 	//Store the total triangle countW
-	m_triangleCount = this->indexCount / 3;
+	m_triangleCount = indexCount / 3;
 
-	m_indexList = new UINT[this->indexCount];
-	if (!m_indexList)
-		return false;
-	//create a vertex array to hold all of the terrain vertices
-	m_vertexList = new Vertex[vertexCount];
-	if (!m_vertexList)
-		return false;
+	//m_indexList = new UINT[indexCount];
+	//if (!m_indexList)
+	//	return false;
+	////create a vertex array to hold all of the terrain vertices
+	//m_vertexList = new Vertex[vertexCount];
+	//if (!m_vertexList)
+	//	return false;
 
 	//Copy the vertices from the terrain into the vertex list
-	this->m_vertexList = terrain->GetVertices();
-	this->m_indexList = terrain->GetIndices();
+	for (size_t i = 0; i < terrain->size(); i++)
+	{
+		this->m_vertexList->push_back(terrain->at(i).GetVertices());
+		this->m_indexList->push_back(terrain->at(i).GetIndices());
+	}
+
+	int index = 0;
+	//VARJE VECTORPLATS
+	for (unsigned int arrayIndex = 0; arrayIndex < m_vertexList->size(); arrayIndex++)
+	{
+		//VARJE VERTEXARRAY I VECTORN
+		for (unsigned int vertexAmountPerArray = 0; vertexAmountPerArray < terrain->at(arrayIndex).GetVertexCount(); vertexAmountPerArray++)
+		{
+			//VARJE VERTIS I VERTEXARRAY
+			combinedvertices[index] = m_vertexList->at(arrayIndex)[vertexAmountPerArray];
+			index++;
+		}
+	}
+	this->combinedvertices = combinedvertices;
+	index = 0;
+	//VARJE VECTORPLATS
+	for (unsigned int arrayIndex = 0; arrayIndex < m_indexList->size(); arrayIndex++)
+	{
+		//VARJE INDEXARRAY I VECTORN
+		for (UINT IndexAmountPerArray = 0; IndexAmountPerArray < terrain->at(arrayIndex).GetIndexCount(); IndexAmountPerArray++)
+		{
+			//VARJE VERTIS I INDEXARRAY
+			combinedindices[index] = m_indexList->at(arrayIndex)[IndexAmountPerArray];
+			index++;
+		}
+	}
+	this->combinedindices = combinedindices;
+
 												 //Calculate the parent node. It's the upper most quad, covering the whole terrain
 												 //Calculates center x,z and width
 	CalculateMeshDimensions(vertexCount, position, width);
@@ -423,18 +541,20 @@ bool QuadTree::Initialize(Mesh * terrain, ID3D11Device * gDevice, ID3D11DeviceCo
 		return false;
 
 	//Recursively build the quad tree, based on the vertex list and mesh dimensions
-	CreateTreeNode(m_parentNode, position, width, gDevice);
+	CreateTreeNode(m_parentNode, position, width, gDevice, terrain);
 
 	//Now the vertex list is no longer needed
 	if (m_vertexList)
 	{
-		delete[]m_vertexList;
-		m_vertexList = 0;
+		//delete[]m_vertexList;
+		m_vertexList->clear();
+		m_vertexList = nullptr;
 	}
 	if (m_indexList)
 	{
-		delete[]m_indexList;
-		m_indexList = 0;
+		//delete[]m_indexList;
+		m_indexList->clear();
+		m_indexList = nullptr;
 	}
 
 	return true;
@@ -452,19 +572,21 @@ void QuadTree::Release()
 	return;
 }
 
-void QuadTree::Render(ID3D11DeviceContext * gDeviceContext, Frustum * frustum, ID3D11Buffer * worldBuffer)
+void QuadTree::GetQuadTreeRenderInfo(RenderInstructions * toRender)
 {
+	toRender->indexBuffer;
+	toRender->vertexBuffer;
+	toRender->worldBuffer;
 	/*
 	IMPORTANT!
 	The terrain shader has to be set as the active shader in engine before this is called
 	*/
 
 	//reset the number of triangles drawn for this frame
-	m_drawCount = 0;
 	//sendToConstantBuffer();
 
 	//Render each node that is visible, starting at the parent node and moving down the tree
-	RenderNode(m_parentNode, gDeviceContext, frustum, worldBuffer);
+	//RenderNode(m_parentNode, gDeviceContext, frustum, worldBuffer);
 }
 
 int QuadTree::GetDrawCount()
