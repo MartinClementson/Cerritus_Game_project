@@ -4,6 +4,7 @@
 #include "../../../Source/LibIncluder.h"
 #include "../../ObjectNode/Mesh/Mesh.h"
 #include "../../../Enumerations/Enumerations.h"
+#include "../../ObjectNode/QuadTree/QuadTree.h"
 class MeshManager
 {
 
@@ -13,7 +14,7 @@ private:
 
 	//This vector will be indexed with the enum "Meshes"
 	std::vector<Mesh>* gameMeshes		= nullptr;
-	QuadTree* quadTree					= nullptr;
+	QuadTree* quadTree;
 	Mesh placeHolder;
 	Mesh placeHolderPlane;
 	Mesh fullScreenQuad;
@@ -41,6 +42,7 @@ public:
 		);
 
 	std::vector<Mesh>* GetMeshes() { return this->gameMeshes; }
+	void CreateQuadTree(Mesh* thisMesh, RenderInstructions* currentMesh);
 	void GetMeshRenderInfo(MeshEnum* meshEnum, RenderInstructions* toRender);
 
 	void GetPlaceHolderMeshInfo(RenderInstructions* toRender);

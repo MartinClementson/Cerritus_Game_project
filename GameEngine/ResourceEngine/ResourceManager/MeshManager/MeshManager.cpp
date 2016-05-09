@@ -6,11 +6,12 @@
 MeshManager::MeshManager()
 {
 	this->gameMeshes = new std::vector<Mesh>;
-
+	this->quadTree = new QuadTree;
 }
 MeshManager::~MeshManager()
 {
 	delete gameMeshes;
+	delete quadTree;
 }
 
 void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext)
@@ -81,7 +82,7 @@ void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materia
 		Mesh newMesh = Mesh(hasSkeleton, skeletonID, materialID);
 		newMesh.Initialize(this->gDevice, this->gDeviceContext);
 		newMesh.CreateVertexBuffer(newVertices, vertexCount);
-		newMesh.CreateIndexBuffer(newIndices, indexCount);
+		newMesh.CreateIndexBuffer(newIndices, indexCount, isScene);
 		this->gameMeshes->push_back(newMesh);
 		delete[] newVertices;
 		delete[] newIndices;
@@ -93,6 +94,13 @@ void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materia
 //{
 //	return gameMeshes->at(index);
 //}
+
+
+
+void MeshManager::CreateQuadTree(Mesh* thisMesh, RenderInstructions* currentMesh)
+{
+			this->quadTree->Initialize(thisMesh, this->gDevice, this->gDeviceContext, currentMesh);
+}
 
 void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * toRender)
 {
@@ -164,8 +172,8 @@ void MeshManager::CreatePlaceHolder()
 		1,4,2, 
 		1,6,4 };
 	
-	this->placeHolder.CreateVertexBuffer(cubeVerts, 8);
-	this->placeHolder.CreateIndexBuffer(indices, 36);
+	this->placeHolder.CreateVertexBuffer(cubeVerts, 8, false);
+	this->placeHolder.CreateIndexBuffer(indices, 36, false);
 
 
 }
@@ -205,8 +213,8 @@ void MeshManager::CreatePlaceHolderPlane()
 
 	
 
-	this->placeHolderPlane.CreateVertexBuffer(planeVerts, 4);
-	this->placeHolderPlane.CreateIndexBuffer(indices, 6); 
+	this->placeHolderPlane.CreateVertexBuffer(planeVerts, 4, false);
+	this->placeHolderPlane.CreateIndexBuffer(indices, 6, false);
 	
 }
 
@@ -241,8 +249,8 @@ void MeshManager::CreateFullScreenQuad()
 
 
 
-	this->fullScreenQuad.CreateVertexBuffer(planeVerts, 4);
-	this->fullScreenQuad.CreateIndexBuffer(indices, 6);
+	this->fullScreenQuad.CreateVertexBuffer(planeVerts, 4, false);
+	this->fullScreenQuad.CreateIndexBuffer(indices, 6, false);
 
 
 }

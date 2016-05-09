@@ -33,6 +33,8 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	brfImporterHandler->LoadFile("models/BearTrap.BRF", true, true, true, false);
 	brfImporterHandler->LoadFile("models/Scene2.BRF", true, true, true, false); //SET ME TO TRUE OCNE QWUADTREEE QORKS
 	brfImporterHandler->LoadFile("models/quadBullet.BRF", true, true, true, false);
+	
+	InitializeQuadTree();
 }
 
 void ResourceManager::Release()
@@ -42,7 +44,6 @@ void ResourceManager::Release()
 	this->brfImporterHandler->Release();
 	this->materialManager->Release();
 }
-
 
 #pragma region GetRenderInfo() overloads
 
@@ -260,6 +261,22 @@ void ResourceManager::Release()
 		{
 			this->shaderManager->SetActiveShader(SHADOW_SHADER);
 			gbufferPass = false;
+		}
+	}
+
+	void ResourceManager::InitializeQuadTree()
+	{
+		std::vector<Mesh>* tempMeshes1 = meshManager->GetMeshes();
+		currentMesh = RenderInstructions();
+		XMFLOAT3 pos = { 0,0,0 };
+		XMFLOAT3 rot = { 0,0,0 };
+		for (size_t i = 0; i < tempMeshes1->size(); i++)
+		{
+			if (tempMeshes1->at(i).GetIsScene() == true)
+			{
+				currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&pos, &rot);
+				this->meshManager->CreateQuadTree(&tempMeshes1->at(i), &currentMesh);
+			}
 		}
 	}
 

@@ -2,7 +2,6 @@
 #include "../ObjectNode.h"
 #include "../../../Structs/DataTypes.h"
 
-class QuadTree;
 class Mesh : public ObjectNode
 {
 	bool	    hasSkeleton			= false;
@@ -20,7 +19,6 @@ class Mesh : public ObjectNode
 
 	Vertex* sceneVerts				= nullptr;
 	UINT* sceneIndex				= nullptr;
-	QuadTree* quadTree				= nullptr;
 	bool isScene					= false;
 public:
 	Mesh(bool hasSkeleton, unsigned int skeletonID, unsigned int materialID);
@@ -35,6 +33,9 @@ public:
 
 	void GetMeshRenderInfo(RenderInstructions* toRender);
 
+	bool GetIsScene() { return this->isScene; };
+	Vertex* GetVertices() { return this->sceneVerts; };
+	UINT* GetIndices() { return this->sceneIndex; };
 	int GetMaterialID() { return this->materialID; };
 	void SetMaterialID(int id) { this->materialID = id; };
 	void CreateVertexBuffer(Vertex* vertices, unsigned int amount, bool isScene);

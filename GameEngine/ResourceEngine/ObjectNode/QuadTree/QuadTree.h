@@ -5,6 +5,8 @@
 #include "../Camera/Frustum/Frustum.h"
 #include "../../ResourceManager/MeshManager/MeshManager.h"
 using namespace DirectX;
+//GLOBAL
+const int maxTriangles = 10000;
 class QuadTree
 {
 private:
@@ -26,21 +28,17 @@ private:
 	XMFLOAT4X4 worldMatrix;
 	XMFLOAT4X4 normalWorld;								//might be depricated
 
-	void UpdateWorldMatrix();
-	void SendToConstantBuffer();
-
-
 	unsigned int	 m_triangleCount;
 	unsigned int	 m_drawCount;
 	Vertex*			 m_vertexList;
 	NodeType*		 m_parentNode;
-	unsigned long*	 m_indexList;
+	UINT*			 m_indexList;
 
 	unsigned int indexCount;
 
 	void ReleaseNode(NodeType *node);
 	void RenderNode(NodeType *node, ID3D11DeviceContext *gDeviceContext, Frustum* frustum, ID3D11Buffer* worldBuffer);
-	void CalculateMeshDimensions(int count, float &x, float &z, float &meshWidth);
+	void CalculateMeshDimensions(int count, Float2 & position, float &meshWidth);
 	void CreateTreeNode(NodeType *parent, Float2 position, float width, ID3D11Device *gDevice);
 	int	 CountTriangles(Float2 position, float width);
 	bool IsTriangleContained(int index, Float2 position, float width);
@@ -49,7 +47,8 @@ public:
 	QuadTree(const QuadTree &parent);
 	~QuadTree();
 
-	bool Initialize(Mesh *terrain, ID3D11Device *gDevice, ID3D11DeviceContext *gDeviceContext, ID3D11Buffer* worldBuffer);
+	bool Initialize(Mesh *terrain, ID3D11Device *gDevice, ID3D11DeviceContext *gDeviceContext, RenderInstructions* worldBuffer);
+
 	void Release();
 	void Render(ID3D11DeviceContext *gDeviceContext, Frustum * frustum, ID3D11Buffer* worldBuffer);
 	int  GetDrawCount();
