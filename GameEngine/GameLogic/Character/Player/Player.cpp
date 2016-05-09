@@ -239,7 +239,7 @@ void Player::Shoot(InputKeys input, double deltaTime)
 
 float Player::GetHealth()
 {
-	return 1000000;// this->health;
+	return this->health;
 }
 
 void Player::SetHealth(float health)

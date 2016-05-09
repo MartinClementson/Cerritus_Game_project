@@ -26,7 +26,7 @@ public:
 	void initTrap();
 	bool isActive;
 	//Collision();
-private:	
+private:
 	Animation* animation;
 	Model* mesh;
 	RenderInfoTrap renderInfo;
@@ -36,6 +36,5 @@ protected:
 	DirectX::XMFLOAT3 rotation;
 	float damage;
 	float radius, radius2;
-	
-};
 
+};

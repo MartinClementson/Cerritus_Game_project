@@ -1,7 +1,7 @@
 #include "InactiveState.h"
 
 
-
+/*when the traps have been active for the set time for each trap they reside in here */
 InactiveState::InactiveState()
 {
 }

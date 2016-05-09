@@ -170,6 +170,7 @@
     <ClCompile Include="GameLogic\Scene\Trap\FireTrap\FireTrap.cpp" />
     <ClCompile Include="GameLogic\Scene\Trap\Trap.cpp" />
     <ClCompile Include="GameLogic\Scene\Waves\Waves.cpp" />
+    <ClCompile Include="GameLogic\StateMachines\AudioManager\AudioManager.cpp" />
     <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\AttackState\AttackState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\DeathState\EnemyDeathState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\EnemyStateMachine.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="GameLogic\Scene\Trap\FireTrap\FireTrap.h" />
     <ClInclude Include="GameLogic\Scene\Trap\Trap.h" />
     <ClInclude Include="GameLogic\Scene\Waves\Waves.h" />
+    <ClInclude Include="GameLogic\StateMachines\AudioManager\AudioManager.h" />
     <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\AttackState\AttackState.h" />
     <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\DeathState\EnemyDeathState.h" />
     <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\EnemyStateMachine.h" />
@@ -294,12 +296,17 @@
     </FxCompile>
     <FxCompile Include="ResourceEngine\Shader\ComputeShaders\SecondBlurCS.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Compute</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Compute</ShaderType>
     </FxCompile>
     <FxCompile Include="ResourceEngine\Shader\FinalPassShaders\FinalPassShaders.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS_main</EntryPointName>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">VS_main</EntryPointName>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="ResourceEngine\Shader\GBufferShader\Gbuffer.hlsl">
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">GBUFFER_VS_main</EntryPointName>
@@ -330,7 +337,9 @@
       <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">SHADOW_VS_main</EntryPointName>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="ResourceEngine\Shader\UIShader\UIShader.hlsl" />
+    <FxCompile Include="ResourceEngine\Shader\UIShader\UIShader.hlsl">
+      <EntryPointName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">VS_main</EntryPointName>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\Fetch.obj" />
@@ -339,6 +348,14 @@
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MaterialData.obj" />
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MeshData.obj" />
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\SkeletonData.obj" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="DirectXTK\Audio\DirectXTKAudio_Desktop_2015_Win8.vcxproj">
+      <Project>{4f150a30-cecb-49d1-8283-6a3f57438cf5}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="sounds\Explo1.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

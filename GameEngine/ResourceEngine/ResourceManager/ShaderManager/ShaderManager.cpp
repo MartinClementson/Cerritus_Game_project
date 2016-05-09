@@ -75,13 +75,15 @@ void ShaderManager::Release()
 
 	//Shaders for UI 
 	SAFE_RELEASE(UI_VS);
-	SAFE_RELEASE(UI_GS);
+	//SAFE_RELEASE(UI_GS);
 	SAFE_RELEASE(UI_PS);
 	SAFE_RELEASE(gVertexLayoutUI);
 
 
 	//ComputeShaders
 	SAFE_RELEASE(BLUR_CS);
+	SAFE_RELEASE(BLUR_SECOND_CS);
+
 
 	
 
@@ -200,7 +202,7 @@ void ShaderManager::SetActiveShader(Shaders shader)
 			this->gDeviceContext->VSSetShader(UI_VS, nullptr, 0);
 			this->gDeviceContext->HSSetShader(nullptr, nullptr, 0);
 			this->gDeviceContext->DSSetShader(nullptr, nullptr, 0);
-			this->gDeviceContext->GSSetShader(UI_GS, nullptr, 0);
+			this->gDeviceContext->GSSetShader(nullptr, nullptr, 0);
 			this->gDeviceContext->PSSetShader(UI_PS, nullptr, 0);
 			this->gDeviceContext->IASetInputLayout(gVertexLayoutUI);
 			
@@ -232,6 +234,8 @@ void ShaderManager::CreateShaders()
 		MessageBox(NULL, L"Error compiling Gbuffer shaders", L"Shader error", MB_ICONERROR | MB_OK);
 	if (!CreateShadowShader())
 		MessageBox(NULL, L"Error compiling Shadow shaders", L"Shader error", MB_ICONERROR | MB_OK);
+	if(!CreateUiShader())
+		MessageBox(NULL, L"Error compiling UI shaders", L"Shader error", MB_ICONERROR | MB_OK);
 	if (!CreateInstancedGbufferShader())
 		MessageBox(NULL, L"Error compiling Instanced Gbuffer shaders", L"Shader error", MB_ICONERROR | MB_OK);
 	if (!CreateInstancedShadowShader())
@@ -593,7 +597,7 @@ bool ShaderManager::CreateShadowShader()
 		nullptr);
 
 	hr = this->gDevice->CreateVertexShader(pVS->GetBufferPointer(), pVS->GetBufferSize(), nullptr, &SHADOW_VS);
-
+	pVS->Release();
 	if (FAILED(hr))
 		return false;
 
@@ -744,8 +748,9 @@ bool ShaderManager::CreateBillboardShader()
 	{
 		/*POSITION*/{ "POSITION",		0,  DXGI_FORMAT_R32G32B32_FLOAT,	 0,		 0,		     D3D11_INPUT_PER_VERTEX_DATA		,0 },
 					{ "DIRECTION",		0,  DXGI_FORMAT_R32G32B32_FLOAT,	 0,		 12,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
-		/*SIZE*/	{ "HEIGHT"		,   0,  DXGI_FORMAT_R32_FLOAT,	         0,		 24,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
-					{ "WIDTH"		,   0,  DXGI_FORMAT_R32_FLOAT,	         0,		 28,		 D3D11_INPUT_PER_VERTEX_DATA		,0 }
+					{ "COLOR",			0,  DXGI_FORMAT_R32G32B32_FLOAT,	 0,		 24,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*SIZE*/	{ "HEIGHT"		,   0,  DXGI_FORMAT_R32_FLOAT,	         0,		 36,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+					{ "WIDTH"		,   0,  DXGI_FORMAT_R32_FLOAT,	         0,		 40,		 D3D11_INPUT_PER_VERTEX_DATA		,0 }
 	};
 
 	hr = this->gDevice->CreateInputLayout(inputDescI, ARRAYSIZE(inputDescI), pVS->GetBufferPointer(), pVS->GetBufferSize(), &this->gVertexLayoutBillboard);
@@ -802,6 +807,55 @@ bool ShaderManager::CreateBillboardShader()
 }
 bool ShaderManager::CreateUiShader()
 {
-	return false;
+	HRESULT hr;
+
+	//Vertex Shader
+	ID3DBlob* pVS = nullptr;
+
+	D3DCompileFromFile(
+		L"ResourceEngine/Shader/UIShader/UIShader.hlsl",
+		nullptr,
+		nullptr,
+		"VS_main",
+		"vs_5_0",
+		0,
+		0,
+		&pVS,
+		nullptr);
+
+	hr = this->gDevice->CreateVertexShader(pVS->GetBufferPointer(), pVS->GetBufferSize(), nullptr, &UI_VS);
+	if (FAILED(hr))
+		return false;
+
+	D3D11_INPUT_ELEMENT_DESC inputDesc[] =
+	{
+		/*POSITION*/{ "SV_POSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,	  0,		 0,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*UV*/{ "TEXCOORD",	0, DXGI_FORMAT_R32G32B32_FLOAT ,  0,		24,		 D3D11_INPUT_PER_VERTEX_DATA		,0 }
+	};
+
+	hr = this->gDevice->CreateInputLayout(inputDesc, ARRAYSIZE(inputDesc), pVS->GetBufferPointer(), pVS->GetBufferSize(), &this->gVertexLayoutUI);
+	if (FAILED(hr))
+		return false;
+	pVS->Release();
+	//pixel shader
+	ID3DBlob *pPs = nullptr;
+	D3DCompileFromFile(
+		L"ResourceEngine/Shader/UIShader/UIShader.hlsl",
+		nullptr,
+		nullptr,
+		"PS_main",
+		"ps_5_0",
+		0,
+		0,
+		&pPs,
+		nullptr);
+
+	hr = this->gDevice->CreatePixelShader(pPs->GetBufferPointer(), pPs->GetBufferSize(), nullptr, &UI_PS);
+	pPs->Release();
+
+	if (FAILED(hr))
+		return false;
+
+	return true;
 }
 #pragma endregion

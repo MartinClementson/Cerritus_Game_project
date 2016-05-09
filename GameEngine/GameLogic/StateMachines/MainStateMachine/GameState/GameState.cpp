@@ -11,6 +11,8 @@ GameState::GameState()
 	this->room1 = new Scene();
 	this->collision = Collision::GetInstance();
 	this->gameTimer = GameTimer::GetInstance();
+	this->menu = new MenuState();
+	this->gameUI = new GUI();
 }
 
 
@@ -20,6 +22,8 @@ GameState::~GameState()
 	delete this->pause;
 	delete this->player;
 	delete this->room1;
+	delete this->menu;
+	delete this->gameUI;
 
 }
 
@@ -32,6 +36,10 @@ void GameState::Initialize()
 	death->isActive = false;
 	pause->isActive = false;
 	isPlayerDead = false;
+	toMenu = false;
+	menu->Initialize();
+	menu->isActive = false;
+	gameUI->Initialize();
 	//Create room one here
 	timeSincePaused = 0.0f;
 	room1->Initialize();
@@ -40,6 +48,7 @@ void GameState::Initialize()
 	//room1->AddEnemySpawn(XMFLOAT3( 30.0f, 0.0f,  20.0f));
 	//room1->AddEnemySpawn(XMFLOAT3(-50.0f, 0.0f, -50.0f));
 	//room1->AddEnemySpawn(XMFLOAT3(-50.0f, 0.0f, 30.0f));
+
 	index = 0;
 	OnEnter();
 
@@ -52,15 +61,17 @@ void GameState::Release()
 	input->Release();
 	player->Release();
 	room1->Release();
-
+	menu->Release();
+	gameUI->Release();
 }
 
 void GameState::Update(double deltaTime)
 {
-
+	gameUI->Update(deltaTime);
 	ProcessInput(&deltaTime);
 	if (!pause->isActive)
 	{
+		gameUI->setUI(UITextures::HUD);
 
 		if (player->GetHealth() <= 0)
 		{
@@ -90,28 +101,7 @@ void GameState::Update(double deltaTime)
 								collision->GetPlayer(),
 								deltaTime);
 						}
-						/*else if (collision->EnemyCollision(
-						room1->enemySpawns.at(k)->Alive.at(p),
-						room1->enemySpawns.at(k)->Alive.at(p))
-
-						&& collision->PlayerDistanceCollision(
-						room1->enemySpawns.at(k)->Alive.at(p))
-
-						)
-						{
-						room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
-						collision->GetPlayer(),
-						deltaTime);
-						}*/
-						/*else if (collision->PlayerDistanceCollision(
-						room1->enemySpawns.at(k)->Alive.at(p))
-						&& j != p
-						)
-						{
-						room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
-						collision->GetPlayer(),
-						deltaTime);
-						}*/
+						
 						else if (collision->EnemyCollision(
 							room1->enemySpawn->Alive.at(p),
 							room1->enemySpawn->Alive.at(j)))
@@ -129,19 +119,16 @@ void GameState::Update(double deltaTime)
 
 								if (randoms == 1 && room1->bearTraps.at(i)->isActive)
 								{
+
 								room1->EvadeTrap(room1->enemySpawn->Alive.at(p)
 									, room1->bearTraps.at(i), deltaTime);
+	
 								}
 
 							}
 						}
 
-						/*	else
-						{
-						room1->enemySpawns.at(k)->Alive.at(p)->AIPattern(
-						collision->GetPlayer(),
-						deltaTime);
-						}*/
+						
 
 					}
 				}
@@ -168,21 +155,25 @@ void GameState::Update(double deltaTime)
 						room1->enemySpawn->Alive.at(j)->GetHealth() - 10);
 						player->projectileSystem->projectiles[i]->SetFired(false);
 					}
-						
 
-				j++;
+
+					j++;
 				}
 			i++;
 		}
 	}
+	else if (pause->isActive)
+	{
+		gameUI->setUI(UITextures::PAUSE);
+	}
 }
-	
+
 
 void GameState::ProcessInput(double* deltaTime)
 {
 	timeSincePaused += (float)*deltaTime;
 	XMFLOAT2 temp = input->GetMousePosition();
-	
+
 	if (death->isActive)
 	{
 
@@ -193,23 +184,23 @@ void GameState::ProcessInput(double* deltaTime)
 		{
 			pause->isActive = false;
 			timeSincePaused = 0.0f;
-			
+
 		}
 	}
 	else
 	{
-		
-		int					 moveKeysPressed		 = 0;		//How many have been clicked
-		int					 maxMoveKeysPressed		 = 2;		// Maximum amount of movement keys that can be clicked each frame.
+
+		int					 moveKeysPressed = 0;		//How many have been clicked
+		int					 maxMoveKeysPressed = 2;		// Maximum amount of movement keys that can be clicked each frame.
 		MovementDirection	 directions[2];						//This should be as big as MaxMoveKeysPressed
 
 #pragma region Movement Keys
 
 		if (input->IsKeyPressed(KEY_W))
 		{
-			directions[moveKeysPressed]  = UP;
-			moveKeysPressed				+= 1;
-			
+			directions[moveKeysPressed] = UP;
+			moveKeysPressed += 1;
+
 		}
 
 
@@ -217,10 +208,10 @@ void GameState::ProcessInput(double* deltaTime)
 		{
 			if (moveKeysPressed < maxMoveKeysPressed)
 			{
-				directions[moveKeysPressed]				 = DOWN;
-				moveKeysPressed							 += 1;
+				directions[moveKeysPressed] = DOWN;
+				moveKeysPressed += 1;
 			}
-			
+
 
 		}
 
@@ -228,10 +219,10 @@ void GameState::ProcessInput(double* deltaTime)
 		{
 			if (moveKeysPressed < maxMoveKeysPressed)
 			{
-				directions[moveKeysPressed]		 = LEFT;
+				directions[moveKeysPressed] = LEFT;
 				moveKeysPressed += 1;
 			}
-			
+
 		}
 
 
@@ -239,15 +230,15 @@ void GameState::ProcessInput(double* deltaTime)
 		{
 			if (moveKeysPressed < maxMoveKeysPressed)
 			{
-				directions[moveKeysPressed]		 = RIGHT;
-				moveKeysPressed					 += 1;
+				directions[moveKeysPressed] = RIGHT;
+				moveKeysPressed += 1;
 			}
 		}
 
 
 		if (moveKeysPressed > 0)
 		{
-			player->Move(directions, moveKeysPressed ,deltaTime[0]);
+			player->Move(directions, moveKeysPressed, deltaTime[0]);
 		}
 #pragma endregion
 
@@ -294,6 +285,7 @@ void GameState::Render()
 	room1->Render();
 	player->Render();
 	gameUI->Render();
+
 }
 
 void GameState::OnEnter()

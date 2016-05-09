@@ -5,6 +5,7 @@ MainStateMachine::MainStateMachine()
 	this->gameState = new GameState();
 	this->gameOverState = new GameOverState();
 	this->menuState = new MenuState();
+	
 }
 
 
@@ -53,6 +54,37 @@ void MainStateMachine::Update(double deltaTime)
 		this->activeState = MAIN_GAMEOVER_STATE;
 
 	}
+	if (this->activeState == MAIN_GAME_STATE && gameState->toMenu == true)
+	{
+		gameState->isActive = false;
+		if (menuState)
+		{
+			menuState->Release();
+			delete menuState;
+		}
+		this->menuState = new MenuState();
+		menuState->Initialize();
+		menuState->isActive = true;
+
+		this->activeState = MAIN_MENU_STATE;
+		//gameState->toMenu = false;
+		
+	}
+	if (this->activeState == MAIN_MENU_STATE && menuState->exitMenu == true)
+	{
+		menuState->isActive = false;
+
+		if (gameState)
+		{
+			gameState->Release();
+			delete gameState;
+		}
+		this->gameState = new GameState();
+		gameState->Initialize();
+		gameState->isActive = true;
+
+		this->activeState = MAIN_GAME_STATE;
+	}
 	if (this->activeState == MAIN_GAMEOVER_STATE && gameOverState->replay == true)
 	{
 		gameOverState->isActive = false;
@@ -69,6 +101,23 @@ void MainStateMachine::Update(double deltaTime)
 		gameState->isActive = true;
 		
 		this->activeState = MAIN_GAME_STATE;
+	}
+	else if (this->activeState == MAIN_GAMEOVER_STATE && gameOverState->toMenu == true)
+	{
+		gameOverState->isActive = false;
+
+
+		if (menuState)
+		{
+			menuState->Release();
+			delete menuState;
+		}
+
+		this->menuState = new MenuState();
+		menuState->Initialize();
+		menuState->isActive = true;
+
+		this->activeState = MAIN_MENU_STATE;
 	}
 	//key esc pressed menu
 	
