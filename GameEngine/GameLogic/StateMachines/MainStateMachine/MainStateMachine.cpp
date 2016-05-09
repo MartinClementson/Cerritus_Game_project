@@ -19,6 +19,7 @@ MainStateMachine::~MainStateMachine()
 
 void MainStateMachine::Update(double deltaTime)
 {
+	audioManager->Update(deltaTime);
 	if (gameState->isActive)
 	{
 		gameState->Update(deltaTime);

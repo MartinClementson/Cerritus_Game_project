@@ -23,6 +23,7 @@ void AudioManager::Release()
 
 void AudioManager::Initialize()
 {
+	timeElapsed = 0;
 	AUDIO_ENGINE_FLAGS eflags = AudioEngine_Default;
 #ifdef _DEBUG
 	eflags = (eflags | AudioEngine_Debug);
@@ -33,10 +34,19 @@ void AudioManager::Initialize()
 	//loading the shoot sound
 	//prefix to the soundfolder is "sounds/"
 	s_shot.reset(new SoundEffect(s_audEngine->get(), L"sounds/Explo1.wav" ));
+	//audioLength = s_shot->GetSampleDurationMS() / 1000.0;
 }
 
-void AudioManager::Update()
+void AudioManager::Update(double deltaTime)
 {
+	//code for looping a audiofile
+	/*timeElapsed += deltaTime;
+	if (timeElapsed >= audioLength)
+	{
+		s_shot->Play();
+		timeElapsed = 0;
+	}*/
+
 	if (s_retryAudio)
 	{
 		s_retryAudio = false;
