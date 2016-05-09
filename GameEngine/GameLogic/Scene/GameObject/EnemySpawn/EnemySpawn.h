@@ -24,6 +24,7 @@ public:
 	int currentWave = 1;
 	int enemyWaveAmount = 0;
 	int waveAmount = 0;
+	double waveTimer = 0;
 
 	std::vector<Enemy*> Queue;
 	std::vector<Enemy*> Alive;

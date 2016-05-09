@@ -32,7 +32,6 @@ public:
 	void Release();
 	void Update(double deltaTime);
 	void Render();
-	void load();
 
 	void EvadeTrap(Enemy * enemy, BearTrap * bear, double deltaTime);
 
