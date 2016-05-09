@@ -242,6 +242,9 @@
     <Filter Include="ResourceEngine\ObjectNode\QuadTree">
       <UniqueIdentifier>{1d340038-b887-4f3c-b390-182959ce1737}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\FontManager">
+      <UniqueIdentifier>{912e40d2-8486-4282-82c1-506c507a092b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameLogic\Animation\Animation.cpp">
@@ -420,6 +423,9 @@
     </ClCompile>
     <ClCompile Include="ResourceEngine\ObjectNode\QuadTree\QuadTree.cpp">
       <Filter>ResourceEngine\ObjectNode\QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -618,6 +624,7 @@
     <ClInclude Include="ResourceEngine\ObjectNode\QuadTree\QuadTree.h">
       <Filter>ResourceEngine\ObjectNode\QuadTree</Filter>
     </ClInclude>
+    <ClInclude Include="Sprite.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ResourceEngine\Shader\GBufferShader\Gbuffer.hlsl">

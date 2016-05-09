@@ -67,31 +67,19 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	temp.push_back(ui);
 
 	materialManager->addMaterials(&temp);
-	ui.materialName = "MenuExit";
-	ui.diffuseTex = "ExitButtonMenu.png";
+	//materialManager->addMaterials(&temp);
+	ui.materialName = "Controls";
+	ui.diffuseTex = "Controls.png";
 	ui.materialID = 13;
 	temp.push_back(ui);
 
 	materialManager->addMaterials(&temp);
-	ui.materialName = "MenuNew";
-	ui.diffuseTex = "NewGameMenu.png";
-	ui.materialID = 14;
+	ui.materialName = "ENUMERATION";
+	ui.diffuseTex = "Numerations.tif";
+	ui.materialID = 13;
 	temp.push_back(ui);
 
 	materialManager->addMaterials(&temp);
-	ui.materialName = "MenuControls";
-	ui.diffuseTex = "ControlsMenuButton.png";
-	ui.materialID = 15;
-	temp.push_back(ui);
-
-	materialManager->addMaterials(&temp);
-	//materialManager->addMaterials(&temp);
-	ui.materialName = "Controls";
-	ui.diffuseTex = "Controls.png";
-	ui.materialID = 16;
-	temp.push_back(ui);
-
-	//materialManager->addMaterials(&temp);
 }
 
 void ResourceManager::Release()
@@ -131,12 +119,26 @@ void ResourceManager::Release()
 		
 		//currentUI.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->size, &object->position);
 		Shaders tmp = UI_SHADER;
+		
 		UITextures uiType = object->object;
-		this->shaderManager->SetActiveShader(tmp);
-		meshManager->GetFullScreenQuadInfoUI(&uiType,&currentUI);
-		materialManager->GetMaterialRenderInfo(&currentUI);
+		if (uiType == UITextures::NUMERATION)
+		{
+			this->shaderManager->SetActiveShader(tmp);
+			meshManager->GetKillCountQuadInfoHud(&uiType, &currentUI);
+			materialManager->GetMaterialRenderInfo(&currentUI);
+			return &currentUI;
+		}
+		else
+		{
+			this->shaderManager->SetActiveShader(tmp);
+			meshManager->GetFullScreenQuadInfoUI(&uiType, &currentUI);
+			materialManager->GetMaterialRenderInfo(&currentUI);
+			return &currentUI;
+		}
+		
+		
 	
-		return &currentUI;
+		
 	}
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoEnemy * object)

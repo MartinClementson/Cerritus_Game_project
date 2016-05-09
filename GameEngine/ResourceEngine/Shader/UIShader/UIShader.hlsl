@@ -3,7 +3,7 @@ SamplerState linearSampler		 : register(s0);
 
 struct VS_IN
 {
-	float4 pos : POSITION;
+	float4 pos : SV_POSITION;
 	float2 uv : TEXCOORD;
 };
 
@@ -18,6 +18,7 @@ VS_OUT VS_main(VS_IN input)
 	VS_OUT output;
 	output.pos = input.pos;
 	output.uv = input.uv;
+	
 	
 	return output;
 }

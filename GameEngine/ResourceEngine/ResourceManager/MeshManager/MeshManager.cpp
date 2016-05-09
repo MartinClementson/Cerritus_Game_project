@@ -26,6 +26,11 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 
 	fullScreenQuad.Initialize(gDevice, gDeviceContext);
 	CreateFullScreenQuad();
+
+	killCountQuad.Initialize(gDevice, gDeviceContext);
+	CreateKillCountQuad();
+	
+
 }
 
 void MeshManager::Release()
@@ -36,8 +41,9 @@ void MeshManager::Release()
 	}
 	placeHolder.Release();
 	placeHolderPlane.Release();
-	fullScreenQuad.Release();
-
+	fullScreenQuad.Release(); 
+	killCountQuad.Release();
+	
 }
 
 void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materialID, unsigned int vertexCount, UINT indexCount, std::vector<Vertex> vertices, std::vector<AnimVert> aniVertices, std::vector<UINT> indices)
@@ -252,6 +258,39 @@ void MeshManager::CreateFullScreenQuad()
 
 }
 
+void MeshManager::CreateKillCountQuad()
+{
+	Vertex planeVerts[4];
+
+	planeVerts[0].position = Float3(-1.0f, 1.0f, 0.0f);		//0
+	planeVerts[0].uv.x = 0.0f;
+	planeVerts[0].uv.y = 0.0f;
+
+	planeVerts[1].position = Float3(1.0f, 0.7f, 0.0f);		//3
+	planeVerts[1].uv.x = 1.0f;
+	planeVerts[1].uv.y = 0.0f;
+	
+
+	planeVerts[2].position = Float3(1.0f, 0.7f, 0.0f);		//5
+	planeVerts[2].uv.x = 1.0f;
+	planeVerts[2].uv.y = 1.0f;
+	
+
+	planeVerts[3].position = Float3(-1.0f, 0.7f, 0.0f);		//7
+	planeVerts[3].uv.x = 0.0f;
+	planeVerts[3].uv.y = 1.0f;
+	
+
+	UINT indices[6] =
+	{
+		0, 1, 2,
+		0, 2, 3
+	};
+
+	this->killCountQuad.CreateVertexBuffer(planeVerts, 4);
+	this->killCountQuad.CreateIndexBuffer(indices, 6);
+}
+
 
 void MeshManager::GetPlaceHolderMeshInfo(RenderInstructions * toRender)
 {
@@ -273,7 +312,6 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
 		toRender->materialID = 9;
-		//fullScreenQuad.GetMaterialID();
 	}
 	else if (*uiEnum == UITextures::MENU)
 	{
@@ -290,40 +328,28 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 		fullScreenQuad.GetMeshRenderInfo(toRender);
 		toRender->materialID = 12;
 	}
-	else if (*uiEnum == UITextures::EXITMENU)
+	else if (*uiEnum == UITextures::CONTROLS)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
 		toRender->materialID = 13;
 	}
-	else if (*uiEnum == UITextures::RESTARTMENU)
+	else if (*uiEnum == UITextures::NUMERATION)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
 		toRender->materialID = 14;
+
 	}
-	else if (*uiEnum == UITextures::CONTROLSBUTTONMENU)
-	{
-		fullScreenQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 15;
-	}
-	else if (*uiEnum == UITextures::CONTROLS)
-	{
-		fullScreenQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 16;
-	}
-	//else if (*uiEnum == UITextures::RESUMEPAUSE)
-	//{
-	//	fullScreenQuad.GetMeshRenderInfo(toRender);
-	//	toRender->materialID = 14;
-	//}
-	//else if (*uiEnum == UITextures::EXITPAUSE)
-	//{
-	//	fullScreenQuad.GetMeshRenderInfo(toRender);
-	//	toRender->materialID = 15;
-	//}
-	//fullScreenQuad.GetMeshRenderInfo(toRender);
-	//toRender->materialID = 6;
-	//toRender->materialID = 7;
-//	toRender->materialID = 8;
-//	toRender->materialID = 6; //temp
+
 }
+
+void MeshManager::GetKillCountQuadInfoHud(UITextures * uiEnum, RenderInstructions * toRender)
+{
+	if (*uiEnum == UITextures::NUMERATION)
+	{
+		killCountQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 14;
+
+	}
+}
+
 #pragma endregion

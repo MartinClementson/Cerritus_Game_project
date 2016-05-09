@@ -16,10 +16,13 @@ private:
 	Mesh placeHolder;
 	Mesh placeHolderPlane;
 	Mesh fullScreenQuad;
+	Mesh killCountQuad;
+	
 
 	void CreatePlaceHolder();
 	void CreatePlaceHolderPlane();
 	void CreateFullScreenQuad();
+	void CreateKillCountQuad();
 public:
 	MeshManager();
 	~MeshManager();
@@ -45,5 +48,8 @@ public:
 	void GetPlaceHolderPlaneInfo(RenderInstructions* toRender);
 	void GetFullScreenQuadInfo(RenderInstructions* toRender);
 	void GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions* toRender);
+	void GetKillCountQuadInfoHud(UITextures * uiEnum, RenderInstructions* toRender);
+
+	
 };
 

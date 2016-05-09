@@ -205,6 +205,7 @@
     <ClCompile Include="ResourceEngine\ResourceManager\TextureManager\TextureManager.cpp" />
     <ClCompile Include="Source\EngineClass\Engine.cpp" />
     <ClCompile Include="Source\GameTimer\GameTimer.cpp" />
+    <ClCompile Include="Sprite.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enumerations\Enumerations.h" />
@@ -268,6 +269,7 @@
     <ClInclude Include="Source\EngineClass\Engine.h" />
     <ClInclude Include="Source\GameTimer\GameTimer.h" />
     <ClInclude Include="Source\LibIncluder.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="Structs\ConstantBufferStruct.h" />
     <ClInclude Include="Structs\DataTypes.h" />
     <ClInclude Include="Structs\RenderInfo.h" />

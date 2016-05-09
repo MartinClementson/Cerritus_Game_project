@@ -60,16 +60,18 @@ enum UITextures
 	MENU,
 	PAUSE,
 	GAMEOVER,
-	TEXTATLAS,
-	RESTARTMENU, // newGameMenu
-	RESTARTPAUSE, // restart Pause
-	EXITMENU, // ExitButton menu
-	EXITPAUSE, // Exitbutton Pause 
 	CONTROLS,
-	CONTROLSBUTTONMENU,//ControlButton Menu
-	CONTROLSEXIT,
-	RESUMEPAUSE, // Resumebutton Pause
-
+	NUMERATION,
+	ONE,
+	TWO,
+	THREE,
+	FOUR,
+	FIVE,
+	SIX,
+	SEVEN,
+	EIGHT,
+	NINE,
+	ZERO,
 };
 
 #pragma endregion

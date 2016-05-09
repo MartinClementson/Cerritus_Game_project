@@ -15,28 +15,26 @@ GUI::~GUI()
 
 void GUI::Initialize()
 {
-	//items = new std::vector<GUIElement*>;
 	size = size;
-	position = position;
+	uv = uv;
 	grapichs = Graphics::GetInstance();
 	this->texture = texture;
 }
 
 void GUI::Release()
 {
+
 }
 
 void GUI::Update(double deltaTime)
 {
-	
-	renderInfo = { size,position };		
+	renderInfo = { size,uv };		
 	this->renderInfo.object = texture;
-
 }
 
 void GUI::Render()
 {
-	renderInfo = { size,position };
+	renderInfo = { size,uv };
 
 	this->renderInfo.object = texture;
 
@@ -51,12 +49,12 @@ UITextures GUI::getUI()
 
 XMFLOAT2 GUI::getPos()
 {
-	return position;
+	return uv;
 }
 
 void GUI::setPos(XMFLOAT2 position)
 {
-	this->position = position;
+	this->uv = uv;
 }
 
 void GUI::setUI(UITextures texture)

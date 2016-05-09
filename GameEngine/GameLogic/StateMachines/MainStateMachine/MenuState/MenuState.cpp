@@ -64,7 +64,6 @@ void MenuState::Update(double deltaTime)
 	//XMVECTOR rayDir = rayOrigin;
 	if (vx > Maxex && vy < Maxey && vx < Minex && vy > Miney)
 	{
-		mainUI->setUI(UITextures::EXITMENU);
 		{
 			if (input->isMouseClicked(MOUSE_LEFT))
 			{
@@ -78,19 +77,18 @@ void MenuState::Update(double deltaTime)
 	}
 	else if (vx > Maxnx && vy < Maxny && vx < Minnx && vy > Minny)
 	{
-		mainUI->setUI(UITextures::RESTARTMENU);
+		
 
 		if (input->isMouseClicked(MOUSE_LEFT))
 		{
-			OnExit();
+			//OnExit();
+			exitMenu = true;
 		}
 		
 		//OnExit();
 	}
 	else if (vx > Maxcx && vy < Maxcy && vx < Mincx && vy > Mincy)
 	{
-		mainUI->setUI(UITextures::CONTROLSBUTTONMENU);
-
 		if (input->isMouseClicked(MOUSE_LEFT))
 		{
 			mainUI->setUI(UITextures::CONTROLS);

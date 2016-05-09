@@ -13,7 +13,7 @@ GUIElement::~GUIElement()
 
 void GUIElement::Initialize()
 {
-	this->position = position;
+	this->uv = uv;
 	this->size = size;
 	grapichs = Graphics::GetInstance();
 }
@@ -25,7 +25,7 @@ void GUIElement::Release()
 
 void GUIElement::Update(double deltaTime)
 {
-	renderInfo = { size,position };
+	renderInfo = { size,uv };
 
 }
 

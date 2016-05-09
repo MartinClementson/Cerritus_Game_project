@@ -47,7 +47,7 @@ struct RenderInfoObject {
 
 struct RenderInfoUI {
 	XMFLOAT2 size;
-	XMFLOAT2 rotation;
+	XMFLOAT2 uv;
 	UITextures object;
 	//Shaders shader;	//these are enum
 	//float radius;
