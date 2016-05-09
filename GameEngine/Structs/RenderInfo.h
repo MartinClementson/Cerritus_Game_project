@@ -58,8 +58,11 @@ struct RenderInfoEnemy {
 	XMFLOAT3 position;
 	XMFLOAT3 rotation;
 	MeshEnum object;
-	bool render = true;
+	bool render				  = true;
+	bool showHealthBar		  = true;
+	float normalizedHealthVal = 0.3f; //this value is calculated  with currentHealth/maxHealth. This controls the size and color of the healthbar
 	float radius;
+
 	//EnemyAnimations enemyAnim;	//these are enum
 };
 
