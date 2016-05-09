@@ -7,7 +7,7 @@ using namespace DirectX;
 class AudioManager
 {
 private:
-	//std::shared_ptr<AudioEngine> audEngine;
+	std::unique_ptr<AudioEngine>* audEngine = nullptr;
 public:
 	AudioManager();
 	~AudioManager();

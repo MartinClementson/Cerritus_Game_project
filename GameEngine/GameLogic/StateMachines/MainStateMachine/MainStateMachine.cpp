@@ -142,7 +142,7 @@ void MainStateMachine::Render()
 
 void MainStateMachine::Initialize()
 {
-	//audioManager->Initialize();
+	audioManager->Initialize();
 	gameState->Initialize();
 	this->activeState = MAIN_GAME_STATE;
 	this->gameState->isActive = true;
