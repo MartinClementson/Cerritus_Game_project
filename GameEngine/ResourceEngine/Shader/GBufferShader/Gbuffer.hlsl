@@ -5,6 +5,7 @@ Texture2D specularTex			 : register(t2);
 Texture2D glowTex				 : register(t3);
 Texture2DArray shadowTex		 : register(t6);
 
+
 SamplerState linearSampler		 : register(s0);
 SamplerState pointSampler		 : register(s1);
 
@@ -39,8 +40,8 @@ cbuffer textureSampleBuffer		 : register(b2)
 struct PointLight
 {
 	float4 lightPosition;
-	matrix lightView;
-	matrix lightProjection;
+	float4x4 lightView;
+	float4x4 lightProjection;
 	float4 lightLookAt;
 	float4 lightDiffuse;
 	float intensity;
@@ -50,10 +51,10 @@ struct PointLight
 	float attenuation;
 	float3 paddd;
 	bool castShadow;
+    float3 padshadow;
 
 };
 
-StructuredBuffer<PointLight> pointlights : register(t8);
 struct GBUFFER_VS_IN
 {
 	float3 Pos			 : POSITION;
@@ -104,8 +105,8 @@ GBUFFER_VS_OUT GBUFFER_VS_main(GBUFFER_VS_IN input)
 	output.BiTangent.xy	 = input.BiTangent;						  //z value NEEDS TO BE CALCULATED (1 is just a placeholder!!)
 	output.Tangent.xy	 = input.Tangent;						  //z value NEEDS TO BE CALCULATED (1 is just a placeholder!!)
 
-	output.BiTangent.z	 = (1 - length(input.BiTangent));
-	output.Tangent.z	 = (1 - length(input.Tangent));
+	output.BiTangent.z	 = sqrt(1 - pow(input.BiTangent.x,2) + pow (input.BiTangent.y,2));
+	output.Tangent.z	 = sqrt(1 - pow(input.Tangent.x,  2) + pow(input.Tangent.y,   2));
 
 	normalize(output.BiTangent);
 	normalize(output.Tangent);

@@ -10,6 +10,13 @@ Renderer::Renderer()
 	pointLightStruct		= new PointLightStruct();
 	spotLightStruct			= new SpotLightStruct();
 	dirLightStruct			= new DirLightStruct();
+
+	if (float(WIN_WIDTH)  > 800.0f)
+		threadGroupsX = (int)ceil(float(WIN_WIDTH) / 25.0f);
+
+	if (float(WIN_HEIGHT) > 600.0f)
+		threadGroupsY = (int)ceil(float(WIN_HEIGHT) / 20.0f);
+		
 	
 
 	//sceneLightArray->lightPosition		 = XMFLOAT4(0.0f, 30.0f, 0.0f, 1.0f); //Pos
@@ -60,6 +67,43 @@ void Renderer::Release()
 	SAFE_RELEASE(spotLightStructuredBuffer);
 	SAFE_RELEASE(dirLightStructuredBuffer);
 
+}
+
+void Renderer::RenderBlurPass(ID3D11UnorderedAccessView* uav, ID3D11ShaderResourceView* srv)
+{
+	this->resourceManager->SetShader(Shaders::BLUR_SHADER);
+	this->gDeviceContext->CSSetShaderResources(0, 1, &srv);
+	ID3D11UnorderedAccessView* uavA[] = { uav };
+	gDeviceContext->CSSetUnorderedAccessViews(0, 1, uavA, nullptr);
+
+	//declaring variables to use for memory copying later
+	ID3D11Resource* source,* target;
+	
+	
+
+	gDeviceContext->Dispatch(threadGroupsX, threadGroupsY, 1);
+
+	uav->GetResource(&source);
+	srv->GetResource(&target);
+	gDeviceContext->CopyResource(target, source);
+	SAFE_RELEASE(source);
+	SAFE_RELEASE(target);
+
+	this->resourceManager->SetShader(Shaders::BLUR_SECOND_SHADER);
+	this->gDeviceContext->CSSetShaderResources(0, 1, &srv);
+	//uavA[] = { uav };
+	gDeviceContext->CSSetUnorderedAccessViews(0, 1, uavA, nullptr);
+
+	gDeviceContext->Dispatch(threadGroupsX, threadGroupsY, 1);
+
+	uav->GetResource(&source);
+	srv->GetResource(&target);
+	gDeviceContext->CopyResource(target, source);
+
+	SAFE_RELEASE(source);
+	SAFE_RELEASE(target);
+	ID3D11ShaderResourceView* NullSRV[1] = { nullptr };
+	uavA[0] = nullptr;
 }
 
 void Renderer::RenderFinalPass()
@@ -174,9 +218,12 @@ void Renderer::RenderInstanced(RenderInfoObject * object, InstancedData * arrayD
 
 	objectInstruction = this->resourceManager->GetRenderInfo(object);
 
-	ID3D11Buffer* instanceBuffer;
-	if (object->object == MeshEnum::PROJECTILE_1)
-		instanceBuffer = this->instancedBuffers[INSTANCED_WORLD];
+	MeshEnum meshType = object->object;
+	if (meshType == MeshEnum::PROJECTILE_1 && resourceManager->IsGbufferPass() == true)
+		resourceManager->SetShader(Shaders::GBUFFER_SHADER_INSTANCED);
+
+	else if (meshType == MeshEnum::PROJECTILE_1  && resourceManager->IsShadowPass() == true)
+		resourceManager->SetShader(Shaders::SHADOW_SHADER_INSTANCED);
 
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
@@ -192,7 +239,7 @@ void Renderer::RenderInstanced(RenderInfoObject * object, InstancedData * arrayD
 	RenderInstanced(objectInstruction, this->instancedBuffers[INSTANCED_WORLD], amount);
 
 
-	//Reset the shaders to normal shaders for the next objects to rener
+	//Reset the shaders to normal shaders for the next objects to render
 	if (this->resourceManager->IsGbufferPass())
 		resourceManager->SetGbufferPass(true);
 	if (this->resourceManager->IsShadowPass())
@@ -226,6 +273,43 @@ void Renderer::RenderInstanced(RenderInfoTrap * object, InstancedData * arrayDat
 	if (this->resourceManager->IsShadowPass())
 		resourceManager->SetShadowPass(true);
 
+
+
+}
+
+void Renderer::RenderBillBoard(RenderInfoObject * object, BillboardData * arrayData, unsigned int amount)
+{
+
+	if (this->resourceManager->IsShadowPass()) //Dont cast shadows with billboarded things, just return
+		return;
+
+
+	resourceManager->SetShader(Shaders::BILLBOARD_SHADER);
+
+	RenderInstructions * objectInstruction;
+
+	objectInstruction = this->resourceManager->GetRenderInfo(object);
+
+#pragma region Map the array to the vertex buffer
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+	gDeviceContext->Map(instancedBuffers[BILLBOARD_BUFFER], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+	BillboardData* tempStructMatrices = (BillboardData*)mappedResource.pData;
+
+	memcpy(tempStructMatrices, (void*)arrayData, sizeof(BillboardData)*amount);
+
+	gDeviceContext->Unmap(instancedBuffers[BILLBOARD_BUFFER], 0);
+#pragma endregion
+
+	RenderBillBoard(objectInstruction, this->instancedBuffers[BILLBOARD_BUFFER], amount);
+
+
+	//Reset the shaders to normal shaders for the next objects to render
+	if (this->resourceManager->IsGbufferPass())
+		resourceManager->SetGbufferPass(true);
 
 
 }
@@ -419,6 +503,8 @@ void Renderer::RenderInstanced(RenderInstructions * object, ID3D11Buffer* instan
 	this->gDeviceContext->GSSetShaderResources(POINTLIGHTS_BUFFER_INDEX, 1, &pointLightStructuredBuffer);
 	this->gDeviceContext->GSSetShaderResources(DIRLIGHTS_BUFFER_INDEX, 1, &dirLightStructuredBuffer);
 	
+	this->gDeviceContext->PSSetShaderResources(POINTLIGHTS_BUFFER_INDEX, 1, &pointLightStructuredBuffer);
+	this->gDeviceContext->PSSetShaderResources(DIRLIGHTS_BUFFER_INDEX, 1, &dirLightStructuredBuffer);
 
 #pragma region Check what vertex is to be used
 
@@ -443,7 +529,7 @@ void Renderer::RenderInstanced(RenderInstructions * object, ID3D11Buffer* instan
 	
 	this->gDeviceContext->IASetVertexBuffers(0, 2 ,vbs, vertexSize, offset);
 	this->gDeviceContext->IASetIndexBuffer(object->indexBuffer, DXGI_FORMAT_R32_UINT, 0);
-
+	this->gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 
 #pragma region Set the objects texture maps to the shader
@@ -498,8 +584,77 @@ void Renderer::RenderInstanced(RenderInstructions * object, ID3D11Buffer* instan
 	gDeviceContext->GSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
 	gDeviceContext->PSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
 	
-	//this->gDeviceContext->DrawInstanced(*object->vertexCount, amount, 0, 0);
+	
 	this->gDeviceContext->DrawIndexedInstanced((UINT)*object->indexCount, amount, 0, 0, 0);
+}
+
+void Renderer::RenderBillBoard(RenderInstructions * object, ID3D11Buffer * instanceBuffer, unsigned int amount)
+{
+
+
+
+
+	UINT32 vertexSize= sizeof(BillboardData) ;
+	UINT32 offset = 0;
+
+	this->gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
+	this->gDeviceContext->IASetVertexBuffers(0, 1, &instanceBuffer, &vertexSize, &offset);
+
+#pragma region Set the objects texture maps to the shader
+
+	SampleBoolStruct sampleBools;
+	if (object->diffuseMap != nullptr)
+	{
+		this->gDeviceContext->PSSetShaderResources(0, 1, &object->diffuseMap);
+		sampleBools.diffuseMap = TRUE;
+	}
+	else
+	{
+		sampleBools.diffuseMap = FALSE;
+	}
+
+	if (object->normalMap != nullptr)
+	{
+		this->gDeviceContext->PSSetShaderResources(1, 1, &object->normalMap);
+		sampleBools.normalMap = TRUE;
+	}
+	else
+	{
+		sampleBools.normalMap = FALSE;
+	}
+
+	if (object->specularMap != nullptr)
+	{
+		this->gDeviceContext->PSSetShaderResources(2, 1, &object->specularMap);
+		sampleBools.specularMap = TRUE;
+	}
+	else
+	{
+		sampleBools.specularMap = FALSE;
+	}
+
+	if (object->glowMap != nullptr)
+	{
+		this->gDeviceContext->PSSetShaderResources(3, 1, &object->glowMap);
+		sampleBools.glowMap = TRUE;
+	}
+	else
+	{
+		sampleBools.glowMap = FALSE;
+	}
+
+	this->UpdateSampleBoolsBuffer(&sampleBools);
+#pragma endregion
+
+
+
+	gDeviceContext->VSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
+	gDeviceContext->GSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
+	gDeviceContext->PSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
+
+	this->gDeviceContext->Draw(amount, 0);
+	
+
 }
 
 void Renderer::MapLightBufferStructures()
@@ -674,11 +829,6 @@ void Renderer::UpdateSampleBoolsBuffer(SampleBoolStruct * sampleStruct)
 bool Renderer::CreateBuffers()
 {
 
-
-	/* NOTE!!!
-	
-	The camera and world buffer are set to the geometry shader, the light buffer is set to the pixel shader
-	*/
 	HRESULT hr;
 
 //-----------------------------------------------------------------------------------------------------------------------------------
@@ -773,6 +923,16 @@ bool Renderer::CreateBuffers()
 
 
 	//-----------------------------------------------------------------------------------------------------------------------------------
+	//Billboarded geometry BUFFER
+	//-----------------------------------------------------------------------------------------------------------------------------------
+
+	bufferInstancedDesc.ByteWidth = sizeof(BillboardData) * MAX_BILLBOARDED_GEOMETRY;
+
+	if (FAILED(hr = gDevice->CreateBuffer(&bufferInstancedDesc, nullptr, &instancedBuffers[BILLBOARD_BUFFER])))
+		MessageBox(NULL, L"Failed to create billboard buffer", L"Renderer Error", MB_ICONERROR | MB_OK);
+
+
+	//-----------------------------------------------------------------------------------------------------------------------------------
 	// LIGHT STRUCTURED BUFFERS (PS)
 	//-----------------------------------------------------------------------------------------------------------------------------------
 
@@ -804,7 +964,7 @@ bool Renderer::CreateBuffers()
 	srvDesc.Format = DXGI_FORMAT_UNKNOWN;
 	srvDesc.ViewDimension = D3D11_SRV_DIMENSION_BUFFEREX;
 	srvDesc.Buffer.ElementOffset = 0;
-	//srvDesc.Buffer.ElementWidth = sizeof(PointLight);
+	srvDesc.Buffer.ElementWidth = sizeof(PointLight);
 	srvDesc.Buffer.NumElements = MAX_NUM_POINTLIGHTS;
 	if (FAILED(hr = gDevice->CreateShaderResourceView(lightBuffers[BUFFER_POINTLIGHTS], &srvDesc, &pointLightStructuredBuffer)))
 		MessageBox(NULL, L"Failed to create PointLight buffer", L"Error", MB_ICONERROR | MB_OK);

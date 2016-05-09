@@ -1,6 +1,25 @@
 #include "Graphics.h"
 #define toRadian(degrees) ((degrees)* (XM_PI/180.0f))
 
+inline DirectX::XMFLOAT3 operator+(DirectX::XMFLOAT3 a, DirectX::XMFLOAT3 b) {
+	DirectX::XMFLOAT3 result;
+
+	result.x = a.x + b.x;
+	result.y = a.y + b.y;
+	result.z = a.z + b.z;
+
+	return result;
+}
+
+inline DirectX::XMFLOAT3 operator*(DirectX::XMFLOAT3 a, float b) {
+	DirectX::XMFLOAT3 result;
+
+	result.x = a.x * b;
+	result.y = a.y * b;
+	result.z = a.z * b;
+
+	return result;
+}
 
 Graphics::Graphics()
 {
@@ -19,7 +38,6 @@ Graphics::~Graphics()
 		delete enemyObjects;
 	if (trapObjects != nullptr)
 		delete trapObjects;
-
 
 	if (shadowBuffer != nullptr)
 		delete shadowBuffer;
@@ -59,6 +77,8 @@ void Graphics::Initialize(HWND * window)
 	instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED]	 = new InstancedData[MAX_INSTANCED_GEOMETRY];
 	instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED]	 = new InstancedData[MAX_INSTANCED_GEOMETRY];
 
+	
+	memset(billBoardArray,	  0, sizeof(billBoardArray));
 	memset(instancesToRender, 0, sizeof(instancesToRender)); //reset instances to render amount
 
 	renderer = new Renderer();
@@ -104,26 +124,14 @@ void Graphics::Release()
 
 	if (DEBUG == 2)
 	{
-		
 		if (debug)
 		{
-
 			debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
 			SAFE_RELEASE(debug);
 		}
-
 	}
-
-
-
-
-
-
-
-	
-
-	while (gDevice->Release() > 0);
-	//SAFE_RELEASE(gDevice);
+	//while (gDevice->Release() > 0);
+	SAFE_RELEASE(gDevice);
 
 	
 }
@@ -131,42 +139,42 @@ void Graphics::Release()
 void Graphics::Render() //manage RenderPasses here
 {
 	renderer->UpdateCamera(charObjects->at(0)->position);
-	CullGeometry(); //Remove geometry out of reach
+
+	CullGeometry();									 //Remove geometry out of view
 
 	SetShadowViewPort();
 
 	shadowBuffer->ClearShadowGbuffer();
 
 	shadowBuffer->ShadowSetToRender();
+
 	renderer->SetShadowPass(true);
 
-	this->RenderScene();
+	this->RenderScene();							//Render shadowPass
 
 	gBuffer->SetToRender(depthStencilView);	
+
 	shadowBuffer->ShadowSetToRead();
+
 	renderer->SetShadowPass(false);
+
 	SetViewPort();
 
-
-
-
-	//this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
-
-			//Set The gbuffer pass
+	//Set The gbuffer pass
 	this->renderer->SetGbufferPass(true);
+
 	RenderScene();									//Render to the gBuffer
 													//Set the gBuffer as a subResource, send in the new RenderTarget
 	gBuffer->SetToRead(gBackBufferRTV); 
+	
+	//blurpass
+	this->renderer->RenderBlurPass(this->gBuffer->GetBlurUAV(), this->gBuffer->GetGlowSRV()); //blur the glow map
 
 	this->renderer->RenderFinalPass();
-	gBuffer->ClearGbuffer();
-	this->renderer->SetGbufferPass(false);
+
 	
-	//RenderScene();// TEMPORARY, REMOVE WHEN GBUFFER WORKS
-
+	
 	FinishFrame();
-
-
 }
 
 void Graphics::RenderScene()
@@ -215,9 +223,14 @@ void Graphics::RenderScene()
 	//Render instanced projectiles
 	if (instancesToRender[PROJECTILE_INSTANCED] > 0)
 	{
-		renderer->RenderInstanced(this->gameObjects->at(instanceMeshIndex.projectileMesh),
-			instancedWorldDataPerFrame[ PROJECTILE_INSTANCED ], instancesToRender[ PROJECTILE_INSTANCED ] );
+		////////////BILLBOARD RENDERING
+ 		renderer->RenderBillBoard(this->gameObjects->at(instanceMeshIndex.projectileMesh), billBoardArray, instancesToRender[PROJECTILE_INSTANCED]);
+		//////////////INSTANCE RENDERING
+		//renderer->RenderInstanced(this->gameObjects->at(instanceMeshIndex.projectileMesh),
+			//instancedWorldDataPerFrame[ PROJECTILE_INSTANCED ], instancesToRender[ PROJECTILE_INSTANCED ] );
 	}
+
+
 
 	////Render instanced enemies
 	if (instancesToRender[ENEMY_1_INSTANCED] > 0)
@@ -226,7 +239,7 @@ void Graphics::RenderScene()
 			instancedWorldDataPerFrame[ ENEMY_1_INSTANCED ], instancesToRender[ ENEMY_1_INSTANCED ]);
 	}
 	
-
+	 //Take back when we have more enemy types
 	/*for (unsigned int i = 0; i < enemyObjects->size(); i++)
 	{
 		if (!enemyObjects->at(i)->render)
@@ -273,6 +286,13 @@ void Graphics::RenderScene()
 
 void Graphics::FinishFrame() // this one clears the graphics for this frame. So that it can start a new cycle next frame
 {
+
+
+	gBuffer->ClearGbuffer();
+
+	this->renderer->SetGbufferPass(false);
+
+
 	gameObjects  ->clear(); //clear the queue
 	charObjects  ->clear();	//clear the queue
 	enemyObjects ->clear();	//clear the queue
@@ -284,6 +304,7 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 	memset(instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED],  0, sizeof(instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED]));	 //reset instance array
 	memset(instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED],  0, sizeof(instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED]));	 //reset instance array
 
+	memset(billBoardArray, 0, sizeof(billBoardArray));
 
 
 
@@ -338,10 +359,10 @@ void Graphics::CullGeometry()
 
 
 	//Do frustum culling here, the things that are seen have their world matrices calculated. and added to instanced array
-	unsigned int projectileIndex = 0;
-	unsigned int enemyIndex		 = 0;
-	unsigned int bearTrapIndex	 = 0;
-	unsigned int fireTrapIndex	 = 0;
+	unsigned int	 projectileIndex	 = 0;
+	unsigned int	 enemyIndex			 = 0;
+	unsigned int	 bearTrapIndex		 = 0;
+	unsigned int	 fireTrapIndex		 = 0;
 
 #pragma region Cull enemy objects
 	for (size_t i = 0; i < this->enemyObjects->size(); i++)
@@ -363,32 +384,46 @@ void Graphics::CullGeometry()
 			this->enemyObjects->at(i)->render = false; //Remove this from normal rendering, since we render instanced
 				if (instanceMeshIndex.enemy1Mesh == -1) //if this is the first thing we found of that mesh, store the index.
 					instanceMeshIndex.enemy1Mesh = (int)i;
+
+				/*if (enemyObjects->at(i)->showHealthBar)
+				{
+
+				}*/
 		}
 		//endif  object is visible
 	}
 #pragma endregion
 
 #pragma region Cull game objects
-	for (size_t i = 0; i < this->gameObjects->size(); i++)
+ 	for (size_t i = 0; i < this->gameObjects->size(); i++)
 	{
 		//Frustum culling
-		if (renderer->FrustumCheck(gameObjects->at(i)->position, gameObjects->at(i)->radius) == false)
+	if (renderer->FrustumCheck(gameObjects->at(i)->position, gameObjects->at(i)->radius) == false)
 		{	//If its not visible
      			this->gameObjects->at(i)->render = false;
 			continue;
 		}
 		else //if it's inside the frustum
 		{
-			if (this->gameObjects->at(i)->object == MeshEnum::PROJECTILE_1)
+ 			if (this->gameObjects->at(i)->object == MeshEnum::PROJECTILE_1)
 			{
-				this->instancedWorldDataPerFrame[PROJECTILE_INSTANCED][projectileIndex].worldMatrix = CalculateWorldMatrix(&this->gameObjects->at(i)->position, &this->gameObjects->at(i)->rotation);
-				instancesToRender[PROJECTILE_INSTANCED] += 1;
-				projectileIndex							+= 1;
-				this->gameObjects->at(i)->render		 = false; //We don't want to render this with nonInstance rendering
+
+				//this->instancedWorldDataPerFrame[PROJECTILE_INSTANCED][projectileIndex].worldMatrix = CalculateWorldMatrix(&this->gameObjects->at(i)->position, &this->gameObjects->at(i)->rotation);
+				billBoardArray[projectileIndex].direction = this->gameObjects->at(i)->direction;
+				billBoardArray[projectileIndex].height    = 3.0f;
+				billBoardArray[projectileIndex].width     = 0.15f;
+				billBoardArray[projectileIndex].worldPos  = this->gameObjects->at(i)->position + (this->gameObjects->at(i)->direction *(billBoardArray[projectileIndex].height * 0.9f));
+
+				instancesToRender[PROJECTILE_INSTANCED]  += 1;
+				projectileIndex							 += 1;
+				this->gameObjects->at(i)->render		  = false; //We don't want to render this with nonInstance rendering
 				
 				if (instanceMeshIndex.projectileMesh == -1) //if this is the first thing we found of that mesh, store the index.
-					instanceMeshIndex.projectileMesh = (int)i;
+      					instanceMeshIndex.projectileMesh = (int)i;
 			}
+			else
+				this->gameObjects->at(i)->render = true;
+
 		}
 
 	}
@@ -440,30 +475,28 @@ void Graphics::CullGeometry()
 
 XMFLOAT4X4 Graphics::CalculateWorldMatrix(XMFLOAT3 * position, XMFLOAT3 * rotation)
 {
-	DirectX::XMMATRIX scaleMatrix = XMMatrixIdentity();
+	DirectX::XMMATRIX scaleMatrix		 =  XMMatrixIdentity();
 
 	//We convert from degrees to radians here. Before this point we work in degrees to make it easier for the programmer and user
-	DirectX::XMMATRIX rotationMatrixX = DirectX::XMMatrixRotationX(toRadian(rotation->x));
-	DirectX::XMMATRIX rotationMatrixY = DirectX::XMMatrixRotationY(toRadian(rotation->y));
-	DirectX::XMMATRIX rotationMatrixZ = DirectX::XMMatrixRotationZ(toRadian(rotation->z));
+	DirectX::XMMATRIX rotationMatrixX	 =  DirectX::XMMatrixRotationX(toRadian(rotation->x));
+	DirectX::XMMATRIX rotationMatrixY	 =  DirectX::XMMatrixRotationY(toRadian(rotation->y));
+	DirectX::XMMATRIX rotationMatrixZ	 =  DirectX::XMMatrixRotationZ(toRadian(rotation->z));
 
 	//Create the rotation matrix
-	DirectX::XMMATRIX rotationMatrix = DirectX::XMMatrixMultiply(rotationMatrixZ, rotationMatrixX);
-	rotationMatrix = DirectX::XMMatrixMultiply(rotationMatrix, rotationMatrixY);
+	DirectX::XMMATRIX rotationMatrix	 = DirectX::XMMatrixMultiply(rotationMatrixZ, rotationMatrixX);
+	rotationMatrix						 = DirectX::XMMatrixMultiply(rotationMatrix, rotationMatrixY);
 
 	//Intoduce the world matrix, multiply rotation and scale. (world translation comes later)
-	DirectX::XMMATRIX world = DirectX::XMMatrixMultiply(rotationMatrix, scaleMatrix);
+	DirectX::XMMATRIX world				 = DirectX::XMMatrixMultiply(rotationMatrix, scaleMatrix);
 
 
 	//Create the world translation matrix
-	DirectX::XMMATRIX translationMatrix = DirectX::XMMatrixTranslation(position->x, position->y, position->z);
+	DirectX::XMMATRIX translationMatrix  = DirectX::XMMatrixTranslation(position->x, position->y, position->z);
 
 
 	//Multiply the (scale*rotation) matrix with the world translation matrix
-	world = DirectX::XMMatrixMultiply(world, translationMatrix);
-
-
-	world = XMMatrixTranspose(world);
+	world								 = DirectX::XMMatrixMultiply(world, translationMatrix);
+	world								 = XMMatrixTranspose(world);
 
 	XMFLOAT4X4 toReturn;
 
@@ -627,8 +660,6 @@ HRESULT Graphics::CreateDirect3DContext()
 			MessageBox(*wndHandle, L"Failed to create UAV", L"Error", MB_ICONERROR | MB_OK);
 			return hr;
 		}
-
-
 
 
 		hr = this->gDevice->CreateShaderResourceView(pBackBuffer, nullptr, &BackBufferTexture);

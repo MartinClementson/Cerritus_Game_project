@@ -24,14 +24,17 @@ enum LIGHTBUFFERS {
 
 enum INSTANCED_BUFFERS
 {
-	INSTANCED_WORLD
-
+	INSTANCED_WORLD,
+	BILLBOARD_BUFFER
 };
 
 class Renderer
 {
 
 private:
+
+	int threadGroupsX = 32, threadGroupsY = 30; //This controls how many groups to dispatch in the compute shader. This value will be calculated att init to match the screen resolution
+
 	ID3D11DeviceContext* gDeviceContext						= nullptr;
 	ID3D11Device * gDevice									= nullptr;
 	ResourceManager* resourceManager						= nullptr;
@@ -68,6 +71,7 @@ public:
 	void Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext);
 	void Release();
 	
+	void RenderBlurPass(ID3D11UnorderedAccessView* uav, ID3D11ShaderResourceView* srv);
 	void RenderFinalPass();
 	void SetGbufferPass(bool x) { this->resourceManager->SetGbufferPass(x); };
 	void SetShadowPass(bool x) { this->resourceManager->SetShadowPass(x);  };
@@ -80,6 +84,8 @@ public:
 	void RenderInstanced(RenderInfoEnemy* object,  InstancedData* arrayData ,unsigned int amount);
 	void RenderInstanced(RenderInfoObject* object, InstancedData* arrayData, unsigned int amount);
 	void RenderInstanced(RenderInfoTrap* object,   InstancedData* arrayData, unsigned int amount);
+
+	void RenderBillBoard(RenderInfoObject* object, BillboardData* arrayData, unsigned int amount);
 
 
 	void RenderPlaceHolder(XMFLOAT3* position);
@@ -97,7 +103,8 @@ public:
 private:
 	void Render(RenderInstructions* object);
 	void RenderInstanced(RenderInstructions* object, ID3D11Buffer* instanceBuffer, unsigned int amount);
-	
+	void RenderBillBoard(RenderInstructions* object, ID3D11Buffer* instanceBuffer, unsigned int amount);
+
 	void MapLightBufferStructures();
 	void UpdateCbufferPerFrame();
 	void UpdateLightBuffer();

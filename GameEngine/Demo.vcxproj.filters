@@ -641,6 +641,12 @@
     <FxCompile Include="ResourceEngine\Shader\ComputeShaders\BlurCS.hlsl">
       <Filter>ResourceEngine\Shaders\ComputeShaders</Filter>
     </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\BillboardShader\BillboardShader.hlsl">
+      <Filter>ResourceEngine\Shaders\BillboardShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\ComputeShaders\SecondBlurCS.hlsl">
+      <Filter>ResourceEngine\Shaders\ComputeShaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\Fetch.obj">

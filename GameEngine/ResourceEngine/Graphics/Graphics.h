@@ -26,8 +26,7 @@ enum instancedGeometryArray
 	PROJECTILE_INSTANCED,										
 	TRAP_BEAR_INSTANCED,										
 	TRAP_FIRE_INSTANCED											
-																
-																
+																													
 };																
 class Graphics
 {									   
@@ -83,8 +82,10 @@ private:
 	std::vector<RenderInfoTrap*>*   trapObjects					   = nullptr;
 
 	InstancedData* instancedWorldDataPerFrame [INSTANCED_WORLD_BUFFER_AMOUNT] = { nullptr }; //this contains the world matrices every frame.
-	unsigned int   instancesToRender		  [INSTANCED_WORLD_BUFFER_AMOUNT]		 = { }; //The amount of instanced geometry to render, (AFTER CULLING)
+	unsigned int   instancesToRender		  [INSTANCED_WORLD_BUFFER_AMOUNT] = { }; //The amount of instanced geometry to render, (AFTER CULLING)
 	meshIndexInArray instanceMeshIndex;
+
+	BillboardData billBoardArray[MAX_BILLBOARDED_GEOMETRY]				= {};
 #pragma endregion
 
 private:
@@ -110,8 +111,6 @@ public:
 
 	void Render();
 	void QueueRender(RenderInfoObject *object);
-
-	
 	void QueueRender(RenderInfoUI* object);
 	void QueueRender(RenderInfoEnemy* object);
 	void QueueRender(RenderInfoChar* object);
