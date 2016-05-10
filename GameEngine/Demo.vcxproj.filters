@@ -233,6 +233,9 @@
     <Filter Include="ResourceEngine\Shaders\UIShader">
       <UniqueIdentifier>{9d6bbd34-a1f8-4b57-acc3-0a4e577f8201}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameLogic\StateMachines\EnemyStateMachine\HealingState">
+      <UniqueIdentifier>{a600160d-e459-4d7e-86f3-92e25235fb77}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ResourceEngine\ObjectNode\Camera\Frustum">
       <UniqueIdentifier>{a737e2e0-8dfc-4b2b-8dd9-d47248cf787c}</UniqueIdentifier>
     </Filter>
@@ -417,6 +420,15 @@
     </ClCompile>
     <ClCompile Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton\Skeleton.cpp">
       <Filter>ResourceEngine\ResourceManager\SkeletonManager\Skeleton</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Character\Enemy\Healer.cpp">
+      <Filter>GameLogic\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Character\Enemy\EnemyBase.cpp">
+      <Filter>GameLogic\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\HealingState\HealingState.cpp">
+      <Filter>GameLogic\StateMachines\EnemyStateMachine\HealingState</Filter>
     </ClCompile>
     <ClCompile Include="ResourceEngine\ObjectNode\Camera\Frustum\Frustum.cpp">
       <Filter>ResourceEngine\ObjectNode\Camera\Frustum</Filter>
@@ -617,6 +629,16 @@
     </ClInclude>
     <ClInclude Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton\Skeleton.h">
       <Filter>ResourceEngine\ResourceManager\SkeletonManager\Skeleton</Filter>
+    </ClInclude>
+
+    <ClInclude Include="GameLogic\Character\Enemy\Healer.h">
+      <Filter>GameLogic\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Character\Enemy\EnemyBase.h">
+      <Filter>GameLogic\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\HealingState\HealingState.h">
+      <Filter>GameLogic\StateMachines\EnemyStateMachine\HealingState</Filter>
     </ClInclude>
     <ClInclude Include="ResourceEngine\ObjectNode\Camera\Frustum\Frustum.h">
       <Filter>ResourceEngine\ObjectNode\Camera\Frustum</Filter>

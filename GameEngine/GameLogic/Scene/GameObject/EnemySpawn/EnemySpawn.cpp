@@ -8,21 +8,23 @@ EnemySpawn::EnemySpawn()
 
 EnemySpawn::~EnemySpawn()
 {
-	for (size_t i = 0; i < Queue.size(); i++)
+	for (size_t i = 0; i < StandardQueue.size(); i++)
 	{
-			delete Queue.at(i);
+		delete StandardQueue.at(i);
 	}
 
-	for (size_t i = 0; i < Alive.size(); i++)
+	for (size_t i = 0; i < StandardAlive.size(); i++)
 	{
-		delete Alive.at(i);
+		delete StandardAlive.at(i);
 	}
 }
 
 void EnemySpawn::Initialize(XMFLOAT3 spawnPosition)
 {
+	waveAmount = 5;
 	this->spawnPosition = spawnPosition;
 	InitEnemy();
+	
 }
 
 void EnemySpawn::Release()
@@ -32,42 +34,44 @@ void EnemySpawn::Release()
 
 void EnemySpawn::Update(double deltaTime)
 {
-	for (size_t i = 0; i < Alive.size(); i++)
+
+
+	for (size_t i = 0; i < StandardAlive.size(); i++)
 	{
-		if(collision->PlayerProxyEnemy(Alive.at(i)))
+		StandardAlive.at(i)->Update(deltaTime);
+		if (StandardAlive.at(i)->GetStateMachine()->
+			GetActiveState() == EnemyState::ENEMY_IDLE_STATE)
 		{
-			for (size_t j = 0; j < Alive.size(); j++)
+			if (collision->PlayerProxyEnemy(StandardAlive.at(i)))
 			{
-				Alive.at(j)->GetStateMachine()->
-					SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
+				for (size_t j = 0; j < StandardAlive.size(); j++)
+				{
+					StandardAlive.at(j)->GetStateMachine()->
+						SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
+				}
 			}
 		}
-	}
-
-
-	for (size_t i = 0; i < Alive.size(); i++)
-	{
-		Alive.at(i)->Update(deltaTime);
-		if (Alive.at(i)->GetHealth() <= 0 &&
-			Alive.at(i)->GetStateMachine()->
-			GetActiveState() == EnemyState::ENEMY_ATTACK_STATE)
+		if (StandardAlive.at(i)->GetHealth() <= 0 &&
+			StandardAlive.at(i)->GetStateMachine()->
+			GetActiveState() == EnemyState::ENEMY_ATTACK_STATE
+			)
 		{
 			Player* player;
 			player = collision->GetPlayer();
 			player->SetPoints(player->GetPoints() + (10.0f*player->GetMulti()));
 			player->SetMulti(player->GetMulti() + 0.1f);
 
-			Alive.at(i)->isAlive = false;
-			Alive.at(i)->SetHealth(100.0f);
-			Alive.at(i)->GetStateMachine()->
+			StandardAlive.at(i)->isAlive = false;
+			StandardAlive.at(i)->SetHealth(100.0f);
+			StandardAlive.at(i)->GetStateMachine()->
 				SetActiveState(EnemyState::ENEMY_DEATH_STATE);
 
-			Queue.push_back(Alive.at(i));
+			StandardQueue.push_back(StandardAlive.at(i));
 
-			Alive.erase(Alive.begin() + i);
+			StandardAlive.erase(StandardAlive.begin() + i);
 		}
-		else if (Alive.at(i)->GetHealth() <= 0 &&
-			Alive.at(i)->GetStateMachine()->
+		else if (StandardAlive.at(i)->GetHealth() <= 0 &&
+			StandardAlive.at(i)->GetStateMachine()->
 			GetActiveState() == EnemyState::ENEMY_IDLE_STATE)
 		{
 			Player* player;
@@ -75,18 +79,39 @@ void EnemySpawn::Update(double deltaTime)
 			player->SetPoints(player->GetPoints() - 10.0f);
 			player->SetMulti(1);
 
-			Alive.at(i)->isAlive = false;
-			Alive.at(i)->SetHealth(100.0f);
-			Alive.at(i)->GetStateMachine()->
+			StandardAlive.at(i)->isAlive = false;
+			StandardAlive.at(i)->SetHealth(100.0f);
+			StandardAlive.at(i)->GetStateMachine()->
 				SetActiveState(EnemyState::ENEMY_DEATH_STATE);
 
-			Queue.push_back(Alive.at(i));
+			StandardQueue.push_back(StandardAlive.at(i));
 
-			Alive.erase(Alive.begin() + i);
+			StandardAlive.erase(StandardAlive.begin() + i);
+			StandardAlive.shrink_to_fit();
+		}
+		else if (StandardAlive.at(i)->GetHealth() <= 0 &&
+			StandardAlive.at(i)->GetStateMachine()->
+			GetActiveState() == EnemyState::ENEMY_HEAL_STATE
+			)
+		{
+			Player* player;
+			player = collision->GetPlayer();
+			player->SetPoints(player->GetPoints() + (10.0f*player->GetMulti()));
+			player->SetMulti(player->GetMulti() + 0.1f);
+
+			StandardAlive.at(i)->isAlive = false;
+			StandardAlive.at(i)->SetHealth(100.0f);
+			StandardAlive.at(i)->GetStateMachine()->
+				SetActiveState(EnemyState::ENEMY_DEATH_STATE);
+
+			StandardQueue.push_back(StandardAlive.at(i));
+
+			StandardAlive.erase(StandardAlive.begin() + i);
 		}
 	}
-
-	if (Alive.size() == 0)
+	
+	
+	if (StandardAlive.size() == 0)
 	{
 		spawnTimer += (float)deltaTime;
 		if (!firstSpawn)
@@ -99,15 +124,14 @@ void EnemySpawn::Update(double deltaTime)
 			RespawnEnemy();
 			spawnTimer = 0;
 		}
-		
-
 	}
-	for (int i = 0; i < (int)Alive.size(); i++)
+
+	for (int i = 0; i < (int)StandardAlive.size(); i++)
 	{
-		if (Alive.at(i)->isAlive == true)
+		if (StandardAlive.at(i)->isAlive == true)
 		{
 
-			if (collision->PlayerCollision(Alive.at(i)))
+			if (collision->PlayerCollision(StandardAlive.at(i)))
 			{
 				Player* player;
 				player = collision->GetPlayer();
@@ -116,18 +140,17 @@ void EnemySpawn::Update(double deltaTime)
 		}
 	}
 }
-	
-	
-	
+
+
 
 void EnemySpawn::SpawnEnemy()
 {
 
 	firstSpawn = true;
 	
-	for(size_t i = 0; i< Queue.size(); i++)
+	for(size_t i = 0; i< StandardQueue.size(); i++)
 	{
-		if (!Queue.at(i)->isAlive)
+		if (!StandardQueue.at(i)->isAlive)
 		{
 
 			float spawnX = spawnPosition.x + float(rand() % 15 + 5.0f);
@@ -139,25 +162,27 @@ void EnemySpawn::SpawnEnemy()
 			spawn.y = 0;
 			spawn.z = spawnZ;
 			
-			Queue.at(i)->Spawn(spawn); //sets position and isAlive to TRUE
-			Alive.push_back(Queue.at(i));
-			Queue.erase(Queue.begin() + i);
+			StandardQueue.at(i)->Spawn(spawn); //sets position and isAlive to TRUE
+			StandardAlive.push_back(StandardQueue.at(i));
+			//StandardQueue.erase(StandardQueue.begin() + i);
 			
 
 			//done = true;
 		}
 		//i++;
 	}
+	StandardQueue.clear();
 }
 
 void EnemySpawn::RespawnEnemy()
 {
 	
 
-	for (size_t i = 0; i< Queue.size(); i++)
+	for (size_t i = 0; i< StandardQueue.size(); i++)
 	{
-		if (!Queue.at(i)->isAlive)
+		if (!StandardQueue.at(i)->isAlive)
 		{
+			
 
 			float spawnX = spawnPosition.x + float(rand() % 15 + 5.0f);
 			float spawnZ = spawnPosition.z + float(rand() % 50 + 5.0f);
@@ -168,27 +193,31 @@ void EnemySpawn::RespawnEnemy()
 			spawn.y = 0;
 			spawn.z = spawnZ;
 
-			Queue.at(i)->Respawn(spawn); //sets position and isAlive to TRUE
-			Alive.push_back(Queue.at(i));
-			Queue.erase(Queue.begin() + i);
+			StandardQueue.at(i)->Respawn(spawn); //sets position and isAlive to TRUE
+			StandardAlive.push_back(StandardQueue.at(i));
+			//StandardQueue.erase(StandardQueue.begin() + i);
 
-
-			//done = true;
 		}
-		//i++;
 	}
+
+	StandardQueue.clear();
+}
+
+std::vector<EnemyBase*> EnemySpawn::GetStandardQueue()
+{
+	return StandardQueue;
+}
+
+std::vector<EnemyBase*> EnemySpawn::GetStandardAlive()
+{
+	return StandardAlive;
 }
 
 void EnemySpawn::InitEnemy()
 {
-
-	unsigned int waveAmount = 10;
-
-
-
 	for (size_t i = 0; i < waveAmount; i++)
 	{
-		int spawnPointRandom = rand() % 4 + 1;
+		int spawnPointRandom = rand() % 5 + 1;
 
 		if (spawnPointRandom == 1)
 		{
@@ -200,7 +229,7 @@ void EnemySpawn::InitEnemy()
 			spawn.y = 0;
 			spawn.z = spawnZ;
 
-			Queue.push_back( new Enemy(spawn) );
+			StandardQueue.push_back(new Enemy(spawn, false));
 		}
 		if (spawnPointRandom == 2)
 		{
@@ -212,7 +241,7 @@ void EnemySpawn::InitEnemy()
 			spawn.y = 0;
 			spawn.z = spawnZ;
 
-			Queue.push_back( new Enemy(spawn) );
+			StandardQueue.push_back(new Enemy(spawn, true));
 		}
 		if (spawnPointRandom == 3)
 		{
@@ -224,7 +253,7 @@ void EnemySpawn::InitEnemy()
 			spawn.y = 0;
 			spawn.z = spawnZ;
 
-			Queue.push_back(new Enemy(spawn));
+			StandardQueue.push_back(new Enemy(spawn, false));
 		}
 		if (spawnPointRandom == 4)
 		{
@@ -236,21 +265,37 @@ void EnemySpawn::InitEnemy()
 			spawn.y = 0;
 			spawn.z = spawnZ;
 
-			Queue.push_back(new Enemy(spawn));
+			StandardQueue.push_back(new Enemy(spawn, true));
+		}
+		if (spawnPointRandom == 5)
+		{
+			float spawnX = float(rand() % 15 + 5.0f);
+			float spawnZ = float(rand() % 50 + 5.0f);
+
+			XMFLOAT3 spawn;
+			spawn.x = spawnX;
+			spawn.y = 0;
+			spawn.z = spawnZ;
+
+			StandardQueue.push_back(new Healer(spawn));
+
+			//For test 
+			//StandardQueue.push_back(new Enemy(spawn, true));
+			
 		}
 	}
-	for(int i = 0; i < (int)Queue.size(); i++)
+	for(int i = 0; i < (int)StandardQueue.size(); i++)
 	{ 
-		collision->AddEnemy(Queue.at(i));
+		collision->AddEnemy(StandardQueue.at(i));
 	}
 }
 
 void EnemySpawn::Render()
 {
-	for (unsigned int i = 0; i < (int)Alive.size(); i++)
+	for (unsigned int i = 0; i < (int)StandardAlive.size(); i++)
 	{
 		
-			Alive.at(i)->Render();
+		StandardAlive.at(i)->Render();
 		
 	}
 }
