@@ -15,7 +15,9 @@ Enemy::Enemy(XMFLOAT3 spawn, bool fast)
 	this->enemyStateMachine = new EnemyStateMachine();
 	enemyStateMachine->Initialize();
 	this->graphics = Graphics::GetInstance();
-	renderInfo = { position, rotation };
+	renderInfo.position = position;
+	renderInfo.rotation = rotation;
+	renderInfo.radius = radius;
 
 	this->maxHealth = 75.0f;
 }

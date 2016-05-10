@@ -78,7 +78,7 @@ void GameState::Update(double deltaTime)
 
 		if (player->GetHealth() <= 0)
 		{
-			//isPlayerDead = true;
+			isPlayerDead = true;
 			//isActive = false;
 		}
 		XMFLOAT2 mouseXY = input->GetMousePosition();
@@ -147,7 +147,14 @@ void GameState::Update(double deltaTime)
 
 							&& player->projectileSystem->
 							projectiles[i]->GetFired() == true)
-
+						{
+							room1->enemySpawns.at(k)->StandardAlive.at(j)->SetHealth(
+								room1->enemySpawns.at(k)->StandardAlive.at(j)->
+								GetHealth() - 10);
+							player->projectileSystem->
+								projectiles[i]->SetFired(false);
+						}
+						i++;
 					}
 					if (room1->enemySpawns.at(k)->StandardAlive.at(p)->isAlive == true)
 					{
@@ -238,7 +245,8 @@ void GameState::Update(double deltaTime)
 									StandardAlive.at(p), tmpCloseHealer))
 								{
 									if (room1->enemySpawns.at(k)->StandardAlive.at(j)->GetStateMachine()->
-										GetActiveState() == ENEMY_HEAL_STATE)
+										GetActiveState() == ENEMY_HEAL_STATE
+										&& room1->enemySpawns.at(k)->StandardAlive.at(j)->GetCharType() != CharacterType::HEALER)
 									{
 										room1->enemySpawns.at(k)->
 											StandardAlive.at(p)->SetHealth(
