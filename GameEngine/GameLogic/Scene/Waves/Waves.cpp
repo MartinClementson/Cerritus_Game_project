@@ -22,14 +22,7 @@ void Waves::Render()
 
 void Waves::Update(double deltaTime)
 {
-	/*float pauseTime = 0;
-
-	pauseTime += (float)deltaTime;
-
-	while (pauseTime < 5)
-	{
-
-	}*/
+	
 }
 
 void Waves::SetWaveGroup(int wave)
@@ -44,31 +37,30 @@ int Waves::GetWaveGroup()
 
 void Waves::WaveInformation()
 {
-	int nextWave = 1;
 	waveNumber = GetWaveGroup();
 	switch (waveNumber) 
 	{
 		case 1:
-			amountOfStandards = 2;
+			amountOfStandards = 4;
 			SetWaveInformation(amountOfStandards);
 			amountOFFast = 3;
 			amountOfHealers = 5;
 			break;
 		case 2:
-			amountOfStandards = 4;
+			amountOfStandards = 9;
 			SetWaveInformation(amountOfStandards);
 			amountOFFast = 2;
 			amountOfHealers = 2;
 			break;
 		case 3:
-			amountOfStandards = 8;
+			amountOfStandards = 20;
 			SetWaveInformation(amountOfStandards);
 			amountOFFast = 5;
 			amountOfHealers = 2;
 			//NextWave(nextWave);
 			break;
 		default: 
-			amountOfStandards = 0;
+			amountOfStandards = 1;
 			SetWaveInformation(amountOfStandards);
 			break;
 	}
@@ -81,19 +73,19 @@ void Waves::SpawnPositions(int spawnSwitch)
 	switch (spawnSwitch)
 	{
 	case 1:
-		spawnPos = { -50.0f, 0.0f, 30.0f };
+		spawnPos = { -70.0f, 0.0f, 40.0f };
 		SetSpawnPositions(spawnPos);
 		break;
 	case 2:
-		spawnPos = { 20.0f, 0.0f, 30.0f };
+		spawnPos = { 70.0f, 0.0f, 40.0f };
 		SetSpawnPositions(spawnPos);
 		break;
 	case 3:
-		spawnPos = { -20.0f, 0.0f, -50.0f };
+		spawnPos = { 40.0f, 0.0f, -70.0f };
 		SetSpawnPositions(spawnPos);
 		break;
-	default:
-		spawnPos = { -40.0f, 0.0f, 40.0f };
+	case 4:
+		spawnPos = { -70.0f, 0.0f, -40.0f };
 		SetSpawnPositions(spawnPos);
 		break;
 	}

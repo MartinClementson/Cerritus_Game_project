@@ -38,7 +38,7 @@ Scene::~Scene()
 
 void Scene::Initialize()
 {
-	trapAmount = 5;
+	trapAmount = 2;
 	collision->ClearTraps();
 	InitBearTrap();
 	InitFireTrap();
