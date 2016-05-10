@@ -15,10 +15,12 @@
 class Enemy :
 	public EnemyBase
 {
-public:
+
+private:
+
 	void Release();
 	Enemy();
-	float index;
+	//float index;
 
 	EnemyStateMachine* GetStateMachine();
 	

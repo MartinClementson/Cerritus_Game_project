@@ -29,10 +29,69 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 
 	brfImporterHandler->LoadFile("models/player_Model.BRF", true, true, true);
 	brfImporterHandler->LoadFile("models/enemy_0.BRF", true, true, true);
+	brfImporterHandler->LoadFile("models/slow_Trap.BRF", true, true, true);
 	brfImporterHandler->LoadFile("models/FireTrap.BRF", true, true, true);
 	brfImporterHandler->LoadFile("models/BearTrap.BRF", true, true, true);
 	brfImporterHandler->LoadFile("models/Scene2.BRF", true, true, true);
-	brfImporterHandler->LoadFile("models/test_bullet.BRF", true, true, true);
+	brfImporterHandler->LoadFile("models/quadBullet.BRF", true, true, true);
+	
+	
+
+
+	std::vector<importedMaterial> temp;
+	importedMaterial ui;
+	ui.materialName = "yo-gi-uh";
+	ui.diffuseTex = "HUD.tif";
+	ui.materialID = 9;
+	
+	temp.push_back(ui);
+
+	materialManager->addMaterials(&temp);
+	ui.materialName = "Menumaterial";
+	ui.diffuseTex = "menu.png";
+	ui.materialID = 10;
+	
+	temp.push_back(ui);
+
+	materialManager->addMaterials(&temp);
+	ui.materialName = "gameover";
+	ui.diffuseTex = "GameOver.png";
+	ui.materialID = 11;
+
+	temp.push_back(ui);
+
+	materialManager->addMaterials(&temp);
+	ui.materialName = "pause";
+	ui.diffuseTex = "PausUI.tif";
+	ui.materialID = 12;
+	temp.push_back(ui);
+
+	materialManager->addMaterials(&temp);
+	ui.materialName = "MenuExit";
+	ui.diffuseTex = "ExitButtonMenu.png";
+	ui.materialID = 13;
+	temp.push_back(ui);
+
+	materialManager->addMaterials(&temp);
+	ui.materialName = "MenuNew";
+	ui.diffuseTex = "NewGameMenu.png";
+	ui.materialID = 14;
+	temp.push_back(ui);
+
+	materialManager->addMaterials(&temp);
+	ui.materialName = "MenuControls";
+	ui.diffuseTex = "ControlsMenuButton.png";
+	ui.materialID = 15;
+	temp.push_back(ui);
+
+	materialManager->addMaterials(&temp);
+	//materialManager->addMaterials(&temp);
+	ui.materialName = "Controls";
+	ui.diffuseTex = "Controls.png";
+	ui.materialID = 16;
+	temp.push_back(ui);
+
+	//materialManager->addMaterials(&temp);
 }
 
 void ResourceManager::Release()
@@ -49,8 +108,15 @@ void ResourceManager::Release()
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoObject * object)
 	{
 		currentMesh = RenderInstructions();
-		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
 		MeshEnum meshType = object->object;
+
+
+		
+
+		if(meshType != MeshEnum::PROJECTILE_1)
+			currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+
+
 		meshManager		->GetMeshRenderInfo( &meshType, &currentMesh ); //Get the mesh data
 		materialManager ->GetMaterialRenderInfo (&currentMesh );	    //Get the material data
 	
@@ -61,14 +127,34 @@ void ResourceManager::Release()
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoUI * object)
 	{
-		return nullptr;
+		currentUI = RenderInstructions();
+		
+		//currentUI.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->size, &object->position);
+		Shaders tmp = UI_SHADER;
+		UITextures uiType = object->object;
+		this->shaderManager->SetActiveShader(tmp);
+		meshManager->GetFullScreenQuadInfoUI(&uiType,&currentUI);
+		materialManager->GetMaterialRenderInfo(&currentUI);
+	
+		return &currentUI;
 	}
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoEnemy * object)
 	{
-		currentMesh = RenderInstructions();
-		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
-		MeshEnum meshType = MeshEnum::ENEMY_1;
+		currentMesh							= RenderInstructions();
+		MeshEnum meshType					= MeshEnum::ENEMY_1;//temporary
+
+		if (     meshType == MeshEnum::ENEMY_1 && gbufferPass == true)
+			shaderManager->SetActiveShader(Shaders::GBUFFER_SHADER_INSTANCED);
+		
+		else if (meshType == MeshEnum::ENEMY_1 && shadowPass  == true)
+			shaderManager->SetActiveShader(Shaders::SHADOW_SHADER_INSTANCED);
+
+		else
+			currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+		
+		
+
 
 		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
 		materialManager->GetMaterialRenderInfo(&currentMesh);
@@ -82,6 +168,10 @@ void ResourceManager::Release()
 		currentMesh = RenderInstructions();
 		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
 		MeshEnum meshType = MeshEnum::MAIN_CHARACTER;
+
+
+
+
 
 		meshManager->GetMeshRenderInfo(&meshType,&currentMesh);
 		materialManager->GetMaterialRenderInfo(&currentMesh);
@@ -97,11 +187,22 @@ void ResourceManager::Release()
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoTrap * object)
 	{
 		currentMesh = RenderInstructions();
-		currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
  		MeshEnum meshType = object->object;
-		
+
+
+		if (   meshType == MeshEnum::TRAP_BEAR && gbufferPass == true
+			|| meshType == MeshEnum::TRAP_FIRE && gbufferPass == true)
+				shaderManager->SetActiveShader(Shaders::GBUFFER_SHADER_INSTANCED);
+
+		else if ( meshType == MeshEnum::TRAP_BEAR && shadowPass == true
+				|| meshType == MeshEnum::TRAP_FIRE && shadowPass == true)
+				shaderManager->SetActiveShader(Shaders::SHADOW_SHADER_INSTANCED);
+		else
+			currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+
 		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
-	
+		materialManager->GetMaterialRenderInfo(&currentMesh);
+		
 		return &currentMesh;
 	}
 
@@ -158,8 +259,8 @@ void ResourceManager::Release()
 	RenderInstructions * ResourceManager::GetFullScreenQuad()
 	{
 		currentMesh = RenderInstructions();
-		Shaders temp = FINAL_SHADER;
-		this->shaderManager->SetActiveShader(&temp);
+		
+		this->shaderManager->SetActiveShader(FINAL_SHADER);
 		meshManager->GetFullScreenQuadInfo(&currentMesh);
 
 		return &currentMesh;
@@ -209,15 +310,15 @@ void ResourceManager::Release()
 	{
 		if (this->gbufferPass != x)
 			this->gbufferPass = x;
+
 		if (gbufferPass == true)
 		{
-			Shaders  temp = GBUFFER_SHADER;
-			this->shaderManager->SetActiveShader(&temp);
+
+			this->shaderManager->SetActiveShader(GBUFFER_SHADER);
+			shadowPass = false;
 		}
-
-
-
 	}
+
 
 	void ResourceManager::SetShadowPass(bool x)
 	{
@@ -225,12 +326,9 @@ void ResourceManager::Release()
 			this->shadowPass = x;
 		if (shadowPass == true)
 		{
-			Shaders  temp = SHADOW_SHADER;
-			this->shaderManager->SetActiveShader(&temp);
+			this->shaderManager->SetActiveShader(SHADOW_SHADER);
+			gbufferPass = false;
 		}
-
-
-
 	}
 
 	

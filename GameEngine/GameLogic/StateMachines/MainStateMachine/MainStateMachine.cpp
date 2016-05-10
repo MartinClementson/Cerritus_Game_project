@@ -5,6 +5,7 @@ MainStateMachine::MainStateMachine()
 	this->gameState = new GameState();
 	this->gameOverState = new GameOverState();
 	this->menuState = new MenuState();
+	this->audioManager = new AudioManager();
 }
 
 
@@ -13,10 +14,12 @@ MainStateMachine::~MainStateMachine()
 	delete this->gameState;
 	delete this->gameOverState;
 	delete this->menuState;
+	delete this->audioManager;
 }
 
 void MainStateMachine::Update(double deltaTime)
 {
+	audioManager->Update(deltaTime);
 	if (gameState->isActive)
 	{
 		gameState->Update(deltaTime);
@@ -53,6 +56,37 @@ void MainStateMachine::Update(double deltaTime)
 		this->activeState = MAIN_GAMEOVER_STATE;
 
 	}
+	if (this->activeState == MAIN_GAME_STATE && gameState->toMenu == true)
+	{
+		gameState->isActive = false;
+		if (menuState)
+		{
+			menuState->Release();
+			delete menuState;
+		}
+		this->menuState = new MenuState();
+		menuState->Initialize();
+		menuState->isActive = true;
+
+		this->activeState = MAIN_MENU_STATE;
+		//gameState->toMenu = false;
+		
+	}
+	if (this->activeState == MAIN_MENU_STATE && menuState->exitMenu == true)
+	{
+		menuState->isActive = false;
+
+		if (gameState)
+		{
+			gameState->Release();
+			delete gameState;
+		}
+		this->gameState = new GameState();
+		gameState->Initialize(audioManager);
+		gameState->isActive = true;
+
+		this->activeState = MAIN_GAME_STATE;
+	}
 	if (this->activeState == MAIN_GAMEOVER_STATE && gameOverState->replay == true)
 	{
 		gameOverState->isActive = false;
@@ -65,10 +99,27 @@ void MainStateMachine::Update(double deltaTime)
 		}
 
 		this->gameState = new GameState();
-		gameState->Initialize();
+		gameState->Initialize(audioManager);
 		gameState->isActive = true;
 		
 		this->activeState = MAIN_GAME_STATE;
+	}
+	else if (this->activeState == MAIN_GAMEOVER_STATE && gameOverState->toMenu == true)
+	{
+		gameOverState->isActive = false;
+
+
+		if (menuState)
+		{
+			menuState->Release();
+			delete menuState;
+		}
+
+		this->menuState = new MenuState();
+		menuState->Initialize();
+		menuState->isActive = true;
+
+		this->activeState = MAIN_MENU_STATE;
 	}
 	//key esc pressed menu
 	
@@ -92,7 +143,8 @@ void MainStateMachine::Render()
 
 void MainStateMachine::Initialize()
 {
-	gameState->Initialize();
+	audioManager->Initialize();
+	gameState->Initialize(audioManager);
 	this->activeState = MAIN_GAME_STATE;
 	this->gameState->isActive = true;
 	this->gameOverState->isActive = false;
@@ -103,5 +155,5 @@ void MainStateMachine::Initialize()
 
 void MainStateMachine::Release()
 {
-
+	audioManager->Release();
 }

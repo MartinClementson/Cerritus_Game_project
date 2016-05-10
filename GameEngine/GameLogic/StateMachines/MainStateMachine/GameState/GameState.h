@@ -2,6 +2,7 @@
 #include "../../StateClass/StateClass.h"
 #include "./DeathState/MainDeathState.h"
 #include "./PausedState/MainPausedState.h"
+#include "../MenuState/MenuState.h"
 #include "../../../Scene/Scene.h"
 #include "../../../Character/Player/Player.h"
 #include "../../../InputHandler/Input/Input.h"
@@ -9,13 +10,14 @@
 #include "../../../Character/Enemy/Enemy.h"
 #include "../../../Collision/Collision.h"
 #include "../../../../Source/GameTimer/GameTimer.h"
+#include "../../AudioManager/AudioManager.h"
 class GameState :
 	public StateClass
 {
 public:
 	GameState();
 	virtual ~GameState();
-	void Initialize();
+	void Initialize(AudioManager* audioManager);
 	void Release();
 	void Update(double deltaTime);
 	void Render();
@@ -27,12 +29,14 @@ public:
 	float index;
 	float GetPoints();
 	//EnemyBase* ClosestHealer(vector<EnemyBase*> healers);
+	bool toMenu;
+
 
 
 private:
 	void OnEnter();
 	void OnExit();
-	
+
 private:
 	vector<EnemyBase*> healers;
 	Scene* room1;
@@ -45,7 +49,8 @@ private:
 	GUI* gameUI;
 	MainPausedState* pause;
 	MainDeathState* death;
+	MenuState* menu;
 	Collision* collision;
 	GameTimer* gameTimer;
+	AudioManager* audioManager;
 };
-
