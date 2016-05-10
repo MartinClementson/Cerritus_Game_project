@@ -28,11 +28,13 @@ public:
 	void Release();
 
 	void GetMeshRenderInfo(RenderInstructions* toRender);
+	BlendShapeBuffer GetMeshBlendShape();
 
 	int GetMaterialID()		   { return this->materialID; }
 	void SetMaterialID(int id) { this->materialID = id;	  }
-	void CreateVertexBuffer(Vertex* vertices,   unsigned int amount);
-	void CreateVertexBuffer(AnimVert* vertices, unsigned int amount);
+	void CreateVertexBuffer(Vertex* vertices,		unsigned int amount);
+	void CreateVertexBuffer(AnimVert* vertices,		unsigned int amount);
+	void CreateBlendShape (BlendShapeVert* vertices, unsigned int amount);
 
 	void CreateIndexBuffer(UINT* indices,unsigned int amount);
 	unsigned int GetVertCount() { return this->vertCount; };

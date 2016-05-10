@@ -8,15 +8,15 @@ class MeshManager
 {
 
 private:
-	ID3D11Device *gDevice = nullptr;
-	ID3D11DeviceContext* gDeviceContext = nullptr;
+	ID3D11Device		*	 gDevice			 = nullptr;
+	ID3D11DeviceContext	*	 gDeviceContext		 = nullptr;
 
 	//This vector will be indexed with the enum "Meshes"
-	std::vector<Mesh>* gameMeshes		=	nullptr;
-	Mesh placeHolder;
-	Mesh placeHolderPlane;
-	Mesh fullScreenQuad;
-	std::vector<Mesh> blendShapeMeshes;
+	std::vector<Mesh>*		  gameMeshes		 =	nullptr;
+	Mesh					  placeHolder;
+	Mesh					  placeHolderPlane;
+	Mesh					  fullScreenQuad;
+	Mesh					  blendShapeMeshes[2];
 	ID3D11ShaderResourceView* blendShapeStructuredBuffersSRV[2] = { nullptr };
 	ID3D11Buffer*			  blendShapeStructuredBuffers   [2] = { nullptr };
 
@@ -43,11 +43,11 @@ public:
 		);
 
 	std::vector<Mesh>* GetMeshes() { return this->gameMeshes; }
-	void GetMeshRenderInfo(MeshEnum* meshEnum, RenderInstructions* toRender);
+	void GetMeshRenderInfo			(MeshEnum* meshEnum, RenderInstructions* toRender);
 
-	void GetPlaceHolderMeshInfo(RenderInstructions* toRender);
-	void GetPlaceHolderPlaneInfo(RenderInstructions* toRender);
-	void GetFullScreenQuadInfo(RenderInstructions* toRender);
-	void GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions* toRender);
+	void GetPlaceHolderMeshInfo		(RenderInstructions* toRender);
+	void GetPlaceHolderPlaneInfo	(RenderInstructions* toRender);
+	void GetFullScreenQuadInfo		(RenderInstructions* toRender);
+	void GetFullScreenQuadInfoUI	(UITextures* uiEnum, RenderInstructions* toRender);
 };
 

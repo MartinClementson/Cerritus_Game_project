@@ -157,6 +157,13 @@ struct BlendShapeVert
 	float influence = 0;
 
 };
+struct BlendShapeBuffer
+{
+	BlendShapeVert* BlendShapeVertArray = nullptr;
+	unsigned int* amount;
+
+
+};
 
 struct AnimVert
 {

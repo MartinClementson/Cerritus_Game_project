@@ -38,15 +38,15 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 
 		D3D11_BUFFER_DESC BufferDesc;
 		ZeroMemory(&BufferDesc, sizeof(BufferDesc));
-		BufferDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-		BufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-		BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		BufferDesc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
-		BufferDesc.ByteWidth = sizeof(BlendShapeVert) * this->blendShapeMeshes.at(j).GetVertCount();
-		BufferDesc.StructureByteStride = sizeof(BlendShapeVert);
+		BufferDesc.BindFlags			 = D3D11_BIND_SHADER_RESOURCE;
+		BufferDesc.Usage				 = D3D11_USAGE_DYNAMIC;
+		BufferDesc.CPUAccessFlags		 = D3D11_CPU_ACCESS_WRITE;
+		BufferDesc.MiscFlags			 = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+		BufferDesc.ByteWidth			 = sizeof(BlendShapeVert) * this->blendShapeMeshes[j].GetVertCount();
+		BufferDesc.StructureByteStride   = sizeof(BlendShapeVert);
 
 		if (FAILED(hr = gDevice->CreateBuffer(&BufferDesc, nullptr, &blendShapeStructuredBuffers[j])))
-			MessageBox(NULL, L"Failed to create PointLight buffer", L"Error", MB_ICONERROR | MB_OK);
+			MessageBox(NULL, L"Failed to create blend shapes buffer", L"Error", MB_ICONERROR | MB_OK);
 
 
 		D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
@@ -54,12 +54,38 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 		srvDesc.ViewDimension			 = D3D11_SRV_DIMENSION_BUFFEREX;
 		srvDesc.Buffer.ElementOffset	 = 0;
 		srvDesc.Buffer.ElementWidth		 = sizeof(BlendShapeVert);
-		srvDesc.Buffer.NumElements		 = this->blendShapeMeshes.at(j).GetVertCount();
+		srvDesc.Buffer.NumElements		 = this->blendShapeMeshes[j].GetVertCount();
 		if (FAILED(hr = gDevice->CreateShaderResourceView(blendShapeStructuredBuffers[j], &srvDesc, &blendShapeStructuredBuffersSRV[j])))
-			MessageBox(NULL, L"Failed to create PointLight buffer", L"Error", MB_ICONERROR | MB_OK);
-		this->gDeviceContext->GSSetShaderResources(BLENDSHAPES_BUFFER_START_INDEX + j, 1, &blendShapeStructuredBuffersSRV[j]);
-		this->gDeviceContext->PSSetShaderResources(BLENDSHAPES_BUFFER_START_INDEX + j, 1, &blendShapeStructuredBuffersSRV[j]);
-		}
+			MessageBox(NULL, L"Failed to create blend shapes buffer", L"Error", MB_ICONERROR | MB_OK);
+		//this->gDeviceContext->VSSetShaderResources(BLENDSHAPES_BUFFER_START_INDEX + j, 1, &blendShapeStructuredBuffersSRV[j]);
+		//this->gDeviceContext->GSSetShaderResources(BLENDSHAPES_BUFFER_START_INDEX + j, 1, &blendShapeStructuredBuffersSRV[j]);
+		
+	
+
+
+#pragma region Map The buffers
+	////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////
+	////Map point light structure
+		BlendShapeVert* vertices = blendShapeMeshes[j].GetMeshBlendShape().BlendShapeVertArray;
+		unsigned int * amount	 = blendShapeMeshes[j].GetMeshBlendShape().amount;
+
+	D3D11_MAPPED_SUBRESOURCE mapRes;
+	HRESULT hr = S_OK;
+
+	hr = gDeviceContext->Map(blendShapeStructuredBuffers[j], 0, D3D11_MAP_WRITE_DISCARD, 0, &mapRes);
+	if (FAILED(hr))
+		MessageBox(NULL, L"Failed to update blend shapes buffer", L"Error", MB_ICONERROR | MB_OK);
+
+	memcpy(mapRes.pData, (void*)vertices, sizeof(BlendShapeVert) * (*amount));
+	gDeviceContext		->Unmap(blendShapeStructuredBuffers[j], 0);
+	this->gDeviceContext->VSSetShaderResources(BLENDSHAPES_BUFFER_START_INDEX + j, 1, &blendShapeStructuredBuffersSRV[j]);
+
+	////////////////////////////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////
+#pragma endregion
+	}
+
 
 #pragma endregion
 }
@@ -74,7 +100,11 @@ void MeshManager::Release()
 	placeHolderPlane.Release();
 	fullScreenQuad.Release();
 	for (int i = 0; i < 2; i++)
-		this->blendShapeMeshes.at(i).Release();
+	{
+		SAFE_RELEASE(blendShapeStructuredBuffersSRV[i]);
+		SAFE_RELEASE(blendShapeStructuredBuffers[i]);
+		this->blendShapeMeshes[i].Release();
+	}
 
 }
 
@@ -255,46 +285,51 @@ void MeshManager::CreatePlaceHolderPlane()
 
 void MeshManager::CreatePlaceHolderBlendShape()
 {
-
-	static float x = 0.5f;
+	static int blendShapeIndex = 0;
+	static float x = 1.0f;
 	static float y = 1.0f;
-
-	Vertex cubeVerts[8];
-
-	cubeVerts[0].position = Float3(-x, 2.5, 0.5);			//0
-	cubeVerts[1].position = Float3(-x, 0.0, 0.5);			//1
-	cubeVerts[2].position = Float3( x, 0.0, 0.5);			//2
-	cubeVerts[3].position = Float3( x, 2.5, 0.5);			//3
-	cubeVerts[4].position = Float3( x, 0.0, -0.5);			//4
-	cubeVerts[5].position = Float3( x, 2.5, -0.5);			//5
-	cubeVerts[6].position = Float3(-x, 0.0, -0.5);		//6
-	cubeVerts[7].position = Float3(-x, 2.5, -0.5);		//7
-
-
-
-
-
-	UINT indices[36] =
+	if (blendShapeIndex < 2)
 	{
-		0,1,2,
-		0,2,3,
-		3,2,4,
-		3,4,5,
-		5,4,6,
-		5,6,7,
-		7,6,1,
-		7,1,0,
-		0,3,5,
-		0,5,7,
-		1,4,2,
-		1,6,4 };
 
-	blendShapeMeshes.push_back(Mesh());
-	this->blendShapeMeshes.at(blendShapeMeshes.size() - 1).Initialize(this->gDevice,this->gDeviceContext);
-	this->blendShapeMeshes.at(blendShapeMeshes.size() - 1).CreateVertexBuffer(cubeVerts, 8);
-	this->blendShapeMeshes.at(blendShapeMeshes.size() - 1).CreateIndexBuffer (indices,  36);
 
-	x += 5.0f; 
+		BlendShapeVert cubeVerts[8];
+
+		cubeVerts[0].position = Float3(-x, 2.5, 0.5);			//0
+		cubeVerts[1].position = Float3(-x, 0.0, 0.5);			//1
+		cubeVerts[2].position = Float3( x, 0.0, 0.5);			//2
+		cubeVerts[3].position = Float3( x, 2.5, 0.5);			//3
+		cubeVerts[4].position = Float3( x, 0.0, -0.5);			//4
+		cubeVerts[5].position = Float3( x, 2.5, -0.5);			//5
+		cubeVerts[6].position = Float3(-x, 0.0, -0.5);			//6
+		cubeVerts[7].position = Float3(-x, 2.5, -0.5);			//7
+
+
+
+
+
+		UINT indices[36] =
+		{
+			0,1,2,
+			0,2,3,
+			3,2,4,
+			3,4,5,
+			5,4,6,
+			5,6,7,
+			7,6,1,
+			7,1,0,
+			0,3,5,
+			0,5,7,
+			1,4,2,
+			1,6,4 };
+
+		this->blendShapeMeshes[blendShapeIndex].Initialize(this->gDevice,this->gDeviceContext);
+		this->blendShapeMeshes[blendShapeIndex].CreateBlendShape(cubeVerts, 8);
+		/*this->blendShapeMeshes.at(blendShapeMeshes.size() - 1).CreateVertexBuffer(cubeVerts, 8);
+		this->blendShapeMeshes.at(blendShapeMeshes.size() - 1).CreateIndexBuffer (indices,  36);*/
+
+		x				+= 5.0f; 
+		blendShapeIndex += 1;
+	}
 }
 
 void MeshManager::CreateFullScreenQuad()

@@ -17,11 +17,12 @@ Mesh::Mesh()
 
 Mesh::~Mesh()
 {
-	if (vertices != nullptr)
+	if (vertices	 != nullptr)
 		delete vertices;
-
 	if (animVertices != nullptr)
 		delete animVertices;
+	if (blendVerts	 != nullptr)
+		delete blendVerts;
 
 
 }
@@ -52,6 +53,21 @@ void Mesh::GetMeshRenderInfo(RenderInstructions * toRender)
 
 
 
+}
+
+BlendShapeBuffer  Mesh::GetMeshBlendShape()
+{
+	BlendShapeBuffer temp;
+	if (isBlendShape)
+	{
+		temp.BlendShapeVertArray = this->blendVerts;
+		temp.amount = &this->vertCount;
+	}
+	else
+		temp.amount = 0;
+
+
+	return temp;
 }
 
 void Mesh::CreateVertexBuffer(Vertex * vertices, unsigned int amount)
@@ -109,6 +125,21 @@ void Mesh::CreateVertexBuffer(AnimVert * vertices, unsigned int amount)
 
 	this->vertCount = amount;
 
+}
+
+void Mesh::CreateBlendShape(BlendShapeVert * vertices, unsigned int amount)
+{
+	this->isBlendShape = true;
+	this->vertCount	   = amount;
+
+	if (blendVerts != nullptr)
+	{
+		delete blendVerts;
+		blendVerts = nullptr;
+	}
+
+	blendVerts = new BlendShapeVert[amount];
+	memcpy(this->blendVerts, vertices, sizeof(BlendShapeVert)*amount);
 }
 
 void Mesh::CreateIndexBuffer(UINT * indices, unsigned int amount)
