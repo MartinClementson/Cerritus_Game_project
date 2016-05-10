@@ -211,6 +211,21 @@ void ResourceManager::Release()
 		return &currentMesh;
 	}
 
+	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoScene * object)
+	{
+		currentMesh = RenderInstructions();
+		MeshEnum meshType = object->object;
+
+		if (meshType != MeshEnum::SCENE)
+			currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+
+		meshManager->GetMeshRenderInfo(&meshType, &currentMesh); //Get the mesh data
+		materialManager->GetMaterialRenderInfo(&currentMesh);	    //Get the material data
+
+
+		return &currentMesh;
+	}
+
 	RenderInstructions * ResourceManager::GetPlaceHolderMesh(XMFLOAT3 position)
 	{
 		////////////TEMPORARY////////////////////////////////

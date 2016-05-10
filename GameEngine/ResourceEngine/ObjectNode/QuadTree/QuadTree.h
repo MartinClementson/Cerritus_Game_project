@@ -7,7 +7,7 @@
 #include "../Mesh/Mesh.h"
 using namespace DirectX;
 //GLOBAL
-const int maxTriangles = 10000;
+const int maxTriangles = 2000;
 
 class QuadTree
 {

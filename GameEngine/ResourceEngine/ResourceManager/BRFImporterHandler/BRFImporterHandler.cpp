@@ -22,7 +22,6 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 	unsigned int meshsize = currentFile->fetch->Main()->meshAmount;
 	for (unsigned int i = 0; i < meshsize; i++)
 	{
-
 #pragma region Statements handling skeletons.
 
 		bool tempHasSkeleton = currentFile->fetch->Mesh(i)->GetMeshData()->hasSkeleton;

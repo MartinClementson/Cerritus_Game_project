@@ -100,6 +100,14 @@ void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materia
 	}
 }
 
+void MeshManager::AddMesh(int materialID, unsigned int vertexCount, UINT indexCount, ID3D11Buffer * vertexBuffer, ID3D11Buffer * indexBuffer)
+{
+	Mesh newMesh = Mesh(false, 0, materialID);
+	newMesh.Initialize(this->gDevice, this->gDeviceContext);
+	newMesh.setSceneVertexBuffer(vertexCount, vertexBuffer);
+	newMesh.setSceneIndexBuffer(indexCount, indexBuffer);
+}
+
 
 //int MeshManager::GetMaterialID(unsigned int index)
 //{
@@ -111,6 +119,12 @@ void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materia
 void MeshManager::CreateQuadTree(RenderInstructions* currentMesh)
 {
 	this->quadTree->Initialize(this->sceneMeshes, this->gDevice, this->gDeviceContext, currentMesh);
+	if (this->sceneMeshes)
+	{
+	this->sceneMeshes->clear();
+	}
+	AddMesh(temp, temp, temp, temp);
+	
 }
 
 void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * toRender)
@@ -135,16 +149,6 @@ void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * to
 		//this->gameMeshes->at(7).GetMeshRenderInfo(toRender);
 		this->quadTree->GetQuadTreeRenderInfo(toRender);
 	}
-
-	//else if (*meshEnum == MeshEnum::PROJECTILE_1)
-	//	this->gameMeshes->at(8).GetMeshRenderInfo(toRender);
-
-	//else if (*meshEnum == MeshEnum::LEVEL_2)
-	//	this->gameMeshes->at(4).GetMeshRenderInfo(toRender);
-	//else if (*meshEnum == MeshEnum::LEVEL_3)
-	//	this->gameMeshes->at(5).GetMeshRenderInfo(toRender);
-	//else if (*meshEnum == MeshEnum::LEVEL_4)
-	//	this->gameMeshes->at(6).GetMeshRenderInfo(toRender);
 	else if (*meshEnum == MeshEnum::PROJECTILE_1)
 		this->gameMeshes->at(4).GetMeshRenderInfo(toRender);
 

@@ -41,6 +41,13 @@ public:
 		std::vector<UINT> indices,
 		bool isScene
 		);
+	void AddMesh(
+		int materialID,
+		unsigned int vertexCount,
+		UINT indexCount,
+		ID3D11Buffer* vertexBuffer,
+		ID3D11Buffer* indexBuffer
+		);
 
 	std::vector<Mesh>* GetMeshes() { return this->gameMeshes; }
 	std::vector<Mesh>* GetSceneMeshes() { return this->sceneMeshes; }

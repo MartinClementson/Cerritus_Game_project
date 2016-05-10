@@ -739,6 +739,11 @@ void Graphics::QueueRender(RenderInfoTrap * object)
 	this->trapObjects->push_back(object);
 }
 
+void Graphics::QueueRender(RenderInfoScene * object)
+{
+	this->sceneObjects->push_back(object);
+}
+
 Graphics * Graphics::GetInstance()
 {
 	static Graphics instance;

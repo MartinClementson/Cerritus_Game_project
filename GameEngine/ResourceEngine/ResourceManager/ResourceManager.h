@@ -42,6 +42,7 @@ public:
 	RenderInstructions* GetRenderInfo(RenderInfoEnemy*		object);
 	RenderInstructions* GetRenderInfo(RenderInfoChar*		object);
 	RenderInstructions* GetRenderInfo(RenderInfoTrap*		object);
+	RenderInstructions* GetRenderInfo(RenderInfoScene*		object);
 	
 	RenderInstructions* GetPlaceHolderMesh(XMFLOAT3 position);
 	RenderInstructions* GetPlaceHolderMesh(XMFLOAT3 position, XMFLOAT3 rotation);

@@ -584,9 +584,7 @@ void QuadTree::Release()
 
 void QuadTree::GetQuadTreeRenderInfo(RenderInstructions * toRender)
 {
-	toRender->indexBuffer;
-	toRender->vertexBuffer;
-	toRender->worldBuffer;
+
 	/*
 	IMPORTANT!
 	The terrain shader has to be set as the active shader in engine before this is called
