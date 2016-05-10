@@ -357,10 +357,10 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 
 	//Delete the vertices and indices arrays, as they are now stored in the buffers
 
-	//delete[] vertices;
-	//combinedvertices = 0;
-	//delete[] indices;
-	//combinedindices = 0;
+	delete[] vertices;
+	vertices = 0;
+	delete[] indices;
+	indices = 0;
 
 	return;
 
@@ -539,18 +539,32 @@ bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, I
 
 	//Now the vertex list is no longer needed
 	if (m_vertexList)
-	{
-		//delete[]m_vertexList;
-		m_vertexList->clear();
-		m_vertexList = nullptr;
-	}
-	if (m_indexList)
-	{
-		//delete[]m_indexList;
-		m_indexList->clear();
-		m_indexList = nullptr;
+	{	
+		for (size_t i = 0; i < m_vertexList->size(); i++)
+		{
+			delete m_vertexList->at(i);
+		}
+		delete m_vertexList;
 	}
 
+	if (m_indexList)
+	{
+		for (size_t i = 0; i < m_indexList->size(); i++)
+		{
+			delete m_indexList->at(i);
+		}
+		delete m_indexList;
+	}
+
+	if (vertextest)
+	{
+		delete vertextest;
+	}
+
+	if (indextest)
+	{
+		delete indextest;
+	}
 	return true;
 }
 
@@ -563,6 +577,8 @@ void QuadTree::Release()
 		delete m_parentNode;
 		m_parentNode = 0;
 	}
+
+
 	return;
 }
 
