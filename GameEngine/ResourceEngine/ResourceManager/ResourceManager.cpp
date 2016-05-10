@@ -53,8 +53,6 @@ void ResourceManager::Release()
 		MeshEnum meshType = object->object;
 
 
-		
-
 		if(meshType != MeshEnum::PROJECTILE_1)
 			currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
 	

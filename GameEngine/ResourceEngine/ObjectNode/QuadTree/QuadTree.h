@@ -34,12 +34,15 @@ private:
 	unsigned int			m_drawCount;
 	std::vector<Vertex*>*	m_vertexList;
 	std::vector<UINT*>*		m_indexList;
+	std::vector<Vertex>*	vertextest;
+	std::vector<UINT>*		indextest;
 	NodeType*				m_parentNode;
 
-	Vertex* combinedvertices;
-	UINT* combinedindices;
+	Vertex* combinedvertices = nullptr;
+	UINT* combinedindices = nullptr;
 
-	unsigned int indexCount;
+	unsigned int vertexCount;
+	UINT indexCount;
 
 	void ReleaseNode(NodeType *node);
 	void RenderNode(NodeType *node, ID3D11DeviceContext *gDeviceContext, Frustum* frustum, ID3D11Buffer* worldBuffer);

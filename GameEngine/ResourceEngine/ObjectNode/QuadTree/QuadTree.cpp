@@ -274,10 +274,10 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 	vertexCount = numTriangles * 3;
 
 	//Create vertex array
-	combinedvertices = new Vertex[vertexCount];
+	vertices = new Vertex[vertexCount];
 
 	//Create the index array
-	combinedindices = new UINT[indexCount];
+	indices = new UINT[this->indexCount];
 	//std::vector<UINT> indices2;
 
 	//Initialize the index
@@ -357,15 +357,10 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 
 	//Delete the vertices and indices arrays, as they are now stored in the buffers
 
-	delete[] this->combinedvertices;
-	combinedvertices = 0;
-	delete[] this->combinedindices;
-	combinedindices = 0;
-
-	delete[] vertices;
-	vertices = 0;
-	delete[] indices;
-	indices = 0;
+	//delete[] vertices;
+	//combinedvertices = 0;
+	//delete[] indices;
+	//combinedindices = 0;
 
 	return;
 
@@ -470,13 +465,15 @@ bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, I
 {
 	this->m_vertexList = new std::vector<Vertex*>;
 	this->m_indexList = new std::vector<UINT*>;
+	this->vertextest = new std::vector<Vertex>;
+	this->indextest = new std::vector<UINT>;
 
 	this->gDevice = gDevice;
 	this->gDeviceContext = gDeviceContext;
 	this->worldMatrix = worldBuffer->worldBuffer.worldMatrix;
 
-	unsigned int vertexCount = 0;
-	UINT indexCount = 0;
+	this->vertexCount = 0;
+	this->indexCount = 0;
 	float width;
 	Float2 position;
 
@@ -484,8 +481,8 @@ bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, I
 	//Get the number of vertices in the terrain
 	for (unsigned int i = 0; i < terrain->size(); i++)
 	{
-		vertexCount += terrain->at(i).GetVertexCount();
-		indexCount += terrain->at(i).GetIndexCount();
+		this->vertexCount += terrain->at(i).GetVertexCount();
+		this->indexCount += terrain->at(i).GetIndexCount();
 	}
 
 	//Store the total triangle countW
@@ -506,8 +503,6 @@ bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, I
 		this->m_indexList->push_back(terrain->at(i).GetIndices());
 
 	}
-
-	int index = 0;
 	//VARJE VECTORPLATS
 	for (unsigned int arrayIndex = 0; arrayIndex < m_vertexList->size(); arrayIndex++)
 	{
@@ -515,11 +510,10 @@ bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, I
 		for (unsigned int vertexAmountPerArray = 0; vertexAmountPerArray < terrain->at(arrayIndex).GetVertexCount(); vertexAmountPerArray++)
 		{
 			//VARJE VERTIS I VERTEXARRAY
-			this->combinedvertices[index] = m_vertexList->at(arrayIndex)[vertexAmountPerArray];
-			index++;
+			this->vertextest->push_back(m_vertexList->at(arrayIndex)[vertexAmountPerArray]);
 		}
 	}
-	index = 0;
+	combinedvertices = vertextest->data();
 	//VARJE VECTORPLATS
 	for (unsigned int arrayIndex = 0; arrayIndex < m_indexList->size(); arrayIndex++)
 	{
@@ -527,12 +521,10 @@ bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, I
 		for (UINT IndexAmountPerArray = 0; IndexAmountPerArray < terrain->at(arrayIndex).GetIndexCount(); IndexAmountPerArray++)
 		{
 			//VARJE VERTIS I INDEXARRAY
-			this->combinedindices[index] = m_indexList->at(arrayIndex)[IndexAmountPerArray];
-			index++;
+			this->indextest->push_back(m_indexList->at(arrayIndex)[IndexAmountPerArray]);
 		}
 	}
-	this->combinedindices = combinedindices;
-
+	combinedindices = indextest->data();
 												 //Calculate the parent node. It's the upper most quad, covering the whole terrain
 												 //Calculates center x,z and width
 	CalculateMeshDimensions(vertexCount, position, width);
