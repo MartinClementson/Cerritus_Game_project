@@ -18,12 +18,13 @@ class Enemy :
 
 private:
 
-	void Release();
+
 	Enemy();
 	//float index;
-
+public:
+	void Release();
 	EnemyStateMachine* GetStateMachine();
-	
+
 	Enemy(XMFLOAT3 spawn, bool fast);
 
 	//bool isAlive = false;
