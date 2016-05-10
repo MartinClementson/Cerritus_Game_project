@@ -26,7 +26,7 @@ public:
 	std::vector<EnemySpawn*> enemySpawns;
 	Scene();
 	virtual ~Scene();
-	
+
 	void Initialize();
 	void InitFireTrap();
 	void InitBearTrap();
@@ -38,6 +38,7 @@ public:
 	void EvadeTrap(EnemyBase * enemy, BearTrap * bear, double deltaTime);
 
 	void AddEnemySpawn(XMFLOAT3 spawnPosition);
+
 
 	std::vector<EnemySpawn*> GetEnemySpawn();
 };

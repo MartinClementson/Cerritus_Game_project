@@ -10,6 +10,8 @@ GameState::GameState()
 	this->room1 = new Scene();
 	this->collision = Collision::GetInstance();
 	this->gameTimer = GameTimer::GetInstance();
+	this->menu = new MenuState();
+	this->gameUI = new GUI();
 }
 
 
@@ -19,25 +21,32 @@ GameState::~GameState()
 	delete this->pause;
 	delete this->player;
 	delete this->room1;
+	delete this->menu;
+	delete this->gameUI;
 
 
 }
 
-void GameState::Initialize()
+void GameState::Initialize(AudioManager* audioManager)
 {
+	this->audioManager = audioManager;
 	input->Initialize();
-	player->Initialize();
+	player->Initialize(audioManager);
 	death->Initialize();
 	pause->Initialize();
 	death->isActive = false;
 	pause->isActive = false;
 	isPlayerDead = false;
+	toMenu = false;
+	menu->Initialize();
+	menu->isActive = false;
+	gameUI->Initialize();
 	//Create room one here
 	timeSincePaused = 0.0f;
 	room1->Initialize();
 	room1->InitBearTrap();
 	room1->InitFireTrap();
-	room1->AddEnemySpawn(XMFLOAT3( 30.0f, 0.0f,  20.0f));
+	room1->AddEnemySpawn(XMFLOAT3(30.0f, 0.0f, 20.0f));
 	room1->AddEnemySpawn(XMFLOAT3(-50.0f, 0.0f, -50.0f));
 	room1->AddEnemySpawn(XMFLOAT3(-50.0f, 0.0f, 30.0f));
 	index = 5.0f;
@@ -51,19 +60,25 @@ void GameState::Release()
 	input->Release();
 	player->Release();
 	room1->Release();
-
+	menu->Release();
+	gameUI->Release();
 }
 
 void GameState::Update(double deltaTime)
 {
+
 	index += (float)deltaTime;
 	healers.clear();
 	ProcessInput(&deltaTime);
+	gameUI->Update(deltaTime);
+	ProcessInput(&deltaTime);
 	if (!pause->isActive)
 	{
+		gameUI->setUI(UITextures::HUD);
+
 		if (player->GetHealth() <= 0)
 		{
-			//isPlayerDead = true;
+			isPlayerDead = true;
 			//isActive = false;
 		}
 		XMFLOAT2 mouseXY = input->GetMousePosition();
@@ -207,6 +222,7 @@ void GameState::Update(double deltaTime)
 											}
 										//}
 									}
+
 								}
 							}
 
@@ -224,11 +240,13 @@ void GameState::Update(double deltaTime)
 									tmpCloseHealer,
 									deltaTime);
 
+
 								if (collision->HealerProximity(room1->enemySpawns.at(k)->
 									StandardAlive.at(p), tmpCloseHealer))
 								{
 									if (room1->enemySpawns.at(k)->StandardAlive.at(j)->GetStateMachine()->
-										GetActiveState() == ENEMY_HEAL_STATE)
+										GetActiveState() == ENEMY_HEAL_STATE
+										&& room1->enemySpawns.at(k)->StandardAlive.at(j)->GetCharType() != CharacterType::HEALER)
 									{
 										room1->enemySpawns.at(k)->
 											StandardAlive.at(p)->SetHealth(
@@ -289,6 +307,10 @@ void GameState::Update(double deltaTime)
 		}
 		room1->Update(deltaTime);
 	}
+	else if (pause->isActive)
+	{
+		gameUI->setUI(UITextures::PAUSE);
+	}
 }
 
 
@@ -313,15 +335,16 @@ void GameState::ProcessInput(double* deltaTime)
 	{	
 		int					 moveKeysPressed		 = 0;		//How many have been clicked
 		int					 maxMoveKeysPressed		 = 2;		// Maximum amount of movement keys that can be clicked each frame.
+
 		MovementDirection	 directions[2];						//This should be as big as MaxMoveKeysPressed
 
 #pragma region Movement Keys
 
 		if (input->IsKeyPressed(KEY_W))
 		{
-			directions[moveKeysPressed]  = UP;
-			moveKeysPressed				+= 1;
-			
+			directions[moveKeysPressed] = UP;
+			moveKeysPressed += 1;
+
 		}
 
 
@@ -329,10 +352,10 @@ void GameState::ProcessInput(double* deltaTime)
 		{
 			if (moveKeysPressed < maxMoveKeysPressed)
 			{
-				directions[moveKeysPressed]				 = DOWN;
-				moveKeysPressed							 += 1;
+				directions[moveKeysPressed] = DOWN;
+				moveKeysPressed += 1;
 			}
-			
+
 
 		}
 
@@ -340,10 +363,10 @@ void GameState::ProcessInput(double* deltaTime)
 		{
 			if (moveKeysPressed < maxMoveKeysPressed)
 			{
-				directions[moveKeysPressed]		 = LEFT;
+				directions[moveKeysPressed] = LEFT;
 				moveKeysPressed += 1;
 			}
-			
+
 		}
 
 
@@ -351,15 +374,15 @@ void GameState::ProcessInput(double* deltaTime)
 		{
 			if (moveKeysPressed < maxMoveKeysPressed)
 			{
-				directions[moveKeysPressed]		 = RIGHT;
-				moveKeysPressed					 += 1;
+				directions[moveKeysPressed] = RIGHT;
+				moveKeysPressed += 1;
 			}
 		}
 
 
 		if (moveKeysPressed > 0)
 		{
-			player->Move(directions, moveKeysPressed ,deltaTime[0]);
+			player->Move(directions, moveKeysPressed, deltaTime[0]);
 		}
 #pragma endregion
 
@@ -406,6 +429,7 @@ void GameState::Render()
 	room1->Render();
 	player->Render();
 	gameUI->Render();
+
 }
 
 void GameState::OnEnter()

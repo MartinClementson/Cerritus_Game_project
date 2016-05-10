@@ -26,7 +26,9 @@ void Healer::Update(double deltaTime)
 	}
 
 	enemyStateMachine->Update(deltaTime);
-	renderInfo = { position, rotation };
+	renderInfo.position = position;
+	renderInfo.rotation = rotation;
+	renderInfo.radius = radius;
 }
 
 void Healer::Initialize()
@@ -56,7 +58,9 @@ Healer::Healer(XMFLOAT3 spawn)
 	this->enemyStateMachine = new EnemyStateMachine();
 	enemyStateMachine->Initialize();
 	this->graphics = Graphics::GetInstance();
-	renderInfo = { position, rotation };
+	renderInfo.position = position;
+	renderInfo.rotation = rotation;
+	renderInfo.radius = radius;
 }
 
 
@@ -93,7 +97,17 @@ float Healer::GetRadius2()
 
 void Healer::Render()
 {
-	renderInfo = { position, rotation };
+	renderInfo.position = position;
+	renderInfo.rotation = rotation;
+	renderInfo.radius = radius;
+	renderInfo.render = true;
+	if (this->health < (maxHealth * 0.95))
+	{
+		renderInfo.showHealthBar = true;
+		renderInfo.normalizedHealthVal = health / maxHealth;
+	}
+	else
+		renderInfo.showHealthBar = false;
 	graphics->QueueRender(&renderInfo);
 }
 

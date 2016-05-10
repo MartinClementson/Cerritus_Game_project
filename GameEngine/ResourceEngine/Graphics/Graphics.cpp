@@ -1,6 +1,25 @@
 #include "Graphics.h"
+#define toRadian(degrees) ((degrees)* (XM_PI/180.0f))
 
+inline DirectX::XMFLOAT3 operator+(DirectX::XMFLOAT3 a, DirectX::XMFLOAT3 b) {
+	DirectX::XMFLOAT3 result;
 
+	result.x = a.x + b.x;
+	result.y = a.y + b.y;
+	result.z = a.z + b.z;
+
+	return result;
+}
+
+inline DirectX::XMFLOAT3 operator*(DirectX::XMFLOAT3 a, float b) {
+	DirectX::XMFLOAT3 result;
+
+	result.x = a.x * b;
+	result.y = a.y * b;
+	result.z = a.z * b;
+
+	return result;
+}
 
 Graphics::Graphics()
 {
@@ -9,25 +28,36 @@ Graphics::Graphics()
 
 Graphics::~Graphics()
 {
-	if (gameObjects != nullptr)
+	if (gameObjects  != nullptr)
 		delete gameObjects;
-	if (charObjects != nullptr)
+	if (charObjects  != nullptr)
 		delete charObjects;
-	if (uiObjects != nullptr)
+	if (uiObjects	 != nullptr)
 		delete uiObjects;
 	if (enemyObjects != nullptr)
 		delete enemyObjects;
-	if (trapObjects != nullptr)
+	if (trapObjects  != nullptr)
 		delete trapObjects;
-
-
 	if (shadowBuffer != nullptr)
 		delete shadowBuffer;
-	if (renderer != nullptr)
+	if (renderer	 != nullptr)
 		delete renderer;
-
-	if (gBuffer != nullptr)
+	if (gBuffer		 != nullptr)
 		delete gBuffer;
+
+	if (instancedWorldDataPerFrame != nullptr)
+	{
+		for (size_t i = 0; i < INSTANCED_WORLD_BUFFER_AMOUNT; i++)
+			delete instancedWorldDataPerFrame[i];
+	}
+
+	if (billBoardArray != nullptr)
+	{
+			for (size_t i = 0; i < BILLBOARDED_ARRAYS; i++)
+				delete billBoardArray[i];
+			
+	}
+	
 
 	
 }
@@ -45,9 +75,18 @@ void Graphics::Initialize(HWND * window)
 	enemyObjects	 = new std::vector<RenderInfoEnemy*>;
 	trapObjects		 = new std::vector<RenderInfoTrap*>;
 
-
-
-
+	instancedWorldDataPerFrame[ENEMY_1_INSTANCED]    = new InstancedData[MAX_INSTANCED_GEOMETRY];
+	instancedWorldDataPerFrame[PROJECTILE_INSTANCED] = new InstancedData[MAX_INSTANCED_GEOMETRY];
+	instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED]	 = new InstancedData[MAX_INSTANCED_GEOMETRY];
+	instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED]	 = new InstancedData[MAX_INSTANCED_GEOMETRY];
+	
+	billBoardArray[PROJECTILE_BILLBOARD]			 = new BillboardData[MAX_BILLBOARDED_GEOMETRY];
+	billBoardArray[HEALTH_BAR_BILLBOARD]			 = new BillboardData[MAX_BILLBOARDED_GEOMETRY];
+	
+	memset(billBoardArray[PROJECTILE_BILLBOARD],	  0, sizeof(billBoardArray[PROJECTILE_BILLBOARD]));
+	memset(billBoardArray[HEALTH_BAR_BILLBOARD],      0, sizeof(billBoardArray[HEALTH_BAR_BILLBOARD]));
+	memset(instancesToRender, 0, sizeof(instancesToRender)); //reset instances to render amount
+	memset(billboardsToRender, 0, sizeof(billboardsToRender));
 	renderer = new Renderer();
 	renderer->Initialize(gDevice,this->gDeviceContext);
 	
@@ -91,67 +130,64 @@ void Graphics::Release()
 
 	if (DEBUG == 2)
 	{
-		
 		if (debug)
 		{
-
 			debug->ReportLiveDeviceObjects(D3D11_RLDO_DETAIL);
 			SAFE_RELEASE(debug);
 		}
-
 	}
-
-
-
-
-
-
-
-	
-
-	while (gDevice->Release() > 0);
-	//SAFE_RELEASE(gDevice);
+	//while (gDevice->Release() > 0);
+	SAFE_RELEASE(gDevice);
 
 	
 }
 
 void Graphics::Render() //manage RenderPasses here
 {
+	if (charObjects->size() > 0)
+		renderer->UpdateCamera(charObjects->at(0)->position);
+
+
+	CullGeometry();									 //Remove geometry out of view
 
 	SetShadowViewPort();
 
 	shadowBuffer->ClearShadowGbuffer();
 
 	shadowBuffer->ShadowSetToRender();
+
 	renderer->SetShadowPass(true);
 
-	this->RenderScene();
+	this->RenderScene();							//Render shadowPass
 
 	gBuffer->SetToRender(depthStencilView);	
+
 	shadowBuffer->ShadowSetToRead();
+
+	renderer->SetShadowPass(false);
 
 	SetViewPort();
 
-
-
-
-	//this->gDeviceContext->OMSetRenderTargets(1, &this->gBackBufferRTV, depthStencilView);
-
-			//Set The gbuffer pass
+	//Set The gbuffer pass
 	this->renderer->SetGbufferPass(true);
+
 	RenderScene();									//Render to the gBuffer
 													//Set the gBuffer as a subResource, send in the new RenderTarget
 	gBuffer->SetToRead(gBackBufferRTV); 
+	
+	//blurpass
+	this->renderer->RenderBlurPass(this->gBuffer->GetBlurUAV(), this->gBuffer->GetGlowSRV()); //blur the glow map
 
 	this->renderer->RenderFinalPass();
-	gBuffer->ClearGbuffer();
-										
+
+	for (unsigned int i = 0; i < uiObjects->size(); i++)
+	{
+		renderer->Render(uiObjects->at(i));
+
+	}
+
 	
-	//RenderScene();// TEMPORARY, REMOVE WHEN GBUFFER WORKS
-
 	FinishFrame();
-
-
 }
 
 void Graphics::RenderScene()
@@ -163,54 +199,111 @@ void Graphics::RenderScene()
 		renderer->Render(charObjects->at(0));
 	}
 #pragma region Temporary code for early testing
-	RenderInfoObject tempInfo;					 //TEMPORARY
-											//TEMPORARY
+	RenderInfoObject tempInfo;						//TEMPORARY
+													//TEMPORARY
 	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
 	tempInfo.rotation = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
 	tempInfo.object = MeshEnum::LEVEL_1;
-	this->renderer->Render(&tempInfo);			 //TEMPORARY
+	this->renderer->Render(&tempInfo);				//TEMPORARY
 	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
 	tempInfo.rotation = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
 	tempInfo.object = MeshEnum::LEVEL_2;
-	this->renderer->Render(&tempInfo);			 //TEMPORARY
+	this->renderer->Render(&tempInfo);				//TEMPORARY
 	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
 	tempInfo.rotation = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
 	tempInfo.object = MeshEnum::LEVEL_3;
-	this->renderer->Render(&tempInfo);			 //TEMPORARY
+	this->renderer->Render(&tempInfo);				//TEMPORARY
 	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
 	tempInfo.rotation = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
 	tempInfo.object = MeshEnum::LEVEL_4;
-	this->renderer->Render(&tempInfo);			 //TEMPORARY
-	
+	this->renderer->Render(&tempInfo);				 //TEMPORARY
+
 #pragma endregion
-	
-	
-	
-	
-		
+
+
+
+
+
 	for (unsigned int i = 0; i < gameObjects->size(); i++)
 	{
-		renderer->Render(gameObjects->at(i));
+		if (!gameObjects->at(i)->render)
+			continue;
+		else
+			renderer->Render(gameObjects->at(i));
 
 	}
 
-	for (unsigned int i = 0; i < enemyObjects->size(); i++)
+	//Render instanced projectiles
+	if (instancesToRender[PROJECTILE_INSTANCED] > 0)
 	{
-		renderer->Render(enemyObjects->at(i));
+		////////////BILLBOARD RENDERING
+ 		renderer->RenderBillBoard(
+			this->gameObjects->at(instanceMeshIndex.projectileMesh),
+			billBoardArray   [PROJECTILE_BILLBOARD], 
+			instancesToRender[PROJECTILE_INSTANCED]);
 
+		//////////////INSTANCE RENDERING
+		//renderer->RenderInstanced(this->gameObjects->at(instanceMeshIndex.projectileMesh),
+			//instancedWorldDataPerFrame[ PROJECTILE_INSTANCED ], instancesToRender[ PROJECTILE_INSTANCED ] );
 	}
 
-	for (unsigned int i = 0; i < trapObjects->size(); i++)
+	if (billboardsToRender[HEALTH_BAR_BILLBOARD] > 0)
 	{
-		renderer->Render(trapObjects->at(i));
 
+		////////////BILLBOARD RENDERING
+		renderer->RenderBillBoard(
+			nullptr,
+			billBoardArray    [HEALTH_BAR_BILLBOARD],
+			billboardsToRender[HEALTH_BAR_BILLBOARD]);
 	}
 
-	for (unsigned int i = 0; i < uiObjects->size(); i++)
+	////Render instanced enemies
+	if (instancesToRender[ENEMY_1_INSTANCED] > 0)
+	{
+		renderer->RenderInstanced(this->enemyObjects->at(instanceMeshIndex.enemy1Mesh ),
+			instancedWorldDataPerFrame[ ENEMY_1_INSTANCED ], instancesToRender[ ENEMY_1_INSTANCED ]);
+	}
+	
+	 //Take back when we have more enemy types
+	/*for (unsigned int i = 0; i < enemyObjects->size(); i++)
+	{
+		if (!enemyObjects->at(i)->render)
+			continue;
+		else
+			renderer->Render(enemyObjects->at(i));
+	}*/
+
+	////Render instanced FireTraps
+	if (instancesToRender[TRAP_FIRE_INSTANCED] > 0)
+	{
+		renderer->RenderInstanced(this->trapObjects->at(instanceMeshIndex.trapFireMesh),
+			instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED], instancesToRender[TRAP_FIRE_INSTANCED]);
+	}
+
+	////Render instanced BearTraps
+	if (instancesToRender[TRAP_BEAR_INSTANCED] > 0)
+	{
+		renderer->RenderInstanced(this->trapObjects->at(instanceMeshIndex.trapBearMesh),
+			instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED], instancesToRender[TRAP_BEAR_INSTANCED]);
+	}
+
+
+
+
+	/*for (unsigned int i = 0; i < trapObjects->size(); i++)
+	{
+		if (!trapObjects->at(i)->render)
+			continue;
+		else
+			renderer->Render(trapObjects->at(i));
+
+	}*/
+
+	/*for (unsigned int i = 0; i < uiObjects->size(); i++)
 	{
 		renderer->Render(uiObjects->at(i));
 
-	}
+	}*/
 
 
 
@@ -218,11 +311,34 @@ void Graphics::RenderScene()
 
 void Graphics::FinishFrame() // this one clears the graphics for this frame. So that it can start a new cycle next frame
 {
+
+
+	gBuffer->ClearGbuffer();
+
+	this->renderer->SetGbufferPass(false);
+
+
 	gameObjects  ->clear(); //clear the queue
-	charObjects  ->clear();
-	enemyObjects ->clear();
-	trapObjects	 ->clear();
-	uiObjects	 ->clear();
+	charObjects  ->clear();	//clear the queue
+	enemyObjects ->clear();	//clear the queue
+	trapObjects	 ->clear();	//clear the queue
+	uiObjects	 ->clear();	//clear the queue
+
+	memset(instancedWorldDataPerFrame[ENEMY_1_INSTANCED],    0, sizeof(instancedWorldDataPerFrame[ENEMY_1_INSTANCED]   ));	 //reset instance array
+	memset(instancedWorldDataPerFrame[PROJECTILE_INSTANCED], 0, sizeof(instancedWorldDataPerFrame[PROJECTILE_INSTANCED]));   //reset instance array
+	memset(instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED],  0, sizeof(instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED]));	 //reset instance array
+	memset(instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED],  0, sizeof(instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED]));	 //reset instance array
+
+	memset(billBoardArray[PROJECTILE_BILLBOARD], 0, sizeof(billBoardArray[PROJECTILE_BILLBOARD]));
+	memset(billBoardArray[HEALTH_BAR_BILLBOARD], 0, sizeof(billBoardArray[HEALTH_BAR_BILLBOARD]));
+
+
+
+	
+	memset(instancesToRender,  0, sizeof(instancesToRender)); //reset instances to render amount
+	memset(billboardsToRender, 0, sizeof(billboardsToRender));
+
+	instanceMeshIndex.Reset();
 
 	this->gSwapChain->Present(VSYNC, 0); //Change front and back buffer after rendering
 	
@@ -265,10 +381,204 @@ void Graphics::SetShadowMap()
 
 }
 
+void Graphics::CullGeometry()
+{
+
+
+	//Do frustum culling here, the things that are seen have their world matrices calculated. and added to instanced array
+	unsigned int	 projectileIndex	 = 0;
+	unsigned int	 enemyIndex			 = 0;
+	unsigned int	 healthBarIndex		 = 0;
+	unsigned int	 bearTrapIndex		 = 0;
+	unsigned int	 fireTrapIndex		 = 0;
+
+#pragma region Cull enemy objects
+	for (size_t i = 0; i < this->enemyObjects->size(); i++)
+	{
+		//Frustum culling
+		if (renderer->FrustumCheck(enemyObjects->at(i)->position, enemyObjects->at(i)->radius) == false)
+		{	
+			//If its not visible
+			this->enemyObjects->at(i)->render = false;
+			continue;
+		}
+		 
+		else {
+
+			//if object is visible and is enemy_1_type
+			this->instancedWorldDataPerFrame[ENEMY_1_INSTANCED][enemyIndex].worldMatrix = CalculateWorldMatrix(&this->enemyObjects->at(i)->position, &this->enemyObjects->at(i)->rotation);
+			instancesToRender		   [ENEMY_1_INSTANCED] += 1;
+			enemyIndex									   += 1;
+			this->enemyObjects->at(i)->render = false; //Remove this from normal rendering, since we render instanced
+				if (instanceMeshIndex.enemy1Mesh == -1) //if this is the first thing we found of that mesh, store the index.
+					instanceMeshIndex.enemy1Mesh = (int)i;
+
+				if (enemyObjects->at(i)->showHealthBar)
+				{
+					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].direction  = XMFLOAT3(0.0f, 1.0f, 0.0f);
+					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].height		= 0.1f;
+					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].width		= 2.0f * enemyObjects->at(i)->normalizedHealthVal;
+					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].worldPos	= 
+						XMFLOAT3(	enemyObjects->at(i)->position.x - (2.0f - (billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width)), 	   // pos. x - (2 - width)
+									5.0f ,																									       //height of the healthbar. 0 == on ground
+									enemyObjects->at(i)->position.z);																		       // pos z.
+					
+					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + enemyObjects->at(i)->normalizedHealthVal - 0.2f;		// -0.2f is just to make the red appear sooner
+					billBoardArray    [HEALTH_BAR_BILLBOARD];
+					billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;
+					healthBarIndex							 += 1;
+				}
+		}
+		//endif  object is visible
+	}
+#pragma endregion
+
+#pragma region Cull game objects
+ 	for (size_t i = 0; i < this->gameObjects->size(); i++)
+	{
+		//Frustum culling
+	if (renderer->FrustumCheck(gameObjects->at(i)->position, gameObjects->at(i)->radius) == false)
+		{	//If its not visible
+     			this->gameObjects->at(i)->render = false;
+			continue;
+		}
+		else //if it's inside the frustum
+		{
+ 			if (this->gameObjects->at(i)->object == MeshEnum::PROJECTILE_1)
+			{
+
+				//this->instancedWorldDataPerFrame[PROJECTILE_INSTANCED][projectileIndex].worldMatrix = CalculateWorldMatrix(&this->gameObjects->at(i)->position, &this->gameObjects->at(i)->rotation);
+				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].direction = this->gameObjects->at(i)->direction;
+				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].height    = 3.0f;
+				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].width     = 0.15f;
+				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].worldPos  = this->gameObjects->at(i)->position + (this->gameObjects->at(i)->direction *(billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].height * 0.9f));
+
+				instancesToRender[PROJECTILE_INSTANCED]  += 1;
+				projectileIndex							 += 1;
+				this->gameObjects->at(i)->render		  = false; //We don't want to render this with nonInstance rendering
+				
+				if (instanceMeshIndex.projectileMesh == -1) //if this is the first thing we found of that mesh, store the index.
+      					instanceMeshIndex.projectileMesh = (int)i;
+			}
+			else
+				this->gameObjects->at(i)->render = true;
+
+		}
+
+	}
+
+#pragma endregion
+
+
+#pragma region Cull trap objects
+
+	for (size_t i = 0; i < this->trapObjects->size(); i++)
+	{
+		//Frustum culling
+		if (renderer->FrustumCheck(trapObjects->at(i)->position, trapObjects->at(i)->radius) == false)
+		{
+			//If its not visible
+			this->trapObjects->at(i)->render = false;
+			continue;
+		}
+		else
+		{
+			if (this->trapObjects->at(i)->object == MeshEnum::TRAP_BEAR)
+			{
+				this->instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED][bearTrapIndex].worldMatrix = CalculateWorldMatrix(&this->trapObjects->at(i)->position, &this->trapObjects->at(i)->rotation);
+				instancesToRender[TRAP_BEAR_INSTANCED] += 1;
+				bearTrapIndex += 1;
+				this->trapObjects->at(i)->render = false; //We don't want to render this with nonInstance rendering
+
+				if (instanceMeshIndex.trapBearMesh == -1) //if this is the first thing we found of that mesh, store the index.
+					instanceMeshIndex.trapBearMesh = (int)i;
+			}
+
+			else if (this->trapObjects->at(i)->object == MeshEnum::TRAP_FIRE)
+			{
+				this->instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED][fireTrapIndex].worldMatrix = CalculateWorldMatrix(&this->trapObjects->at(i)->position, &this->trapObjects->at(i)->rotation);
+				instancesToRender[TRAP_FIRE_INSTANCED] += 1;
+				fireTrapIndex += 1;
+				this->trapObjects->at(i)->render = false; //We don't want to render this with nonInstance rendering
+
+				if (instanceMeshIndex.trapFireMesh == -1) //if this is the first thing we found of that mesh, store the index.
+					instanceMeshIndex.trapFireMesh = (int)i;
+			}
+		}
+
+	}
+
+
+#pragma endregion
+}
+
+XMFLOAT4X4 Graphics::CalculateWorldMatrix(XMFLOAT3 * position, XMFLOAT3 * rotation)
+{
+	DirectX::XMMATRIX scaleMatrix		 =  XMMatrixIdentity();
+
+	//We convert from degrees to radians here. Before this point we work in degrees to make it easier for the programmer and user
+	DirectX::XMMATRIX rotationMatrixX	 =  DirectX::XMMatrixRotationX(toRadian(rotation->x));
+	DirectX::XMMATRIX rotationMatrixY	 =  DirectX::XMMatrixRotationY(toRadian(rotation->y));
+	DirectX::XMMATRIX rotationMatrixZ	 =  DirectX::XMMatrixRotationZ(toRadian(rotation->z));
+
+	//Create the rotation matrix
+	DirectX::XMMATRIX rotationMatrix	 = DirectX::XMMatrixMultiply(rotationMatrixZ, rotationMatrixX);
+	rotationMatrix						 = DirectX::XMMatrixMultiply(rotationMatrix, rotationMatrixY);
+
+	//Intoduce the world matrix, multiply rotation and scale. (world translation comes later)
+	DirectX::XMMATRIX world				 = DirectX::XMMatrixMultiply(rotationMatrix, scaleMatrix);
+
+
+	//Create the world translation matrix
+	DirectX::XMMATRIX translationMatrix  = DirectX::XMMatrixTranslation(position->x, position->y, position->z);
+
+
+	//Multiply the (scale*rotation) matrix with the world translation matrix
+	world								 = DirectX::XMMatrixMultiply(world, translationMatrix);
+	world								 = XMMatrixTranspose(world);
+
+	XMFLOAT4X4 toReturn;
+
+	XMStoreFloat4x4(&toReturn, world);
+
+	return toReturn;
+}
+
+XMFLOAT4X4 Graphics::CalculateWorldMatrix(XMFLOAT3 * position, XMFLOAT3 * rotation, XMFLOAT3 * scale)
+{
+	DirectX::XMMATRIX scaleMatrix	  = XMMatrixScaling(scale->x,scale->y,scale->z);
+
+	//We convert from degrees to radians here. Before this point we work in degrees to make it easier for the programmer and user
+	DirectX::XMMATRIX rotationMatrixX = DirectX::XMMatrixRotationX(toRadian(rotation->x));
+	DirectX::XMMATRIX rotationMatrixY = DirectX::XMMatrixRotationY(toRadian(rotation->y));
+	DirectX::XMMATRIX rotationMatrixZ = DirectX::XMMatrixRotationZ(toRadian(rotation->z));
+
+	//Create the rotation matrix
+	DirectX::XMMATRIX rotationMatrix  = DirectX::XMMatrixMultiply(rotationMatrixZ, rotationMatrixX);
+	rotationMatrix					  = DirectX::XMMatrixMultiply(rotationMatrix, rotationMatrixY);
+
+	//Intoduce the world matrix, multiply rotation and scale. (world translation comes later)
+	DirectX::XMMATRIX world			  = DirectX::XMMatrixMultiply(rotationMatrix, scaleMatrix);
+
+
+	//Create the world translation matrix
+	DirectX::XMMATRIX translationMatrix = DirectX::XMMatrixTranslation(position->x, position->y, position->z);
+
+
+	//Multiply the (scale*rotation) matrix with the world translation matrix
+	world = DirectX::XMMatrixMultiply(world, translationMatrix);
+	world = XMMatrixTranspose(world);
+
+	XMFLOAT4X4 toReturn;
+
+	XMStoreFloat4x4(&toReturn, world);
+
+	return toReturn;
+}
+
 
 HRESULT Graphics::CreateDirect3DContext()
 {
-
 
 	//Swap chain description
 	DXGI_SWAP_CHAIN_DESC scd;
@@ -389,8 +699,6 @@ HRESULT Graphics::CreateDirect3DContext()
 			MessageBox(*wndHandle, L"Failed to create UAV", L"Error", MB_ICONERROR | MB_OK);
 			return hr;
 		}
-
-
 
 
 		hr = this->gDevice->CreateShaderResourceView(pBackBuffer, nullptr, &BackBufferTexture);

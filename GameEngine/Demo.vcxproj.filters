@@ -50,9 +50,6 @@
     <Filter Include="ResourceEngine\ObjectNode\Mesh">
       <UniqueIdentifier>{0f2edb97-95a0-4a91-af0e-b3313897eccc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ResourceEngine\ObjectNode\Camera\Frustrum">
-      <UniqueIdentifier>{a737e2e0-8dfc-4b2b-8dd9-d47248cf787c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Main\GameTimer">
       <UniqueIdentifier>{ff22ab3d-d573-4a36-8f37-d9a36683ae30}</UniqueIdentifier>
     </Filter>
@@ -239,6 +236,18 @@
     <Filter Include="GameLogic\StateMachines\EnemyStateMachine\HealingState">
       <UniqueIdentifier>{a600160d-e459-4d7e-86f3-92e25235fb77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ResourceEngine\ObjectNode\Camera\Frustum">
+      <UniqueIdentifier>{a737e2e0-8dfc-4b2b-8dd9-d47248cf787c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\Shaders\ComputeShaders">
+      <UniqueIdentifier>{88002722-a9bd-4fd3-a07e-9e09175b14ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ObjectNode\QuadTree">
+      <UniqueIdentifier>{1d340038-b887-4f3c-b390-182959ce1737}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\StateMachines\MainStateMachene\AudioManager">
+      <UniqueIdentifier>{c7facd97-1bd3-4557-a0e0-ef0c127d4749}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameLogic\Animation\Animation.cpp">
@@ -420,6 +429,15 @@
     </ClCompile>
     <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\HealingState\HealingState.cpp">
       <Filter>GameLogic\StateMachines\EnemyStateMachine\HealingState</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ObjectNode\Camera\Frustum\Frustum.cpp">
+      <Filter>ResourceEngine\ObjectNode\Camera\Frustum</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceEngine\ObjectNode\QuadTree\QuadTree.cpp">
+      <Filter>ResourceEngine\ObjectNode\QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\StateMachines\AudioManager\AudioManager.cpp">
+      <Filter>GameLogic\StateMachines\MainStateMachene\AudioManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -612,6 +630,7 @@
     <ClInclude Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton\Skeleton.h">
       <Filter>ResourceEngine\ResourceManager\SkeletonManager\Skeleton</Filter>
     </ClInclude>
+
     <ClInclude Include="GameLogic\Character\Enemy\Healer.h">
       <Filter>GameLogic\Character\Enemy</Filter>
     </ClInclude>
@@ -620,6 +639,15 @@
     </ClInclude>
     <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\HealingState\HealingState.h">
       <Filter>GameLogic\StateMachines\EnemyStateMachine\HealingState</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ObjectNode\Camera\Frustum\Frustum.h">
+      <Filter>ResourceEngine\ObjectNode\Camera\Frustum</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceEngine\ObjectNode\QuadTree\QuadTree.h">
+      <Filter>ResourceEngine\ObjectNode\QuadTree</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\StateMachines\AudioManager\AudioManager.h">
+      <Filter>GameLogic\StateMachines\MainStateMachene\AudioManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -637,6 +665,24 @@
     </FxCompile>
     <FxCompile Include="ResourceEngine\Shader\GBufferShader\GbufferShader_Instanced.hlsl">
       <Filter>ResourceEngine\Shaders\GBufferShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\ShadowShader\ShadowShader_Instanced.hlsl">
+      <Filter>ResourceEngine\Shaders\ShadowShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\ComputeShaders\BlurCS.hlsl">
+      <Filter>ResourceEngine\Shaders\ComputeShaders</Filter>
+    </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\BillboardShader\BillboardShader.hlsl">
+      <Filter>ResourceEngine\Shaders\BillboardShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\ComputeShaders\SecondBlurCS.hlsl">
+      <Filter>ResourceEngine\Shaders\ComputeShaders</Filter>
+    </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\AnimationShader\AnimationShader_Instanced.hlsl">
+      <Filter>ResourceEngine\Shaders\AnimationShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\AnimationShader\AnimationShader.hlsl">
+      <Filter>ResourceEngine\Shaders\AnimationShader</Filter>
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
@@ -658,5 +704,10 @@
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\SkeletonData.obj">
       <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
     </Object>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="sounds\Explo1.wav">
+      <Filter>GameLogic\StateMachines\MainStateMachene\AudioManager</Filter>
+    </Media>
   </ItemGroup>
 </Project>

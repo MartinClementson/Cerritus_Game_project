@@ -15,13 +15,16 @@
 class Enemy :
 	public EnemyBase
 {
+
+private:
+
+
+	Enemy();
+	//float index;
 public:
 	void Release();
-	Enemy();
-	float index;
-
 	EnemyStateMachine* GetStateMachine();
-	
+
 	Enemy(XMFLOAT3 spawn, bool fast);
 
 	//bool isAlive = false;

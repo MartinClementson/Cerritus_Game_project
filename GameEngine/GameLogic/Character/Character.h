@@ -15,7 +15,7 @@ protected:
 	XMFLOAT3 rotation;
 	float radius, radius2;
 
-	float health, damage;
+	float health, damage, maxHealth;
 	bool dead, idle, active;
 	Graphics* graphics;
 	Animation* animations;

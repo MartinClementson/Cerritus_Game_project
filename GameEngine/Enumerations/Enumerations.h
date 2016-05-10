@@ -60,7 +60,24 @@ enum CharacterType
 enum UITextures
 {
 	HEALTHBAR,
-	WAVECOUNTER
+	WAVECOUNTER,
+	ENEMYSLEFT,
+	AMMO,
+	WAVECOMPLETE,
+	HUD,
+	MENU,
+	PAUSE,
+	GAMEOVER,
+	TEXTATLAS,
+	RESTARTMENU, // newGameMenu
+	RESTARTPAUSE, // restart Pause
+	EXITMENU, // ExitButton menu
+	EXITPAUSE, // Exitbutton Pause 
+	CONTROLS,
+	CONTROLSBUTTONMENU,//ControlButton Menu
+	CONTROLSEXIT,
+	RESUMEPAUSE, // Resumebutton Pause
+
 };
 
 #pragma endregion
@@ -86,7 +103,11 @@ enum Shaders
 	UI_SHADER,
 	ANIMATION_SHADER,
 	GBUFFER_SHADER,
-	SHADOW_SHADER
+	GBUFFER_SHADER_INSTANCED,
+	SHADOW_SHADER,
+	SHADOW_SHADER_INSTANCED,
+	BLUR_SHADER,
+	BLUR_SECOND_SHADER
 };
 
 #pragma endregion
@@ -137,6 +158,7 @@ enum InputKeys
 	KEY_A,
 	KEY_S,
 	KEY_D,
+	KEY_P,
 	KEY_LEFT,
 	KEY_RIGHT,
 	KEY_UP,
@@ -144,9 +166,11 @@ enum InputKeys
 	KEY_SPACE,
 	KEY_ENTER,
 	KEY_ESC,
+
 	KEY_Z,
 	KEY_X,
 	KEY_C,
+
 
 	MOUSE_RIGHT,
 	MOUSE_LEFT
@@ -202,7 +226,8 @@ enum GbufferTextures
 	G_DIFFUSE,
 	G_SPECULAR,
 	G_NORMAL,
-	G_DEPTH,
-	G_SHADOW
+	G_OVERLAY,
+	G_SHADOW,
+	G_GLOW
 
 };
