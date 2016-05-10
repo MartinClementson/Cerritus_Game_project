@@ -242,6 +242,9 @@
     <Filter Include="ResourceEngine\ObjectNode\QuadTree">
       <UniqueIdentifier>{1d340038-b887-4f3c-b390-182959ce1737}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameLogic\StateMachines\MainStateMachene\AudioManager">
+      <UniqueIdentifier>{c7facd97-1bd3-4557-a0e0-ef0c127d4749}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameLogic\Animation\Animation.cpp">
@@ -420,6 +423,9 @@
     </ClCompile>
     <ClCompile Include="ResourceEngine\ObjectNode\QuadTree\QuadTree.cpp">
       <Filter>ResourceEngine\ObjectNode\QuadTree</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\StateMachines\AudioManager\AudioManager.cpp">
+      <Filter>GameLogic\StateMachines\MainStateMachene\AudioManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -618,6 +624,9 @@
     <ClInclude Include="ResourceEngine\ObjectNode\QuadTree\QuadTree.h">
       <Filter>ResourceEngine\ObjectNode\QuadTree</Filter>
     </ClInclude>
+    <ClInclude Include="GameLogic\StateMachines\AudioManager\AudioManager.h">
+      <Filter>GameLogic\StateMachines\MainStateMachene\AudioManager</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ResourceEngine\Shader\GBufferShader\Gbuffer.hlsl">
@@ -647,6 +656,12 @@
     <FxCompile Include="ResourceEngine\Shader\ComputeShaders\SecondBlurCS.hlsl">
       <Filter>ResourceEngine\Shaders\ComputeShaders</Filter>
     </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\AnimationShader\AnimationShader_Instanced.hlsl">
+      <Filter>ResourceEngine\Shaders\AnimationShader</Filter>
+    </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\AnimationShader\AnimationShader.hlsl">
+      <Filter>ResourceEngine\Shaders\AnimationShader</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\Fetch.obj">
@@ -667,5 +682,10 @@
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\SkeletonData.obj">
       <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
     </Object>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="sounds\Explo1.wav">
+      <Filter>GameLogic\StateMachines\MainStateMachene\AudioManager</Filter>
+    </Media>
   </ItemGroup>
 </Project>

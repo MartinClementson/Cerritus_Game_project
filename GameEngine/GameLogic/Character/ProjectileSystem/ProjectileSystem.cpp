@@ -20,8 +20,13 @@ ProjectileSystem::~ProjectileSystem()
 {
 	/*for (unsigned int i = 0; i < projectiles.size(); i++)
 	{
+<<<<<<< HEAD
+	if (projectiles.at(i))
+	delete projectiles.at(i);
+=======
 		if (projectiles.at(i))
 			delete projectiles.at(i);
+>>>>>>> refs/remotes/origin/master
 	}*/
 	for (unsigned int i = 0; (int)i < maxProjectiles; i++)
 		delete projectiles[i];
@@ -36,7 +41,7 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 	{
 		if ((int)firedProjectiles >= maxProjectiles)
 		{
-			//delete projectiles.at(9);
+			return;
 		}
 		else
 		{
@@ -51,7 +56,7 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 				
 						projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
 						firedProjectiles++;
-						
+						audioManager->playShotSound();
 						//break;
 					}
 					else if (GetUpgrade() == UpgradeType::TWO_SHOT)
@@ -69,6 +74,7 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 						
 						projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
 						firedProjectiles++;
+						audioManager->playShotSound();
 						//break;
 					}
 					else if (GetUpgrade() == UpgradeType::THREE_SHOT)
@@ -90,6 +96,7 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 				
 						projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
 						firedProjectiles++;
+						audioManager->playShotSound(); 
 						//break;
 					}
 				//}
@@ -97,12 +104,10 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 			timeOffset = 0;
 		}
 	}
-
 }
 
 void ProjectileSystem::UpdateProjectiles(double deltaTime)
 {
-	
 	timeOffset += 2.0f * float(deltaTime);
 	if (timeOffset > 10)
 		timeOffset = 10.0f;
@@ -111,6 +116,7 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 
 
 		projectiles[i]->Update(deltaTime);
+
 
 		if (projectiles[i]->GetAge() >= lifeSpan || projectiles[i]->GetFired()==false)
 		{
@@ -155,7 +161,7 @@ void ProjectileSystem::SetUpgrade(UpgradeType upgrade)
 		XMStoreFloat4x4(&rotationMatrix2, XMMatrixRotationY(-0.4f));
 	}
 
-	
+
 }
 
 UpgradeType ProjectileSystem::GetUpgrade()
@@ -163,10 +169,10 @@ UpgradeType ProjectileSystem::GetUpgrade()
 	return upgrade;
 }
 
-void ProjectileSystem::Initialize()
+void ProjectileSystem::Initialize(AudioManager* audioManager)
 {
-	
-	
+
+	this->audioManager = audioManager;
 	graphics = Graphics::GetInstance();
 	lifeSpan = 2.5f;
 	//maxProjectiles = 100;

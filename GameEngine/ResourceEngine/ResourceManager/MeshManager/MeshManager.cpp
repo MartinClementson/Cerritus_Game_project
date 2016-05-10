@@ -131,10 +131,27 @@ void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * to
 		//this->gameMeshes->at(7).GetMeshRenderInfo(toRender);
 		this->quadTree->GetQuadTreeRenderInfo(toRender);
 	}
-	else if (*meshEnum == MeshEnum::PROJECTILE_1)
+
+	//else if (*meshEnum == MeshEnum::PROJECTILE_1)
+	//	this->gameMeshes->at(8).GetMeshRenderInfo(toRender);
+
+	else if (*meshEnum == MeshEnum::LEVEL_2)
+		this->gameMeshes->at(5).GetMeshRenderInfo(toRender);
+	else if (*meshEnum == MeshEnum::LEVEL_3)
+		this->gameMeshes->at(7).GetMeshRenderInfo(toRender);
+	else if (*meshEnum == MeshEnum::LEVEL_4)
 		this->gameMeshes->at(8).GetMeshRenderInfo(toRender);
+	else if (*meshEnum == MeshEnum::PROJECTILE_1)
+		this->gameMeshes->at(9).GetMeshRenderInfo(toRender);
+
+
 	else
-		this->placeHolder.GetMeshRenderInfo(toRender);
+	{
+		this->gameMeshes->at(6).GetMeshRenderInfo(toRender);
+	}
+
+	//else
+	//	this->placeHolder.GetMeshRenderInfo(toRender);
 
 
 }
@@ -272,5 +289,64 @@ void MeshManager::GetPlaceHolderPlaneInfo(RenderInstructions * toRender)
 void MeshManager::GetFullScreenQuadInfo(RenderInstructions * toRender)
 {
 	fullScreenQuad.GetMeshRenderInfo(toRender);
+}
+void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions * toRender)
+{
+	if (*uiEnum == UITextures::HUD)
+	{
+		fullScreenQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 9;
+		//fullScreenQuad.GetMaterialID();
+	}
+	else if (*uiEnum == UITextures::MENU)
+	{
+		fullScreenQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 10;
+	}
+	else if (*uiEnum == UITextures::GAMEOVER)
+	{
+		fullScreenQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 11;
+	}
+	else if (*uiEnum == UITextures::PAUSE)
+	{
+		fullScreenQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 12;
+	}
+	else if (*uiEnum == UITextures::EXITMENU)
+	{
+		fullScreenQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 13;
+	}
+	else if (*uiEnum == UITextures::RESTARTMENU)
+	{
+		fullScreenQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 14;
+	}
+	else if (*uiEnum == UITextures::CONTROLSBUTTONMENU)
+	{
+		fullScreenQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 15;
+	}
+	else if (*uiEnum == UITextures::CONTROLS)
+	{
+		fullScreenQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 16;
+	}
+	//else if (*uiEnum == UITextures::RESUMEPAUSE)
+	//{
+	//	fullScreenQuad.GetMeshRenderInfo(toRender);
+	//	toRender->materialID = 14;
+	//}
+	//else if (*uiEnum == UITextures::EXITPAUSE)
+	//{
+	//	fullScreenQuad.GetMeshRenderInfo(toRender);
+	//	toRender->materialID = 15;
+	//}
+	//fullScreenQuad.GetMeshRenderInfo(toRender);
+	//toRender->materialID = 6;
+	//toRender->materialID = 7;
+//	toRender->materialID = 8;
+//	toRender->materialID = 6; //temp
 }
 #pragma endregion

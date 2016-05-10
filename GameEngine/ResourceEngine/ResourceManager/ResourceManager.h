@@ -3,17 +3,20 @@
 #include "../ResourceManager/ShaderManager/ShaderManager.h"
 #include "../ResourceManager/BRFImporterHandler/BRFImporterHandler.h"
 #include "../ResourceManager/MaterialManager/MaterialManager.h"
+//#include "../../GameLogic/GUI/GUI.h"
 #include "../../Structs/RenderInfo.h"
 class ResourceManager
 {
 
 private:
 	RenderInstructions currentMesh;
+	RenderInstructions currentUI;
 
 	MaterialManager* materialManager		= nullptr;
 	MeshManager* meshManager				= nullptr;
 	ShaderManager* shaderManager			= nullptr;
 	BRFImporterHandler* brfImporterHandler	= nullptr;
+	//GUI*	guiManager						= nullptr;
 
 	bool gbufferPass						 = false;
 	bool shadowPass							 = false;

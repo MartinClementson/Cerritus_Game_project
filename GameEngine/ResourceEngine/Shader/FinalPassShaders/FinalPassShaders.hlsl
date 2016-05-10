@@ -118,7 +118,7 @@ SamplerState	 pointSampler					 : register(s1);
 Texture2D		diffuseTexture					 : register(t0);
 Texture2D		specularTexture					 : register(t1);
 Texture2D		normalTexture					 : register(t2);
-Texture2D		depthTexture					 : register(t3);
+Texture2D		overlayTexture					 : register(t3);
 Texture2D		positionTexture					 : register(t4);
 Texture2D		glowTexture						 : register(t5);
 Texture2DArray  shadowTex						 : register(t6);
@@ -199,7 +199,7 @@ float sampleShadowStencils(float4 worldPos, matrix lightView, matrix lightProj,i
 			for (int l = -1; l < 1; l++)
 				shadowSamples += shadowTex.Sample( linearSampler , float3(smTex + float2(dx * k, dx * l),0) ).r + bias < depth ? 0.0f : 1.0f;
 
-			float shadowFactor = shadowSamples  *0.125f;//divisin by 8      // * 0.0625f; // division by 16.0f;
+			float shadowFactor = shadowSamples  *0.125f;//division by 8      // * 0.0625f; // division by 16.0f;
 
 
 		//tempCooef += shadowcooef;
@@ -292,180 +292,159 @@ void ComputeDirectionalLight(DirectionalLight light, Material mat, float3 toEye,
 	}
 
 }
+
+
+
+
 float4 PS_main(VS_OUT input) : SV_TARGET
 {
 
 	int shadowMapsProcessed = 0;
+	float4 finalCol = float4(0.0f, 0.0f, 0.0f, 1.0f);
+	float4 overlaySample = overlayTexture.Sample(pointSampler, input.Uv);
+	float4 diffuseSamp = diffuseTexture.Sample(pointSampler,input.Uv);
 
-	float depthSample				= depthTexture.Sample(pointSampler, input.Uv).x;
 
-	float4 depthPrepare				= mul(float4(input.Uv.x *2.0f - 1.0f, input.Uv.y * -2.0f + 1.0f, depthSample, 1.0f), invViewProjMatrix);
+	////finalCol = overlaySample;									  This doesent work! it would be very nice if it did. we want to skip shading if we have overlay on the pixel
+	//																  This doesent work! it would be very nice if it did. we want to skip shading if we have overlay on the pixel
+	//float tester = overlaySample.a;								  This doesent work! it would be very nice if it did. we want to skip shading if we have overlay on the pixel
+	//																  This doesent work! it would be very nice if it did. we want to skip shading if we have overlay on the pixel
+	//if (overlayTexture.Sample(pointSampler, input.Uv).a > 0.1f)	  This doesent work! it would be very nice if it did. we want to skip shading if we have overlay on the pixel
+	//{																  This doesent work! it would be very nice if it did. we want to skip shading if we have overlay on the pixel
+	//	finalCol = overlaySample;									  This doesent work! it would be very nice if it did. we want to skip shading if we have overlay on the pixel
+	//	return finalCol;
+	//}
+	float4 ambient = float4(0.0f, 0.0f, 0.0f, 0.0f); // Hardcoded ambient. 
+	float4 diffuse = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 specular = float4(0.0f, 0.0f, 0.0f, 0.0f);
+	float4 overlay = float4(overlaySample.xyz, 1.0f);
 	
-	float3 worldPos					= positionTexture.Sample(pointSampler, input.Uv).xyz; //depthPrepare / depthPrepare.w;
+		float3 worldPos = positionTexture.Sample(pointSampler, input.Uv).xyz;
+
+		float4 specularSample = specularTexture.Sample(pointSampler, input.Uv);
+		float shadow = 1.0;
+
+		float4 normal = normalTexture.Sample(pointSampler, input.Uv);
+		float depthSample = normal.a; //depth is stored in normal
+		
+		Material pixelMat;
+		pixelMat.diffuseSample = diffuseSamp;
+		pixelMat.normal = normal;
+		pixelMat.specular = specularSample;
+		pixelMat.shadow = shadow;
+		//The light ray from the vert position to the light
+		//normalized to be used as a direction vector
 
 
-	float4 diffuseSamp			= diffuseTexture.Sample(pointSampler,input.Uv);
-	float4 normal					= normalTexture.Sample(pointSampler, input.Uv);
-	float4 specularSample				= specularTexture.Sample(pointSampler, input.Uv);
-	float shadow = 1.0;// = sampleShadowStencils(float4(worldPos, 1.0f));
+		float4 A, D, S;
 
-	Material pixelMat;
-	pixelMat.diffuseSample	    = diffuseSamp	;
-	pixelMat.normal				= normal		;
-	pixelMat.specular			= specularSample;
-	pixelMat.shadow				= shadow		;
-	//The light ray from the vert position to the light
-	//normalized to be used as a direction vector
-	
-	float4 ambient		= float4(0.0f, 0.0f, 0.0f, 0.0f); // Hardcoded ambient. 
-	float4 diffuse		= float4(0.0f, 0.0f, 0.0f, 0.0f); 
-	float4 specular		= float4(0.0f, 0.0f, 0.0f, 0.0f); 
 
-	float4 A, D, S;
+		float3 v = normalize(camPos.xyz - worldPos);				 //create a ray from the vert pos to the camera.
+			float yo = 1.0f;
+		for (int i = 0; i < numPointLights; i++)
+		{
 
-			
-	float3 v				= normalize(camPos.xyz - worldPos);				 //create a ray from the vert pos to the camera.
-	
-	for (int i = 0; i < numPointLights; i++)
-	{
+			if (diffuseSamp.a > 0.1)
+			{
 
-			ComputePointLight(pointlights[i], pixelMat, worldPos, v,
-				A, D, S);
-				if (pointlights[i].castShadow != 0) //if the light casts shadows
+				ComputePointLight(pointlights[i], pixelMat, worldPos, v,
+					A, D, S);
+					if (pointlights[i].castShadow != 0) //if the light casts shadows
+					{
+						if (shadowMapsProcessed < (int)MAX_SHADOWMAP_AMOUNT)
+						{
+
+							shadow += sampleShadowStencils(float4(worldPos, 1.0f), pointlights[i].lightView, pointlights[i].lightProjection, shadowMapsProcessed);
+							shadowMapsProcessed += 1;
+						}
+
+						ambient += A;
+						diffuse += shadow * D;
+						specular += shadow * S;
+					}
+					else
+					{
+						ambient += A;
+						diffuse += D;
+						specular += S;
+					}
+			}
+
+		}
+		//[unroll]
+		for (int d = 0; d < numDirLights; d++)
+		{
+			if (diffuseSamp.a > 0.1)
+			{
+					ComputeDirectionalLight(dirLights[d], pixelMat, v, A, D, S);
+				if (dirLights[d].castShadow != 0) //if the light casts shadows
 				{
 					if (shadowMapsProcessed < (int)MAX_SHADOWMAP_AMOUNT)
 					{
 
-						shadow += sampleShadowStencils(float4(worldPos, 1.0f), pointlights[i].lightView, pointlights[i].lightProjection, shadowMapsProcessed);
+						shadow += sampleShadowStencils(float4(worldPos, 1.0f), dirLights[d].lightView, dirLights[d].lightProjection, shadowMapsProcessed);
 						shadowMapsProcessed += 1;
+						ambient  += A;
+						diffuse  += shadow  *D;
+						specular += shadow  *S;
 					}
-
-					ambient		+= A;
-					diffuse		+= shadow * D;
-					specular	+= shadow * S;
 				}
 				else
 				{
-					ambient += A;
-					diffuse += D;
+					ambient  += A;
+					diffuse  += D;
 					specular += S;
 				}
+			}
 
-	}
+		}
 
-	for (int d = 0; d < numDirLights; d++)
-	{
-			ComputeDirectionalLight(dirLights[d], pixelMat, v, A, D, S);
-		if (dirLights[d].castShadow != 0) //if the light casts shadows
+		//========== Screen Space Ambient Occlusion =============
+		 //quite fake. Use AO maps if possible. dis should be for objects without AO maps
+		/*float ssao = 0.0f;
+
+		float2 vec[8] = {
+			float2(1.0f, 0.0f),		 float2(-1.0f, 0.0f),
+			float2(0.0f, 1.0f),		 float2(0.0f, -1.0f),
+			float2(0.707f, 0.707f),  float2(-0.707f, -0.707f),
+			float2(-0.707f, 0.707f), float2(0.707f, -0.707f), };
+
+		[unroll]
+		for (int j = 0; j < 8; j++)
 		{
-			if (shadowMapsProcessed < (int)MAX_SHADOWMAP_AMOUNT)
+			for (float k = 0.0f; k < 1.01f; k += 0.5f)
 			{
-				
-				shadow += sampleShadowStencils(float4(worldPos, 1.0f), dirLights[d].lightView, dirLights[d].lightProjection, shadowMapsProcessed);
-				shadowMapsProcessed += 1;
-			ambient += A;
-			diffuse += shadow  *D;
-			specular+= shadow  *S;
+				float2  sampleVec = input.Uv + vec[j] * SSAO_RAD * k;
+				float	ssaoDepthSample = depthTexture.Sample(pointSampler, sampleVec).x;
+				float4  ssaoDepthPrepare = mul(float4(sampleVec.x * 2.0f - 1.0f, sampleVec.y * -2.0f + 1.0f, ssaoDepthSample, 1.0f), invViewProjMatrix);
+				float3 dif = ssaoDepthPrepare.xyz / ssaoDepthPrepare.w - worldPos;
+				float l = length(dif) * 0.05f;
+				dif = normalize(dif);
+
+				ssao += max(0.0f, dot(normal.xyz, dif) - 0.01f) * 1.0f / (10.0f + l);
 			}
 		}
-		else
-		{
-			ambient += A;
-			diffuse += D;
-			specular+= S;
-		}
 
-	}
-
-	//saturate(diffuse);
-	//saturate(specular);
-	//float4 combinedLightDiffuse = { 0.0f,0.0f,0.0f,1.0f };
-
-	//for (int i = 0; i < numPointLights; i++)
-	//{
-
-	//	float3 vRay				= (float3)(pointlights[i].lightPosition - worldPos);
-	//	float rayLength			= length(vRay);
-	//	//if (rayLength > pointlights[i].lightRange)
-	//		//continue;
-	//	vRay					/= rayLength;
-
-	//						
-	//	float3 r				= reflect(-vRay, normal.xyz);						 //Reflect is used in the specular shading
-	//						
-	//	float fDot				= saturate(dot(vRay, normal.xyz));					 //Calculate how much of the pixel is to be lit "intensity"
+		ssao = 1.0f - ssao / 16.0f;*/
 
 
-	//	float4 lightColor		= mul(pointlights[i].lightDiffuse, pointlights[0].intensity);
-	//	float shinyPower		= 20.0f;//specularTexture.Sample(SampleType,input.Uv).r; //How much light is to be reflected
-	//						
-	//	float3 KS				= specular.xyz;									 //This is the color of the specularity. For now it is set as the light color
-	//						
-	//	float3 specularLight	= { KS * pow(max(dot(r,v),0.0f),shinyPower) };
-	//			
-	//	float4 lightDiffuse		= saturate(lightColor * fDot ) + float4(specularLight, 1.0f);
-	//
 
-	//
-	//	float3 spotDir			= normalize(pointlights[i].lightLookAt - lightPosition);
+		//float4 finalCol = diffuseSample * ( ambient * ssao + (combinedLightDiffuse * shadow) );
+		//finalCol.r += diffuseSample.a; //Laser point color
+		//finalCol = saturate(finalCol);
 
-	//	//lightDiffuse			*= pow(max(dot(-vRay, spotDir), 0.0f), 30.0f);
 
-	//	float radio			= 30.0f;
-	//	float lightLength	= length(pointlights[i].lightLookAt - worldPos);
-	//	if (lightLength > radio)
-	//		lightDiffuse *= 0.0;
-	//	else
-	//		lightDiffuse *= ((radio - lightLength) / radio);
-	//	combinedLightDiffuse += lightDiffuse;
-	//}
+		float4 glow = glowTexture.Sample(linearSampler, input.Uv);
+		glow = glow * glow.a;
+		finalCol = saturate(ambient /** ssao*/ + (diffuse + specular) + glow + overlay);//* shadow));
+		finalCol.r += overlaySample.a; //Laser point color
+		finalCol.w = 1.0f;
+
+		//justglow
+		//float4 specularSample = specularTexture.Sample(pointSampler, input.Uv);
 	
 
-
-	//========== Screen Space Ambient Occlusion =============
-	 //quite fake. Use AO maps if possible. dis should be for objects without AO maps
-	/*float ssao = 0.0f;
-
-	float2 vec[8] = { 
-		float2(1.0f, 0.0f),		 float2(-1.0f, 0.0f),
-		float2(0.0f, 1.0f),		 float2(0.0f, -1.0f),
-		float2(0.707f, 0.707f),  float2(-0.707f, -0.707f),
-		float2(-0.707f, 0.707f), float2(0.707f, -0.707f), };
-
-	[unroll]
-	for (int j = 0; j < 8; j++)
-	{
-		for (float k = 0.0f; k < 1.01f; k += 0.5f)
-		{
-			float2  sampleVec = input.Uv + vec[j] * SSAO_RAD * k;
-			float	ssaoDepthSample = depthTexture.Sample(pointSampler, sampleVec).x;
-			float4  ssaoDepthPrepare = mul(float4(sampleVec.x * 2.0f - 1.0f, sampleVec.y * -2.0f + 1.0f, ssaoDepthSample, 1.0f), invViewProjMatrix);
-			float3 dif = ssaoDepthPrepare.xyz / ssaoDepthPrepare.w - worldPos;
-			float l = length(dif) * 0.05f;
-			dif = normalize(dif);
-
-			ssao += max(0.0f, dot(normal.xyz, dif) - 0.01f) * 1.0f / (10.0f + l);
-		}
-	}
-
-	ssao = 1.0f - ssao / 16.0f;*/
-
-
-
-	//float4 finalCol = diffuseSample * ( ambient * ssao + (combinedLightDiffuse * shadow) );
-	//finalCol.r += diffuseSample.a; //Laser point color
-	//finalCol = saturate(finalCol);
-	float4 glow = glowTexture.Sample(linearSampler, input.Uv);
-	glow *= glow.a;
-	float4 finalCol = saturate(ambient /** ssao*/ + (diffuse + specular)+glow);//* shadow));
-	finalCol.r += diffuseSamp.a; //Laser point color
-	finalCol.w = 1.0f;
-
-	//justglow
-	//float4 specularSample = specularTexture.Sample(pointSampler, input.Uv);
-
-	return finalCol;
-	//return glow;
+		return finalCol;
 }
 
 

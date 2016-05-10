@@ -49,7 +49,7 @@ Player::~Player()
 
 }
 
-void Player::Initialize()
+void Player::Initialize(AudioManager* audioManager)
 {
 	graphics			 = Graphics::GetInstance();
 
@@ -69,7 +69,7 @@ void Player::Initialize()
 	DoT = 0.0f;
 	DoTDur = 0.0f;
 	health = 100.0f;
-	projectileSystem->Initialize();
+	projectileSystem->Initialize(audioManager);
 	SetUpgrade(UpgradeType::ONE_SHOT);
 	
 }
@@ -239,7 +239,7 @@ void Player::Shoot(InputKeys input, double deltaTime)
 
 float Player::GetHealth()
 {
-	return 1000000;// this->health;
+	return this->health;
 }
 
 void Player::SetHealth(float health)

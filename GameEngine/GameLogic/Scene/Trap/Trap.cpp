@@ -16,7 +16,7 @@ void Trap::Initialize()
 {
 	damage = 25.0f;
 	initTrap();
-	
+
 }
 void Trap::Release()
 {
@@ -32,7 +32,7 @@ void Trap::Update(double deltaTime)
 
 void Trap::Render()
 {
-	grapichs = Graphics::GetInstance();	
+	grapichs = Graphics::GetInstance();
 }
 
 float Trap::GetDamage()
@@ -67,7 +67,7 @@ void Trap::SetRotation(DirectX::XMFLOAT3 rotation)
 
 void Trap::initTrap()
 {
-	
+
 	int randomSpawn = rand() % 2 + 1;
 
 	if (randomSpawn == 1)

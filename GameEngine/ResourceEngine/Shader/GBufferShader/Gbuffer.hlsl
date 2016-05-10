@@ -89,7 +89,7 @@ struct GBUFFER_PS_OUT
 	float4 diffuseRes	: SV_Target0;
 	float4 specularRes	: SV_Target1;
 	float4 normalRes	: SV_Target2;
-	float4 depthRes		: SV_Target3;
+	float4 overlayRes	: SV_Target3;
 	float4 positionRes	: SV_Target4;
 	float4 glowRes		: SV_Target5;
 };
@@ -217,13 +217,12 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 		textureSample		= diffuseTex.Sample(linearSampler, input.Uv);
 		if (textureSample.a < 0.1)
 			clip(-1);
-		textureSample.a		= col.x; //laser pointer color
 		output.diffuseRes	= textureSample;
 	}
 	else
 	{
 		
-		output.diffuseRes = float4(0.5, 0.5, 0.5, col.x); //Alpha == laserpointer color
+		output.diffuseRes = float4(0.5, 0.5, 0.5, 1.0f); 
 	}
 
 
@@ -247,8 +246,8 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	if (specularMap)
 	{
 		specularSample.rgba  = float4(0, 0, 0, 0);
-		specularSample		 = diffuseTex.Sample(linearSampler, input.Uv);
-		output.specularRes = specularSample;
+		specularSample		 = specularTex.Sample(linearSampler, input.Uv);
+		output.specularRes	= specularSample;
 	}
 	else
 	{
@@ -269,11 +268,13 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	}
 
 
-	output.positionRes		 = input.wPos;
+	output.positionRes = input.wPos; //position buffer
 
-	float depth				 = input.Pos.z / input.Pos.w;
-	output.depthRes			 = float4(depth, depth, depth, 1.0);
+	float depth = input.Pos.z / input.Pos.w;
+	output.normalRes.a = depth;
 
+	//output.depthRes			 = float4(depth, depth, depth, 1.0);
+	output.overlayRes.a  = col.x; //Alpha == laserpointer color
 	return output;
 }
 

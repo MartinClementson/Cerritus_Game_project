@@ -162,7 +162,14 @@ void Renderer::Render(RenderInfoObject * object)
 //Render 2d textures for the ui
 void Renderer::Render(RenderInfoUI * object)
 {
+	RenderInstructions* renderObject;
 
+	renderObject = this->resourceManager->GetRenderInfo(object);
+	//Render with the given render instruction
+	/*this->sceneCam->Updateview(object->position);
+	this->UpdateCameraBuffer();*/
+
+	this->Render(renderObject);
 }
 
 //Render an enemy mesh
@@ -286,9 +293,12 @@ void Renderer::RenderBillBoard(RenderInfoObject * object, BillboardData * arrayD
 
 	resourceManager->SetShader(Shaders::BILLBOARD_SHADER);
 
-	RenderInstructions * objectInstruction;
 
-	objectInstruction = this->resourceManager->GetRenderInfo(object);
+	RenderInstructions * objectInstruction = nullptr;
+
+	if(object != nullptr)
+		objectInstruction = this->resourceManager->GetRenderInfo(object);
+	
 
 #pragma region Map the array to the vertex buffer
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
@@ -370,6 +380,7 @@ void Renderer::RenderPlaceHolderPlane()
 	Render(objectPlane);
 
 }
+
 
 #pragma endregion
 
@@ -601,48 +612,51 @@ void Renderer::RenderBillBoard(RenderInstructions * object, ID3D11Buffer * insta
 	this->gDeviceContext->IASetVertexBuffers(0, 1, &instanceBuffer, &vertexSize, &offset);
 
 #pragma region Set the objects texture maps to the shader
-
 	SampleBoolStruct sampleBools;
-	if (object->diffuseMap != nullptr)
+	if (object != nullptr)
 	{
-		this->gDeviceContext->PSSetShaderResources(0, 1, &object->diffuseMap);
-		sampleBools.diffuseMap = TRUE;
-	}
-	else
-	{
-		sampleBools.diffuseMap = FALSE;
-	}
 
-	if (object->normalMap != nullptr)
-	{
-		this->gDeviceContext->PSSetShaderResources(1, 1, &object->normalMap);
-		sampleBools.normalMap = TRUE;
-	}
-	else
-	{
-		sampleBools.normalMap = FALSE;
-	}
+		if (object->diffuseMap != nullptr)
+		{
+			this->gDeviceContext->PSSetShaderResources(0, 1, &object->diffuseMap);
+			sampleBools.diffuseMap = TRUE;
+		}
+		else
+		{
+			sampleBools.diffuseMap = FALSE;
+		}
 
-	if (object->specularMap != nullptr)
-	{
-		this->gDeviceContext->PSSetShaderResources(2, 1, &object->specularMap);
-		sampleBools.specularMap = TRUE;
-	}
-	else
-	{
-		sampleBools.specularMap = FALSE;
-	}
+		if (object->normalMap != nullptr)
+		{
+			this->gDeviceContext->PSSetShaderResources(1, 1, &object->normalMap);
+			sampleBools.normalMap = TRUE;
+		}
+		else
+		{
+			sampleBools.normalMap = FALSE;
+		}
 
-	if (object->glowMap != nullptr)
-	{
-		this->gDeviceContext->PSSetShaderResources(3, 1, &object->glowMap);
-		sampleBools.glowMap = TRUE;
-	}
-	else
-	{
-		sampleBools.glowMap = FALSE;
-	}
+		if (object->specularMap != nullptr)
+		{
+			this->gDeviceContext->PSSetShaderResources(2, 1, &object->specularMap);
+			sampleBools.specularMap = TRUE;
+		}
+		else
+		{
+			sampleBools.specularMap = FALSE;
+		}
 
+		if (object->glowMap != nullptr)
+		{
+			this->gDeviceContext->PSSetShaderResources(3, 1, &object->glowMap);
+			sampleBools.glowMap = TRUE;
+		}
+		else
+		{
+			sampleBools.glowMap = FALSE;
+		}
+
+	}
 	this->UpdateSampleBoolsBuffer(&sampleBools);
 #pragma endregion
 
