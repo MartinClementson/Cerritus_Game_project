@@ -4,7 +4,7 @@
 //#include "../Player/Player.h"
 #include"../../../Structs/RenderInfo.h"
 #include "../../../ResourceEngine/Graphics/Graphics.h"
-
+#include "../../StateMachines/AudioManager/AudioManager.h"
 
 using namespace DirectX;
 
@@ -19,6 +19,7 @@ private:
 	XMFLOAT4X4 rotationMatrix;
 	XMFLOAT4X4 rotationMatrix2;
 	//Projectile firedProjectiles[100];
+	
 
 	unsigned int firedProjectiles;
 	float lifeSpan;
@@ -26,6 +27,7 @@ private:
 	RenderInfoObject renderInfo;
 	float timeOffset;
 	UpgradeType upgrade;
+	AudioManager* audioManager;
 
 public:
 	Projectile *projectiles[200];
@@ -37,7 +39,6 @@ public:
 
 	int GetFiredProjectiles() { return firedProjectiles; }
 	Graphics* graphics;
-
 	//std::vector<Projectile*> projectiles;
 	//float lifeSpan; //travel time
 	//int maxProjectiles; // amout of projectiles
@@ -46,7 +47,7 @@ public:
 public:
 
 
-	void Initialize();
+	void Initialize(AudioManager* audioManager);
 	void Release();
 	void Render();
 };

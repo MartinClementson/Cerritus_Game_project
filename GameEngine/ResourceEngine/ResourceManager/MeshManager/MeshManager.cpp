@@ -64,25 +64,25 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 
 
 #pragma region Map The buffers
-	////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////
-	////Map point light structure
-		BlendShapeVert* vertices = blendShapeMeshes[j].GetMeshBlendShape().BlendShapeVertArray;
-		unsigned int * amount	 = blendShapeMeshes[j].GetMeshBlendShape().amount;
+		////////////////////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////////////////
+		////Map point light structure
+			BlendShapeVert* vertices = blendShapeMeshes[j].GetMeshBlendShape().BlendShapeVertArray;
+			unsigned int * amount	 = blendShapeMeshes[j].GetMeshBlendShape().amount;
 
-	D3D11_MAPPED_SUBRESOURCE mapRes;
-	HRESULT hr = S_OK;
+		D3D11_MAPPED_SUBRESOURCE mapRes;
+		HRESULT hr = S_OK;
 
-	hr = gDeviceContext->Map(blendShapeStructuredBuffers[j], 0, D3D11_MAP_WRITE_DISCARD, 0, &mapRes);
-	if (FAILED(hr))
-		MessageBox(NULL, L"Failed to update blend shapes buffer", L"Error", MB_ICONERROR | MB_OK);
+		hr = gDeviceContext->Map(blendShapeStructuredBuffers[j], 0, D3D11_MAP_WRITE_DISCARD, 0, &mapRes);
+		if (FAILED(hr))
+			MessageBox(NULL, L"Failed to update blend shapes buffer", L"Error", MB_ICONERROR | MB_OK);
 
-	memcpy(mapRes.pData, (void*)vertices, sizeof(BlendShapeVert) * (*amount));
-	gDeviceContext		->Unmap(blendShapeStructuredBuffers[j], 0);
-	this->gDeviceContext->VSSetShaderResources(BLENDSHAPES_BUFFER_START_INDEX + j, 1, &blendShapeStructuredBuffersSRV[j]);
+		memcpy(mapRes.pData, (void*)vertices, sizeof(BlendShapeVert) * (*amount));
+		gDeviceContext		->Unmap(blendShapeStructuredBuffers[j], 0);
+		this->gDeviceContext->VSSetShaderResources(BLENDSHAPES_BUFFER_START_INDEX + j, 1, &blendShapeStructuredBuffersSRV[j]);
 
-	////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////////////////
 #pragma endregion
 	}
 
