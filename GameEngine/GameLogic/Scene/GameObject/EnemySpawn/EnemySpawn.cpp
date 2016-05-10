@@ -146,7 +146,7 @@ void EnemySpawn::SpawnEnemy()
 {
 	firstSpawn = true;
 	
-	for(size_t i = 0; i < waveAmount ; i++)
+	for(size_t i = 0; i < 2 ; i++)
 	{
 		if (!Queue.at(i)->isAlive)
 		{
@@ -173,19 +173,17 @@ void EnemySpawn::RespawnEnemy()
 	{
 		if (!Queue.at(i)->isAlive)
 		{
-			float spawnX = float(rand() % 15 + 5.0f);
-			float spawnZ = float(rand() % 50 + 5.0f);
+			int spawnPos = rand() % 4 + 1;
+
+			waves.SpawnPositions(spawnPos);
 
 			XMFLOAT3 spawn;
-			spawn.x = spawnX;
-			spawn.y = 0;
-			spawn.z = spawnZ;
+			spawn = waves.GetSpawnPositions();
 
 			Queue.at(i)->Respawn(spawn); //sets position and isAlive to TRUE
 			Alive.push_back(Queue.at(i));
 			Queue.erase(Queue.begin() + i);
 
-			//done = true;
 		}
 		//i++;
 	}
