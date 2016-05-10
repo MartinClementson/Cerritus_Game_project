@@ -33,8 +33,12 @@ void AudioManager::Initialize()
 
 	//loading the shoot sound
 	//prefix to the soundfolder is "sounds/"
-	s_shot.reset(new SoundEffect(s_audEngine->get(), L"sounds/Explo1.wav" ));
+	s_shot.reset(new SoundEffect(s_audEngine->get(), L"sounds/Explo1.wav"));
+	s_ambient.reset(new SoundEffect(s_audEngine->get(), L"sounds/NightAmbienceSimple_02.wav"));
 	//audioLength = s_shot->GetSampleDurationMS() / 1000.0;
+	s_nightLoop = s_ambient->CreateInstance();
+	s_nightLoop->Play(true);
+	s_nightLoop->SetVolume(0.1);
 }
 
 void AudioManager::Update(double deltaTime)
@@ -51,6 +55,7 @@ void AudioManager::Update(double deltaTime)
 	{
 		s_retryAudio = false;
 		s_audEngine->get()->Reset();
+		s_nightLoop->Play(true);
 		//if there are any looped sounds, reset them here
 	}
 

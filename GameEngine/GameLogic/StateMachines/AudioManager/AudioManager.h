@@ -11,6 +11,8 @@ private:
 	std::unique_ptr<AudioEngine>* s_audEngine = nullptr;
 
 	std::unique_ptr<SoundEffect> s_shot;
+	std::unique_ptr<SoundEffect> s_ambient;
+	std::unique_ptr<SoundEffectInstance> s_nightLoop;
 	bool s_retryAudio = false;
 	double timeElapsed;
 	double audioLength;
