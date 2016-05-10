@@ -26,7 +26,7 @@ Texture2DArray shadowTex		 : register(t6);
 SamplerState linearSampler		 : register(s0);
 SamplerState pointSampler		 : register(s1);
 
-cbuffer cbufferPerFrame     : register(b0)
+cbuffer cbufferPerFrame			 : register(b0)
 {
 
 	matrix view;
@@ -105,10 +105,12 @@ ANIM_VS_OUT ANIM_VS_main(ANIM_VS_IN input)
 
 	ANIM_VS_OUT output;
 
-
+	float3 animPos;
 	//ANIMATE
-
-	float3 animPos		= lerp(input.Pos.xyz, shapeTwo[input.vertexID].position, input.animationTime);
+	if( input.animation == 0)
+		 animPos		= lerp(input.Pos.xyz, shapeOne[input.vertexID].position, input.animationTime);
+	else if (input.animation == 1)
+		 animPos		 = lerp(input.Pos.xyz, shapeTwo[input.vertexID].position, input.animationTime);
 	
 
 	output.Pos			= float4(animPos, 1.0f);

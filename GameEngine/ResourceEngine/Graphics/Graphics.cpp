@@ -104,14 +104,16 @@ void Graphics::Initialize(HWND * window)
 
 	XMFLOAT3 pos	  = XMFLOAT3(5.0f, 0.0f, 0.0f);
 	XMFLOAT3 rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	instancedAnimationDataPerFrame[0].animation		= 0;
 	instancedAnimationDataPerFrame[0].animationTime = 0;
-	instancedAnimationDataPerFrame[0].worldMatrix = CalculateWorldMatrix(&pos, &rotation);
+	instancedAnimationDataPerFrame[0].worldMatrix   = CalculateWorldMatrix(&pos, &rotation);
 
 
 	pos.z += 5;
 	rotation.y = 45.0f;
+	instancedAnimationDataPerFrame[1].animation		= 1;
 	instancedAnimationDataPerFrame[1].animationTime = 0;
-	instancedAnimationDataPerFrame[1].worldMatrix = CalculateWorldMatrix(&pos, &rotation);
+	instancedAnimationDataPerFrame[1].worldMatrix   = CalculateWorldMatrix(&pos, &rotation);
 
 
 #pragma endregion
