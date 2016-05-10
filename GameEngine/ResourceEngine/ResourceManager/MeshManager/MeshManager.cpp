@@ -66,9 +66,11 @@ void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materia
 		if (isScene == true)
 			this->sceneMeshes->push_back(newMesh);
 		else
+		{
 			this->gameMeshes->push_back(newMesh);
-		delete[] newVertices;
-		delete[] newIndices;
+			delete[] newVertices;
+			delete[] newIndices;
+		}
 	}
 	else
 	{

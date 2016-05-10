@@ -36,8 +36,8 @@ private:
 	std::vector<UINT*>*		m_indexList;
 	NodeType*				m_parentNode;
 
-	Vertex* combinedvertices = nullptr;
-	UINT* combinedindices = nullptr;
+	Vertex* combinedvertices;
+	UINT* combinedindices;
 
 	unsigned int indexCount;
 

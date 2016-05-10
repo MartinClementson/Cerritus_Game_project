@@ -468,13 +468,15 @@ QuadTree::~QuadTree()
 //FINHJISH ME!
 bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceContext, RenderInstructions* worldBuffer)
 {
+	this->m_vertexList = new std::vector<Vertex*>;
+	this->m_indexList = new std::vector<UINT*>;
 
 	this->gDevice = gDevice;
 	this->gDeviceContext = gDeviceContext;
 	this->worldMatrix = worldBuffer->worldBuffer.worldMatrix;
 
-	unsigned int vertexCount;
-	UINT indexCount;
+	unsigned int vertexCount = 0;
+	UINT indexCount = 0;
 	float width;
 	Float2 position;
 
@@ -498,10 +500,11 @@ bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, I
 	//	return false;
 
 	//Copy the vertices from the terrain into the vertex list
-	for (size_t i = 0; i < terrain->size(); i++)
+	for (unsigned int i = 0; i < terrain->size(); i++)
 	{
 		this->m_vertexList->push_back(terrain->at(i).GetVertices());
 		this->m_indexList->push_back(terrain->at(i).GetIndices());
+
 	}
 
 	int index = 0;
@@ -512,11 +515,10 @@ bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, I
 		for (unsigned int vertexAmountPerArray = 0; vertexAmountPerArray < terrain->at(arrayIndex).GetVertexCount(); vertexAmountPerArray++)
 		{
 			//VARJE VERTIS I VERTEXARRAY
-			combinedvertices[index] = m_vertexList->at(arrayIndex)[vertexAmountPerArray];
+			this->combinedvertices[index] = m_vertexList->at(arrayIndex)[vertexAmountPerArray];
 			index++;
 		}
 	}
-	this->combinedvertices = combinedvertices;
 	index = 0;
 	//VARJE VECTORPLATS
 	for (unsigned int arrayIndex = 0; arrayIndex < m_indexList->size(); arrayIndex++)
@@ -525,7 +527,7 @@ bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, I
 		for (UINT IndexAmountPerArray = 0; IndexAmountPerArray < terrain->at(arrayIndex).GetIndexCount(); IndexAmountPerArray++)
 		{
 			//VARJE VERTIS I INDEXARRAY
-			combinedindices[index] = m_indexList->at(arrayIndex)[IndexAmountPerArray];
+			this->combinedindices[index] = m_indexList->at(arrayIndex)[IndexAmountPerArray];
 			index++;
 		}
 	}
