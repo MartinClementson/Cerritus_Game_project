@@ -27,10 +27,11 @@ GameState::~GameState()
 
 }
 
-void GameState::Initialize()
+void GameState::Initialize(AudioManager* audioManager)
 {
+	this->audioManager = audioManager;
 	input->Initialize();
-	player->Initialize();
+	player->Initialize(audioManager);
 	death->Initialize();
 	pause->Initialize();
 	death->isActive = false;

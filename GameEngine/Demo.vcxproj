@@ -169,6 +169,7 @@
     <ClCompile Include="GameLogic\Scene\Trap\BearTrap\BearTrap.cpp" />
     <ClCompile Include="GameLogic\Scene\Trap\FireTrap\FireTrap.cpp" />
     <ClCompile Include="GameLogic\Scene\Trap\Trap.cpp" />
+    <ClCompile Include="GameLogic\StateMachines\AudioManager\AudioManager.cpp" />
     <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\AttackState\AttackState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\DeathState\EnemyDeathState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\EnemyStateMachine.cpp" />
@@ -230,6 +231,7 @@
     <ClInclude Include="GameLogic\Scene\Trap\BearTrap\BearTrap.h" />
     <ClInclude Include="GameLogic\Scene\Trap\FireTrap\FireTrap.h" />
     <ClInclude Include="GameLogic\Scene\Trap\Trap.h" />
+    <ClInclude Include="GameLogic\StateMachines\AudioManager\AudioManager.h" />
     <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\AttackState\AttackState.h" />
     <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\DeathState\EnemyDeathState.h" />
     <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\EnemyStateMachine.h" />
@@ -274,6 +276,20 @@
     <ClInclude Include="Structs\SkeletonStructs.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="ResourceEngine\Shader\AnimationShader\AnimationShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\AnimationShader\AnimationShader_Instanced.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="ResourceEngine\Shader\BillboardShader\BillboardShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
@@ -344,6 +360,14 @@
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MaterialData.obj" />
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MeshData.obj" />
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\SkeletonData.obj" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="DirectXTK\Audio\DirectXTKAudio_Desktop_2015_Win8.vcxproj">
+      <Project>{4f150a30-cecb-49d1-8283-6a3f57438cf5}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="sounds\Explo1.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
