@@ -25,6 +25,7 @@ enum LIGHTBUFFERS {
 enum INSTANCED_BUFFERS
 {
 	INSTANCED_WORLD,
+	INSTANCED_ANIMATION,
 	BILLBOARD_BUFFER
 };
 
@@ -84,6 +85,9 @@ public:
 	void RenderInstanced(RenderInfoEnemy*	 object,   InstancedData* arrayData ,unsigned int amount);
 	void RenderInstanced(RenderInfoObject*   object,   InstancedData* arrayData, unsigned int amount);
 	void RenderInstanced(RenderInfoTrap*	 object,   InstancedData* arrayData, unsigned int amount);
+
+	//Instanced animation
+	void RenderInstanced(RenderInfoEnemy*	 object, InstancedAnimationData* arrayData, unsigned int amount);
 
 	void RenderBillBoard(RenderInfoObject* object, BillboardData* arrayData, unsigned int amount);
 

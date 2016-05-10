@@ -372,6 +372,11 @@ void MeshManager::CreateFullScreenQuad()
 
 void MeshManager::GetPlaceHolderMeshInfo(RenderInstructions * toRender)
 {
+	for (UINT i = 0; i < 2; i++)
+		this->gDeviceContext->VSSetShaderResources(BLENDSHAPES_BUFFER_START_INDEX + i, 1, &blendShapeStructuredBuffersSRV[i]);
+	
+
+	
 	//this->gameMeshes->at(1).GetMeshRenderInfo(toRender);
 	placeHolder.GetMeshRenderInfo(toRender);
 

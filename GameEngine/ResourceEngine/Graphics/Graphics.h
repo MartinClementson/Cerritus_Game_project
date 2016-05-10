@@ -36,8 +36,6 @@ enum billBoardArray
 
 class Graphics
 {									   
-
-
 	struct meshIndexInArray 						  
 	{												  
 		 int projectileMesh			= -1;		
@@ -90,10 +88,13 @@ private:
 	InstancedData* instancedWorldDataPerFrame [INSTANCED_WORLD_BUFFER_AMOUNT] = { nullptr }; //this contains the world matrices every frame.
 	unsigned int   instancesToRender		  [INSTANCED_WORLD_BUFFER_AMOUNT] = { }; //The amount of instanced geometry to render, (AFTER CULLING)
 
-	meshIndexInArray instanceMeshIndex;
+	meshIndexInArray instanceMeshIndex; //Keeps track of the meshes in the arrays. to know which one to render (read struct desc)
 
 	BillboardData* billBoardArray             [BILLBOARDED_ARRAYS]	= { nullptr };
 	unsigned int   billboardsToRender		  [BILLBOARDED_ARRAYS]  = { 0		};
+
+
+	InstancedAnimationData* instancedAnimationDataPerFrame = nullptr ; //this contains the world matrices every frame.
 #pragma endregion
 
 private:

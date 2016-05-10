@@ -284,6 +284,38 @@ void Renderer::RenderInstanced(RenderInfoTrap * object, InstancedData * arrayDat
 
 }
 
+void Renderer::RenderInstanced(RenderInfoEnemy * object, InstancedAnimationData * arrayData, unsigned int amount)
+{
+
+	RenderInstructions * objectInstruction;
+
+	objectInstruction = this->resourceManager->GetAnimationRenderInfo(object);
+	bool tempAnimBool = true;
+	objectInstruction->isAnimated = &tempAnimBool;
+
+	
+
+	D3D11_MAPPED_SUBRESOURCE mappedResource;
+	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
+
+	gDeviceContext->Map(instancedBuffers[INSTANCED_ANIMATION], 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResource);
+
+	InstancedAnimationData* tempStructMatrices = (InstancedAnimationData*)mappedResource.pData;
+
+	memcpy(tempStructMatrices, (void*)arrayData, sizeof(InstancedAnimationData)*amount);
+
+	gDeviceContext->Unmap(instancedBuffers[INSTANCED_ANIMATION], 0);
+
+	RenderInstanced(objectInstruction, this->instancedBuffers[INSTANCED_ANIMATION], amount);
+
+	//Reset the shaders to normal shaders for the next objects to rener
+	if (this->resourceManager->IsGbufferPass())
+		resourceManager->SetGbufferPass(true);
+	if (this->resourceManager->IsShadowPass())
+		resourceManager->SetShadowPass(true);
+
+}
+
 void Renderer::RenderBillBoard(RenderInfoObject * object, BillboardData * arrayData, unsigned int amount)
 {
 
@@ -522,18 +554,19 @@ void Renderer::RenderInstanced(RenderInstructions * object, ID3D11Buffer* instan
 	//We need to make sure that we use the right kind of vertex when rendering
 	UINT32 vertexSize[2];
 
-	if (*object->isAnimated == false)
-		vertexSize[0] = sizeof(Vertex);
+	vertexSize[0] = sizeof(Vertex);
 
+	if (*object->isAnimated		 == false)
+		vertexSize[1]		 = sizeof(InstancedData);
 	else if (*object->isAnimated == true)
-		vertexSize[0] = sizeof(AnimVert);
+		vertexSize[1]		 = sizeof(InstancedAnimationData);
+		
 
 	else
 		MessageBox(NULL, L"An object returned isAnimated as nullptr", L"Error in Renderer", MB_ICONERROR | MB_OK);
 
 #pragma endregion
 
-	vertexSize[1]		 = sizeof(InstancedData);
 	UINT32 offset[2]	 = { 0,0 };
 
 	ID3D11Buffer* vbs[2] = { object->vertexBuffer,instanceBuffer };
@@ -933,6 +966,17 @@ bool Renderer::CreateBuffers()
 	bufferInstancedDesc.ByteWidth		 = sizeof(InstancedData) * MAX_INSTANCED_GEOMETRY;
 
 	if (FAILED(hr = gDevice->CreateBuffer(&bufferInstancedDesc, nullptr, &instancedBuffers[INSTANCED_WORLD])))
+		MessageBox(NULL, L"Failed to create Instance buffer", L"Renderer Error", MB_ICONERROR | MB_OK);
+
+
+
+	//-----------------------------------------------------------------------------------------------------------------------------------
+	//Instanced Animation BUFFER
+	//-----------------------------------------------------------------------------------------------------------------------------------
+
+	bufferInstancedDesc.ByteWidth = sizeof(InstancedAnimationData) * MAX_INSTANCED_GEOMETRY;
+
+	if (FAILED(hr = gDevice->CreateBuffer(&bufferInstancedDesc, nullptr, &instancedBuffers[INSTANCED_ANIMATION])))
 		MessageBox(NULL, L"Failed to create Instance buffer", L"Renderer Error", MB_ICONERROR | MB_OK);
 
 

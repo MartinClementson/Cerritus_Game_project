@@ -138,6 +138,17 @@ struct InstancedData
 	DirectX::XMFLOAT4X4 worldMatrix;
 };
 
+struct InstancedAnimationData
+{
+	InstancedAnimationData() { ZeroMemory(this, sizeof(this)); };
+	DirectX::XMFLOAT4X4 worldMatrix;
+	UINT animation;
+	//DirectX::XMFLOAT3 padAnim;
+	float animationTime;
+	//DirectX::XMFLOAT3 padAnimTime;
+
+};
+
 struct BillboardData
 {
 	DirectX::XMFLOAT3 worldPos  = DirectX::XMFLOAT3(0.0f,0.0f,0.0f);
@@ -150,11 +161,13 @@ struct BillboardData
 struct BlendShapeVert
 {
 	Float3 position;
+	float padP;
 	Float3 normal;
+	float padN;
 	Float2 biTangent;
 	Float2 tangent;
-
 	float influence = 0;
+	Float3 padI;
 
 };
 struct BlendShapeBuffer

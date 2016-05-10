@@ -57,6 +57,7 @@ Graphics::~Graphics()
 				delete billBoardArray[i];
 			
 	}
+	delete instancedAnimationDataPerFrame;
 	
 
 	
@@ -75,6 +76,7 @@ void Graphics::Initialize(HWND * window)
 	enemyObjects	 = new std::vector<RenderInfoEnemy*>;
 	trapObjects		 = new std::vector<RenderInfoTrap*>;
 
+	instancedAnimationDataPerFrame					 = new InstancedAnimationData[MAX_INSTANCED_GEOMETRY];
 	instancedWorldDataPerFrame[ENEMY_1_INSTANCED]    = new InstancedData[MAX_INSTANCED_GEOMETRY];
 	instancedWorldDataPerFrame[PROJECTILE_INSTANCED] = new InstancedData[MAX_INSTANCED_GEOMETRY];
 	instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED]	 = new InstancedData[MAX_INSTANCED_GEOMETRY];
@@ -95,6 +97,24 @@ void Graphics::Initialize(HWND * window)
 
 	shadowBuffer = new ShadowBuffer();
 	shadowBuffer->Initialize(this->gDevice, this->gDeviceContext);
+
+
+
+#pragma region Create two temporary blendshape animations
+
+	XMFLOAT3 pos	  = XMFLOAT3(5.0f, 0.0f, 0.0f);
+	XMFLOAT3 rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	instancedAnimationDataPerFrame[0].animationTime = 0;
+	instancedAnimationDataPerFrame[0].worldMatrix = CalculateWorldMatrix(&pos, &rotation);
+
+
+	pos.z += 5;
+	rotation.y = 45.0f;
+	instancedAnimationDataPerFrame[1].animationTime = 0;
+	instancedAnimationDataPerFrame[1].worldMatrix = CalculateWorldMatrix(&pos, &rotation);
+
+
+#pragma endregion
 }
 
 void Graphics::Release()
@@ -144,6 +164,18 @@ void Graphics::Release()
 
 void Graphics::Render() //manage RenderPasses here
 {
+	//static float anim = 0.0f;
+
+	for (size_t i = 0; i < 2; i++)
+	{
+
+		instancedAnimationDataPerFrame[i].animationTime += 0.01;
+		if (instancedAnimationDataPerFrame[i].animationTime > 1.0f)
+			instancedAnimationDataPerFrame[i].animationTime = 0;
+	}
+	
+
+
 	if (charObjects->size() > 0)
 		renderer->UpdateCamera(charObjects->at(0)->position);
 
@@ -289,7 +321,10 @@ void Graphics::RenderScene()
 
 
 
-
+	//Render blendshape animation
+	if (instancesToRender[ENEMY_1_INSTANCED] > 0)
+		renderer->RenderInstanced(this->enemyObjects->at(instanceMeshIndex.enemy1Mesh),
+				instancedAnimationDataPerFrame, 2);
 	/*for (unsigned int i = 0; i < trapObjects->size(); i++)
 	{
 		if (!trapObjects->at(i)->render)
@@ -407,9 +442,9 @@ void Graphics::CullGeometry()
 
 			//if object is visible and is enemy_1_type
 			this->instancedWorldDataPerFrame[ENEMY_1_INSTANCED][enemyIndex].worldMatrix = CalculateWorldMatrix(&this->enemyObjects->at(i)->position, &this->enemyObjects->at(i)->rotation);
-			instancesToRender		   [ENEMY_1_INSTANCED] += 1;
+			instancesToRender				[ENEMY_1_INSTANCED] += 1;
 			enemyIndex									   += 1;
-			this->enemyObjects->at(i)->render = false; //Remove this from normal rendering, since we render instanced
+			this->enemyObjects->at(i)->render = false; //Remove this object from normal rendering, since we render instanced
 				if (instanceMeshIndex.enemy1Mesh == -1) //if this is the first thing we found of that mesh, store the index.
 					instanceMeshIndex.enemy1Mesh = (int)i;
 
@@ -419,10 +454,9 @@ void Graphics::CullGeometry()
 					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].height		= 0.1f;
 					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].width		= 2.0f * enemyObjects->at(i)->normalizedHealthVal;
 					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].worldPos	= 
-						XMFLOAT3(	enemyObjects->at(i)->position.x - (2.0f - (billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width)), 	   // pos. x - (2 - width)
-									5.0f ,																									       //height of the healthbar. 0 == on ground
-									enemyObjects->at(i)->position.z);																		       // pos z.
-					
+						XMFLOAT3(	  enemyObjects->at(i)->position.x - (2.0f - (billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width)), 	    // pos. x - (2 - width)
+									  5.0f ,																									    // height of the healthbar. 0 == on ground
+									  enemyObjects->at(i)->position.z);																		        // pos z.
 					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + enemyObjects->at(i)->normalizedHealthVal - 0.2f;		// -0.2f is just to make the red appear sooner
 					billBoardArray    [HEALTH_BAR_BILLBOARD];
 					billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;

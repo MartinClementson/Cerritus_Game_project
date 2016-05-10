@@ -16,7 +16,7 @@
 #define MAX_NUM_DIRLIGHTS	1
 #define MAX_NUM_SPOTLIGHTS	2
 
-#define UNIQUE_INSTANCED_BUFFER_AMOUNT 2 //atm, only two unique buffers are used, for world matrix and billboard
+#define UNIQUE_INSTANCED_BUFFER_AMOUNT 3 //atm, three unique buffers are used, for world matrix, animation and billboard
 #define INSTANCED_WORLD_BUFFER_AMOUNT  4
 
 
@@ -51,4 +51,4 @@
 #define SPOTLIGHTS_BUFFER_INDEX			 7  // TEXTURE INDEX
 #define POINTLIGHTS_BUFFER_INDEX		 8  // TEXTURE INDEX
 #define DIRLIGHTS_BUFFER_INDEX			 9  // TEXTURE INDEX
-#define BLENDSHAPES_BUFFER_START_INDEX   10	//Texture INDEX
+#define BLENDSHAPES_BUFFER_START_INDEX   10	//Texture INDEX + amount of blendshapes

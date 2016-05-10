@@ -206,6 +206,32 @@ void ResourceManager::Release()
 		return &currentMesh;
 	}
 
+	RenderInstructions * ResourceManager::GetAnimationRenderInfo(RenderInfoEnemy * object)
+	{
+
+		currentMesh = RenderInstructions();
+		MeshEnum meshType = MeshEnum::ENEMY_1;//temporary
+
+		shaderManager->SetActiveShader(Shaders::ANIMATION_SHADER);
+		/*if (meshType == MeshEnum::ENEMY_1 && gbufferPass == true)
+			shaderManager->SetActiveShader(Shaders::GBUFFER_SHADER_INSTANCED);
+
+		else if (meshType == MeshEnum::ENEMY_1 && shadowPass == true)
+			shaderManager->SetActiveShader(Shaders::SHADOW_SHADER_INSTANCED);*/
+
+		
+
+		//meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
+
+		meshManager->GetPlaceHolderMeshInfo(&currentMesh);
+		//materialManager->GetMaterialRenderInfo(&currentMesh);
+
+
+		return &currentMesh;
+
+		return nullptr;
+	}
+
 	RenderInstructions * ResourceManager::GetPlaceHolderMesh(XMFLOAT3 position)
 	{
 		////////////TEMPORARY////////////////////////////////

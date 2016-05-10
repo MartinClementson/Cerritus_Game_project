@@ -340,7 +340,7 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 
 
 		float3 v = normalize(camPos.xyz - worldPos);				 //create a ray from the vert pos to the camera.
-			float yo = 1.0f;
+		
 		for (int i = 0; i < numPointLights; i++)
 		{
 
