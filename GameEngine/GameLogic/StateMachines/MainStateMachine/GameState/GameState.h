@@ -10,13 +10,14 @@
 #include "../../../Character/Enemy/Enemy.h"
 #include "../../../Collision/Collision.h"
 #include "../../../../Source/GameTimer/GameTimer.h"
+#include "../../AudioManager/AudioManager.h"
 class GameState :
 	public StateClass
 {
 public:
 	GameState();
 	virtual ~GameState();
-	void Initialize();
+	void Initialize(AudioManager* audioManager);
 	void Release();
 	void Update(double deltaTime);
 	void Render();
@@ -45,4 +46,5 @@ private:
 	MenuState* menu;
 	Collision* collision;
 	GameTimer* gameTimer;
+	AudioManager* audioManager;
 };
