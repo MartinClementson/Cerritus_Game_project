@@ -5,6 +5,7 @@
 #include "../ProjectileSystem/ProjectileSystem.h"
 #include "../../../Enumerations/Enumerations.h"
 #include "../../../Structs/RenderInfo.h"
+#include "../../StateMachines/AudioManager/AudioManager.h"
 
 struct Vec3
 {
@@ -64,7 +65,7 @@ public:
 	Player();
 	virtual ~Player ();
 
-	void Initialize ();
+	void Initialize (AudioManager* audioManager);
 	void Release	();
 	void Update		(double deltaTime,XMFLOAT3 direction);
 	void Render		();
