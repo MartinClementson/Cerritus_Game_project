@@ -49,8 +49,13 @@ Player::~Player()
 
 }
 
+
+
+
+
 void Player::Initialize(AudioManager* audioManager)
 {
+	
 	graphics			 = Graphics::GetInstance();
 
 	this->position		 = XMFLOAT3(-5.0f, Y_OFFSET, -5.0f);
@@ -96,13 +101,13 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 	{
 		DoTDur += (float)deltaTime;
 	}
-	if (DoTDur > 2)
+	if (DoTDur > 1)
 	{
 		DoT = 0.0f;
 		DoTDur = 0.0f;
 	}
 
-	health -= DoT*(float)deltaTime;
+	health -= DoT;
 	if (health <= 0)
 	{
 		
