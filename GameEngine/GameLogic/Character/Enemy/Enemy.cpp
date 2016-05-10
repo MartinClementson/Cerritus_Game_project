@@ -31,6 +31,7 @@ Enemy::~Enemy()
 
 void Enemy::Initialize()
 {
+	closestHealer = nullptr;
 	graphics = Graphics::GetInstance();
 	if (this->fast)
 	{
@@ -85,25 +86,18 @@ void Enemy::Update(double deltaTime)
 	
 	health -= DoT;//deltaTime;
 
-	if (health < maxHealth / 2 && closestHealer != nullptr)
+	if (health < (maxHealth / 2) && closestHealer)
 	{
-		GetStateMachine()->SetActiveState(ENEMY_HEAL_STATE);
+  		enemyStateMachine->SetActiveState(ENEMY_HEAL_STATE);
 	}
-	else if (health >= maxHealth && GetStateMachine()->GetActiveState() == ENEMY_HEAL_STATE)
-	{
-		closestHealer->healing -= 1;
-		GetStateMachine()->SetActiveState(ENEMY_ATTACK_STATE);
-	}
-
-	if (closestHealer == nullptr)
+	else if(health >= maxHealth)
 	{
 		GetStateMachine()->SetActiveState(ENEMY_ATTACK_STATE);
 	}
-
-
-	if (GetStateMachine()->GetActiveState() == ENEMY_HEAL_STATE
-		&&
-		GetHealth() == GetMaxHealth())
+	
+	
+	
+	if (health < maxHealth / 2 && !closestHealer)
 	{
 		GetStateMachine()->SetActiveState(ENEMY_ATTACK_STATE);
 	}
@@ -184,7 +178,7 @@ void Enemy::Spawn(XMFLOAT3 spawn)
 		this->health = maxHealth;
 		this->DoT = 0.0f;
 		this->index = 0.0f;
-		//this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_IDLE_STATE);
+		//this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_HEAL_STATE);
 	}
 	else
 	{
@@ -194,7 +188,7 @@ void Enemy::Spawn(XMFLOAT3 spawn)
 		this->health = maxHealth;
 		this->DoT = 0.0f;
 		this->index = 0.0f;
-		//this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_IDLE_STATE);
+		//this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_HEAL_STATE);
 	}
 }
 
@@ -256,9 +250,21 @@ void Enemy::AIPatternHeal(EnemyBase* healer, double deltaTime)
 		vect.Normalize();
 
 		//XMFLOAT3 temp = GetPosition();
-		this->position.x += vect.x *(float)deltaTime * movementSpeed /2;
-		this->position.z += vect.z *(float)deltaTime * movementSpeed/2;
+		this->position.x += vect.x *(float)deltaTime * movementSpeed;
+		this->position.z += vect.z *(float)deltaTime * movementSpeed;
 		//SetPosition(temp);
+	}
+	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
+	{
+
+	}
+	else if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE)
+	{
+		
+	}
+	else if (enemyStateMachine->GetActiveState() == ENEMY_DEATH_STATE)
+	{
+		//here they go to die 
 	}
 }
 
@@ -304,17 +310,10 @@ void Enemy::EnemyWithEnemyCollision(EnemyBase* enemy, EnemyBase* enemys, double 
 
 void Enemy::SetClosestHealer(EnemyBase* healer)
 {
-	closestHealer = healer;
+	this->closestHealer = healer;
 }
 
 EnemyBase* Enemy::GetClosestHealer()
 {
-	if (!closestHealer)
-	{
-		return nullptr;
-	}
-	else
-	{
-		return closestHealer;
-	}
+	return closestHealer;
 }

@@ -51,6 +51,7 @@ float EnemyBase::GetMaxHealth()
 
 void EnemyBase::SetClosestHealer(EnemyBase* healer)
 {	
+	
 }
 
 EnemyBase * EnemyBase::GetClosestHealer()

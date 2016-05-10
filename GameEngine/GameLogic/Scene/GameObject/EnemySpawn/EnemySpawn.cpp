@@ -91,7 +91,8 @@ void EnemySpawn::Update(double deltaTime)
 		}
 		else if (StandardAlive.at(i)->GetHealth() <= 0 &&
 			StandardAlive.at(i)->GetStateMachine()->
-			GetActiveState() == EnemyState::ENEMY_HEAL_STATE)
+			GetActiveState() == EnemyState::ENEMY_HEAL_STATE
+			)
 		{
 			Player* player;
 			player = collision->GetPlayer();

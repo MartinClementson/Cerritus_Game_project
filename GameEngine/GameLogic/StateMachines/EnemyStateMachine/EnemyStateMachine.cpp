@@ -12,7 +12,6 @@ void EnemyStateMachine::SetActiveState(EnemyState state)
 	
 	this->activeState = state;
 	
-	
 }
 
 EnemyStateMachine::EnemyStateMachine()

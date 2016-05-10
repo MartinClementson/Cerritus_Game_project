@@ -32,7 +32,7 @@ void Healer::Update(double deltaTime)
 void Healer::Initialize()
 {
 	this->charType = CharacterType::HEALER;
-	movementSpeed = 1.0f;
+	movementSpeed = 5.0f;
 	originalMovementSpeed = movementSpeed;
 	health = 300;
 	this->maxHealth = health;
