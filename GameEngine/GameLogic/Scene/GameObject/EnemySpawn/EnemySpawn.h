@@ -20,6 +20,7 @@ private:
 	Collision* collision;
 	XMFLOAT3 spawnPosition;
 public:
+	XMFLOAT3 spawn;
 	Waves waves;
 	int currentWave = 1;
 	int enemyWaveAmount = 0;

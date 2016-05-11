@@ -36,18 +36,12 @@ void EnemySpawn::Update(double deltaTime)
 {
 		if (!waveAmount == 0)
 		{
-			for (size_t i = 0; i < Alive.size(); i++)
+			for (size_t j = 0; j < Alive.size(); j++)
 			{
-
-				if (collision->PlayerProxyEnemy(Alive.at(i)))
-				{
-					for (size_t j = 0; j < Alive.size(); j++)
-					{
-						Alive.at(j)->GetStateMachine()->
-							SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
-					}
-				}
-			}
+				Alive.at(j)->GetStateMachine()->
+					SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
+			}	
+			
 			for (size_t i = 0; i < Alive.size(); i++)
 			{
 
@@ -90,7 +84,6 @@ void EnemySpawn::Update(double deltaTime)
 						SetActiveState(EnemyState::ENEMY_DEATH_STATE);
 
 					Queue.push_back(Alive.at(i));
-
 					Alive.erase(Alive.begin() + i);
 
 					waveAmount--;
@@ -109,7 +102,6 @@ void EnemySpawn::Update(double deltaTime)
 				{
 						RespawnEnemy();
 						//spawnTimer = 0;
-						enemyWaveAmount++;
 				}
 			}
 		}
@@ -149,7 +141,7 @@ void EnemySpawn::SpawnEnemy()
 
 	firstSpawn = true;
 	
-	for(size_t i = 0; i < waveAmount; i++)
+	for(size_t i = 0; i < Queue.size(); i++)
 	{
 		if (!Queue.at(i)->isAlive)
 		{
@@ -159,7 +151,6 @@ void EnemySpawn::SpawnEnemy()
 
 				waves.SpawnPositions(intSpawn);
 
-				XMFLOAT3 spawn;
 				spawn = waves.GetSpawnPositions();
 
 				Queue.at(i)->Spawn(spawn); //sets position and isAlive to TRUE
@@ -173,7 +164,6 @@ void EnemySpawn::SpawnEnemy()
 			{
 				waves.SpawnPositions(intSpawn);
 
-				XMFLOAT3 spawn;
 				spawn = waves.GetSpawnPositions();
 
 				Queue.at(i)->Spawn(spawn); //sets position and isAlive to TRUE
@@ -181,7 +171,8 @@ void EnemySpawn::SpawnEnemy()
 				Queue.erase(Queue.begin() + i);
 				
 				intSpawn++;
-			}			
+			}		
+
 		}
 	}
 }
@@ -190,7 +181,7 @@ void EnemySpawn::RespawnEnemy()
 {
 	intSpawn = rand() % 4 + 1;
 
-	for (size_t i = 0; i < waveAmount; i++)
+	for (size_t i = 0; i < Queue.size(); i++)
 	{
 		if (!Queue.at(i)->isAlive)
 		{
@@ -200,32 +191,28 @@ void EnemySpawn::RespawnEnemy()
 
 				waves.SpawnPositions(intSpawn);
 
-				XMFLOAT3 spawn;
 				spawn = waves.GetSpawnPositions();
 
-				Queue.at(i)->Spawn(spawn); //sets position and isAlive to TRUE
+				Queue.at(i)->Respawn(spawn); //sets position and isAlive to TRUE
 				Alive.push_back(Queue.at(i));
 				Queue.erase(Queue.begin() + i);
 
 				intSpawn++;
-
 			}
+
 			else
 			{
 				waves.SpawnPositions(intSpawn);
 
-				XMFLOAT3 spawn;
 				spawn = waves.GetSpawnPositions();
 
-				Queue.at(i)->Spawn(spawn); //sets position and isAlive to TRUE
+				Queue.at(i)->Respawn(spawn); //sets position and isAlive to TRUE
 				Alive.push_back(Queue.at(i));
 				Queue.erase(Queue.begin() + i);
 
 				intSpawn++;
 			}
-					
 		}
-
 	}
 }
 
@@ -235,9 +222,9 @@ void EnemySpawn::InitEnemy()
 
 	int enemyAmount;
 	enemyAmount = waves.GetWaveInformation();*/
-	unsigned int waveAmount = 50;
+	unsigned int amount = 22;
 
-	for (int i = 0; i < waveAmount; i++)
+	for (int i = 0; i < amount; i++)
 	{
 		int spawnPointRandom = rand() % 4 + 1;
 

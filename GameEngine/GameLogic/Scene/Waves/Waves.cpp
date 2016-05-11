@@ -47,7 +47,7 @@ void Waves::WaveInformation()
 			amountOfHealers = 5;
 			break;
 		case 2:
-			amountOfStandards = 9;
+			amountOfStandards = 8;
 			SetWaveInformation(amountOfStandards);
 			amountOFFast = 2;
 			amountOfHealers = 2;
@@ -57,7 +57,6 @@ void Waves::WaveInformation()
 			SetWaveInformation(amountOfStandards);
 			amountOFFast = 5;
 			amountOfHealers = 2;
-			//NextWave(nextWave);
 			break;
 		default: 
 			amountOfStandards = 1;
