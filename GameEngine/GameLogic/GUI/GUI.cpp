@@ -5,6 +5,7 @@
 GUI::GUI()
 {
 	items = new std::vector<GUIElement*>;
+	
 }
 
 
@@ -15,10 +16,13 @@ GUI::~GUI()
 
 void GUI::Initialize()
 {
+	
+
 	size = size;
 	uv = uv;
 	grapichs = Graphics::GetInstance();
 	this->texture = texture;
+	
 }
 
 void GUI::Release()
@@ -28,18 +32,27 @@ void GUI::Release()
 
 void GUI::Update(double deltaTime)
 {
-	renderInfo = { size,uv };		
+	/*vtx[0] = { 0.003 ,0.597 };
+	vtx[1] = { 0.129 ,0.597 };
+	vtx[2] = { 0.129 ,0.403 };
+	vtx[3] = { 0.003 ,0.403 };
+	
+	UVs.push_back(vtx);*/
+	
+	renderInfo = { size,uv };
 	this->renderInfo.object = texture;
+	
+	
 }
 
 void GUI::Render()
 {
+
+
 	renderInfo = { size,uv };
 
 	this->renderInfo.object = texture;
-
 	grapichs->QueueRender(&renderInfo);
-	
 }
 
 UITextures GUI::getUI()
@@ -61,3 +74,4 @@ void GUI::setUI(UITextures texture)
 {
 	this->texture = texture;
 }
+

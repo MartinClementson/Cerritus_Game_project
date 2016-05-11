@@ -424,9 +424,6 @@
     <ClCompile Include="ResourceEngine\ObjectNode\QuadTree\QuadTree.cpp">
       <Filter>ResourceEngine\ObjectNode\QuadTree</Filter>
     </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enumerations\Enumerations.h">
@@ -624,7 +621,6 @@
     <ClInclude Include="ResourceEngine\ObjectNode\QuadTree\QuadTree.h">
       <Filter>ResourceEngine\ObjectNode\QuadTree</Filter>
     </ClInclude>
-    <ClInclude Include="Sprite.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="ResourceEngine\Shader\GBufferShader\Gbuffer.hlsl">

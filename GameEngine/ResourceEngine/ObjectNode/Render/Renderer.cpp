@@ -54,6 +54,7 @@ void Renderer::Release()
 
 	SAFE_RELEASE(worldBuffer);
 	SAFE_RELEASE(cbufferPerFrame);
+	SAFE_RELEASE(OffsetBuffer);
 	
 	SAFE_RELEASE(sampleBoolsBuffer);
 	for (size_t i = 0; i < LIGHTBUFFER_AMOUNT; i++)
@@ -424,7 +425,7 @@ void Renderer::Render(RenderInstructions * object)
 	this->gDeviceContext->GSSetShaderResources(POINTLIGHTS_BUFFER_INDEX, 1, &pointLightStructuredBuffer);
 	this->gDeviceContext->GSSetShaderResources(DIRLIGHTS_BUFFER_INDEX, 1, &dirLightStructuredBuffer);
 	UpdateWorldBuffer(&object->worldBuffer);
-
+	
 #pragma region Check what vertex is to be used
 
 	//We need to make sure that we use the right kind of vertex when rendering
@@ -840,10 +841,64 @@ void Renderer::UpdateSampleBoolsBuffer(SampleBoolStruct * sampleStruct)
 
 }
 
+void Renderer::updateUVBuffer(UV * uvstruct)
+{
+
+	UV * tmp;
+	tmp->enemyoffsetX = this->enemyOffset;
+	tmp->waveoffsetX = this->waveOffset;
+
+	D3D11_MAPPED_SUBRESOURCE mappedResourceUV;
+	ZeroMemory(&mappedResourceUV, sizeof(mappedResourceUV));
+
+	//mapping to the matrixbuffer
+	this->gDeviceContext->Map(OffsetBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResourceUV);
+
+	UV* temporaryUV = (UV*)mappedResourceUV.pData;
+
+	*temporaryUV = *uvstruct;
+
+
+
+	this->gDeviceContext->Unmap(OffsetBuffer, 0);
+	gDeviceContext->VSSetConstantBuffers(UV_BUFFER_INDEX, 1, &this->OffsetBuffer);
+	gDeviceContext->PSSetConstantBuffers(UV_BUFFER_INDEX, 1, &this->OffsetBuffer);
+}
+
 bool Renderer::CreateBuffers()
 {
 
 	HRESULT hr;
+//-----------------------------------------------------------------------------------------------------------------------------------
+//UV CONSTANT BUFFER
+//-----------------------------------------------------------------------------------------------------------------------------------
+
+	CD3D11_BUFFER_DESC bufferDescUV;
+	ZeroMemory(&bufferDescUV, sizeof(&bufferDescUV));
+
+	bufferDescUV.ByteWidth = sizeof(UV);
+	bufferDescUV.BindFlags		= D3D11_BIND_CONSTANT_BUFFER;
+	bufferDescUV.Usage			= D3D11_USAGE_DYNAMIC;
+	bufferDescUV.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	bufferDescUV.MiscFlags = 0;
+	bufferDescUV.StructureByteStride = 0;
+
+	hr = this->gDevice->CreateBuffer(&bufferDescUV, nullptr, &OffsetBuffer);
+	if (FAILED(hr))
+	{
+		MessageBox(NULL, L"Failed to create UV buffer", L"Error", MB_ICONERROR | MB_OK);
+	}
+	if (SUCCEEDED(hr))
+	{
+		this->gDeviceContext->VSSetConstantBuffers(UV_BUFFER_INDEX, 1, &this->OffsetBuffer);
+		this->gDeviceContext->PSSetConstantBuffers(UV_BUFFER_INDEX, 1, &this->OffsetBuffer);
+	}
+
+
+
+
+
+
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 		//CbufferPerFrame CONSTANT BUFFER

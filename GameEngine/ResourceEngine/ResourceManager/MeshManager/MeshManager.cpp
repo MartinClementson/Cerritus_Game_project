@@ -15,6 +15,7 @@ MeshManager::~MeshManager()
 
 void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext)
 {
+	float x = 0;
 	this->gDevice = gDevice;
 	this->gDeviceContext = gDeviceContext;
 	
@@ -29,6 +30,9 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 
 	killCountQuad.Initialize(gDevice, gDeviceContext);
 	CreateKillCountQuad();
+
+	waveCountQuad.Initialize(gDevice, gDeviceContext);
+	CreateWaveCountQuad();
 	
 
 }
@@ -43,6 +47,7 @@ void MeshManager::Release()
 	placeHolderPlane.Release();
 	fullScreenQuad.Release(); 
 	killCountQuad.Release();
+	waveCountQuad.Release();
 	
 }
 
@@ -61,7 +66,6 @@ void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materia
 		{
 			newIndices[i] = indices[i];
 		}
-
 		Mesh newMesh = Mesh(hasSkeleton, skeletonID, materialID);
 		newMesh.Initialize(this->gDevice, this->gDeviceContext);
 		newMesh.CreateVertexBuffer(newVertices, vertexCount);
@@ -94,11 +98,6 @@ void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materia
 	}
 }
 
-
-//int MeshManager::GetMaterialID(unsigned int index)
-//{
-//	return gameMeshes->at(index);
-//}
 
 void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * toRender)
 {
@@ -263,23 +262,22 @@ void MeshManager::CreateKillCountQuad()
 	Vertex planeVerts[4];
 
 	planeVerts[0].position = Float3(-1.0f, 1.0f, 0.0f);		//0
-	planeVerts[0].uv.x = 0.0f;
-	planeVerts[0].uv.y = 0.0f;
+	planeVerts[0].uv.x = 0.035f;
+	planeVerts[0].uv.y = 1-0.577f;
 
-	planeVerts[1].position = Float3(1.0f, 0.7f, 0.0f);		//3
-	planeVerts[1].uv.x = 1.0f;
-	planeVerts[1].uv.y = 0.0f;
+	planeVerts[1].position = Float3(-0.5f, 1.0f, 0.0f);		//3
+	planeVerts[1].uv.x = 0.062f;
+	planeVerts[1].uv.y = 1-0.577f;
 	
 
-	planeVerts[2].position = Float3(1.0f, 0.7f, 0.0f);		//5
-	planeVerts[2].uv.x = 1.0f;
-	planeVerts[2].uv.y = 1.0f;
+	planeVerts[2].position = Float3(-0.5f, 0.8f, 0.0f);		//5
+	planeVerts[2].uv.x = 0.062f;
+	planeVerts[2].uv.y = 1-0.525f;
 	
 
-	planeVerts[3].position = Float3(-1.0f, 0.7f, 0.0f);		//7
-	planeVerts[3].uv.x = 0.0f;
-	planeVerts[3].uv.y = 1.0f;
-	
+	planeVerts[3].position = Float3(-1.0f, 0.8f, 0.0f);		//7
+	planeVerts[3].uv.x = 0.035f;
+	planeVerts[3].uv.y = 1-0.525f;
 
 	UINT indices[6] =
 	{
@@ -289,6 +287,42 @@ void MeshManager::CreateKillCountQuad()
 
 	this->killCountQuad.CreateVertexBuffer(planeVerts, 4);
 	this->killCountQuad.CreateIndexBuffer(indices, 6);
+}
+
+void MeshManager::CreateWaveCountQuad()
+{
+	//wave Counter Quad for the wave numbers
+	Vertex planeVerts[4];
+
+	planeVerts[0].position = Float3(-1.0f, -0.8f, 0.0f);		//0
+	planeVerts[0].uv.x = 0.083f;
+	planeVerts[0].uv.y = 1 - 0.476f;
+
+	planeVerts[1].position = Float3(-0.8f, -0.8f, 0.0f);		//3
+	planeVerts[1].uv.x = 0.129f;
+	planeVerts[1].uv.y = 1 - 0.476f;
+
+	planeVerts[2].position = Float3(-0.8f, -1.0f, 0.0f);		//5
+	planeVerts[2].uv.x = 0.129f;
+	planeVerts[2].uv.y = 1 - 0.423f;
+	
+	planeVerts[3].position = Float3(-1.0f, -1.0f, 0.0f);		//7
+	planeVerts[3].uv.x = 0.083f;
+	planeVerts[3].uv.y = 1 - 0.423f;
+
+	//offset.enemyOffsetX = 10;
+	//offset.waveOffsetX = 10;
+
+
+
+	UINT indices[6] =
+	{
+		0, 1, 2,
+		0, 2, 3
+	};
+
+	this->waveCountQuad.CreateVertexBuffer(planeVerts, 4);
+	this->waveCountQuad.CreateIndexBuffer(indices, 6);
 }
 
 
@@ -333,12 +367,12 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 		fullScreenQuad.GetMeshRenderInfo(toRender);
 		toRender->materialID = 13;
 	}
-	else if (*uiEnum == UITextures::NUMERATION)
+	/*else if (*uiEnum == UITextures::NUMERATION)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
 		toRender->materialID = 14;
 
-	}
+	}*/
 
 }
 
@@ -346,7 +380,30 @@ void MeshManager::GetKillCountQuadInfoHud(UITextures * uiEnum, RenderInstruction
 {
 	if (*uiEnum == UITextures::NUMERATION)
 	{
+		//offset.enemyOffsetX = 0.028f;
+		//float x = 0.028f; // offset för fiende nummer 
+
+		//CreateKillCountQuad(x);
+
 		killCountQuad.GetMeshRenderInfo(toRender);
+		
+		toRender->materialID = 14;
+
+	}
+}
+
+void MeshManager::GetWaveCountQuadInfoHud(UITextures * uiEnum, RenderInstructions * toRender)
+{
+	if (*uiEnum == UITextures::NUMERATION)
+	{
+
+		//offset.waveOffsetX = 0.056f;
+		//float x = 0.056f; offset för Vågnummer
+
+		//CreateWaveCountQuad();
+
+		waveCountQuad.GetMeshRenderInfo(toRender);
+
 		toRender->materialID = 14;
 
 	}

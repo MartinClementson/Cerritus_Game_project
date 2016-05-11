@@ -1,9 +1,19 @@
 #pragma once
 #include "../../Source/LibIncluder.h"
 #include "./GUIElement/GUIElement.h"
+
+
+
+
 class GUI
 {
 public:
+	
+	/*struct UV
+	{
+		XMFLOAT2 UV[4];
+	};*/
+	
 	GUI();
 	virtual ~GUI();
 	void Initialize();
@@ -11,11 +21,14 @@ public:
 	void Update(double deltaTime);
 	void Render();
 	RenderInfoUI renderInfo;
+	
 	Graphics* grapichs;
 	UITextures getUI();
 	XMFLOAT2 getPos();
 	void setPos(XMFLOAT2 uv);
 	void setUI(UITextures texture);
+	/*std::vector<UV*> UVs;
+	XMFLOAT2 vtx[4];*/
 
 private:
 	UITextures texture;

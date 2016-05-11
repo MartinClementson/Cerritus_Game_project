@@ -76,7 +76,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	materialManager->addMaterials(&temp);
 	ui.materialName = "ENUMERATION";
 	ui.diffuseTex = "Numerations.tif";
-	ui.materialID = 13;
+	ui.materialID = 14;
 	temp.push_back(ui);
 
 	materialManager->addMaterials(&temp);
@@ -119,12 +119,26 @@ void ResourceManager::Release()
 		
 		//currentUI.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->size, &object->position);
 		Shaders tmp = UI_SHADER;
-		
+	
 		UITextures uiType = object->object;
+
 		if (uiType == UITextures::NUMERATION)
 		{
 			this->shaderManager->SetActiveShader(tmp);
 			meshManager->GetKillCountQuadInfoHud(&uiType, &currentUI);
+			materialManager->GetMaterialRenderInfo(&currentUI);
+			return &currentUI;
+
+			meshManager->GetWaveCountQuadInfoHud(&uiType, &currentUI);
+//			meshManager->offset.waveOffsetX = 0.056f;
+			materialManager->GetMaterialRenderInfo(&currentUI);
+			return &currentUI;
+		}
+		if (uiType == UITextures::WAVECOUNTER)
+		{
+			this->shaderManager->SetActiveShader(tmp);
+			meshManager->GetKillCountQuadInfoHud(&uiType, &currentUI);
+	//		meshManager->offset.enemyOffsetX = 0.028f;
 			materialManager->GetMaterialRenderInfo(&currentUI);
 			return &currentUI;
 		}

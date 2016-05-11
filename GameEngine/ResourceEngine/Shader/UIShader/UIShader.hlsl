@@ -1,6 +1,12 @@
 Texture2D diffuseTex			 : register(t0);
 SamplerState linearSampler		 : register(s0);
 
+cbuffer UV                       : register(b0)
+{
+	float enemyOffsetX;
+	float waveOffsetX;
+};
+
 struct VS_IN
 {
 	float4 pos : SV_POSITION;
@@ -11,14 +17,19 @@ struct VS_OUT
 {
 	float4 pos : SV_POSITION;
 	float2 uv : TEXCOORD;
+
 };
 
 VS_OUT VS_main(VS_IN input)
 {
 	VS_OUT output;
 	output.pos = input.pos;
-	output.uv = input.uv;
-	
+	float2 UV;
+	UV.x = input.uv.x; //+ 0.026f;
+	UV.y = input.uv.y;
+	//output.uv.y = input.uv.y;
+	//output.uv.x += input.uv.x;
+	output.uv = UV;
 	
 	return output;
 }

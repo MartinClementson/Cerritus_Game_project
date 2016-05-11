@@ -29,6 +29,8 @@ struct RenderInstructions
 	ID3D11Buffer* indexBuffer = nullptr;
 	UINT* indexCount = 0;
 
+	//UVoffset* uvIGuess = nullptr;
+
 	ID3D11ShaderResourceView* diffuseMap = nullptr;
 	ID3D11ShaderResourceView* normalMap = nullptr;
 	ID3D11ShaderResourceView* specularMap = nullptr;
@@ -49,6 +51,7 @@ struct RenderInfoUI {
 	XMFLOAT2 size;
 	XMFLOAT2 uv;
 	UITextures object;
+	//HUDText texture;
 	//Shaders shader;	//these are enum
 	//float radius;
 
