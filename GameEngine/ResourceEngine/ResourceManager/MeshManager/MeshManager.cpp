@@ -36,11 +36,11 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 	CreateFullScreenQuad();
 
 	//Create three blendshapes
-	for (int i = 0; i < 2; i++) //if you change amount, change it in release function as well
-		CreatePlaceHolderBlendShape(); 
+	//for (int i = 0; i < 2; i++) //if you change amount, change it in release function as well
+		//CreatePlaceHolderBlendShape(); 
 
-	animatedMeshes->push_back(Mesh());
-	animatedMeshes->at(0).Initialize(gDevice,gDeviceContext);
+	//animatedMeshes->push_back(Mesh());
+	//animatedMeshes->at(0).Initialize(gDevice,gDeviceContext);
 	unsigned int tempNrFrames[1] = {2};
 	float tempNrTime[1]			 = { 5.0f };
 
@@ -520,15 +520,16 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 void MeshManager::CreateAnimationFromMeshes(std::vector<Vertex> sourceMesh, std::vector<AnimationInfo> animations)
 {
 	animatedMeshes->push_back(Mesh(gDevice,gDeviceContext));
+
 	size_t meshIndex = animatedMeshes->size() - 1;
-	animatedMeshes->at(meshIndex).CreateAnimatedMesh(sourceMesh.data(), sourceMesh.size(), &animations);
+	animatedMeshes->at(meshIndex).CreateAnimatedMesh(sourceMesh.data(), (unsigned int)sourceMesh.size(), &animations);
 
 	for (size_t i = 0; i < animations.size(); i++)
 	{
 		blendShapeMeshes->push_back(std::vector<Mesh*>()); //for each animation, create a new array of meshes, each mesh represents a keyframe
 		for (size_t j = 0;  j < animations.at(i).numberOfFrames;  j++) //for each frame, create a blendshape mesh
 		{
-			Mesh* newShape = CreateBlendShape(animations.at(i).meshesPerFrame.at(j).data(), animations.at(i).meshesPerFrame.at(j).size());
+			Mesh* newShape = CreateBlendShape(animations.at(i).meshesPerFrame.at(j).data(),(unsigned int) animations.at(i).meshesPerFrame.at(j).size());
 			blendShapeMeshes->at(blendShapeMeshes->size() - 1).push_back(newShape);
 		}
 	}
@@ -548,12 +549,12 @@ void MeshManager::CreateAnimationFromMeshes(std::vector<Vertex> sourceMesh, std:
 
 			D3D11_BUFFER_DESC BufferDesc;
 			ZeroMemory(&BufferDesc, sizeof(BufferDesc));
-			BufferDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-			BufferDesc.Usage = D3D11_USAGE_DYNAMIC;
-			BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-			BufferDesc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
-			BufferDesc.ByteWidth = sizeof(BlendShapeVert) * (animatedMeshes->at(meshIndex).GetVertCount()) * (animatedMeshes->at(meshIndex).animations.at(i).numberOfFrames);
-			BufferDesc.StructureByteStride = sizeof(BlendShapeVert);
+			BufferDesc.BindFlags			= D3D11_BIND_SHADER_RESOURCE;
+			BufferDesc.Usage				= D3D11_USAGE_DYNAMIC;
+			BufferDesc.CPUAccessFlags		= D3D11_CPU_ACCESS_WRITE;
+			BufferDesc.MiscFlags			= D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+			BufferDesc.ByteWidth			= sizeof(BlendShapeVert) * (animatedMeshes->at(meshIndex).GetVertCount()) * (animatedMeshes->at(meshIndex).animations.at(i).numberOfFrames); //vertices * frames/meshes
+			BufferDesc.StructureByteStride  = sizeof(BlendShapeVert);
 
 			if (FAILED(hr = gDevice->CreateBuffer(&BufferDesc, nullptr, &morphAnimStructuredBuffers.at(bufferIndex))))
 				MessageBox(NULL, L"Failed to create blend shapes buffer", L"Error", MB_ICONERROR | MB_OK);
@@ -598,7 +599,7 @@ void MeshManager::CreateAnimationFromMeshes(std::vector<Vertex> sourceMesh, std:
 
 			memcpy(mapRes.pData, (void*)vertices, sizeof(BlendShapeVert) * amount);
 			gDeviceContext->Unmap(morphAnimStructuredBuffers.at(bufferIndex), 0);
-			this->gDeviceContext->VSSetShaderResources(MORPHANIM_BUFFER_START_INDEX + meshIndex, 1, &morphAnimStructuredBuffersSRV.at(bufferIndex));
+			this->gDeviceContext->VSSetShaderResources(MORPHANIM_BUFFER_START_INDEX + (UINT)bufferIndex, 1, &morphAnimStructuredBuffersSRV.at(bufferIndex));
 			delete vertices;
 			////////////////////////////////////////////////////////////////////////////////////////
 			////////////////////////////////////////////////////////////////////////////////////////
