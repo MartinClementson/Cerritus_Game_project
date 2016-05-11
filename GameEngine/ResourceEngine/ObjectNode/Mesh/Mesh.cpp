@@ -14,6 +14,11 @@ Mesh::Mesh()
 	
 }
 
+Mesh::Mesh(ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceContext)
+{
+	this->Initialize(gDevice, gDeviceContext);
+}
+
 
 Mesh::~Mesh()
 {
@@ -133,31 +138,33 @@ void Mesh::CreateVertexBuffer(AnimVert * vertices, unsigned int amount)
 void Mesh::CreateBlendShape(BlendShapeVert * vertices, unsigned int amount)
 {
 	this->isBlendShape = true;
+	this->isAnimated   = false; //Since it's a blend shape, (a target) then it can't be a source(animated).
 	this->vertCount	   = amount;
 
 	if (blendVerts != nullptr)
-	{
-		delete blendVerts;
-		blendVerts = nullptr;
-	}
+		delete[] blendVerts;
+	
 
 	blendVerts = new BlendShapeVert[amount];
 	memcpy(this->blendVerts, vertices, sizeof(BlendShapeVert)*amount);
-	//AnimationInfo temp;
-	//animations.push_back(animationInfo)
+
 	
 
 }
 
-void Mesh::CreateAnimatedMesh(Vertex * vertices, unsigned int vertAmount,unsigned int nrOfanimations, unsigned int * framesPerAnimation, float * timePerAnimation)
+void Mesh::CreateAnimatedMesh(Vertex * vertices, unsigned int vertAmount,std::vector<AnimationInfo>* animations)
 {
 
 	this->CreateVertexBuffer(vertices, vertAmount);
-	for (size_t i = 0; i < nrOfanimations; i++)
+	for (size_t i = 0; i < animations->size(); i++)
 	{
 		AnimationInfo temp;
-		temp.animationTime  = timePerAnimation[i];
-		temp.numberOfFrames = framesPerAnimation[i];
+		temp.animationTime  = animations->at(i).animationTime;
+		temp.numberOfFrames = animations->at(i).numberOfFrames;
+
+		for (size_t j = 0; j < animations->at(i).numberOfFrames; j++) //Every frame in the animation is a mesh (blend shape)
+			CreateBlendShape(animations->at(i).meshesPerFrame.at(j).data(), animations->at(i).meshesPerFrame.at(j).size());
+		
 		this->animations.push_back(temp);
 		this->animationCount += 1; 
 	}

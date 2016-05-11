@@ -170,6 +170,8 @@ struct BlendShapeVert
 	Float3 padI;
 
 };
+
+
 struct BlendShapeBuffer
 {
 	BlendShapeVert* BlendShapeVertArray = nullptr;
@@ -178,10 +180,12 @@ struct BlendShapeBuffer
 
 };
 
+
 struct AnimationInfo
 {
 	unsigned int numberOfFrames = 0;
 	float		  animationTime = 0;
+	std::vector<std::vector<BlendShapeVert>> meshesPerFrame; //a 2d array of all the shapes belonging to the animation
 };
 
 struct AnimVert

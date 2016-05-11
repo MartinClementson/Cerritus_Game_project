@@ -7,16 +7,17 @@ MeshManager::MeshManager()
 {
 	this->gameMeshes		 = new std::vector<Mesh>;
 	this->animatedMeshes	 = new std::vector<Mesh>;
-	this->blendShapeMeshes   = new std::vector<Mesh*>;
+	this->blendShapeMeshes   = new std::vector<std::vector<Mesh*>>;
 }
 MeshManager::~MeshManager()
 {
 	delete gameMeshes;
 	delete animatedMeshes;
+
 	for (size_t i = 0; i < blendShapeMeshes->size(); i++)
-	{
-		delete blendShapeMeshes->at(i);
-	}
+		for (size_t j = 0; j < blendShapeMeshes->at(i).size(); j++)
+			delete blendShapeMeshes->at(i).at(j);
+
 	delete blendShapeMeshes;	
 }
 
@@ -51,83 +52,83 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 	cubeVerts[3].position = Float3(0.5, 2.5, 0.5);		//3
 	cubeVerts[4].position = Float3(0.5, 0.0, -0.5);		//4
 	cubeVerts[5].position = Float3(0.5, 2.5, -0.5);		//5
-	cubeVerts[6].position = Float3(-0.5, 0.0, -0.5);		//6
-	cubeVerts[7].position = Float3(-0.5, 2.5, -0.5);		//7
-	animatedMeshes->at(0).CreateAnimatedMesh(cubeVerts,8,1, tempNrFrames, tempNrTime);
-#pragma region Create structured buffers for the animations
-	HRESULT hr;
-	for (int j = 0; j < animatedMeshes->size(); j++)
-	{
-		for (size_t i = 0; i < animatedMeshes->at(j).animationCount; i++) // for every animation, make a bstructured buffer with all the frames in it (one frame = one mesh)
-		{
-
-			UINT bufferIndex = UINT(morphAnimStructuredBuffers.size() + i);
-
-			ID3D11ShaderResourceView* temp;
-			morphAnimStructuredBuffersSRV.push_back(temp);
-			ID3D11Buffer* tempB;
-			morphAnimStructuredBuffers.push_back(tempB);
-
-			D3D11_BUFFER_DESC BufferDesc;
-			ZeroMemory(&BufferDesc, sizeof(BufferDesc));
-			BufferDesc.BindFlags			 = D3D11_BIND_SHADER_RESOURCE;
-			BufferDesc.Usage				 = D3D11_USAGE_DYNAMIC;
-			BufferDesc.CPUAccessFlags		 = D3D11_CPU_ACCESS_WRITE;
-			BufferDesc.MiscFlags			 = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
-			BufferDesc.ByteWidth			 = sizeof(BlendShapeVert) * (animatedMeshes->at(j).GetVertCount()) * (animatedMeshes->at(j).animations.at(i).numberOfFrames);
-			BufferDesc.StructureByteStride   = sizeof(BlendShapeVert);
-
-			if (FAILED(hr = gDevice->CreateBuffer(&BufferDesc, nullptr, &morphAnimStructuredBuffers.at(bufferIndex))))
-				MessageBox(NULL, L"Failed to create blend shapes buffer", L"Error", MB_ICONERROR | MB_OK);
-
-
-			D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
-			srvDesc.Format					 = DXGI_FORMAT_UNKNOWN;
-			srvDesc.ViewDimension			 = D3D11_SRV_DIMENSION_BUFFEREX;
-			srvDesc.Buffer.ElementOffset	 = 0;
-			srvDesc.Buffer.ElementWidth		 = sizeof(BlendShapeVert);
-			srvDesc.Buffer.NumElements		 = animatedMeshes->at(j).GetVertCount() * animatedMeshes->at(j).animations.at(i).numberOfFrames;
-			if (FAILED(hr = gDevice->CreateShaderResourceView(morphAnimStructuredBuffers.at(bufferIndex), &srvDesc, &morphAnimStructuredBuffersSRV.at(bufferIndex))))
-				MessageBox(NULL, L"Failed to create blend shapes buffer", L"Error", MB_ICONERROR | MB_OK);
-			//this->gDeviceContext->VSSetShaderResources(MORPHANIM_BUFFER_START_INDEX + j, 1, &blendShapeStructuredBuffersSRV[j]);
-			//this->gDeviceContext->GSSetShaderResources(MORPHANIM_BUFFER_START_INDEX + j, 1, &blendShapeStructuredBuffersSRV[j]);
-			animationBufferCount += 1;
-		
-	
-
-
-#pragma region Map The buffers
-			////////////////////////////////////////////////////////////////////////////////////////
-			////////////////////////////////////////////////////////////////////////////////////////
-			////Map morph anim structure
-			BlendShapeVert* vertices = new BlendShapeVert[animatedMeshes->at(j).GetVertCount() * animatedMeshes->at(j).animations.at(i).numberOfFrames] ;
-			unsigned int   amount = 0  ;
-
-			for (size_t frame = 0; frame < animatedMeshes->at(j).animations.at(i).numberOfFrames; frame++) //put all the morph targets into one array
-			{
-				for (size_t verts = 0; verts < *blendShapeMeshes->at(frame)->GetMeshBlendShape().amount; verts++)
-				{														   
-					vertices[verts + frame * (*blendShapeMeshes->at(frame) -> GetMeshBlendShape().amount)] =  blendShapeMeshes->at(frame)->GetMeshBlendShape().BlendShapeVertArray[verts];
-				}
-				amount   += *blendShapeMeshes->at(frame)->GetMeshBlendShape().amount;
-			}
-
-			D3D11_MAPPED_SUBRESOURCE mapRes;
-			HRESULT hr = S_OK;
-
-			hr = gDeviceContext->Map(morphAnimStructuredBuffers.at(bufferIndex), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapRes);
-			if (FAILED(hr))
-				MessageBox(NULL, L"Failed to update blend shapes buffer", L"Error", MB_ICONERROR | MB_OK);
-
-			memcpy(mapRes.pData, (void*)vertices, sizeof(BlendShapeVert) * amount);
-			gDeviceContext		->Unmap(morphAnimStructuredBuffers.at(bufferIndex), 0);
-			this->gDeviceContext->VSSetShaderResources(MORPHANIM_BUFFER_START_INDEX + j, 1, &morphAnimStructuredBuffersSRV.at(bufferIndex));
-			delete vertices;
-			////////////////////////////////////////////////////////////////////////////////////////
-			////////////////////////////////////////////////////////////////////////////////////////
-#pragma endregion
-		}
-	}
+	cubeVerts[6].position = Float3(-0.5, 0.0, -0.5);	//6
+	cubeVerts[7].position = Float3(-0.5, 2.5, -0.5);	//7
+	//animatedMeshes->at(0).CreateAnimatedMesh(cubeVerts,8,1, tempNrFrames, tempNrTime);
+//#pragma region Create structured buffers for the animations
+//	HRESULT hr;
+//	for (int j = 0; j < animatedMeshes->size(); j++)
+//	{
+//		for (size_t i = 0; i < animatedMeshes->at(j).animationCount; i++) // for every animation, make a bstructured buffer with all the frames in it (one frame = one mesh)
+//		{
+//
+//			UINT bufferIndex = UINT(morphAnimStructuredBuffers.size() + i);
+//
+//			ID3D11ShaderResourceView* temp;
+//			morphAnimStructuredBuffersSRV.push_back(temp);
+//			ID3D11Buffer* tempB;
+//			morphAnimStructuredBuffers.push_back(tempB);
+//
+//			D3D11_BUFFER_DESC BufferDesc;
+//			ZeroMemory(&BufferDesc, sizeof(BufferDesc));
+//			BufferDesc.BindFlags			 = D3D11_BIND_SHADER_RESOURCE;
+//			BufferDesc.Usage				 = D3D11_USAGE_DYNAMIC;
+//			BufferDesc.CPUAccessFlags		 = D3D11_CPU_ACCESS_WRITE;
+//			BufferDesc.MiscFlags			 = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+//			BufferDesc.ByteWidth			 = sizeof(BlendShapeVert) * (animatedMeshes->at(j).GetVertCount()) * (animatedMeshes->at(j).animations.at(i).numberOfFrames);
+//			BufferDesc.StructureByteStride   = sizeof(BlendShapeVert);
+//
+//			if (FAILED(hr = gDevice->CreateBuffer(&BufferDesc, nullptr, &morphAnimStructuredBuffers.at(bufferIndex))))
+//				MessageBox(NULL, L"Failed to create blend shapes buffer", L"Error", MB_ICONERROR | MB_OK);
+//
+//
+//			D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+//			srvDesc.Format					 = DXGI_FORMAT_UNKNOWN;
+//			srvDesc.ViewDimension			 = D3D11_SRV_DIMENSION_BUFFEREX;
+//			srvDesc.Buffer.ElementOffset	 = 0;
+//			srvDesc.Buffer.ElementWidth		 = sizeof(BlendShapeVert);
+//			srvDesc.Buffer.NumElements		 = animatedMeshes->at(j).GetVertCount() * animatedMeshes->at(j).animations.at(i).numberOfFrames;
+//			if (FAILED(hr = gDevice->CreateShaderResourceView(morphAnimStructuredBuffers.at(bufferIndex), &srvDesc, &morphAnimStructuredBuffersSRV.at(bufferIndex))))
+//				MessageBox(NULL, L"Failed to create blend shapes buffer", L"Error", MB_ICONERROR | MB_OK);
+//			//this->gDeviceContext->VSSetShaderResources(MORPHANIM_BUFFER_START_INDEX + j, 1, &blendShapeStructuredBuffersSRV[j]);
+//			//this->gDeviceContext->GSSetShaderResources(MORPHANIM_BUFFER_START_INDEX + j, 1, &blendShapeStructuredBuffersSRV[j]);
+//			animationBufferCount += 1;
+//		
+//	
+//
+//
+//#pragma region Map The buffers
+//			////////////////////////////////////////////////////////////////////////////////////////
+//			////////////////////////////////////////////////////////////////////////////////////////
+//			////Map morph anim structure
+//			BlendShapeVert* vertices = new BlendShapeVert[animatedMeshes->at(j).GetVertCount() * animatedMeshes->at(j).animations.at(i).numberOfFrames] ;
+//			unsigned int   amount = 0  ;
+//
+//			for (size_t frame = 0; frame < animatedMeshes->at(j).animations.at(i).numberOfFrames; frame++) //put all the morph targets into one array
+//			{
+//				for (size_t verts = 0; verts < *blendShapeMeshes->at(frame)->GetMeshBlendShape().amount; verts++)
+//				{														   
+//					vertices[verts + frame * (*blendShapeMeshes->at(frame) -> GetMeshBlendShape().amount)] =  blendShapeMeshes->at(frame)->GetMeshBlendShape().BlendShapeVertArray[verts];
+//				}
+//				amount   += *blendShapeMeshes->at(frame)->GetMeshBlendShape().amount;
+//			}
+//
+//			D3D11_MAPPED_SUBRESOURCE mapRes;
+//			HRESULT hr = S_OK;
+//
+//			hr = gDeviceContext->Map(morphAnimStructuredBuffers.at(bufferIndex), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapRes);
+//			if (FAILED(hr))
+//				MessageBox(NULL, L"Failed to update blend shapes buffer", L"Error", MB_ICONERROR | MB_OK);
+//
+//			memcpy(mapRes.pData, (void*)vertices, sizeof(BlendShapeVert) * amount);
+//			gDeviceContext		->Unmap(morphAnimStructuredBuffers.at(bufferIndex), 0);
+//			this->gDeviceContext->VSSetShaderResources(MORPHANIM_BUFFER_START_INDEX + j, 1, &morphAnimStructuredBuffersSRV.at(bufferIndex));
+//			delete vertices;
+//			////////////////////////////////////////////////////////////////////////////////////////
+//			////////////////////////////////////////////////////////////////////////////////////////
+//#pragma endregion
+//		}
+//	}
 
 
 #pragma endregion
@@ -154,8 +155,13 @@ void MeshManager::Release()
 			morphAnimStructuredBuffers.at(i)->Release();
 	}
 	
-	for (int i = 0; i < blendShapeMeshes->size(); i++)
-		this->blendShapeMeshes->at(i)->Release();
+
+
+	for (size_t i = 0; i < blendShapeMeshes->size(); i++)
+		for (size_t j = 0; j < blendShapeMeshes->at(i).size(); j++)
+			 blendShapeMeshes->at(i).at(j)->Release();
+		
+	
 
 }
 
@@ -319,28 +325,25 @@ void MeshManager::CreatePlaceHolderPlane()
 	planeVerts[3].uv.x = 0.0f;
 	planeVerts[3].uv.y = 1.0f;
 	planeVerts[3].normal = Float3(0.0f, 1.0f, 0.0f);
-
 	UINT indices[6] =
 	{
 		0, 1, 2,
 		0, 2, 3
 	};
-
-
-	
-
 	this->placeHolderPlane.CreateVertexBuffer(planeVerts, 4);
 	this->placeHolderPlane.CreateIndexBuffer(indices, 6); 
 	
 }
 
-void MeshManager::CreatePlaceHolderBlendShape()
+Mesh* MeshManager::CreatePlaceHolderBlendShape()
 {
-	size_t blendShapeIndex = blendShapeMeshes->size();
-	static float x = 1.0f;
-	static float y = 1.0f;
+	
+	static float x = 10.0f;
+
 	
 		BlendShapeVert cubeVerts[8];
+		if (blendShapeMeshes->size() < 1)
+		{
 
 		cubeVerts[0].position = Float3(-x, 2.5, 0.5);			//0
 		cubeVerts[1].position = Float3(-x, 0.0, 0.5);			//1
@@ -350,10 +353,20 @@ void MeshManager::CreatePlaceHolderBlendShape()
 		cubeVerts[5].position = Float3( x, 2.5, -0.5);			//5
 		cubeVerts[6].position = Float3(-x, 0.0, -0.5);			//6
 		cubeVerts[7].position = Float3(-x, 2.5, -0.5);			//7
+		}
+		else
+		{
+			cubeVerts[0].position = Float3(-1, x, 0.5);			//0
+			cubeVerts[1].position = Float3(-1, 0.0, 0.5);			//1
+			cubeVerts[2].position = Float3( 1, 0.0, 0.5);			//2
+			cubeVerts[3].position = Float3( 1, x, 0.5);			//3
+			cubeVerts[4].position = Float3( 1, 0.0, -0.5);			//4
+			cubeVerts[5].position = Float3( 1, x, -0.5);			//5
+			cubeVerts[6].position = Float3(-1, 0.0, -0.5);			//6
+			cubeVerts[7].position = Float3(-1, x, -0.5);			//7
 
-
-
-
+			x				+= 10.0f; 
+		}
 
 		UINT indices[36] =
 		{
@@ -369,16 +382,23 @@ void MeshManager::CreatePlaceHolderBlendShape()
 			0,5,7,
 			1,4,2,
 			1,6,4 };
+		Mesh* toReturn = new Mesh();
+		toReturn->Initialize(gDevice, gDeviceContext);
+		toReturn->CreateBlendShape(cubeVerts, 8);
+		
 
-		blendShapeMeshes->push_back(new Mesh());
-		this->blendShapeMeshes->at(blendShapeIndex)->Initialize(this->gDevice,this->gDeviceContext);
-		this->blendShapeMeshes->at(blendShapeIndex)->CreateBlendShape(cubeVerts, 8);
-		/*this->blendShapeMeshes.at(blendShapeMeshes.size() - 1).CreateVertexBuffer(cubeVerts, 8);
-		this->blendShapeMeshes.at(blendShapeMeshes.size() - 1).CreateIndexBuffer (indices,  36);*/
-
-		x				+= 5.0f; 
-		blendShapeIndex += 1;
 	
+		return toReturn;
+}
+
+Mesh* MeshManager::CreateBlendShape(BlendShapeVert * vertices, unsigned int amount)
+{
+	Mesh* toReturn = new Mesh();
+	toReturn->Initialize(gDevice, gDeviceContext);
+	toReturn->CreateBlendShape(vertices, amount);
+	
+	return toReturn;
+
 }
 
 void MeshManager::CreateFullScreenQuad()
@@ -496,5 +516,94 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 	//toRender->materialID = 7;
 //	toRender->materialID = 8;
 //	toRender->materialID = 6; //temp
+}
+void MeshManager::CreateAnimationFromMeshes(std::vector<Vertex> sourceMesh, std::vector<AnimationInfo> animations)
+{
+	animatedMeshes->push_back(Mesh(gDevice,gDeviceContext));
+	size_t meshIndex = animatedMeshes->size() - 1;
+	animatedMeshes->at(meshIndex).CreateAnimatedMesh(sourceMesh.data(), sourceMesh.size(), &animations);
+
+	for (size_t i = 0; i < animations.size(); i++)
+	{
+		blendShapeMeshes->push_back(std::vector<Mesh*>()); //for each animation, create a new array of meshes, each mesh represents a keyframe
+		for (size_t j = 0;  j < animations.at(i).numberOfFrames;  j++) //for each frame, create a blendshape mesh
+		{
+			Mesh* newShape = CreateBlendShape(animations.at(i).meshesPerFrame.at(j).data(), animations.at(i).meshesPerFrame.at(j).size());
+			blendShapeMeshes->at(blendShapeMeshes->size() - 1).push_back(newShape);
+		}
+	}
+
+#pragma region Create structured buffers for the animations
+	HRESULT hr;
+	
+		for (size_t i = 0; i < animations.size(); i++) // for every animation, make a structured buffer with all the frames in it (one frame = one mesh)
+		{
+
+			UINT bufferIndex = UINT(morphAnimStructuredBuffers.size()); // important that this is before the pushback.
+
+			ID3D11ShaderResourceView* temp;
+			morphAnimStructuredBuffersSRV.push_back(temp);
+			ID3D11Buffer* tempB;
+			morphAnimStructuredBuffers.push_back(tempB);
+
+			D3D11_BUFFER_DESC BufferDesc;
+			ZeroMemory(&BufferDesc, sizeof(BufferDesc));
+			BufferDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+			BufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+			BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+			BufferDesc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+			BufferDesc.ByteWidth = sizeof(BlendShapeVert) * (animatedMeshes->at(meshIndex).GetVertCount()) * (animatedMeshes->at(meshIndex).animations.at(i).numberOfFrames);
+			BufferDesc.StructureByteStride = sizeof(BlendShapeVert);
+
+			if (FAILED(hr = gDevice->CreateBuffer(&BufferDesc, nullptr, &morphAnimStructuredBuffers.at(bufferIndex))))
+				MessageBox(NULL, L"Failed to create blend shapes buffer", L"Error", MB_ICONERROR | MB_OK);
+
+
+			D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+			srvDesc.Format				 = DXGI_FORMAT_UNKNOWN;
+			srvDesc.ViewDimension		 = D3D11_SRV_DIMENSION_BUFFEREX;
+			srvDesc.Buffer.ElementOffset = 0;
+			srvDesc.Buffer.ElementWidth	 = sizeof(BlendShapeVert);
+			srvDesc.Buffer.NumElements	 = animatedMeshes->at( meshIndex ).GetVertCount() * animatedMeshes->at( meshIndex ).animations.at (i ).numberOfFrames; //vertices * frames/meshes
+			if (FAILED(hr = gDevice->CreateShaderResourceView(morphAnimStructuredBuffers.at(bufferIndex), &srvDesc, &morphAnimStructuredBuffersSRV.at(bufferIndex))))
+				MessageBox(NULL, L"Failed to create blend shapes buffer", L"Error", MB_ICONERROR | MB_OK);
+		
+			animationBufferCount += 1;
+
+
+
+
+#pragma region Map The buffers
+			////////////////////////////////////////////////////////////////////////////////////////
+			////////////////////////////////////////////////////////////////////////////////////////
+			////Map morph anim structure
+			BlendShapeVert* vertices = new BlendShapeVert[animatedMeshes->at(meshIndex).GetVertCount() * animatedMeshes->at(meshIndex).animations.at(i).numberOfFrames];
+			unsigned int   amount = 0;
+
+			for (size_t frame = 0; frame < animatedMeshes->at(meshIndex).animations.at(i).numberOfFrames; frame++) //put all the morph targets into one array
+			{
+				for (size_t verts = 0; verts < *blendShapeMeshes->at(i).at(frame)->GetMeshBlendShape().amount; verts++)
+				{
+					vertices[verts + frame * (*blendShapeMeshes->at(i).at(frame)->GetMeshBlendShape().amount)] = blendShapeMeshes->at(i).at(frame)->GetMeshBlendShape().BlendShapeVertArray[verts];
+				}
+				amount += *blendShapeMeshes->at(i).at(frame)->GetMeshBlendShape().amount;
+			}
+
+			D3D11_MAPPED_SUBRESOURCE mapRes;
+			HRESULT hr = S_OK;
+
+			hr = gDeviceContext->Map(morphAnimStructuredBuffers.at(bufferIndex), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapRes);
+			if (FAILED(hr))
+				MessageBox(NULL, L"Failed to update blend shapes buffer", L"Error", MB_ICONERROR | MB_OK);
+
+			memcpy(mapRes.pData, (void*)vertices, sizeof(BlendShapeVert) * amount);
+			gDeviceContext->Unmap(morphAnimStructuredBuffers.at(bufferIndex), 0);
+			this->gDeviceContext->VSSetShaderResources(MORPHANIM_BUFFER_START_INDEX + meshIndex, 1, &morphAnimStructuredBuffersSRV.at(bufferIndex));
+			delete vertices;
+			////////////////////////////////////////////////////////////////////////////////////////
+			////////////////////////////////////////////////////////////////////////////////////////
+#pragma endregion
+		}
+	
 }
 #pragma endregion

@@ -100,6 +100,7 @@ struct ANIM_PS_OUT
 	float4 glowRes		: SV_Target5;
 };
 
+static const float AniTimeSec= 10.0f;
 //Vertex shader
 ANIM_VS_OUT ANIM_VS_main(ANIM_VS_IN input)
 {
@@ -112,10 +113,16 @@ ANIM_VS_OUT ANIM_VS_main(ANIM_VS_IN input)
 
 	float3 animPos = input.Pos.xyz; //Just to avoid warnings
 	//ANIMATE
-	//if( input.Animation == 0)
-		 animPos		=  lerp(input.Pos.xyz, animationOne[input.VertexID].position, input.AnimationTime);
-	//else if (input.Animation == 1)							  
-	//	 animPos		 = lerp(input.Pos.xyz, shapeTwo[input.VertexID].position, input.AnimationTime);
+	if (input.AnimationTime < 0.5f)
+	{
+		float normalizedTime = input.AnimationTime / 0.5f;
+		 animPos		=  lerp(input.Pos.xyz, animationOne[input.VertexID ].position, normalizedTime);
+	}
+	else if (input.AnimationTime >= 0.5)
+	{ //normalize the time between the current frames
+		float normalizedTime = (input.AnimationTime - 0.5) / (1.0 - 0.5); // Time - B / (C - B);
+		animPos		 = lerp(animationOne[input.VertexID].position, animationOne[input.VertexID + 8 * 1].position, normalizedTime);
+	}
 	
 
 	output.Pos			= float4(animPos, 1.0f);

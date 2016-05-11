@@ -167,13 +167,17 @@ void Graphics::Release()
 void Graphics::Render() //manage RenderPasses here
 {
 	//static float anim = 0.0f;
-
+	static bool forward = true;
 	for (size_t i = 0; i < 2; i++)
 	{
-
-		instancedAnimationDataPerFrame[i].animationTime += 0.01f;
 		if (instancedAnimationDataPerFrame[i].animationTime > 1.0f)
-			instancedAnimationDataPerFrame[i].animationTime = 0;
+			forward = false;
+		if (instancedAnimationDataPerFrame[i].animationTime < 0.0f)
+			forward = true;
+		if(forward)
+			instancedAnimationDataPerFrame[i].animationTime += 0.01f;
+		else
+			instancedAnimationDataPerFrame[i].animationTime -= 0.01f;
 	}
 	
 

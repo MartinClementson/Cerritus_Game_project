@@ -13,17 +13,19 @@ private:
 
 	//This vector will be indexed with the enum "Meshes"
 	std::vector<Mesh>*		  gameMeshes		 =	nullptr;
-	std::vector<Mesh>*		  animatedMeshes	 =  nullptr;
 	Mesh					  placeHolder;
 	Mesh					  placeHolderPlane;
 	Mesh					  fullScreenQuad;
-	std::vector<Mesh*>*		  blendShapeMeshes;
+
+	std::vector<Mesh>*		  animatedMeshes	 =  nullptr;
+	std::vector<std::vector<Mesh*>>*		  blendShapeMeshes; //2d array. first is animations, then in each animation is every mesh(aka keyframe)
 	std::vector<ID3D11ShaderResourceView*> morphAnimStructuredBuffersSRV;
 	std::vector<ID3D11Buffer*>			   morphAnimStructuredBuffers;
 	int animationBufferCount = 0;
 	void CreatePlaceHolder();
 	void CreatePlaceHolderPlane();
-	void CreatePlaceHolderBlendShape();
+	Mesh* CreatePlaceHolderBlendShape();
+	Mesh* CreateBlendShape(BlendShapeVert* vertices,unsigned int amount);
 	void CreateFullScreenQuad();
 public:
 	MeshManager();
@@ -50,5 +52,11 @@ public:
 	void GetPlaceHolderPlaneInfo	(RenderInstructions* toRender);
 	void GetFullScreenQuadInfo		(RenderInstructions* toRender);
 	void GetFullScreenQuadInfoUI	(UITextures* uiEnum, RenderInstructions* toRender);
+	
+	void CreateAnimationFromMeshes(
+		std::vector<Vertex> sourceMesh,
+		std::vector<AnimationInfo> animations
+		);
+
 };
 

@@ -27,6 +27,7 @@ public:
 	std::vector<AnimationInfo> animations;
 	Mesh(bool hasSkeleton, unsigned int skeletonID, unsigned int materialID);
 	Mesh();
+	Mesh(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext);
 	~Mesh();
 
 	void Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext);
@@ -40,7 +41,7 @@ public:
 	void CreateVertexBuffer(Vertex* vertices,		unsigned int amount);
 	void CreateVertexBuffer(AnimVert* vertices,		unsigned int amount);
 	void CreateBlendShape (BlendShapeVert* vertices, unsigned int amount);
-	void CreateAnimatedMesh(Vertex * vertices, unsigned int vertAmount,unsigned int nrOfanimations, unsigned int* framesPerAnimation, float* timePerAnimation);
+	void CreateAnimatedMesh(Vertex * vertices, unsigned int vertAmount, std::vector<AnimationInfo>* animations);
 	void CreateIndexBuffer(UINT* indices,unsigned int amount);
 	unsigned int GetVertCount() { return this->vertCount; };
 };
