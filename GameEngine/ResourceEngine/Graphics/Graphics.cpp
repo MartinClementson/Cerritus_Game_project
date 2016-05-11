@@ -171,7 +171,7 @@ void Graphics::Render() //manage RenderPasses here
 	for (size_t i = 0; i < 2; i++)
 	{
 
-		instancedAnimationDataPerFrame[i].animationTime += 0.01;
+		instancedAnimationDataPerFrame[i].animationTime += 0.01f;
 		if (instancedAnimationDataPerFrame[i].animationTime > 1.0f)
 			instancedAnimationDataPerFrame[i].animationTime = 0;
 	}

@@ -6,14 +6,15 @@ struct BlendShapeVert
 	
 	float3 normal;
 	float padN;
+
 	float2 biTangent;
 	float2 tangent;
 	float influence;
 	float3 padI;
 };
 
-StructuredBuffer<BlendShapeVert>		shapeOne	: register(t10);
-StructuredBuffer<BlendShapeVert>		shapeTwo    : register(t11);
+StructuredBuffer<BlendShapeVert>		animationOne	: register(t10);
+StructuredBuffer<BlendShapeVert>		shapeTwo		: register(t11);
 
 
 //ANIM
@@ -55,15 +56,15 @@ cbuffer textureSampleBuffer		 : register(b2)
 
 struct ANIM_VS_IN
 {
-	float3 Pos			 : POSITION;
-	float3 Normal		 : TEXCOORD0;
-	float2 Uv			 : TEXCOORD1;
-	float2 BiTangent	 : TEXCOORD2;
-	float2 Tangent		 : TEXCOORD3;
-	float4x4 worldMatrix : WORLD;
-	uint animation		 : ANIMATION;
-	float animationTime  : ANIMTIME;
-	uint vertexID		 : SV_VertexID; 
+	float3	 Pos			 : POSITION;
+	float3	 Normal			 : TEXCOORD0;
+	float2	 Uv				 : TEXCOORD1;
+	float2	 BiTangent		 : TEXCOORD2;
+	float2	 Tangent		 : TEXCOORD3;
+	float4x4 WorldMatrix	 : WORLD;		   //Instanced
+	uint	 Animation		 : ANIMATION;	   //Instanced
+	float	 AnimationTime   : ANIMTIME;	   //Instanced
+	uint	 VertexID		 : SV_VertexID;    
 
 };
 struct ANIM_VS_OUT
@@ -105,19 +106,22 @@ ANIM_VS_OUT ANIM_VS_main(ANIM_VS_IN input)
 
 	ANIM_VS_OUT output;
 
-	float3 animPos;
+
+	//shape x  vert i = VertexID + vertexAmount(constant)* frame
+	// need some max frame count
+
+	float3 animPos = input.Pos.xyz; //Just to avoid warnings
 	//ANIMATE
-	if( input.animation == 0)
-		 animPos		= lerp(input.Pos.xyz, shapeOne[input.vertexID].position, input.animationTime);
-	else if (input.animation == 1)
-		 animPos		 = lerp(input.Pos.xyz, shapeTwo[input.vertexID].position, input.animationTime);
+	//if( input.Animation == 0)
+		 animPos		=  lerp(input.Pos.xyz, animationOne[input.VertexID].position, input.AnimationTime);
+	//else if (input.Animation == 1)							  
+	//	 animPos		 = lerp(input.Pos.xyz, shapeTwo[input.VertexID].position, input.AnimationTime);
 	
 
 	output.Pos			= float4(animPos, 1.0f);
 
 
-	output.Pos			= mul(output.Pos, input.worldMatrix);
-	//output.Pos = mul(float4(input.Pos, 1.0f), input.worldMatrix);
+	output.Pos			= mul(output.Pos, input.WorldMatrix);
 	output.wPos			= output.Pos;
 	output.Pos			= mul(output.Pos, view);
 	output.Pos			= mul(output.Pos, projection);
@@ -134,9 +138,9 @@ ANIM_VS_OUT ANIM_VS_main(ANIM_VS_IN input)
 
 
 
-	output.Normal		 = normalize(mul(float4(input.Normal, 0.0f), input.worldMatrix).xyz).xyz;
-	output.BiTangent	 = normalize(mul(float4(output.BiTangent, 0.0f), input.worldMatrix).xyz).xyz;
-	output.Tangent		 = normalize(mul(float4(output.Tangent, 0.0f), input.worldMatrix).xyz).xyz;
+	output.Normal		 = normalize(mul(float4(input.Normal, 0.0f), input.WorldMatrix).xyz).xyz;
+	output.BiTangent	 = normalize(mul(float4(output.BiTangent, 0.0f), input.WorldMatrix).xyz).xyz;
+	output.Tangent		 = normalize(mul(float4(output.Tangent, 0.0f), input.WorldMatrix).xyz).xyz;
 	output.Uv			 = input.Uv;
 
 	return output;

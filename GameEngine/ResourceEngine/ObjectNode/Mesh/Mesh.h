@@ -6,9 +6,12 @@
 class Mesh : public ObjectNode
 {
 	bool	        hasSkeleton			= false;
-	bool	        isBlendShape		= false;
 	Vertex*		    vertices			= nullptr;
 	AnimVert*	    animVertices		= nullptr;
+
+	bool			isAnimated			= false;
+
+	bool	        isBlendShape		= false;
 	BlendShapeVert* blendVerts		    = nullptr;
 
 	ID3D11Buffer*   vertexBuffer		= nullptr;
@@ -20,6 +23,8 @@ class Mesh : public ObjectNode
 	int  materialID					    = 0;
 
 public:
+	unsigned int	animationCount		= 0;
+	std::vector<AnimationInfo> animations;
 	Mesh(bool hasSkeleton, unsigned int skeletonID, unsigned int materialID);
 	Mesh();
 	~Mesh();
@@ -35,7 +40,7 @@ public:
 	void CreateVertexBuffer(Vertex* vertices,		unsigned int amount);
 	void CreateVertexBuffer(AnimVert* vertices,		unsigned int amount);
 	void CreateBlendShape (BlendShapeVert* vertices, unsigned int amount);
-
+	void CreateAnimatedMesh(Vertex * vertices, unsigned int vertAmount,unsigned int nrOfanimations, unsigned int* framesPerAnimation, float* timePerAnimation);
 	void CreateIndexBuffer(UINT* indices,unsigned int amount);
 	unsigned int GetVertCount() { return this->vertCount; };
 };

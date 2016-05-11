@@ -13,13 +13,14 @@ private:
 
 	//This vector will be indexed with the enum "Meshes"
 	std::vector<Mesh>*		  gameMeshes		 =	nullptr;
+	std::vector<Mesh>*		  animatedMeshes	 =  nullptr;
 	Mesh					  placeHolder;
 	Mesh					  placeHolderPlane;
 	Mesh					  fullScreenQuad;
-	Mesh					  blendShapeMeshes[2];
-	ID3D11ShaderResourceView* blendShapeStructuredBuffersSRV[2] = { nullptr };
-	ID3D11Buffer*			  blendShapeStructuredBuffers   [2] = { nullptr };
-
+	std::vector<Mesh*>*		  blendShapeMeshes;
+	std::vector<ID3D11ShaderResourceView*> morphAnimStructuredBuffersSRV;
+	std::vector<ID3D11Buffer*>			   morphAnimStructuredBuffers;
+	int animationBufferCount = 0;
 	void CreatePlaceHolder();
 	void CreatePlaceHolderPlane();
 	void CreatePlaceHolderBlendShape();

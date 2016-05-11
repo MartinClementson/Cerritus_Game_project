@@ -178,6 +178,12 @@ struct BlendShapeBuffer
 
 };
 
+struct AnimationInfo
+{
+	unsigned int numberOfFrames = 0;
+	float		  animationTime = 0;
+};
+
 struct AnimVert
 {
 	Float3 position;

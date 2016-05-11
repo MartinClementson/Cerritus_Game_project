@@ -18,12 +18,15 @@ Mesh::Mesh()
 Mesh::~Mesh()
 {
 	if (vertices	 != nullptr)
-		delete vertices;
+		delete[] vertices;
 	if (animVertices != nullptr)
-		delete animVertices;
+		delete[] animVertices;
 	if (blendVerts	 != nullptr)
-		delete blendVerts;
-
+	{
+		delete[] blendVerts;
+		blendVerts = nullptr;
+	}
+	
 
 }
 
@@ -79,9 +82,9 @@ void Mesh::CreateVertexBuffer(Vertex * vertices, unsigned int amount)
 
 	D3D11_BUFFER_DESC bufferDesc;
 	memset(&bufferDesc, 0, sizeof(bufferDesc));
-	bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	bufferDesc.ByteWidth = sizeof(Vertex)* amount;
+	bufferDesc.BindFlags	 = D3D11_BIND_VERTEX_BUFFER;
+	bufferDesc.Usage		 = D3D11_USAGE_DEFAULT;
+	bufferDesc.ByteWidth	 = sizeof(Vertex)* amount;
 
 
 
@@ -140,6 +143,25 @@ void Mesh::CreateBlendShape(BlendShapeVert * vertices, unsigned int amount)
 
 	blendVerts = new BlendShapeVert[amount];
 	memcpy(this->blendVerts, vertices, sizeof(BlendShapeVert)*amount);
+	//AnimationInfo temp;
+	//animations.push_back(animationInfo)
+	
+
+}
+
+void Mesh::CreateAnimatedMesh(Vertex * vertices, unsigned int vertAmount,unsigned int nrOfanimations, unsigned int * framesPerAnimation, float * timePerAnimation)
+{
+
+	this->CreateVertexBuffer(vertices, vertAmount);
+	for (size_t i = 0; i < nrOfanimations; i++)
+	{
+		AnimationInfo temp;
+		temp.animationTime  = timePerAnimation[i];
+		temp.numberOfFrames = framesPerAnimation[i];
+		this->animations.push_back(temp);
+		this->animationCount += 1; 
+	}
+	this->isAnimated = true;
 }
 
 void Mesh::CreateIndexBuffer(UINT * indices, unsigned int amount)

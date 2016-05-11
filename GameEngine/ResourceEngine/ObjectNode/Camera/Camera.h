@@ -25,9 +25,9 @@ private:
 	CbufferPerFrame camMatrices;
 
 
-	XMFLOAT4 camPosition	= { 0, 1, 1, 1  };
-	XMFLOAT4 camTarget		= { 1, 0, -1,  1  };
-	XMFLOAT4 camUp			= { 0, 1, 0,  0  };
+	XMFLOAT4 camPosition	= { 0,  1,  1,   1    };
+	XMFLOAT4 camTarget		= { 1,  0, -1,   1    };
+	XMFLOAT4 camUp			= { 0,  1,  0,   0    };
 
 
 public:
