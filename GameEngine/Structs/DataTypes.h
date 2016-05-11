@@ -234,5 +234,6 @@ struct NodeType
 	ID3D11Buffer *vertexBuffer;
 	ID3D11Buffer *indexBuffer;
 	UINT VertexCount;
+	UINT IndexCount;
 	NodeType* nodes[4];
 };

@@ -282,9 +282,13 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 	//Calculate the number of vertices
 	vertexCount = numTriangles * 3;
 	parent->VertexCount = vertexCount;
+	parent->IndexCount = indexCount;
 	//Create vertex array
 	vertices = new Vertex[vertexCount];
-
+	std::vector<Vertex> newVert;
+	newVert.resize(vertexCount);
+	std::vector<UINT> newInd;
+	newInd.resize(this->indexCount);
 	//Create the index array
 	indices = new UINT[this->indexCount];
 	//std::vector<UINT> indices2;
@@ -306,22 +310,22 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 			vertexIndex = i * 3;
 
 			//Get the three vertices of this triangle from the vertex list.
-			vertices[index] = this->combinedvertices[this->combinedindices[vertexIndex]];
-			indices[index] = index;
+			newVert[index] = this->combinedvertices[this->combinedindices[vertexIndex]];
+			newInd[index] = index;
 			index++;
 			indexCount++;
 			vertexIndex++;
 
 
-			vertices[index] = this->combinedvertices[this->combinedindices[vertexIndex]];
-			indices[index] = index;
+			newVert[index] = this->combinedvertices[this->combinedindices[vertexIndex]];
+			newInd[index] = index;
 			index++;
 			indexCount++;
 			vertexIndex++;
 
 
-			vertices[index] = this->combinedvertices[this->combinedindices[vertexIndex]];
-			indices[index] = index;
+			newVert[index] = this->combinedvertices[this->combinedindices[vertexIndex]];
+			newInd[index] = index;
 			index++;
 			indexCount++;
 
@@ -340,7 +344,7 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 	vertexBufferDesc.StructureByteStride = 0;
 
 	//Give the subresource structure a pointer to the vertex data
-	vertexData.pSysMem = vertices;
+	vertexData.pSysMem = newVert.data();
 	vertexData.SysMemPitch = 0;
 	vertexData.SysMemSlicePitch = 0;
 	HRESULT hr;
@@ -485,31 +489,27 @@ bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, I
 	this->indexCount = 0;
 	float width;
 	Float2 position;
+	for (size_t i = 0; i < m_parentNode->size(); i++)
+	{
+
+	}
 
 
 	//Get the number of vertices in the terrain
-	for (unsigned int i = 0; i < terrain->size(); i++)
+	for (unsigned int i = 0; i < 4; i++)
 	{
 		this->vertexCount += terrain->at(i).GetVertexCount();
-		this->indexCount += terrain->at(i).GetIndexCount();
+		 this->indexCount += terrain->at(i).GetIndexCount();
 	}
 
 	//Store the total triangle countW
-	m_triangleCount = indexCount / 3;
+	m_triangleCount = vertexCount / 3;
 
-	//m_indexList = new UINT[indexCount];
-	//if (!m_indexList)
-	//	return false;
-	////create a vertex array to hold all of the terrain vertices
-	//m_vertexList = new Vertex[vertexCount];
-	//if (!m_vertexList)
-	//	return false;
 
-	//Copy the vertices from the terrain into the vertex list
-	for (unsigned int i = 0; i < terrain->size(); i++)
+	for (unsigned int i = 0; i < 4; i++)
 	{
 		this->m_vertexList->push_back(terrain->at(i).GetVertices());
-		this->m_indexList->push_back(terrain->at(i).GetIndices());
+		 this->m_indexList->push_back(terrain->at(i).GetIndices());
 
 	}
 	//VARJE VECTORPLATS
@@ -591,17 +591,20 @@ void QuadTree::Release()
 	return;
 }
 
-void QuadTree::GetQuadTreeRenderInfo(RenderInstructions * toRender, Frustum* frustum)
+void QuadTree::GetQuadTreeRenderInfo(std::vector<RenderInstructions>* toRender, Frustum* frustum)
 {
-	GetNodeRenderInfo(m_parentNode, frustum, toRender);
+	GetNodeRenderInfo(m_parentNode, toRender, frustum);
 }
 
-void QuadTree::GetNodeRenderInfo(NodeType * node, Frustum* frustum, RenderInstructions* toRender)
+void QuadTree::GetNodeRenderInfo(NodeType * node, std::vector<RenderInstructions>* toRender, Frustum* frustum)
 {
-	RenderInstructions* tempInstruction = new RenderInstructions();
+	RenderInstructions tempInstruction;// = new RenderInstructions();
 	int i, count;
+
 	bool result;
 	result = frustum->CheckCube(node->position.x, 0.0f, node->position.y, (node->width / 2.0f));
+
+	//if it can't be seen then none of it's children can either so don't continue
 	if (!result)
 		return;
 
@@ -611,7 +614,7 @@ void QuadTree::GetNodeRenderInfo(NodeType * node, Frustum* frustum, RenderInstru
 		if (node->nodes[i] != 0)
 		{
 			count++;
-			GetNodeRenderInfo(node->nodes[i], frustum, toRender);
+			GetNodeRenderInfo(node->nodes[i], toRender, frustum);
 		}
 
 	}
@@ -619,15 +622,26 @@ void QuadTree::GetNodeRenderInfo(NodeType * node, Frustum* frustum, RenderInstru
 	if (count != 0)
 		return;
 	//normal procedures
-	tempInstruction->vertexBuffer	 = node->vertexBuffer;
+	/*tempInstruction->vertexBuffer	 = node->vertexBuffer;
 	tempInstruction->indexBuffer	 = node->indexBuffer;
 	tempInstruction->materialID		 = node->materialID;
 
 	tempInstruction->vertexCount	 = &node->VertexCount;
-	tempInstruction->isAnimated		 = &node->isAnimated;
+	tempInstruction->isAnimated		 = &node->isAnimated;*/
+	//tempInstruction.worldBuffer
+
+	tempInstruction.vertexBuffer	 = node->vertexBuffer;
+	tempInstruction.indexBuffer		 = node->indexBuffer;
+	tempInstruction.materialID		 = node->materialID;
+				   
+	tempInstruction.indexCount		 = &node->IndexCount;
+	tempInstruction.vertexCount		 = &node->VertexCount;
+	tempInstruction.isAnimated		 = &node->isAnimated;
+
 
 	toRender->push_back(tempInstruction);
-	delete tempInstruction;
+
+	//delete tempInstruction;
 }
 
 int QuadTree::GetDrawCount()

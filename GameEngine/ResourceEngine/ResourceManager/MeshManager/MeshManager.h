@@ -15,7 +15,6 @@ private:
 	//This vector will be indexed with the enum "Meshes"
 	std::vector<Mesh>* gameMeshes		= nullptr;
 	std::vector<Mesh>* sceneMeshes		= nullptr;
-	QuadTree* quadTree;
 	Mesh placeHolder;
 	Mesh placeHolderPlane;
 	Mesh fullScreenQuad;
@@ -24,6 +23,7 @@ private:
 	void CreatePlaceHolderPlane();
 	void CreateFullScreenQuad();
 public:
+	QuadTree* quadTree;
 	MeshManager();
 	~MeshManager();
 	
@@ -40,13 +40,6 @@ public:
 		std::vector<AnimVert> aniVertices,
 		std::vector<UINT> indices,
 		bool isScene
-		);
-	void AddMesh(
-		int materialID,
-		unsigned int vertexCount,
-		UINT indexCount,
-		ID3D11Buffer* vertexBuffer,
-		ID3D11Buffer* indexBuffer
 		);
 
 	std::vector<Mesh>* GetMeshes() { return this->gameMeshes; }

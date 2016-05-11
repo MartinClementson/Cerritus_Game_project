@@ -93,7 +93,6 @@ struct RenderInfoProjectile {
 struct RenderInfoScene {
 	XMFLOAT3 position;
 	XMFLOAT3 rotation;
-	XMFLOAT3 direction;
 	MeshEnum object;
 	bool render = true;
 	float radius;

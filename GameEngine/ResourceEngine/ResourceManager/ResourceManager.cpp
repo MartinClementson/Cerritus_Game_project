@@ -210,15 +210,16 @@ void ResourceManager::Release()
 		return &currentMesh;
 	}
 
-	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoScene * object)
+	RenderInstructions * ResourceManager::GetRenderInfo(std::vector<RenderInstructions>*	object, Frustum* frustum)
 	{
 		currentMesh = RenderInstructions();
-		MeshEnum meshType = object->object;
+		//MeshEnum meshType = object->object;
 
-		if (meshType != MeshEnum::SCENE)
-			currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+		//if (meshType != MeshEnum::SCENE)
+		//currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix((0,0,0), (0,0,0));
 
-		meshManager->GetMeshRenderInfo(&meshType, &currentMesh); //Get the mesh data
+		//meshManager->GetMeshRenderInfo(&meshType, &currentMesh); //Get the mesh data
+		this->meshManager->quadTree->GetQuadTreeRenderInfo(object, frustum);
 		materialManager->GetMaterialRenderInfo(&currentMesh);	    //Get the material data
 
 

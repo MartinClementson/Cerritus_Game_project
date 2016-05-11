@@ -123,26 +123,6 @@ void Mesh::CreateVertexBuffer(AnimVert * vertices, unsigned int amount)
 	this->isScene = isScene;
 }
 
-void Mesh::setSceneVertexBuffer(unsigned int amount, ID3D11Buffer * vertexBuffer)
-{
-	this->vertexBuffer = vertexBuffer;
-	this->vertCount = amount;
-	if (this->isScene != true)
-	{
-		this->isScene = true;
-	}
-}
-
-void Mesh::setSceneIndexBuffer(UINT amount, ID3D11Buffer * indexBuffer)
-{
-	this->indexBuffer = indexBuffer;
-	this->vertCount = amount;
-	if (this->isScene != true)
-	{
-		this->isScene = true;
-	}
-}
-
 void Mesh::CreateIndexBuffer(UINT * indices, unsigned int amount, bool isScene)
 {
 

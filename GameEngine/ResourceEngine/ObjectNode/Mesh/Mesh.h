@@ -40,8 +40,6 @@ public:
 	void SetMaterialID(int id) { this->materialID = id; };
 	void CreateVertexBuffer(Vertex* vertices, unsigned int amount, bool isScene);
 	void CreateVertexBuffer(AnimVert* vertices, unsigned int amount);
-	void setSceneVertexBuffer(unsigned int amount, ID3D11Buffer* vertexBuffer);
-	void setSceneIndexBuffer(UINT amount, ID3D11Buffer* indexBuffer);
 
 	void CreateIndexBuffer(UINT* indices,unsigned int amount, bool isScene);
 };

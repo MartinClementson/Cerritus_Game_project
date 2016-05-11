@@ -7,7 +7,7 @@
 #include "../Mesh/Mesh.h"
 using namespace DirectX;
 //GLOBAL
-const int maxTriangles = 2000;
+const int maxTriangles = 20000;
 
 class QuadTree
 {
@@ -26,7 +26,7 @@ private:
 	std::vector<UINT*>*		m_indexList;
 	std::vector<Vertex>*	vertextest;
 	std::vector<UINT>*		indextest;
-	NodeType*				m_parentNode;
+	std::vector<NodeType*>	m_parentNode;
 
 	Vertex* combinedvertices					 = nullptr;
 	UINT* combinedindices						 = nullptr;
@@ -49,8 +49,8 @@ public:
 	bool Initialize(std::vector<Mesh> *terrain, ID3D11Device *gDevice, ID3D11DeviceContext *gDeviceContext);
 
 	void Release();
-	void GetQuadTreeRenderInfo(RenderInstructions * toRender, Frustum* frustum);
-	void GetNodeRenderInfo(NodeType* node, Frustum* frustum, RenderInstructions* toRender);
+	void GetQuadTreeRenderInfo(std::vector<RenderInstructions>* toRender, Frustum* frustum);
+	void GetNodeRenderInfo(NodeType* node, std::vector<RenderInstructions>* toRender, Frustum* frustum);
 	NodeType* GetParentNode() { return this->m_parentNode; };
 	unsigned int GetNodeCount() { return this->nodeCount; };
 	int  GetDrawCount();

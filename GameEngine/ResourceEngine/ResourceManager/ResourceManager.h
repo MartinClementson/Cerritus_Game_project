@@ -3,6 +3,7 @@
 #include "../ResourceManager/ShaderManager/ShaderManager.h"
 #include "../ResourceManager/BRFImporterHandler/BRFImporterHandler.h"
 #include "../ResourceManager/MaterialManager/MaterialManager.h"
+#include "../ObjectNode/Camera/Frustum/Frustum.h"
 //#include "../../GameLogic/GUI/GUI.h"
 #include "../../Structs/RenderInfo.h"
 class ResourceManager
@@ -40,15 +41,15 @@ public:
 	RenderInstructions* GetRenderInfo(RenderInfoEnemy*		object);
 	RenderInstructions* GetRenderInfo(RenderInfoChar*		object);
 	RenderInstructions* GetRenderInfo(RenderInfoTrap*		object);
-	RenderInstructions* GetRenderInfo(RenderInfoScene*		object);
+	RenderInstructions* GetRenderInfo(std::vector<RenderInstructions>*	object, Frustum* frustum);
 	
 	RenderInstructions* GetPlaceHolderMesh(XMFLOAT3 position);
 	RenderInstructions* GetPlaceHolderMesh(XMFLOAT3 position, XMFLOAT3 rotation);
 	RenderInstructions* GetPlaceHolderPlane();
 	RenderInstructions* GetFullScreenQuad();
 	void SetShader(Shaders type) { this->shaderManager->SetActiveShader(type); };
-private:
 	XMFLOAT4X4 CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation);
+private:
 
 	XMFLOAT4X4 CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation, XMFLOAT3* scale);
 };

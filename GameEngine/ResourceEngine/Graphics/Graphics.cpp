@@ -199,13 +199,14 @@ void Graphics::RenderScene()
 		renderer->Render(charObjects->at(0));
 	}
 #pragma region Temporary code for early testing
-	RenderInfoScene tempInfo;						//TEMPORARY
+	std::vector<RenderInstructions>* tempInfo = new std::vector<RenderInstructions>;						//TEMPORARY
 													//TEMPORARY
-	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
-	tempInfo.rotation = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
-	tempInfo.object = MeshEnum::SCENE;
-	this->renderer->Render(&tempInfo);				//TEMPORARY
+	//tempInfo.position = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
+	//tempInfo.rotation = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
+	//tempInfo.object = MeshEnum::SCENE;
+	this->renderer->Render(tempInfo);				//TEMPORARY
 
+	delete tempInfo;
 #pragma endregion
 
 

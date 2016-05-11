@@ -80,7 +80,7 @@ public:
 	void Render(RenderInfoEnemy* object);
 	void Render(RenderInfoChar* object);
 	void Render(RenderInfoTrap* object);
-	void Render(RenderInfoScene* object);
+	void Render(std::vector<RenderInstructions>* object);
 
 	void RenderInstanced(RenderInfoEnemy* object,  InstancedData* arrayData ,unsigned int amount);
 	void RenderInstanced(RenderInfoObject* object, InstancedData* arrayData, unsigned int amount);
