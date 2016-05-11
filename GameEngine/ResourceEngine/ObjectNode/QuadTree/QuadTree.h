@@ -26,7 +26,7 @@ private:
 	std::vector<UINT*>*		m_indexList;
 	std::vector<Vertex>*	vertextest;
 	std::vector<UINT>*		indextest;
-	std::vector<NodeType*>	m_parentNode;
+	std::vector<NodeType*>*	m_parentNode;
 
 	Vertex* combinedvertices					 = nullptr;
 	UINT* combinedindices						 = nullptr;
@@ -36,7 +36,6 @@ private:
 	UINT indexCount;
 
 	void ReleaseNode(NodeType *node);
-	void RenderNode(NodeType *node, ID3D11DeviceContext *gDeviceContext, Frustum* frustum, ID3D11Buffer* worldBuffer);
 	void CalculateMeshDimensions(int count, Float2 & position, float &meshWidth);
 	void CreateTreeNode(NodeType *parent, Float2 position, float width, ID3D11Device *gDevice, std::vector<Mesh>* terrain);
 	int	 CountTriangles(Float2 position, float width);
@@ -51,7 +50,7 @@ public:
 	void Release();
 	void GetQuadTreeRenderInfo(std::vector<RenderInstructions>* toRender, Frustum* frustum);
 	void GetNodeRenderInfo(NodeType* node, std::vector<RenderInstructions>* toRender, Frustum* frustum);
-	NodeType* GetParentNode() { return this->m_parentNode; };
+	NodeType* GetParentNode(int index) { return this->m_parentNode->at(index); };
 	unsigned int GetNodeCount() { return this->nodeCount; };
 	int  GetDrawCount();
 };

@@ -213,14 +213,9 @@ void ResourceManager::Release()
 	RenderInstructions * ResourceManager::GetRenderInfo(std::vector<RenderInstructions>*	object, Frustum* frustum)
 	{
 		currentMesh = RenderInstructions();
-		//MeshEnum meshType = object->object;
 
-		//if (meshType != MeshEnum::SCENE)
-		//currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix((0,0,0), (0,0,0));
-
-		//meshManager->GetMeshRenderInfo(&meshType, &currentMesh); //Get the mesh data
 		this->meshManager->quadTree->GetQuadTreeRenderInfo(object, frustum);
-		materialManager->GetMaterialRenderInfo(&currentMesh);	    //Get the material data
+		materialManager->GetMaterialRenderInfo(&object->at(0));	    //Get the material data
 
 
 		return &currentMesh;
