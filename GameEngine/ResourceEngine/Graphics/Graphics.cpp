@@ -300,11 +300,7 @@ void Graphics::RenderScene()
 
 	}*/
 
-	/*for (unsigned int i = 0; i < uiObjects->size(); i++)
-	{
-		renderer->Render(uiObjects->at(i));
-
-	}*/
+	
 
 
 

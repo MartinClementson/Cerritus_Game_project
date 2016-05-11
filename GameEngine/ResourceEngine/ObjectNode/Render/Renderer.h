@@ -46,7 +46,7 @@ private:
 	ID3D11Buffer* cbufferPerFrame							= nullptr;	   
 	ID3D11Buffer* sampleBoolsBuffer							= nullptr;	   //samplingState constBuffer (Controls if a mesh has normalmap,specmap, etc)
 
-	ID3D11Buffer* OffsetBuffer                              = nullptr;
+	ID3D11Buffer* OffsetBuffer                              = nullptr; // the main idea of this buffer is to change the X coord for a specific texture, 
 	
 	ID3D11Buffer* instancedBuffers[UNIQUE_INSTANCED_BUFFER_AMOUNT] = { nullptr };
 

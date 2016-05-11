@@ -80,6 +80,12 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	temp.push_back(ui);
 
 	materialManager->addMaterials(&temp);
+	ui.materialName = "WAVECOUNTER";
+	ui.diffuseTex = "Numerations.tif";
+	ui.materialID = 15;
+	temp.push_back(ui);
+
+	materialManager->addMaterials(&temp);
 }
 
 void ResourceManager::Release()
@@ -120,7 +126,7 @@ void ResourceManager::Release()
 		//currentUI.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->size, &object->position);
 		Shaders tmp = UI_SHADER;
 	
-		UITextures uiType = object->object;
+		UITextures uiType = object->UIobject;
 
 		if (uiType == UITextures::NUMERATION)
 		{
@@ -128,17 +134,11 @@ void ResourceManager::Release()
 			meshManager->GetKillCountQuadInfoHud(&uiType, &currentUI);
 			materialManager->GetMaterialRenderInfo(&currentUI);
 			return &currentUI;
-
-			meshManager->GetWaveCountQuadInfoHud(&uiType, &currentUI);
-//			meshManager->offset.waveOffsetX = 0.056f;
-			materialManager->GetMaterialRenderInfo(&currentUI);
-			return &currentUI;
 		}
 		if (uiType == UITextures::WAVECOUNTER)
 		{
 			this->shaderManager->SetActiveShader(tmp);
-			meshManager->GetKillCountQuadInfoHud(&uiType, &currentUI);
-	//		meshManager->offset.enemyOffsetX = 0.028f;
+			meshManager->GetWaveCountQuadInfoHud(&uiType, &currentUI);
 			materialManager->GetMaterialRenderInfo(&currentUI);
 			return &currentUI;
 		}

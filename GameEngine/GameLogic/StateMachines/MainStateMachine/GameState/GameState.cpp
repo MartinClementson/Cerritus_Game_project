@@ -72,13 +72,14 @@ void GameState::Update(double deltaTime)
 	ProcessInput(&deltaTime);
 	if (!pause->isActive)
 	{
-		
-		
-
 		gameUI->setUI(UITextures::NUMERATION);
-		gameUI->setUI(UITextures::HUD);
 
-		//gameUI->setUI(UITextures::WAVECOUNTER);
+		gameUI->setUI(UITextures::WAVECOUNTER);
+
+		gameUI->setUINR(UiNumbers::THREE);
+		//gameUI->setUI(UITextures::HUD);
+
+		
 
 		if (player->GetHealth() <= 0)
 		{

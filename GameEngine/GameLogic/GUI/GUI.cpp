@@ -22,6 +22,8 @@ void GUI::Initialize()
 	uv = uv;
 	grapichs = Graphics::GetInstance();
 	this->texture = texture;
+	this->numbers = numbers;
+	amount = 0;
 	
 }
 
@@ -38,21 +40,27 @@ void GUI::Update(double deltaTime)
 	vtx[3] = { 0.003 ,0.403 };
 	
 	UVs.push_back(vtx);*/
-	
+	amount++;
 	renderInfo = { size,uv };
-	this->renderInfo.object = texture;
-	
+	this->renderInfo.UIobject = texture;
+	this->renderInfo.UInumber = numbers;
 	
 }
 
 void GUI::Render()
 {
-
+	swagitt = { size,uv };
+	this->swagitt.UIobject = texture;
+	this->swagitt.UInumber = numbers;
+	grapichs->QueueRender(&swagitt);
 
 	renderInfo = { size,uv };
-
-	this->renderInfo.object = texture;
+	this->renderInfo.UIobject = texture;
+	this->renderInfo.UInumber = numbers;
 	grapichs->QueueRender(&renderInfo);
+	
+	
+	//grapichs->QueueRender(&renderInfo);
 }
 
 UITextures GUI::getUI()
@@ -73,5 +81,10 @@ void GUI::setPos(XMFLOAT2 position)
 void GUI::setUI(UITextures texture)
 {
 	this->texture = texture;
+}
+
+void GUI::setUINR(UiNumbers numbers)
+{
+	this->numbers = numbers;
 }
 

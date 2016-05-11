@@ -380,32 +380,17 @@ void MeshManager::GetKillCountQuadInfoHud(UITextures * uiEnum, RenderInstruction
 {
 	if (*uiEnum == UITextures::NUMERATION)
 	{
-		//offset.enemyOffsetX = 0.028f;
-		//float x = 0.028f; // offset för fiende nummer 
-
-		//CreateKillCountQuad(x);
-
 		killCountQuad.GetMeshRenderInfo(toRender);
-		
 		toRender->materialID = 14;
-
 	}
 }
 
 void MeshManager::GetWaveCountQuadInfoHud(UITextures * uiEnum, RenderInstructions * toRender)
 {
-	if (*uiEnum == UITextures::NUMERATION)
+	if (*uiEnum == UITextures::WAVECOUNTER)
 	{
-
-		//offset.waveOffsetX = 0.056f;
-		//float x = 0.056f; offset för Vågnummer
-
-		//CreateWaveCountQuad();
-
 		waveCountQuad.GetMeshRenderInfo(toRender);
-
-		toRender->materialID = 14;
-
+		toRender->materialID = 15;
 	}
 }
 

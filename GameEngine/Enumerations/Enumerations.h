@@ -62,6 +62,11 @@ enum UITextures
 	GAMEOVER,
 	CONTROLS,
 	NUMERATION,
+};
+
+#pragma endregion
+enum UiNumbers
+{
 	ONE,
 	TWO,
 	THREE,
@@ -73,9 +78,6 @@ enum UITextures
 	NINE,
 	ZERO,
 };
-
-#pragma endregion
-
 #pragma region Lights
 
 enum LightType

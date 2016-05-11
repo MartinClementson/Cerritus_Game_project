@@ -165,6 +165,101 @@ void Renderer::Render(RenderInfoUI * object)
 {
 	RenderInstructions* renderObject;
 
+	//Check which enum, Switch for different enums 0 - 9 
+	UV meshUv;
+	if (object->UIobject == UITextures::NUMERATION)
+	{
+
+		switch (object->UInumber)
+		{
+			case UiNumbers::ONE:
+			{
+				meshUv.enemyoffsetX = 0.028f;
+				break;
+			}
+			case UiNumbers::TWO:
+			{
+				meshUv.enemyoffsetX = 0.028f *2 ;
+				break;
+			}
+			case UiNumbers::THREE:
+			{
+				meshUv.enemyoffsetX = 0.028f * 3;
+				break;
+			}
+			case UiNumbers::FOUR:
+			{
+				meshUv.enemyoffsetX = 0.028f * 4;
+				break;
+			}
+			case UiNumbers::FIVE:
+			{	meshUv.enemyoffsetX = 0.028f * 5;
+				break;
+			}
+			case UiNumbers::SIX:
+			{
+				meshUv.enemyoffsetX = 0.028f * 6;
+				break;
+			}
+			case UiNumbers::SEVEN:
+			{
+				meshUv.enemyoffsetX = 0.028f * 7;
+				break;
+			}
+			case UiNumbers::EIGHT:
+			{
+				meshUv.enemyoffsetX = 0.028f * 8;
+				break;
+			}
+			case UiNumbers::NINE:
+			{
+				meshUv.enemyoffsetX = 0.028f * 9;
+				break;
+			}
+			case UiNumbers::ZERO:
+			{
+				meshUv.enemyoffsetX = 0.0f;
+				break;
+			}
+				
+		}
+	}
+
+	else if (object->UIobject == UITextures::WAVECOUNTER)
+	{
+		switch (object->UInumber)
+		{
+			case UiNumbers::ONE:
+			{
+				meshUv.waveoffsetX = 0.0f;
+				break;
+			}
+			case UiNumbers::TWO:
+			{
+				meshUv.waveoffsetX = 0.056f;
+				break;
+			}
+			case UiNumbers::THREE:
+			{
+				meshUv.waveoffsetX = 0.056f * 2;
+				break;
+			}
+			case UiNumbers::FOUR:
+			{
+				meshUv.waveoffsetX = 0.056f * 3;
+				break;
+			}
+			case UiNumbers::FIVE:
+			{	
+				meshUv.waveoffsetX = 0.056f * 4;
+				break;
+			}
+
+		}
+	}
+	
+	updateUVBuffer(&meshUv);
+
 	renderObject = this->resourceManager->GetRenderInfo(object);
 	//Render with the given render instruction
 	/*this->sceneCam->Updateview(object->position);
@@ -501,7 +596,6 @@ void Renderer::Render(RenderInstructions * object)
 
 	this->UpdateSampleBoolsBuffer(&sampleBools);
 #pragma endregion
-	
 	
 	this->gDeviceContext->DrawIndexed((UINT)*object->indexCount, 0, 0);
 
@@ -843,10 +937,8 @@ void Renderer::UpdateSampleBoolsBuffer(SampleBoolStruct * sampleStruct)
 
 void Renderer::updateUVBuffer(UV * uvstruct)
 {
-
-	UV * tmp;
-	tmp->enemyoffsetX = this->enemyOffset;
-	tmp->waveoffsetX = this->waveOffset;
+	//uvstruct->enemyoffsetX = this->enemyOffset;
+	//uvstruct->waveoffsetX = this->waveOffset;
 
 	D3D11_MAPPED_SUBRESOURCE mappedResourceUV;
 	ZeroMemory(&mappedResourceUV, sizeof(mappedResourceUV));
