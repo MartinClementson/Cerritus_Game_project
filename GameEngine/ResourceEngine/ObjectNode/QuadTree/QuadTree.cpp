@@ -45,13 +45,20 @@ void QuadTree::RenderNode(NodeType * node, ID3D11DeviceContext * gDeviceContext,
 	/*
 	This function does all the drawing for the visible nodes in the quad tree. It takes as input the frustum to check if the camera can see each quad
 	It is recursive and calls itself for all the child nodes it can see
-
-
-
-	IMPORTANT!
-	The terrain shader has to be set as the active shader in engine before this is called.
-
 	*/
+
+	/*
+	IMPORTANT!
+	The terrain shader has to be set as the active shader in engine before this is called
+	*/
+
+	//reset the number of triangles drawn for this frame
+	//sendToConstantBuffer();
+
+	//Render each node that is visible, starting at the parent node and moving down the tree
+	RenderNode(m_parentNode, gDeviceContext, frustum, worldBuffer);
+
+
 	bool result;
 	int count, i;
 	unsigned int stride, offset;
@@ -208,6 +215,8 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 	parent->nodes[1] = 0;
 	parent->nodes[2] = 0;
 	parent->nodes[3] = 0;
+	parent->isAnimated = false;
+	parent->materialID = 3;
 
 	//Count the number of triangles that are inside this node
 	numTriangles = CountTriangles(position, width);
@@ -272,7 +281,7 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 
 	//Calculate the number of vertices
 	vertexCount = numTriangles * 3;
-
+	parent->VertexCount = vertexCount;
 	//Create vertex array
 	vertices = new Vertex[vertexCount];
 
@@ -361,7 +370,7 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 	vertices = 0;
 	delete[] indices;
 	indices = 0;
-
+	this->nodeCount += 1;
 	return;
 
 
@@ -461,7 +470,7 @@ QuadTree::~QuadTree()
 }
 
 //FINHJISH ME!
-bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceContext, RenderInstructions* worldBuffer)
+bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceContext)
 {
 	this->m_vertexList = new std::vector<Vertex*>;
 	this->m_indexList = new std::vector<UINT*>;
@@ -470,7 +479,7 @@ bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, I
 
 	this->gDevice = gDevice;
 	this->gDeviceContext = gDeviceContext;
-	this->worldMatrix = worldBuffer->worldBuffer.worldMatrix;
+	//this->worldMatrix = worldBuffer->worldBuffer.worldMatrix;
 
 	this->vertexCount = 0;
 	this->indexCount = 0;
@@ -513,7 +522,7 @@ bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, I
 			this->vertextest->push_back(m_vertexList->at(arrayIndex)[vertexAmountPerArray]);
 		}
 	}
-	combinedvertices = vertextest->data();
+	this->combinedvertices = vertextest->data();
 	//VARJE VECTORPLATS
 	for (unsigned int arrayIndex = 0; arrayIndex < m_indexList->size(); arrayIndex++)
 	{
@@ -524,7 +533,7 @@ bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, I
 			this->indextest->push_back(m_indexList->at(arrayIndex)[IndexAmountPerArray]);
 		}
 	}
-	combinedindices = indextest->data();
+	this->combinedindices = indextest->data();
 												 //Calculate the parent node. It's the upper most quad, covering the whole terrain
 												 //Calculates center x,z and width
 	CalculateMeshDimensions(vertexCount, position, width);
@@ -582,19 +591,43 @@ void QuadTree::Release()
 	return;
 }
 
-void QuadTree::GetQuadTreeRenderInfo(RenderInstructions * toRender)
+void QuadTree::GetQuadTreeRenderInfo(RenderInstructions * toRender, Frustum* frustum)
 {
+	GetNodeRenderInfo(m_parentNode, frustum, toRender);
+}
 
-	/*
-	IMPORTANT!
-	The terrain shader has to be set as the active shader in engine before this is called
-	*/
+void QuadTree::GetNodeRenderInfo(NodeType * node, Frustum* frustum, RenderInstructions* toRender)
+{
+	RenderInstructions* tempInstruction = new RenderInstructions();
+	int i, count;
+	bool result;
+	result = frustum->CheckCube(node->position.x, 0.0f, node->position.y, (node->width / 2.0f));
+	if (!result)
+		return;
 
-	//reset the number of triangles drawn for this frame
-	//sendToConstantBuffer();
+	count = 0;
+	for (i = 0; i < 4; i++)
+	{
+		if (node->nodes[i] != 0)
+		{
+			count++;
+			GetNodeRenderInfo(node->nodes[i], frustum, toRender);
+		}
 
-	//Render each node that is visible, starting at the parent node and moving down the tree
-	//RenderNode(m_parentNode, gDeviceContext, frustum, worldBuffer);
+	}
+
+	if (count != 0)
+		return;
+	//normal procedures
+	tempInstruction->vertexBuffer	 = node->vertexBuffer;
+	tempInstruction->indexBuffer	 = node->indexBuffer;
+	tempInstruction->materialID		 = node->materialID;
+
+	tempInstruction->vertexCount	 = &node->VertexCount;
+	tempInstruction->isAnimated		 = &node->isAnimated;
+
+	toRender->push_back(tempInstruction);
+	delete tempInstruction;
 }
 
 int QuadTree::GetDrawCount()

@@ -223,3 +223,16 @@ struct importedMaterial
 	std::string specularTex;
 	std::string glowTex;
 };
+
+struct NodeType
+{
+	Float2 position;
+	float width;
+	unsigned int materialID;
+	bool isAnimated;
+	unsigned int triangleCount;
+	ID3D11Buffer *vertexBuffer;
+	ID3D11Buffer *indexBuffer;
+	UINT VertexCount;
+	NodeType* nodes[4];
+};

@@ -35,8 +35,6 @@ public:
 	void SetGbufferPass(bool x);
 	void SetShadowPass(bool x);
 
-	void InitializeQuadTree();
-
 	RenderInstructions* GetRenderInfo(RenderInfoObject*		object);
 	RenderInstructions* GetRenderInfo(RenderInfoUI*			object);
 	RenderInstructions* GetRenderInfo(RenderInfoEnemy*		object);

@@ -106,6 +106,7 @@ void MeshManager::AddMesh(int materialID, unsigned int vertexCount, UINT indexCo
 	newMesh.Initialize(this->gDevice, this->gDeviceContext);
 	newMesh.setSceneVertexBuffer(vertexCount, vertexBuffer);
 	newMesh.setSceneIndexBuffer(indexCount, indexBuffer);
+	this->sceneMeshes->push_back(newMesh);
 }
 
 
@@ -116,15 +117,9 @@ void MeshManager::AddMesh(int materialID, unsigned int vertexCount, UINT indexCo
 
 
 
-void MeshManager::CreateQuadTree(RenderInstructions* currentMesh)
+void MeshManager::CreateQuadTree()
 {
-	this->quadTree->Initialize(this->sceneMeshes, this->gDevice, this->gDeviceContext, currentMesh);
-	if (this->sceneMeshes)
-	{
-	this->sceneMeshes->clear();
-	}
-	AddMesh(temp, temp, temp, temp);
-	
+	this->quadTree->Initialize(this->sceneMeshes, this->gDevice, this->gDeviceContext);
 }
 
 void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * toRender)
@@ -140,22 +135,13 @@ void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * to
 	}
 	else if (*meshEnum == MeshEnum::TRAP_FIRE)
 		this->gameMeshes->at(3).GetMeshRenderInfo(toRender);
-	else if (*meshEnum == MeshEnum::SCENE)
-	{
-		//this->gameMeshes->at(4).SetMaterialID(3); //FULLÖSNING
-		//this->gameMeshes->at(4).GetMeshRenderInfo(toRender);
-		//this->gameMeshes->at(5).GetMeshRenderInfo(toRender);
-		//this->gameMeshes->at(6).GetMeshRenderInfo(toRender);
-		//this->gameMeshes->at(7).GetMeshRenderInfo(toRender);
-		this->quadTree->GetQuadTreeRenderInfo(toRender);
-	}
 	else if (*meshEnum == MeshEnum::PROJECTILE_1)
 		this->gameMeshes->at(4).GetMeshRenderInfo(toRender);
-
-
+	else if (*meshEnum == MeshEnum::SCENE)
+		this->quadTree->GetQuadTreeRenderInfo(toRender);
 	else
 	{
-		this->gameMeshes->at(6).GetMeshRenderInfo(toRender);
+		this->gameMeshes->at(5).GetMeshRenderInfo(toRender);
 	}
 
 	//else

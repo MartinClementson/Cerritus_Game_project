@@ -51,7 +51,7 @@ public:
 
 	std::vector<Mesh>* GetMeshes() { return this->gameMeshes; }
 	std::vector<Mesh>* GetSceneMeshes() { return this->sceneMeshes; }
-	void CreateQuadTree(RenderInstructions* currentMesh);
+	void CreateQuadTree();
 	void GetMeshRenderInfo(MeshEnum* meshEnum, RenderInstructions* toRender);
 
 	void GetPlaceHolderMeshInfo(RenderInstructions* toRender);

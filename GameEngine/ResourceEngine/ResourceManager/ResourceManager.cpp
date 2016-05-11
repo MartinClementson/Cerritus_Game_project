@@ -34,7 +34,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	brfImporterHandler->LoadFile("models/Scene2.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
 	brfImporterHandler->LoadFile("models/quadBullet.BRF", true, true, true, false);
 	
-	InitializeQuadTree();
+	this->meshManager->CreateQuadTree();
 	//brfImporterHandler->LoadFile("models/player_Model.BRF", true, true, true);
 	//brfImporterHandler->LoadFile("models/enemy_0.BRF", true, true, true);
 	//brfImporterHandler->LoadFile("models/slow_Trap.BRF", true, true, true);
@@ -127,7 +127,6 @@ void ResourceManager::Release()
 	
 	
 		return &currentMesh;
-		
 	}
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoUI * object)
@@ -350,16 +349,4 @@ void ResourceManager::Release()
 			gbufferPass = false;
 		}
 	}
-
-	void ResourceManager::InitializeQuadTree()
-	{
-		currentMesh = RenderInstructions();
-		XMFLOAT3 pos = { 0,0,0 };
-		XMFLOAT3 rot = { 0,0,0 };
-				currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&pos, &rot);
-				this->meshManager->CreateQuadTree(&currentMesh);
-	}
-
-	
-
 #pragma endregion

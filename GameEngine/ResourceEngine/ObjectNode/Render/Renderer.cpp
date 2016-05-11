@@ -157,7 +157,22 @@ void Renderer::Render(RenderInfoObject * object)
 	//RenderPlaceHolder(&object->position);
 
 }
+//Render scene objects, mostly static stuff
+void Renderer::Render(RenderInfoScene * object)
+{
+	RenderInstructions* renderObject;
 
+	//Send the info of the object into the resource manager
+	//The resource manager gathers all the rendering info and sends back a renderInstruction
+	renderObject = this->resourceManager->GetRenderInfo(object);
+
+	//Render with the given render instruction
+	this->RenderClassic(renderObject);
+	//RenderPlaceHolder(&object->position,&object->rotation);
+
+	//RenderPlaceHolder(&object->position);
+
+}
 
 //Render 2d textures for the ui
 void Renderer::Render(RenderInfoUI * object)
@@ -507,7 +522,93 @@ void Renderer::Render(RenderInstructions * object)
 
 }
 
+void Renderer::RenderQuadTree(RenderInstructions * object)
+{
 
+	/*
+	This function does all the drawing for the visible nodes in the quad tree. It takes as input the frustum to check if the camera can see each quad
+	It is recursive and calls itself for all the child nodes it can see
+	*/
+
+	/*
+	IMPORTANT!
+	The terrain shader has to be set as the active shader in engine before this is called
+	*/
+
+	//reset the number of triangles drawn for this frame
+	//sendToConstantBuffer();
+
+	//Render each node that is visible, starting at the parent node and moving down the tree
+	RenderNode(m_parentNode, gDeviceContext, frustum, worldBuffer);
+
+
+	bool result;
+	int count, i;
+	unsigned int stride, offset;
+
+	//Do a frustum check on the cube
+
+	//Check if the node can be viewed,
+	//result = true;
+	result = frustum->CheckCube(node->position.x, 0.0f, node->position.y, (node->width / 2.0f));
+
+	//if it can't be seen then none of it's children can either so don't continue
+	if (!result)
+		return;
+
+	//If this node can be seen, recursively call this function for each child node
+
+	count = 0;
+	for (i = 0; i < 4; i++)
+	{
+		if (node->nodes[i] != 0)
+		{
+			count++;
+			RenderNode(node->nodes[i], gDeviceContext, frustum, worldBuffer);
+		}
+
+	}
+
+	//If there were any children nodes then there is no need to continue, Parents have nothing to render
+	if (count != 0)
+		return;
+
+	//Render the buffers in this node as normal if they can be seen
+
+	stride = sizeof(Vertex);
+	offset = 0;
+
+
+	//DirectX::XMMATRIX world = DirectX::XMMatrixIdentity();
+	//DirectX::XMFLOAT4X4 worldFloat;
+
+	//DirectX::XMStoreFloat4x4(&worldFloat, world);
+	//D3D11_MAPPED_SUBRESOURCE mappedResourceWorld;
+	//ZeroMemory(&mappedResourceWorld, sizeof(mappedResourceWorld));
+
+	////mapping to the matrixbuffer
+	//gDeviceContext->Map(worldBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResourceWorld);
+
+	//worldConstantBuffer* temporaryWorld = (worldConstantBuffer*)mappedResourceWorld.pData;
+
+	//temporaryWorld->world = worldFloat;
+
+	//gDeviceContext->Unmap(worldBuffer, 0);
+
+	gDeviceContext->IASetVertexBuffers(0, 1, &node->vertexBuffer, &stride, &offset);
+
+	gDeviceContext->IASetIndexBuffer(node->indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+	gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	gDeviceContext->DrawIndexed(node->triangleCount * 3, 0, 0);
+
+	//increase the count of the numder of polygons that have been rendered during this frame
+	m_drawCount += node->triangleCount;
+
+	return;
+
+}
 
 void Renderer::RenderInstanced(RenderInstructions * object, ID3D11Buffer* instanceBuffer,unsigned int amount)
 {
