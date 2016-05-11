@@ -12,10 +12,9 @@ private:
 
 	std::unique_ptr<SoundEffect> s_shot;
 	std::unique_ptr<SoundEffect> s_ambient;
+	std::unique_ptr<SoundEffect> s_E_death;
 	std::unique_ptr<SoundEffectInstance> s_nightLoop;
 	bool s_retryAudio = false;
-	double timeElapsed;
-	double audioLength;
 public:
 	AudioManager();
 	~AudioManager();
@@ -25,5 +24,6 @@ public:
 
 	//functions for playing the sounds
 	void playShotSound();
+	void playEDeathSound();
 };
 

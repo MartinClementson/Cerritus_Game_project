@@ -23,7 +23,7 @@ void AudioManager::Release()
 
 void AudioManager::Initialize()
 {
-	timeElapsed = 0;
+	//timeElapsed = 0;
 	AUDIO_ENGINE_FLAGS eflags = AudioEngine_Default;
 #ifdef _DEBUG
 	eflags = (eflags | AudioEngine_Debug);
@@ -35,7 +35,7 @@ void AudioManager::Initialize()
 	//prefix to the soundfolder is "sounds/"
 	s_shot.reset(new SoundEffect(s_audEngine->get(), L"sounds/shot4.wav"));
 	s_ambient.reset(new SoundEffect(s_audEngine->get(), L"sounds/NightAmbienceSimple_02.wav"));
-	//audioLength = s_shot->GetSampleDurationMS() / 1000.0;
+	s_E_death.reset(new SoundEffect(s_audEngine->get(), L"sounds/E_death2.wav"));
 	s_nightLoop = s_ambient->CreateInstance();
 	s_nightLoop->Play(true);
 	s_nightLoop->SetVolume(0.1);
@@ -43,14 +43,6 @@ void AudioManager::Initialize()
 
 void AudioManager::Update(double deltaTime)
 {
-	//code for looping a audiofile
-	/*timeElapsed += deltaTime;
-	if (timeElapsed >= audioLength)
-	{
-		s_shot->Play();
-		timeElapsed = 0;
-	}*/
-
 	if (s_retryAudio)
 	{
 		s_retryAudio = false;
@@ -72,5 +64,10 @@ void AudioManager::Update(double deltaTime)
 
 void AudioManager::playShotSound()
 {
-	s_shot->Play();
+	s_shot->Play(0.5f, 0,0);
+}
+
+void AudioManager::playEDeathSound()
+{
+	s_E_death->Play();
 }
