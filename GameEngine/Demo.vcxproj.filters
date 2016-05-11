@@ -242,11 +242,11 @@
     <Filter Include="ResourceEngine\ObjectNode\QuadTree">
       <UniqueIdentifier>{1d340038-b887-4f3c-b390-182959ce1737}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogic\Scene\Waves">
-      <UniqueIdentifier>{f872b398-c3f4-4fb4-852b-91ee4be9c091}</UniqueIdentifier>
-	</Filter>
     <Filter Include="GameLogic\StateMachines\MainStateMachene\AudioManager">
       <UniqueIdentifier>{c7facd97-1bd3-4557-a0e0-ef0c127d4749}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\Scene\Waves">
+      <UniqueIdentifier>{7b5224f1-05ba-4c89-ae08-2ee10fbf203e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -427,11 +427,11 @@
     <ClCompile Include="ResourceEngine\ObjectNode\QuadTree\QuadTree.cpp">
       <Filter>ResourceEngine\ObjectNode\QuadTree</Filter>
     </ClCompile>
-    <ClCompile Include="GameLogic\Scene\Waves\Waves.cpp">
-      <Filter>GameLogic\Scene\Waves</Filter>
-</ClCompile>
     <ClCompile Include="GameLogic\StateMachines\AudioManager\AudioManager.cpp">
       <Filter>GameLogic\StateMachines\MainStateMachene\AudioManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Scene\Waves\Waves.cpp">
+      <Filter>GameLogic\Scene\Waves</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -630,13 +630,11 @@
     <ClInclude Include="ResourceEngine\ObjectNode\QuadTree\QuadTree.h">
       <Filter>ResourceEngine\ObjectNode\QuadTree</Filter>
     </ClInclude>
-
-    <ClInclude Include="GameLogic\Scene\Waves\Waves.h">
-      <Filter>GameLogic\Scene\Waves</Filter>
-</ClInclude>
     <ClInclude Include="GameLogic\StateMachines\AudioManager\AudioManager.h">
       <Filter>GameLogic\StateMachines\MainStateMachene\AudioManager</Filter>
-
+    </ClInclude>
+    <ClInclude Include="GameLogic\Scene\Waves\Waves.h">
+      <Filter>GameLogic\Scene\Waves</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

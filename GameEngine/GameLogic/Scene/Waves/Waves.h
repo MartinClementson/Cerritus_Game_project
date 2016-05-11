@@ -2,16 +2,19 @@
 #ifndef WAVES_H
 #define WAVES_H
 
-#include "../../Character/Character.h"
+#include "../../Source/LibIncluder.h"
+
+using namespace DirectX;
 
 class Waves
 {
 private:
 
 private:
+	int waveNumber = 0;
 
 public:
-	int waveNumber, switchSpawnPos;
+	int switchSpawnPos = 0;
 	int amountOFFast, amountOfStandards, amountOfHealers;
 	XMFLOAT3 spawnPos;
 	~Waves();
@@ -23,7 +26,7 @@ public:
 
 	int GetWaveGroup();
 	void SetWaveGroup(int wave);
-	
+
 	void WaveInformation();
 	void NextWave(int nextWaveNumber);
 	void SetWaveInformation(int amountOfEnemies);
@@ -34,3 +37,4 @@ public:
 };
 
 #endif
+

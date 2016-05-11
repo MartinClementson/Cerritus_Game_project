@@ -2,7 +2,7 @@
 #include "../GameObject.h"
 #include "../../../Character/Enemy/Enemy.h"
 #include "../../../Collision/Collision.h"
-#include "../../GameLogic/Scene/Waves/Waves.h"
+#include "../../../Scene/Waves/Waves.h"
 
 #include <time.h>
 #include <stdlib.h>
@@ -21,8 +21,9 @@ private:
 	XMFLOAT3 spawnPosition;
 public:
 	XMFLOAT3 spawn;
-	Waves waves;
-	int currentWave = 1;
+	XMFLOAT3 spawnPosInfo;
+	Waves* waves;
+	int currentWave = 0;
 	int enemyWaveAmount = 0;
 	int waveAmount = 0;
 	double waveTimer = 0;
@@ -33,7 +34,7 @@ public:
 	EnemySpawn();
 	~EnemySpawn();
 	float spawnTimer;
-	bool firstSpawn;
+	bool firstSpawn = false;
 
 	void Release();
 	void Initialize();

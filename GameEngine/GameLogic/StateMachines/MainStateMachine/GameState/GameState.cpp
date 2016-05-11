@@ -286,7 +286,6 @@ void GameState::Render()
 	room1->Render();
 	player->Render();
 	gameUI->Render();
-
 }
 
 void GameState::OnEnter()

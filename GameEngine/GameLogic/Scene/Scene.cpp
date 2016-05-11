@@ -6,8 +6,7 @@ Scene::Scene()
 	/*this->bearTraps = new std::vector<BearTrap>;
 	this->fireTraps = new std::vector<FireTrap>;*/
 
-	this->enemySpawn = new EnemySpawn;
-	AddEnemySpawn();
+	enemySpawn = new EnemySpawn;
 
 	//this->trap = new Trap;
 	collision = Collision::GetInstance();
@@ -38,7 +37,7 @@ Scene::~Scene()
 
 void Scene::Initialize()
 {
-	trapAmount = 2;
+	trapAmount = 0;
 	collision->ClearTraps();
 	InitBearTrap();
 	InitFireTrap();
@@ -48,6 +47,9 @@ void Scene::Initialize()
 		collision->AddTrap(bearTraps.at(i));
 	}
 	RespawnTimer = 0;
+
+	AddEnemySpawn();
+
 }
 
 void Scene::InitFireTrap()
@@ -92,11 +94,13 @@ void Scene::AddEnemySpawn()
 
 void Scene::Release()
 {
-		 this->enemySpawn->Release();
+	this->enemySpawn->Release();
 }
 
 void Scene::Update(double deltaTime)
 {
+
+	enemySpawn->Update(deltaTime);
 
 	for (size_t i = 0; i < fireTraps.size(); i++)
 	{
@@ -116,7 +120,6 @@ void Scene::Update(double deltaTime)
 			bearTraps.at(i)->GetDamage();
 		}
 	}
-	enemySpawn->Update(deltaTime);
 
 	for (size_t i = 0; i < bearTraps.size(); i++)
 	{
@@ -210,7 +213,7 @@ void Scene::Render()
 
 	}
 
-	enemySpawn->Render();
+		enemySpawn->Render();
 
 }
 

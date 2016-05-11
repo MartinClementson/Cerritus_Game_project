@@ -125,7 +125,7 @@ void Enemy::Spawn(XMFLOAT3 spawn)
 	this->health = 100.0f;
 	this->DoT = 0.0f;
 	this->index = 0.0f;
-	this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_IDLE_STATE);
+	this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
 }
 
 XMFLOAT3 Enemy::GetPosition()

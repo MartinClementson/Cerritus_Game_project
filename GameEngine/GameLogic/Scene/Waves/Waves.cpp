@@ -1,8 +1,8 @@
-#include "Waves.h"
+#include "./Waves.h"
 
 Waves::Waves()
 {
-	
+
 }
 
 Waves::~Waves()
@@ -12,7 +12,7 @@ Waves::~Waves()
 
 void Waves::Initialize()
 {
-	
+
 }
 
 void Waves::Render()
@@ -22,7 +22,7 @@ void Waves::Render()
 
 void Waves::Update(double deltaTime)
 {
-	
+
 }
 
 void Waves::SetWaveGroup(int wave)
@@ -38,30 +38,30 @@ int Waves::GetWaveGroup()
 void Waves::WaveInformation()
 {
 	waveNumber = GetWaveGroup();
-	switch (waveNumber) 
+	switch (waveNumber)
 	{
-		case 1:
-			amountOfStandards = 4;
-			SetWaveInformation(amountOfStandards);
-			amountOFFast = 3;
-			amountOfHealers = 5;
-			break;
-		case 2:
-			amountOfStandards = 8;
-			SetWaveInformation(amountOfStandards);
-			amountOFFast = 2;
-			amountOfHealers = 2;
-			break;
-		case 3:
-			amountOfStandards = 20;
-			SetWaveInformation(amountOfStandards);
-			amountOFFast = 5;
-			amountOfHealers = 2;
-			break;
-		default: 
-			amountOfStandards = 1;
-			SetWaveInformation(amountOfStandards);
-			break;
+	case 1:
+		amountOfStandards = 10;
+		SetWaveInformation(amountOfStandards);
+		/*	amountOFFast = 3;
+		amountOfHealers = 5;*/
+		break;
+	case 2:
+		amountOfStandards = 0;
+		SetWaveInformation(amountOfStandards);
+		/*		amountOFFast = 2;
+		amountOfHealers = 2;*/
+		break;
+	case 3:
+		amountOfStandards = 0;
+		SetWaveInformation(amountOfStandards);
+		/*	amountOFFast = 5;
+		amountOfHealers = 2;*/
+		break;
+	default:
+		amountOfStandards = 0;
+		SetWaveInformation(amountOfStandards);
+		break;
 	}
 }
 
@@ -85,6 +85,10 @@ void Waves::SpawnPositions(int spawnSwitch)
 		break;
 	case 4:
 		spawnPos = { -70.0f, 0.0f, -40.0f };
+		SetSpawnPositions(spawnPos);
+		break;
+	default:
+		spawnPos = { -70.0f, 0.0f, 40.0f };
 		SetSpawnPositions(spawnPos);
 		break;
 	}
