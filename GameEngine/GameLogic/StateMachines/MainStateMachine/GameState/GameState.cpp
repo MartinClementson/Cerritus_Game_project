@@ -77,12 +77,8 @@ void GameState::Update(double deltaTime)
 	if (!pause->isActive)
 	{
 		gameUI->setUI(UITextures::NUMERATION);
-
 		gameUI->setUINR(UiNumbers::FOUR);
-
-		//gameUI->setBlyat(UITextures::WAVECOUNTER, UiNumbers::FIVE);
 		gameUI->setUI(UITextures::WAVECOUNTER);
-
 		gameUI->setUINR(UiNumbers::FIVE);
 
 		if (player->GetHealth() <= 0)
