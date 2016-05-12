@@ -21,7 +21,7 @@ private:
 	XMFLOAT3 spawnPosition;
 public:
 	XMFLOAT3 spawn;
-	//Waves waves;
+	Waves waves;
 	int currentWave = 1;
 	int enemyWaveAmount = 0;
 	int waveAmount = 0;

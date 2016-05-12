@@ -36,8 +36,8 @@ void Enemy::Initialize()
 	damage = 5.0f;
 	rotation = { 0,0,0 };
 
-	radius = 1.0f;
-	radius2 = 2.0f;
+	radius = 2.0f;
+	radius2 = 3.0f;
 
 	DoTDur = 0;
 	slowTimer = 0;

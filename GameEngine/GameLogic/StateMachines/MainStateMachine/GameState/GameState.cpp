@@ -112,7 +112,7 @@ void GameState::Update(double deltaTime)
 								room1->enemySpawn->Alive.at(j),
 								deltaTime);
 						}
-						else if (collision->TrapandEnemyLottery(room1->enemySpawn->Alive.at(p)))
+						/*else if (collision->TrapandEnemyLottery(room1->enemySpawn->Alive.at(p)))
 						{
 							for (size_t i = 0; i < room1->bearTraps.size(); i++)
 							{
@@ -127,7 +127,7 @@ void GameState::Update(double deltaTime)
 								}
 
 							}
-						}
+						}*/
 
 						
 

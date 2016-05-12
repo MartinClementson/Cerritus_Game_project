@@ -11,8 +11,9 @@ private:
 private:
 
 public:
-	int waveNumber, switchSpawnPos;
+	int waveNumber, switchSpawnPosn;
 	int amountOFFast, amountOfStandards, amountOfHealers;
+	float posAdd;
 	XMFLOAT3 spawnPos;
 	~Waves();
 	Waves();
@@ -26,6 +27,8 @@ public:
 	
 	void WaveInformation();
 	void NextWave(int nextWaveNumber);
+	void SetSpawnPosAdd(float add);
+	float GetSpawnPosAdd();
 	void SetWaveInformation(int amountOfEnemies);
 	int GetWaveInformation();
 	void SpawnPositions(int spawnSwitch);
