@@ -157,7 +157,8 @@ void MeshManager::Release()
 			animFrameStructuredBuffersSRV.at(i)->Release();
 			animFrameStructuredBuffers   .at(i)->Release();
 	}
-	
+	animHeaderStructuredBuffersSRV->Release();
+	animHeaderStructuredBuffers	  ->Release();
 
 
 	for (size_t i = 0; i < blendShapeMeshes->size(); i++)
@@ -450,6 +451,7 @@ void MeshManager::GetPlaceHolderMeshInfo(RenderInstructions * toRender)
 		this->gDeviceContext->VSSetShaderResources(MORPHANIM_BUFFER_START_INDEX + i * 2 +1, 1, &animFrameStructuredBuffersSRV.at(i)); //Frame data
 	
 	}
+	this->gDeviceContext->VSSetShaderResources(ANIMHEADER_BUFFER_INDEX, 1, &animHeaderStructuredBuffersSRV);
 
 	
 	//this->gameMeshes->at(1).GetMeshRenderInfo(toRender);
@@ -610,34 +612,34 @@ void MeshManager::CreatePlaceHolderAnimation()
 	}
 
 
-	s_shapeOne.at(0).position = Float3(-5.0, 2.5,  5.0);		//0
-	s_shapeOne.at(1).position = Float3(-5.0, 0.0,  5.0);		//1
-	s_shapeOne.at(2).position = Float3( 5.0, 0.0,  5.0);		//2
-	s_shapeOne.at(3).position = Float3( 5.0, 2.5,  5.0);		//3
-	s_shapeOne.at(4).position = Float3( 5.0, 0.0, -5.0);		//4
-	s_shapeOne.at(5).position = Float3( 5.0, 2.5, -5.0);		//5
-	s_shapeOne.at(6).position = Float3(-5.0, 0.0, -5.0);	    //6
-	s_shapeOne.at(7).position = Float3(-5.0, 2.5, -5.0);	     //7
+	s_shapeOne.at(0).position = Float3(-5.0f, 2.5f,  5.0f);		//0
+	s_shapeOne.at(1).position = Float3(-5.0f, 0.0f,  5.0f);		//1
+	s_shapeOne.at(2).position = Float3( 5.0f, 0.0f,  5.0f);		//2
+	s_shapeOne.at(3).position = Float3( 5.0f, 2.5f,  5.0f);		//3
+	s_shapeOne.at(4).position = Float3( 5.0f, 0.0f, -5.0f);		//4
+	s_shapeOne.at(5).position = Float3( 5.0f, 2.5f, -5.0f);		//5
+	s_shapeOne.at(6).position = Float3(-5.0f, 0.0f, -5.0f);	    //6
+	s_shapeOne.at(7).position = Float3(-5.0f, 2.5f, -5.0f);	     //7
 
 
-	s_shapeTwo.at(0).position = Float3(-0.2, 2.5, 5.0);   //0
-	s_shapeTwo.at(1).position = Float3(-0.2, 0.0, 5.0);   //1
-	s_shapeTwo.at(2).position = Float3( 0.2, 0.0, 5.0);   //2
-	s_shapeTwo.at(3).position = Float3( 0.2, 2.5, 5.0);   //3
-	s_shapeTwo.at(4).position = Float3( 0.2, 0.0, -5.0);  //4
-	s_shapeTwo.at(5).position = Float3( 0.2, 2.5, -5.0);   //5
-	s_shapeTwo.at(6).position = Float3(-0.2, 0.0, -5.0);  //6
-	s_shapeTwo.at(7).position = Float3(-0.2, 2.5, -5.0);  //7
+	s_shapeTwo.at(0).position = Float3(-0.2f, 2.5f,  5.0f);   //0
+	s_shapeTwo.at(1).position = Float3(-0.2f, 0.0f,  5.0f);   //1
+	s_shapeTwo.at(2).position = Float3( 0.2f, 0.0f,  5.0f);   //2
+	s_shapeTwo.at(3).position = Float3( 0.2f, 2.5f,  5.0f);   //3
+	s_shapeTwo.at(4).position = Float3( 0.2f, 0.0f, -5.0f);  //4
+	s_shapeTwo.at(5).position = Float3( 0.2f, 2.5f, -5.0f);   //5
+	s_shapeTwo.at(6).position = Float3(-0.2f, 0.0f, -5.0f);  //6
+	s_shapeTwo.at(7).position = Float3(-0.2f, 2.5f, -5.0f);  //7
 
 
-	s_shapeThree.at(0).position = Float3(-5.0, 2.5,  0.2);	//0
-	s_shapeThree.at(1).position = Float3(-5.0, 0.0,  0.2);	//1
-	s_shapeThree.at(2).position = Float3(5.0, 0.0,   0.2);    // 2
-	s_shapeThree.at(3).position = Float3(5.0, 2.5,   0.2);	 // 3
-	s_shapeThree.at(4).position = Float3(5.0, 0.0,  -0.2);	//4
-	s_shapeThree.at(5).position = Float3(5.0, 2.5,  -0.2);	//5
-	s_shapeThree.at(6).position = Float3(-5.0, 0.0, -0.2);	//6
-	s_shapeThree.at(7).position = Float3(-5.0, 2.5, -0.2);	//7
+	s_shapeThree.at(0).position = Float3(-5.0f, 2.5f,   0.2f);	//0
+	s_shapeThree.at(1).position = Float3(-5.0f, 0.0f,   0.2f);	//1
+	s_shapeThree.at(2).position = Float3( 5.0f, 0.0f,   0.2f);    // 2
+	s_shapeThree.at(3).position = Float3( 5.0f, 2.5f,   0.2f);	 // 3
+	s_shapeThree.at(4).position = Float3( 5.0f, 0.0f,  -0.2f);	//4
+	s_shapeThree.at(5).position = Float3( 5.0f, 2.5f,  -0.2f);	//5
+	s_shapeThree.at(6).position = Float3(-5.0f, 0.0f,  -0.2f);	//6
+	s_shapeThree.at(7).position = Float3(-5.0f, 2.5f,  -0.2f);	//7
 
 	animations.push_back(AnimationInfo());
 	animations.at(1).animationTime = 10.0f;
@@ -863,5 +865,54 @@ void MeshManager::CreateAnimationFromMeshes(std::vector<Vertex> sourceMesh, std:
 		}
 	
 #pragma endregion
+
+
+		
+
+		////////////////////////////////////////////////////////////////////////////////////////
+		////////////////////////////////////////////////////////////////////////////////////////
+		////Create the animation buffer
+		gpuAnimHeader * tempAnim = new gpuAnimHeader[morphAnimStructuredBuffersSRV.size()];
+		for (size_t i = 0; i < morphAnimStructuredBuffersSRV.size(); i++)
+		{
+			tempAnim[i].frames = animatedMeshes->at(meshIndex).animations.at(i).numberOfFrames;
+			tempAnim[i].verticesAmount = animatedMeshes->at(meshIndex).GetVertCount();
+		}
+
+		
+
+		D3D11_BUFFER_DESC BufferDesc;
+		ZeroMemory(&BufferDesc, sizeof(BufferDesc));
+		BufferDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		BufferDesc.Usage = D3D11_USAGE_DYNAMIC;
+		BufferDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+		BufferDesc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+		BufferDesc.ByteWidth = sizeof(gpuAnimHeader) * (UINT)morphAnimStructuredBuffersSRV.size();  
+		BufferDesc.StructureByteStride = sizeof(gpuAnimHeader);
+
+		if (FAILED(hr = gDevice->CreateBuffer(&BufferDesc, nullptr, &animHeaderStructuredBuffers)))
+			MessageBox(NULL, L"Failed to create blend shapes buffer", L"Error", MB_ICONERROR | MB_OK);
+
+
+		D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+		srvDesc.Format = DXGI_FORMAT_UNKNOWN;
+		srvDesc.ViewDimension = D3D11_SRV_DIMENSION_BUFFEREX;
+		srvDesc.Buffer.ElementOffset = 0;
+		srvDesc.Buffer.ElementWidth = sizeof(gpuAnimHeader);
+		srvDesc.Buffer.NumElements = (UINT)morphAnimStructuredBuffersSRV.size();
+		if (FAILED(hr = gDevice->CreateShaderResourceView(animHeaderStructuredBuffers, &srvDesc, &animHeaderStructuredBuffersSRV)))
+			MessageBox(NULL, L"Failed to create blend shapes buffer", L"Error", MB_ICONERROR | MB_OK);
+
+		//map the info to the buffer
+		D3D11_MAPPED_SUBRESOURCE mapRes;
+
+		hr = gDeviceContext->Map(animHeaderStructuredBuffers, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapRes);
+		if (FAILED(hr))
+			MessageBox(NULL, L"Failed to update animationHeader buffer", L"Error", MB_ICONERROR | MB_OK);
+
+		memcpy(mapRes.pData, (void*)tempAnim, sizeof(gpuAnimHeader) *  morphAnimStructuredBuffersSRV.size());
+		gDeviceContext->Unmap(animHeaderStructuredBuffers, 0);
+		this->gDeviceContext->VSSetShaderResources(ANIMHEADER_BUFFER_INDEX, 1, &animHeaderStructuredBuffersSRV);
+		delete tempAnim;
 
 }

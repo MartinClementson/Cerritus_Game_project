@@ -20,15 +20,24 @@ struct Frame
 	float time;
 	float3 padTime;
 };
+struct Animation
+{
+	uint frames;
+	float3 padFrames;
+	uint verticesAmount;
+	float3 padVert;
+};
 
-StructuredBuffer<BlendShapeVert>		animationOne			: register(t10);
-StructuredBuffer<Frame>					animationOneFrames		: register(t11);
+StructuredBuffer<Animation>				animationHeaders		: register(t10);
 
-StructuredBuffer<BlendShapeVert>		animationTwo			: register(t12);
-StructuredBuffer<Frame>					animationTwoFrames		: register(t13);
+StructuredBuffer<BlendShapeVert>		animationOne			: register(t11);
+StructuredBuffer<Frame>					animationOneFrames		: register(t12);
 
-StructuredBuffer<BlendShapeVert>		animationThree			: register(t14);
-StructuredBuffer<Frame>					animationThreeFrames	: register(t15);
+StructuredBuffer<BlendShapeVert>		animationTwo			: register(t13);
+StructuredBuffer<Frame>					animationTwoFrames		: register(t14);
+
+StructuredBuffer<BlendShapeVert>		animationThree			: register(t15);
+StructuredBuffer<Frame>					animationThreeFrames	: register(t16);
 
 //ANIM
 Texture2D diffuseTex			 : register(t0);
@@ -133,7 +142,7 @@ ANIM_VS_OUT ANIM_VS_main(ANIM_VS_IN input)
 		int endFrame   = 0;
 		float startFrameTime = input.AnimationTime;
 		float endFrameTime = 1.0f;
-		for (int i = 0; i < MAX_FRAMES; i++) //find where we are in the animation
+		for (int i = 0; i < animationHeaders[0].frames; i++) //find where we are in the animation
 		{
 			if (animationOneFrames[i].time <= input.AnimationTime)
 			{
@@ -159,18 +168,15 @@ ANIM_VS_OUT ANIM_VS_main(ANIM_VS_IN input)
 		{
 
 			normalizedTime = input.AnimationTime /animationOneFrames[endFrame].time;
-				animPos = lerp(input.Pos.xyz, animationOne[input.VertexID + (MESH_VERTICES * endFrame)].position, normalizedTime);
+				animPos = lerp(input.Pos.xyz, animationOne[input.VertexID + (animationHeaders[0].verticesAmount * endFrame)].position, normalizedTime);
 		}
 		else
 		{
 		 normalizedTime = (input.AnimationTime - animationOneFrames[startFrame].time) / (animationOneFrames[endFrame].time - animationOneFrames[startFrame].time); // Time - A / (B - A);
-		 animPos		= lerp(animationOne[input.VertexID + MESH_VERTICES * startFrame].position, animationOne[input.VertexID + MESH_VERTICES * endFrame].position, normalizedTime);
+		 animPos		= lerp(animationOne[input.VertexID + animationHeaders[0].verticesAmount * startFrame].position, animationOne[input.VertexID + animationHeaders[0].verticesAmount * endFrame].position, normalizedTime);
 		}
 			 
 	} //end first animation
-
-
-
 
 	if (input.Animation == 1) //second animation
 	{
@@ -178,7 +184,7 @@ ANIM_VS_OUT ANIM_VS_main(ANIM_VS_IN input)
 		int endFrame = 0;
 		float startFrameTime = input.AnimationTime;
 		float endFrameTime = 1.0f;
-		for (int i = 0; i < MAX_FRAMES; i++) //find where we are in the animation
+		for (int i = 0; i < animationHeaders[1].frames; i++) //find where we are in the animation
 		{
 			if (animationTwoFrames[i].time <= input.AnimationTime)
 			{
@@ -204,18 +210,15 @@ ANIM_VS_OUT ANIM_VS_main(ANIM_VS_IN input)
 		{
 
 			normalizedTime = input.AnimationTime / animationTwoFrames[endFrame].time;
-			animPos = lerp(input.Pos.xyz, animationTwo[input.VertexID + (MESH_VERTICES * endFrame)].position, normalizedTime);
+			animPos = lerp(input.Pos.xyz, animationTwo[input.VertexID + (animationHeaders[1].verticesAmount * endFrame)].position, normalizedTime);
 		}
 		else
 		{
 			normalizedTime = (input.AnimationTime - animationTwoFrames[startFrame].time) / (animationTwoFrames[endFrame].time - animationTwoFrames[startFrame].time); // Time - A / (B - A);
-			animPos = lerp(animationTwo[input.VertexID + MESH_VERTICES * startFrame].position, animationTwo[input.VertexID + MESH_VERTICES * endFrame].position, normalizedTime);
+			animPos = lerp(animationTwo[input.VertexID + animationHeaders[1].verticesAmount * startFrame].position, animationTwo[input.VertexID + animationHeaders[1].verticesAmount * endFrame].position, normalizedTime);
 		}
 
 	} //end second animation
-
-
-
 
 	if (input.Animation == 2) //third animation
 	{
@@ -223,23 +226,17 @@ ANIM_VS_OUT ANIM_VS_main(ANIM_VS_IN input)
 		int endFrame = 0;
 		float startFrameTime = input.AnimationTime;
 		float endFrameTime = 1.0f;
-		for (int i = 0; i < MAX_FRAMES; i++) //find where we are in the animation
+		for (int i = 0; i < animationHeaders[2].frames; i++) //find where we are in the animation
 		{
 			if (animationThreeFrames[i].time <= input.AnimationTime)
 			{
-
-				startFrame = i;// animationThreeFrames[i].frameID;
+				startFrame = i;
 				startFrameTime = animationThreeFrames[i].time;
-
 			}
 
 			else if (animationThreeFrames[i].time >= input.AnimationTime)
 			{
-				//if (animationThreeFrames[i].time < endFrameTime)
-				//{
-				//endFrameTime = animationThreeFrames[i].time;
-				endFrame = i; //animationThreeFrames[i].frameID;
-							  //}
+				endFrame = i; 			  
 				break;
 			}
 		}
@@ -249,29 +246,16 @@ ANIM_VS_OUT ANIM_VS_main(ANIM_VS_IN input)
 		{
 
 			normalizedTime = input.AnimationTime / animationThreeFrames[endFrame].time;
-			animPos = lerp(input.Pos.xyz, animationThree[input.VertexID + (MESH_VERTICES * endFrame)].position, normalizedTime);
+			animPos = lerp(input.Pos.xyz, animationThree[input.VertexID + (animationHeaders[2].verticesAmount * endFrame)].position, normalizedTime);
 		}
 		else
 		{
 			normalizedTime = (input.AnimationTime - animationThreeFrames[startFrame].time) / (animationThreeFrames[endFrame].time - animationThreeFrames[startFrame].time); // Time - A / (B - A);
-			animPos = lerp(animationThree[input.VertexID + MESH_VERTICES * startFrame].position, animationThree[input.VertexID + MESH_VERTICES * endFrame].position, normalizedTime);
+			animPos = lerp(animationThree[input.VertexID + animationHeaders[2].verticesAmount * startFrame].position, animationThree[input.VertexID + animationHeaders[2].verticesAmount * endFrame].position, normalizedTime);
 		}
 
 	} //end second animat
 
-
-	////ANIMATE
-	//if (input.AnimationTime < 0.5f)
-	//{
-	//	float normalizedTime = input.AnimationTime / 0.5f;
-	//	 animPos		=  lerp(input.Pos.xyz, animationOne[input.VertexID ].position, normalizedTime);
-	//}
-	//else if (input.AnimationTime >= 0.5)
-	//{ //normalize the time between the current frames
-	//	float normalizedTime = (input.AnimationTime - 0.5) / (1.0 - 0.5); // Time - B / (C - B);
-	//	animPos		 = lerp(animationOne[input.VertexID].position, animationOne[input.VertexID + 8 * 1].position, normalizedTime);
-	//}
-	//
 
 	output.Pos			= float4(animPos, 1.0f);
 

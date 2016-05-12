@@ -51,6 +51,9 @@ private:
 	std::vector<ID3D11ShaderResourceView*>	  animFrameStructuredBuffersSRV; //structured buffers for the frame data
 	std::vector<ID3D11Buffer*>				  animFrameStructuredBuffers;
 
+
+	ID3D11ShaderResourceView*	  animHeaderStructuredBuffersSRV;
+	ID3D11Buffer*				  animHeaderStructuredBuffers;
 #pragma endregion
 
 	int   animationBufferCount = 0;

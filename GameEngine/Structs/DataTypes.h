@@ -191,7 +191,13 @@ struct BlendShapeBuffer
 
 
 };
-
+struct gpuAnimHeader
+{
+	unsigned int frames;
+	DirectX::XMFLOAT3 padFrames;
+	unsigned int verticesAmount;
+	DirectX::XMFLOAT3 padVerts;
+};
 
 struct AnimationInfo
 {

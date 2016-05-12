@@ -100,7 +100,7 @@ void Graphics::Initialize(HWND * window)
 
 
 
-#pragma region Create two temporary blendshape animations
+#pragma region Create three temporary blendshape animations
 
 	XMFLOAT3 pos								    = XMFLOAT3(5.0f, 0.0f, 0.0f);
 	XMFLOAT3 rotation							    = XMFLOAT3(0.0f, 0.0f, 0.0f);
@@ -216,6 +216,10 @@ void Graphics::Render() //manage RenderPasses here
 	//Set The gbuffer pass
 	this->renderer->SetGbufferPass(true);
 
+	//Render blendshape animation
+	if (instancesToRender[ENEMY_1_INSTANCED] > 0)
+		renderer->RenderInstanced(this->enemyObjects->at(instanceMeshIndex.enemy1Mesh),
+			instancedAnimationDataPerFrame, 3);
 	RenderScene();									//Render to the gBuffer
 													//Set the gBuffer as a subResource, send in the new RenderTarget
 	gBuffer->SetToRead(gBackBufferRTV); 
@@ -334,10 +338,7 @@ void Graphics::RenderScene()
 
 
 
-	//Render blendshape animation
-	if (instancesToRender[ENEMY_1_INSTANCED] > 0)
-		renderer->RenderInstanced(this->enemyObjects->at(instanceMeshIndex.enemy1Mesh),
-				instancedAnimationDataPerFrame, 3);
+	
 	/*for (unsigned int i = 0; i < trapObjects->size(); i++)
 	{
 		if (!trapObjects->at(i)->render)
