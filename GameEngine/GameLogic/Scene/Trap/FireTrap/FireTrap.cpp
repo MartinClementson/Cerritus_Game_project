@@ -57,7 +57,7 @@ void FireTrap::Update(double deltaTime)
 { 
 	if (this->GetState()->GetTrapState() == TrapState::TRAP_ACTIVE_STATE)
 	{
-		this->activeTimer += deltaTime;
+		this->activeTimer += (float)deltaTime;
 	}
 
 	if (activeTimer > 1.0f)

@@ -122,7 +122,7 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 
 	if (thrust)
 	{
-		acceleration.y += +maxAcceleration *grav *deltaTime * 0.6;
+		acceleration.y += +maxAcceleration *grav *(float)deltaTime * 0.6f;
 		if (position.y > 1.2f)
 		{
 			thrust = false;
@@ -130,18 +130,18 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 	}
 	if (!thrust && !fall)
 	{
-		if (velocity.y < 0.01 && position.y > 1.2f)
+		if (velocity.y < 0.01f && position.y > 1.2f)
 		{
 			fall = true;
 		}
-		else if (velocity.y < 0.01 && position.y < 1.0f)
+		else if (velocity.y < 0.01f && position.y < 1.0f)
 		{
 			thrust = true;
 		}
 	}
 	if(fall)
 	{
-		acceleration.y += -maxAcceleration * grav*deltaTime * 0.6;
+		acceleration.y += -maxAcceleration * grav*(float)deltaTime * 0.6f;
 		if (position.y < 1.0f)
 		{
 			fall = false;

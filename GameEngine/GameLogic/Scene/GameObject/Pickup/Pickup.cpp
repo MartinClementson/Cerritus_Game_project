@@ -49,16 +49,16 @@ void Pickup::Update(double deltaTime)
 
 	if (down == false)
 	{
-		position.y += 0.5 * deltaTime;
-		if (position.y > 2)
+		position.y += 0.5f * (float)deltaTime;
+		if (position.y > 2.0f)
 		{
 			down = true;
 		}
 	}
 	else if(down == true)
 	{
-		position.y -= 0.5 * deltaTime;
-		if (position.y <= 1)
+		position.y -= 0.5f * (float)deltaTime;
+		if (position.y <= 1.0f)
 		{
 			down = false;
 		}

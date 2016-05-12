@@ -52,7 +52,7 @@ void BearTrap::Update(double deltaTime)
 {
 	if (this->GetState()->GetTrapState() == TrapState::TRAP_ACTIVE_STATE)
 	{
-		activeTimer += deltaTime;
+		activeTimer += (float)deltaTime;
 	}
 
 	if (activeTimer > 1.0f)
