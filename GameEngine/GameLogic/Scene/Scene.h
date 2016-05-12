@@ -6,6 +6,7 @@
 #include "Trap/BearTrap/BearTrap.h"
 #include "Trap/FireTrap/FireTrap.h"
 #include "GameObject\Pickup\Pickup.h"
+#include "../../Enumerations/Enumerations.h"
 
 
 class Scene

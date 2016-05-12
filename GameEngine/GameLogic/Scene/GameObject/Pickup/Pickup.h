@@ -13,6 +13,7 @@ class Pickup :
 private:
 	Pickup();
 
+	PickupType pickupType;
 	DirectX::XMFLOAT3 position;
 	DirectX::XMFLOAT3 rotation;
 	DirectX::XMFLOAT3 scale;
@@ -22,8 +23,11 @@ private:
 	float radius;
 	bool isActive;
 	bool down;
+
 public:
-	Pickup(XMFLOAT3 pos);
+	PickupType GetPickupType();
+	void SetPickupType(PickupType pickup);
+	Pickup(XMFLOAT3 pos, PickupType pickup);
 	virtual ~Pickup();
 	virtual void Initialize();
 	virtual void Release();

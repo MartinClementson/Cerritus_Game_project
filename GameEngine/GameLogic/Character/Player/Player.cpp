@@ -73,6 +73,7 @@ void Player::Initialize(AudioManager* audioManager)
 	DoT = 0.0f;
 	DoTDur = 0.0f;
 	health = 100.0f;
+	maxHealth = health;
 	projectileSystem->Initialize(audioManager);
 	SetUpgrade(UpgradeType::ONE_SHOT);
 	
@@ -351,4 +352,9 @@ void Player::DowngradeWeapon()
 	{
 		SetUpgrade(UpgradeType::TWO_SHOT);
 	}
+}
+
+float Player::GetMaxHealth()
+{
+	return this->maxHealth;
 }
