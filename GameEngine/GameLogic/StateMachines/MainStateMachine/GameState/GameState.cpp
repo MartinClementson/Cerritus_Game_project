@@ -101,7 +101,7 @@ void GameState::Update(double deltaTime)
 					healers.push_back(room1->enemySpawns.at(k)->StandardAlive.at(j));
 					//((Enemy*)room1->enemySpawns.at(k)->StandardAlive.at(j))->SetClosestHealer(healers.at(0));
 				}
-				
+
 				j++;
 			}
 		}
@@ -116,13 +116,13 @@ void GameState::Update(double deltaTime)
 			size_t j = 0;
 			while (j < room1->enemySpawns.at(k)->StandardAlive.size())
 			{
-				
+
 				room1->enemySpawns.at(k)->StandardAlive.at(j)->SetClosestHealer(healers.at(0));
 				j++;
 			}
 		}
 
-		
+
 
 		for (size_t k = 0; k < room1->enemySpawns.size(); k++)
 		{
@@ -153,6 +153,8 @@ void GameState::Update(double deltaTime)
 								GetHealth() - 10);
 							player->projectileSystem->
 								projectiles[i]->SetFired(false);
+							if (room1->enemySpawns.at(k)->StandardAlive.at(j)->GetHealth() == 0)
+								audioManager->playEDeathSound();
 						}
 						i++;
 					}
@@ -162,7 +164,7 @@ void GameState::Update(double deltaTime)
 
 						if (room1->enemySpawns.at(k)->StandardAlive.at(j)->GetStateMachine()->
 							GetActiveState() == ENEMY_HEAL_STATE
-							&& 
+							&&
 							room1->enemySpawns.at(k)->StandardAlive.at(j)->
 							GetCharType() != CharacterType::HEALER
 							&&
@@ -200,26 +202,26 @@ void GameState::Update(double deltaTime)
 									{
 										//if (healers.at(i)->healing < 7)
 										//{
-											tmp.x = healPos.x - position.x;
-											if (tmp.x < 0)
-											{
-												tmp.x = -tmp.x;
-											}
-											tmp.z = healPos.z - position.z;
-											if (tmp.z < 0)
-											{
-												tmp.z = -tmp.z;
-											}
+										tmp.x = healPos.x - position.x;
+										if (tmp.x < 0)
+										{
+											tmp.x = -tmp.x;
+										}
+										tmp.z = healPos.z - position.z;
+										if (tmp.z < 0)
+										{
+											tmp.z = -tmp.z;
+										}
 
-											//////////////////
+										//////////////////
 
 
 
-											if (closest.x > tmp.x && closest.z > tmp.z && healers.at(i)->isAlive)
-											{
-												closest = tmp;
-												tmpCloseHealer = healers.at(i);
-											}
+										if (closest.x > tmp.x && closest.z > tmp.z && healers.at(i)->isAlive)
+										{
+											closest = tmp;
+											tmpCloseHealer = healers.at(i);
+										}
 										//}
 									}
 
@@ -227,11 +229,11 @@ void GameState::Update(double deltaTime)
 							}
 
 
-							
+
 							room1->enemySpawns.at(k)->StandardAlive.at(j)->SetClosestHealer(tmpCloseHealer);
 
 
-						
+
 							if (tmpCloseHealer)
 							{
 								tmpCloseHealer->healing += 1;
@@ -239,15 +241,8 @@ void GameState::Update(double deltaTime)
 								room1->enemySpawns.at(k)->StandardAlive.at(p)->AIPatternHeal(
 									tmpCloseHealer,
 									deltaTime);
-						&& room1->enemySpawns.at(k)->
-						Alive.at(j)->isAlive == true)
-					{
-						room1->enemySpawns.at(k)->Alive.at(j)->SetHealth(
-						room1->enemySpawns.at(k)->Alive.at(j)->GetHealth() - 10);
-						player->projectileSystem->projectiles[i]->SetFired(false);
-						if (room1->enemySpawns.at(k)->Alive.at(j)->GetHealth() == 0)
-							audioManager->playEDeathSound();
-					}
+
+
 								if (collision->HealerProximity(room1->enemySpawns.at(k)->
 									StandardAlive.at(p), tmpCloseHealer))
 								{
@@ -262,7 +257,7 @@ void GameState::Update(double deltaTime)
 												GetHealth() + 1.0f);
 									}
 								}
-								
+
 							}
 							else
 							{
@@ -295,18 +290,18 @@ void GameState::Update(double deltaTime)
 							}
 							/*else if (collision->TrapandEnemyLottery(room1->enemySpawns.at(k)->StandardAlive.at(p)))
 							{
-								for (size_t i = 0; i < room1->bearTraps.size(); i++)
-								{
-									int randoms = rand() % 100 + 1;
+							for (size_t i = 0; i < room1->bearTraps.size(); i++)
+							{
+							int randoms = rand() % 100 + 1;
 
-									if (randoms == 1 && room1->bearTraps.at(i)->isActive)
-									{
-										room1->EvadeTrap(room1->enemySpawns.at(k)->StandardAlive.at(p)
-											, room1->bearTraps.at(i), deltaTime);
-									}
-								}
+							if (randoms == 1 && room1->bearTraps.at(i)->isActive)
+							{
+							room1->EvadeTrap(room1->enemySpawns.at(k)->StandardAlive.at(p)
+							, room1->bearTraps.at(i), deltaTime);
+							}
+							}
 							}*/
-						}	
+						}
 					}
 				}
 				j++;
@@ -339,9 +334,9 @@ void GameState::ProcessInput(double* deltaTime)
 		}
 	}
 	else
-	{	
-		int					 moveKeysPressed		 = 0;		//How many have been clicked
-		int					 maxMoveKeysPressed		 = 2;		// Maximum amount of movement keys that can be clicked each frame.
+	{
+		int					 moveKeysPressed = 0;		//How many have been clicked
+		int					 maxMoveKeysPressed = 2;		// Maximum amount of movement keys that can be clicked each frame.
 
 		MovementDirection	 directions[2];						//This should be as big as MaxMoveKeysPressed
 

@@ -12,8 +12,10 @@ private:
 
 	std::unique_ptr<SoundEffect> s_shot;
 	std::unique_ptr<SoundEffect> s_ambient;
+	std::unique_ptr<SoundEffect> s_gameTheme;
 	std::unique_ptr<SoundEffect> s_E_death;
 	std::unique_ptr<SoundEffectInstance> s_nightLoop;
+	std::unique_ptr<SoundEffectInstance> s_musicLoop;
 	bool s_retryAudio = false;
 public:
 	AudioManager();

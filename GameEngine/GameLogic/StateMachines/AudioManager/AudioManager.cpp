@@ -33,12 +33,18 @@ void AudioManager::Initialize()
 
 	//loading the shoot sound
 	//prefix to the soundfolder is "sounds/"
-	s_shot.reset(new SoundEffect(s_audEngine->get(), L"sounds/shot.wav"));
+	s_shot.reset(new SoundEffect(s_audEngine->get(), L"sounds/shot_less.wav"));
 	s_ambient.reset(new SoundEffect(s_audEngine->get(), L"sounds/NightAmbienceSimple_02.wav"));
 	s_E_death.reset(new SoundEffect(s_audEngine->get(), L"sounds/E_death2.wav"));
+	s_gameTheme.reset(new SoundEffect(s_audEngine->get(), L"sounds/test_teme.wav"));
 	s_nightLoop = s_ambient->CreateInstance();
+	s_musicLoop = s_gameTheme->CreateInstance();
 	s_nightLoop->Play(true);
-	s_nightLoop->SetVolume(0.1);
+	s_nightLoop->SetVolume(0.1f);
+
+	s_musicLoop->Play(true);
+	s_musicLoop->SetVolume(0.1f);
+	s_audEngine->get()->SetMasterVolume(0.1f);
 }
 
 void AudioManager::Update(double deltaTime)
@@ -48,6 +54,7 @@ void AudioManager::Update(double deltaTime)
 		s_retryAudio = false;
 		s_audEngine->get()->Reset();
 		s_nightLoop->Play(true);
+		s_musicLoop->Play(true);
 		//if there are any looped sounds, reset them here
 	}
 
