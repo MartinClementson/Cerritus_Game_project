@@ -223,6 +223,14 @@ enum UpgradeType
 
 };
 
+enum PickupType
+{
+	Weapon,
+	Heal
+};
+
+
+
 enum GbufferTextures
 {
 	G_DIFFUSE,

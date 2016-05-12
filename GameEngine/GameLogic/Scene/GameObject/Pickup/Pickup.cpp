@@ -7,9 +7,20 @@ Pickup::Pickup()
 }
 
 
-Pickup::Pickup(XMFLOAT3 pos)
+PickupType Pickup::GetPickupType()
+{
+	return pickupType;
+}
+
+void Pickup::SetPickupType(PickupType pickup )
+{
+	this->pickupType = pickup;
+}
+
+Pickup::Pickup(XMFLOAT3 pos, PickupType pickup)
 {
 	graphics = Graphics::GetInstance();
+	this->pickupType = pickup;
 	this->position = pos;
 	this->rotation = { 0,0,0 };
 	Initialize();
