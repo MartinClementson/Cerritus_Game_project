@@ -41,25 +41,25 @@ void Waves::WaveInformation()
 	switch (waveNumber) 
 	{
 		case 1:
-			amountOfStandards = 4;
+			amountOfStandards = 2;
 			SetWaveInformation(amountOfStandards);
 			amountOFFast = 3;
 			amountOfHealers = 5;
 			break;
 		case 2:
-			amountOfStandards = 3;
+			amountOfStandards = 0;
 			SetWaveInformation(amountOfStandards);
 			amountOFFast = 2;
 			amountOfHealers = 2;
 			break;
 		case 3:
-			amountOfStandards = 7;
+			amountOfStandards = 0;
 			SetWaveInformation(amountOfStandards);
 			amountOFFast = 5;
 			amountOfHealers = 2;
 			break;
 		default: 
-			amountOfStandards = 1;
+			amountOfStandards = 0;
 			SetWaveInformation(amountOfStandards);
 			break;
 	}
@@ -81,16 +81,16 @@ void Waves::SpawnPositions(int spawnSwitch)
 		SetSpawnPositions(spawnPos);
 		break;
 	case 2:
-		spawnPos2 = { 70.0f + GetSpawnPosAdd(), 0.0f, 40.0f };
-		SetSpawnPositions(spawnPos2);
+		spawnPos = { 70.0f + GetSpawnPosAdd(), 0.0f, 40.0f };
+		SetSpawnPositions(spawnPos);
 		break;
 	case 3:
-		spawnPos3 = { 20.0f + GetSpawnPosAdd(), 0.0f, -10.0f };
-		SetSpawnPositions(spawnPos3);
+		spawnPos = { 20.0f + GetSpawnPosAdd(), 0.0f, -10.0f };
+		SetSpawnPositions(spawnPos);
 		break;
 	case 4:
-		spawnPos4 = { -40.0f, 0.0f, -60.0f + GetSpawnPosAdd() };
-		SetSpawnPositions(spawnPos4);
+		spawnPos = { -40.0f, 0.0f, -60.0f + GetSpawnPosAdd() };
+		SetSpawnPositions(spawnPos);
 		break;
 	}
 }
