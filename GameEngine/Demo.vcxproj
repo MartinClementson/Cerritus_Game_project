@@ -150,6 +150,8 @@
     <ClCompile Include="GameLogic\Animation\Animation.cpp" />
     <ClCompile Include="GameLogic\Character\Character.cpp" />
     <ClCompile Include="GameLogic\Character\Enemy\Enemy.cpp" />
+    <ClCompile Include="GameLogic\Character\Enemy\EnemyBase.cpp" />
+    <ClCompile Include="GameLogic\Character\Enemy\Healer.cpp" />
     <ClCompile Include="GameLogic\Character\Player\Player.cpp" />
     <ClCompile Include="GameLogic\Character\ProjectileSystem\ProjectileSystem.cpp" />
     <ClCompile Include="GameLogic\Character\ProjectileSystem\Projectile\Projectile.cpp" />
@@ -173,6 +175,7 @@
     <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\AttackState\AttackState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\DeathState\EnemyDeathState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\EnemyStateMachine.cpp" />
+    <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\HealingState\HealingState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\IdleState\EnemyIdleState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\MainStateMachine\GameOverState\GameOverState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\MainStateMachine\GameState\DeathState\MainDeathState.cpp" />
@@ -212,6 +215,8 @@
     <ClInclude Include="GameLogic\Animation\Animation.h" />
     <ClInclude Include="GameLogic\Character\Character.h" />
     <ClInclude Include="GameLogic\Character\Enemy\Enemy.h" />
+    <ClInclude Include="GameLogic\Character\Enemy\EnemyBase.h" />
+    <ClInclude Include="GameLogic\Character\Enemy\Healer.h" />
     <ClInclude Include="GameLogic\Character\Player\Player.h" />
     <ClInclude Include="GameLogic\Character\ProjectileSystem\ProjectileSystem.h" />
     <ClInclude Include="GameLogic\Character\ProjectileSystem\Projectile\Projectile.h" />
@@ -235,6 +240,7 @@
     <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\AttackState\AttackState.h" />
     <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\DeathState\EnemyDeathState.h" />
     <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\EnemyStateMachine.h" />
+    <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\HealingState\HealingState.h" />
     <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\IdleState\EnemyIdleState.h" />
     <ClInclude Include="GameLogic\StateMachines\MainStateMachine\GameOverState\GameOverState.h" />
     <ClInclude Include="GameLogic\StateMachines\MainStateMachine\GameState\DeathState\MainDeathState.h" />
@@ -276,6 +282,20 @@
     <ClInclude Include="Structs\SkeletonStructs.h" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="ResourceEngine\Shader\AnimationShader\AnimationShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="ResourceEngine\Shader\AnimationShader\AnimationShader_Instanced.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="ResourceEngine\Shader\BillboardShader\BillboardShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>

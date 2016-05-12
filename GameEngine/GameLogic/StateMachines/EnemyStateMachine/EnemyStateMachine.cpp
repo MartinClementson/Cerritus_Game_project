@@ -9,7 +9,9 @@ EnemyState EnemyStateMachine::GetActiveState()
 
 void EnemyStateMachine::SetActiveState(EnemyState state)
 {
+	
 	this->activeState = state;
+	
 }
 
 EnemyStateMachine::EnemyStateMachine()
@@ -29,9 +31,9 @@ EnemyStateMachine::~EnemyStateMachine()
 void EnemyStateMachine::Initialize()
 {
 	activeState = EnemyState::ENEMY_IDLE_STATE;
-//	this->idleState->Initialize();
-//	this->attackState->Initialize();
-//	this->deathState->Initialize();
+	this->idleState->Initialize();
+	this->attackState->Initialize();
+	this->deathState->Initialize();
 }
 
 void EnemyStateMachine::Release()
