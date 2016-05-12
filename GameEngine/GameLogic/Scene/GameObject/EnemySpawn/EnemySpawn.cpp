@@ -157,7 +157,7 @@ void EnemySpawn::SpawnEnemy()
 
 				Queue.at(i)->Spawn(spawn); //sets position and isAlive to TRUE
 				Alive.push_back(Queue.at(i));
-				Queue.erase(Queue.begin() + i);
+				//Queue.erase(Queue.begin() + i);
 
 				//intSpawn++;
 
@@ -226,7 +226,7 @@ void EnemySpawn::InitEnemy()
 
 	int enemyAmount;
 	enemyAmount = waves.GetWaveInformation();*/
-	unsigned int amount = 10;
+	unsigned int amount = 20;
 
 	for (int i = 0; i < amount; i++)
 	{

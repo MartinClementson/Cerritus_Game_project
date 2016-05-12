@@ -396,14 +396,14 @@ void Graphics::CullGeometry()
 	for (size_t i = 0; i < this->enemyObjects->size(); i++)
 	{
 		//Frustum culling
-		if (renderer->FrustumCheck(enemyObjects->at(i)->position, enemyObjects->at(i)->radius) == false)
+		if (renderer->FrustumCheck(enemyObjects->at(i)->position, enemyObjects->at(i)->radius + 10) == false)
 		{	
 			//If its not visible
 			this->enemyObjects->at(i)->render = false;
-			continue;
+			//continue;
 		}
 		 
-		else {
+		//else {
 
 			//if object is visible and is enemy_1_type
 			this->instancedWorldDataPerFrame[ENEMY_1_INSTANCED][enemyIndex].worldMatrix = CalculateWorldMatrix(&this->enemyObjects->at(i)->position, &this->enemyObjects->at(i)->rotation);
@@ -428,7 +428,7 @@ void Graphics::CullGeometry()
 					billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;
 					healthBarIndex							 += 1;
 				}
-		}
+		//}
 		//endif  object is visible
 	}
 #pragma endregion
