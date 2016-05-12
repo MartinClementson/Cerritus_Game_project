@@ -134,6 +134,7 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 #pragma endregion
 }
 
+#pragma region temporary hiding
 void MeshManager::Release()
 {
 	for (size_t i = 0; i < gameMeshes->size(); i++)
@@ -299,6 +300,7 @@ void MeshManager::CreatePlaceHolder()
 
 
 }
+#pragma endregion
 
 void MeshManager::CreatePlaceHolderPlane()
 {
@@ -438,7 +440,6 @@ void MeshManager::CreateFullScreenQuad()
 
 }
 
-
 void MeshManager::GetPlaceHolderMeshInfo(RenderInstructions * toRender)
 {
 	for (UINT i = 0; i < morphAnimStructuredBuffersSRV.size(); i++)
@@ -517,22 +518,78 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 //	toRender->materialID = 8;
 //	toRender->materialID = 6; //temp
 }
+#pragma endregion
+
+
+
+void MeshManager::CreatePlaceHolderAnimation()
+{
+	std::vector<Vertex> cubeVerts[8]; //source
+
+	cubeVerts->at(0).position = Float3(-0.5, 2.5, 0.5);		//0
+
+	cubeVerts->at(1).position = Float3(-0.5, 0.0, 0.5);		//1
+	cubeVerts->at(2).position = Float3(0.5, 0.0, 0.5);		//2
+	cubeVerts->at(3).position = Float3(0.5, 2.5, 0.5);		//3
+	cubeVerts->at(4).position = Float3(0.5, 0.0, -0.5);		//4
+	cubeVerts->at(5).position = Float3(0.5, 2.5, -0.5);		//5
+	cubeVerts->at(6).position = Float3(-0.5, 0.0, -0.5);	//6
+	cubeVerts->at(7).position = Float3(-0.5, 2.5, -0.5);	//7
+
+	std::vector<BlendShapeVert> shapeOne[8];
+	
+	shapeOne->at(0).position = Float3(-10.0f, 2.5, 0.5);		//0
+	shapeOne->at(1).position = Float3(-10.0f, 0.0, 0.5);		//1
+	shapeOne->at(2).position = Float3( 10.0f, 0.0, 0.5);		//2
+	shapeOne->at(3).position = Float3( 10.0f, 2.5, 0.5);		//3
+	shapeOne->at(4).position = Float3( 10.0f, 0.0, -0.5);		//4
+	shapeOne->at(5).position = Float3( 10.0f, 2.5, -0.5);		//5
+	shapeOne->at(6).position = Float3(-10.0f, 0.0, -0.5);	    //6
+	shapeOne->at(7).position = Float3(-10.0f, 2.5, -0.5);   	//7
+
+	std::vector<BlendShapeVert> shapeTwo[8];
+
+	shapeTwo->at(0).position = Float3(-0.5f, 10.0, 0.5);		//0
+	shapeTwo->at(1).position = Float3(-0.5f, 0.0,  0.5);		//1
+	shapeTwo->at(2).position = Float3( 0.5f, 0.0,  0.5);		//2
+	shapeTwo->at(3).position = Float3( 0.5f, 10.0, 0.5);		//3
+	shapeTwo->at(4).position = Float3( 0.5f, 0.0,  -0.5);		//4
+	shapeTwo->at(5).position = Float3( 0.5f, 10.0, -0.5);		//5
+	shapeTwo->at(6).position = Float3(-0.5f, 0.0, -0.5);	    //6
+	shapeTwo->at(7).position = Float3(-0.5f, 10.0, -0.5);   	//7
+
+
+
+
+	std::vector<AnimationInfo> animations;
+	animations.push_back(AnimationInfo());
+	animations.at(0).numberOfFrames = 2;
+	//animations.at(0).meshesPerFrame.push_back(
+		//shapeOne);
+
+
+
+
+}
 void MeshManager::CreateAnimationFromMeshes(std::vector<Vertex> sourceMesh, std::vector<AnimationInfo> animations)
 {
-	animatedMeshes->push_back(Mesh(gDevice,gDeviceContext));
+
+#pragma region Create the mesh objects for the animation
+	animatedMeshes->push_back(Mesh(gDevice,gDeviceContext));		   // create the new sourceMesh
 
 	size_t meshIndex = animatedMeshes->size() - 1;
 	animatedMeshes->at(meshIndex).CreateAnimatedMesh(sourceMesh.data(), (unsigned int)sourceMesh.size(), &animations);
 
-	for (size_t i = 0; i < animations.size(); i++)
-	{
-		blendShapeMeshes->push_back(std::vector<Mesh*>()); //for each animation, create a new array of meshes, each mesh represents a keyframe
+	for (size_t i = 0; i < animations.size(); i++)					   //loop through all the animations
+	{																   
+		blendShapeMeshes->push_back(std::vector<Mesh*>());			   //for each animation, create a new array of meshes, each mesh represents a keyframe
 		for (size_t j = 0;  j < animations.at(i).numberOfFrames;  j++) //for each frame, create a blendshape mesh
 		{
 			Mesh* newShape = CreateBlendShape(animations.at(i).meshesPerFrame.at(j).data(),(unsigned int) animations.at(i).meshesPerFrame.at(j).size());
 			blendShapeMeshes->at(blendShapeMeshes->size() - 1).push_back(newShape);
 		}
 	}
+#pragma endregion
 
 #pragma region Create structured buffers for the animations
 	HRESULT hr;
@@ -606,5 +663,6 @@ void MeshManager::CreateAnimationFromMeshes(std::vector<Vertex> sourceMesh, std:
 #pragma endregion
 		}
 	
-}
 #pragma endregion
+
+}

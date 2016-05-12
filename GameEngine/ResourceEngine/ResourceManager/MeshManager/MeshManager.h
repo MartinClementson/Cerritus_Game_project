@@ -16,17 +16,46 @@ private:
 	Mesh					  placeHolder;
 	Mesh					  placeHolderPlane;
 	Mesh					  fullScreenQuad;
+#pragma region Animation related
+	/*
+		We use blend shape animation.
+		Every mesh that is a "source",( that is the visible geometry we are rendering and animating)
+		Is in the animatedMeshes array.
+		
+		An animated mesh can have multiple animations and every animation is made up of keyframes.
+		Each keyframe is a mesh. So every animation has an array of meshes.
 
-	std::vector<Mesh>*		  animatedMeshes	 =  nullptr;
-	std::vector<std::vector<Mesh*>>*		  blendShapeMeshes; //2d array. first is animations, then in each animation is every mesh(aka keyframe)
-	std::vector<ID3D11ShaderResourceView*> morphAnimStructuredBuffersSRV;
-	std::vector<ID3D11Buffer*>			   morphAnimStructuredBuffers;
-	int animationBufferCount = 0;
-	void CreatePlaceHolder();
-	void CreatePlaceHolderPlane();
+		blendShapeMeshes is a 2d array that contains animation and the meshes for each keyframe
+
+		blendShapeMeshes
+		|____-Array of animations [vector<mesh>] 
+		|_________- Each vector<mesh> has n amount of meshes, (keyframes)
+				
+		For every animation, we need a buffer and a related resource view to be bound to the gpu.
+
+		So all the keyframes will be in one array in the gpu.
+
+		the function CreateAnimationFromMeshes() 
+		Takes a source mesh and n amount of animations and puts them into the corresponding arrays
+
+		*/
+						
+	
+	
+	std::vector<Mesh>*					      animatedMeshes	 =  nullptr;
+	std::vector<std::vector<Mesh*>>*		  blendShapeMeshes   =  nullptr;	//2d array. first is animations, then in each animation is every mesh(aka keyframe)
+	std::vector<ID3D11ShaderResourceView*>	  morphAnimStructuredBuffersSRV;
+	std::vector<ID3D11Buffer*>				  morphAnimStructuredBuffers;
+
+#pragma endregion
+
+	int   animationBufferCount = 0;
+	void  CreatePlaceHolder();
+	void  CreatePlaceHolderPlane();
 	Mesh* CreatePlaceHolderBlendShape();
 	Mesh* CreateBlendShape(BlendShapeVert* vertices,unsigned int amount);
-	void CreateFullScreenQuad();
+	void  CreateFullScreenQuad();
+	void  CreatePlaceHolderAnimation();
 public:
 	MeshManager();
 	~MeshManager();
