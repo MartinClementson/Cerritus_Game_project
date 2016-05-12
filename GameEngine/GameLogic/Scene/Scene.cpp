@@ -143,10 +143,10 @@ void Scene::Update(double deltaTime)
 				collision->PlayerProxyTrap(bearTraps.at(i));
 				for (size_t j = 0; j < enemySpawns.size(); j++)
 				{
-					for (size_t k = 0; k < enemySpawns.at(j)->Alive.size(); k++)
+					for (size_t k = 0; k < enemySpawns.at(j)->StandardAlive.size(); k++)
 					{
 						collision->EnemyProxTrap(bearTraps.at(i),
-							enemySpawns.at(j)->Alive.at(k))
+							enemySpawns.at(j)->StandardAlive.at(k))
 							&& bearTraps.at(i)->isActive;
 
 					}
@@ -157,19 +157,19 @@ void Scene::Update(double deltaTime)
 		}
 		for (size_t j = 0; j < enemySpawns.size(); j++)
 		{
-			for (size_t k = 0; k < enemySpawns.at(j)->Alive.size(); k++)
+			for (size_t k = 0; k < enemySpawns.at(j)->StandardAlive.size(); k++)
 			{
 				if (collision->BearTrapEnemyCollision(bearTraps.at(i),
-					enemySpawns.at(j)->Alive.at(k))
+					enemySpawns.at(j)->StandardAlive.at(k))
 					&& bearTraps.at(i)->isActive)
 				{
 					collision->PlayerProxyTrap(bearTraps.at(i));
 					for (size_t j2 = 0; j2 < enemySpawns.size(); j2++)
 					{
-						for (size_t k2 = 0; k2 < enemySpawns.at(j2)->Alive.size(); k2++)
+						for (size_t k2 = 0; k2 < enemySpawns.at(j2)->StandardAlive.size(); k2++)
 						{
 							collision->EnemyProxTrap(bearTraps.at(i),
-								enemySpawns.at(j2)->Alive.at(k2))
+								enemySpawns.at(j2)->StandardAlive.at(k2))
 								&& bearTraps.at(i)->isActive;
 						}
 					}
@@ -187,10 +187,10 @@ void Scene::Update(double deltaTime)
 		}
 		for (size_t j = 0; j < enemySpawns.size(); j++)
 		{
-			for (size_t k = 0; k < enemySpawns.at(j)->Alive.size(); k++)
+			for (size_t k = 0; k < enemySpawns.at(j)->StandardAlive.size(); k++)
 			{
 				if (collision->FireTrapEnemyCollision(fireTraps.at(i),
-					enemySpawns.at(j)->Alive.at(k))
+					enemySpawns.at(j)->StandardAlive.at(k))
 					&& fireTraps.at(i)->isActive)
 				{
 
@@ -250,7 +250,7 @@ void Scene::load()
 
 }
 
-void Scene::EvadeTrap(Enemy* enemy, BearTrap* bear, double deltaTime)
+void Scene::EvadeTrap(EnemyBase* enemy, BearTrap* bear, double deltaTime)
 {
 	XMFLOAT3 enemyPos;
 	XMFLOAT3 trapPos;
