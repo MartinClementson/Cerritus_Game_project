@@ -248,6 +248,9 @@
     <Filter Include="GameLogic\StateMachines\MainStateMachene\AudioManager">
       <UniqueIdentifier>{c7facd97-1bd3-4557-a0e0-ef0c127d4749}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameLogic\Scene\GameObject\Pickup">
+      <UniqueIdentifier>{67f75e15-a750-473d-aa0a-72963edbab2a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameLogic\Animation\Animation.cpp">
@@ -438,6 +441,9 @@
     </ClCompile>
     <ClCompile Include="GameLogic\StateMachines\AudioManager\AudioManager.cpp">
       <Filter>GameLogic\StateMachines\MainStateMachene\AudioManager</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Scene\GameObject\Pickup\Pickup.cpp">
+      <Filter>GameLogic\Scene\GameObject\Pickup</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -630,7 +636,6 @@
     <ClInclude Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton\Skeleton.h">
       <Filter>ResourceEngine\ResourceManager\SkeletonManager\Skeleton</Filter>
     </ClInclude>
-
     <ClInclude Include="GameLogic\Character\Enemy\Healer.h">
       <Filter>GameLogic\Character\Enemy</Filter>
     </ClInclude>
@@ -648,6 +653,9 @@
     </ClInclude>
     <ClInclude Include="GameLogic\StateMachines\AudioManager\AudioManager.h">
       <Filter>GameLogic\StateMachines\MainStateMachene\AudioManager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Scene\GameObject\Pickup\Pickup.h">
+      <Filter>GameLogic\Scene\GameObject\Pickup</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

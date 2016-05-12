@@ -42,7 +42,8 @@ enum MeshEnum
 	LEVEL_1,
 	LEVEL_2,
 	LEVEL_3,
-	LEVEL_4
+	LEVEL_4,
+	PLACEHOLDER
 };
 
 #pragma endregion
@@ -158,6 +159,7 @@ enum InputKeys
 	KEY_A,
 	KEY_S,
 	KEY_D,
+	KEY_Q,
 	KEY_P,
 	KEY_LEFT,
 	KEY_RIGHT,

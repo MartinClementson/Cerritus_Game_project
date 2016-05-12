@@ -5,6 +5,7 @@
 #include "GameObject/EnemySpawn/EnemySpawn.h"
 #include "Trap/BearTrap/BearTrap.h"
 #include "Trap/FireTrap/FireTrap.h"
+#include "GameObject\Pickup\Pickup.h"
 
 
 class Scene
@@ -24,6 +25,7 @@ public:
 	std::vector<BearTrap*> bearTraps;
 	std::vector<FireTrap*> fireTraps;
 	std::vector<EnemySpawn*> enemySpawns;
+	std::vector<Pickup*> WeaponUpgrades;
 	Scene();
 	virtual ~Scene();
 
