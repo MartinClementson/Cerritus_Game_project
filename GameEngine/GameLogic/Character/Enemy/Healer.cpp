@@ -127,7 +127,7 @@ void Healer::Spawn(XMFLOAT3 spawn)
 	this->isAlive = true;
 	this->health = maxHealth;
 	this->index = 0.0f;
-	this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_IDLE_STATE);
+	this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
 }
 
 void Healer::AIPattern(Player* player, double deltaTime)

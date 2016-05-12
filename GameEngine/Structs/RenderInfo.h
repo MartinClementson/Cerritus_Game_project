@@ -33,6 +33,7 @@ struct RenderInstructions
 	ID3D11ShaderResourceView* normalMap = nullptr;
 	ID3D11ShaderResourceView* specularMap = nullptr;
 	ID3D11ShaderResourceView* glowMap = nullptr;
+	bool glow = true;
 };
 
 struct RenderInfoObject {
@@ -81,6 +82,7 @@ struct RenderInfoTrap {
 	MeshEnum object;
 	bool render = true;
 	float radius;
+	bool glow;
 	//Shaders shader;
 	//TrapAnimations trapAnim;*/ //these are enum
 };

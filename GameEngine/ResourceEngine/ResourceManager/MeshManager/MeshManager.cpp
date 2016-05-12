@@ -96,7 +96,7 @@ void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materia
 
 void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * toRender)
 {
-	if(*meshEnum == MeshEnum::MAIN_CHARACTER)
+	if (*meshEnum == MeshEnum::MAIN_CHARACTER)
 		this->gameMeshes->at(0).GetMeshRenderInfo(toRender);
 
 	else if (*meshEnum == MeshEnum::ENEMY_1)
@@ -121,6 +121,8 @@ void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * to
 		this->gameMeshes->at(8).GetMeshRenderInfo(toRender);
 	else if (*meshEnum == MeshEnum::PROJECTILE_1)
 		this->gameMeshes->at(9).GetMeshRenderInfo(toRender);
+	else if (*meshEnum == MeshEnum::PLACEHOLDER)
+		this->GetPlaceHolderMeshInfo(toRender);
 
 	else
 	{

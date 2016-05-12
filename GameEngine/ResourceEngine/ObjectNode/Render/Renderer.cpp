@@ -260,6 +260,15 @@ void Renderer::RenderInstanced(RenderInfoTrap * object, InstancedData * arrayDat
 
 	objectInstruction = this->resourceManager->GetRenderInfo(object);
 
+	/*if (object->glow == false)
+	{
+		objectInstruction->glow = false;
+	}
+	else
+	{
+		objectInstruction->glow = true;
+	}*/
+
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
@@ -270,9 +279,8 @@ void Renderer::RenderInstanced(RenderInfoTrap * object, InstancedData * arrayDat
 	memcpy(tempStructMatrices, (void*)arrayData, sizeof(InstancedData)*amount);
 
 	gDeviceContext->Unmap(instancedBuffers[INSTANCED_WORLD], 0);
-
+	
 	RenderInstanced(objectInstruction, this->instancedBuffers[INSTANCED_WORLD], amount);
-
 
 	//Reset the shaders to normal shaders for the next objects to rener
 	if (this->resourceManager->IsGbufferPass())
@@ -576,7 +584,7 @@ void Renderer::RenderInstanced(RenderInstructions * object, ID3D11Buffer* instan
 		sampleBools.specularMap = FALSE;
 	}
 
-	if (object->glowMap != nullptr)
+	if (object->glowMap != nullptr /*&& object->glow == true*/)
 	{
 		this->gDeviceContext->PSSetShaderResources(3, 1, &object->glowMap);
 		sampleBools.glowMap = TRUE;

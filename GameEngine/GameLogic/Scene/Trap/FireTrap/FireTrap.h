@@ -24,5 +24,6 @@ private:
 	//RenderInfoTrap renderInfo;
 	//RenderInfoTrap* renderInfo;
 	Graphics* grapichs;
+	float activeTimer;
 };
 

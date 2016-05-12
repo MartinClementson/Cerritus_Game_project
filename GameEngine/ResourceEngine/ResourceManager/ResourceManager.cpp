@@ -113,8 +113,12 @@ void ResourceManager::Release()
 
 		
 
-		if(meshType != MeshEnum::PROJECTILE_1)
+		if (meshType != MeshEnum::PROJECTILE_1)
+		{
+
 			currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
+			
+		}
 
 
 		meshManager		->GetMeshRenderInfo( &meshType, &currentMesh ); //Get the mesh data
