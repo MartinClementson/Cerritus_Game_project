@@ -55,14 +55,14 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 
 	materialManager->addMaterials(&temp);
 	ui.materialName = "gameover";
-	ui.diffuseTex = "GameOver.png";
+	ui.diffuseTex = "gameover.png";
 	ui.materialID = 11;
 
 	temp.push_back(ui);
 
 	materialManager->addMaterials(&temp);
 	ui.materialName = "pause";
-	ui.diffuseTex = "PausUI.tif";
+	ui.diffuseTex = "Pausemenu.png";
 	ui.materialID = 12;
 	temp.push_back(ui);
 

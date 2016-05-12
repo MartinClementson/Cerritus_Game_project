@@ -41,7 +41,7 @@ void Waves::WaveInformation()
 	switch (waveNumber) 
 	{
 		case 1:
-			amountOfStandards = 15;
+			amountOfStandards = 2;
 			SetWaveInformation(amountOfStandards);
 			amountOFFast = 3;
 			amountOfHealers = 5;

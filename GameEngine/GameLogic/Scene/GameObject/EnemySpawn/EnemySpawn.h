@@ -29,6 +29,7 @@ public:
 	int intSpawn;
 
 	int a = 0;
+	bool test;
 
 
 	std::vector<Enemy*> Queue;

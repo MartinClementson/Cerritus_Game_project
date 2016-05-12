@@ -57,17 +57,27 @@ void EnemySpawn::Update(double deltaTime)
 				Alive.at(i)->isAlive = false;
 				Alive.at(i)->SetHealth(100.0f);
 				Alive.at(i)->GetStateMachine()->
-					SetActiveState(EnemyState::ENEMY_DEATH_STATE);
-
-				Alive.at(i)->isAlive = false;
+				SetActiveState(EnemyState::ENEMY_DEATH_STATE);
 
 				waveAmount--;
 
+				for (size_t i = 0; i < Alive.size(); i++)
+				{
+					if (Alive.at(i)->isAlive = true)
+					{
+						test = false;
+					}
+					else if(Alive.at(i)->isAlive = false)
+					{
+						test = true;
+					}
+				}
+				
 				if (waveAmount != 0)
 				{
 					RespawnEnemy(i);
 				}
-				else
+				else if(test = true)
 				{
 					waves.SetWaveGroup(currentWave += 1);
 					waves.WaveInformation();
