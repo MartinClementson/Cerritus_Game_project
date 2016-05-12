@@ -45,7 +45,7 @@ public:
 
 	void Update(double deltaTime);
 	void InitEnemy();
-	void SpawnEnemy();
+	void SpawnEnemy(int waveAmount);
 	void RespawnEnemy(int i);
 };
 

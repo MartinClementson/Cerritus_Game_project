@@ -41,19 +41,19 @@ void Waves::WaveInformation()
 	switch (waveNumber) 
 	{
 		case 1:
-			amountOfStandards = 2;
+			amountOfStandards = 15;
 			SetWaveInformation(amountOfStandards);
 			amountOFFast = 3;
 			amountOfHealers = 5;
 			break;
 		case 2:
-			amountOfStandards = 0;
+			amountOfStandards = 30;
 			SetWaveInformation(amountOfStandards);
 			amountOFFast = 2;
 			amountOfHealers = 2;
 			break;
 		case 3:
-			amountOfStandards = 0;
+			amountOfStandards = 50;
 			SetWaveInformation(amountOfStandards);
 			amountOFFast = 5;
 			amountOfHealers = 2;
@@ -68,11 +68,6 @@ void Waves::WaveInformation()
 void Waves::SpawnPositions(int spawnSwitch)
 {
 	XMFLOAT3 spawnPos;
-	XMFLOAT3 spawnPos2;
-	XMFLOAT3 spawnPos3;
-	XMFLOAT3 spawnPos4;
-
-
 
 	switch (spawnSwitch)
 	{
