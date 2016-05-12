@@ -529,7 +529,7 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 
 void MeshManager::CreatePlaceHolderAnimation()
 {
-	std::vector<Vertex> cubeVerts; //source
+	std::vector<Vertex> cubeVerts; //source mesh
 #pragma region first animation
 	std::vector<BlendShapeVert> shapeOne;
 	std::vector<BlendShapeVert> shapeTwo;
@@ -596,19 +596,6 @@ void MeshManager::CreatePlaceHolderAnimation()
 	animations.at(0).frames.push_back(FrameData(3 , 1.0f));
 #pragma endregion
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 #pragma region second animation
 
 	std::vector<BlendShapeVert> s_shapeOne;
@@ -664,10 +651,6 @@ void MeshManager::CreatePlaceHolderAnimation()
 	animations.at(1).frames.push_back(FrameData(3, 1.0f));
 
 #pragma endregion
-
-	
-
-
 
 #pragma region third animation
 
