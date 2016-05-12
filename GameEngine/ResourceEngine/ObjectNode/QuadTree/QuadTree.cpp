@@ -89,7 +89,7 @@ void QuadTree::CalculateMeshDimensions(int count, Float2 & position, float & mes
 	return;
 }
 
-void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, ID3D11Device * gDevice, std::vector<Mesh>* terrain)
+void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, ID3D11Device * gDevice, std::vector<Mesh>* terrain, int materialID)
 {
 	/* This function Builds the quad tree. It is recursive and therefore it will call itself numerous times
 	It starts with the parent, Then goes down.
@@ -128,7 +128,7 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 	parent->nodes[2] = 0;
 	parent->nodes[3] = 0;
 	parent->isAnimated = false;
-	parent->materialID = 3;
+	parent->materialID = materialID;
 
 	//Count the number of triangles that are inside this node
 	numTriangles = CountTriangles(position, width);
@@ -179,7 +179,7 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 				parent->nodes[i] = new NodeType;
 
 				//Extend the tree starting from this new child node
-				CreateTreeNode(parent->nodes[i], posWithOffset, (width / 2), gDevice, terrain);
+				CreateTreeNode(parent->nodes[i], posWithOffset, (width / 2), gDevice, terrain, materialID);
 			}
 
 		}
@@ -194,7 +194,7 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 	//Calculate the number of vertices
 	vertexCount = numTriangles * 3;
 	parent->VertexCount = vertexCount;
-	parent->IndexCount = indexCount;
+	parent->IndexCount = this->indexCount;
 	//Create vertex array
 	vertices = new Vertex[vertexCount];
 	std::vector<Vertex> newVert;
@@ -403,22 +403,21 @@ bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, I
 	this->indexCount = 0;
 	float width;
 	Float2 position;
+	int materialID = 0;
 
 	//prep 1 scenemesh for quadtreeing
 	for (unsigned int i = 0; i < terrain->size(); i++)
 	{
-		if (i > 0)
-		{
-			vertextest->clear();
-			indextest->clear();
-			combinedvertices = nullptr;
-			combinedindices = nullptr;
-		}
-		this->vertexCount += terrain->at(i).GetVertexCount();
-		this->indexCount += terrain->at(i).GetIndexCount();
+			this->vertexCount = 0;
+			this->indexCount = 0;
+			this->vertextest->clear();
+			this->indextest->clear();
+
+		this->vertexCount = terrain->at(i).GetVertexCount();
+		this->indexCount = terrain->at(i).GetIndexCount();
 		this->m_vertexList->push_back(terrain->at(i).GetVertices());
 		this->m_indexList->push_back(terrain->at(i).GetIndices());
-		
+		materialID = terrain->at(i).GetMaterialID();
 		//Store the total triangle countW
 		m_triangleCount = vertexCount / 3;
 
@@ -426,18 +425,18 @@ bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, I
 		{
 			this->vertextest->push_back(m_vertexList->at(i)[vertexAmountPerArray]);
 		}
-	this->combinedvertices = vertextest->data();
+	this->combinedvertices = this->vertextest->data();
 		for (size_t IndexAmountPerArray = 0; IndexAmountPerArray < this->indexCount; IndexAmountPerArray++)
 		{
 			this->indextest->push_back(m_indexList->at(i)[IndexAmountPerArray]);
 		}
-	this->combinedindices = indextest->data();
+	this->combinedindices = this->indextest->data();
 
 	CalculateMeshDimensions(vertexCount, position, width);
 	NodeType* tempParentNode = new NodeType;
 	m_parentNode->push_back(tempParentNode);
 	//Recursively build the quad tree, based on the vertex list and mesh dimensions
-	CreateTreeNode(m_parentNode->at(i), position, width, gDevice, terrain);
+	CreateTreeNode(m_parentNode->at(i), position, width, gDevice, terrain, materialID);
 
 
 	}
@@ -481,11 +480,11 @@ void QuadTree::Release()
 		if (m_parentNode->at(i))
 		{
 			ReleaseNode(m_parentNode->at(i));
-			delete m_parentNode;
-			m_parentNode = 0;
+			delete m_parentNode->at(i);
+			m_parentNode->at(i) = 0;
 		}
 	}
-
+	delete m_parentNode;
 
 	return;
 }
@@ -504,7 +503,7 @@ void QuadTree::GetNodeRenderInfo(NodeType * node, std::vector<RenderInstructions
 	int i, count;
 
 	bool result;
-	result = frustum->CheckCube(node->position.x, 0.0f, node->position.y, (node->width / 2.0f));
+	result = frustum->CheckCube(node->position.x, 0.0f, node->position.y, (node->width / 2.0f) - 12);
 
 	//if it can't be seen then none of it's children can either so don't continue
 	if (!result)

@@ -31,7 +31,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	brfImporterHandler->LoadFile("models/enemy_0.BRF", true, true, true, false);
 	brfImporterHandler->LoadFile("models/FireTrap.BRF", true, true, true, false);
 	brfImporterHandler->LoadFile("models/BearTrap.BRF", true, true, true, false);
-	brfImporterHandler->LoadFile("models/Scene2.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/Scene.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
 	brfImporterHandler->LoadFile("models/quadBullet.BRF", true, true, true, false);
 	
 	this->meshManager->CreateQuadTree();
@@ -215,7 +215,7 @@ void ResourceManager::Release()
 		currentMesh = RenderInstructions();
 
 		this->meshManager->quadTree->GetQuadTreeRenderInfo(object, frustum);
-		materialManager->GetMaterialRenderInfo(&object->at(0));	    //Get the material data
+		//materialManager->GetMaterialRenderInfo(&object->at(0));	    //Get the material data
 
 
 		return &currentMesh;

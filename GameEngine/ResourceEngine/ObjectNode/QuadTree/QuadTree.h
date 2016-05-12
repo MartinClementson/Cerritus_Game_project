@@ -7,7 +7,7 @@
 #include "../Mesh/Mesh.h"
 using namespace DirectX;
 //GLOBAL
-const int maxTriangles = 20000;
+const int maxTriangles = 1000;
 
 class QuadTree
 {
@@ -37,7 +37,7 @@ private:
 
 	void ReleaseNode(NodeType *node);
 	void CalculateMeshDimensions(int count, Float2 & position, float &meshWidth);
-	void CreateTreeNode(NodeType *parent, Float2 position, float width, ID3D11Device *gDevice, std::vector<Mesh>* terrain);
+	void CreateTreeNode(NodeType *parent, Float2 position, float width, ID3D11Device *gDevice, std::vector<Mesh>* terrain, int materialID);
 	int	 CountTriangles(Float2 position, float width);
 	bool IsTriangleContained(int index, Float2 position, float width);
 public:

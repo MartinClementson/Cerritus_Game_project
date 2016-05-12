@@ -616,7 +616,7 @@ void Renderer::RenderQuadTree(RenderInstructions * object)
 
 
 	this->gDeviceContext->Draw(*object->vertexCount, 0);
-
+	//this->gDeviceContext->DrawIndexed((UINT)object->indexCount, 0, 0);
 }
 
 void Renderer::RenderInstanced(RenderInstructions * object, ID3D11Buffer* instanceBuffer,unsigned int amount)
