@@ -158,6 +158,7 @@ enum InputKeys
 	KEY_A,
 	KEY_S,
 	KEY_D,
+	KEY_Q,
 	KEY_P,
 	KEY_LEFT,
 	KEY_RIGHT,

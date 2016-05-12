@@ -70,7 +70,7 @@ bool Collision::PlayerProxyTrap(BearTrap * trap)
 		+ pow(playPos.z - trapPos.z, 2)
 		< pow(playRad + trapRad, 2))
 	{
-		if (trap->isActive)
+		if (trap->GetState()->GetTrapState() != TrapState::TRAP_INACTIVE_STATE)
 		{
 			player->VelocityMax = 0.2f;
 			player->SetMulti(1);
@@ -79,6 +79,42 @@ bool Collision::PlayerProxyTrap(BearTrap * trap)
 
 	}
 
+	return false;
+}
+
+bool Collision::BearTrapActivation(BearTrap * trap)
+{
+
+	XMFLOAT3 playPos = player->GetPosition();
+	float playRad = player->GetRadius();
+
+	trapPos = trap->GetPosition();
+	trapRad = 10;
+
+	if (pow(playPos.x - trapPos.x, 2)
+		+ pow(playPos.z - trapPos.z, 2)
+		< pow(playRad + trapRad, 2))
+	{
+		return true;
+	}
+	return false;
+}
+
+bool Collision::FireTrapActivation(FireTrap * trap)
+{
+
+	XMFLOAT3 playPos = player->GetPosition();
+	float playRad = player->GetRadius();
+
+	trapPos = trap->GetPosition();
+	trapRad = 10;
+
+	if (pow(playPos.x - trapPos.x, 2)
+		+ pow(playPos.z - trapPos.z, 2)
+		< pow(playRad + trapRad, 2))
+	{
+		return true;
+	}
 	return false;
 }
 
@@ -132,7 +168,7 @@ bool Collision::BearTrapEnemyCollision(BearTrap * trap, EnemyBase * enemy)
 		+ pow(trapPos.z - enemyPos.z, 2)
 		< pow(trapRad + enemyRad, 2))
 	{
-		if (trap->isActive && enemy->GetCharType() != CharacterType::HEALER)
+		if (trap->GetState()->GetTrapState() != TrapState::TRAP_INACTIVE_STATE && enemy->GetCharType() != CharacterType::HEALER)
 		{
 			enemy->movementSpeed = 1.0f;
 		}
@@ -178,9 +214,9 @@ bool Collision::FireTrapPlayerCollision(FireTrap * trap)
 		+ pow(playPos.z - trapPos.z, 2)
 		< pow(playRad + trapRad, 2))
 	{
-		if (trap->isActive)
+		if (trap->GetState()->GetTrapState() != TrapState::TRAP_INACTIVE_STATE)
 		{
-			player->DoT = trap->GetDot();
+			player->DoT = 0.5f;
 		}
  		return true;
 
@@ -200,7 +236,7 @@ bool Collision::FireTrapEnemyCollision(FireTrap * trap, EnemyBase * enemy)
 		+ pow(trapPos.z - enemyPos.z, 2)
 		< pow(trapRad + enemyRad, 2))
 	{
-		if (trap->isActive)
+		if (trap->GetState()->GetTrapState() != TrapState::TRAP_INACTIVE_STATE)
 		{
 			enemy->DoT = trap->GetDot();
 		}

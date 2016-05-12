@@ -33,6 +33,8 @@ public:
 	void ClearTraps();
 
 	bool PlayerProxyTrap(BearTrap * trap);
+	bool BearTrapActivation(BearTrap * trap);
+	bool FireTrapActivation(FireTrap * trap);
 	bool PlayerProxyEnemy(EnemyBase * enemy);
 	bool HealerProximity(EnemyBase * enemy, EnemyBase * healer);
 	bool Collision::EnemyProxTrap(BearTrap * trap, EnemyBase * enemy);
