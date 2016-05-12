@@ -161,9 +161,9 @@ void Mesh::CreateAnimatedMesh(Vertex * vertices, unsigned int vertAmount,std::ve
 		AnimationInfo temp;
 		temp.animationTime  = animations->at(i).animationTime;
 		temp.numberOfFrames = animations->at(i).numberOfFrames;
-
+		temp.frames			= animations->at(i).frames;
 		for (size_t j = 0; j < animations->at(i).numberOfFrames; j++) //Every frame in the animation is a mesh (blend shape)
-			CreateBlendShape(animations->at(i).meshesPerFrame.at(j).data(), animations->at(i).meshesPerFrame.at(j).size());
+			CreateBlendShape(animations->at(i).meshesPerFrame.at(j).data(), (unsigned int)animations->at(i).meshesPerFrame.at(j).size());
 		
 		this->animations.push_back(temp);
 		this->animationCount += 1; 

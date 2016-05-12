@@ -97,7 +97,19 @@ struct Double3
 	}
 };
 
-
+struct FrameData
+{
+	FrameData() { ZeroMemory(this, sizeof(this)); };
+	FrameData(unsigned int ID, float time)
+	{
+		this->frameID = ID;
+		this->time = time;
+	}
+	unsigned int frameID;
+	DirectX::XMFLOAT3 padID;
+	float time;
+	DirectX::XMFLOAT3 padTime;
+};
 
 
 struct Vertex
@@ -186,6 +198,7 @@ struct AnimationInfo
 	unsigned int numberOfFrames = 0;
 	float		  animationTime = 0;
 	std::vector<std::vector<BlendShapeVert>> meshesPerFrame; //a 2d array of all the shapes belonging to the animation
+	std::vector<FrameData> frames;
 };
 
 struct AnimVert

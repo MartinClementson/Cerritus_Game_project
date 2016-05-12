@@ -41,6 +41,8 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 
 	//animatedMeshes->push_back(Mesh());
 	//animatedMeshes->at(0).Initialize(gDevice,gDeviceContext);
+	CreatePlaceHolderAnimation();
+
 	unsigned int tempNrFrames[1] = {2};
 	float tempNrTime[1]			 = { 5.0f };
 
@@ -138,22 +140,22 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 void MeshManager::Release()
 {
 	for (size_t i = 0; i < gameMeshes->size(); i++)
-	{
 		gameMeshes->at(i).Release();
-	}
+	
 	placeHolder.Release();
 	placeHolderPlane.Release();
 	fullScreenQuad.Release();
 	
 	for (size_t i = 0; i < animatedMeshes->size(); i++)
-	{
 		animatedMeshes->at(i).Release();
-	}
+	
 
 	for (size_t i = 0; i < morphAnimStructuredBuffersSRV.size(); i++)
 	{
 			morphAnimStructuredBuffersSRV.at(i)->Release();
-			morphAnimStructuredBuffers.at(i)->Release();
+			morphAnimStructuredBuffers   .at(i)->Release();
+			animFrameStructuredBuffersSRV.at(i)->Release();
+			animFrameStructuredBuffers   .at(i)->Release();
 	}
 	
 
@@ -443,8 +445,11 @@ void MeshManager::CreateFullScreenQuad()
 void MeshManager::GetPlaceHolderMeshInfo(RenderInstructions * toRender)
 {
 	for (UINT i = 0; i < morphAnimStructuredBuffersSRV.size(); i++)
-		this->gDeviceContext->VSSetShaderResources(MORPHANIM_BUFFER_START_INDEX + i, 1, &morphAnimStructuredBuffersSRV.at(i));
+	{
+		this->gDeviceContext->VSSetShaderResources(MORPHANIM_BUFFER_START_INDEX + i * 2   , 1, &morphAnimStructuredBuffersSRV.at(i)); //animation data
+		this->gDeviceContext->VSSetShaderResources(MORPHANIM_BUFFER_START_INDEX + i * 2 +1, 1, &animFrameStructuredBuffersSRV.at(i)); //Frame data
 	
+	}
 
 	
 	//this->gameMeshes->at(1).GetMeshRenderInfo(toRender);
@@ -524,50 +529,203 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 
 void MeshManager::CreatePlaceHolderAnimation()
 {
-	std::vector<Vertex> cubeVerts[8]; //source
+	std::vector<Vertex> cubeVerts; //source
+#pragma region first animation
+	std::vector<BlendShapeVert> shapeOne;
+	std::vector<BlendShapeVert> shapeTwo;
+	std::vector<BlendShapeVert> shapeThree;
+	for (size_t i = 0; i < 8; i++)
+	{
+		cubeVerts.push_back(Vertex());
+		shapeOne .push_back(BlendShapeVert());
+		shapeTwo .push_back(BlendShapeVert());
+		shapeThree.push_back(BlendShapeVert());
+	}
+	cubeVerts.at(0).position = Float3(-0.5, 2.5, 0.5);		//0
+	cubeVerts.at(1).position = Float3(-0.5, 0.0, 0.5);		//1
+	cubeVerts.at(2).position = Float3( 0.5, 0.0, 0.5);		//2
+	cubeVerts.at(3).position = Float3( 0.5, 2.5, 0.5);		//3
+	cubeVerts.at(4).position = Float3( 0.5, 0.0, -0.5);		//4
+	cubeVerts.at(5).position = Float3( 0.5, 2.5, -0.5);		//5
+	cubeVerts.at(6).position = Float3(-0.5, 0.0, -0.5);	    //6
+	cubeVerts.at(7).position = Float3(-0.5, 2.5, -0.5);	    //7
 
-	cubeVerts->at(0).position = Float3(-0.5, 2.5, 0.5);		//0
-
-	cubeVerts->at(1).position = Float3(-0.5, 0.0, 0.5);		//1
-	cubeVerts->at(2).position = Float3(0.5, 0.0, 0.5);		//2
-	cubeVerts->at(3).position = Float3(0.5, 2.5, 0.5);		//3
-	cubeVerts->at(4).position = Float3(0.5, 0.0, -0.5);		//4
-	cubeVerts->at(5).position = Float3(0.5, 2.5, -0.5);		//5
-	cubeVerts->at(6).position = Float3(-0.5, 0.0, -0.5);	//6
-	cubeVerts->at(7).position = Float3(-0.5, 2.5, -0.5);	//7
-
-	std::vector<BlendShapeVert> shapeOne[8];
 	
-	shapeOne->at(0).position = Float3(-10.0f, 2.5, 0.5);		//0
-	shapeOne->at(1).position = Float3(-10.0f, 0.0, 0.5);		//1
-	shapeOne->at(2).position = Float3( 10.0f, 0.0, 0.5);		//2
-	shapeOne->at(3).position = Float3( 10.0f, 2.5, 0.5);		//3
-	shapeOne->at(4).position = Float3( 10.0f, 0.0, -0.5);		//4
-	shapeOne->at(5).position = Float3( 10.0f, 2.5, -0.5);		//5
-	shapeOne->at(6).position = Float3(-10.0f, 0.0, -0.5);	    //6
-	shapeOne->at(7).position = Float3(-10.0f, 2.5, -0.5);   	//7
+	shapeOne.at(0).position = Float3(-0.5, 2.5,  10.0f);	//0
+	shapeOne.at(1).position = Float3(-0.5, 0.0,  10.0f);	//1
+	shapeOne.at(2).position = Float3(0.5, 0.0,   10.0f);	//2
+	shapeOne.at(3).position = Float3(0.5, 2.5,   10.0f);	//3
+	shapeOne.at(4).position = Float3(0.5, 0.0,  -10.0f);	//4
+	shapeOne.at(5).position = Float3(0.5, 2.5,  -10.0f);	//5
+	shapeOne.at(6).position = Float3(-0.5, 0.0, -10.0f);	//6
+	shapeOne.at(7).position = Float3(-0.5, 2.5, -10.0f);   	//7
 
-	std::vector<BlendShapeVert> shapeTwo[8];
+	
+	shapeTwo.at(0).position = Float3(-0.5f, 10.0,  0.5);	//0
+	shapeTwo.at(1).position = Float3(-0.5f, 0.0,   0.5);	//1
+	shapeTwo.at(2).position = Float3( 0.5f, 0.0,   0.5);	//2
+	shapeTwo.at(3).position = Float3( 0.5f, 10.0,  0.5);	//3
+	shapeTwo.at(4).position = Float3( 0.5f, 0.0,  -0.5);	//4
+	shapeTwo.at(5).position = Float3( 0.5f, 10.0, -0.5);	//5
+	shapeTwo.at(6).position = Float3(-0.5f, 0.0,  -0.5);	//6
+	shapeTwo.at(7).position = Float3(-0.5f, 10.0, -0.5);	//7
 
-	shapeTwo->at(0).position = Float3(-0.5f, 10.0, 0.5);		//0
-	shapeTwo->at(1).position = Float3(-0.5f, 0.0,  0.5);		//1
-	shapeTwo->at(2).position = Float3( 0.5f, 0.0,  0.5);		//2
-	shapeTwo->at(3).position = Float3( 0.5f, 10.0, 0.5);		//3
-	shapeTwo->at(4).position = Float3( 0.5f, 0.0,  -0.5);		//4
-	shapeTwo->at(5).position = Float3( 0.5f, 10.0, -0.5);		//5
-	shapeTwo->at(6).position = Float3(-0.5f, 0.0, -0.5);	    //6
-	shapeTwo->at(7).position = Float3(-0.5f, 10.0, -0.5);   	//7
+
+	shapeThree.at(0).position = Float3(-10.0f, 1.0,  0.25);	//0
+	shapeThree.at(1).position = Float3(-10.0f, 0.0,  0.25);	//1
+	shapeThree.at(2).position = Float3( 10.0f, 0.0,  0.25);	//2
+	shapeThree.at(3).position = Float3( 10.0f, 1.0,  0.25);	//3
+	shapeThree.at(4).position = Float3( 10.0f, 0.0, -0.25);	//4
+	shapeThree.at(5).position = Float3( 10.0f, 1.0, -0.25);	//5
+	shapeThree.at(6).position = Float3(-10.0f, 0.0, -0.25);	//6
+	shapeThree.at(7).position = Float3(-10.0f, 1.0, -0.25);	//7
 
 
 
 
 	std::vector<AnimationInfo> animations;
 	animations.push_back(AnimationInfo());
-	animations.at(0).numberOfFrames = 2;
-	//animations.at(0).meshesPerFrame.push_back(
-		//shapeOne);
+	animations.at(0).animationTime = 10.0f;
+	animations.at(0).numberOfFrames = 3;
+	animations.at(0).meshesPerFrame.push_back(shapeOne);
+	animations.at(0).meshesPerFrame.push_back(shapeTwo);
+	animations.at(0).meshesPerFrame.push_back(shapeThree);
+
+	animations.at(0).frames.push_back(FrameData(1 ,0.35f));
+	animations.at(0).frames.push_back(FrameData(2 ,0.70f));
+	animations.at(0).frames.push_back(FrameData(3 , 1.0f));
+#pragma endregion
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+#pragma region second animation
+
+	std::vector<BlendShapeVert> s_shapeOne;
+	std::vector<BlendShapeVert> s_shapeTwo;
+	std::vector<BlendShapeVert> s_shapeThree;
+	for (size_t i = 0; i < 8; i++)
+	{
+		
+		s_shapeOne.push_back(BlendShapeVert());
+		s_shapeTwo.push_back(BlendShapeVert());
+		s_shapeThree.push_back(BlendShapeVert());
+	}
+
+
+	s_shapeOne.at(0).position = Float3(-5.0, 2.5,  5.0);		//0
+	s_shapeOne.at(1).position = Float3(-5.0, 0.0,  5.0);		//1
+	s_shapeOne.at(2).position = Float3( 5.0, 0.0,  5.0);		//2
+	s_shapeOne.at(3).position = Float3( 5.0, 2.5,  5.0);		//3
+	s_shapeOne.at(4).position = Float3( 5.0, 0.0, -5.0);		//4
+	s_shapeOne.at(5).position = Float3( 5.0, 2.5, -5.0);		//5
+	s_shapeOne.at(6).position = Float3(-5.0, 0.0, -5.0);	    //6
+	s_shapeOne.at(7).position = Float3(-5.0, 2.5, -5.0);	     //7
+
+
+	s_shapeTwo.at(0).position = Float3(-0.2, 2.5, 5.0);   //0
+	s_shapeTwo.at(1).position = Float3(-0.2, 0.0, 5.0);   //1
+	s_shapeTwo.at(2).position = Float3( 0.2, 0.0, 5.0);   //2
+	s_shapeTwo.at(3).position = Float3( 0.2, 2.5, 5.0);   //3
+	s_shapeTwo.at(4).position = Float3( 0.2, 0.0, -5.0);  //4
+	s_shapeTwo.at(5).position = Float3( 0.2, 2.5, -5.0);   //5
+	s_shapeTwo.at(6).position = Float3(-0.2, 0.0, -5.0);  //6
+	s_shapeTwo.at(7).position = Float3(-0.2, 2.5, -5.0);  //7
+
+
+	s_shapeThree.at(0).position = Float3(-5.0, 2.5,  0.2);	//0
+	s_shapeThree.at(1).position = Float3(-5.0, 0.0,  0.2);	//1
+	s_shapeThree.at(2).position = Float3(5.0, 0.0,   0.2);    // 2
+	s_shapeThree.at(3).position = Float3(5.0, 2.5,   0.2);	 // 3
+	s_shapeThree.at(4).position = Float3(5.0, 0.0,  -0.2);	//4
+	s_shapeThree.at(5).position = Float3(5.0, 2.5,  -0.2);	//5
+	s_shapeThree.at(6).position = Float3(-5.0, 0.0, -0.2);	//6
+	s_shapeThree.at(7).position = Float3(-5.0, 2.5, -0.2);	//7
+
+	animations.push_back(AnimationInfo());
+	animations.at(1).animationTime = 10.0f;
+	animations.at(1).numberOfFrames = 3;
+	animations.at(1).meshesPerFrame.push_back(s_shapeOne);
+	animations.at(1).meshesPerFrame.push_back(s_shapeTwo);
+	animations.at(1).meshesPerFrame.push_back(s_shapeThree);
+				  
+	animations.at(1).frames.push_back(FrameData(1, 0.35f));
+	animations.at(1).frames.push_back(FrameData(2, 0.70f));
+	animations.at(1).frames.push_back(FrameData(3, 1.0f));
+
+#pragma endregion
+
+	
+
+
+
+#pragma region third animation
+
+	std::vector<BlendShapeVert> t_shapeOne;
+	std::vector<BlendShapeVert> t_shapeTwo;
+	std::vector<BlendShapeVert> t_shapeThree;
+	for (size_t i = 0; i < 8; i++)
+	{
+
+		t_shapeOne.push_back(BlendShapeVert());
+		t_shapeTwo.push_back(BlendShapeVert());
+		t_shapeThree.push_back(BlendShapeVert());
+	}
+
+
+	t_shapeOne.at(0).position = Float3(10.0, 2.5, 20.0);		//0
+	t_shapeOne.at(1).position = Float3(10.0, 0.0, 20.0);		//1
+	t_shapeOne.at(2).position = Float3(20.0, 0.0, 20.0);		//2
+	t_shapeOne.at(3).position = Float3(20.0, 2.5, 20.0);		//3
+	t_shapeOne.at(4).position = Float3(20.0, 0.0, 10.0);		//4
+	t_shapeOne.at(5).position = Float3(20.0, 2.5, 10.0);		//5
+	t_shapeOne.at(6).position = Float3(10.0, 0.0, 10.0);	    //6
+	t_shapeOne.at(7).position = Float3(10.0, 2.5, 10.0);	     //7
+
+
+	t_shapeTwo.at(0).position = Float3(10.0, 20.5, 20.0);  //0
+	t_shapeTwo.at(1).position = Float3(10.0, 10.0, 20.0);  //1
+	t_shapeTwo.at(2).position = Float3(20.0, 10.0, 20.0); //2
+	t_shapeTwo.at(3).position = Float3(20.0, 20.5, 20.0); //3
+	t_shapeTwo.at(4).position = Float3(20.0, 10.0, 10.0); //4
+	t_shapeTwo.at(5).position = Float3(20.0, 20.5, 10.0);  //5
+	t_shapeTwo.at(6).position = Float3(10.0, 10.0, 10.0);  //6
+	t_shapeTwo.at(7).position = Float3(10.0, 20.5, 10.0);  //7
+
+
+	t_shapeThree.at(0).position = Float3(-0.5, 2.5, -10);			//0
+	t_shapeThree.at(1).position = Float3(-0.5, 0.0,  -10);			//1
+	t_shapeThree.at(2).position = Float3(0.5, 0.0,   -10);		  // 2
+	t_shapeThree.at(3).position = Float3(0.5, 2.5,   -10);		 // 3
+	t_shapeThree.at(4).position = Float3(0.5, 0.0,  -9.0);		//4
+	t_shapeThree.at(5).position = Float3(0.5, 2.5,  -9.0);		//5
+	t_shapeThree.at(6).position = Float3(-0.5, 0.0, -9.0);		//6
+	t_shapeThree.at(7).position = Float3(-0.5, 2.5, -9.0);		//7
+		
+	animations.push_back(AnimationInfo());
+	animations.at(2).animationTime = 10.0f;
+	animations.at(2).numberOfFrames = 3;
+	animations.at(2).meshesPerFrame.push_back(t_shapeOne);
+	animations.at(2).meshesPerFrame.push_back(t_shapeTwo);
+	animations.at(2).meshesPerFrame.push_back(t_shapeThree);
+				  
+	animations.at(2).frames.push_back(FrameData(1, 0.35f));
+	animations.at(2).frames.push_back(FrameData(2, 0.40f));
+	animations.at(2).frames.push_back(FrameData(3, 1.0f));
+
+#pragma endregion
+
+	CreateAnimationFromMeshes(cubeVerts, animations);
 
 
 }
@@ -596,13 +754,21 @@ void MeshManager::CreateAnimationFromMeshes(std::vector<Vertex> sourceMesh, std:
 	
 		for (size_t i = 0; i < animations.size(); i++) // for every animation, make a structured buffer with all the frames in it (one frame = one mesh)
 		{
-
+			////////////////////////////////////////////////////////////////////////////////////////
+			////////////////////////////////////////////////////////////////////////////////////////
+			////Create the animation buffer
 			UINT bufferIndex = UINT(morphAnimStructuredBuffers.size()); // important that this is before the pushback.
 
 			ID3D11ShaderResourceView* temp;
 			morphAnimStructuredBuffersSRV.push_back(temp);
 			ID3D11Buffer* tempB;
 			morphAnimStructuredBuffers.push_back(tempB);
+
+			ID3D11ShaderResourceView* tempC;
+			animFrameStructuredBuffersSRV.push_back(tempC);
+			ID3D11Buffer* tempD;
+			animFrameStructuredBuffers.push_back(tempD);
+
 
 			D3D11_BUFFER_DESC BufferDesc;
 			ZeroMemory(&BufferDesc, sizeof(BufferDesc));
@@ -627,6 +793,25 @@ void MeshManager::CreateAnimationFromMeshes(std::vector<Vertex> sourceMesh, std:
 				MessageBox(NULL, L"Failed to create blend shapes buffer", L"Error", MB_ICONERROR | MB_OK);
 		
 			animationBufferCount += 1;
+
+			////////////////////////////////////////////////////////////////////////////////////////
+			////////////////////////////////////////////////////////////////////////////////////////
+			////Create the frame buffer
+
+			
+		
+			BufferDesc.ByteWidth			= sizeof(FrameData) * (animatedMeshes->at(meshIndex).animations.at(i).numberOfFrames); //frames/meshes
+			BufferDesc.StructureByteStride  = sizeof(FrameData);
+
+			if (FAILED(hr = gDevice->CreateBuffer(&BufferDesc, nullptr, &animFrameStructuredBuffers.at(bufferIndex))))
+				MessageBox(NULL, L"Failed to create frame buffer", L"Error", MB_ICONERROR | MB_OK);
+
+
+			
+			srvDesc.Buffer.ElementWidth = sizeof(FrameData);
+			srvDesc.Buffer.NumElements = animatedMeshes->at(meshIndex).animations.at(i).numberOfFrames;  //frames/meshes
+			if (FAILED(hr = gDevice->CreateShaderResourceView(animFrameStructuredBuffers.at(bufferIndex), &srvDesc, &animFrameStructuredBuffersSRV.at(bufferIndex))))
+				MessageBox(NULL, L"Failed to create blend shapes buffer", L"Error", MB_ICONERROR | MB_OK);
 
 
 
@@ -656,10 +841,41 @@ void MeshManager::CreateAnimationFromMeshes(std::vector<Vertex> sourceMesh, std:
 
 			memcpy(mapRes.pData, (void*)vertices, sizeof(BlendShapeVert) * amount);
 			gDeviceContext->Unmap(morphAnimStructuredBuffers.at(bufferIndex), 0);
-			this->gDeviceContext->VSSetShaderResources(MORPHANIM_BUFFER_START_INDEX + (UINT)bufferIndex, 1, &morphAnimStructuredBuffersSRV.at(bufferIndex));
+			this->gDeviceContext->VSSetShaderResources(MORPHANIM_BUFFER_START_INDEX + (UINT)bufferIndex * 2, 1, &morphAnimStructuredBuffersSRV.at(bufferIndex));
 			delete vertices;
 			////////////////////////////////////////////////////////////////////////////////////////
 			////////////////////////////////////////////////////////////////////////////////////////
+
+
+			////////////////////////////////////////////////////////////////////////////////////////
+			////////////////////////////////////////////////////////////////////////////////////////
+			////Map frame structure
+			FrameData* frames = new FrameData[animatedMeshes->at(meshIndex).animations.at(i).numberOfFrames];
+			
+
+			for (size_t frame = 0; frame < animatedMeshes->at(meshIndex).animations.at(i).numberOfFrames; frame++) //put all the morph targets into one array
+			{
+
+				frames[frame].frameID = animatedMeshes->at(meshIndex).animations.at(i).frames.at(frame).frameID;
+				frames[frame].time	  = animatedMeshes->at(meshIndex).animations.at(i).frames.at(frame).time;
+				
+			}
+
+			
+
+			hr = gDeviceContext->Map(animFrameStructuredBuffers.at(bufferIndex), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapRes);
+			if (FAILED(hr))
+				MessageBox(NULL, L"Failed to update frame buffer", L"Error", MB_ICONERROR | MB_OK);
+
+			memcpy(mapRes.pData, (void*)frames, sizeof(BlendShapeVert) * amount);
+			gDeviceContext->Unmap(animFrameStructuredBuffers.at(bufferIndex), 0);
+			this->gDeviceContext->VSSetShaderResources(MORPHANIM_BUFFER_START_INDEX + (UINT)bufferIndex * 2 + 1, 1, &animFrameStructuredBuffersSRV.at(bufferIndex));
+			delete frames;
+			////////////////////////////////////////////////////////////////////////////////////////
+			////////////////////////////////////////////////////////////////////////////////////////
+
+
+
 #pragma endregion
 		}
 	

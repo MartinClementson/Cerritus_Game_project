@@ -44,8 +44,12 @@ private:
 	
 	std::vector<Mesh>*					      animatedMeshes	 =  nullptr;
 	std::vector<std::vector<Mesh*>>*		  blendShapeMeshes   =  nullptr;	//2d array. first is animations, then in each animation is every mesh(aka keyframe)
+	
 	std::vector<ID3D11ShaderResourceView*>	  morphAnimStructuredBuffersSRV;
 	std::vector<ID3D11Buffer*>				  morphAnimStructuredBuffers;
+
+	std::vector<ID3D11ShaderResourceView*>	  animFrameStructuredBuffersSRV; //structured buffers for the frame data
+	std::vector<ID3D11Buffer*>				  animFrameStructuredBuffers;
 
 #pragma endregion
 

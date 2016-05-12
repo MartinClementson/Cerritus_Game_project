@@ -102,18 +102,25 @@ void Graphics::Initialize(HWND * window)
 
 #pragma region Create two temporary blendshape animations
 
-	XMFLOAT3 pos	  = XMFLOAT3(5.0f, 0.0f, 0.0f);
-	XMFLOAT3 rotation = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	XMFLOAT3 pos								    = XMFLOAT3(5.0f, 0.0f, 0.0f);
+	XMFLOAT3 rotation							    = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	instancedAnimationDataPerFrame[0].animation		= 0;
 	instancedAnimationDataPerFrame[0].animationTime = 0;
 	instancedAnimationDataPerFrame[0].worldMatrix   = CalculateWorldMatrix(&pos, &rotation);
 
 
-	pos.z += 5;
+	pos.x += 10;
 	rotation.y = 45.0f;
 	instancedAnimationDataPerFrame[1].animation		= 1;
 	instancedAnimationDataPerFrame[1].animationTime = 0;
 	instancedAnimationDataPerFrame[1].worldMatrix   = CalculateWorldMatrix(&pos, &rotation);
+
+
+	pos.z -= 10;
+	
+	instancedAnimationDataPerFrame[2].animation		= 2;
+	instancedAnimationDataPerFrame[2].animationTime = 0;
+	instancedAnimationDataPerFrame[2].worldMatrix = CalculateWorldMatrix(&pos, &rotation);
 
 
 #pragma endregion
@@ -166,18 +173,18 @@ void Graphics::Release()
 
 void Graphics::Render() //manage RenderPasses here
 {
-	//static float anim = 0.0f;
+
 	static bool forward = true;
-	for (size_t i = 0; i < 2; i++)
+	for (size_t i = 0; i < 3; i++)
 	{
 		if (instancedAnimationDataPerFrame[i].animationTime > 1.0f)
 			forward = false;
 		if (instancedAnimationDataPerFrame[i].animationTime < 0.0f)
 			forward = true;
 		if(forward)
-			instancedAnimationDataPerFrame[i].animationTime += 0.01f;
-		else
-			instancedAnimationDataPerFrame[i].animationTime -= 0.01f;
+			instancedAnimationDataPerFrame[i].animationTime += 0.001f;
+		else													  
+			instancedAnimationDataPerFrame[i].animationTime -= 0.001f;
 	}
 	
 
@@ -330,7 +337,7 @@ void Graphics::RenderScene()
 	//Render blendshape animation
 	if (instancesToRender[ENEMY_1_INSTANCED] > 0)
 		renderer->RenderInstanced(this->enemyObjects->at(instanceMeshIndex.enemy1Mesh),
-				instancedAnimationDataPerFrame, 2);
+				instancedAnimationDataPerFrame, 3);
 	/*for (unsigned int i = 0; i < trapObjects->size(); i++)
 	{
 		if (!trapObjects->at(i)->render)
@@ -449,7 +456,7 @@ void Graphics::CullGeometry()
 			//if object is visible and is enemy_1_type
 			this->instancedWorldDataPerFrame[ENEMY_1_INSTANCED][enemyIndex].worldMatrix = CalculateWorldMatrix(&this->enemyObjects->at(i)->position, &this->enemyObjects->at(i)->rotation);
 			instancesToRender				[ENEMY_1_INSTANCED] += 1;
-			enemyIndex									   += 1;
+			enemyIndex										    += 1;
 			this->enemyObjects->at(i)->render = false; //Remove this object from normal rendering, since we render instanced
 				if (instanceMeshIndex.enemy1Mesh == -1) //if this is the first thing we found of that mesh, store the index.
 					instanceMeshIndex.enemy1Mesh = (int)i;
