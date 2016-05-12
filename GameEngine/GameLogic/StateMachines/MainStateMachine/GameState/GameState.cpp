@@ -40,12 +40,14 @@ void GameState::Initialize()
 	isPlayerDead = false;
 	toMenu = false;
 	gameUI->Initialize();
+
 	gameUI->setUI(UITextures::HUD);
 	//Create room one here
 	timeSincePaused = 0.0f;
 	room1->Initialize();
 	room1->InitBearTrap();
 	room1->InitFireTrap();
+	
 	room1->AddEnemySpawn(XMFLOAT3(30.0f, 0.0f, 20.0f));
 	room1->AddEnemySpawn(XMFLOAT3(-50.0f, 0.0f, -50.0f));
 	room1->AddEnemySpawn(XMFLOAT3(-50.0f, 0.0f, 30.0f));
@@ -67,19 +69,20 @@ void GameState::Release()
 
 void GameState::Update(double deltaTime)
 {
-	
+
+
 	gameUI->Update(deltaTime);
 	ProcessInput(&deltaTime);
 	if (!pause->isActive)
 	{
+				
 		gameUI->setUI(UITextures::NUMERATION);
+
+		gameUI->setUINR(UiNumbers::THREE);
 
 		gameUI->setUI(UITextures::WAVECOUNTER);
 
 		gameUI->setUINR(UiNumbers::THREE);
-		//gameUI->setUI(UITextures::HUD);
-
-		
 
 		if (player->GetHealth() <= 0)
 		{
@@ -149,7 +152,7 @@ void GameState::Update(double deltaTime)
 		{
 			for (size_t k = 0; k < room1->enemySpawns.size(); k++)
 			{
-
+				
 				size_t j = 0;
 				while (j < room1->enemySpawns.at(k)->Alive.size())
 				{
@@ -234,7 +237,7 @@ void GameState::ProcessInput(double* deltaTime)
 				
 				toMenu = true;
 				menu->isActive = true;
-				pause->isActive = false;
+				//pause->isActive = false;
 			}
 			
 			//shutofgame, release everything no memory leaks are allowed

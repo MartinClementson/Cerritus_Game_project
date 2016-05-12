@@ -52,8 +52,8 @@ enum MeshEnum
 enum UITextures
 {
 	HEALTHBAR,
+	NUMERATION,
 	WAVECOUNTER,
-	ENEMYSLEFT,
 	AMMO,
 	WAVECOMPLETE,
 	HUD,
@@ -61,7 +61,7 @@ enum UITextures
 	PAUSE,
 	GAMEOVER,
 	CONTROLS,
-	NUMERATION,
+
 };
 
 #pragma endregion

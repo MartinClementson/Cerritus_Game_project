@@ -35,6 +35,7 @@ private:
 	void OnExit();
 
 private:
+	std::vector<GUI*>items;
 	Scene* room1;
 	Scene* room2;
 	Player* player;

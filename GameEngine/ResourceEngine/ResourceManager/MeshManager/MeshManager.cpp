@@ -367,6 +367,16 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 		fullScreenQuad.GetMeshRenderInfo(toRender);
 		toRender->materialID = 13;
 	}
+	if (*uiEnum == UITextures::NUMERATION)
+	{
+		killCountQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 14;
+	}
+	if (*uiEnum == UITextures::WAVECOUNTER)
+	{
+		waveCountQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 15;
+	}
 	/*else if (*uiEnum == UITextures::NUMERATION)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
@@ -378,20 +388,20 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 
 void MeshManager::GetKillCountQuadInfoHud(UITextures * uiEnum, RenderInstructions * toRender)
 {
-	if (*uiEnum == UITextures::NUMERATION)
-	{
-		killCountQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 14;
-	}
+	//if (*uiEnum == UITextures::NUMERATION)
+	//{
+	//	killCountQuad.GetMeshRenderInfo(toRender);
+	//	toRender->materialID = 14;
+	//}
 }
 
 void MeshManager::GetWaveCountQuadInfoHud(UITextures * uiEnum, RenderInstructions * toRender)
 {
-	if (*uiEnum == UITextures::WAVECOUNTER)
+	/*if (*uiEnum == UITextures::WAVECOUNTER)
 	{
 		waveCountQuad.GetMeshRenderInfo(toRender);
 		toRender->materialID = 15;
-	}
+	}*/
 }
 
 #pragma endregion

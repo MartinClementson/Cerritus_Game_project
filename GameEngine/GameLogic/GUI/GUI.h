@@ -21,24 +21,20 @@ public:
 	void Update(double deltaTime);
 	void Render();
 	RenderInfoUI renderInfo;
-	RenderInfoUI swagitt;
-	int amount;
 	Graphics* grapichs;
 	UITextures getUI();
-	XMFLOAT2 getPos();
-	void setPos(XMFLOAT2 uv);
+	XMFLOAT3 getPos();
+	void setPos(XMFLOAT3 uv);
 	void setUI(UITextures texture);
 	void setUINR(UiNumbers numbers);
-	/*std::vector<UV*> UVs;
-	XMFLOAT2 vtx[4];*/
+
 
 private:
 	UITextures texture;
 	UiNumbers numbers;
-	std::vector<GUIElement*>* items;
-	DirectX::XMFLOAT2 size;
-	DirectX::XMFLOAT2 uv;
-	//DirectX::XMFLOAT3 position;
-	//DirectX::XMFLOAT3 rotation;
+	std::vector<GUI>*items;
+	//std::vector<GUIElement*>* items;
+	DirectX::XMFLOAT3 size;
+	DirectX::XMFLOAT3 uv;
 };
 

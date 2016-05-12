@@ -158,8 +158,6 @@ void Renderer::Render(RenderInfoObject * object)
 	//RenderPlaceHolder(&object->position);
 
 }
-
-
 //Render 2d textures for the ui
 void Renderer::Render(RenderInfoUI * object)
 {

@@ -25,10 +25,11 @@ struct VS_OUT
 VS_OUT VS_main(VS_IN input)
 {
 	VS_OUT output;
-	output.pos = input.pos;
+	//output.pos = input.pos;
 	float2 UV;
 	if (waveoffsetX >= 0.0f)
 	{
+		output.pos = input.pos;
 		UV.x = input.uv.x + waveoffsetX;
 		UV.y = input.uv.y;
 		output.uv = UV;
@@ -36,6 +37,7 @@ VS_OUT VS_main(VS_IN input)
 	}
 	else if(enemyoffsetX >= 0.0f)
 	{
+		output.pos = input.pos;
 		UV.x = input.uv.x + enemyoffsetX; //+ 0.026f;
 		UV.y = input.uv.y;
 		//output.uv.y = input.uv.y;
@@ -46,6 +48,7 @@ VS_OUT VS_main(VS_IN input)
 	}
 	else
 	{
+		output.pos = input.pos;
 		UV.x = input.uv.x; //+ 0.026f;
 		UV.y = input.uv.y;
 		//output.uv.y = input.uv.y;

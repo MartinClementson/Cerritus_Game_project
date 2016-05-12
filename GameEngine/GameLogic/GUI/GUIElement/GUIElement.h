@@ -14,8 +14,8 @@ public:
 	RenderInfoUI renderInfo;
 	Graphics* grapichs;
 private:
-	DirectX::XMFLOAT2 size;
-	DirectX::XMFLOAT2 uv;
+	DirectX::XMFLOAT3 size;
+	DirectX::XMFLOAT3 uv;
 	//DirectX::XMFLOAT3 position;
 	//DirectX::XMFLOAT3 rotation;
 };

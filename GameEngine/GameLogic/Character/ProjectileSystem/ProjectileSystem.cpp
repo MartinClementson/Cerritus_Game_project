@@ -193,6 +193,7 @@ void ProjectileSystem::Render()
 		{
 			//renderInfo = { projectiles.at(i)->GetPos(),projectiles.at(i)->GetDir() };
 			graphics->QueueRender(&projectiles[i]->renderInfo);
+			
 		}
 	}
 }

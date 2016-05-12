@@ -11,7 +11,8 @@ class ResourceManager
 private:
 	RenderInstructions currentMesh;
 	RenderInstructions currentUI;
-	
+	RenderInstructions currentUI1;
+	RenderInstructions currentUI2;
 
 	MaterialManager* materialManager		= nullptr;
 	MeshManager* meshManager				= nullptr;

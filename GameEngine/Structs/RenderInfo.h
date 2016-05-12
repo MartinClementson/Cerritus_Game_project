@@ -48,8 +48,8 @@ struct RenderInfoObject {
 
 
 struct RenderInfoUI {
-	XMFLOAT2 size;
-	XMFLOAT2 uv;
+	XMFLOAT3 size;
+	XMFLOAT3 uv;
 	UITextures UIobject;
 	UiNumbers UInumber;
 	

@@ -104,9 +104,6 @@ void ResourceManager::Release()
 		currentMesh = RenderInstructions();
 		MeshEnum meshType = object->object;
 
-
-		
-
 		if(meshType != MeshEnum::PROJECTILE_1)
 			currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
 
@@ -123,35 +120,28 @@ void ResourceManager::Release()
 	{
 		currentUI = RenderInstructions();
 		
-		//currentUI.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->size, &object->position);
 		Shaders tmp = UI_SHADER;
 	
 		UITextures uiType = object->UIobject;
+		
+		//currentUI.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->uv, &object->size);
 
-		if (uiType == UITextures::NUMERATION)
+		this->shaderManager->SetActiveShader(tmp);
+	/*	if (uiType == UITextures::NUMERATION)
 		{
-			this->shaderManager->SetActiveShader(tmp);
 			meshManager->GetKillCountQuadInfoHud(&uiType, &currentUI);
-			materialManager->GetMaterialRenderInfo(&currentUI);
-			return &currentUI;
 		}
-		if (uiType == UITextures::WAVECOUNTER)
-		{
-			this->shaderManager->SetActiveShader(tmp);
+		else if (uiType == UITextures::WAVECOUNTER)
+		{	
 			meshManager->GetWaveCountQuadInfoHud(&uiType, &currentUI);
-			materialManager->GetMaterialRenderInfo(&currentUI);
-			return &currentUI;
-		}
-		else
+		}*/
+	/*	else
 		{
-			this->shaderManager->SetActiveShader(tmp);
-			meshManager->GetFullScreenQuadInfoUI(&uiType, &currentUI);
-			materialManager->GetMaterialRenderInfo(&currentUI);
-			return &currentUI;
-		}
-		
-		
-	
+					
+		}*/
+		meshManager->GetFullScreenQuadInfoUI(&uiType, &currentUI);
+		materialManager->GetMaterialRenderInfo(&currentUI);
+		return &currentUI;
 		
 	}
 

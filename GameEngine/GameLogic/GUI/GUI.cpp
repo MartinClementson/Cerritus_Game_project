@@ -4,26 +4,31 @@
 
 GUI::GUI()
 {
-	items = new std::vector<GUIElement*>;
-	
+	grapichs = Graphics::GetInstance();
+	renderInfo.size = this->size;
+	renderInfo.uv = this->uv;
+	renderInfo.UIobject = texture;
+	renderInfo.UInumber = this->numbers;
+
 }
 
 
 GUI::~GUI()
 {
-	delete items;
+	
 }
 
 void GUI::Initialize()
 {
 	
-
-	size = size;
-	uv = uv;
+	
+	this->size = { 1.0f,1.0f,0.0f };
+	this->uv = { 1.0f,1.0f,0.0f };
 	grapichs = Graphics::GetInstance();
-	this->texture = texture;
+	this->texture = UITextures::HUD;
 	this->numbers = numbers;
-	amount = 0;
+	
+	
 	
 }
 
@@ -34,33 +39,23 @@ void GUI::Release()
 
 void GUI::Update(double deltaTime)
 {
-	/*vtx[0] = { 0.003 ,0.597 };
-	vtx[1] = { 0.129 ,0.597 };
-	vtx[2] = { 0.129 ,0.403 };
-	vtx[3] = { 0.003 ,0.403 };
+ 
+	/*renderInfo.size = this->size;
+	renderInfo.uv = this->uv;*/
+	//renderInfo.UIobject = this->texture;
+	//renderInfo.UInumber = this->numbers;
 	
-	UVs.push_back(vtx);*/
-	amount++;
-	renderInfo = { size,uv };
-	this->renderInfo.UIobject = texture;
-	this->renderInfo.UInumber = numbers;
-	
+
 }
 
 void GUI::Render()
 {
-	swagitt = { size,uv };
-	this->swagitt.UIobject = texture;
-	this->swagitt.UInumber = numbers;
-	grapichs->QueueRender(&swagitt);
-
-	renderInfo = { size,uv };
-	this->renderInfo.UIobject = texture;
-	this->renderInfo.UInumber = numbers;
+	grapichs = Graphics::GetInstance();
+	renderInfo.size = this->size;
+	renderInfo.uv = this->uv;
+	renderInfo.UIobject = texture;
+	renderInfo.UInumber = this->numbers;
 	grapichs->QueueRender(&renderInfo);
-	
-	
-	//grapichs->QueueRender(&renderInfo);
 }
 
 UITextures GUI::getUI()
@@ -68,20 +63,23 @@ UITextures GUI::getUI()
 	return texture;
 }
 
-XMFLOAT2 GUI::getPos()
+XMFLOAT3 GUI::getPos()
 {
 	return uv;
 }
 
-void GUI::setPos(XMFLOAT2 position)
+void GUI::setPos(XMFLOAT3 position)
 {
-	this->uv = uv;
+	this->uv = position;
 }
 
 void GUI::setUI(UITextures texture)
-{
+{ 
+	
 	this->texture = texture;
+	
 }
+
 
 void GUI::setUINR(UiNumbers numbers)
 {
