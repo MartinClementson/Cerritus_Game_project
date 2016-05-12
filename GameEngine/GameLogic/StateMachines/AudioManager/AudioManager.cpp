@@ -33,7 +33,7 @@ void AudioManager::Initialize()
 
 	//loading the shoot sound
 	//prefix to the soundfolder is "sounds/"
-	s_shot.reset(new SoundEffect(s_audEngine->get(), L"sounds/shot4.wav"));
+	s_shot.reset(new SoundEffect(s_audEngine->get(), L"sounds/shot.wav"));
 	s_ambient.reset(new SoundEffect(s_audEngine->get(), L"sounds/NightAmbienceSimple_02.wav"));
 	s_E_death.reset(new SoundEffect(s_audEngine->get(), L"sounds/E_death2.wav"));
 	s_nightLoop = s_ambient->CreateInstance();
