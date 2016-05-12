@@ -176,6 +176,7 @@ void Renderer::Render(std::vector<RenderInstructions>* object)
 	{
 		//släng in matertial
 		object->at(i).worldBuffer.worldMatrix = this->resourceManager->CalculateWorldMatrix(&tempPos, &tempRot);
+		resourceManager->materialManager->GetMaterialRenderInfo(&object->at(i));
 		this->RenderQuadTree(&object->at(i));
 	}
 	//RenderPlaceHolder(&object->position,&object->rotation);

@@ -13,7 +13,7 @@ private:
 	RenderInstructions currentMesh;
 	RenderInstructions currentUI;
 
-	MaterialManager* materialManager		= nullptr;
+	//MaterialManager* materialManager		= nullptr;
 	MeshManager* meshManager				= nullptr;
 	ShaderManager* shaderManager			= nullptr;
 	BRFImporterHandler* brfImporterHandler	= nullptr;
@@ -26,7 +26,7 @@ public:
 	ResourceManager();
 	~ResourceManager();
 
-
+	MaterialManager* materialManager = nullptr;
 	bool IsShadowPass() { return this->shadowPass; };
 	bool IsGbufferPass() { return this->gbufferPass; };
 
