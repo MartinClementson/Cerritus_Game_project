@@ -81,9 +81,16 @@ public:
 	float GetHealth();
 	float GetPoints();
 	float GetMulti();
+	bool thrust;
+	bool fall;
+	
+	float grav = 0.05;
 
 	UpgradeType		  GetUpgrade();
 	void SetUpgrade(UpgradeType upgrade);
+
+	void UpgradeWeapon();
+	void DowngradeWeapon();
 
 public:
 	UpgradeType upgrade;

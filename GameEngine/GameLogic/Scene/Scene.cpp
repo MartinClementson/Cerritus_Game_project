@@ -38,6 +38,12 @@ Scene::~Scene()
 		if (bearTraps.at(i))
 			delete bearTraps.at(i);
 	}
+	for (size_t i = 0; i < WeaponUpgrades.size(); i++)
+	{
+		if (WeaponUpgrades.at(i))
+			delete WeaponUpgrades.at(i);
+		
+	}
 
 }
 
@@ -47,11 +53,14 @@ void Scene::Initialize()
 	collision->ClearTraps();
 	InitBearTrap();
 	InitFireTrap();
+	WeaponUpgrades.push_back(new Pickup(XMFLOAT3(10, 1, 0)));
+	WeaponUpgrades.push_back(new Pickup(XMFLOAT3(-10, 1, 0)));
 
 	for (size_t i = 0; i < this->bearTraps.size(); i++)
 	{
 		collision->AddTrap(bearTraps.at(i));
 	}
+
 	RespawnTimer = 0;
 }
 
@@ -107,6 +116,10 @@ void Scene::Release()
 
 void Scene::Update(double deltaTime)
 {
+	for (size_t i = 0; i < WeaponUpgrades.size(); i++)
+	{
+		WeaponUpgrades.at(i)->Update(deltaTime);
+	}
 
 	for (size_t i = 0; i < fireTraps.size(); i++)
 	{
@@ -217,6 +230,11 @@ void Scene::Render()
 			bearTraps.at(i)->Render();
 		}
 
+	}
+
+	for (size_t i = 0; i < WeaponUpgrades.size(); i++)
+	{
+		WeaponUpgrades.at(i)->Render();
 	}
 
 	//	enemySpawn->Render();

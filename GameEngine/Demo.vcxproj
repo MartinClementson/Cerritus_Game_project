@@ -167,6 +167,7 @@
     <ClCompile Include="GameLogic\Scene\GameObject\Model\Model.cpp" />
     <ClCompile Include="GameLogic\Scene\GameObject\ParticleEmmiter\ParticleEmmiter.cpp" />
     <ClCompile Include="GameLogic\Scene\GameObject\ParticleEmmiter\Particle\Particle.cpp" />
+    <ClCompile Include="GameLogic\Scene\GameObject\Pickup\Pickup.cpp" />
     <ClCompile Include="GameLogic\Scene\Scene.cpp" />
     <ClCompile Include="GameLogic\Scene\Trap\BearTrap\BearTrap.cpp" />
     <ClCompile Include="GameLogic\Scene\Trap\FireTrap\FireTrap.cpp" />
@@ -232,6 +233,7 @@
     <ClInclude Include="GameLogic\Scene\GameObject\Model\Model.h" />
     <ClInclude Include="GameLogic\Scene\GameObject\ParticleEmmiter\ParticleEmmiter.h" />
     <ClInclude Include="GameLogic\Scene\GameObject\ParticleEmmiter\Particle\Particle.h" />
+    <ClInclude Include="GameLogic\Scene\GameObject\Pickup\Pickup.h" />
     <ClInclude Include="GameLogic\Scene\Scene.h" />
     <ClInclude Include="GameLogic\Scene\Trap\BearTrap\BearTrap.h" />
     <ClInclude Include="GameLogic\Scene\Trap\FireTrap\FireTrap.h" />

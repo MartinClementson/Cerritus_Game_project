@@ -89,7 +89,7 @@ void Camera::Updateview( DirectX::XMFLOAT3 playerPos)
 
 	//update the look at
 	camTarget.x		= playerPos.x;
-	camTarget.y		= playerPos.y;
+	camTarget.y		= 0.0f;
 	camTarget.z		= playerPos.z;
 
 	

@@ -260,6 +260,7 @@ bool Collision::PlayerCollision(EnemyBase* enemy)
 		if (enemy->isAlive && enemy->movementSpeed > 0)
 		{
 			enemy->movementSpeed = 0;
+			player->DowngradeWeapon();
 			player->SetHealth(player->GetHealth() - 15.0f);
 		}
 		return true;
@@ -336,6 +337,27 @@ bool Collision::TrapandEnemyLottery(EnemyBase* enemys)
 			{
 				return true;
 			}
+		}
+	}
+	return false;
+}
+
+bool Collision::WeaponPickupCollision(Pickup* pickup)
+{
+	
+	if (pickup->GetIsActive())
+	{
+		XMFLOAT3 pickupPos = pickup->GetPosition();
+		float pickupRad = pickup->GetRadius();
+
+		XMFLOAT3 playerPos = this->player->position;
+		float playerRad = this->player->GetRadius();
+
+		if (pow(pickupPos.x - playerPos.x, 2)
+			+ pow(pickupPos.z - playerPos.z, 2)
+			< pow(pickupRad + playerRad, 2))
+		{
+			return true;
 		}
 	}
 	return false;

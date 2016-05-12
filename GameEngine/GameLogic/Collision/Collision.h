@@ -3,7 +3,9 @@
 #include "../Character/Enemy/Enemy.h"
 #include "../Character/Player/Player.h"
 #include "../Scene/Trap/BearTrap/BearTrap.h"
-#include"../Scene/Trap/FireTrap/FireTrap.h"
+#include "../Scene/Trap/FireTrap/FireTrap.h"
+#include "../Scene/GameObject/Pickup/Pickup.h"
+
 using namespace std;
 using namespace DirectX;
 
@@ -60,6 +62,8 @@ public:
 	static Collision* GetInstance();
 
 	bool TrapandEnemyLottery(EnemyBase * enemys);
+
+	bool WeaponPickupCollision(Pickup * pickup);
 
 	~Collision();
 };
