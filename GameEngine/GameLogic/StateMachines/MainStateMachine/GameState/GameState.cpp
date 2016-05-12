@@ -24,7 +24,7 @@ GameState::~GameState()
 	delete this->room1;
 	delete this->menu;
 	delete this->gameUI;
-
+	
 }
 
 void GameState::Initialize()
@@ -40,8 +40,9 @@ void GameState::Initialize()
 	isPlayerDead = false;
 	toMenu = false;
 	gameUI->Initialize();
+	//initGUI();
 
-	gameUI->setUI(UITextures::HUD);
+	//gameUI->setUI(UITextures::HUD);
 	//Create room one here
 	timeSincePaused = 0.0f;
 	room1->Initialize();
@@ -75,14 +76,14 @@ void GameState::Update(double deltaTime)
 	ProcessInput(&deltaTime);
 	if (!pause->isActive)
 	{
-				
 		gameUI->setUI(UITextures::NUMERATION);
 
-		gameUI->setUINR(UiNumbers::THREE);
+		gameUI->setUINR(UiNumbers::FOUR);
 
+		//gameUI->setBlyat(UITextures::WAVECOUNTER, UiNumbers::FIVE);
 		gameUI->setUI(UITextures::WAVECOUNTER);
 
-		gameUI->setUINR(UiNumbers::THREE);
+		gameUI->setUINR(UiNumbers::FIVE);
 
 		if (player->GetHealth() <= 0)
 		{
@@ -377,6 +378,8 @@ void GameState::OnExit()
 {
 
 }
+
+
 
 float GameState::GetPoints()
 {

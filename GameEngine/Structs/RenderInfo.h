@@ -52,6 +52,7 @@ struct RenderInfoUI {
 	XMFLOAT3 uv;
 	UITextures UIobject;
 	UiNumbers UInumber;
+	//HUDEN Blyat;
 	
 
 	//HUDText texture;

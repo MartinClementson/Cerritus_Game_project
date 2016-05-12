@@ -63,7 +63,6 @@ enum UITextures
 	CONTROLS,
 
 };
-
 #pragma endregion
 enum UiNumbers
 {

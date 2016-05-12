@@ -8,13 +8,8 @@
 class GUI
 {
 public:
-	
-	/*struct UV
-	{
-		XMFLOAT2 UV[4];
-	};*/
-	
 	GUI();
+	GUI(UITextures texture);
 	virtual ~GUI();
 	void Initialize();
 	void Release();
@@ -27,13 +22,17 @@ public:
 	void setPos(XMFLOAT3 uv);
 	void setUI(UITextures texture);
 	void setUINR(UiNumbers numbers);
+	//void setBlyat(UITextures blyat, UiNumbers numberino);
+	void poop();
 
 
 private:
 	UITextures texture;
 	UiNumbers numbers;
-	std::vector<GUI>*items;
-	//std::vector<GUIElement*>* items;
+	/*UITextures texture1;*/
+	//HUDEN blyat;
+	//std::vector<GUI*> items;
+	std::vector<GUIElement*>* items;
 	DirectX::XMFLOAT3 size;
 	DirectX::XMFLOAT3 uv;
 };

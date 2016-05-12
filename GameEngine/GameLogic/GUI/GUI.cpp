@@ -12,6 +12,10 @@ GUI::GUI()
 
 }
 
+GUI::GUI(UITextures texture)
+{
+}
+
 
 GUI::~GUI()
 {
@@ -39,22 +43,24 @@ void GUI::Release()
 
 void GUI::Update(double deltaTime)
 {
- 
+
 	/*renderInfo.size = this->size;
 	renderInfo.uv = this->uv;*/
-	//renderInfo.UIobject = this->texture;
-	//renderInfo.UInumber = this->numbers;
+	renderInfo.UIobject = this->texture;
+	renderInfo.UInumber = this->numbers;
 	
 
 }
 
 void GUI::Render()
 {
+
 	grapichs = Graphics::GetInstance();
 	renderInfo.size = this->size;
 	renderInfo.uv = this->uv;
 	renderInfo.UIobject = texture;
 	renderInfo.UInumber = this->numbers;
+	//renderInfo.UIobject = texture1;
 	grapichs->QueueRender(&renderInfo);
 }
 
@@ -84,5 +90,20 @@ void GUI::setUI(UITextures texture)
 void GUI::setUINR(UiNumbers numbers)
 {
 	this->numbers = numbers;
+}
+
+//void GUI::setBlyat(UITextures blyat, UiNumbers numberino)
+//{
+//
+//	this->texture1 = blyat;
+//	this->numbers = numberino;
+//}
+
+
+void GUI::poop()
+{
+	//pushing it to the limit
+
+
 }
 
