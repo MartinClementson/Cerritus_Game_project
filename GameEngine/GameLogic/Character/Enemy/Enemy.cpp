@@ -92,6 +92,7 @@ void Enemy::SetHealth(float health)
 
 void Enemy::Render()
 {
+	renderInfo.object = ENEMY_1;
 	renderInfo.position = position;
 	renderInfo.rotation = rotation;
 	renderInfo.radius = radius;

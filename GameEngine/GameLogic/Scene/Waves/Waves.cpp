@@ -47,13 +47,13 @@ void Waves::WaveInformation()
 			amountOfHealers = 5;
 			break;
 		case 2:
-			amountOfStandards = 8;
+			amountOfStandards = 3;
 			SetWaveInformation(amountOfStandards);
 			amountOFFast = 2;
 			amountOfHealers = 2;
 			break;
 		case 3:
-			amountOfStandards = 20;
+			amountOfStandards = 7;
 			SetWaveInformation(amountOfStandards);
 			amountOFFast = 5;
 			amountOfHealers = 2;
