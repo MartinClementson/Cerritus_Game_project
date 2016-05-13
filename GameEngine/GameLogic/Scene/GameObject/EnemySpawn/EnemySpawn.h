@@ -29,6 +29,10 @@ public:
 	double waveTimer = 0;
 	int intSpawn;
 
+	int a = 0;
+	bool test;
+
+
 	std::vector<Enemy*> Queue;
 	std::vector<Enemy*> Alive;
 	EnemySpawn();
@@ -43,7 +47,7 @@ public:
 
 	void Update(double deltaTime);
 	void InitEnemy();
-	void SpawnEnemy();
-	void RespawnEnemy();
+	void SpawnEnemy(int waveAmount);
+	void RespawnEnemy(int i);
 };
 

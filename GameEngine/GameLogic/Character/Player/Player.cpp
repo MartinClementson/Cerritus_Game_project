@@ -55,7 +55,7 @@ void Player::Initialize(AudioManager* audioManager)
 
 	this->position		 = XMFLOAT3(-5.0f, Y_OFFSET, -5.0f);
 	this->rotation		 = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	VelocityMax = 4.0f;
+	VelocityMax = 8.0f;
 	slowTimer = 0;
 
 	

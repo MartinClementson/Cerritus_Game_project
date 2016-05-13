@@ -6,8 +6,12 @@ Scene::Scene()
 	/*this->bearTraps = new std::vector<BearTrap>;
 	this->fireTraps = new std::vector<FireTrap>;*/
 
+<<<<<<< HEAD
 	enemySpawn = new EnemySpawn;
 
+=======
+	this->enemySpawn = new EnemySpawn;
+>>>>>>> origin/Johan-waves
 	//this->trap = new Trap;
 	collision = Collision::GetInstance();
 }
@@ -41,6 +45,7 @@ void Scene::Initialize()
 	collision->ClearTraps();
 	InitBearTrap();
 	InitFireTrap();
+	AddEnemySpawn();
 
 	for (size_t i = 0; i < this->bearTraps.size(); i++)
 	{

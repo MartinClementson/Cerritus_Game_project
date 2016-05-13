@@ -14,8 +14,13 @@ private:
 	int waveNumber = 0;
 
 public:
+<<<<<<< HEAD
 	int switchSpawnPos = 0;
+=======
+	int waveNumber, switchSpawnPosn;
+>>>>>>> origin/Johan-waves
 	int amountOFFast, amountOfStandards, amountOfHealers;
+	float posAdd;
 	XMFLOAT3 spawnPos;
 	~Waves();
 	Waves();
@@ -29,6 +34,8 @@ public:
 
 	void WaveInformation();
 	void NextWave(int nextWaveNumber);
+	void SetSpawnPosAdd(float add);
+	float GetSpawnPosAdd();
 	void SetWaveInformation(int amountOfEnemies);
 	int GetWaveInformation();
 	void SpawnPositions(int spawnSwitch);
