@@ -22,7 +22,7 @@ private:
 public:
 	XMFLOAT3 spawn;
 	XMFLOAT3 spawnPosInfo;
-	Waves* waves;
+	Waves waves;
 	int currentWave = 0;
 	int enemyWaveAmount = 0;
 	int waveAmount = 0;
@@ -32,8 +32,6 @@ public:
 	int a = 0;
 	bool test;
 
-
-	std::vector<Enemy*> Queue;
 	std::vector<Enemy*> Alive;
 	EnemySpawn();
 	~EnemySpawn();

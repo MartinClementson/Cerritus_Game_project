@@ -8,11 +8,6 @@ EnemySpawn::EnemySpawn()
 
 EnemySpawn::~EnemySpawn()
 {
-	/*for (size_t i = 0; i < Queue.size(); i++)
-	{
-		delete Queue.at(i);
-	}
-*/
 	for (size_t i = 0; i < Alive.size(); i++)
 	{
 		delete Alive.at(i);
@@ -22,9 +17,9 @@ EnemySpawn::~EnemySpawn()
 void EnemySpawn::Initialize()
 {
 	currentWave = 1;
-	waves->SetWaveGroup(currentWave);
-	waves->WaveInformation();
-	waveAmount = waves->GetWaveInformation();
+	waves.SetWaveGroup(currentWave);
+	waves.WaveInformation();
+	waveAmount = waves.GetWaveInformation();
 	InitEnemy();
 }
 
@@ -35,11 +30,7 @@ void EnemySpawn::Release()
 
 void EnemySpawn::Update(double deltaTime)
 {
-<<<<<<< HEAD
-		if (waveAmount != 0)
-=======
 		for (size_t j = 0; j < Alive.size(); j++)
->>>>>>> origin/Johan-waves
 		{
 			Alive.at(j)->GetStateMachine()->
 				SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
@@ -47,12 +38,6 @@ void EnemySpawn::Update(double deltaTime)
 
 		for (size_t i = 0; i < Alive.size(); i++)
 		{
-
-<<<<<<< HEAD
-					Queue.push_back(Alive.at(i));
-					Alive.erase(Alive.begin() + i);
-					waveAmount--;
-=======
 			Alive.at(i)->Update(deltaTime);
 
 			if (Alive.at(i)->GetHealth() <= 0 &&
@@ -68,11 +53,10 @@ void EnemySpawn::Update(double deltaTime)
 				Alive.at(i)->SetHealth(100.0f);
 				Alive.at(i)->GetStateMachine()->
 				SetActiveState(EnemyState::ENEMY_DEATH_STATE);
->>>>>>> origin/Johan-waves
 
 				waveAmount--;
 
-				for (size_t i = 0; i < Alive.size(); i++)
+			/*	for (size_t i = 0; i < Alive.size(); i++)
 				{
 					if (Alive.at(i)->isAlive = true)
 					{
@@ -82,54 +66,25 @@ void EnemySpawn::Update(double deltaTime)
 					{
 						test = true;
 					}
-				}
-<<<<<<< HEAD
-			}
-			if (Alive.size() == 0)
-			{
-				if (!firstSpawn)
-				{
-					SpawnEnemy();
-=======
-				
+				}*/
+
 				if (waveAmount != 0)
 				{
 					RespawnEnemy(i);
 				}
-				else if(test = true)
+				else
 				{
 					waves.SetWaveGroup(currentWave += 1);
 					waves.WaveInformation();
 					waveAmount = waves.GetWaveInformation();
 
 					SpawnEnemy(waveAmount);
->>>>>>> origin/Johan-waves
 				}
 			}
+				
+			
 		}
-
-<<<<<<< HEAD
-		else 
-		{
-				waves->SetWaveGroup(currentWave += 1);
-				waves->WaveInformation();
-				waveAmount = waves->GetWaveInformation();
-
-				RespawnEnemy();
-
-				if (waveAmount == 0)
-				{
-					waveTimer += deltaTime;
-					if (waveTimer >= 5)
-					{
-						waves->SetWaveGroup(currentWave = 1);
-					}
-				}
-		}
-		for (size_t i = 0; i < Alive.size(); i++)
-		{
-			if (Alive.at(i)->isAlive == true)
-=======
+		
 	if (!firstSpawn)
 	{
 		SpawnEnemy(waveAmount);
@@ -141,7 +96,7 @@ void EnemySpawn::Update(double deltaTime)
 		{
 				
 			if (collision->PlayerCollision(Alive.at(i)))
->>>>>>> origin/Johan-waves
+
 			{
 				Player* player;
 				player = collision->GetPlayer();
@@ -152,60 +107,12 @@ void EnemySpawn::Update(double deltaTime)
 
 void EnemySpawn::SpawnEnemy(int waveAmount)
 {
-<<<<<<< HEAD
-
-	firstSpawn = true;
-
-	for (int i = 0; i < waveAmount; i++)
-	{
-		if (!Queue.at(i)->isAlive)
-		{
-			intSpawn = rand() % 4 + 1;
-
-			waves->SpawnPositions(intSpawn);
-
-			spawnPosInfo;
-			spawnPosInfo = waves->GetSpawnPositions();
-
-			Queue.at(i)->Spawn(spawnPosInfo); //sets position and isAlive to TRUE
-			Alive.push_back(Queue.at(i));
-			Queue.erase(Queue.begin() + i);
-
-			//done = true;
-		}
-		//i++;
-	}
-}
-
-void EnemySpawn::RespawnEnemy()
-{
-	for (int i = 0; i < waveAmount; i++)
-	{
-		if (!Queue.at(i)->isAlive)
-		{
-			intSpawn = rand() % 4 + 1;
-
-			waves->SpawnPositions(intSpawn);
-
-			spawn;
-			spawn = waves->GetSpawnPositions();
-
-			Queue.at(i)->Respawn(spawn); //sets position and isAlive to TRUE
-			Alive.push_back(Queue.at(i));
-			Queue.erase(Queue.begin() + i);
-
-			//done = true;
-		}
-		//i++;
-=======
 	float x = 0;
 
 	firstSpawn = true;
-	
-	for(size_t i = 0; i < waveAmount; i++)
-	{
-			intSpawn = rand() % 4 + 1;
 
+	for (int i = 0; i < waveAmount; i++)
+	{
 			if (intSpawn == 1)
 			{
 				waves.SetSpawnPosAdd(x);
@@ -217,6 +124,7 @@ void EnemySpawn::RespawnEnemy()
 				waves.SetSpawnPosAdd(x);
 				waves.SpawnPositions(2);
 				spawn = waves.GetSpawnPositions();
+
 			}
 			if (intSpawn == 3)
 			{
@@ -231,8 +139,9 @@ void EnemySpawn::RespawnEnemy()
 				spawn = waves.GetSpawnPositions();
 			}
 			x += 5;
-			
+
 			Alive.at(i)->Spawn(spawn);
+
 	}
 }
 
@@ -252,7 +161,7 @@ void EnemySpawn::RespawnEnemy(int i)
 		waves.SetSpawnPosAdd(x);
 		waves.SpawnPositions(2);
 		spawn = waves.GetSpawnPositions();
->>>>>>> origin/Johan-waves
+
 	}
 	if (intSpawn == 3)
 	{
@@ -274,21 +183,7 @@ void EnemySpawn::RespawnEnemy(int i)
 
 void EnemySpawn::InitEnemy()
 {
-	/*waves.Initialize();
 
-	int enemyAmount;
-	enemyAmount = waves.GetWaveInformation();*/
-<<<<<<< HEAD
-	unsigned int amount = 25;
-
-	for (int i = 0; i < amount; i++)
-	{
-			spawn = { -70.0f, 0.0f, -40.0f };
-	
-			Queue.push_back(new Enemy(spawn));	
-	}
-	for(int i = 0; i < Queue.size(); i++)
-=======
 	unsigned int amount = 32;
 	float b = 0;
 
@@ -320,16 +215,13 @@ void EnemySpawn::InitEnemy()
 			waves.SpawnPositions(4);
 			spawn = waves.GetSpawnPositions();
 		}
-		
 
 		b += 5;
 
-		//Queue.push_back(new Enemy(spawn));
 		Alive.push_back(new Enemy(spawn));
 
 	}
 	for(int i = 0; i < (int)Alive.size(); i++)
->>>>>>> origin/Johan-waves
 	{ 
 		if (Alive.at(i)->isAlive == true)
 		{

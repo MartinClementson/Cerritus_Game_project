@@ -40,44 +40,20 @@ void Waves::WaveInformation()
 	waveNumber = GetWaveGroup();
 	switch (waveNumber)
 	{
-<<<<<<< HEAD
-	case 1:
-		amountOfStandards = 10;
-		SetWaveInformation(amountOfStandards);
-		/*	amountOFFast = 3;
-		amountOfHealers = 5;*/
-		break;
-	case 2:
-		amountOfStandards = 0;
-		SetWaveInformation(amountOfStandards);
-		/*		amountOFFast = 2;
-		amountOfHealers = 2;*/
-		break;
-	case 3:
-		amountOfStandards = 0;
-		SetWaveInformation(amountOfStandards);
-		/*	amountOFFast = 5;
-		amountOfHealers = 2;*/
-		break;
-	default:
-		amountOfStandards = 0;
-		SetWaveInformation(amountOfStandards);
-		break;
-=======
 		case 1:
-			amountOfStandards = 2;
+			amountOfStandards = 5;
 			SetWaveInformation(amountOfStandards);
 			amountOFFast = 3;
 			amountOfHealers = 5;
 			break;
 		case 2:
-			amountOfStandards = 30;
+			amountOfStandards = 10;
 			SetWaveInformation(amountOfStandards);
 			amountOFFast = 2;
 			amountOfHealers = 2;
 			break;
 		case 3:
-			amountOfStandards = 50;
+			amountOfStandards = 30;
 			SetWaveInformation(amountOfStandards);
 			amountOFFast = 5;
 			amountOfHealers = 2;
@@ -86,7 +62,7 @@ void Waves::WaveInformation()
 			amountOfStandards = 0;
 			SetWaveInformation(amountOfStandards);
 			break;
->>>>>>> origin/Johan-waves
+
 	}
 }
 

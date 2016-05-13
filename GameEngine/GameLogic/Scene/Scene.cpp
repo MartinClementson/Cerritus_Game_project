@@ -6,12 +6,10 @@ Scene::Scene()
 	/*this->bearTraps = new std::vector<BearTrap>;
 	this->fireTraps = new std::vector<FireTrap>;*/
 
-<<<<<<< HEAD
-	enemySpawn = new EnemySpawn;
+	//enemySpawn = new EnemySpawn;
 
-=======
 	this->enemySpawn = new EnemySpawn;
->>>>>>> origin/Johan-waves
+
 	//this->trap = new Trap;
 	collision = Collision::GetInstance();
 }

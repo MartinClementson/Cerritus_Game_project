@@ -14,11 +14,8 @@ private:
 	int waveNumber = 0;
 
 public:
-<<<<<<< HEAD
 	int switchSpawnPos = 0;
-=======
-	int waveNumber, switchSpawnPosn;
->>>>>>> origin/Johan-waves
+
 	int amountOFFast, amountOfStandards, amountOfHealers;
 	float posAdd;
 	XMFLOAT3 spawnPos;
