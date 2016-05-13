@@ -128,7 +128,7 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 	parent->nodes[2] = 0;
 	parent->nodes[3] = 0;
 	parent->isAnimated = false;
-	parent->materialID = materialID + 5;
+	parent->materialID = materialID+3;
 
 	//Count the number of triangles that are inside this node
 	numTriangles = CountTriangles(position, width);
@@ -194,7 +194,6 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 	//Calculate the number of vertices
 	vertexCount = numTriangles * 3;
 	parent->VertexCount = vertexCount;
-	parent->IndexCount = this->indexCount;
 	//Create vertex array
 	vertices = new Vertex[vertexCount];
 	std::vector<Vertex> newVert;
@@ -223,30 +222,31 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 
 			//Get the three vertices of this triangle from the vertex list.
 			newVert[index] = this->combinedvertices[this->combinedindices[vertexIndex]];
-			newInd[index] = index;
+			newInd[index] = this->combinedindices[index];
 			index++;
 			indexCount++;
 			vertexIndex++;
 
 
 			newVert[index] = this->combinedvertices[this->combinedindices[vertexIndex]];
-			newInd[index] = index;
+			newInd[index] = this->combinedindices[index];
 			index++;
 			indexCount++;
 			vertexIndex++;
 
 
 			newVert[index] = this->combinedvertices[this->combinedindices[vertexIndex]];
-			newInd[index] = index;
+			newInd[index] = this->combinedindices[index];
 			index++;
 			indexCount++;
-
 
 		}
 
 
 	}
-
+	newInd.shrink_to_fit();
+	newInd.resize(indexCount);
+	parent->IndexCount = indexCount;
 	//Set up the description for the vertex buffer
 	vertexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
 	vertexBufferDesc.ByteWidth = sizeof(Vertex)* vertexCount;
@@ -273,7 +273,7 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 	indexBufferDesc.StructureByteStride = 0;
 
 	//Give the subresource structure a pointer to the index data
-	indexData.pSysMem = indices;
+	indexData.pSysMem = newInd.data();
 	indexData.SysMemPitch = 0;
 	indexData.SysMemSlicePitch = 0;
 
@@ -391,6 +391,7 @@ bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, I
 	this->m_vertexList = new std::vector<Vertex*>;
 	this->m_indexList = new std::vector<UINT*>;
 	this->vertextest = new std::vector<Vertex>;
+	this->vertextestFixed = new std::vector<Vertex>;
 	this->indextest = new std::vector<UINT>;
 
 	//Create the parent node of the mesh
@@ -408,10 +409,11 @@ bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, I
 	//prep 1 scenemesh for quadtreeing
 	for (unsigned int i = 0; i < terrain->size(); i++)
 	{
-			this->vertexCount = 0;
-			this->indexCount = 0;
-			this->vertextest->clear();
-			this->indextest->clear();
+		this->vertexCount = 0;
+		this->indexCount = 0;
+		this->vertextest->clear();
+		this->indextest->clear();
+		this->vertextestFixed->clear();
 
 		this->vertexCount = terrain->at(i).GetVertexCount();
 		this->indexCount = terrain->at(i).GetIndexCount();
@@ -419,24 +421,23 @@ bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, I
 		this->m_indexList->push_back(terrain->at(i).GetIndices());
 		materialID = terrain->at(i).GetMaterialID();
 		//Store the total triangle countW
-		m_triangleCount = vertexCount / 3;
-
-		for (size_t vertexAmountPerArray = 0; vertexAmountPerArray < this->vertexCount; vertexAmountPerArray++)
+		for (size_t j = 0; j < this->indexCount; j++)
 		{
-			this->vertextest->push_back(m_vertexList->at(i)[vertexAmountPerArray]);
-		}
-	this->combinedvertices = this->vertextest->data();
-		for (size_t IndexAmountPerArray = 0; IndexAmountPerArray < this->indexCount; IndexAmountPerArray++)
-		{
-			this->indextest->push_back(m_indexList->at(i)[IndexAmountPerArray]);
-		}
-	this->combinedindices = this->indextest->data();
+			UINT temp = m_indexList->at(i)[j];
 
-	CalculateMeshDimensions(vertexCount, position, width);
-	NodeType* tempParentNode = new NodeType;
-	m_parentNode->push_back(tempParentNode);
-	//Recursively build the quad tree, based on the vertex list and mesh dimensions
-	CreateTreeNode(m_parentNode->at(i), position, width, gDevice, terrain, materialID);
+			vertextest->push_back(m_vertexList->at(i)[temp]);
+			indextest->push_back(temp);
+		}
+		m_triangleCount = indexCount / 3;
+		this->combinedindices = this->indextest->data();
+		this->combinedvertices = this->vertextest->data();
+
+
+		CalculateMeshDimensions(indexCount, position, width);
+		NodeType* tempParentNode = new NodeType;
+		m_parentNode->push_back(tempParentNode);
+		//Recursively build the quad tree, based on the vertex list and mesh dimensions
+		CreateTreeNode(m_parentNode->at(i), position, width, gDevice, terrain, materialID);
 
 
 	}
@@ -464,7 +465,10 @@ bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, I
 	{
 		delete vertextest;
 	}
-
+	if (vertextestFixed)
+	{
+		delete vertextestFixed;
+	}
 	if (indextest)
 	{
 		delete indextest;
@@ -493,7 +497,7 @@ void QuadTree::GetQuadTreeRenderInfo(std::vector<RenderInstructions>* toRender, 
 {
 	for (size_t i = 0; i < m_parentNode->size(); i++)
 	{
-		GetNodeRenderInfo(m_parentNode->at(i), toRender, frustum);
+			GetNodeRenderInfo(m_parentNode->at(i), toRender, frustum);
 	}
 }
 

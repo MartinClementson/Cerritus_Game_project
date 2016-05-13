@@ -164,6 +164,12 @@ void Renderer::Render(std::vector<RenderInstructions>* object)
 	
 	//Send the info of the object into the resource manager
 	//The resource manager gathers all the rendering info and sends back a renderInstruction
+	
+	
+	
+	
+	
+	
 	renderObject = this->resourceManager->GetRenderInfo(object, this->sceneCam->frustum);
 	
 	object->shrink_to_fit();
@@ -179,6 +185,7 @@ void Renderer::Render(std::vector<RenderInstructions>* object)
 		resourceManager->materialManager->GetMaterialRenderInfo(&object->at(i));
 		this->RenderQuadTree(&object->at(i));
 	}
+
 	//RenderPlaceHolder(&object->position,&object->rotation);
 
 	//RenderPlaceHolder(&object->position);

@@ -75,7 +75,7 @@ void GameState::Update(double deltaTime)
 
 		if (player->GetHealth() <= 0)
 		{
-			isPlayerDead = true;
+			//isPlayerDead = true;
 			//isActive = false;
 		}
 		XMFLOAT2 mouseXY = input->GetMousePosition();

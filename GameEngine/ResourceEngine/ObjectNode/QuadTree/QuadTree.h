@@ -7,7 +7,7 @@
 #include "../Mesh/Mesh.h"
 using namespace DirectX;
 //GLOBAL
-const int maxTriangles = 1000;
+const int maxTriangles = 500;
 
 class QuadTree
 {
@@ -25,6 +25,7 @@ private:
 	std::vector<Vertex*>*	m_vertexList;
 	std::vector<UINT*>*		m_indexList;
 	std::vector<Vertex>*	vertextest;
+	std::vector<Vertex>*	vertextestFixed;
 	std::vector<UINT>*		indextest;
 	std::vector<NodeType*>*	m_parentNode;
 
