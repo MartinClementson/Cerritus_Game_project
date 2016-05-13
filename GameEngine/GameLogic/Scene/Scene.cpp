@@ -34,6 +34,12 @@ Scene::~Scene()
 		if (bearTraps.at(i))
 			delete bearTraps.at(i);
 	}
+	for (size_t i = 0; i < WeaponUpgrades.size(); i++)
+	{
+		if (WeaponUpgrades.at(i))
+			delete WeaponUpgrades.at(i);
+		
+	}
 
 }
 
@@ -43,12 +49,18 @@ void Scene::Initialize()
 	collision->ClearTraps();
 	InitBearTrap();
 	InitFireTrap();
+
 	AddEnemySpawn();
+
+	WeaponUpgrades.push_back(new Pickup(XMFLOAT3(10, 1, 0), PickupType::Weapon));
+	WeaponUpgrades.push_back(new Pickup(XMFLOAT3(-10, 1, 0), PickupType::Heal));
+
 
 	for (size_t i = 0; i < this->bearTraps.size(); i++)
 	{
 		collision->AddTrap(bearTraps.at(i));
 	}
+
 	RespawnTimer = 0;
 
 	AddEnemySpawn();
@@ -102,6 +114,10 @@ void Scene::Release()
 
 void Scene::Update(double deltaTime)
 {
+	for (size_t i = 0; i < WeaponUpgrades.size(); i++)
+	{
+		WeaponUpgrades.at(i)->Update(deltaTime);
+	}
 
 	enemySpawn->Update(deltaTime);
 
@@ -112,9 +128,9 @@ void Scene::Update(double deltaTime)
 		if (fireTraps.at(i)->GetDot())
 		{
 			fireTraps.at(i)->GetDamage();
-
 		}
 	}
+
 	for (size_t i = 0; i < bearTraps.size(); i++)
 	{
 		bearTraps.at(i)->Update(deltaTime);
@@ -122,22 +138,21 @@ void Scene::Update(double deltaTime)
 		{
 			bearTraps.at(i)->GetDamage();
 		}
-	}
 
 	for (size_t i = 0; i < bearTraps.size(); i++)
 	{
-		if (collision->BearTrapPlayerCollision(bearTraps.at(i)))
+		if (bearTraps.at(i)->GetState()->GetTrapState() != TrapState::TRAP_INACTIVE_STATE)
 		{
-			if (bearTraps.at(i)->isActive)
+			if (collision->BearTrapPlayerCollision(bearTraps.at(i)))
 			{
+
 				collision->PlayerProxyTrap(bearTraps.at(i));
+
 					for (size_t k = 0; k < enemySpawn->Alive.size(); k++)
 					{
 						collision->EnemyProxTrap(bearTraps.at(i),
 							enemySpawn->Alive.at(k))
-							&& bearTraps.at(i)->isActive;
 
-					}
 				bearTraps.at(i)->isActive = false;
 			}
 
@@ -160,12 +175,14 @@ void Scene::Update(double deltaTime)
 					
 					bearTraps.at(i)->isActive = false;
 				}
+				bearTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_ACTIVE_STATE);
+
 			}
 	}
 
 	for (size_t i = 0; i < fireTraps.size(); i++)
 	{
-		if (collision->FireTrapPlayerCollision(fireTraps.at(i)) && fireTraps.at(i)->isActive)
+		if (fireTraps.at(i)->GetState()->GetTrapState() != TrapState::TRAP_INACTIVE_STATE)
 		{
 			fireTraps.at(i)->isActive = false;
 		}
@@ -175,9 +192,10 @@ void Scene::Update(double deltaTime)
 				if (collision->FireTrapEnemyCollision(fireTraps.at(i),
 					enemySpawn->Alive.at(k))
 					&& fireTraps.at(i)->isActive)
-				{
 
-				}
+			if (collision->FireTrapPlayerCollision(fireTraps.at(i)) && fireTraps.at(i)->isActive)
+			{
+				fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_ACTIVE_STATE);
 			}
 
 	}
@@ -216,11 +234,15 @@ void Scene::Render()
 
 	}
 
-		enemySpawn->Render();
-
+	for (size_t i = 0; i < WeaponUpgrades.size(); i++)
+	{
+		WeaponUpgrades.at(i)->Render();
+	}
 }
 
-void Scene::EvadeTrap(Enemy* enemy, BearTrap* bear, double deltaTime)
+
+
+void Scene::EvadeTrap(EnemyBase* enemy, BearTrap* bear, double deltaTime)
 {
 	XMFLOAT3 enemyPos;
 	XMFLOAT3 trapPos;

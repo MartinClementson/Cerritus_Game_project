@@ -2,7 +2,11 @@
 #include "../GameObject.h"
 #include "../../../Character/Enemy/Enemy.h"
 #include "../../../Collision/Collision.h"
+<<<<<<< HEAD
 #include "../../../Scene/Waves/Waves.h"
+=======
+#include "../../../Character/Enemy/Healer.h"
+>>>>>>> refs/remotes/origin/master
 
 #include <time.h>
 #include <stdlib.h>
@@ -16,7 +20,7 @@ private:
 
 	//std::vector<Enemy*> enemies;
 private:
-	
+	unsigned int waveAmount;
 	Collision* collision;
 	XMFLOAT3 spawnPosition;
 public:
@@ -33,6 +37,13 @@ public:
 	bool test;
 
 	std::vector<Enemy*> Alive;
+
+	std::vector<EnemyBase*> StandardQueue;
+	std::vector<EnemyBase*> StandardAlive;
+
+	std::vector<Enemy*> FastQueue;
+	std::vector<Enemy*> FastAlive;
+
 	EnemySpawn();
 	~EnemySpawn();
 	float spawnTimer;
@@ -45,7 +56,13 @@ public:
 
 	void Update(double deltaTime);
 	void InitEnemy();
+
 	void SpawnEnemy(int waveAmount);
 	void RespawnEnemy(int i);
+
+	void SpawnEnemy();
+	void RespawnEnemy();
+	std::vector<EnemyBase*> GetStandardQueue();
+	std::vector<EnemyBase*> GetStandardAlive();
 };
 

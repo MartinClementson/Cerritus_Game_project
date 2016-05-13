@@ -26,18 +26,23 @@ public:
 	void SetIsActive(bool isPlayerDead);
 	bool GetIsActive();
 	float timeSincePaused;
-	int index;
+	float index;
 	float GetPoints();
+	//EnemyBase* ClosestHealer(vector<EnemyBase*> healers);
 	bool toMenu;
-
 private:
 	void OnEnter();
 	void OnExit();
 
 private:
+	vector<EnemyBase*> healers;
+	vector<BearTrap*> bearTraps;
+	vector<FireTrap*> fireTraps;
 	Scene* room1;
 	Scene* room2;
 	Player* player;
+	int enemiesHealing;
+	int nrOfHealers;
 	//Enemy* enemy;
 	Input* input;
 	GUI* gameUI;

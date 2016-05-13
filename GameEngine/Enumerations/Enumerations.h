@@ -42,10 +42,19 @@ enum MeshEnum
 	LEVEL_1,
 	LEVEL_2,
 	LEVEL_3,
-	LEVEL_4
+	LEVEL_4,
+	PLACEHOLDER
 };
 
 #pragma endregion
+
+enum CharacterType
+{
+	PLAYER,
+	SLOW_ENEMY,
+	FAST_ENEMY,
+	HEALER
+};
 
 #pragma region UI
 
@@ -123,7 +132,8 @@ enum EnemyState
 {
 	ENEMY_IDLE_STATE,
 	ENEMY_ATTACK_STATE,
-	ENEMY_DEATH_STATE
+	ENEMY_DEATH_STATE,
+	ENEMY_HEAL_STATE
 };
 
 #pragma endregion
@@ -149,6 +159,7 @@ enum InputKeys
 	KEY_A,
 	KEY_S,
 	KEY_D,
+	KEY_Q,
 	KEY_P,
 	KEY_LEFT,
 	KEY_RIGHT,
@@ -211,6 +222,14 @@ enum UpgradeType
 	THREE_SHOT,
 
 };
+
+enum PickupType
+{
+	Weapon,
+	Heal
+};
+
+
 
 enum GbufferTextures
 {

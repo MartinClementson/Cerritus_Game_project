@@ -5,6 +5,8 @@
 #include "GameObject/EnemySpawn/EnemySpawn.h"
 #include "Trap/BearTrap/BearTrap.h"
 #include "Trap/FireTrap/FireTrap.h"
+#include "GameObject\Pickup\Pickup.h"
+#include "../../Enumerations/Enumerations.h"
 
 
 class Scene
@@ -23,6 +25,9 @@ public:
 	EnemySpawn* enemySpawn;
 	std::vector<BearTrap*> bearTraps;
 	std::vector<FireTrap*> fireTraps;
+
+	std::vector<Pickup*> WeaponUpgrades;
+
 	Scene();
 	virtual ~Scene();
 
@@ -33,7 +38,12 @@ public:
 	void Update(double deltaTime);
 	void Render();
 
-	void EvadeTrap(Enemy * enemy, BearTrap * bear, double deltaTime);
+	void EvadeTrap(EnemyBase * enemy, BearTrap * bear, double deltaTime);
+
 
 	void AddEnemySpawn();
+
+	std::vector<EnemySpawn*> GetEnemySpawn();
 };
+
+

@@ -1,5 +1,5 @@
 #pragma once
-#include "../Character.h"
+#include "EnemyBase.h"
 #include "../../../Source//LibIncluder.h"
 #include "../../../Enumerations/Enumerations.h"
 #include "../../InputHandler/Input/Input.h"
@@ -8,29 +8,28 @@
 #include "../../../Structs/DataTypes.h"
 #include "../Player/Player.h"
 #include "../../Scene/Trap/BearTrap/BearTrap.h"
+#include "Healer.h"
+
 
 
 class Enemy :
-	public Character
+	public EnemyBase
 {
-private:
-	RenderInfoEnemy renderInfo;
-	EnemyStateMachine* enemyStateMachine;
-	Player * player;
 
 private:
-	void Release();
+
+
 	Enemy();
+	//float index;
 public:
-	float index;
-
+	void Release();
 	EnemyStateMachine* GetStateMachine();
 
-	Enemy(XMFLOAT3 spawn);
+	Enemy(XMFLOAT3 spawn, bool fast);
 
-	bool isAlive;
+	//bool isAlive = false;
 
-	virtual ~Enemy();
+	~Enemy();
 
 	void Initialize();
 
@@ -46,17 +45,13 @@ public:
 	float GetRadius();
 	float GetRadius2();
 	void AIPattern(Player * player, double deltaTime);
-	void EnemyWithEnemyCollision(Enemy * enemy, Enemy * enemys, double deltaTime);
+	void AIPatternHeal(EnemyBase * player, double deltaTime);
+	CharacterType GetCharType();
+	void EnemyWithEnemyCollision(EnemyBase * enemy, EnemyBase * enemys, double deltaTime);
+	void SetClosestHealer(EnemyBase* healer);
+	EnemyBase* GetClosestHealer();
 	//void EnemyWithBeartrap(BearTrap * bear, Enemy * enemys, double deltaTime);
 	void Respawn(XMFLOAT3 spawn);
+	float GetMaxHealth();
 	void Spawn(XMFLOAT3 spawn);
-
-
-	XMFLOAT3 direction;
-	float VelocityMax;
-	float slowTimer;
-	Vec3 velocity = Vec3(0.1f, 0.1f, 0.1f);
-	Vec3 acceleration = Vec3(0.0f, 0.0f, 0.0f);
-	float fallOfFactor = 8.0f; //the bigger number, the faster fallOff , this is like friction
-	float maxAcceleration = 5.0f;
 };
