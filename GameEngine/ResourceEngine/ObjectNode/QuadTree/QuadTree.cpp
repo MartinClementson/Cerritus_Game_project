@@ -222,21 +222,21 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 
 			//Get the three vertices of this triangle from the vertex list.
 			newVert[index] = this->combinedvertices[this->combinedindices[vertexIndex]];
-			newInd[index] = this->combinedindices[index];
+			newInd[index] = index;
 			index++;
 			indexCount++;
 			vertexIndex++;
 
 
 			newVert[index] = this->combinedvertices[this->combinedindices[vertexIndex]];
-			newInd[index] = this->combinedindices[index];
+			newInd[index] = index;
 			index++;
 			indexCount++;
 			vertexIndex++;
 
 
 			newVert[index] = this->combinedvertices[this->combinedindices[vertexIndex]];
-			newInd[index] = this->combinedindices[index];
+			newInd[index] = index;
 			index++;
 			indexCount++;
 
@@ -263,22 +263,22 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 	//Create the vertex buffer
 	hr = gDevice->CreateBuffer(&vertexBufferDesc, &vertexData, &parent->vertexBuffer);
 
-	//Set up the description of the index buffer
+	////Set up the description of the index buffer
 
-	indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	indexBufferDesc.ByteWidth = sizeof(UINT) * indexCount;
-	indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	indexBufferDesc.CPUAccessFlags = 0;
-	indexBufferDesc.MiscFlags = 0;
-	indexBufferDesc.StructureByteStride = 0;
+	//indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+	//indexBufferDesc.ByteWidth = sizeof(UINT) * indexCount;
+	//indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	//indexBufferDesc.CPUAccessFlags = 0;
+	//indexBufferDesc.MiscFlags = 0;
+	//indexBufferDesc.StructureByteStride = 0;
 
-	//Give the subresource structure a pointer to the index data
-	indexData.pSysMem = newInd.data();
-	indexData.SysMemPitch = 0;
-	indexData.SysMemSlicePitch = 0;
+	////Give the subresource structure a pointer to the index data
+	//indexData.pSysMem = newInd.data();
+	//indexData.SysMemPitch = 0;
+	//indexData.SysMemSlicePitch = 0;
 
-	//Create index buffer
-	hr = gDevice->CreateBuffer(&indexBufferDesc, &indexData, &parent->indexBuffer);
+	////Create index buffer
+	//hr = gDevice->CreateBuffer(&indexBufferDesc, &indexData, &parent->indexBuffer);
 
 	//Delete the vertices and indices arrays, as they are now stored in the buffers
 
