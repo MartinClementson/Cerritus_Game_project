@@ -57,23 +57,19 @@ void Player::Initialize(AudioManager* audioManager)
 {
 	
 	graphics			 = Graphics::GetInstance();
-
+	float hover			 = 0.0f;
 	this->position		 = XMFLOAT3(-5.0f, Y_OFFSET, -5.0f);
 	this->rotation		 = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	VelocityMax = 8.0f;
-	slowTimer = 0;
-
-	points = 0;
-	multiplier = 1;
-	radius = 2.0f;
-	radius2 = 2.0f;
-	fall = false;
-	thrust = true;
-
-	DoT = 0.0f;
-	DoTDur = 0.0f;
-	health = 100.0f;
-	maxHealth = health;
+	VelocityMax			 = 8.0f;
+	slowTimer			 = 0;
+	points				 = 0;
+	multiplier			 = 1;
+	radius				 = 2.0f;
+	radius2				 = 2.0f;
+	DoT					 = 0.0f;
+	DoTDur				 = 0.0f;
+	health				 = 100.0f;
+	maxHealth			 = health;
 	projectileSystem->Initialize(audioManager);
 	SetUpgrade(UpgradeType::ONE_SHOT);
 	
@@ -87,7 +83,9 @@ void Player::Release()
 void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 {
 
+	hover += deltaTime;
 
+	
 	if (VelocityMax == 0.2f)
 	{
 		slowTimer += (float)deltaTime;
@@ -110,45 +108,6 @@ void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 	}
 
 	health -= DoT;
-	if (health <= 0)
-	{
-
-		/*MessageBox(0, L"You Died",
-		L"Continue", MB_OK);*/
-		//health = 100.0f;
-	}
-
-	//grav = position.y;
-
-	if (thrust)
-	{
-		acceleration.y += +maxAcceleration *grav *(float)deltaTime * 0.6f;
-		if (position.y > 1.2f)
-		{
-			thrust = false;
-		}
-	}
-	if (!thrust && !fall)
-	{
-		if (velocity.y < 0.01f && position.y > 1.2f)
-		{
-			fall = true;
-		}
-		else if (velocity.y < 0.01f && position.y < 1.0f)
-		{
-			thrust = true;
-		}
-	}
-	if(fall)
-	{
-		acceleration.y += -maxAcceleration * grav*(float)deltaTime * 0.6f;
-		if (position.y < 1.0f)
-		{
-			fall = false;
-		}
-	}
-
-
 	
 
 	this->direction	 = direction;
@@ -239,6 +198,8 @@ projectileSystem->UpdateProjectiles(deltaTime);
 
 void Player::Render()
 {
+	renderInfo.position.y =  2 * max(sin(hover)*-1, sin(hover));
+	hover = (hover >= 9999999 ? 0 : hover);
 	graphics->QueueRender(&renderInfo);
 	projectileSystem->Render();
 }
