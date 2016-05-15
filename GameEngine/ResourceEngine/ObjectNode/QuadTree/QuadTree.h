@@ -49,8 +49,8 @@ public:
 	bool Initialize(std::vector<Mesh> *terrain, ID3D11Device *gDevice, ID3D11DeviceContext *gDeviceContext);
 
 	void Release();
-	void GetQuadTreeRenderInfo(std::vector<RenderInstructions>* toRender, Frustum* frustum);
-	void GetNodeRenderInfo(NodeType* node, std::vector<RenderInstructions>* toRender, Frustum* frustum);
+	void GetQuadTreeRenderInfo(std::vector<RenderInstructions>* toRender, Frustum* frustum, bool shadow);
+	void GetNodeRenderInfo(NodeType* node, std::vector<RenderInstructions>* toRender, Frustum* frustum, bool shadow);
 	NodeType* GetParentNode(int index) { return this->m_parentNode->at(index); };
 	unsigned int GetNodeCount() { return this->nodeCount; };
 	int  GetDrawCount();

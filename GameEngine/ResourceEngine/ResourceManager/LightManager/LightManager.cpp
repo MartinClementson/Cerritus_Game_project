@@ -60,7 +60,7 @@ void LightManager::Initialize()
 
 	this->pointLights[0] = new PointLight();
 	pointLights[0]->lightPosition = DirectX::XMFLOAT4(0.0f, 40.0f, 0.0f, 1.0f); //Pos
-	pointLights[0]->lightLookAt   = DirectX::XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);	//Direct
+	pointLights[0]->lightLookAt   = DirectX::XMFLOAT4(0.0f, -10.0f, 0.0f, 1.0f);	//Direct
 	pointLights[0]->lightDiffuse  = DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);	//Color
 	pointLights[0]->SetMatrices(DirectX::XM_PI*0.8f, 1.0f, 1.0f, 100.0f);
 	pointLights[0]->castShadow	  = FALSE;
@@ -69,6 +69,38 @@ void LightManager::Initialize()
 	
 	this->numActivePointLights += 1;
 
+	this->pointLights[1] = new PointLight();
+	pointLights[1]->lightPosition = DirectX::XMFLOAT4(50.0f, 10.0f, 298.0f, 1.0f); //Pos
+	pointLights[1]->lightLookAt = DirectX::XMFLOAT4(50.0f, -10.0f, 298.0f, 1.0f);	//Direct
+	pointLights[1]->lightDiffuse = DirectX::XMFLOAT4(0.3f, 0.07f, 0.2f, 1.0f);	//Color
+	pointLights[1]->SetMatrices(DirectX::XM_PI*0.8f, 1.0f, 1.0f, 100.0f);
+	pointLights[1]->castShadow = FALSE;
+	pointLights[1]->intensity = 6.0f;
+	pointLights[1]->lightRange = 2000.0f;
+
+	this->numActivePointLights += 1;
+
+	this->pointLights[2] = new PointLight();
+	pointLights[2]->lightPosition = DirectX::XMFLOAT4(-26.0f, 3.0f, 72.0f, 1.0f); //Pos
+	pointLights[2]->lightLookAt = DirectX::XMFLOAT4(-26.0, -10.0f, 72.0f, 1.0f);	//Direct
+	pointLights[2]->lightDiffuse = DirectX::XMFLOAT4(0.3f, 0.07f, 0.2f, 1.0f);	//Color
+	pointLights[2]->SetMatrices(DirectX::XM_PI*0.8f, 1.0f, 1.0f, 100.0f);
+	pointLights[2]->castShadow = FALSE;
+	pointLights[2]->intensity = 4.0f;
+	pointLights[2]->lightRange = 1200.0f;
+
+	this->numActivePointLights += 1;
+
+	this->pointLights[3] = new PointLight();
+	pointLights[3]->lightPosition = DirectX::XMFLOAT4(3.0f, 2.0f, 221.0f, 1.0f); //Pos
+	pointLights[3]->lightLookAt = DirectX::XMFLOAT4(3.0, -10.0f, 221.0f, 1.0f);	//Direct
+	pointLights[3]->lightDiffuse = DirectX::XMFLOAT4(0.3f, 0.07f, 0.2f, 1.0f);	//Color
+	pointLights[3]->SetMatrices(DirectX::XM_PI*0.8f, 1.0f, 1.0f, 100.0f);
+	pointLights[3]->castShadow = FALSE;
+	pointLights[3]->intensity = 4.0f;
+	pointLights[3]->lightRange = 1200.0f;
+
+	this->numActivePointLights += 1;
 
 	//this->pointLights[1] = new PointLight();
 	//pointLights[1]->lightPosition = DirectX::XMFLOAT4(0.0f, 20.0f, 30.0f, 1.0f); //Pos
@@ -123,9 +155,9 @@ void LightManager::Initialize()
 	pointLights[3]->attenuation = 0.02;*/
 
 	this->dirLights[0] = new DirectionalLight();
-	this->dirLights[0]->lightPosition = DirectX::XMFLOAT4(30.0f, 40.0f, 0.0f,1.0f);
-	this->dirLights[0]->lightDiffuse  = DirectX::XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
-	this->dirLights[0]->lightLookAt = DirectX::XMFLOAT4(0.0f, 0.0f, 0.0f, 1.0f);	//Direct
+	this->dirLights[0]->lightPosition = DirectX::XMFLOAT4(30.0f, 70.0f, 100.0f,1.0f);
+	this->dirLights[0]->lightDiffuse  = DirectX::XMFLOAT4(1.0f, 0.5f, 0.4f, 1.0f);
+	this->dirLights[0]->lightLookAt = DirectX::XMFLOAT4(30.0f, -10.0f, 50.0f, 1.0f);	//Direct
 	this->dirLights[0]->intensity = 6.0;
 	this->dirLights[0]->SetMatrices(1.0f, 0.0f, 120.0f);
 	this->dirLights[0]->castShadow = TRUE;
@@ -135,8 +167,8 @@ void LightManager::Initialize()
 
 }
 void LightManager::Release()			  
-
 {
+
 }
 
 PointLightStruct * LightManager::GetPointLightStruct()

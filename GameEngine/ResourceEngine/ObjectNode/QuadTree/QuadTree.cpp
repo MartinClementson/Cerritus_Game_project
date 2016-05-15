@@ -84,7 +84,7 @@ void QuadTree::CalculateMeshDimensions(int count, Float2 & position, float & mes
 
 
 	//Calculate the maximum diameter of the mesh
-	meshWidth = max(maxX, maxZ) * 3.0f;
+	meshWidth = max(maxX, maxZ) * 10.95f;
 
 	return;
 }
@@ -501,25 +501,37 @@ void QuadTree::Release()
 	return;
 }
 
-void QuadTree::GetQuadTreeRenderInfo(std::vector<RenderInstructions>* toRender, Frustum* frustum)
+void QuadTree::GetQuadTreeRenderInfo(std::vector<RenderInstructions>* toRender, Frustum* frustum, bool shadow)
 {
 	for (size_t i = 0; i < m_parentNode->size(); i++)
 	{
-			GetNodeRenderInfo(m_parentNode->at(i), toRender, frustum);
+			GetNodeRenderInfo(m_parentNode->at(i), toRender, frustum, shadow);
 	}
 }
 
-void QuadTree::GetNodeRenderInfo(NodeType * node, std::vector<RenderInstructions>* toRender, Frustum* frustum)
+void QuadTree::GetNodeRenderInfo(NodeType * node, std::vector<RenderInstructions>* toRender, Frustum* frustum, bool shadow)
 {
 	RenderInstructions tempInstruction;// = new RenderInstructions();
 	int i, count;
 
+	if (shadow == false)
+	{
 	bool result;
-	result = frustum->CheckCube(node->position.x, 0.0f, node->position.y, (node->width / 2.0f));
+	result = frustum->CheckCube(node->position.x, 0.0f, node->position.y, (node->width / 2.0f) * 0.8325);
 
 	//if it can't be seen then none of it's children can either so don't continue
 	if (!result)
 		return;
+	}
+	else
+	{
+		bool result;
+		result = frustum->CheckCube(node->position.x, 0.0f, node->position.y, (node->width / 2.0f) * 1.2f);
+
+		//if it can't be seen then none of it's children can either so don't continue
+		if (!result)
+			return;
+	}
 
 	count = 0;
 	for (i = 0; i < 4; i++)
@@ -527,7 +539,7 @@ void QuadTree::GetNodeRenderInfo(NodeType * node, std::vector<RenderInstructions
 		if (node->nodes[i] != 0)
 		{
 			count++;
-			GetNodeRenderInfo(node->nodes[i], toRender, frustum);
+			GetNodeRenderInfo(node->nodes[i], toRender, frustum, shadow);
 		}
 
 	}

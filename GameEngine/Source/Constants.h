@@ -1,6 +1,6 @@
 #pragma once
-#define WIN_WIDTH  1280.0
-#define WIN_HEIGHT 720.0
+#define WIN_WIDTH  800.0
+#define WIN_HEIGHT 600.0
 
 #define SHADOW_WIDTH  512.0f //IF YOU CHANGE THIS SIZE; CHANGE IT IN THE FINAL PASS AS WELL.
 #define SHADOW_HEIGHT 512.0f
@@ -12,7 +12,7 @@
 #define LIGHT_SHADOW_AMOUNT 1
 ////////////////////////////////////
 
-#define MAX_NUM_POINTLIGHTS 5
+#define MAX_NUM_POINTLIGHTS 4
 #define MAX_NUM_DIRLIGHTS	1
 #define MAX_NUM_SPOTLIGHTS	2
 

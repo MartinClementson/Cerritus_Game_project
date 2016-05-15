@@ -221,7 +221,7 @@ void ResourceManager::Release()
 	{
 		currentMesh = RenderInstructions();
 
-		this->meshManager->quadTree->GetQuadTreeRenderInfo(object, frustum);
+		this->meshManager->quadTree->GetQuadTreeRenderInfo(object, frustum, this->shadowPass);
 		//materialManager->GetMaterialRenderInfo(&object->at(0));	    //Get the material data
 
 
