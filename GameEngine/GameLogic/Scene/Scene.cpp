@@ -38,10 +38,10 @@ Scene::~Scene()
 		if (bearTraps.at(i))
 			delete bearTraps.at(i);
 	}
-	for (size_t i = 0; i < WeaponUpgrades.size(); i++)
+	for (size_t i = 0; i < Pickups.size(); i++)
 	{
-		if (WeaponUpgrades.at(i))
-			delete WeaponUpgrades.at(i);
+		if (Pickups.at(i))
+			delete Pickups.at(i);
 		
 	}
 
@@ -53,8 +53,17 @@ void Scene::Initialize()
 	collision->ClearTraps();
 	InitBearTrap();
 	InitFireTrap();
-	WeaponUpgrades.push_back(new Pickup(XMFLOAT3(10, 1, 0), PickupType::Weapon));
-	WeaponUpgrades.push_back(new Pickup(XMFLOAT3(-10, 1, 0), PickupType::Heal));
+	Pickups.push_back(new Pickup(XMFLOAT3(10, 1, -20), PickupType::Weapon));
+	Pickups.push_back(new Pickup(XMFLOAT3(20, 1, -10), PickupType::Weapon));
+	Pickups.push_back(new Pickup(XMFLOAT3(30, 1, 0), PickupType::Weapon));
+	Pickups.push_back(new Pickup(XMFLOAT3(40, 1, 10), PickupType::Weapon));
+	Pickups.push_back(new Pickup(XMFLOAT3(50, 1, 20), PickupType::Weapon));
+
+	Pickups.push_back(new Pickup(XMFLOAT3(-10, 1, -20), PickupType::Heal));
+	Pickups.push_back(new Pickup(XMFLOAT3(-20, 1, -10), PickupType::Heal));
+	Pickups.push_back(new Pickup(XMFLOAT3(-30, 1, 0), PickupType::Heal));
+	Pickups.push_back(new Pickup(XMFLOAT3(-40, 1, 10), PickupType::Heal));
+	Pickups.push_back(new Pickup(XMFLOAT3(-50, 1, 20), PickupType::Heal));
 
 	for (size_t i = 0; i < this->bearTraps.size(); i++)
 	{
@@ -116,9 +125,9 @@ void Scene::Release()
 
 void Scene::Update(double deltaTime)
 {
-	for (size_t i = 0; i < WeaponUpgrades.size(); i++)
+	for (size_t i = 0; i < Pickups.size(); i++)
 	{
-		WeaponUpgrades.at(i)->Update(deltaTime);
+		Pickups.at(i)->Update(deltaTime);
 	}
 
 	for (size_t i = 0; i < fireTraps.size(); i++)
@@ -232,9 +241,9 @@ void Scene::Render()
 
 	}
 
-	for (size_t i = 0; i < WeaponUpgrades.size(); i++)
+	for (size_t i = 0; i < Pickups.size(); i++)
 	{
-		WeaponUpgrades.at(i)->Render();
+		Pickups.at(i)->Render();
 	}
 
 	//	enemySpawn->Render();
