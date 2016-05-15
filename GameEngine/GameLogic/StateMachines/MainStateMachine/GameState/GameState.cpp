@@ -26,6 +26,7 @@ GameState::~GameState()
 
 void GameState::Initialize(AudioManager* audioManager)
 {
+	currentTime = 0;
 	this->audioManager = audioManager;
 	input->Initialize();
 	player->Initialize(audioManager);
@@ -78,7 +79,7 @@ void GameState::Update(double deltaTime)
 
 		if (player->GetHealth() <= 0)
 		{
-			isPlayerDead = true;
+			//isPlayerDead = true;
 			//isActive = false;
 		}
 
@@ -437,13 +438,44 @@ void GameState::ProcessInput(double* deltaTime)
 			for (int i = 0; i < bearTraps.size(); i++)
 			{
 				if (collision->BearTrapActivation(bearTraps.at(i)))
-				bearTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
+				{
+					if (bearTraps.at(i)->GetState()->GetTrapState() == TrapState::TRAP_INACTIVE_STATE)
+					{
+						if (input->IsKeyHeld(KEY_Q))
+						{
+							if (currentTime >= 2)
+							{
+								audioManager->playEDeathSound(); //temp to know
+								bearTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
+								currentTime = 0;
+							}
+							else
+								currentTime += (float)*deltaTime;
+						}
+					}
+				}
 			}
 			for (int i = 0; i < fireTraps.size(); i++)
 			{
-				if (collision->FireTrapActivation(fireTraps.at(i)))
-					fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
+				if (fireTraps.at(i)->GetState()->GetTrapState() == TrapState::TRAP_INACTIVE_STATE)
+				{
+					if (input->IsKeyHeld(KEY_Q))
+					{
+						if (currentTime >= 2)
+						{
+							audioManager->playEDeathSound();
+							fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
+							currentTime = 0;
+						}
+						else
+							currentTime += (float)*deltaTime;
+					}
+				}
 			}
+		}
+		else
+		{
+			currentTime = 0;
 		}
 		/*for (size_t i = 0; i < bearTraps.size(); i++)
 		{

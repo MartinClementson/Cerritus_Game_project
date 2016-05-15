@@ -18,6 +18,8 @@ private:
 	float mouseX, mouseY;
 	float lastMouseX, lastMouseY;
 
+	bool isQPressed;
+
 private:
 	void ProcessInput();
 	bool ReadKeyboard();
