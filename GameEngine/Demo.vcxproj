@@ -150,6 +150,8 @@
     <ClCompile Include="GameLogic\Animation\Animation.cpp" />
     <ClCompile Include="GameLogic\Character\Character.cpp" />
     <ClCompile Include="GameLogic\Character\Enemy\Enemy.cpp" />
+    <ClCompile Include="GameLogic\Character\Enemy\EnemyBase.cpp" />
+    <ClCompile Include="GameLogic\Character\Enemy\Healer.cpp" />
     <ClCompile Include="GameLogic\Character\Player\Player.cpp" />
     <ClCompile Include="GameLogic\Character\ProjectileSystem\ProjectileSystem.cpp" />
     <ClCompile Include="GameLogic\Character\ProjectileSystem\Projectile\Projectile.cpp" />
@@ -165,10 +167,12 @@
     <ClCompile Include="GameLogic\Scene\GameObject\Model\Model.cpp" />
     <ClCompile Include="GameLogic\Scene\GameObject\ParticleEmmiter\ParticleEmmiter.cpp" />
     <ClCompile Include="GameLogic\Scene\GameObject\ParticleEmmiter\Particle\Particle.cpp" />
+    <ClCompile Include="GameLogic\Scene\GameObject\Pickup\Pickup.cpp" />
     <ClCompile Include="GameLogic\Scene\Scene.cpp" />
     <ClCompile Include="GameLogic\Scene\Trap\BearTrap\BearTrap.cpp" />
     <ClCompile Include="GameLogic\Scene\Trap\FireTrap\FireTrap.cpp" />
     <ClCompile Include="GameLogic\Scene\Trap\Trap.cpp" />
+    <ClCompile Include="GameLogic\Scene\Waves\Waves.cpp" />
     <ClCompile Include="GameLogic\StateMachines\AudioManager\AudioManager.cpp" />
     <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\AttackState\AttackState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\DeathState\EnemyDeathState.cpp" />
@@ -180,6 +184,7 @@
     <ClCompile Include="GameLogic\StateMachines\MainStateMachine\GameState\PausedState\MainPausedState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\MainStateMachine\MainStateMachine.cpp" />
     <ClCompile Include="GameLogic\StateMachines\MainStateMachine\MenuState\MenuState.cpp" />
+    <ClCompile Include="GameLogic\StateMachines\MainStateMachine\WinState\WinState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\StateClass\StateClass.cpp" />
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\ActiveState\ActiveState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\IldeState\TrapIdleState.cpp" />
@@ -212,6 +217,8 @@
     <ClInclude Include="GameLogic\Animation\Animation.h" />
     <ClInclude Include="GameLogic\Character\Character.h" />
     <ClInclude Include="GameLogic\Character\Enemy\Enemy.h" />
+    <ClInclude Include="GameLogic\Character\Enemy\EnemyBase.h" />
+    <ClInclude Include="GameLogic\Character\Enemy\Healer.h" />
     <ClInclude Include="GameLogic\Character\Player\Player.h" />
     <ClInclude Include="GameLogic\Character\ProjectileSystem\ProjectileSystem.h" />
     <ClInclude Include="GameLogic\Character\ProjectileSystem\Projectile\Projectile.h" />
@@ -227,10 +234,12 @@
     <ClInclude Include="GameLogic\Scene\GameObject\Model\Model.h" />
     <ClInclude Include="GameLogic\Scene\GameObject\ParticleEmmiter\ParticleEmmiter.h" />
     <ClInclude Include="GameLogic\Scene\GameObject\ParticleEmmiter\Particle\Particle.h" />
+    <ClInclude Include="GameLogic\Scene\GameObject\Pickup\Pickup.h" />
     <ClInclude Include="GameLogic\Scene\Scene.h" />
     <ClInclude Include="GameLogic\Scene\Trap\BearTrap\BearTrap.h" />
     <ClInclude Include="GameLogic\Scene\Trap\FireTrap\FireTrap.h" />
     <ClInclude Include="GameLogic\Scene\Trap\Trap.h" />
+    <ClInclude Include="GameLogic\Scene\Waves\Waves.h" />
     <ClInclude Include="GameLogic\StateMachines\AudioManager\AudioManager.h" />
     <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\AttackState\AttackState.h" />
     <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\DeathState\EnemyDeathState.h" />
@@ -242,6 +251,7 @@
     <ClInclude Include="GameLogic\StateMachines\MainStateMachine\GameState\PausedState\MainPausedState.h" />
     <ClInclude Include="GameLogic\StateMachines\MainStateMachine\MainStateMachine.h" />
     <ClInclude Include="GameLogic\StateMachines\MainStateMachine\MenuState\MenuState.h" />
+    <ClInclude Include="GameLogic\StateMachines\MainStateMachine\WinState\WinState.h" />
     <ClInclude Include="GameLogic\StateMachines\StateClass\StateClass.h" />
     <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\ActiveState\ActiveState.h" />
     <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\IldeState\TrapIdleState.h" />

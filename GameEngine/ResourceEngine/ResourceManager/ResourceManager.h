@@ -12,6 +12,8 @@ class ResourceManager
 private:
 	RenderInstructions currentMesh;
 	RenderInstructions currentUI;
+	RenderInstructions currentUI1;
+	RenderInstructions currentUI2;
 
 	//MaterialManager* materialManager		= nullptr;
 	MeshManager* meshManager				= nullptr;
@@ -52,5 +54,7 @@ public:
 private:
 
 	XMFLOAT4X4 CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation, XMFLOAT3* scale);
+
+
 };
 

@@ -46,6 +46,7 @@ void Mesh::GetMeshRenderInfo(RenderInstructions * toRender)
 
 	toRender->indexBuffer	=	 this->indexBuffer;
 	toRender->indexCount	=	&this->indexCount;
+	//toRender->uvIGuess      =    this->offset;
 
 	toRender->vertexBuffer  =	 this->vertexBuffer;
 	toRender->vertexCount	=	&this->vertCount;

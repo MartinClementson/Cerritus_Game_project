@@ -4,13 +4,14 @@
 
 FireTrap::FireTrap()
 {
-	grapichs = Graphics::GetInstance();
+	graphics = Graphics::GetInstance();
 	trapState = new TrapStateMachine();
 }
 
 FireTrap::FireTrap(XMFLOAT3 position)
 {
-	grapichs = Graphics::GetInstance();
+	graphics = Graphics::GetInstance();
+	
 	dotDuration = 2.5f;
 	trapState = new TrapStateMachine();
 
@@ -18,6 +19,7 @@ FireTrap::FireTrap(XMFLOAT3 position)
 	trapState->Initialize();
 	this->rotation = { 0,0,0 };
 	this->damage = 1.0f;
+	Initialize(this->position, this->rotation);
 
 	this->isActive = true;
 	this->renderInfo.object = MeshEnum::TRAP_FIRE;
@@ -41,7 +43,7 @@ void FireTrap::Initialize(XMFLOAT3 position,XMFLOAT3 rotation)
 	this->isActive = true;
 	this->renderInfo.object = MeshEnum::TRAP_FIRE;
 	this->renderInfo.radius = radius;
-
+	this->activeTimer = 0.0f;
 	radius = 1.0f;
 
 }
@@ -53,24 +55,48 @@ void FireTrap::Release()
 
 void FireTrap::Update(double deltaTime)
 { 
+
+	renderInfo.normalizedReloadVal = -1;
+	if (this->currReloadTime > 0)
+		currReloadTime -= deltaTime / 4;
+	if (this->GetState()->GetTrapState() == TrapState::TRAP_ACTIVE_STATE)
+	{
+		this->activeTimer += (float)deltaTime;
+	}
+
+	if (activeTimer > 1.0f)
+	{
+		this->GetState()->SetTrapState(TrapState::TRAP_INACTIVE_STATE);
+		activeTimer = 0.0f;
+	}
+
 	if (dotDuration > 0)
 	{
 		dotDuration = dotDuration - 1 * (float)deltaTime;// thinkng of how this will work, need a boolean for if activated and if enemys have collided with it.
-
-		//dotDuration = dotDuration - 1 * (float)deltaTime;
-
 	}
+
 	renderInfo.position = position ;
 	renderInfo.rotation = rotation;
 	renderInfo.radius = radius;
 	renderInfo.render = true;
+
+	if (this->GetState()->GetTrapState() != TrapState::TRAP_INACTIVE_STATE)
+	{
+		renderInfo.glow = true;
+	}
+	else
+	{
+		renderInfo.glow = false;
+	}
 }	
 
 void FireTrap::Render()
 {
 	if (this->isActive)
 	{
-		grapichs->QueueRender(&renderInfo);
+		if (this->isBeingReloaded)
+			renderInfo.normalizedReloadVal = this->currReloadTime / this->maxReloadTime;
+		graphics->QueueRender(&renderInfo);
 	}
 }
 

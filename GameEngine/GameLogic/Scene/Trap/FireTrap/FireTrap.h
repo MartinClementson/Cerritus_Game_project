@@ -23,6 +23,7 @@ private:
 	TrapStateMachine* trapState;
 	//RenderInfoTrap renderInfo;
 	//RenderInfoTrap* renderInfo;
-	Graphics* grapichs;
+	Graphics* graphics;
+	float activeTimer;
 };
 

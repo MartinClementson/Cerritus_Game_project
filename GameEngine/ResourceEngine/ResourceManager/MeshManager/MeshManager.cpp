@@ -18,6 +18,7 @@ MeshManager::~MeshManager()
 
 void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext)
 {
+	float x = 0;
 	this->gDevice = gDevice;
 	this->gDeviceContext = gDeviceContext;
 	
@@ -29,6 +30,14 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 
 	fullScreenQuad.Initialize(gDevice, gDeviceContext);
 	CreateFullScreenQuad();
+
+	killCountQuad.Initialize(gDevice, gDeviceContext);
+	CreateKillCountQuad();
+
+	waveCountQuad.Initialize(gDevice, gDeviceContext);
+	CreateWaveCountQuad();
+	
+
 }
 
 void MeshManager::Release()
@@ -43,8 +52,11 @@ void MeshManager::Release()
 	}
 	placeHolder.Release();
 	placeHolderPlane.Release();
-	fullScreenQuad.Release();
 	quadTree->Release();
+	fullScreenQuad.Release(); 
+	killCountQuad.Release();
+	waveCountQuad.Release();
+	
 }
 
 void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materialID, unsigned int vertexCount, UINT indexCount, std::vector<Vertex> vertices, std::vector<AnimVert> aniVertices, std::vector<UINT> indices, bool isScene)
@@ -62,7 +74,6 @@ void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materia
 		{
 			newIndices[i] = indices[i];
 		}
-
 		Mesh newMesh = Mesh(hasSkeleton, skeletonID, materialID);
 		newMesh.Initialize(this->gDevice, this->gDeviceContext);
 		newMesh.CreateVertexBuffer(newVertices, vertexCount, isScene);
@@ -100,10 +111,6 @@ void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materia
 	}
 }
 
-//int MeshManager::GetMaterialID(unsigned int index)
-//{
-//	return gameMeshes->at(index);
-//}
 
 
 
@@ -114,7 +121,7 @@ void MeshManager::CreateQuadTree()
 
 void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * toRender)
 {
-	if(*meshEnum == MeshEnum::MAIN_CHARACTER)
+	if (*meshEnum == MeshEnum::MAIN_CHARACTER)
 		this->gameMeshes->at(0).GetMeshRenderInfo(toRender);
 
 	else if (*meshEnum == MeshEnum::ENEMY_1)
@@ -127,8 +134,14 @@ void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * to
 		this->gameMeshes->at(3).GetMeshRenderInfo(toRender);
 	else if (*meshEnum == MeshEnum::PROJECTILE_1)
 		this->gameMeshes->at(4).GetMeshRenderInfo(toRender);
-	//else if (*meshEnum == MeshEnum::SCENE)
-		//this->quadTree->GetQuadTreeRenderInfo(toRender);
+	else if (*meshEnum == MeshEnum::PICKUP_HEAL)
+			toRender->materialID = 17;
+	else if (*meshEnum == MeshEnum::PICKUP_WEAPON)
+			toRender->materialID = 18;
+
+	else if (*meshEnum == MeshEnum::PLACEHOLDER)
+		this->GetPlaceHolderMeshInfo(toRender);
+
 	else
 	{
 		this->gameMeshes->at(5).GetMeshRenderInfo(toRender);
@@ -187,26 +200,29 @@ void MeshManager::CreatePlaceHolderPlane()
 
 	Vertex planeVerts[4];
 
-	planeVerts[0].position = Float3(-200.0f, -0.1f, 200.0f);		//0
+
+	(Float3)planeVerts[0].position = Float3(-200.0f, -0.1f, 200.0f);		//0
 	planeVerts[0].uv.x = 0.0f;
 	planeVerts[0].uv.y = 0.0f;
-	planeVerts[0].normal = Float3(0.0f, 1.0f, 0.0f);
+	(Float3)planeVerts[0].normal = Float3(0.0f, 1.0f, 0.0f);
 	
 
-	planeVerts[1].position = Float3(200.0f, -0.1f, 200.0f);		//3
+	(Float3)planeVerts[1].position = Float3(200.0f, -0.1f, 200.0f);		//3
 	planeVerts[1].uv.x = 1.0;
 	planeVerts[1].uv.y = 0.0f;
-	planeVerts[1].normal = Float3(0.0f, 1.0f, 0.0f);
+	(Float3)planeVerts[1].normal = Float3(0.0f, 1.0f, 0.0f);
 
-	planeVerts[2].position = Float3(200.0f, -0.1f, -200.0f);		//5
+
+	(Float3)planeVerts[2].position = Float3(200.0f, -0.1f, -200.0f);		//5
 	planeVerts[2].uv.x = 1.0f;
 	planeVerts[2].uv.y = 1.0f;
-	planeVerts[2].normal = Float3(0.0f, 1.0f, 0.0f);
+	(Float3)planeVerts[2].normal = Float3(0.0f, 1.0f, 0.0f);
 
-	planeVerts[3].position = Float3(-200.0f, -0.1f, -200.0f);		//7
+
+	(Float3)planeVerts[3].position = Float3(-200.0f, -0.1f, -200.0f);		//7
 	planeVerts[3].uv.x = 0.0f;
 	planeVerts[3].uv.y = 1.0f;
-	planeVerts[3].normal = Float3(0.0f, 1.0f, 0.0f);
+	(Float3)planeVerts[3].normal = Float3(0.0f, 1.0f, 0.0f);
 
 	UINT indices[6] =
 	{
@@ -250,13 +266,76 @@ void MeshManager::CreateFullScreenQuad()
 		0, 2, 3
 	};
 
+	this->fullScreenQuad.CreateVertexBuffer(planeVerts, 4);
+	this->fullScreenQuad.CreateIndexBuffer(indices, 6);
+
+}
+
+void MeshManager::CreateKillCountQuad()
+{
+	Vertex planeVerts[4];
+
+	planeVerts[0].position = Float3(-1.0f, 1.0f, 0.0f);		//0
+	planeVerts[0].uv.x = 0.035f;
+	planeVerts[0].uv.y = 1-0.577f;
+
+	planeVerts[1].position = Float3(-0.5f, 1.0f, 0.0f);		//3
+	planeVerts[1].uv.x = 0.062f;
+	planeVerts[1].uv.y = 1-0.577f;
+	
+
+	planeVerts[2].position = Float3(-0.5f, 0.8f, 0.0f);		//5
+	planeVerts[2].uv.x = 0.062f;
+	planeVerts[2].uv.y = 1-0.525f;
+
+	planeVerts[3].position = Float3(-1.0f, 0.8f, 0.0f);		//7
+	planeVerts[3].uv.x = 0.035f;
+	planeVerts[3].uv.y = 1-0.525f;
+
+	UINT indices[6] =
+	{
+		0, 1, 2,
+		0, 2, 3
+	};
+
+	this->killCountQuad.CreateVertexBuffer(planeVerts, 4);
+	this->killCountQuad.CreateIndexBuffer(indices, 6);
+}
+
+void MeshManager::CreateWaveCountQuad()
+{
+	//wave Counter Quad for the wave numbers
+	Vertex planeVerts[4];
+
+	planeVerts[0].position = Float3(-1.0f, -0.8f, 0.0f);		//0
+	planeVerts[0].uv.x = 0.083f;
+	planeVerts[0].uv.y = 1 - 0.476f;
+
+	planeVerts[1].position = Float3(-0.8f, -0.8f, 0.0f);		//3
+	planeVerts[1].uv.x = 0.129f;
+	planeVerts[1].uv.y = 1 - 0.476f;
+
+	planeVerts[2].position = Float3(-0.8f, -1.0f, 0.0f);		//5
+	planeVerts[2].uv.x = 0.129f;
+	planeVerts[2].uv.y = 1 - 0.423f;
+	
+	planeVerts[3].position = Float3(-1.0f, -1.0f, 0.0f);		//7
+	planeVerts[3].uv.x = 0.083f;
+	planeVerts[3].uv.y = 1 - 0.423f;
+
+	//offset.enemyOffsetX = 10;
+	//offset.waveOffsetX = 10;
 
 
 
-	this->fullScreenQuad.CreateVertexBuffer(planeVerts, 4, false);
-	this->fullScreenQuad.CreateIndexBuffer(indices, 6, false);
+	UINT indices[6] =
+	{
+		0, 1, 2,
+		0, 2, 3
+	};
 
-
+	this->waveCountQuad.CreateVertexBuffer(planeVerts, 4);
+	this->waveCountQuad.CreateIndexBuffer(indices, 6);
 }
 
 
@@ -280,7 +359,6 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
 		toRender->materialID = 8;
-		//fullScreenQuad.GetMaterialID();
 	}
 	else if (*uiEnum == UITextures::MENU)
 	{
@@ -297,40 +375,54 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 		fullScreenQuad.GetMeshRenderInfo(toRender);
 		toRender->materialID = 11;
 	}
-	else if (*uiEnum == UITextures::EXITMENU)
+	else if (*uiEnum == UITextures::CONTROLS)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
 		toRender->materialID = 12;
 	}
-	else if (*uiEnum == UITextures::RESTARTMENU)
+	else if (*uiEnum == UITextures::WIN)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
 		toRender->materialID = 13;
 	}
-	else if (*uiEnum == UITextures::CONTROLSBUTTONMENU)
+	if (*uiEnum == UITextures::NUMERATION)
 	{
-		fullScreenQuad.GetMeshRenderInfo(toRender);
+		killCountQuad.GetMeshRenderInfo(toRender);
 		toRender->materialID = 14;
 	}
-	else if (*uiEnum == UITextures::CONTROLS)
+	if (*uiEnum == UITextures::WAVECOUNTER)
+	{
+		waveCountQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 15;
+	}
+	/*else if (*uiEnum == UITextures::NUMERATION)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
 		toRender->materialID = 15;
 	}
 	//else if (*uiEnum == UITextures::RESUMEPAUSE)
+		toRender->materialID = 14;
+
+	}*/
+
+}
+
+void MeshManager::GetKillCountQuadInfoHud(UITextures * uiEnum, RenderInstructions * toRender)
+{
+	//if (*uiEnum == UITextures::NUMERATION)
 	//{
-	//	fullScreenQuad.GetMeshRenderInfo(toRender);
+	//	killCountQuad.GetMeshRenderInfo(toRender);
 	//	toRender->materialID = 14;
 	//}
-	//else if (*uiEnum == UITextures::EXITPAUSE)
-	//{
-	//	fullScreenQuad.GetMeshRenderInfo(toRender);
-	//	toRender->materialID = 15;
-	//}
-	//fullScreenQuad.GetMeshRenderInfo(toRender);
-	//toRender->materialID = 6;
-	//toRender->materialID = 7;
-//	toRender->materialID = 8;
-//	toRender->materialID = 6; //temp
 }
+
+void MeshManager::GetWaveCountQuadInfoHud(UITextures * uiEnum, RenderInstructions * toRender)
+{
+	/*if (*uiEnum == UITextures::WAVECOUNTER)
+	{
+		waveCountQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 15;
+	}*/
+}
+
 #pragma endregion

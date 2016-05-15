@@ -19,13 +19,16 @@ public:
 	void SetSlow(float slow);
 	TrapStateMachine* GetState();
 
+
+
 	//Collision();
 private:
 	RenderInfoTrap renderInfo;
 	BearTrap();
 	float slow;
 	TrapStateMachine* trapState;
-	
+	float activeTimer;
+
 	//RenderInfoTrap* renderinfo; 
 	Graphics*  grapichs;
 

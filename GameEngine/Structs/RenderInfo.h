@@ -29,10 +29,13 @@ struct RenderInstructions
 	ID3D11Buffer* indexBuffer = nullptr;
 	UINT* indexCount = 0;
 
+	//UVoffset* uvIGuess = nullptr;
+
 	ID3D11ShaderResourceView* diffuseMap = nullptr;
 	ID3D11ShaderResourceView* normalMap = nullptr;
 	ID3D11ShaderResourceView* specularMap = nullptr;
 	ID3D11ShaderResourceView* glowMap = nullptr;
+	bool glow = true;
 };
 
 struct RenderInfoObject {
@@ -46,9 +49,14 @@ struct RenderInfoObject {
 
 
 struct RenderInfoUI {
-	XMFLOAT2 size;
-	XMFLOAT2 rotation;
-	UITextures object;
+	XMFLOAT3 size;
+	XMFLOAT3 uv;
+	UITextures UIobject;
+	UiNumbers UInumber;
+	//HUDEN Blyat;
+	
+
+	//HUDText texture;
 	//Shaders shader;	//these are enum
 	//float radius;
 
@@ -59,8 +67,9 @@ struct RenderInfoEnemy {
 	XMFLOAT3 rotation;
 	MeshEnum object;
 	bool render				  = true;
-	bool showHealthBar		  = true;
-	float normalizedHealthVal = 0.3f; //this value is calculated  with currentHealth/maxHealth. This controls the size and color of the healthbar
+	bool showHealthBar		  = false;
+	bool isBeingHealed		  = false;
+	float normalizedHealthVal = 1.0f; //this value is calculated  with currentHealth/maxHealth. This controls the size and color of the healthbar
 	float radius;
 
 	//EnemyAnimations enemyAnim;	//these are enum
@@ -81,6 +90,8 @@ struct RenderInfoTrap {
 	MeshEnum object;
 	bool render = true;
 	float radius;
+	bool glow;
+	float normalizedReloadVal = 1.0f; 
 	//Shaders shader;
 	//TrapAnimations trapAnim;*/ //these are enum
 };

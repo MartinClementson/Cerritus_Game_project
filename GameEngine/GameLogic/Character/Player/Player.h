@@ -85,9 +85,18 @@ public:
 	float GetHealth();
 	float GetPoints();
 	float GetMulti();
+	bool thrust;
+	bool fall;
+
+	float GetMaxHealth();
+	
+	float grav = 0.05f;
 
 	UpgradeType		  GetUpgrade();
 	void SetUpgrade(UpgradeType upgrade);
+
+	void UpgradeWeapon();
+	void DowngradeWeapon();
 
 public:
 	UpgradeType upgrade;
@@ -105,7 +114,7 @@ private:
 	//Collision();
 
 
-
+	
 	Vec3 velocity			= Vec3(0.1f,0.1f,0.1f);
 	Vec3 acceleration		= Vec3(0.0f, 0.0f, 0.0f);
 	float fallOfFactor		= 8.0f; //the bigger number, the faster fallOff , this is like friction

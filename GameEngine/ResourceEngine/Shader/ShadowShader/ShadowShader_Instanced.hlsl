@@ -60,11 +60,12 @@ StructuredBuffer<DirectionalLight>  dirLights    : register(t9);
 struct SHADOW_VS_IN
 {
 	float3 position			: POSITION;
-	float3 Normal		 : TEXCOORD0;
-	float2 Uv			 : TEXCOORD1;
-	float2 BiTangent	 : TEXCOORD2;
-	float2 Tangent		 : TEXCOORD3;
+	float3 Normal			: TEXCOORD0;
+	float2 Uv				: TEXCOORD1;
+	float2 BiTangent		: TEXCOORD2;
+	float2 Tangent			: TEXCOORD3;
 	float4x4 worldMatrix	: WORLD;
+	unsigned int glow	    : GLOW;
 };
 struct SHADOW_VS_OUT
 {

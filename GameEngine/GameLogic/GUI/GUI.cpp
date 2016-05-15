@@ -4,44 +4,64 @@
 
 GUI::GUI()
 {
-	items = new std::vector<GUIElement*>;
+	grapichs = Graphics::GetInstance();
+	renderInfo.size = this->size;
+	renderInfo.uv = this->uv;
+	renderInfo.UIobject = texture;
+	renderInfo.UInumber = this->numbers;
+
+}
+
+GUI::GUI(UITextures texture)
+{
 }
 
 
 GUI::~GUI()
 {
-	delete items;
+	
 }
 
 void GUI::Initialize()
 {
-	//items = new std::vector<GUIElement*>;
-	size = size;
-	position = position;
+	
+	
+	this->size = { 1.0f,1.0f,0.0f };
+	this->uv = { 1.0f,1.0f,0.0f };
 	grapichs = Graphics::GetInstance();
-	texture = UITextures::MENU;
+	this->texture = UITextures::HUD;
+	this->numbers = numbers;
+	
+	
+	
 }
 
 void GUI::Release()
 {
+
 }
 
 void GUI::Update(double deltaTime)
 {
+
+	/*renderInfo.size = this->size;
+	renderInfo.uv = this->uv;*/
+	renderInfo.UIobject = this->texture;
+	renderInfo.UInumber = this->numbers;
 	
-	renderInfo = { size,position };		
-	this->renderInfo.object = texture;
 
 }
 
 void GUI::Render()
 {
-	renderInfo = { size,position };
 
-	this->renderInfo.object = texture;
-
+	grapichs = Graphics::GetInstance();
+	renderInfo.size = this->size;
+	renderInfo.uv = this->uv;
+	renderInfo.UIobject = texture;
+	renderInfo.UInumber = this->numbers;
+	//renderInfo.UIobject = texture1;
 	grapichs->QueueRender(&renderInfo);
-	
 }
 
 UITextures GUI::getUI()
@@ -49,17 +69,41 @@ UITextures GUI::getUI()
 	return texture;
 }
 
-XMFLOAT2 GUI::getPos()
+XMFLOAT3 GUI::getPos()
 {
-	return position;
+	return uv;
 }
 
-void GUI::setPos(XMFLOAT2 position)
+void GUI::setPos(XMFLOAT3 position)
 {
-	this->position = position;
+	this->uv = position;
 }
 
 void GUI::setUI(UITextures texture)
-{
+{ 
+	
 	this->texture = texture;
+	
 }
+
+
+void GUI::setUINR(UiNumbers numbers)
+{
+	this->numbers = numbers;
+}
+
+//void GUI::setBlyat(UITextures blyat, UiNumbers numberino)
+//{
+//
+//	this->texture1 = blyat;
+//	this->numbers = numberino;
+//}
+
+
+void GUI::poop()
+{
+	//pushing it to the limit
+
+
+}
+

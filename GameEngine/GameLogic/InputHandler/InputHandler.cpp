@@ -32,7 +32,7 @@ bool InputHandler::Initialize(HWND* hwndP ,HINSTANCE* hInstance)
 {
 	//keyboard->Acquire();
 	this->hwndP = hwndP;
-
+	isQPressed = false;
 	HRESULT hr = DirectInput8Create(
 		*hInstance,
 		DIRECTINPUT_VERSION,
@@ -124,6 +124,11 @@ bool InputHandler::IsKeyPressed(InputKeys* key)
 	{
 		return true;
 	}
+	else if (*key == KEY_Q && keyboardState[DIK_Q])
+	{
+		isQPressed = true;
+		return true;
+	}
 	else if (*key == KEY_LEFT && keyboardState[DIK_LEFT])
 	{
 		return true;
@@ -156,13 +161,17 @@ bool InputHandler::IsKeyPressed(InputKeys* key)
 	}
 	else
 	{
+		isQPressed = false;
 		return false;
 	}
 }
 
 bool InputHandler::IsKeyHeld(InputKeys* key)
 {
-		
+	if (isQPressed == true)
+	{
+		return true;
+	}
 	return false;
 }
 

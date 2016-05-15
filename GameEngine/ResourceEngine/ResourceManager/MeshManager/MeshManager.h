@@ -5,6 +5,8 @@
 #include "../../ObjectNode/Mesh/Mesh.h"
 #include "../../../Enumerations/Enumerations.h"
 #include "../../ObjectNode/QuadTree/QuadTree.h"
+
+
 class MeshManager
 {
 
@@ -18,10 +20,16 @@ private:
 	Mesh placeHolder;
 	Mesh placeHolderPlane;
 	Mesh fullScreenQuad;
+	Mesh killCountQuad;
+	Mesh waveCountQuad;
+	
+	
 
 	void CreatePlaceHolder();
 	void CreatePlaceHolderPlane();
 	void CreateFullScreenQuad();
+	void CreateKillCountQuad();
+	void CreateWaveCountQuad();
 public:
 	QuadTree* quadTree;
 	MeshManager();
@@ -41,7 +49,7 @@ public:
 		std::vector<UINT> indices,
 		bool isScene
 		);
-
+	//UVoffset offset;
 	std::vector<Mesh>* GetMeshes() { return this->gameMeshes; }
 	std::vector<Mesh>* GetSceneMeshes() { return this->sceneMeshes; }
 	void CreateQuadTree();
@@ -51,5 +59,9 @@ public:
 	void GetPlaceHolderPlaneInfo(RenderInstructions* toRender);
 	void GetFullScreenQuadInfo(RenderInstructions* toRender);
 	void GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions* toRender);
+	void GetKillCountQuadInfoHud(UITextures * uiEnum, RenderInstructions* toRender);
+	void GetWaveCountQuadInfoHud(UITextures*uiEnum, RenderInstructions*toRender);
+
+	
 };
 

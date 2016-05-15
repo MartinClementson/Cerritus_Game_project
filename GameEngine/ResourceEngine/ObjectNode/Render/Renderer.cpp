@@ -54,6 +54,7 @@ void Renderer::Release()
 
 	SAFE_RELEASE(worldBuffer);
 	SAFE_RELEASE(cbufferPerFrame);
+	SAFE_RELEASE(OffsetBuffer);
 	
 	SAFE_RELEASE(sampleBoolsBuffer);
 	for (size_t i = 0; i < LIGHTBUFFER_AMOUNT; i++)
@@ -197,6 +198,101 @@ void Renderer::Render(RenderInfoUI * object)
 {
 	RenderInstructions* renderObject;
 
+	//Check which enum, Switch for different enums 0 - 9 
+	UV meshUv;
+	if (object->UIobject == UITextures::NUMERATION)
+	{
+
+		switch (object->UInumber)
+		{
+			case UiNumbers::ONE:
+			{
+				meshUv.enemyoffsetX = 0.028f;
+				break;
+			}
+			case UiNumbers::TWO:
+			{
+				meshUv.enemyoffsetX = 0.028f *2 ;
+				break;
+			}
+			case UiNumbers::THREE:
+			{
+				meshUv.enemyoffsetX = 0.028f * 3;
+				break;
+			}
+			case UiNumbers::FOUR:
+			{
+				meshUv.enemyoffsetX = 0.028f * 4;
+				break;
+			}
+			case UiNumbers::FIVE:
+			{	meshUv.enemyoffsetX = 0.028f * 5;
+				break;
+			}
+			case UiNumbers::SIX:
+			{
+				meshUv.enemyoffsetX = 0.028f * 6;
+				break;
+			}
+			case UiNumbers::SEVEN:
+			{
+				meshUv.enemyoffsetX = 0.028f * 7;
+				break;
+			}
+			case UiNumbers::EIGHT:
+			{
+				meshUv.enemyoffsetX = 0.028f * 8;
+				break;
+			}
+			case UiNumbers::NINE:
+			{
+				meshUv.enemyoffsetX = 0.028f * 9;
+				break;
+			}
+			case UiNumbers::ZERO:
+			{
+				meshUv.enemyoffsetX = 0.0f;
+				break;
+			}
+				
+		}
+	}
+
+	else if (object->UIobject == UITextures::WAVECOUNTER)
+	{
+		switch (object->UInumber)
+		{
+			case UiNumbers::ONE:
+			{
+				meshUv.waveoffsetX = 0.0f;
+				break;
+			}
+			case UiNumbers::TWO:
+			{
+				meshUv.waveoffsetX = 0.056f;
+				break;
+			}
+			case UiNumbers::THREE:
+			{
+				meshUv.waveoffsetX = 0.056f * 2;
+				break;
+			}
+			case UiNumbers::FOUR:
+			{
+				meshUv.waveoffsetX = 0.056f * 3;
+				break;
+			}
+			case UiNumbers::FIVE:
+			{	
+				meshUv.waveoffsetX = 0.056f * 4;
+				break;
+			}
+
+		}
+	}
+	
+	updateUVBuffer(&meshUv);
+
 	renderObject = this->resourceManager->GetRenderInfo(object);
 	//Render with the given render instruction
 	/*this->sceneCam->Updateview(object->position);
@@ -293,6 +389,15 @@ void Renderer::RenderInstanced(RenderInfoTrap * object, InstancedData * arrayDat
 
 	objectInstruction = this->resourceManager->GetRenderInfo(object);
 
+	/*if (object->glow == false)
+	{
+		objectInstruction->glow = false;
+	}
+	else
+	{
+		objectInstruction->glow = true;
+	}*/
+
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
 	ZeroMemory(&mappedResource, sizeof(D3D11_MAPPED_SUBRESOURCE));
 
@@ -303,9 +408,8 @@ void Renderer::RenderInstanced(RenderInfoTrap * object, InstancedData * arrayDat
 	memcpy(tempStructMatrices, (void*)arrayData, sizeof(InstancedData)*amount);
 
 	gDeviceContext->Unmap(instancedBuffers[INSTANCED_WORLD], 0);
-
+	
 	RenderInstanced(objectInstruction, this->instancedBuffers[INSTANCED_WORLD], amount);
-
 
 	//Reset the shaders to normal shaders for the next objects to rener
 	if (this->resourceManager->IsGbufferPass())
@@ -331,7 +435,6 @@ void Renderer::RenderBillBoard(RenderInfoObject * object, BillboardData * arrayD
 
 	if(object != nullptr)
 		objectInstruction = this->resourceManager->GetRenderInfo(object);
-	
 
 #pragma region Map the array to the vertex buffer
 	D3D11_MAPPED_SUBRESOURCE mappedResource;
@@ -457,7 +560,7 @@ void Renderer::Render(RenderInstructions * object)
 	this->gDeviceContext->GSSetShaderResources(POINTLIGHTS_BUFFER_INDEX, 1, &pointLightStructuredBuffer);
 	this->gDeviceContext->GSSetShaderResources(DIRLIGHTS_BUFFER_INDEX, 1, &dirLightStructuredBuffer);
 	UpdateWorldBuffer(&object->worldBuffer);
-
+	
 #pragma region Check what vertex is to be used
 
 	//We need to make sure that we use the right kind of vertex when rendering
@@ -533,7 +636,6 @@ void Renderer::Render(RenderInstructions * object)
 
 	this->UpdateSampleBoolsBuffer(&sampleBools);
 #pragma endregion
-	
 	
 	this->gDeviceContext->DrawIndexed((UINT)*object->indexCount, 0, 0);
 
@@ -694,7 +796,7 @@ void Renderer::RenderInstanced(RenderInstructions * object, ID3D11Buffer* instan
 		sampleBools.specularMap = FALSE;
 	}
 
-	if (object->glowMap != nullptr)
+	if (object->glowMap != nullptr /*&& object->glow == true*/)
 	{
 		this->gDeviceContext->PSSetShaderResources(3, 1, &object->glowMap);
 		sampleBools.glowMap = TRUE;
@@ -958,10 +1060,62 @@ void Renderer::UpdateSampleBoolsBuffer(SampleBoolStruct * sampleStruct)
 
 }
 
+void Renderer::updateUVBuffer(UV * uvstruct)
+{
+	//uvstruct->enemyoffsetX = this->enemyOffset;
+	//uvstruct->waveoffsetX = this->waveOffset;
+
+	D3D11_MAPPED_SUBRESOURCE mappedResourceUV;
+	ZeroMemory(&mappedResourceUV, sizeof(mappedResourceUV));
+
+	//mapping to the matrixbuffer
+	this->gDeviceContext->Map(OffsetBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mappedResourceUV);
+
+	UV* temporaryUV = (UV*)mappedResourceUV.pData;
+
+	*temporaryUV = *uvstruct;
+
+
+
+	this->gDeviceContext->Unmap(OffsetBuffer, 0);
+	gDeviceContext->VSSetConstantBuffers(UV_BUFFER_INDEX, 1, &this->OffsetBuffer);
+	gDeviceContext->PSSetConstantBuffers(UV_BUFFER_INDEX, 1, &this->OffsetBuffer);
+}
+
 bool Renderer::CreateBuffers()
 {
 
 	HRESULT hr;
+//-----------------------------------------------------------------------------------------------------------------------------------
+//UV CONSTANT BUFFER
+//-----------------------------------------------------------------------------------------------------------------------------------
+
+	CD3D11_BUFFER_DESC bufferDescUV;
+	ZeroMemory(&bufferDescUV, sizeof(&bufferDescUV));
+
+	bufferDescUV.ByteWidth = sizeof(UV);
+	bufferDescUV.BindFlags		= D3D11_BIND_CONSTANT_BUFFER;
+	bufferDescUV.Usage			= D3D11_USAGE_DYNAMIC;
+	bufferDescUV.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	bufferDescUV.MiscFlags = 0;
+	bufferDescUV.StructureByteStride = 0;
+
+	hr = this->gDevice->CreateBuffer(&bufferDescUV, nullptr, &OffsetBuffer);
+	if (FAILED(hr))
+	{
+		MessageBox(NULL, L"Failed to create UV buffer", L"Error", MB_ICONERROR | MB_OK);
+	}
+	if (SUCCEEDED(hr))
+	{
+		this->gDeviceContext->VSSetConstantBuffers(UV_BUFFER_INDEX, 1, &this->OffsetBuffer);
+		this->gDeviceContext->PSSetConstantBuffers(UV_BUFFER_INDEX, 1, &this->OffsetBuffer);
+	}
+
+
+
+
+
+
 
 //-----------------------------------------------------------------------------------------------------------------------------------
 		//CbufferPerFrame CONSTANT BUFFER
