@@ -70,7 +70,7 @@ bool Collision::PlayerProxyTrap(BearTrap * trap)
 		+ pow(playPos.z - trapPos.z, 2)
 		< pow(playRad + trapRad, 2))
 	{
-		if (trap->isActive)
+		if (trap->GetState()->GetTrapState() != TrapState::TRAP_INACTIVE_STATE)
 		{
 			player->VelocityMax = 0.2f;
 			player->SetMulti(1);
@@ -79,6 +79,42 @@ bool Collision::PlayerProxyTrap(BearTrap * trap)
 
 	}
 
+	return false;
+}
+
+bool Collision::BearTrapActivation(BearTrap * trap)
+{
+
+	XMFLOAT3 playPos = player->GetPosition();
+	float playRad = player->GetRadius();
+
+	trapPos = trap->GetPosition();
+	trapRad = 10;
+
+	if (pow(playPos.x - trapPos.x, 2)
+		+ pow(playPos.z - trapPos.z, 2)
+		< pow(playRad + trapRad, 2))
+	{
+		return true;
+	}
+	return false;
+}
+
+bool Collision::FireTrapActivation(FireTrap * trap)
+{
+
+	XMFLOAT3 playPos = player->GetPosition();
+	float playRad = player->GetRadius();
+
+	trapPos = trap->GetPosition();
+	trapRad = 10;
+
+	if (pow(playPos.x - trapPos.x, 2)
+		+ pow(playPos.z - trapPos.z, 2)
+		< pow(playRad + trapRad, 2))
+	{
+		return true;
+	}
 	return false;
 }
 
@@ -132,7 +168,7 @@ bool Collision::BearTrapEnemyCollision(BearTrap * trap, EnemyBase * enemy)
 		+ pow(trapPos.z - enemyPos.z, 2)
 		< pow(trapRad + enemyRad, 2))
 	{
-		if (trap->isActive && enemy->GetCharType() != CharacterType::HEALER)
+		if (trap->GetState()->GetTrapState() != TrapState::TRAP_INACTIVE_STATE && enemy->GetCharType() != CharacterType::HEALER)
 		{
 			enemy->movementSpeed = 1.0f;
 		}
@@ -178,9 +214,9 @@ bool Collision::FireTrapPlayerCollision(FireTrap * trap)
 		+ pow(playPos.z - trapPos.z, 2)
 		< pow(playRad + trapRad, 2))
 	{
-		if (trap->isActive)
+		if (trap->GetState()->GetTrapState() != TrapState::TRAP_INACTIVE_STATE)
 		{
-			player->DoT = trap->GetDot();
+			player->DoT = 0.5f;
 		}
  		return true;
 
@@ -200,7 +236,7 @@ bool Collision::FireTrapEnemyCollision(FireTrap * trap, EnemyBase * enemy)
 		+ pow(trapPos.z - enemyPos.z, 2)
 		< pow(trapRad + enemyRad, 2))
 	{
-		if (trap->isActive)
+		if (trap->GetState()->GetTrapState() != TrapState::TRAP_INACTIVE_STATE)
 		{
 			enemy->DoT = trap->GetDot();
 		}
@@ -224,6 +260,7 @@ bool Collision::PlayerCollision(EnemyBase* enemy)
 		if (enemy->isAlive && enemy->movementSpeed > 0)
 		{
 			enemy->movementSpeed = 0;
+			player->DowngradeWeapon();
 			player->SetHealth(player->GetHealth() - 15.0f);
 		}
 		return true;
@@ -300,6 +337,27 @@ bool Collision::TrapandEnemyLottery(EnemyBase* enemys)
 			{
 				return true;
 			}
+		}
+	}
+	return false;
+}
+
+bool Collision::WeaponPickupCollision(Pickup* pickup)
+{
+	
+	if (pickup->GetIsActive())
+	{
+		XMFLOAT3 pickupPos = pickup->GetPosition();
+		float pickupRad = pickup->GetRadius();
+
+		XMFLOAT3 playerPos = this->player->position;
+		float playerRad = this->player->GetRadius();
+
+		if (pow(pickupPos.x - playerPos.x, 2)
+			+ pow(pickupPos.z - playerPos.z, 2)
+			< pow(pickupRad + playerRad, 2))
+		{
+			return true;
 		}
 	}
 	return false;
