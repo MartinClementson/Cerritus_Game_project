@@ -46,6 +46,10 @@ private:
 	Player* player;
 	int enemiesHealing;
 	int nrOfHealers;
+
+	//for the traps
+	float currentTime;
+
 	//Enemy* enemy;
 	Input* input;
 	GUI* gameUI;
