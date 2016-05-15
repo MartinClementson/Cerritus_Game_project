@@ -26,7 +26,7 @@ public:
 	std::vector<BearTrap*> bearTraps;
 	std::vector<FireTrap*> fireTraps;
 	std::vector<EnemySpawn*> enemySpawns;
-	std::vector<Pickup*> WeaponUpgrades;
+	std::vector<Pickup*> Pickups;
 	Scene();
 	virtual ~Scene();
 

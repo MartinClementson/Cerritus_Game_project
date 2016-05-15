@@ -23,6 +23,7 @@ private:
 	float radius;
 	bool isActive;
 	bool down;
+	float respawnTimer;
 
 public:
 	PickupType GetPickupType();
