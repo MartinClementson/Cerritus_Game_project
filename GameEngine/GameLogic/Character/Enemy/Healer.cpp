@@ -7,7 +7,6 @@ Healer::Healer()
 
 }
 
-
 Healer::~Healer()
 {
 	delete enemyStateMachine;
@@ -36,7 +35,7 @@ void Healer::Initialize()
 	this->charType = CharacterType::HEALER;
 	movementSpeed = 5.0f;
 	originalMovementSpeed = movementSpeed;
-	health = 300;
+	health = 200;
 	this->maxHealth = health;
 	damage = 5.0f;
 	rotation = { 0,0,90 };
@@ -62,8 +61,6 @@ Healer::Healer(XMFLOAT3 spawn)
 	renderInfo.rotation = rotation;
 	renderInfo.radius = radius;
 }
-
-
 
 float Healer::GetHealth()
 {
@@ -192,7 +189,6 @@ void Healer::EnemyWithEnemyCollision(Healer* enemy, EnemyBase* enemys, double de
 	}
 }
 
-
 void Healer::EnemyWithEnemyCollision(EnemyBase* enemy, Healer* enemys, double deltaTime)
 {
 	if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE)
@@ -221,7 +217,6 @@ void Healer::EnemyWithEnemyCollision(EnemyBase* enemy, Healer* enemys, double de
 		//here they go to die 
 	}
 }
-
 
 void Healer::Release()
 {

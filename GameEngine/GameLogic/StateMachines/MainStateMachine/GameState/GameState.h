@@ -11,6 +11,8 @@
 #include "../../../Collision/Collision.h"
 #include "../../../../Source/GameTimer/GameTimer.h"
 #include "../../AudioManager/AudioManager.h"
+#include "../../../Scene/Waves/Waves.h"
+
 class GameState :
 	public StateClass
 {
@@ -28,22 +30,25 @@ public:
 	float timeSincePaused;
 	float index;
 	float GetPoints();
+	bool toWin = false;
+	bool winBool = false;
 	//EnemyBase* ClosestHealer(vector<EnemyBase*> healers);
 	bool toMenu;
-
-
 
 private:
 	void OnEnter();
 	void OnExit();
 
 private:
+
 	vector<EnemyBase*> healers;
 	vector<BearTrap*> bearTraps;
 	vector<FireTrap*> fireTraps;
+
 	Scene* room1;
 	Scene* room2;
 	Player* player;
+	Waves waves;
 	int enemiesHealing;
 	int nrOfHealers;
 	//Enemy* enemy;

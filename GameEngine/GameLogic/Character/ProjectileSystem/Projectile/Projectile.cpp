@@ -54,7 +54,9 @@ void Projectile::Initialize(DirectX::XMFLOAT3 origin, DirectX::XMFLOAT3 directio
 
 
 	this->position = origin;
+
 	this->position.y = 3.0f;
+
 	this->direction = direction;
 	this->rotation = rotation;
 	this->renderInfo.object = MeshEnum::PROJECTILE_1;

@@ -45,6 +45,8 @@ private:
 	ID3D11Buffer* worldBuffer								= nullptr;	   //world constBuffer
 	ID3D11Buffer* cbufferPerFrame							= nullptr;	   
 	ID3D11Buffer* sampleBoolsBuffer							= nullptr;	   //samplingState constBuffer (Controls if a mesh has normalmap,specmap, etc)
+
+	ID3D11Buffer* OffsetBuffer                              = nullptr; // the main idea of this buffer is to change the X coord for a specific texture, 
 	
 	ID3D11Buffer* instancedBuffers[UNIQUE_INSTANCED_BUFFER_AMOUNT] = { nullptr };
 
@@ -64,6 +66,8 @@ private:
 	int mNumPointLights = 0;
 	int mNumSpotLights  = 0;
 	int mNumDirLights	= 0;
+	float waveOffset = 0.028f;
+	float enemyOffset = 0.056f;
 public:
 	Renderer();
 	~Renderer();
@@ -80,6 +84,8 @@ public:
 	void Render(RenderInfoEnemy* object);
 	void Render(RenderInfoChar* object);
 	void Render(RenderInfoTrap* object);
+	
+
 
 	void RenderInstanced(RenderInfoEnemy* object,  InstancedData* arrayData ,unsigned int amount);
 	void RenderInstanced(RenderInfoObject* object, InstancedData* arrayData, unsigned int amount);
@@ -111,6 +117,7 @@ private:
 	void UpdateLightBuffer();
 	void UpdateWorldBuffer(WorldMatrix* worldStruct);
 	void UpdateSampleBoolsBuffer(SampleBoolStruct* sampleStruct);
+	void updateUVBuffer(UV* uvstruct);
 	bool CreateBuffers();
 public:
 	void UpdateCamera(XMFLOAT3 position) { this->sceneCam->Updateview(position); this->UpdateCbufferPerFrame(); };
