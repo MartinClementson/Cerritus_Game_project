@@ -25,6 +25,7 @@ private:
 	WinState* winState;
 	MenuState* menuState;
 	MainStates activeState;//enum
+	EnemySpawn* enemySpawn;
 	
 
 };

@@ -62,6 +62,29 @@ void MainStateMachine::Update(double deltaTime)
 		this->activeState = MAIN_GAMEOVER_STATE;
 
 	}
+	if (this->activeState == MAIN_GAME_STATE && gameState->toWin == true)
+	{
+		gameState->isActive = false;
+
+		if (winState)
+		{
+			winState->Release();
+			delete winState;
+		}
+
+		this->winState = new WinState();
+		winState->Initialize();
+		winState->isActive = true;
+		winState->SetLastHigh(lastHighscore);
+		winState->SetPoints(gameState->GetPoints());
+		if (lastHighscore < gameState->GetPoints())
+		{
+			lastHighscore = gameState->GetPoints();
+		}
+
+		this->activeState = MAIN_WIN_STATE;
+
+	}
 	if (this->activeState == MAIN_GAME_STATE && gameState->toMenu == true)
 	{
 		gameState->isActive = false;

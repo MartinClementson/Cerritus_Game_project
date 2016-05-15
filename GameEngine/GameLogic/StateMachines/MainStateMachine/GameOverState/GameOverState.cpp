@@ -94,13 +94,13 @@ void GameOverState::ProcessInput(double * deltaTime)
 {
 
 
-	if (input->IsKeyPressed(KEY_SPACE))
-	{
-		replay = true;
-		/*MessageBox(0, L"ENTER",
-		L"Continue", MB_OK);*/
-		//timeSincePaused = 0.0f;
-	}
+	//if (input->IsKeyPressed(KEY_SPACE))
+	//{
+	//	replay = true;
+	//	/*MessageBox(0, L"ENTER",
+	//	L"Continue", MB_OK);*/
+	//	//timeSincePaused = 0.0f;
+	//}
 
 }
 

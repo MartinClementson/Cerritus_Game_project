@@ -81,7 +81,7 @@ void GameState::Update(double deltaTime)
 			isPlayerDead = true;
 			//isActive = false;
 		}
-
+		
 		XMFLOAT2 mouseXY = input->GetMousePosition();
 
 		XMFLOAT3 dir = Graphics::GetInstance()->GetPlayerDirection(mouseXY, player->GetPosition());
@@ -89,6 +89,13 @@ void GameState::Update(double deltaTime)
 		player->Update(deltaTime, dir);
 
 		room1->Update(deltaTime);
+
+		winBool = waves.GetWinCondition();
+
+		if (winBool == true)
+		{
+			toWin = true;
+		}
 
 		size_t j = 0;
 		while (j < room1->enemySpawn->Alive.size())
