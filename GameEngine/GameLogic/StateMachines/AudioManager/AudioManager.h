@@ -27,5 +27,7 @@ public:
 	//functions for playing the sounds
 	void playShotSound();
 	void playEDeathSound();
+
+	void playAmbientGameState(bool play);
 };
 

@@ -107,7 +107,7 @@ void MainStateMachine::Update(double deltaTime)
 	else if (this->activeState == MAIN_GAMEOVER_STATE && gameOverState->toMenu == true)
 	{
 		gameOverState->isActive = false;
-
+		
 
 		if (menuState)
 		{

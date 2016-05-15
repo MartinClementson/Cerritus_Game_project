@@ -78,3 +78,9 @@ void AudioManager::playEDeathSound()
 {
 	s_E_death->Play();
 }
+
+void AudioManager::playAmbientGameState(bool play)
+{
+	s_nightLoop->Play(play);
+	s_musicLoop->Play(play);
+}
