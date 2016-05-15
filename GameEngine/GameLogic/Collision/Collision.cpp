@@ -507,14 +507,22 @@ bool Collision::SceneColIn(double deltaTime, EnemyBase* enemy)
 			+ pow(enemy->GetPosition().z - SceneBoxesIn.at(i).Pos.z, 2)
 			< pow(enemy->GetRadius2() + SceneBoxesIn.at(i).Rad, 2))
 		{
-			for (size_t i = 0; i < SceneBoxesOut.size(); i++)
+			for (size_t j = 0; j < SceneBoxesOut.size(); j++)
 			{
-				if (pow(enemy->GetPosition().x - SceneBoxesOut.at(i).Pos.x, 2)
-					+ pow(enemy->GetPosition().z - SceneBoxesOut.at(i).Pos.z, 2)
-					< pow(enemy->GetRadius2() + SceneBoxesOut.at(i).Rad, 2))
+				if (pow(enemy->GetPosition().x - SceneBoxesOut.at(j).Pos.x, 2)
+					+ pow(enemy->GetPosition().z - SceneBoxesOut.at(j).Pos.z, 2)
+					< pow(enemy->GetRadius2() + SceneBoxesOut.at(j).Rad, 2))
 				{
-					enemy->position.x -= enemy->position.x;
-					enemy->position.z -= enemy->position.z;
+
+					Vec3 dir;
+
+					dir.x = SceneBoxesOut.at(j).Pos.x - enemy->position.x;
+					dir.z = SceneBoxesOut.at(j).Pos.z - enemy->position.z;
+
+					dir.Normalize();
+
+					enemy->position.x -= dir.x * (float)deltaTime * enemy->movementSpeed;
+					enemy->position.z -= dir.z * (float)deltaTime * enemy->movementSpeed;
 					return false;
 				}
 			}
