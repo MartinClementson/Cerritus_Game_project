@@ -140,26 +140,24 @@ void GameState::Update(double deltaTime)
 			}
 		}
 
-		j = 0;
-		while (j < room1->enemySpawn->Alive.size())
+		if (healers.size() > 0)
 		{
-			room1->enemySpawn->Alive.at(j)->SetClosestHealer(healers.at(0));
-
-			j++;
-
+			for (int j = 0; j < room1->enemySpawn->Alive.size(); ++j)
+			{
+				room1->enemySpawn->Alive.at(j)->SetClosestHealer(healers.at(0));
+			}
 		}
-
-		j = 0;
-		while (j < room1->enemySpawn->Alive.size())
-		{
+		//j = 0;
+		//while (j < room1->enemySpawn->Alive.size())
+		//{
 			for (size_t p = 0; p < room1->enemySpawn->Alive.size(); p++)
 			{
 				if (room1->enemySpawn->Alive.at(p)->isAlive == true)
 				{
-					if (room1->enemySpawn->Alive.at(j)->GetStateMachine()->
+					if (room1->enemySpawn->Alive.at(p)->GetStateMachine()->
 						GetActiveState() == ENEMY_HEAL_STATE
 						&&
-						room1->enemySpawn->Alive.at(j)->
+						room1->enemySpawn->Alive.at(p)->
 						GetCharType() != CharacterType::HEALER
 						&&
 						healers.at(0) != nullptr)
@@ -167,7 +165,7 @@ void GameState::Update(double deltaTime)
 						EnemyBase* tmpCloseHealer = nullptr;
 
 						XMFLOAT3 position;
-						position = room1->enemySpawn->Alive.at(j)->position;
+						position = room1->enemySpawn->Alive.at(p)->position;
 						XMFLOAT3 healPos;
 						healPos.y = 0;
 						Vec3 closest;
@@ -215,11 +213,11 @@ void GameState::Update(double deltaTime)
 							}
 						}
 
-						room1->enemySpawn->Alive.at(j)->SetClosestHealer(tmpCloseHealer);
+						room1->enemySpawn->Alive.at(p)->SetClosestHealer(tmpCloseHealer);
 
 						if (tmpCloseHealer)
 						{
-							tmpCloseHealer->healing += 1;
+							//tmpCloseHealer->healing += 1;
 
 
 							room1->enemySpawn->Alive.at(p)->AIPatternHeal(
@@ -229,7 +227,7 @@ void GameState::Update(double deltaTime)
 							if (collision->HealerProximity(room1->enemySpawn->
 								Alive.at(p), tmpCloseHealer))
 							{
-								if (room1->enemySpawn->Alive.at(j)->GetCharType() != CharacterType::HEALER)
+								if (room1->enemySpawn->Alive.at(p)->GetCharType() != CharacterType::HEALER)
 								{
 									room1->enemySpawn->
 										Alive.at(p)->SetHealth(
@@ -240,17 +238,23 @@ void GameState::Update(double deltaTime)
 
 							}
 						}
-						else
-						{
-							room1->enemySpawn->Alive.at(p)->AIPattern(
-								collision->GetPlayer(),
-								deltaTime);
-						}
+						
 					}
-					else
+					
+				}
+			}
+			//j++;
+		//}
+		
+		for (int p = 0; p < room1->enemySpawn->Alive.size(); p++)
+		{
+			if (room1->enemySpawn->Alive.at(p)->isAlive)
+			{
+				for (int j = p + 1; j < room1->enemySpawn->Alive.size(); j++)
+				{
+					if (room1->enemySpawn->Alive.at(j)->isAlive)
 					{
-
-						if (j == p || collision->PlayerDistanceCollision(
+						if (collision->PlayerDistanceCollision(
 							room1->enemySpawn->Alive.at(p)))
 						{
 							room1->enemySpawn->Alive.at(p)->AIPattern(
@@ -269,11 +273,12 @@ void GameState::Update(double deltaTime)
 						}
 					}
 				}
+				if (room1->enemySpawn->Alive.at(p)->GetStateMachine()->GetActiveState() == ENEMY_ATTACK_STATE)
+				room1->enemySpawn->Alive.at(p)->AIPattern(
+					collision->GetPlayer(),
+					deltaTime);
 			}
-			j++;
 		}
-
-
 		size_t i = 0; //kolla in denna efter du fixat renderingen
 		while (i < player->projectileSystem->GetFiredProjectiles())
 		{
