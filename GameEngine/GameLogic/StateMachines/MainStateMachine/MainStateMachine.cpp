@@ -42,6 +42,7 @@ void MainStateMachine::Update(double deltaTime)
 	if (this->activeState == MAIN_GAME_STATE && gameState->isPlayerDead == true)
 	{
 		gameState->isActive = false;
+		audioManager->stopAmbientGameStateSound();
 
 		if (gameOverState)
 		{
@@ -136,7 +137,7 @@ void MainStateMachine::Update(double deltaTime)
 	else if (this->activeState == MAIN_GAMEOVER_STATE && gameOverState->toMenu == true)
 	{
 		gameOverState->isActive = false;
-
+		
 
 		if (menuState)
 		{

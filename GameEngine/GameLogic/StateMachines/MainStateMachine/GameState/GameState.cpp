@@ -162,9 +162,6 @@ void GameState::Update(double deltaTime)
 					{
 						EnemyBase* tmpCloseHealer = nullptr;
 
-						XMFLOAT3 position;
-						position = room1->enemySpawn->Alive.at(j)->position;
-
 						XMFLOAT3 healPos;
 						healPos.y = 0;
 						XMFLOAT3 closest;
@@ -195,8 +192,9 @@ void GameState::Update(double deltaTime)
 									tmp.z = healPos.z - position.z;
 									if (tmp.z < 0)
 									{
+
 										tmp.z = -tmp.z;
-									}
+
 
 									if (closest.x > tmp.x && closest.z > tmp.z && healers.at(i)->isAlive)
 									{
@@ -206,8 +204,10 @@ void GameState::Update(double deltaTime)
 									//}
 								}
 
+
 							}
 						}
+
 
 						room1->enemySpawn->Alive.at(j)->SetClosestHealer(tmpCloseHealer);
 
@@ -215,10 +215,10 @@ void GameState::Update(double deltaTime)
 						{
 							tmpCloseHealer->healing += 1;
 
+
 							room1->enemySpawn->Alive.at(p)->AIPatternHeal(
 								tmpCloseHealer,
 								deltaTime);
-
 
 							if (collision->HealerProximity(room1->enemySpawn->
 								Alive.at(p), tmpCloseHealer))
@@ -233,6 +233,8 @@ void GameState::Update(double deltaTime)
 											Alive.at(p)->
 											GetHealth() + 1.0f);
 								}
+
+
 							}
 
 						}
@@ -284,7 +286,7 @@ void GameState::Update(double deltaTime)
 
 					if (player->GetHealth() > player->GetMaxHealth())
 					{
-					player->SetHealth(player->GetMaxHealth());
+						player->SetHealth(player->GetMaxHealth());
 					}
 
 					room1->Pickups.at(i)->SetIsActive(false);
@@ -311,6 +313,8 @@ void GameState::Update(double deltaTime)
 					room1->enemySpawn->Alive.at(j)->SetHealth(
 						room1->enemySpawn->Alive.at(j)->GetHealth() - 10);
 					player->projectileSystem->projectiles[i]->SetFired(false);
+					if (room1->enemySpawn->Alive.at(j)->GetHealth() == 0)
+								audioManager->playEDeathSound();
 				}
 
 
@@ -405,9 +409,9 @@ void GameState::ProcessInput(double* deltaTime)
 		}
 	}
 	else
-	{	
-		int					 moveKeysPressed		 = 0;		//How many have been clicked
-		int					 maxMoveKeysPressed		 = 2;		// Maximum amount of movement keys that can be clicked each frame.
+	{
+		int					 moveKeysPressed = 0;		//How many have been clicked
+		int					 maxMoveKeysPressed = 2;		// Maximum amount of movement keys that can be clicked each frame.
 
 		MovementDirection	 directions[2];						//This should be as big as MaxMoveKeysPressed
 
@@ -450,7 +454,20 @@ void GameState::ProcessInput(double* deltaTime)
 			}
 		}
 
-		for (size_t i = 0; i < bearTraps.size(); i++)
+		if (input->IsKeyPressed(KEY_Q))
+		{
+			for (int i = 0; i < bearTraps.size(); i++)
+			{
+				if (collision->BearTrapActivation(bearTraps.at(i)))
+				bearTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
+			}
+			for (int i = 0; i < fireTraps.size(); i++)
+			{
+				if (collision->FireTrapActivation(fireTraps.at(i)))
+					fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
+			}
+		}
+		/*for (size_t i = 0; i < bearTraps.size(); i++)
 		{
 			if (input->IsKeyPressed(KEY_Q) && collision->BearTrapActivation(bearTraps.at(i)))
 			{
@@ -464,7 +481,7 @@ void GameState::ProcessInput(double* deltaTime)
 			{
 				fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
 			}
-		}
+		}*/
 
 		if (moveKeysPressed > 0)
 		{
