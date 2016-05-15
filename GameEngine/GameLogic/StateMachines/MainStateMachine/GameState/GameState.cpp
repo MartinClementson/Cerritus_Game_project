@@ -81,8 +81,6 @@ void GameState::Update(double deltaTime)
 			isPlayerDead = true;
 			//isActive = false;
 		}
-		
-		
 
 		XMFLOAT2 mouseXY = input->GetMousePosition();
 
@@ -149,6 +147,34 @@ void GameState::Update(double deltaTime)
 			}
 		}
 
+		//
+		//size_t q = 0;
+		//while (q < room1->enemySpawn->Alive.size())
+		//{
+		//	if (room1->enemySpawn->Alive.at(q)->
+		//		GetCharType() == CharacterType::HEALER
+		//		&& room1->enemySpawn->Alive.at(q)->isAlive)
+		//	{
+		//		healers.push_back(room1->enemySpawn->Alive.at(q));
+		//		//((Enemy*)room1->enemySpawns.at(k)->StandardAlive.at(j))->SetClosestHealer(healers.at(0));
+		//	}
+		//		
+		//	j++;
+		//}
+
+		//if (healers.size() == (size_t)0)
+		//{
+		//healers.push_back(nullptr);
+		//}
+
+		//j = 0;
+		//while (j < room1->enemySpawn->Alive.size())
+		//{
+		//room1->enemySpawn->Alive.at(j)->SetClosestHealer(healers.at(0));
+		//j++;
+		//}
+
+		//
 		size_t i = 0; //kolla in denna efter du fixat renderingen
 		while (i < player->projectileSystem->GetFiredProjectiles())
 		{
