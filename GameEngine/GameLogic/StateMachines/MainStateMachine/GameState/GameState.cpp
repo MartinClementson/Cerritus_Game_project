@@ -82,6 +82,8 @@ void GameState::Update(double deltaTime)
 			//isActive = false;
 		}
 		
+		
+
 		XMFLOAT2 mouseXY = input->GetMousePosition();
 
 		XMFLOAT3 dir = Graphics::GetInstance()->GetPlayerDirection(mouseXY, player->GetPosition());
@@ -89,10 +91,8 @@ void GameState::Update(double deltaTime)
 		player->Update(deltaTime, dir);
 
 		room1->Update(deltaTime);
-
-		winBool = waves.GetWinCondition();
-
-		if (winBool == true)
+		
+		if (room1->toWin == true)
 		{
 			toWin = true;
 		}

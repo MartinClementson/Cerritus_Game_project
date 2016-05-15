@@ -22,6 +22,8 @@ private:
 
 
 public:
+	bool toWin = false;
+
 	EnemySpawn* enemySpawn;
 	std::vector<BearTrap*> bearTraps;
 	std::vector<FireTrap*> fireTraps;

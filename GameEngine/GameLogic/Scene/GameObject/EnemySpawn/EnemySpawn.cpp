@@ -78,8 +78,7 @@ void EnemySpawn::Update(double deltaTime)
 							win = true;
 							waves.SetWinCondition(win);
 						}
-
-						SpawnEnemy(waveAmount);
+							SpawnEnemy(waveAmount);
 				}
 			}
 			else if (Alive.at(i)->GetHealth() <= 0 &&

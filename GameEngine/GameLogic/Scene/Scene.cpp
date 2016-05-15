@@ -114,6 +114,11 @@ void Scene::Update(double deltaTime)
 
 	enemySpawn->Update(deltaTime);
 
+	if (enemySpawn->win == true)
+	{
+		toWin = true;
+	}
+
 	for (size_t i = 0; i < fireTraps.size(); i++)
 	{
 		fireTraps.at(i)->Update(deltaTime);
