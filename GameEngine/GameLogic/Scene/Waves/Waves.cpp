@@ -43,29 +43,26 @@ void Waves::WaveInformation()
 		case 1:
 			amountOfStandards = 5;
 			SetWaveInformation(amountOfStandards);
-			amountOFFast = 3;
-			amountOfHealers = 5;
+
 			break;
 		case 2:
-			amountOfStandards = 2;
+			amountOfStandards = 10;
 			SetWaveInformation(amountOfStandards);
-			amountOFFast = 2;
-			amountOfHealers = 2;
+
 			break;
 		case 3:
-			amountOfStandards = 2;
+			amountOfStandards = 15;
 			SetWaveInformation(amountOfStandards);
-			amountOFFast = 5;
-			amountOfHealers = 2;
+
 			break;
 		case 4: 
 			amountOfStandards = 0;
 			SetWaveInformation(amountOfStandards);
+
 			break;
 		default:
 			amountOfStandards = 0;
 			SetWaveInformation(amountOfStandards);
-			break;
 			break;
 
 	}
