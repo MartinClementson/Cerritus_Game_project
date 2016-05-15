@@ -307,6 +307,7 @@ void Renderer::RenderBillBoard(RenderInfoObject * object, BillboardData * arrayD
 	if(object != nullptr)
 		objectInstruction = this->resourceManager->GetRenderInfo(object);
 	
+	
 
 #pragma region Map the array to the vertex buffer
 	D3D11_MAPPED_SUBRESOURCE mappedResource;

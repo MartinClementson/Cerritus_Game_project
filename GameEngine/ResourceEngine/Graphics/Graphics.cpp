@@ -82,9 +82,17 @@ void Graphics::Initialize(HWND * window)
 	
 	billBoardArray[PROJECTILE_BILLBOARD]			 = new BillboardData[MAX_BILLBOARDED_GEOMETRY];
 	billBoardArray[HEALTH_BAR_BILLBOARD]			 = new BillboardData[MAX_BILLBOARDED_GEOMETRY];
+	billBoardArray[PICKUP_HEALTH_BILLBOARD]			 = new BillboardData[MAX_BILLBOARDED_GEOMETRY];
+	billBoardArray[PICKUP_WEAPON_BILLBOARD]			 = new BillboardData[MAX_BILLBOARDED_GEOMETRY];
 	
 	memset(billBoardArray[PROJECTILE_BILLBOARD],	  0, sizeof(billBoardArray[PROJECTILE_BILLBOARD]));
 	memset(billBoardArray[HEALTH_BAR_BILLBOARD],      0, sizeof(billBoardArray[HEALTH_BAR_BILLBOARD]));
+
+	memset(billBoardArray[PICKUP_HEALTH_BILLBOARD], 0, sizeof(billBoardArray[PICKUP_HEALTH_BILLBOARD]));
+	memset(billBoardArray[PICKUP_WEAPON_BILLBOARD], 0, sizeof(billBoardArray[PICKUP_WEAPON_BILLBOARD]));
+
+
+
 	memset(instancesToRender, 0, sizeof(instancesToRender)); //reset instances to render amount
 	memset(billboardsToRender, 0, sizeof(billboardsToRender));
 	renderer = new Renderer();
@@ -237,15 +245,19 @@ void Graphics::RenderScene()
 	if (instancesToRender[PROJECTILE_INSTANCED] > 0)
 	{
 		////////////BILLBOARD RENDERING
- 		renderer->RenderBillBoard(
+   		renderer->RenderBillBoard(
 			this->gameObjects->at(instanceMeshIndex.projectileMesh),
-			billBoardArray   [PROJECTILE_BILLBOARD], 
+			billBoardArray[PROJECTILE_BILLBOARD],
 			instancesToRender[PROJECTILE_INSTANCED]);
-
-		//////////////INSTANCE RENDERING
-		//renderer->RenderInstanced(this->gameObjects->at(instanceMeshIndex.projectileMesh),
-			//instancedWorldDataPerFrame[ PROJECTILE_INSTANCED ], instancesToRender[ PROJECTILE_INSTANCED ] );
 	}
+	////Render instanced enemies
+	if (instancesToRender[ENEMY_1_INSTANCED] > 0)
+	{
+		renderer->RenderInstanced(this->enemyObjects->at(instanceMeshIndex.enemy1Mesh ),
+			instancedWorldDataPerFrame[ ENEMY_1_INSTANCED ], instancesToRender[ ENEMY_1_INSTANCED ]);
+	}
+	
+
 
 	if (billboardsToRender[HEALTH_BAR_BILLBOARD] > 0)
 	{
@@ -257,13 +269,27 @@ void Graphics::RenderScene()
 			billboardsToRender[HEALTH_BAR_BILLBOARD]);
 	}
 
-	////Render instanced enemies
-	if (instancesToRender[ENEMY_1_INSTANCED] > 0)
+	if (billboardsToRender[PICKUP_HEALTH_BILLBOARD] > 0)
 	{
-		renderer->RenderInstanced(this->enemyObjects->at(instanceMeshIndex.enemy1Mesh ),
-			instancedWorldDataPerFrame[ ENEMY_1_INSTANCED ], instancesToRender[ ENEMY_1_INSTANCED ]);
+
+		////////////BILLBOARD RENDERING
+		renderer->RenderBillBoard(
+			nullptr,
+			billBoardArray[PICKUP_HEALTH_BILLBOARD],
+			billboardsToRender[PICKUP_HEALTH_BILLBOARD]);
 	}
-	
+
+	if (billboardsToRender[PICKUP_WEAPON_BILLBOARD] > 0)
+	{
+
+		////////////BILLBOARD RENDERING
+		renderer->RenderBillBoard(
+			nullptr,
+			billBoardArray[PICKUP_WEAPON_BILLBOARD],
+			billboardsToRender[PICKUP_WEAPON_BILLBOARD]);
+	}
+
+
 	 //Take back when we have more enemy types
 	/*for (unsigned int i = 0; i < enemyObjects->size(); i++)
 	{
@@ -329,10 +355,12 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 	memset(instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED],  0, sizeof(instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED]));	 //reset instance array
 	memset(instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED],  0, sizeof(instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED]));	 //reset instance array
 
-	memset(billBoardArray[PROJECTILE_BILLBOARD], 0, sizeof(billBoardArray[PROJECTILE_BILLBOARD]));
-	memset(billBoardArray[HEALTH_BAR_BILLBOARD], 0, sizeof(billBoardArray[HEALTH_BAR_BILLBOARD]));
-
-
+	memset(billBoardArray[PROJECTILE_BILLBOARD],    0, sizeof(billBoardArray[PROJECTILE_BILLBOARD]));
+	memset(billBoardArray[HEALTH_BAR_BILLBOARD],    0, sizeof(billBoardArray[HEALTH_BAR_BILLBOARD]));
+	memset(billBoardArray[PICKUP_HEALTH_BILLBOARD], 0, sizeof(billBoardArray[PICKUP_HEALTH_BILLBOARD]));
+	memset(billBoardArray[PICKUP_WEAPON_BILLBOARD], 0, sizeof(billBoardArray[PICKUP_WEAPON_BILLBOARD]));
+	
+	
 
 	
 	memset(instancesToRender,  0, sizeof(instancesToRender)); //reset instances to render amount
@@ -391,7 +419,8 @@ void Graphics::CullGeometry()
 	unsigned int	 healthBarIndex		 = 0;
 	unsigned int	 bearTrapIndex		 = 0;
 	unsigned int	 fireTrapIndex		 = 0;
-
+	unsigned int	 weaponPickupIndex   = 0;
+	unsigned int	 healthPickupIndex   = 0;
 #pragma region Cull enemy objects
 	for (size_t i = 0; i < this->enemyObjects->size(); i++)
 	{
@@ -424,7 +453,7 @@ void Graphics::CullGeometry()
 									enemyObjects->at(i)->position.z);																		       // pos z.
 					
 					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + enemyObjects->at(i)->normalizedHealthVal - 0.2f;		// -0.2f is just to make the red appear sooner
-					billBoardArray    [HEALTH_BAR_BILLBOARD];
+					
 					billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;
 					healthBarIndex							 += 1;
 				}
@@ -451,7 +480,7 @@ void Graphics::CullGeometry()
 				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].direction = this->gameObjects->at(i)->direction;
 				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].height    = 3.0f;
 				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].width     = 0.15f;
-				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].worldPos  = this->gameObjects->at(i)->position + (this->gameObjects->at(i)->direction *(billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].height * 0.9f));
+				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].worldPos  = this->gameObjects->at(i)->position + (this->gameObjects->at(i)->direction *(billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].height * 0.9f)); // this is to make sure that if we made a long shot, (like a railgun) we wouldnt want halv of the shot texture behind the character
 
 				instancesToRender[PROJECTILE_INSTANCED]  += 1;
 				projectileIndex							 += 1;
@@ -460,6 +489,41 @@ void Graphics::CullGeometry()
 				if (instanceMeshIndex.projectileMesh == -1) //if this is the first thing we found of that mesh, store the index.
       					instanceMeshIndex.projectileMesh = (int)i;
 			}
+
+
+			else if (this->gameObjects->at(i)->object == MeshEnum::PICKUP_WEAPON)
+			{
+				billBoardArray[PICKUP_WEAPON_BILLBOARD][weaponPickupIndex].color	 = XMFLOAT3(1.0f, 0.0f, 0.0f); //TEMP
+				billBoardArray[PICKUP_WEAPON_BILLBOARD][weaponPickupIndex].direction = XMFLOAT3(0.0f, 1.0f, 0.0f);
+				billBoardArray[PICKUP_WEAPON_BILLBOARD][weaponPickupIndex].height    = 4.0f;
+				billBoardArray[PICKUP_WEAPON_BILLBOARD][weaponPickupIndex].width     = 4.0f;
+				billBoardArray[PICKUP_WEAPON_BILLBOARD][weaponPickupIndex].worldPos = gameObjects->at(i)->position;
+				this->gameObjects->at(i)->render = false; //We don't want to render this with nonInstance rendering
+				billboardsToRender[PICKUP_WEAPON_BILLBOARD] += 1;
+				weaponPickupIndex += 1;
+
+				if (instanceMeshIndex.pickupWeapon == -1) //if this is the first thing we found of that mesh, store the index.
+					instanceMeshIndex.pickupWeapon = (int)i;
+			
+			}
+
+			else if (this->gameObjects->at(i)->object == MeshEnum::PICKUP_HEAL)
+			{
+				
+				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].color	 = XMFLOAT3(0.0f, 1.0f, 0.0f); //TEMP
+				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].direction = XMFLOAT3(0.0f, 1.0f, 0.0f);
+				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].height    = 4.0f;
+				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].width     = 4.0f;
+				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].worldPos  = gameObjects->at(i)->position;
+				this->gameObjects->at(i)->render = false; //We don't want to render this with nonInstance rendering
+				billboardsToRender[PICKUP_HEALTH_BILLBOARD] += 1;
+				healthPickupIndex += 1;
+
+				if (instanceMeshIndex.pickupHealth == -1) //if this is the first thing we found of that mesh, store the index.
+					instanceMeshIndex.pickupHealth = (int)i;
+			}
+
+
 			else
 				this->gameObjects->at(i)->render = true;
 

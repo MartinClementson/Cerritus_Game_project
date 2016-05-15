@@ -113,7 +113,7 @@ void ResourceManager::Release()
 
 		
 
-		if (meshType != MeshEnum::PROJECTILE_1)
+		if (meshType != MeshEnum::PROJECTILE_1 || meshType != MeshEnum::PICKUP_HEAL || meshType != MeshEnum::PICKUP_WEAPON)
 		{
 
 			currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);

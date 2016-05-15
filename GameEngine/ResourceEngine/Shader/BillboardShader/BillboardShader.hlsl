@@ -177,7 +177,7 @@ BILLBOARD_PS_OUT BILLBOARD_PS(BILLBOARD_GS_OUT input)
 
 
 	float4 pixelPos    = { input.wPos.x, 0.0 , input.wPos.z, 1.0 };
-	float4 col		   = { 1.0,0.0,0.0,1.0 };
+	float4 col		   = float4(1.0f,0.0f,0.0f,1.0f);
 	float laserFalloff = 0.4f;
 	//float dist = distance(input.mousePos.xz, pixelPos.xz);
 
@@ -206,7 +206,7 @@ BILLBOARD_PS_OUT BILLBOARD_PS(BILLBOARD_GS_OUT input)
 
 	col.x -= saturate(abs(dist* laserFalloff));  //Laser color
 
-	float4 ambientValue = float4(1, 1, 1, 1);
+
 
 	float4 textureSample;
 
@@ -256,7 +256,7 @@ BILLBOARD_PS_OUT BILLBOARD_PS(BILLBOARD_GS_OUT input)
 	}
 	else
 	{
-		specularSample.rgba = float4(0.5, 0.5, 0.5, 0);
+		specularSample.rgba = float4(0, 0, 0, 0);
 		output.specularRes = specularSample;
 	}
 

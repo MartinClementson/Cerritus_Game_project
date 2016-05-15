@@ -53,8 +53,8 @@ void Scene::Initialize()
 	collision->ClearTraps();
 	InitBearTrap();
 	InitFireTrap();
-	WeaponUpgrades.push_back(new Pickup(XMFLOAT3(10, 1, 0), PickupType::Weapon));
-	WeaponUpgrades.push_back(new Pickup(XMFLOAT3(-10, 1, 0), PickupType::Heal));
+	WeaponUpgrades.push_back(new Pickup(XMFLOAT3(10, 1, 0), PickupType::WEAPON));
+	WeaponUpgrades.push_back(new Pickup(XMFLOAT3(-10, 1, 0), PickupType::HEAL));
 
 	for (size_t i = 0; i < this->bearTraps.size(); i++)
 	{

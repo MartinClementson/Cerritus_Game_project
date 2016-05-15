@@ -19,7 +19,7 @@
 
 
 
-#define BILLBOARDED_ARRAYS	2 //atm . projectiles and health bars
+#define BILLBOARDED_ARRAYS	4 //atm . projectiles and health bars, and pickups
 enum instancedGeometryArray
 {									   
 	ENEMY_1_INSTANCED,				   
@@ -31,26 +31,32 @@ enum instancedGeometryArray
 enum billBoardArray
 {
 	PROJECTILE_BILLBOARD,
-	HEALTH_BAR_BILLBOARD
-};
-
-class Graphics
-{									   
-
-
+	HEALTH_BAR_BILLBOARD,
+	PICKUP_HEALTH_BILLBOARD,
+	PICKUP_WEAPON_BILLBOARD
+};																	  
+																	  
+class Graphics														  
+{									   								  
+																	  
+																	  
 	struct meshIndexInArray 						  
 	{												  
-		 int projectileMesh			= -1;		
-		 int enemy1Mesh				= -1;
-		 int trapBearMesh		    = -1;
-		 int trapFireMesh		    = -1;
+		 int projectileMesh			= -1;		 //This is used for instancing,
+		 int enemy1Mesh				= -1;		 //when we render instanced we need to keep track of
+		 int trapBearMesh		    = -1;		 // what mesh to use. Some arrays have mixed meshes
+		 int trapFireMesh		    = -1;		 // (for example objects array) so we can't
+		 int pickupWeapon			= -1;		 // use the mesh at index 0.
+		 int pickupHealth			= -1;		 //With this struct we keep track of the mesh 
 												
-		void Reset() {								  //This is used for instancing,
-			this->projectileMesh	= -1;			  //when we render instanced we need to keep track of
-			this->enemy1Mesh		= -1;			  // what mesh to use. Some arrays have mixed meshes
-			this->trapBearMesh		= -1;			  // (for example objects array) so we can't
-			this->trapFireMesh		= -1;			  // use the mesh at index 0.
-		}											  //With this struct we keep track of the mesh 
+		void Reset() {								
+			this->projectileMesh	= -1;			
+			this->enemy1Mesh		= -1;			
+			this->trapBearMesh		= -1;			
+			this->trapFireMesh		= -1;
+			this->pickupWeapon		= -1;
+			this->pickupHealth		= -1;
+		}											
 		
 	};										      
 private:

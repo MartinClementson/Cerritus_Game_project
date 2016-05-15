@@ -128,12 +128,12 @@ void GameState::Update(double deltaTime)
 		{
 			if (collision->WeaponPickupCollision(room1->WeaponUpgrades.at(i)))
 			{
-				if (room1->WeaponUpgrades.at(i)->GetPickupType() == PickupType::Weapon)
+				if (room1->WeaponUpgrades.at(i)->GetPickupType() == PickupType::WEAPON)
 				{
 					this->player->UpgradeWeapon();
 					room1->WeaponUpgrades.at(i)->SetIsActive(false);
 				}
-				else if (room1->WeaponUpgrades.at(i)->GetPickupType() == PickupType::Heal)
+				else if (room1->WeaponUpgrades.at(i)->GetPickupType() == PickupType::HEAL)
 				{
 					this->player->SetHealth(player->GetHealth() + 50);
 
