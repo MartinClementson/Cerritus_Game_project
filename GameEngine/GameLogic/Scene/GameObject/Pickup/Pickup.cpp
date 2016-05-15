@@ -25,7 +25,14 @@ Pickup::Pickup(XMFLOAT3 pos, PickupType pickup)
 	this->rotation = { 0,0,0 };
 	Initialize();
 	RenderInfo.position = this->position;
-	RenderInfo.object = PLACEHOLDER;
+
+	if (pickup == PickupType::HEAL)
+		RenderInfo.object = MeshEnum::PICKUP_HEAL;
+	else if (pickup == PickupType::WEAPON)
+		RenderInfo.object = MeshEnum::PICKUP_WEAPON;
+	else
+		RenderInfo.object = PLACEHOLDER;
+
 }
 
 Pickup::~Pickup()

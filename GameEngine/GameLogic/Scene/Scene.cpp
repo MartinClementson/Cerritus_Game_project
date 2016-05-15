@@ -50,6 +50,12 @@ void Scene::Initialize()
 	InitBearTrap();
 	InitFireTrap();
 
+	WeaponUpgrades.push_back(new Pickup(XMFLOAT3( 10, 1, 0),   PickupType::WEAPON));
+	WeaponUpgrades.push_back(new Pickup(XMFLOAT3(-10, 1, 0),  PickupType::HEAL));
+
+	WeaponUpgrades.push_back(new Pickup(XMFLOAT3(-10, 1, 10), PickupType::WEAPON));
+	WeaponUpgrades.push_back(new Pickup(XMFLOAT3( 10, 1, 10),  PickupType::HEAL));
+
 	Pickups.push_back(new Pickup(XMFLOAT3(10, 1, -20), PickupType::Weapon));
 	Pickups.push_back(new Pickup(XMFLOAT3(20, 1, -10), PickupType::Weapon));
 	Pickups.push_back(new Pickup(XMFLOAT3(30, 1, 0), PickupType::Weapon));
@@ -75,7 +81,7 @@ void Scene::InitFireTrap()
 
 	for (int i = 0; i < trapAmount; i++)
 	{
-		XMFLOAT3 tmp; // randomizes the location of the beartrap
+		XMFLOAT3 tmp; // randomizes the location of the firetrap
 		tmp.x = rand() % 150 - 85.0f;
 		tmp.y = 0;
 		tmp.z = rand() % 150 - 65.0f;
