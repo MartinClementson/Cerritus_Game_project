@@ -146,6 +146,7 @@ void MainStateMachine::Initialize()
 	this->gameState->isActive = true;
 	this->gameOverState->isActive = false;
 	this->menuState->isActive = false;
+	gameState->toMenu = true;
 	this->delay = 0.0f;
 	this->lastHighscore = 0.0f;
 }
