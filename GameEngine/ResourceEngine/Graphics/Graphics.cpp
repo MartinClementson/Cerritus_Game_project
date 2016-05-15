@@ -185,6 +185,7 @@ void Graphics::Render() //manage RenderPasses here
 		renderer->Render(uiObjects->at(i));
 
 	}
+	
 
 	
 	FinishFrame();
@@ -299,11 +300,7 @@ void Graphics::RenderScene()
 
 	}*/
 
-	/*for (unsigned int i = 0; i < uiObjects->size(); i++)
-	{
-		renderer->Render(uiObjects->at(i));
-
-	}*/
+	
 
 
 
@@ -323,7 +320,7 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 	enemyObjects ->clear();	//clear the queue
 	trapObjects	 ->clear();	//clear the queue
 	uiObjects	 ->clear();	//clear the queue
-
+	
 	memset(instancedWorldDataPerFrame[ENEMY_1_INSTANCED],    0, sizeof(instancedWorldDataPerFrame[ENEMY_1_INSTANCED]   ));	 //reset instance array
 	memset(instancedWorldDataPerFrame[PROJECTILE_INSTANCED], 0, sizeof(instancedWorldDataPerFrame[PROJECTILE_INSTANCED]));   //reset instance array
 	memset(instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED],  0, sizeof(instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED]));	 //reset instance array
@@ -396,14 +393,14 @@ void Graphics::CullGeometry()
 	for (size_t i = 0; i < this->enemyObjects->size(); i++)
 	{
 		//Frustum culling
-		if (renderer->FrustumCheck(enemyObjects->at(i)->position, enemyObjects->at(i)->radius) == false)
+		if (renderer->FrustumCheck(enemyObjects->at(i)->position, enemyObjects->at(i)->radius + 10) == false)
 		{	
 			//If its not visible
 			this->enemyObjects->at(i)->render = false;
-			continue;
+			//continue;
 		}
 		 
-		else {
+		//else {
 
 			//if object is visible and is enemy_1_type
 			this->instancedWorldDataPerFrame[ENEMY_1_INSTANCED][enemyIndex].worldMatrix = CalculateWorldMatrix(&this->enemyObjects->at(i)->position, &this->enemyObjects->at(i)->rotation);
@@ -428,7 +425,7 @@ void Graphics::CullGeometry()
 					billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;
 					healthBarIndex							 += 1;
 				}
-		}
+		//}
 		//endif  object is visible
 	}
 #pragma endregion
@@ -750,6 +747,7 @@ void Graphics::QueueRender(RenderInfoTrap * object)
 {
 	this->trapObjects->push_back(object);
 }
+
 
 
 Graphics * Graphics::GetInstance()

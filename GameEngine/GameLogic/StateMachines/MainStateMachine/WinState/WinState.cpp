@@ -1,52 +1,43 @@
-#include "GameOverState.h"
+#include "WinState.h"
 #include <string>
 //#include <string.h>
 
 
 
-GameOverState::GameOverState()
+WinState::WinState()
 {
-	gameOverGUI = new GUI();
+	WinUI = new GUI();
 }
 
 
-GameOverState::~GameOverState()
+WinState::~WinState()
 {
-	delete gameOverGUI;
+	delete WinUI;
 }
 
-void GameOverState::Initialize()
+void WinState::Initialize()
 {
 	input = Input::GetInstance();
 	replay = false;
 	toMenu = false;
-	gameOverGUI->Initialize();
-	gameOverGUI->setUI(UITextures::GAMEOVER);
+	WinUI->Initialize();
+	WinUI->setUI(UITextures::WIN);
 }
 
-void GameOverState::Release()
+void WinState::Release()
 {
-	gameOverGUI->Release();
+	WinUI->Release();
 }
 
-void GameOverState::Update(double deltaTime)
+void WinState::Update(double deltaTime)
 {
-	//game over screen msg YOU DIED, HIGHSCORE, RESTART OPTION,
-	//TIMER, EXIT GAME OPTION, GO TO MENU OPTION
-	gameOverGUI->Update(deltaTime);
-	
+
+	WinUI->Update(deltaTime);
+
 	XMFLOAT2 mousePos = InputHandler::GetInstance()->GetMousePosition();
 
 	float vx = ((2.0f * mousePos.x) / (float)WIN_HEIGHT - 1.0f);
 	float vy = ((2.0f * -mousePos.y) / (float)WIN_WIDTH + 1.0f);
-
-	//XMFLOAT2 Maxexit = { 47.0f ,391.0f };
-	//XMFLOAT2 Minexit = { 245.0f,456.0f };
-
-	//float Maxex = ((2.0f * Maxexit.x) / (float)WIN_HEIGHT - 1.0f);
-	//float Maxey = ((2.0f * -Maxexit.y) / (float)WIN_WIDTH + 1.0f);
-	//float Minex = ((2.0f * Minexit.x) / (float)WIN_HEIGHT - 1.0f);
-	//float Miney = ((2.0f * -Minexit.y) / (float)WIN_WIDTH + 1.0f);
 
 	XMFLOAT2 MaxNewGame = { 1025.0f,459.0f };
 	XMFLOAT2 MinNewGame = { 1256.0f,545.0f };
@@ -69,7 +60,7 @@ void GameOverState::Update(double deltaTime)
 		{
 			toMenu = true;
 		}
-		
+
 		//OnExit();
 	}
 	else if (vx > Maxnx && vy < Maxny && vx < Minnx && vy > Minny)
@@ -81,16 +72,16 @@ void GameOverState::Update(double deltaTime)
 	}
 
 	//replay = true;
-	
+
 	ProcessInput(&deltaTime);
 }
 
-void GameOverState::Render()
+void WinState::Render()
 {
-	gameOverGUI->Render();
+	WinUI->Render();
 }
 
-void GameOverState::ProcessInput(double * deltaTime)
+void WinState::ProcessInput(double * deltaTime)
 {
 
 
@@ -104,27 +95,27 @@ void GameOverState::ProcessInput(double * deltaTime)
 
 }
 
-void GameOverState::SetPoints(float points)
+void WinState::SetPoints(float points)
 {
 	this->points = points;
 }
 
-float GameOverState::GetPoints()
+float WinState::GetPoints()
 {
 	return this->points;
 }
 
-void GameOverState::SetLastHigh(float high)
+void WinState::SetLastHigh(float high)
 {
 	this->lastHighscore = high;
 }
 
-void GameOverState::OnEnter()
+void WinState::OnEnter()
 {
 	replay = false;
 }
 
-void GameOverState::OnExit()
+void WinState::OnExit()
 {
 	replay = true;
 }

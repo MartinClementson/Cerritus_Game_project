@@ -4,6 +4,8 @@
 #include "../../../Source/LibIncluder.h"
 #include "../../ObjectNode/Mesh/Mesh.h"
 #include "../../../Enumerations/Enumerations.h"
+
+
 class MeshManager
 {
 
@@ -13,13 +15,21 @@ private:
 
 	//This vector will be indexed with the enum "Meshes"
 	std::vector<Mesh>* gameMeshes		=	nullptr;
+
+	
 	Mesh placeHolder;
 	Mesh placeHolderPlane;
 	Mesh fullScreenQuad;
+	Mesh killCountQuad;
+	Mesh waveCountQuad;
+	
+	
 
 	void CreatePlaceHolder();
 	void CreatePlaceHolderPlane();
 	void CreateFullScreenQuad();
+	void CreateKillCountQuad();
+	void CreateWaveCountQuad();
 public:
 	MeshManager();
 	~MeshManager();
@@ -37,7 +47,7 @@ public:
 		std::vector<AnimVert> aniVertices,
 		std::vector<UINT> indices
 		);
-
+	//UVoffset offset;
 	std::vector<Mesh>* GetMeshes() { return this->gameMeshes; }
 	void GetMeshRenderInfo(MeshEnum* meshEnum, RenderInstructions* toRender);
 
@@ -45,5 +55,9 @@ public:
 	void GetPlaceHolderPlaneInfo(RenderInstructions* toRender);
 	void GetFullScreenQuadInfo(RenderInstructions* toRender);
 	void GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions* toRender);
+	void GetKillCountQuadInfoHud(UITextures * uiEnum, RenderInstructions* toRender);
+	void GetWaveCountQuadInfoHud(UITextures*uiEnum, RenderInstructions*toRender);
+
+	
 };
 

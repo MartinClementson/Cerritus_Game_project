@@ -61,10 +61,12 @@ EnemyBase * EnemyBase::GetClosestHealer()
 
 void EnemyBase::SetHealth(float health)
 {
+
 }
 
 void EnemyBase::Render()
 {
+
 }
 
 XMFLOAT3 EnemyBase::GetPosition()
@@ -74,6 +76,7 @@ XMFLOAT3 EnemyBase::GetPosition()
 
 void EnemyBase::SetPosition(XMFLOAT3 pos)
 {
+
 }
 
 float EnemyBase::GetRadius()
@@ -88,6 +91,7 @@ float EnemyBase::GetRadius2()
 
 void EnemyBase::AIPattern(Player * player, double deltaTime)
 {
+
 }
 
 void EnemyBase::EnemyWithEnemyCollision(EnemyBase * enemy, EnemyBase * enemys, double deltaTime)
@@ -97,8 +101,10 @@ void EnemyBase::EnemyWithEnemyCollision(EnemyBase * enemy, EnemyBase * enemys, d
 
 void EnemyBase::Respawn(XMFLOAT3 spawn)
 {
+
 }
 
 void EnemyBase::Spawn(XMFLOAT3 spawn)
 {
+
 }

@@ -4,13 +4,13 @@
 
 FireTrap::FireTrap()
 {
-	grapichs = Graphics::GetInstance();
+	graphics = Graphics::GetInstance();
 	trapState = new TrapStateMachine();
 }
 
 FireTrap::FireTrap(XMFLOAT3 position)
 {
-	grapichs = Graphics::GetInstance();
+	graphics = Graphics::GetInstance();
 	
 	dotDuration = 2.5f;
 	trapState = new TrapStateMachine();
@@ -90,7 +90,7 @@ void FireTrap::Render()
 {
 	if (this->isActive)
 	{
-		grapichs->QueueRender(&renderInfo);
+		graphics->QueueRender(&renderInfo);
 	}
 }
 

@@ -203,9 +203,6 @@
     <Filter Include="ResourceEngine\Shaders\GBufferShader">
       <UniqueIdentifier>{8cb80f1f-f67e-4089-899d-aad1345f70fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogic\Collision">
-      <UniqueIdentifier>{56761173-6038-415a-adf6-16361a84dd24}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ResourceEngine\ResourceManager\BRFImporterHandler">
       <UniqueIdentifier>{3bcf3419-06fc-4913-9f33-a3e0746aa4cb}</UniqueIdentifier>
     </Filter>
@@ -248,8 +245,20 @@
     <Filter Include="GameLogic\StateMachines\MainStateMachene\AudioManager">
       <UniqueIdentifier>{c7facd97-1bd3-4557-a0e0-ef0c127d4749}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameLogic\Scene\Waves">
+      <UniqueIdentifier>{7b5224f1-05ba-4c89-ae08-2ee10fbf203e}</UniqueIdentifier>
+    </Filter>
     <Filter Include="GameLogic\Scene\GameObject\Pickup">
       <UniqueIdentifier>{67f75e15-a750-473d-aa0a-72963edbab2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ResourceEngine\ResourceManager\FontManager">
+      <UniqueIdentifier>{912e40d2-8486-4282-82c1-506c507a092b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\StateMachines\MainStateMachene\WinState">
+      <UniqueIdentifier>{ccc723a9-ea8c-41cb-8d8b-1d1b4e8b0105}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\GUI\Collision">
+      <UniqueIdentifier>{56761173-6038-415a-adf6-16361a84dd24}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -398,7 +407,7 @@
       <Filter>Source Files\Main\GameTimer</Filter>
     </ClCompile>
     <ClCompile Include="GameLogic\Collision\Collision.cpp">
-      <Filter>GameLogic\Collision</Filter>
+      <Filter>GameLogic\GUI\Collision</Filter>
     </ClCompile>
     <ClCompile Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.cpp">
       <Filter>ResourceEngine\ResourceManager\BRFImporterHandler</Filter>
@@ -424,15 +433,6 @@
     <ClCompile Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton\Skeleton.cpp">
       <Filter>ResourceEngine\ResourceManager\SkeletonManager\Skeleton</Filter>
     </ClCompile>
-    <ClCompile Include="GameLogic\Character\Enemy\Healer.cpp">
-      <Filter>GameLogic\Character\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLogic\Character\Enemy\EnemyBase.cpp">
-      <Filter>GameLogic\Character\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\HealingState\HealingState.cpp">
-      <Filter>GameLogic\StateMachines\EnemyStateMachine\HealingState</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceEngine\ObjectNode\Camera\Frustum\Frustum.cpp">
       <Filter>ResourceEngine\ObjectNode\Camera\Frustum</Filter>
     </ClCompile>
@@ -442,8 +442,20 @@
     <ClCompile Include="GameLogic\StateMachines\AudioManager\AudioManager.cpp">
       <Filter>GameLogic\StateMachines\MainStateMachene\AudioManager</Filter>
     </ClCompile>
+    <ClCompile Include="GameLogic\Scene\Waves\Waves.cpp">
+      <Filter>GameLogic\Scene\Waves</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Character\Enemy\EnemyBase.cpp">
+      <Filter>GameLogic\Character\Enemy</Filter>
+    </ClCompile>
     <ClCompile Include="GameLogic\Scene\GameObject\Pickup\Pickup.cpp">
       <Filter>GameLogic\Scene\GameObject\Pickup</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Character\Enemy\Healer.cpp">
+      <Filter>GameLogic\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\StateMachines\MainStateMachine\WinState\WinState.cpp">
+      <Filter>GameLogic\StateMachines\MainStateMachene\WinState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -604,7 +616,7 @@
       <Filter>Source Files\Main\GameTimer</Filter>
     </ClInclude>
     <ClInclude Include="GameLogic\Collision\Collision.h">
-      <Filter>GameLogic\Collision</Filter>
+      <Filter>GameLogic\GUI\Collision</Filter>
     </ClInclude>
     <ClInclude Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.h">
       <Filter>ResourceEngine\ResourceManager\BRFImporterHandler</Filter>
@@ -636,15 +648,6 @@
     <ClInclude Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton\Skeleton.h">
       <Filter>ResourceEngine\ResourceManager\SkeletonManager\Skeleton</Filter>
     </ClInclude>
-    <ClInclude Include="GameLogic\Character\Enemy\Healer.h">
-      <Filter>GameLogic\Character\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLogic\Character\Enemy\EnemyBase.h">
-      <Filter>GameLogic\Character\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\HealingState\HealingState.h">
-      <Filter>GameLogic\StateMachines\EnemyStateMachine\HealingState</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceEngine\ObjectNode\Camera\Frustum\Frustum.h">
       <Filter>ResourceEngine\ObjectNode\Camera\Frustum</Filter>
     </ClInclude>
@@ -654,8 +657,20 @@
     <ClInclude Include="GameLogic\StateMachines\AudioManager\AudioManager.h">
       <Filter>GameLogic\StateMachines\MainStateMachene\AudioManager</Filter>
     </ClInclude>
+    <ClInclude Include="GameLogic\Scene\Waves\Waves.h">
+      <Filter>GameLogic\Scene\Waves</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Character\Enemy\EnemyBase.h">
+      <Filter>GameLogic\Character\Enemy</Filter>
+    </ClInclude>
     <ClInclude Include="GameLogic\Scene\GameObject\Pickup\Pickup.h">
       <Filter>GameLogic\Scene\GameObject\Pickup</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Character\Enemy\Healer.h">
+      <Filter>GameLogic\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\StateMachines\MainStateMachine\WinState\WinState.h">
+      <Filter>GameLogic\StateMachines\MainStateMachene\WinState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

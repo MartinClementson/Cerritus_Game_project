@@ -15,6 +15,7 @@ Enemy::Enemy(XMFLOAT3 spawn, bool fast)
 	this->enemyStateMachine = new EnemyStateMachine();
 	enemyStateMachine->Initialize();
 	this->graphics = Graphics::GetInstance();
+
 	renderInfo.position = position;
 	renderInfo.rotation = rotation;
 	renderInfo.radius = radius;
@@ -66,8 +67,8 @@ void Enemy::Initialize()
 		damage = 5.0f;
 		rotation = { 0,0,0 };
 
-		radius = 1.0f;
-		radius2 = 2.0f;
+		radius = 2.0f;
+		radius2 = 3.0f;
 
 		DoTDur = 0;
 		slowTimer = 0;
@@ -76,8 +77,6 @@ void Enemy::Initialize()
 		isAlive = false;
 	}
 }
-
-
 
 void Enemy::Release()
 {
@@ -97,9 +96,7 @@ void Enemy::Update(double deltaTime)
 	{
 		GetStateMachine()->SetActiveState(ENEMY_ATTACK_STATE);
 	}
-	
-	
-	
+
 	if (health < maxHealth / 2 && !closestHealer)
 	{
 		GetStateMachine()->SetActiveState(ENEMY_ATTACK_STATE);
@@ -141,6 +138,7 @@ void Enemy::SetHealth(float health)
 
 void Enemy::Render()
 {
+	renderInfo.object = ENEMY_1;
 	renderInfo.position = position;
 	renderInfo.rotation = rotation;
 	renderInfo.radius = radius;
@@ -168,10 +166,10 @@ void Enemy::Respawn(XMFLOAT3 spawn)
 		this->DoT = 0.0f;
 		this->index = 0.0f;
 		this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
+
 	}
 	else
 	{
-
 		this->position = spawn;
 		this->isAlive = true;
 		this->health = maxHealth;
@@ -188,6 +186,13 @@ float Enemy::GetMaxHealth()
 
 void Enemy::Spawn(XMFLOAT3 spawn)
 {
+	this->position = spawn;
+	this->isAlive = true;
+	this->health = 100.0f;
+	this->DoT = 0.0f;
+	this->index = 0.0f;
+	this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
+
 	if (this->fast)
 	{
 		this->charType = CharacterType::FAST_ENEMY;
@@ -255,6 +260,7 @@ void Enemy::AIPattern(Player* player, double deltaTime)
 		//here they go to die 
 	}
 }
+
 void Enemy::AIPatternHeal(EnemyBase* healer, double deltaTime)
 {
 	if (enemyStateMachine->GetActiveState() == ENEMY_HEAL_STATE)
@@ -275,7 +281,6 @@ void Enemy::AIPatternHeal(EnemyBase* healer, double deltaTime)
 	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
 	{
 
-
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE)
 	{
@@ -291,6 +296,7 @@ CharacterType Enemy::GetCharType()
 {
 	return this->charType;
 }
+
 float Enemy::GetRadius2()
 {
 	return this->radius2;
