@@ -62,7 +62,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 
 	materialManager->addMaterials(&temp);
 	ui.materialName = "pause";
-	ui.diffuseTex = "Pausemenu.png";
+	ui.diffuseTex = "PausUI.tif";
 	ui.materialID = 12;
 	temp.push_back(ui);
 
@@ -77,13 +77,29 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 
 	ui.materialID = 13;
 	temp.push_back(ui);
-
 	materialManager->addMaterials(&temp);
+
 	ui.materialName = "ENUMERATION";
 	ui.diffuseTex = "Numerations.tif";
 	ui.materialID = 14;
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
+
+	ui.materialName = "WAVECOUNTER";
+	ui.diffuseTex = "Numerations.tif";
+	ui.materialID = 15;
+	temp.push_back(ui);
+	materialManager->addMaterials(&temp);
+
+
+	materialManager->addMaterials(&temp);
+	ui.materialName = "WinState";
+	ui.diffuseTex = "win.png";
+	ui.materialID = 16;
+
+	temp.push_back(ui);
+	materialManager->addMaterials(&temp);
+
 }
 
 void ResourceManager::Release()

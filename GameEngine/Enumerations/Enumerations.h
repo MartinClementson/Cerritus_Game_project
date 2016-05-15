@@ -69,6 +69,7 @@ enum UITextures
 	MENU,
 	PAUSE,
 	GAMEOVER,
+	WIN,
 	CONTROLS,
 
 };
@@ -147,7 +148,8 @@ enum MainStates
 {
 	MAIN_MENU_STATE,
 	MAIN_GAME_STATE,
-	MAIN_GAMEOVER_STATE
+	MAIN_GAMEOVER_STATE,
+	MAIN_WIN_STATE,
 };
 
 #pragma endregion

@@ -184,6 +184,7 @@
     <ClCompile Include="GameLogic\StateMachines\MainStateMachine\GameState\PausedState\MainPausedState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\MainStateMachine\MainStateMachine.cpp" />
     <ClCompile Include="GameLogic\StateMachines\MainStateMachine\MenuState\MenuState.cpp" />
+    <ClCompile Include="GameLogic\StateMachines\MainStateMachine\WinState\WinState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\StateClass\StateClass.cpp" />
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\ActiveState\ActiveState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\IldeState\TrapIdleState.cpp" />
@@ -250,6 +251,7 @@
     <ClInclude Include="GameLogic\StateMachines\MainStateMachine\GameState\PausedState\MainPausedState.h" />
     <ClInclude Include="GameLogic\StateMachines\MainStateMachine\MainStateMachine.h" />
     <ClInclude Include="GameLogic\StateMachines\MainStateMachine\MenuState\MenuState.h" />
+    <ClInclude Include="GameLogic\StateMachines\MainStateMachine\WinState\WinState.h" />
     <ClInclude Include="GameLogic\StateMachines\StateClass\StateClass.h" />
     <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\ActiveState\ActiveState.h" />
     <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\IldeState\TrapIdleState.h" />

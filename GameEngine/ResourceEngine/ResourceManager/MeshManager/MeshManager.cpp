@@ -368,6 +368,11 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 		fullScreenQuad.GetMeshRenderInfo(toRender);
 		toRender->materialID = 13;
 	}
+	else if (*uiEnum == UITextures::WIN)
+	{
+		fullScreenQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 16;
+	}
 	if (*uiEnum == UITextures::NUMERATION)
 	{
 		killCountQuad.GetMeshRenderInfo(toRender);

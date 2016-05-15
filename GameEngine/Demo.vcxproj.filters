@@ -253,9 +253,12 @@
     </Filter>
     <Filter Include="GameLogic\Scene\GameObject\Pickup">
       <UniqueIdentifier>{67f75e15-a750-473d-aa0a-72963edbab2a}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="ResourceEngine\ResourceManager\FontManager">
       <UniqueIdentifier>{912e40d2-8486-4282-82c1-506c507a092b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\StateMachines\MainStateMachene\WinState">
+      <UniqueIdentifier>{ccc723a9-ea8c-41cb-8d8b-1d1b4e8b0105}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -450,6 +453,9 @@
     </ClCompile>
     <ClCompile Include="GameLogic\Character\Enemy\Healer.cpp">
       <Filter>GameLogic\Character\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\StateMachines\MainStateMachine\WinState\WinState.cpp">
+      <Filter>GameLogic\StateMachines\MainStateMachene\WinState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -662,6 +668,9 @@
     </ClInclude>
     <ClInclude Include="GameLogic\Character\Enemy\Healer.h">
       <Filter>GameLogic\Character\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\StateMachines\MainStateMachine\WinState\WinState.h">
+      <Filter>GameLogic\StateMachines\MainStateMachene\WinState</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
