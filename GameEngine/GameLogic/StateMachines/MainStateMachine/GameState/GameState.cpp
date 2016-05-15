@@ -170,11 +170,11 @@ void GameState::Update(double deltaTime)
 						position = room1->enemySpawn->Alive.at(j)->position;
 						XMFLOAT3 healPos;
 						healPos.y = 0;
-						XMFLOAT3 closest;
+						Vec3 closest;
 						closest.x = 1000;
 						closest.y = 0;
 						closest.z = 1000;
-						XMFLOAT3 tmp;
+						Vec3 tmp;
 						tmp.y = 0;
 
 						//tmpCloseHealer = healers.at(0);
@@ -191,19 +191,19 @@ void GameState::Update(double deltaTime)
 									//if (healers.at(i)->healing < 7)
 									//{
 									tmp.x = healPos.x - position.x;
-									if (tmp.x < 0)
-									{
-										tmp.x = -tmp.x;
-									}
+									//if (tmp.x < 0)
+									//{
+									//	tmp.x = -tmp.x;
+									//}
 									tmp.z = healPos.z - position.z;
-									if (tmp.z < 0)
-									{
+									//if (tmp.z < 0)
+									//{
 
-										tmp.z = -tmp.z;
+									//	tmp.z = -tmp.z;
 
 
-									}
-									if (closest.x > tmp.x && closest.z > tmp.z && healers.at(i)->isAlive)
+									//}
+									if (tmp.Length() < closest.Length() && healers.at(i)->isAlive)
 									{
 										closest = tmp;
 										tmpCloseHealer = healers.at(i);
