@@ -134,3 +134,13 @@ XMFLOAT3 Waves::GetSpawnPositions()
 {
 	return spawnPos;
 }
+
+void Waves::SetWinCondition(bool win)
+{
+	winCondition = win;
+}
+
+bool Waves::GetWinCondition()
+{
+	return winCondition;
+}

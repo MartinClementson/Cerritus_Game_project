@@ -15,6 +15,7 @@ private:
 
 public:
 	int switchSpawnPos = 0;
+	bool winCondition = false;
 
 	int amountOFFast, amountOfStandards, amountOfHealers;
 	float posAdd;
@@ -38,6 +39,9 @@ public:
 	void SpawnPositions(int spawnSwitch);
 	void SetSpawnPositions(XMFLOAT3 spawnPos);
 	XMFLOAT3 GetSpawnPositions();
+
+	void SetWinCondition(bool win);
+	bool GetWinCondition();
 };
 
 #endif

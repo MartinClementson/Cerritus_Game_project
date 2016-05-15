@@ -203,9 +203,6 @@
     <Filter Include="ResourceEngine\Shaders\GBufferShader">
       <UniqueIdentifier>{8cb80f1f-f67e-4089-899d-aad1345f70fb}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameLogic\Collision">
-      <UniqueIdentifier>{56761173-6038-415a-adf6-16361a84dd24}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ResourceEngine\ResourceManager\BRFImporterHandler">
       <UniqueIdentifier>{3bcf3419-06fc-4913-9f33-a3e0746aa4cb}</UniqueIdentifier>
     </Filter>
@@ -259,6 +256,9 @@
     </Filter>
     <Filter Include="GameLogic\StateMachines\MainStateMachene\WinState">
       <UniqueIdentifier>{ccc723a9-ea8c-41cb-8d8b-1d1b4e8b0105}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameLogic\GUI\Collision">
+      <UniqueIdentifier>{56761173-6038-415a-adf6-16361a84dd24}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -407,7 +407,7 @@
       <Filter>Source Files\Main\GameTimer</Filter>
     </ClCompile>
     <ClCompile Include="GameLogic\Collision\Collision.cpp">
-      <Filter>GameLogic\Collision</Filter>
+      <Filter>GameLogic\GUI\Collision</Filter>
     </ClCompile>
     <ClCompile Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.cpp">
       <Filter>ResourceEngine\ResourceManager\BRFImporterHandler</Filter>
@@ -616,7 +616,7 @@
       <Filter>Source Files\Main\GameTimer</Filter>
     </ClInclude>
     <ClInclude Include="GameLogic\Collision\Collision.h">
-      <Filter>GameLogic\Collision</Filter>
+      <Filter>GameLogic\GUI\Collision</Filter>
     </ClInclude>
     <ClInclude Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterHandler.h">
       <Filter>ResourceEngine\ResourceManager\BRFImporterHandler</Filter>

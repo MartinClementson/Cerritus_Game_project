@@ -31,6 +31,7 @@ public:
 
 	int a = 0;
 	bool fast = false;
+	bool win = false;
 
 	std::vector<EnemyBase*> Alive;
 
