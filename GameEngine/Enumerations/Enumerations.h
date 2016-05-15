@@ -43,7 +43,9 @@ enum MeshEnum
 	LEVEL_2,
 	LEVEL_3,
 	LEVEL_4,
-	PLACEHOLDER
+	PLACEHOLDER,
+	PICKUP_WEAPON,
+	PICKUP_HEAL
 };
 
 #pragma endregion
@@ -230,8 +232,8 @@ enum UpgradeType
 
 enum PickupType
 {
-	Weapon,
-	Heal
+	WEAPON,
+	HEAL
 };
 
 

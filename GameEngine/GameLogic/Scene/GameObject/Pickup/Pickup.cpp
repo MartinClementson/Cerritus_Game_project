@@ -25,7 +25,14 @@ Pickup::Pickup(XMFLOAT3 pos, PickupType pickup)
 	this->rotation = { 0,0,0 };
 	Initialize();
 	RenderInfo.position = this->position;
-	RenderInfo.object = PLACEHOLDER;
+
+	if (pickup == PickupType::HEAL)
+		RenderInfo.object = MeshEnum::PICKUP_HEAL;
+	else if (pickup == PickupType::WEAPON)
+		RenderInfo.object = MeshEnum::PICKUP_WEAPON;
+	else
+		RenderInfo.object = PLACEHOLDER;
+
 }
 
 Pickup::~Pickup()
@@ -53,13 +60,13 @@ void Pickup::Update(double deltaTime)
 		respawnTimer += (float)deltaTime;
 	}
 
-	if(respawnTimer >= 10.0f && this->pickupType == PickupType::Weapon)
+	if(respawnTimer >= 10.0f && this->pickupType == PickupType::WEAPON)
 	{
 		isActive = true;
 		respawnTimer = 0.0f;
 	}
 
-	if (respawnTimer >= 30.0f && this->pickupType == PickupType::Heal)
+	if (respawnTimer >= 30.0f && this->pickupType == PickupType::HEAL)
 	{
 		isActive = true;
 		respawnTimer = 0.0f;
