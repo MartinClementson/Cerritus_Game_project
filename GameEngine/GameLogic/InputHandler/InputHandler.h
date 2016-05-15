@@ -18,7 +18,7 @@ private:
 	float mouseX, mouseY;
 	float lastMouseX, lastMouseY;
 
-	bool isQPressed;
+	bool isLshiftPressed;
 
 private:
 	void ProcessInput();

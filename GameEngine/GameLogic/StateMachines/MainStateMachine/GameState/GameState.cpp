@@ -411,15 +411,15 @@ void GameState::ProcessInput(double* deltaTime)
 			}
 		}
 
-		if (input->IsKeyPressed(KEY_Q))
+		if (input->IsKeyPressed(KEY_LSHIFT))
 		{
-			for (int i = 0; i < bearTraps.size(); i++)
+			if (input->IsKeyHeld(KEY_LSHIFT))
 			{
-				if (collision->BearTrapActivation(bearTraps.at(i)))
+				for (int i = 0; i < bearTraps.size(); i++)
 				{
-					if (bearTraps.at(i)->GetState()->GetTrapState() == TrapState::TRAP_INACTIVE_STATE)
+					if (collision->BearTrapActivation(bearTraps.at(i)))
 					{
-						if (input->IsKeyHeld(KEY_Q))
+						if (bearTraps.at(i)->GetState()->GetTrapState() == TrapState::TRAP_INACTIVE_STATE)
 						{
 							if (bearTraps.at(i)->GetCurrentReloadTime() >= 2)
 							{
@@ -431,37 +431,36 @@ void GameState::ProcessInput(double* deltaTime)
 							else
 							{
 
-								bearTraps.at(i)->TickCurrReloadTime((float)*deltaTime );
+								bearTraps.at(i)->TickCurrReloadTime((float)*deltaTime);
 								bearTraps.at(i)->SetisBeingReloaded(true);
 							}
-								
+
+
 						}
 					}
 				}
-			}
-			for (int i = 0; i < fireTraps.size(); i++)
-			{
-				if (collision->FireTrapActivation(fireTraps.at(i)))
+				for (int i = 0; i < fireTraps.size(); i++)
 				{
-
-					if (fireTraps.at(i)->GetState()->GetTrapState() == TrapState::TRAP_INACTIVE_STATE)
+					if (collision->FireTrapActivation(fireTraps.at(i)))
 					{
-						if (input->IsKeyHeld(KEY_Q))
+
+						if (fireTraps.at(i)->GetState()->GetTrapState() == TrapState::TRAP_INACTIVE_STATE)
 						{
-							if (fireTraps.at(i)->GetCurrentReloadTime() >= 2)
-							{
-								audioManager->playEDeathSound();
-								fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
-								fireTraps.at(i)->SetCurrentReloadTime(0);
-								fireTraps.at(i)->SetisBeingReloaded(false);
+							
+								if (fireTraps.at(i)->GetCurrentReloadTime() >= 2)
+								{
+									audioManager->playEDeathSound();
+									fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
+									fireTraps.at(i)->SetCurrentReloadTime(0);
+									fireTraps.at(i)->SetisBeingReloaded(false);
 
-							}
-							else
-							{
+								}
+								else
+								{
 
-								fireTraps.at(i)->TickCurrReloadTime((float)*deltaTime );
-								fireTraps.at(i)->SetisBeingReloaded(true);
-							}
+									fireTraps.at(i)->TickCurrReloadTime((float)*deltaTime);
+									fireTraps.at(i)->SetisBeingReloaded(true);
+								}
 						}
 					}
 				}
