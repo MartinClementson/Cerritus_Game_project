@@ -91,6 +91,7 @@ struct RenderInfoTrap {
 	bool render = true;
 	float radius;
 	bool glow;
+	float normalizedReloadVal = 1.0f; 
 	//Shaders shader;
 	//TrapAnimations trapAnim;*/ //these are enum
 };

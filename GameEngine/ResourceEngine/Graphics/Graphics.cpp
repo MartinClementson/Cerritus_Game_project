@@ -450,6 +450,7 @@ void Graphics::CullGeometry()
 									5.0f ,																									       //height of the healthbar. 0 == on ground
 									enemyObjects->at(i)->position.z);																		       // pos z.
 					
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x     = 1.0f;
 					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + enemyObjects->at(i)->normalizedHealthVal - 0.2f;		// -0.2f is just to make the red appear sooner
 					
 					billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;
@@ -551,7 +552,7 @@ void Graphics::CullGeometry()
 		{
 			if (this->trapObjects->at(i)->object == MeshEnum::TRAP_BEAR)
 			{
-				this->trapObjects->at(i)->position.y += 0.3;
+				this->trapObjects->at(i)->position.y += 0.3f;
 				this->instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED][bearTrapIndex].worldMatrix = CalculateWorldMatrix(&this->trapObjects->at(i)->position, &this->trapObjects->at(i)->rotation);
 				this->instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED][bearTrapIndex].glow = (this->trapObjects->at(i)->glow == true) ? 1 : 0 ;
 				instancesToRender[TRAP_BEAR_INSTANCED] += 1;
@@ -560,6 +561,26 @@ void Graphics::CullGeometry()
 
 				if (instanceMeshIndex.trapBearMesh == -1) //if this is the first thing we found of that mesh, store the index.
 					instanceMeshIndex.trapBearMesh = (int)i;
+
+				if (this->trapObjects->at(i)->normalizedReloadVal > 0.0f) // if the trap is being reloaded (Render it as a healthbar
+				{
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].direction = XMFLOAT3(0.0f, 1.0f, 0.0f);
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].height = 0.5f;
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width = 4.0f * trapObjects->at(i)->normalizedReloadVal;
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].worldPos =
+						XMFLOAT3(trapObjects->at(i)->position.x - (4.0f - (billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width)), 	   // pos. x - (2 - width)
+							5.0f,																									       //height of the healthbar. 0 == on ground
+							trapObjects->at(i)->position.z + 4);																		       // pos z.
+
+					
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f - trapObjects->at(i)->normalizedReloadVal ;
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + trapObjects->at(i)->normalizedReloadVal;
+					billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;
+					healthBarIndex += 1;
+
+
+				}
+
 			}
 
 			else if (this->trapObjects->at(i)->object == MeshEnum::TRAP_FIRE)
@@ -571,6 +592,29 @@ void Graphics::CullGeometry()
 
 				if (instanceMeshIndex.trapFireMesh == -1) //if this is the first thing we found of that mesh, store the index.
 					instanceMeshIndex.trapFireMesh = (int)i;
+
+				if (this->trapObjects->at(i)->normalizedReloadVal > 0.0f) // if the trap is being reloaded (Render it as a healthbar)
+				{
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].direction = XMFLOAT3(0.0f, 1.0f, 0.0f);
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].height = 0.5f;
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width = 4.0f * trapObjects->at(i)->normalizedReloadVal;
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].worldPos =
+						XMFLOAT3(trapObjects->at(i)->position.x - (4.0f - (billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width)), 	   // pos. x - (2 - width)
+							5.0f,																									       //height of the healthbar. 0 == on ground
+							trapObjects->at(i)->position.z +2 );																		       // pos z.
+
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f - trapObjects->at(i)->normalizedReloadVal;
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + trapObjects->at(i)->normalizedReloadVal;
+					
+
+
+					billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;
+					healthBarIndex += 1;
+
+
+				}
+
+
 			}
 		}
 

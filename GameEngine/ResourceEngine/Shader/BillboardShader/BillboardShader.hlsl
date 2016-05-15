@@ -103,7 +103,7 @@ BILLBOARD_VS_OUT BILLBOARD_VS(BILLBOARD_VS_IN input )
 void BILLBOARD_GS(point BILLBOARD_VS_OUT input[1],
 	inout TriangleStream< BILLBOARD_GS_OUT > output)
 {
-	float3 vecToCam = (input[0].worldPos - camPos.xyz);
+	float3 vecToCam = (input[0].worldPos.xyz - camPos.xyz);
 	vecToCam.x = 0.0f;
 	vecToCam = normalize(vecToCam);
 	float3 upVec = normalize(input[0].direction);

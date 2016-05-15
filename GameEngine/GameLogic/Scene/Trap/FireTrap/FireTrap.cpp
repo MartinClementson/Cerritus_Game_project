@@ -55,6 +55,10 @@ void FireTrap::Release()
 
 void FireTrap::Update(double deltaTime)
 { 
+
+	renderInfo.normalizedReloadVal = -1;
+	if (this->currReloadTime > 0)
+		currReloadTime -= deltaTime / 4;
 	if (this->GetState()->GetTrapState() == TrapState::TRAP_ACTIVE_STATE)
 	{
 		this->activeTimer += (float)deltaTime;
@@ -90,6 +94,8 @@ void FireTrap::Render()
 {
 	if (this->isActive)
 	{
+		if (this->isBeingReloaded)
+			renderInfo.normalizedReloadVal = this->currReloadTime / this->maxReloadTime;
 		graphics->QueueRender(&renderInfo);
 	}
 }

@@ -119,13 +119,13 @@ void GameState::Update(double deltaTime)
 			if (collision->WeaponPickupCollision(room1->Pickups.at(i)))
 			{
 
-				if (room1->WeaponUpgrades.at(i)->GetPickupType() == PickupType::WEAPON)
+				if (room1->Pickups.at(i)->GetPickupType() == PickupType::WEAPON)
 				{
 					this->player->UpgradeWeapon();
 					room1->Pickups.at(i)->SetIsActive(false);
 				}
 
-				else if (room1->WeaponUpgrades.at(i)->GetPickupType() == PickupType::HEAL)
+				else if (room1->Pickups.at(i)->GetPickupType() == PickupType::HEAL)
 				{
 					this->player->SetHealth(player->GetHealth() + 50);
 
@@ -445,32 +445,48 @@ void GameState::ProcessInput(double* deltaTime)
 					{
 						if (input->IsKeyHeld(KEY_Q))
 						{
-							if (currentTime >= 2)
+							if (bearTraps.at(i)->GetCurrentReloadTime() >= 2)
 							{
 								audioManager->playEDeathSound(); //temp to know
 								bearTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
-								currentTime = 0;
+								bearTraps.at(i)->SetCurrentReloadTime(0);
+								bearTraps.at(i)->SetisBeingReloaded(false);
 							}
 							else
-								currentTime += (float)*deltaTime;
+							{
+
+								bearTraps.at(i)->TickCurrReloadTime((float)*deltaTime );
+								bearTraps.at(i)->SetisBeingReloaded(true);
+							}
+								
 						}
 					}
 				}
 			}
 			for (int i = 0; i < fireTraps.size(); i++)
 			{
-				if (fireTraps.at(i)->GetState()->GetTrapState() == TrapState::TRAP_INACTIVE_STATE)
+				if (collision->FireTrapActivation(fireTraps.at(i)))
 				{
-					if (input->IsKeyHeld(KEY_Q))
+
+					if (fireTraps.at(i)->GetState()->GetTrapState() == TrapState::TRAP_INACTIVE_STATE)
 					{
-						if (currentTime >= 2)
+						if (input->IsKeyHeld(KEY_Q))
 						{
-							audioManager->playEDeathSound();
-							fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
-							currentTime = 0;
+							if (fireTraps.at(i)->GetCurrentReloadTime() >= 2)
+							{
+								audioManager->playEDeathSound();
+								fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
+								fireTraps.at(i)->SetCurrentReloadTime(0);
+								fireTraps.at(i)->SetisBeingReloaded(false);
+
+							}
+							else
+							{
+
+								fireTraps.at(i)->TickCurrReloadTime((float)*deltaTime );
+								fireTraps.at(i)->SetisBeingReloaded(true);
+							}
 						}
-						else
-							currentTime += (float)*deltaTime;
 					}
 				}
 			}
