@@ -52,17 +52,12 @@ void Scene::Initialize()
 
 	
 
-	Pickups.push_back(new Pickup(XMFLOAT3(10, 1, -20), PickupType::WEAPON));
-	Pickups.push_back(new Pickup(XMFLOAT3(20, 1, -10), PickupType::WEAPON));
-	Pickups.push_back(new Pickup(XMFLOAT3(30, 1, 0), PickupType::WEAPON));
-	Pickups.push_back(new Pickup(XMFLOAT3(40, 1, 10), PickupType::WEAPON));
-	Pickups.push_back(new Pickup(XMFLOAT3(50, 1, 20), PickupType::WEAPON));
+	Pickups.push_back(new Pickup(XMFLOAT3(41.765, 1, 292.007), PickupType::WEAPON));
+	Pickups.push_back(new Pickup(XMFLOAT3(-74.565, 1, 146.426), PickupType::WEAPON));
+	Pickups.push_back(new Pickup(XMFLOAT3(87.982, 1, -103.119), PickupType::WEAPON));
 
-	Pickups.push_back(new Pickup(XMFLOAT3(-10, 1, -20), PickupType::HEAL));
-	Pickups.push_back(new Pickup(XMFLOAT3(-20, 1, -10), PickupType::HEAL));
-	Pickups.push_back(new Pickup(XMFLOAT3(-30, 1, 0), PickupType::HEAL));
-	Pickups.push_back(new Pickup(XMFLOAT3(-40, 1, 10), PickupType::HEAL));
-	Pickups.push_back(new Pickup(XMFLOAT3(-50, 1, 20), PickupType::HEAL));
+	Pickups.push_back(new Pickup(XMFLOAT3(79.973, 1, 98.081), PickupType::HEAL));
+	Pickups.push_back(new Pickup(XMFLOAT3(-68.137, 1, 280.096), PickupType::HEAL));
 
 	RespawnTimer = 0;
 

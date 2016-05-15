@@ -77,23 +77,19 @@ void Waves::SpawnPositions(int spawnSwitch)
 	switch (spawnSwitch)
 	{
 	case 1:
-		spawnPos = { -20.0f, 0.0f, 40.0f + GetSpawnPosAdd() };
+		spawnPos = { 82.944f, 0.0f, 63.105f + GetSpawnPosAdd() };
 		SetSpawnPositions(spawnPos);
 		break;
 	case 2:
-		spawnPos = { 70.0f + GetSpawnPosAdd(), 0.0f, 40.0f };
+		spawnPos = { -105.059f + GetSpawnPosAdd(), 0.0f, 55.737f };
 		SetSpawnPositions(spawnPos);
 		break;
 	case 3:
-		spawnPos = { 20.0f + GetSpawnPosAdd(), 0.0f, -10.0f };
+		spawnPos = { 117.441f + GetSpawnPosAdd(), 0.0f, -72.844f };
 		SetSpawnPositions(spawnPos);
 		break;
 	case 4:
-		spawnPos = { -40.0f, 0.0f, -60.0f + GetSpawnPosAdd() };
-		SetSpawnPositions(spawnPos);
-		break;
-	default:
-		spawnPos = { -70.0f, 0.0f, 40.0f };
+		spawnPos = { 12.470f, 0.0f, 289.248f + GetSpawnPosAdd() };
 		SetSpawnPositions(spawnPos);
 		break;
 	}
