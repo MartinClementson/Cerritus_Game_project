@@ -35,75 +35,29 @@ void GameOverState::Update(double deltaTime)
 	//TIMER, EXIT GAME OPTION, GO TO MENU OPTION
 	gameOverGUI->Update(deltaTime);
 	
-	/*std::wstring stemp = s2ws(a);*/
-	
-	
-
-	/*
-	if (this->GetPoints() > lastHighscore)
-	{
-		std::wstring a = std::to_wstring((int)this->GetPoints());
-		LPCWSTR result = a.c_str();
-		MessageBox(0, result,
-			L"New Highscore!", MB_OK);
-	}
-	else if (this->GetPoints() == lastHighscore && lastHighscore == 0)
-	{
-		std::wstring a = std::to_wstring((int)this->GetPoints());
-		LPCWSTR result = a.c_str();
-		MessageBox(0, result,
-			L"You Can Do Better Than That...", MB_OK);
-	}
-	else if (this->GetPoints() == lastHighscore)
-	{
-		std::wstring a = std::to_wstring((int)this->GetPoints());
-		LPCWSTR result = a.c_str();
-		MessageBox(0, result,
-			L"Equaled The Best", MB_OK);
-	}
-	else if (this->GetPoints() < 0)
-	{
-		std::wstring a = std::to_wstring((int)this->GetPoints());
-		LPCWSTR result = a.c_str();
-		MessageBox(0, result,
-			L"You Aren't Even Trying", MB_OK);
-	}
-	else
-	{
-		
-		LPCWSTR tmp = L"last Highscore: ";
-		std::wstring a = std::to_wstring((int)this->GetPoints());
-		LPCWSTR result = a.c_str();
-		wstring prev(tmp);
-		prev = prev + std::to_wstring((int)lastHighscore);
-		LPCWSTR print = prev.c_str();
-		
-		MessageBox(0, result,
-			print, MB_OK);
-	}*/
 	XMFLOAT2 mousePos = InputHandler::GetInstance()->GetMousePosition();
 
 	float vx = ((2.0f * mousePos.x) / (float)WIN_HEIGHT - 1.0f);
 	float vy = ((2.0f * -mousePos.y) / (float)WIN_WIDTH + 1.0f);
 
-	XMFLOAT2 Maxexit = { 47.0f ,391.0f };
-	XMFLOAT2 Minexit = { 245.0f,456.0f };
+	//XMFLOAT2 Maxexit = { 47.0f ,391.0f };
+	//XMFLOAT2 Minexit = { 245.0f,456.0f };
 
-	float Maxex = ((2.0f * Maxexit.x) / (float)WIN_HEIGHT - 1.0f);
-	float Maxey = ((2.0f * -Maxexit.y) / (float)WIN_WIDTH + 1.0f);
-	float Minex = ((2.0f * Minexit.x) / (float)WIN_HEIGHT - 1.0f);
-	float Miney = ((2.0f * -Minexit.y) / (float)WIN_WIDTH + 1.0f);
+	//float Maxex = ((2.0f * Maxexit.x) / (float)WIN_HEIGHT - 1.0f);
+	//float Maxey = ((2.0f * -Maxexit.y) / (float)WIN_WIDTH + 1.0f);
+	//float Minex = ((2.0f * Minexit.x) / (float)WIN_HEIGHT - 1.0f);
+	//float Miney = ((2.0f * -Minexit.y) / (float)WIN_WIDTH + 1.0f);
 
-	XMFLOAT2 MaxNewGame = { 959.0f,329.0f };
-	XMFLOAT2 MinNewGame = { 1266.0f,383.0f };
+	XMFLOAT2 MaxNewGame = { 1025.0f,459.0f };
+	XMFLOAT2 MinNewGame = { 1256.0f,545.0f };
 	float Maxnx = ((2.0f * MaxNewGame.x) / (float)WIN_HEIGHT - 1.0f);
 	float Maxny = ((2.0f * -MaxNewGame.y) / (float)WIN_WIDTH + 1.0f);
 	float Minnx = ((2.0f * MinNewGame.x) / (float)WIN_HEIGHT - 1.0f);
 	float Minny = ((2.0f * -MinNewGame.y) / (float)WIN_WIDTH + 1.0f);
 
 
-	XMFLOAT2 MaxMenu = { 959.0f,436.0f };
-	XMFLOAT2 MinMenu = { 1266.0f,491.0f };
+	XMFLOAT2 MaxMenu = { 1025.0f,590.0f };
+	XMFLOAT2 MinMenu = { 1256.0f,681.0f };
 	float Maxmx = ((2.0f * MaxMenu.x) / (float)WIN_HEIGHT - 1.0f);
 	float Maxmy = ((2.0f * -MaxMenu.y) / (float)WIN_WIDTH + 1.0f);
 	float Minmx = ((2.0f * MinMenu.x) / (float)WIN_HEIGHT - 1.0f);

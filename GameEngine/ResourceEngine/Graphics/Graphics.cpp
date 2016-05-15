@@ -185,6 +185,7 @@ void Graphics::Render() //manage RenderPasses here
 		renderer->Render(uiObjects->at(i));
 
 	}
+	
 
 	
 	FinishFrame();
@@ -299,11 +300,7 @@ void Graphics::RenderScene()
 
 	}*/
 
-	/*for (unsigned int i = 0; i < uiObjects->size(); i++)
-	{
-		renderer->Render(uiObjects->at(i));
-
-	}*/
+	
 
 
 
@@ -323,7 +320,7 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 	enemyObjects ->clear();	//clear the queue
 	trapObjects	 ->clear();	//clear the queue
 	uiObjects	 ->clear();	//clear the queue
-
+	
 	memset(instancedWorldDataPerFrame[ENEMY_1_INSTANCED],    0, sizeof(instancedWorldDataPerFrame[ENEMY_1_INSTANCED]   ));	 //reset instance array
 	memset(instancedWorldDataPerFrame[PROJECTILE_INSTANCED], 0, sizeof(instancedWorldDataPerFrame[PROJECTILE_INSTANCED]));   //reset instance array
 	memset(instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED],  0, sizeof(instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED]));	 //reset instance array
@@ -750,6 +747,7 @@ void Graphics::QueueRender(RenderInfoTrap * object)
 {
 	this->trapObjects->push_back(object);
 }
+
 
 
 Graphics * Graphics::GetInstance()

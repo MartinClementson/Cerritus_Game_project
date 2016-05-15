@@ -123,6 +123,7 @@ public:
 	void QueueRender(RenderInfoEnemy* object);
 	void QueueRender(RenderInfoChar* object);
 	void QueueRender(RenderInfoTrap* object);
+	
 	XMFLOAT4 mouseWorldPos;
 	
 

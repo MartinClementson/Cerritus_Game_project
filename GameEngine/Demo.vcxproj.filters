@@ -253,6 +253,9 @@
     </Filter>
     <Filter Include="GameLogic\Scene\GameObject\Pickup">
       <UniqueIdentifier>{67f75e15-a750-473d-aa0a-72963edbab2a}</UniqueIdentifier>
+	</Filter>
+    <Filter Include="ResourceEngine\ResourceManager\FontManager">
+      <UniqueIdentifier>{912e40d2-8486-4282-82c1-506c507a092b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

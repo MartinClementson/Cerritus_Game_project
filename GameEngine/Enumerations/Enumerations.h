@@ -61,28 +61,31 @@ enum CharacterType
 enum UITextures
 {
 	HEALTHBAR,
+	NUMERATION,
 	WAVECOUNTER,
-	ENEMYSLEFT,
 	AMMO,
 	WAVECOMPLETE,
 	HUD,
 	MENU,
 	PAUSE,
 	GAMEOVER,
-	TEXTATLAS,
-	RESTARTMENU, // newGameMenu
-	RESTARTPAUSE, // restart Pause
-	EXITMENU, // ExitButton menu
-	EXITPAUSE, // Exitbutton Pause 
 	CONTROLS,
-	CONTROLSBUTTONMENU,//ControlButton Menu
-	CONTROLSEXIT,
-	RESUMEPAUSE, // Resumebutton Pause
 
 };
-
 #pragma endregion
-
+enum UiNumbers
+{
+	ONE,
+	TWO,
+	THREE,
+	FOUR,
+	FIVE,
+	SIX,
+	SEVEN,
+	EIGHT,
+	NINE,
+	ZERO,
+};
 #pragma region Lights
 
 enum LightType

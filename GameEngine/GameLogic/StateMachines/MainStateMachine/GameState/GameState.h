@@ -35,9 +35,11 @@ private:
 	void OnExit();
 
 private:
+
 	vector<EnemyBase*> healers;
 	vector<BearTrap*> bearTraps;
 	vector<FireTrap*> fireTraps;
+
 	Scene* room1;
 	Scene* room2;
 	Player* player;
