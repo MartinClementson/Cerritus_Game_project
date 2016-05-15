@@ -38,30 +38,30 @@ void MenuState::Update(double deltaTime)
 	float vx = ((2.0f * mousePos.x) / (float)WIN_HEIGHT - 1.0f);
 	float vy = ((2.0f * -mousePos.y) / (float)WIN_WIDTH + 1.0f);
 	//Exit the game
-	XMFLOAT2 Maxexit = { 50.0f ,597.0f };
-	XMFLOAT2 Minexit = { 246.0f,672.0f };
+	XMFLOAT2 Maxexit = { (float)(0.035f*WIN_WIDTH),(float)(0.825f*WIN_HEIGHT) };
+	XMFLOAT2 Minexit = { (float)(0.195f*WIN_WIDTH),(float)(0.9375f*WIN_HEIGHT) };
 
 	float Maxex = ((2.0f * Maxexit.x) / (float)WIN_HEIGHT - 1.0f);
 	float Maxey = ((2.0f * -Maxexit.y) / (float)WIN_WIDTH + 1.0f);
 	float Minex = ((2.0f * Minexit.x) / (float)WIN_HEIGHT - 1.0f);
 	float Miney = ((2.0f * -Minexit.y) / (float)WIN_WIDTH + 1.0f);
 	//NewGame
-	XMFLOAT2 MaxNewGame = {50.0f,373.0f};
-	XMFLOAT2 MinNewGame = {246.0f,446.0f};
+	XMFLOAT2 MaxNewGame = { (float)(0.035f*WIN_WIDTH), (float)(0.508f*WIN_HEIGHT) };
+	XMFLOAT2 MinNewGame = { (float)(0.195f*WIN_WIDTH), (float)(0.625f*WIN_HEIGHT) };
 	float Maxnx = ((2.0f * MaxNewGame.x) / (float)WIN_HEIGHT - 1.0f);
 	float Maxny = ((2.0f * -MaxNewGame.y) / (float)WIN_WIDTH + 1.0f);
 	float Minnx = ((2.0f * MinNewGame.x) / (float)WIN_HEIGHT - 1.0f);
 	float Minny = ((2.0f * -MinNewGame.y) / (float)WIN_WIDTH + 1.0f);
 	//Show the control UI 
-	XMFLOAT2 MaxControls = { 50.0f,486.0f };
-	XMFLOAT2 MinControls = {246.0f,672.0f};
+	XMFLOAT2 MaxControls = { (float)(0.035f*WIN_WIDTH),(float)(0.6708f*WIN_HEIGHT) };
+	XMFLOAT2 MinControls = { (float)(0.195f*WIN_WIDTH),(float)(0.783f*WIN_HEIGHT) };
 	float Maxcx = ((2.0f * MaxControls.x) / (float)WIN_HEIGHT - 1.0f);
 	float Maxcy = ((2.0f * -MaxControls.y) / (float)WIN_WIDTH + 1.0f);
 	float Mincx = ((2.0f * MinControls.x) / (float)WIN_HEIGHT - 1.0f);
 	float Mincy = ((2.0f * -MinControls.y) / (float)WIN_WIDTH + 1.0f);
 
-	XMFLOAT2 ExitControlMAX = {101.0f,581.0f};
-	XMFLOAT2 ExitControlMIN = {168.0f,619.0f};
+	XMFLOAT2 ExitControlMAX = { (float)(0.0391f*WIN_WIDTH),(float)(0.88f*WIN_HEIGHT) };
+	XMFLOAT2 ExitControlMIN = { (float)(0.1641f*WIN_WIDTH),(float)(0.9597f*WIN_HEIGHT) };
 	float MaxEcx = ((2.0f * ExitControlMAX.x) / (float)WIN_HEIGHT - 1.0f);
 	float MaxEcy = ((2.0f * -ExitControlMAX.y) / (float)WIN_WIDTH + 1.0f);
 	float MinEcx = ((2.0f * ExitControlMIN.x) / (float)WIN_HEIGHT - 1.0f);
@@ -73,13 +73,13 @@ void MenuState::Update(double deltaTime)
 		{
 			if (input->isMouseClicked(MOUSE_LEFT))
 			{
-			
+				//fix later
 			}
 			ProcessInput(&deltaTime);
 		}
 		
-		//shutofgame, release everything no memory leaks are allowed
 		//OnExit();
+		//shutofgame, release everything no memory leaks are allowed
 	}
 	else if (vx > Maxnx && vy < Maxny && vx < Minnx && vy > Minny)
 	{
@@ -99,20 +99,20 @@ void MenuState::Update(double deltaTime)
 		{
 			mainUI->setUI(UITextures::CONTROLS);
 
-			if (mainUI->getUI() == UITextures::CONTROLS)
-			{
-				if (vx > MaxEcx && vy < MaxEcy && vx < MinEcx && vy > MinEcy)
-				{
-					if (input->isMouseClicked(MOUSE_LEFT))
-					{
-						mainUI->setUI(UITextures::MENU);
-					}
-				}
-			}
 		}
 		//go to control screen
 	}
 
+	if (mainUI->getUI() == UITextures::CONTROLS)
+	{
+		if (vx > MaxEcx && vy < MaxEcy && vx < MinEcx && vy > MinEcy)
+		{
+			if (input->isMouseClicked(MOUSE_LEFT))
+			{
+				mainUI->setUI(UITextures::MENU);
+			}
+		}
+	}
 
 		
 
