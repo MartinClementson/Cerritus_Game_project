@@ -20,6 +20,7 @@ public:
 	void Render();
 	void Respawn(XMFLOAT3 spawn);
 	void Spawn(XMFLOAT3 spawn);
+	void RandNewDirection();
 	
 	
 	void AIPattern(Player* player, double deltaTime);
@@ -36,6 +37,8 @@ private:
 	RenderInfoEnemy renderInfo;
 	EnemyStateMachine* enemyStateMachine;
 	Player * player;
+
+	
 	
 	Healer();
 };
