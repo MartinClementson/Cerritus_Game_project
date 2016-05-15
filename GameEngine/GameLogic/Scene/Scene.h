@@ -17,7 +17,8 @@ private:
 
 	Trap * trap;
 	Collision* collision;
-	int trapAmount;
+	int slowTrapAmount;
+	int fireTrapAmount;
 	double RespawnTimer;
 
 

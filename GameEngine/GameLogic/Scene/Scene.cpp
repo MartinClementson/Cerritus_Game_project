@@ -45,19 +45,20 @@ Scene::~Scene()
 
 void Scene::Initialize()
 {
-	trapAmount = 4;
+	fireTrapAmount = 4;
+	slowTrapAmount = 6;
 	collision->ClearTraps();
 	InitBearTrap();
 	InitFireTrap();
 
 	
 
-	Pickups.push_back(new Pickup(XMFLOAT3(41.765, 1, 292.007), PickupType::WEAPON));
-	Pickups.push_back(new Pickup(XMFLOAT3(-74.565, 1, 146.426), PickupType::WEAPON));
-	Pickups.push_back(new Pickup(XMFLOAT3(87.982, 1, -103.119), PickupType::WEAPON));
+	Pickups.push_back(new Pickup(XMFLOAT3(41.765f, 1.0f, 292.007f), PickupType::WEAPON));
+	Pickups.push_back(new Pickup(XMFLOAT3(-74.565f, 1.0f, 146.426f), PickupType::WEAPON));
+	Pickups.push_back(new Pickup(XMFLOAT3(87.982f, 1.0f, -103.119f), PickupType::WEAPON));
 
-	Pickups.push_back(new Pickup(XMFLOAT3(79.973, 1, 98.081), PickupType::HEAL));
-	Pickups.push_back(new Pickup(XMFLOAT3(-68.137, 1, 280.096), PickupType::HEAL));
+	Pickups.push_back(new Pickup(XMFLOAT3(79.973f, 1.0f, 98.081f), PickupType::HEAL));
+	Pickups.push_back(new Pickup(XMFLOAT3(-68.137f, 1.0f, 280.096f), PickupType::HEAL));
 
 	RespawnTimer = 0;
 
@@ -70,11 +71,11 @@ void Scene::InitFireTrap()
 	srand((unsigned int)time(0));
 
 
-	for (int i = 0; i < trapAmount; i++)
+	for (int i = 0; i < fireTrapAmount; i++)
 	{
 		XMFLOAT3 tmp; // randomizes the location of the firetrap
 		tmp.x = rand() % 150 - 85.0f;
-		tmp.y = 0;
+		tmp.y = 0.1;
 		tmp.z = rand() % 150 - 65.0f;
 		XMFLOAT3 pos = { tmp.x,tmp.y,tmp.z };
 		fireTraps.push_back(new FireTrap(pos));
@@ -87,15 +88,44 @@ void Scene::InitBearTrap()
 	srand((unsigned int)time(0));
 
 
-	for (int i = 0; i < trapAmount; i++)
+	for (int i = 0; i < slowTrapAmount; i++)
 	{
 		XMFLOAT3 tmp; // randomizes the location of the beartrap
-		tmp.x = rand() % 150 - 65.0f;
-		tmp.y = 0;
-		tmp.z = rand() % 150 - 85.0f;
-		XMFLOAT3 pos = { tmp.x,tmp.y,tmp.z };
-		BearTrap* temp = new BearTrap(pos);
-		temp->Initialize(pos, temp->GetRotation());
+		tmp.x = 29.924f;
+		tmp.y = 0.1f;
+		tmp.z = 246.448f;
+		BearTrap* temp = new BearTrap(tmp);
+		temp->Initialize(tmp, temp->GetRotation());
+		bearTraps.push_back(temp);
+		tmp.x = -59.040f;
+		tmp.y = 0.1f;
+		tmp.z = 222.559f;
+		temp = new BearTrap(tmp);
+		temp->Initialize(tmp, temp->GetRotation());
+		bearTraps.push_back(temp);
+		tmp.x = 39.686f;
+		tmp.y = 0.1f;
+		tmp.z = 172.339f;
+		temp = new BearTrap(tmp);
+		temp->Initialize(tmp, temp->GetRotation());
+		bearTraps.push_back(temp);
+		tmp.x = 30.121f;
+		tmp.y = 0.1f;
+		tmp.z = 34.963f;
+		temp = new BearTrap(tmp);
+		temp->Initialize(tmp, temp->GetRotation());
+		bearTraps.push_back(temp);
+		tmp.x = -60.656f;
+		tmp.y = 0.1f;
+		tmp.z = -26.118f;
+		temp = new BearTrap(tmp);
+		temp->Initialize(tmp, temp->GetRotation());
+		bearTraps.push_back(temp);
+		tmp.x = 39.686f;
+		tmp.y = 0.1f;
+		tmp.z = -70.199f;
+		temp = new BearTrap(tmp);
+		temp->Initialize(tmp, temp->GetRotation());
 		bearTraps.push_back(temp);
 	}
 }
@@ -196,9 +226,13 @@ void Scene::Update(double deltaTime)
 
 	if (RespawnTimer >= (double)10)
 	{
-		for (int i = 0; i < trapAmount - 1; i++)
+		for (int i = 0; i < fireTrapAmount - 1; i++)
 		{
 			fireTraps.at(i)->isActive = true;
+			RespawnTimer = 0;
+		}
+		for (int i = 0; i < slowTrapAmount - 1; i++)
+		{
 			bearTraps.at(i)->isActive = true;
 			RespawnTimer = 0;
 		}
