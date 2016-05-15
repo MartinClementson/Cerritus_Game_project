@@ -304,13 +304,18 @@ void Enemy::AIPatternHeal(EnemyBase* healer, double deltaTime)
 		direction.x = healerPos.x - GetPosition().x;
 		direction.z = healerPos.z - GetPosition().z;
 
-		direction.Normalize();
+		if (direction.Length() > 6)
+		{
+			direction.Normalize();
 
-		//XMFLOAT3 temp = GetPosition();
-
-		this->position.x += direction.x *(float)deltaTime * movementSpeed;
-		this->position.z += direction.z *(float)deltaTime * movementSpeed;
-		//SetPosition(temp);
+			this->position.x += direction.x *(float)deltaTime * movementSpeed;
+			this->position.z += direction.z *(float)deltaTime * movementSpeed;
+		}
+		else
+		{
+			direction.Normalize();
+			this->position = this->position;
+		}
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
 	{
