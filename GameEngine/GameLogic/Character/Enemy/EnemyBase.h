@@ -25,6 +25,7 @@ protected:
 	
 	EnemyBase();
 public:
+	bool isBeingHealed = false;
 	virtual void Release();
 	int healing;
 	virtual CharacterType GetCharType();

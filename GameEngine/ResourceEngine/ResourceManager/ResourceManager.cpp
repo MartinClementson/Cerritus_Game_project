@@ -91,24 +91,25 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 	
-	//materialManager->addMaterials(&temp);
 	ui.materialName = "Controls";
 	ui.diffuseTex = "Controls.png";
 	ui.materialID = 16;
 	temp.push_back(ui);
+	materialManager->addMaterials(&temp);
 
 
 	ui.materialName = "HEALTH_PICKUP";
 	ui.diffuseTex	= "HeathPickup.tif";
-	ui.glowTex		= "HeathPickupGlow.tif";
-	ui.materialID = 9;
+	//ui.glowTex		= "HeathPickupGlow.tif";
+	ui.materialID = 17;
 	
 	temp.push_back(ui);
+	materialManager->addMaterials(&temp);
 
 	ui.materialName = "WEAPON_PICKUP";
 	ui.diffuseTex = "WeaponPowerup.tif";
-	ui.glowTex = "WeaponPowerupGlow.tif";
-	ui.materialID = 10;
+	//ui.glowTex = "WeaponPowerupGlow.tif";
+	ui.materialID = 18;
 
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);

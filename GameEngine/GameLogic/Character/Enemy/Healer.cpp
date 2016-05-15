@@ -57,10 +57,10 @@ Healer::Healer(XMFLOAT3 spawn)
 	Initialize();
 	this->enemyStateMachine = new EnemyStateMachine();
 	enemyStateMachine->Initialize();
-	this->graphics = Graphics::GetInstance();
+	this->graphics		= Graphics::GetInstance();
 	renderInfo.position = position;
 	renderInfo.rotation = rotation;
-	renderInfo.radius = radius;
+	renderInfo.radius   = radius;
 }
 
 
@@ -72,7 +72,10 @@ float Healer::GetHealth()
 
 void Healer::SetHealth(float health)
 {
-	this->health = health;
+	if( health > this->health)
+		this->isBeingHealed = true;
+
+	this->health		= health;
 }
 
 XMFLOAT3 Healer::GetPosition()
@@ -101,6 +104,7 @@ void Healer::Render()
 	renderInfo.rotation = rotation;
 	renderInfo.radius = radius;
 	renderInfo.render = true;
+	renderInfo.isBeingHealed = this->isBeingHealed;
 	if (this->health < (maxHealth * 0.95))
 	{
 		renderInfo.showHealthBar = true;

@@ -136,7 +136,8 @@ float Enemy::GetHealth()
 
 void Enemy::SetHealth(float health)
 {
-	this->health = health;
+	this->health		= health;
+	this->isBeingHealed = true;
 }
 
 void Enemy::Render()
@@ -145,6 +146,7 @@ void Enemy::Render()
 	renderInfo.rotation = rotation;
 	renderInfo.radius = radius;
 	renderInfo.render = true;
+	renderInfo.isBeingHealed = this->isBeingHealed;
 	if (this->health < (maxHealth * 0.95))
 	{
 		renderInfo.showHealthBar = true;

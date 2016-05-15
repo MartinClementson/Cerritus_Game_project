@@ -209,10 +209,10 @@ void Graphics::RenderScene()
 #pragma region Temporary code for early testing
 	RenderInfoObject tempInfo;						//TEMPORARY
 													//TEMPORARY
-	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
-	tempInfo.rotation = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
-	tempInfo.object = MeshEnum::LEVEL_1;
-	this->renderer->Render(&tempInfo);				//TEMPORARY
+	//tempInfo.position = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
+	//tempInfo.rotation = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
+	//tempInfo.object = MeshEnum::LEVEL_1;
+	//this->renderer->Render(&tempInfo);				//TEMPORARY
 	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
 	tempInfo.rotation = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
 	tempInfo.object = MeshEnum::LEVEL_2;
@@ -444,6 +444,7 @@ void Graphics::CullGeometry()
 
 				if (enemyObjects->at(i)->showHealthBar)
 				{
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow = 0;//(enemyObjects->at(i)->isBeingHealed == true) ? 1 : 0; //Funkar inte
 					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].direction  = XMFLOAT3(0.0f, 1.0f, 0.0f);
 					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].height		= 0.1f;
 					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].width		= 2.0f * enemyObjects->at(i)->normalizedHealthVal;
@@ -478,8 +479,9 @@ void Graphics::CullGeometry()
 
 				//this->instancedWorldDataPerFrame[PROJECTILE_INSTANCED][projectileIndex].worldMatrix = CalculateWorldMatrix(&this->gameObjects->at(i)->position, &this->gameObjects->at(i)->rotation);
 				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].direction = this->gameObjects->at(i)->direction;
-				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].height    = 3.0f;
-				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].width     = 0.15f;
+				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].height	= 3.0f;
+				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].width		= 0.15f;
+				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].glow		= 1;
 				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].worldPos  = this->gameObjects->at(i)->position + (this->gameObjects->at(i)->direction *(billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].height * 0.9f)); // this is to make sure that if we made a long shot, (like a railgun) we wouldnt want halv of the shot texture behind the character
 
 				instancesToRender[PROJECTILE_INSTANCED]  += 1;
@@ -494,10 +496,11 @@ void Graphics::CullGeometry()
 			else if (this->gameObjects->at(i)->object == MeshEnum::PICKUP_WEAPON)
 			{
 				billBoardArray[PICKUP_WEAPON_BILLBOARD][weaponPickupIndex].color	 = XMFLOAT3(1.0f, 0.0f, 0.0f); //TEMP
-				billBoardArray[PICKUP_WEAPON_BILLBOARD][weaponPickupIndex].direction = XMFLOAT3(0.0f, 1.0f, 0.0f);
-				billBoardArray[PICKUP_WEAPON_BILLBOARD][weaponPickupIndex].height    = 4.0f;
-				billBoardArray[PICKUP_WEAPON_BILLBOARD][weaponPickupIndex].width     = 4.0f;
+				billBoardArray[PICKUP_WEAPON_BILLBOARD][weaponPickupIndex].direction = XMFLOAT3(0.0f, 0.5f, 0.5f);
+				billBoardArray[PICKUP_WEAPON_BILLBOARD][weaponPickupIndex].height    = 2.0f;
+				billBoardArray[PICKUP_WEAPON_BILLBOARD][weaponPickupIndex].width     = 2.0f;
 				billBoardArray[PICKUP_WEAPON_BILLBOARD][weaponPickupIndex].worldPos = gameObjects->at(i)->position;
+				billBoardArray[PICKUP_WEAPON_BILLBOARD][weaponPickupIndex].worldPos.y += 1.2f;
 				this->gameObjects->at(i)->render = false; //We don't want to render this with nonInstance rendering
 				billboardsToRender[PICKUP_WEAPON_BILLBOARD] += 1;
 				weaponPickupIndex += 1;
@@ -511,10 +514,12 @@ void Graphics::CullGeometry()
 			{
 				
 				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].color	 = XMFLOAT3(0.0f, 1.0f, 0.0f); //TEMP
-				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].direction = XMFLOAT3(0.0f, 1.0f, 0.0f);
-				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].height    = 4.0f;
-				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].width     = 4.0f;
+				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].direction = XMFLOAT3(0.0f, 0.5f, 0.5f);
+				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].height    = 2.0f;
+				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].glow		 = 0;
+				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].width     = 2.0f;
 				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].worldPos  = gameObjects->at(i)->position;
+				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].worldPos.y += 1.2f;
 				this->gameObjects->at(i)->render = false; //We don't want to render this with nonInstance rendering
 				billboardsToRender[PICKUP_HEALTH_BILLBOARD] += 1;
 				healthPickupIndex += 1;

@@ -270,13 +270,14 @@ void GameState::Update(double deltaTime)
 										GetActiveState() == ENEMY_HEAL_STATE
 										&& room1->enemySpawns.at(k)->StandardAlive.at(j)->GetCharType() != CharacterType::HEALER)
 									{
-										room1->enemySpawns.at(k)->
+										/*room1->enemySpawns.at(k)->
 											StandardAlive.at(p)->SetHealth(
 												room1->enemySpawns.at(k)->
 												StandardAlive.at(p)->
-												GetHealth() + 1.0f);
+												GetHealth() + 1.0f);*/
 									}
 								}
+								
 								
 							}
 							else
@@ -284,6 +285,8 @@ void GameState::Update(double deltaTime)
 								room1->enemySpawns.at(k)->StandardAlive.at(p)->AIPattern(
 									collision->GetPlayer(),
 									deltaTime);
+								room1->enemySpawns.at(k)->
+									StandardAlive.at(p)->isBeingHealed = false;
 							}
 						}
 						else

@@ -122,9 +122,9 @@ void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * to
 	else if (*meshEnum == MeshEnum::PROJECTILE_1)
 		this->gameMeshes->at(9).GetMeshRenderInfo(toRender);
 	else if (*meshEnum == MeshEnum::PICKUP_HEAL)
-			toRender->materialID = 9;
+			toRender->materialID = 17;
 	else if (*meshEnum == MeshEnum::PICKUP_WEAPON)
-			toRender->materialID = 10;
+			toRender->materialID = 18;
 
 	else if (*meshEnum == MeshEnum::PLACEHOLDER)
 		this->GetPlaceHolderMeshInfo(toRender);

@@ -440,6 +440,9 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 		finalCol.r  += overlaySample.a; //Laser point color
 		finalCol.w	 = 1.0f;
 
+		float overLayTest = overlaySample.r + overlaySample.g + overlaySample.b;
+		if (overLayTest > 0.1f)
+			return saturate(overlaySample + glow);
 		//justglow
 		//float4 specularSample = specularTexture.Sample(pointSampler, input.Uv);
 	
