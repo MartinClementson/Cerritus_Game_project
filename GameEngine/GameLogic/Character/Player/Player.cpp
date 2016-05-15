@@ -63,17 +63,17 @@ void Player::Initialize(AudioManager* audioManager)
 	VelocityMax = 4.0f;
 	slowTimer = 0;
 
-	
-
 	points = 0;
 	multiplier = 1;
 	radius = 2.0f;
 	radius2 = 2.0f;
-
+	fall = false;
+	thrust = true;
 
 	DoT = 0.0f;
 	DoTDur = 0.0f;
 	health = 100.0f;
+	maxHealth = health;
 	projectileSystem->Initialize(audioManager);
 	SetUpgrade(UpgradeType::ONE_SHOT);
 	
@@ -86,17 +86,19 @@ void Player::Release()
 
 void Player::Update(double deltaTime, XMFLOAT3 direction)
 {
+
+
 	if (VelocityMax == 0.2f)
 	{
 		slowTimer += (float)deltaTime;
-		
+
 	}
 	if (slowTimer > 2.0f)
 	{
 		VelocityMax = 4.0f;
 		slowTimer = 0.0f;
 	}
-	
+
 	if (DoT != 0)
 	{
 		DoTDur += (float)deltaTime;
@@ -110,19 +112,52 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 	health -= DoT;
 	if (health <= 0)
 	{
-		
+
 		/*MessageBox(0, L"You Died",
 		L"Continue", MB_OK);*/
 		//health = 100.0f;
 	}
+
+	grav = position.y;
+
+	if (thrust)
+	{
+		acceleration.y += +maxAcceleration *grav *(float)deltaTime * 0.6f;
+		if (position.y > 1.2f)
+		{
+			thrust = false;
+		}
+	}
+	if (!thrust && !fall)
+	{
+		if (velocity.y < 0.01f && position.y > 1.2f)
+		{
+			fall = true;
+		}
+		else if (velocity.y < 0.01f && position.y < 1.0f)
+		{
+			thrust = true;
+		}
+	}
+	if(fall)
+	{
+		acceleration.y += -maxAcceleration * grav*(float)deltaTime * 0.6f;
+		if (position.y < 1.0f)
+		{
+			fall = false;
+		}
+	}
+
+
 	
+
 	this->direction	 = direction;
 	
 
 #pragma region Calculate movement
 
 	velocity.x		 += acceleration.x * (float)deltaTime - velocity.x * fallOfFactor * (float)deltaTime;
-	velocity.y		  = 0.0f;
+	velocity.y		 += acceleration.y * (float)deltaTime - velocity.y * (fallOfFactor/2) * (float)deltaTime;
 	velocity.z		 += acceleration.z * (float)deltaTime - velocity.z * fallOfFactor * (float)deltaTime;
 	
 
@@ -136,10 +171,10 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 		velocity				= normalizer;
 	}
 
-	if (currentVelo > 0.05f)
+	if (currentVelo > 0.0f)
 	{
 		position.x				+= velocity.x;
-		position.y				 = Y_OFFSET;
+		position.y				+= velocity.y;
 		position.z				+= velocity.z;
 
 
@@ -195,6 +230,7 @@ void Player::Move(MovementDirection* dir, int keyAmount, double deltaTime)
 		{
 			acceleration.z = -maxAcceleration / keyAmount;
 		}
+		
 		if (dir[i] == LEFT)
 		{
 			acceleration.x = -maxAcceleration / keyAmount;
@@ -206,6 +242,8 @@ void Player::Move(MovementDirection* dir, int keyAmount, double deltaTime)
 
 
 	}
+
+
 		float len = acceleration.Length();
 		if (len > maxAcceleration)
 		{
@@ -281,4 +319,42 @@ void Player::SetUpgrade(UpgradeType upgrade)
 {
 	this->upgrade = upgrade;
 	projectileSystem->SetUpgrade(upgrade);
+}
+
+void Player::UpgradeWeapon()
+{
+	if (GetUpgrade() == UpgradeType::ONE_SHOT)
+	{
+		SetUpgrade(UpgradeType::TWO_SHOT);
+	}
+	else if(GetUpgrade() == UpgradeType::TWO_SHOT)
+	{
+		SetUpgrade(UpgradeType::THREE_SHOT);
+	}
+	else if (GetUpgrade() == UpgradeType::THREE_SHOT)
+	{
+
+	}
+}
+
+void Player::DowngradeWeapon()
+{
+	if (GetUpgrade() == UpgradeType::ONE_SHOT)
+	{
+		
+	}
+	else if (GetUpgrade() == UpgradeType::TWO_SHOT)
+	{
+		SetUpgrade(UpgradeType::ONE_SHOT);
+		
+	}
+	else if (GetUpgrade() == UpgradeType::THREE_SHOT)
+	{
+		SetUpgrade(UpgradeType::TWO_SHOT);
+	}
+}
+
+float Player::GetMaxHealth()
+{
+	return this->maxHealth;
 }

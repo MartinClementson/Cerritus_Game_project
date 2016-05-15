@@ -156,8 +156,8 @@ void ProjectileSystem::SetUpgrade(UpgradeType upgrade)
 	}
 	else if (this->upgrade == UpgradeType::THREE_SHOT)
 	{
-		XMStoreFloat4x4(&rotationMatrix, XMMatrixRotationY(0.4f));
-		XMStoreFloat4x4(&rotationMatrix2, XMMatrixRotationY(-0.4f));
+		XMStoreFloat4x4(&rotationMatrix, XMMatrixRotationY(0.2f));
+		XMStoreFloat4x4(&rotationMatrix2, XMMatrixRotationY(-0.2f));
 	}
 
 

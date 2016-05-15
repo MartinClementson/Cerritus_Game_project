@@ -3,7 +3,9 @@
 #include "../Character/Enemy/Enemy.h"
 #include "../Character/Player/Player.h"
 #include "../Scene/Trap/BearTrap/BearTrap.h"
-#include"../Scene/Trap/FireTrap/FireTrap.h"
+#include "../Scene/Trap/FireTrap/FireTrap.h"
+#include "../Scene/GameObject/Pickup/Pickup.h"
+
 using namespace std;
 using namespace DirectX;
 
@@ -33,6 +35,8 @@ public:
 	void ClearTraps();
 
 	bool PlayerProxyTrap(BearTrap * trap);
+	bool BearTrapActivation(BearTrap * trap);
+	bool FireTrapActivation(FireTrap * trap);
 	bool PlayerProxyEnemy(EnemyBase * enemy);
 	bool HealerProximity(EnemyBase * enemy, EnemyBase * healer);
 	bool Collision::EnemyProxTrap(BearTrap * trap, EnemyBase * enemy);
@@ -58,6 +62,8 @@ public:
 	static Collision* GetInstance();
 
 	bool TrapandEnemyLottery(EnemyBase * enemys);
+
+	bool WeaponPickupCollision(Pickup * pickup);
 
 	~Collision();
 };

@@ -66,7 +66,6 @@ void GameState::Release()
 
 void GameState::Update(double deltaTime)
 {
-
 	index += (float)deltaTime;
 	healers.clear();
 	ProcessInput(&deltaTime);
@@ -74,6 +73,9 @@ void GameState::Update(double deltaTime)
 	ProcessInput(&deltaTime);
 	if (!pause->isActive)
 	{
+		this->bearTraps = room1->bearTraps;
+		this->fireTraps = room1->fireTraps;
+
 		gameUI->setUI(UITextures::HUD);
 
 		if (player->GetHealth() <= 0)
@@ -121,8 +123,30 @@ void GameState::Update(double deltaTime)
 				j++;
 			}
 		}
+		for (size_t i = 0; i < room1->WeaponUpgrades.size(); i++)
+		{
+			if (collision->WeaponPickupCollision(room1->WeaponUpgrades.at(i)))
+			{
+				if (room1->WeaponUpgrades.at(i)->GetPickupType() == PickupType::Weapon)
+				{
+					this->player->UpgradeWeapon();
+					room1->WeaponUpgrades.at(i)->SetIsActive(false);
+				}
+				else if (room1->WeaponUpgrades.at(i)->GetPickupType() == PickupType::Heal)
+				{
+					this->player->SetHealth(player->GetHealth() + 50);
 
+					if (player->GetHealth() > player->GetMaxHealth())
+					{
+						player->SetHealth(player->GetMaxHealth());
+					}
 
+					room1->WeaponUpgrades.at(i)->SetIsActive(false);
+				}
+			}
+		}
+
+		
 
 		for (size_t k = 0; k < room1->enemySpawns.size(); k++)
 		{
@@ -170,9 +194,6 @@ void GameState::Update(double deltaTime)
 							&&
 							healers.at(0) != nullptr)
 						{
-
-
-
 
 							EnemyBase* tmpCloseHealer = nullptr;
 
@@ -381,6 +402,21 @@ void GameState::ProcessInput(double* deltaTime)
 			}
 		}
 
+		for (size_t i = 0; i < bearTraps.size(); i++)
+		{
+			if (input->IsKeyPressed(KEY_Q) && collision->BearTrapActivation(bearTraps.at(i)))
+			{
+				bearTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
+			}
+		}
+
+		for (size_t i = 0; i < fireTraps.size(); i++)
+		{
+			if (input->IsKeyPressed(KEY_Q) && collision->FireTrapActivation(fireTraps.at(i)))
+			{
+				fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
+			}
+		}
 
 		if (moveKeysPressed > 0)
 		{
