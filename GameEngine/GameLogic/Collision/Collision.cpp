@@ -257,7 +257,7 @@ bool Collision::PlayerCollision(EnemyBase* enemy)
 		+ pow(playPos.z - enemyPos.z, 2)
 		< pow(playRad + enemyRad, 2))
 	{
-		if (enemy->isAlive && enemy->movementSpeed > 0)
+		if (enemy->isAlive && enemy->movementSpeed > 0) //kolla in denna senare, tima attack med animation
 		{
 			enemy->movementSpeed = 0;
 			player->DowngradeWeapon();

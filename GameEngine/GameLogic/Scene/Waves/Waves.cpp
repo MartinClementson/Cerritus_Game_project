@@ -22,12 +22,14 @@ void Waves::Render()
 
 void Waves::Update(double deltaTime)
 {
-
+	if (waveTimer > 0)
+		waveTimer -= (float)deltaTime;
 }
 
 void Waves::SetWaveGroup(int wave)
 {
 	this->waveNumber = wave;
+	waveTimer = 10;
 }
 
 int Waves::GetWaveGroup()
