@@ -151,6 +151,7 @@ void MainStateMachine::Initialize()
 	this->menuState->isActive = false;
 	this->delay = 0.0f;
 	this->lastHighscore = 0.0f;
+	gameState->toMenu = true;
 }
 
 void MainStateMachine::Release()

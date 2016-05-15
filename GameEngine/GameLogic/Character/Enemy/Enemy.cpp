@@ -15,6 +15,7 @@ Enemy::Enemy(XMFLOAT3 spawn, bool fast)
 	this->enemyStateMachine = new EnemyStateMachine();
 	enemyStateMachine->Initialize();
 	this->graphics = Graphics::GetInstance();
+
 	renderInfo.position = position;
 	renderInfo.rotation = rotation;
 	renderInfo.radius = radius;
@@ -77,8 +78,6 @@ void Enemy::Initialize()
 	}
 }
 
-
-
 void Enemy::Release()
 {
 	enemyStateMachine->Release();
@@ -97,9 +96,7 @@ void Enemy::Update(double deltaTime)
 	{
 		GetStateMachine()->SetActiveState(ENEMY_ATTACK_STATE);
 	}
-	
-	
-	
+
 	if (health < maxHealth / 2 && !closestHealer)
 	{
 		GetStateMachine()->SetActiveState(ENEMY_ATTACK_STATE);
@@ -169,10 +166,10 @@ void Enemy::Respawn(XMFLOAT3 spawn)
 		this->DoT = 0.0f;
 		this->index = 0.0f;
 		this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
+
 	}
 	else
 	{
-
 		this->position = spawn;
 		this->isAlive = true;
 		this->health = maxHealth;
@@ -263,6 +260,7 @@ void Enemy::AIPattern(Player* player, double deltaTime)
 		//here they go to die 
 	}
 }
+
 void Enemy::AIPatternHeal(EnemyBase* healer, double deltaTime)
 {
 	if (enemyStateMachine->GetActiveState() == ENEMY_HEAL_STATE)

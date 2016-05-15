@@ -150,6 +150,8 @@
     <ClCompile Include="GameLogic\Animation\Animation.cpp" />
     <ClCompile Include="GameLogic\Character\Character.cpp" />
     <ClCompile Include="GameLogic\Character\Enemy\Enemy.cpp" />
+    <ClCompile Include="GameLogic\Character\Enemy\EnemyBase.cpp" />
+    <ClCompile Include="GameLogic\Character\Enemy\Healer.cpp" />
     <ClCompile Include="GameLogic\Character\Player\Player.cpp" />
     <ClCompile Include="GameLogic\Character\ProjectileSystem\ProjectileSystem.cpp" />
     <ClCompile Include="GameLogic\Character\ProjectileSystem\Projectile\Projectile.cpp" />
@@ -165,6 +167,7 @@
     <ClCompile Include="GameLogic\Scene\GameObject\Model\Model.cpp" />
     <ClCompile Include="GameLogic\Scene\GameObject\ParticleEmmiter\ParticleEmmiter.cpp" />
     <ClCompile Include="GameLogic\Scene\GameObject\ParticleEmmiter\Particle\Particle.cpp" />
+    <ClCompile Include="GameLogic\Scene\GameObject\Pickup\Pickup.cpp" />
     <ClCompile Include="GameLogic\Scene\Scene.cpp" />
     <ClCompile Include="GameLogic\Scene\Trap\BearTrap\BearTrap.cpp" />
     <ClCompile Include="GameLogic\Scene\Trap\FireTrap\FireTrap.cpp" />
@@ -213,6 +216,8 @@
     <ClInclude Include="GameLogic\Animation\Animation.h" />
     <ClInclude Include="GameLogic\Character\Character.h" />
     <ClInclude Include="GameLogic\Character\Enemy\Enemy.h" />
+    <ClInclude Include="GameLogic\Character\Enemy\EnemyBase.h" />
+    <ClInclude Include="GameLogic\Character\Enemy\Healer.h" />
     <ClInclude Include="GameLogic\Character\Player\Player.h" />
     <ClInclude Include="GameLogic\Character\ProjectileSystem\ProjectileSystem.h" />
     <ClInclude Include="GameLogic\Character\ProjectileSystem\Projectile\Projectile.h" />
@@ -228,6 +233,7 @@
     <ClInclude Include="GameLogic\Scene\GameObject\Model\Model.h" />
     <ClInclude Include="GameLogic\Scene\GameObject\ParticleEmmiter\ParticleEmmiter.h" />
     <ClInclude Include="GameLogic\Scene\GameObject\ParticleEmmiter\Particle\Particle.h" />
+    <ClInclude Include="GameLogic\Scene\GameObject\Pickup\Pickup.h" />
     <ClInclude Include="GameLogic\Scene\Scene.h" />
     <ClInclude Include="GameLogic\Scene\Trap\BearTrap\BearTrap.h" />
     <ClInclude Include="GameLogic\Scene\Trap\FireTrap\FireTrap.h" />

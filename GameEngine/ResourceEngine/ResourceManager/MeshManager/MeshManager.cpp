@@ -248,12 +248,8 @@ void MeshManager::CreateFullScreenQuad()
 		0, 2, 3
 	};
 
-
-
-
 	this->fullScreenQuad.CreateVertexBuffer(planeVerts, 4);
 	this->fullScreenQuad.CreateIndexBuffer(indices, 6);
-
 
 }
 

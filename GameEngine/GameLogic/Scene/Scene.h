@@ -40,9 +40,6 @@ public:
 
 	void EvadeTrap(EnemyBase * enemy, BearTrap * bear, double deltaTime);
 
-
-	void AddEnemySpawn();
-
 	std::vector<EnemySpawn*> GetEnemySpawn();
 };
 

@@ -55,7 +55,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 
 	materialManager->addMaterials(&temp);
 	ui.materialName = "gameover";
-	ui.diffuseTex = "gameover.png";
+	ui.diffuseTex = "GameOver.png";
 	ui.materialID = 11;
 
 	temp.push_back(ui);
@@ -67,31 +67,24 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	temp.push_back(ui);
 
 	materialManager->addMaterials(&temp);
-	ui.materialName = "MenuExit";
-	ui.diffuseTex = "ExitButtonMenu.png";
+	ui.materialName = "WaveCounter";
+	ui.diffuseTex = "Numerations.tif";
 	ui.materialID = 13;
 	temp.push_back(ui);
 
 	materialManager->addMaterials(&temp);
-	ui.materialName = "MenuNew";
-	ui.diffuseTex = "NewGameMenu.png";
+	ui.materialName = "ENUMERATION";
+	ui.diffuseTex = "Numerations.tif";
 	ui.materialID = 14;
 	temp.push_back(ui);
 
 	materialManager->addMaterials(&temp);
-	ui.materialName = "MenuControls";
-	ui.diffuseTex = "ControlsMenuButton.png";
+	ui.materialName = "Controls";
+	ui.diffuseTex = "Controls.png";
 	ui.materialID = 15;
 	temp.push_back(ui);
 
 	materialManager->addMaterials(&temp);
-	//materialManager->addMaterials(&temp);
-	ui.materialName = "Controls";
-	ui.diffuseTex = "Controls.png";
-	ui.materialID = 16;
-	temp.push_back(ui);
-
-	//materialManager->addMaterials(&temp);
 }
 
 void ResourceManager::Release()

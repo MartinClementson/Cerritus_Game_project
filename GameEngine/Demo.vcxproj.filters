@@ -250,7 +250,7 @@
     </Filter>
     <Filter Include="GameLogic\Scene\Waves">
       <UniqueIdentifier>{7b5224f1-05ba-4c89-ae08-2ee10fbf203e}</UniqueIdentifier>
-	</Filter>
+    </Filter>
     <Filter Include="GameLogic\Scene\GameObject\Pickup">
       <UniqueIdentifier>{67f75e15-a750-473d-aa0a-72963edbab2a}</UniqueIdentifier>
     </Filter>
@@ -427,15 +427,6 @@
     <ClCompile Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton\Skeleton.cpp">
       <Filter>ResourceEngine\ResourceManager\SkeletonManager\Skeleton</Filter>
     </ClCompile>
-    <ClCompile Include="GameLogic\Character\Enemy\Healer.cpp">
-      <Filter>GameLogic\Character\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLogic\Character\Enemy\EnemyBase.cpp">
-      <Filter>GameLogic\Character\Enemy</Filter>
-    </ClCompile>
-    <ClCompile Include="GameLogic\StateMachines\EnemyStateMachine\HealingState\HealingState.cpp">
-      <Filter>GameLogic\StateMachines\EnemyStateMachine\HealingState</Filter>
-    </ClCompile>
     <ClCompile Include="ResourceEngine\ObjectNode\Camera\Frustum\Frustum.cpp">
       <Filter>ResourceEngine\ObjectNode\Camera\Frustum</Filter>
     </ClCompile>
@@ -447,9 +438,15 @@
     </ClCompile>
     <ClCompile Include="GameLogic\Scene\Waves\Waves.cpp">
       <Filter>GameLogic\Scene\Waves</Filter>
-	</ClCompile>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Character\Enemy\EnemyBase.cpp">
+      <Filter>GameLogic\Character\Enemy</Filter>
+    </ClCompile>
     <ClCompile Include="GameLogic\Scene\GameObject\Pickup\Pickup.cpp">
       <Filter>GameLogic\Scene\GameObject\Pickup</Filter>
+    </ClCompile>
+    <ClCompile Include="GameLogic\Character\Enemy\Healer.cpp">
+      <Filter>GameLogic\Character\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -642,15 +639,6 @@
     <ClInclude Include="ResourceEngine\ResourceManager\SkeletonManager\Skeleton\Skeleton.h">
       <Filter>ResourceEngine\ResourceManager\SkeletonManager\Skeleton</Filter>
     </ClInclude>
-    <ClInclude Include="GameLogic\Character\Enemy\Healer.h">
-      <Filter>GameLogic\Character\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLogic\Character\Enemy\EnemyBase.h">
-      <Filter>GameLogic\Character\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="GameLogic\StateMachines\EnemyStateMachine\HealingState\HealingState.h">
-      <Filter>GameLogic\StateMachines\EnemyStateMachine\HealingState</Filter>
-    </ClInclude>
     <ClInclude Include="ResourceEngine\ObjectNode\Camera\Frustum\Frustum.h">
       <Filter>ResourceEngine\ObjectNode\Camera\Frustum</Filter>
     </ClInclude>
@@ -662,9 +650,15 @@
     </ClInclude>
     <ClInclude Include="GameLogic\Scene\Waves\Waves.h">
       <Filter>GameLogic\Scene\Waves</Filter>
-	</ClInclude>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Character\Enemy\EnemyBase.h">
+      <Filter>GameLogic\Character\Enemy</Filter>
+    </ClInclude>
     <ClInclude Include="GameLogic\Scene\GameObject\Pickup\Pickup.h">
       <Filter>GameLogic\Scene\GameObject\Pickup</Filter>
+    </ClInclude>
+    <ClInclude Include="GameLogic\Character\Enemy\Healer.h">
+      <Filter>GameLogic\Character\Enemy</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
