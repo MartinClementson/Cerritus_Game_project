@@ -402,7 +402,20 @@ void GameState::ProcessInput(double* deltaTime)
 			}
 		}
 
-		for (size_t i = 0; i < bearTraps.size(); i++)
+		if (input->IsKeyPressed(KEY_Q))
+		{
+			for (int i = 0; i < bearTraps.size(); i++)
+			{
+				if (collision->BearTrapActivation(bearTraps.at(i)))
+				bearTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
+			}
+			for (int i = 0; i < fireTraps.size(); i++)
+			{
+				if (collision->FireTrapActivation(fireTraps.at(i)))
+					fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
+			}
+		}
+		/*for (size_t i = 0; i < bearTraps.size(); i++)
 		{
 			if (input->IsKeyPressed(KEY_Q) && collision->BearTrapActivation(bearTraps.at(i)))
 			{
@@ -416,7 +429,7 @@ void GameState::ProcessInput(double* deltaTime)
 			{
 				fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
 			}
-		}
+		}*/
 
 		if (moveKeysPressed > 0)
 		{
