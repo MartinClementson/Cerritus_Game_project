@@ -31,8 +31,6 @@ void EnemySpawn::Release()
 
 void EnemySpawn::Update(double deltaTime)
 {
-	if (waves.GetWaveTimer() <= 0)
-	{
 		/*for (size_t j = 0; j < Alive.size(); j++)
 		{
 			Alive.at(j)->GetStateMachine()->
@@ -114,7 +112,8 @@ void EnemySpawn::Update(double deltaTime)
 
 		if (!firstSpawn)
 		{
-			SpawnEnemy(waveAmount);
+			if (waves.GetWaveTimer() <= 0)
+				SpawnEnemy(waveAmount);
 		}
 
 		for (int i = 0; i < (int)Alive.size(); i++)
@@ -124,7 +123,6 @@ void EnemySpawn::Update(double deltaTime)
 				collision->PlayerCollision(Alive.at(i));
 			}
 		}
-	}
 	if (waveAmount == 0)
 	{
 			/*while (waveTimer < 200)
