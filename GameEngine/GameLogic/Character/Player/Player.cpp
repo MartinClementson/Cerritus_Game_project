@@ -118,7 +118,7 @@ void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 		//health = 100.0f;
 	}
 
-	grav = position.y;
+	//grav = position.y;
 
 	if (thrust)
 	{
@@ -293,7 +293,7 @@ void Player::Shoot(InputKeys input, double deltaTime)
 	{
 		projectileSystem->FireProjectile(this->position, direction);
 	}
-	else if (input == KEY_Z)
+	/*else if (input == KEY_Z)
 	{
 		SetUpgrade(UpgradeType::ONE_SHOT);
 	}
@@ -304,7 +304,7 @@ void Player::Shoot(InputKeys input, double deltaTime)
 	else if (input == KEY_C)
 	{
 		SetUpgrade(UpgradeType::THREE_SHOT);
-	}
+	}*/
 }
 
 float Player::GetHealth()

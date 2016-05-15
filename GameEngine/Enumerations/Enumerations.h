@@ -183,7 +183,9 @@ enum InputKeys
 
 
 	MOUSE_RIGHT,
-	MOUSE_LEFT
+	MOUSE_LEFT,
+
+	KEY_LSHIFT
 };
 
 #pragma region MovementDirection

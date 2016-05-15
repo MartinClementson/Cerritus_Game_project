@@ -170,11 +170,11 @@ void GameState::Update(double deltaTime)
 						position = room1->enemySpawn->Alive.at(j)->position;
 						XMFLOAT3 healPos;
 						healPos.y = 0;
-						XMFLOAT3 closest;
+						Vec3 closest;
 						closest.x = 1000;
 						closest.y = 0;
 						closest.z = 1000;
-						XMFLOAT3 tmp;
+						Vec3 tmp;
 						tmp.y = 0;
 
 						//tmpCloseHealer = healers.at(0);
@@ -191,19 +191,19 @@ void GameState::Update(double deltaTime)
 									//if (healers.at(i)->healing < 7)
 									//{
 									tmp.x = healPos.x - position.x;
-									if (tmp.x < 0)
-									{
-										tmp.x = -tmp.x;
-									}
+									//if (tmp.x < 0)
+									//{
+									//	tmp.x = -tmp.x;
+									//}
 									tmp.z = healPos.z - position.z;
-									if (tmp.z < 0)
-									{
+									//if (tmp.z < 0)
+									//{
 
-										tmp.z = -tmp.z;
+									//	tmp.z = -tmp.z;
 
 
-									}
-									if (closest.x > tmp.x && closest.z > tmp.z && healers.at(i)->isAlive)
+									//}
+									if (tmp.Length() < closest.Length() && healers.at(i)->isAlive)
 									{
 										closest = tmp;
 										tmpCloseHealer = healers.at(i);
@@ -229,9 +229,7 @@ void GameState::Update(double deltaTime)
 							if (collision->HealerProximity(room1->enemySpawn->
 								Alive.at(p), tmpCloseHealer))
 							{
-								if (room1->enemySpawn->Alive.at(j)->GetStateMachine()->
-									GetActiveState() == ENEMY_HEAL_STATE
-									&& room1->enemySpawn->Alive.at(j)->GetCharType() != CharacterType::HEALER)
+								if (room1->enemySpawn->Alive.at(j)->GetCharType() != CharacterType::HEALER)
 								{
 									room1->enemySpawn->
 										Alive.at(p)->SetHealth(
@@ -411,15 +409,15 @@ void GameState::ProcessInput(double* deltaTime)
 			}
 		}
 
-		if (input->IsKeyPressed(KEY_Q))
+		if (input->IsKeyPressed(KEY_LSHIFT))
 		{
-			for (int i = 0; i < bearTraps.size(); i++)
+			if (input->IsKeyHeld(KEY_LSHIFT))
 			{
-				if (collision->BearTrapActivation(bearTraps.at(i)))
+				for (int i = 0; i < bearTraps.size(); i++)
 				{
-					if (bearTraps.at(i)->GetState()->GetTrapState() == TrapState::TRAP_INACTIVE_STATE)
+					if (collision->BearTrapActivation(bearTraps.at(i)))
 					{
-						if (input->IsKeyHeld(KEY_Q))
+						if (bearTraps.at(i)->GetState()->GetTrapState() == TrapState::TRAP_INACTIVE_STATE)
 						{
 							if (bearTraps.at(i)->GetCurrentReloadTime() >= 2)
 							{
@@ -431,37 +429,36 @@ void GameState::ProcessInput(double* deltaTime)
 							else
 							{
 
-								bearTraps.at(i)->TickCurrReloadTime((float)*deltaTime );
+								bearTraps.at(i)->TickCurrReloadTime((float)*deltaTime);
 								bearTraps.at(i)->SetisBeingReloaded(true);
 							}
-								
+
+
 						}
 					}
 				}
-			}
-			for (int i = 0; i < fireTraps.size(); i++)
-			{
-				if (collision->FireTrapActivation(fireTraps.at(i)))
+				for (int i = 0; i < fireTraps.size(); i++)
 				{
-
-					if (fireTraps.at(i)->GetState()->GetTrapState() == TrapState::TRAP_INACTIVE_STATE)
+					if (collision->FireTrapActivation(fireTraps.at(i)))
 					{
-						if (input->IsKeyHeld(KEY_Q))
+
+						if (fireTraps.at(i)->GetState()->GetTrapState() == TrapState::TRAP_INACTIVE_STATE)
 						{
-							if (fireTraps.at(i)->GetCurrentReloadTime() >= 2)
-							{
-								audioManager->playEDeathSound();
-								fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
-								fireTraps.at(i)->SetCurrentReloadTime(0);
-								fireTraps.at(i)->SetisBeingReloaded(false);
+							
+								if (fireTraps.at(i)->GetCurrentReloadTime() >= 2)
+								{
+									audioManager->playEDeathSound();
+									fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
+									fireTraps.at(i)->SetCurrentReloadTime(0);
+									fireTraps.at(i)->SetisBeingReloaded(false);
 
-							}
-							else
-							{
+								}
+								else
+								{
 
-								fireTraps.at(i)->TickCurrReloadTime((float)*deltaTime );
-								fireTraps.at(i)->SetisBeingReloaded(true);
-							}
+									fireTraps.at(i)->TickCurrReloadTime((float)*deltaTime);
+									fireTraps.at(i)->SetisBeingReloaded(true);
+								}
 						}
 					}
 				}
