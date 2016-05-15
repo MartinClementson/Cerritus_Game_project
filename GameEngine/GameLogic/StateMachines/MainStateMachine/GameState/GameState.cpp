@@ -211,7 +211,6 @@ void GameState::Update(double deltaTime)
 							}
 						}
 
-
 						room1->enemySpawn->Alive.at(j)->SetClosestHealer(tmpCloseHealer);
 
 						if (tmpCloseHealer)
@@ -236,8 +235,6 @@ void GameState::Update(double deltaTime)
 											Alive.at(p)->
 											GetHealth() + 1.0f);
 								}
-
-
 							}
 
 						}
@@ -274,28 +271,6 @@ void GameState::Update(double deltaTime)
 			j++;
 		}
 
-		for (size_t i = 0; i < room1->Pickups.size(); i++)
-		{
-			if (collision->WeaponPickupCollision(room1->Pickups.at(i)))
-			{
-				if (room1->Pickups.at(i)->GetPickupType() == PickupType::Weapon)
-				{
-					this->player->UpgradeWeapon();
-					room1->Pickups.at(i)->SetIsActive(false);
-				}
-				else if (room1->Pickups.at(i)->GetPickupType() == PickupType::Heal)
-				{
-					this->player->SetHealth(player->GetHealth() + 50);
-
-					if (player->GetHealth() > player->GetMaxHealth())
-					{
-						player->SetHealth(player->GetMaxHealth());
-					}
-
-					room1->Pickups.at(i)->SetIsActive(false);
-				}
-			}
-		}
 
 		size_t i = 0; //kolla in denna efter du fixat renderingen
 		while (i < player->projectileSystem->GetFiredProjectiles())
