@@ -115,13 +115,13 @@ void EnemySpawn::Update(double deltaTime)
 			}
 			if (!collision->SceneColIn(deltaTime, Alive.at(i)))
 			{
-				Alive.at(i)->position.x -= Alive.at(i)->velocity.x * 2;
-				Alive.at(i)->position.z -= Alive.at(i)->velocity.z * 2;
+				Alive.at(i)->position.x = Alive.at(i)->position.x;
+				Alive.at(i)->position.z = Alive.at(i)->position.z;
 			}
 			if (collision->SceneColIn(deltaTime, Alive.at(i)))
 			{
-				//Alive.at(i)->position.x += Alive.at(i)->velocity.x;
-				//Alive.at(i)->position.z += Alive.at(i)->velocity.z;
+				Alive.at(i)->position.x = Alive.at(i)->position.x;
+				Alive.at(i)->position.z = Alive.at(i)->position.z;
 			}
 		}
 	}

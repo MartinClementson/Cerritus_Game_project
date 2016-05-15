@@ -430,9 +430,9 @@ bool Collision::SceneColIn(double deltaTime)
 					//player->position.x += tempVel.x * temp2.m128_f32[0];
 					//player->position.y = Y_OFFSET;
 					//player->position.z += tempVel.z * temp2.m128_f32[2];
-					//player->position.x += player->GetVelocity().x;
-					//player->position.y = Y_OFFSET;
-					//player->position.z += player->GetVelocity().z;
+					player->position.x -= player->GetVelocity().x;
+					player->position.y = Y_OFFSET;
+					player->position.z -= player->GetVelocity().z;
 					return false;
 				}
 			}
@@ -448,15 +448,16 @@ bool Collision::SceneColIn(double deltaTime, Enemy* enemy)
 	{
 		if (pow(enemy->GetPosition().x - SceneBoxesIn.at(i).Pos.x, 2)
 			+ pow(enemy->GetPosition().z - SceneBoxesIn.at(i).Pos.z, 2)
-			< pow(enemy->GetRadius() + SceneBoxesIn.at(i).Rad, 2))
+			< pow(enemy->GetRadius2() + SceneBoxesIn.at(i).Rad, 2))
 		{
 			for (size_t i = 0; i < SceneBoxesOut.size(); i++)
 			{
 				if (pow(enemy->GetPosition().x - SceneBoxesOut.at(i).Pos.x, 2)
 					+ pow(enemy->GetPosition().z - SceneBoxesOut.at(i).Pos.z, 2)
-					< pow(enemy->GetRadius() + SceneBoxesOut.at(i).Rad, 2))
+					< pow(enemy->GetRadius2() + SceneBoxesOut.at(i).Rad, 2))
 				{
-
+					enemy->position.x -= enemy->velocity.x;
+					enemy->position.z -= enemy->velocity.z;
 					return false;
 				}
 			}
@@ -464,6 +465,8 @@ bool Collision::SceneColIn(double deltaTime, Enemy* enemy)
 		}
 
 	}
+	enemy->position.x -= enemy->velocity.x;
+	enemy->position.z -= enemy->velocity.z;
 	return false;
 }
 bool Collision::PlayerDistanceCollision(Enemy* enemy)
