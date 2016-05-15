@@ -274,7 +274,7 @@ void Graphics::RenderScene()
 
 		////////////BILLBOARD RENDERING
 		renderer->RenderBillBoard(
-			nullptr,
+			this->gameObjects->at(instanceMeshIndex.pickupHealth),
 			billBoardArray[PICKUP_HEALTH_BILLBOARD],
 			billboardsToRender[PICKUP_HEALTH_BILLBOARD]);
 	}
@@ -284,7 +284,7 @@ void Graphics::RenderScene()
 
 		////////////BILLBOARD RENDERING
 		renderer->RenderBillBoard(
-			nullptr,
+			this->gameObjects->at(instanceMeshIndex.pickupWeapon),
 			billBoardArray[PICKUP_WEAPON_BILLBOARD],
 			billboardsToRender[PICKUP_WEAPON_BILLBOARD]);
 	}

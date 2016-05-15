@@ -4,10 +4,10 @@
 
 ResourceManager::ResourceManager()
 {
-	meshManager = new MeshManager();
-	shaderManager = new ShaderManager();
-	brfImporterHandler = new BRFImporterHandler();
-	materialManager = new MaterialManager();
+	meshManager			= new MeshManager();
+	shaderManager		= new ShaderManager();
+	brfImporterHandler  = new BRFImporterHandler();
+	materialManager		= new MaterialManager();
 }
 
 
@@ -27,6 +27,11 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	brfImporterHandler->Initialize(this->meshManager, this->materialManager);
 
 
+
+
+
+
+
 	brfImporterHandler->LoadFile("models/player_Model.BRF", true, true, true);
 	brfImporterHandler->LoadFile("models/enemy_0.BRF", true, true, true);
 	brfImporterHandler->LoadFile("models/slow_Trap.BRF", true, true, true);
@@ -36,62 +41,77 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	brfImporterHandler->LoadFile("models/quadBullet.BRF", true, true, true);
 	
 	
-
-
 	std::vector<importedMaterial> temp;
 	importedMaterial ui;
-	ui.materialName = "yo-gi-uh";
-	ui.diffuseTex = "HUD.tif";
+
+	ui.materialName = "HEALTH_PICKUP";
+	ui.diffuseTex	= "HeathPickup.tif";
+	ui.glowTex		= "HeathPickupGlow.tif";
 	ui.materialID = 9;
 	
 	temp.push_back(ui);
 
-	materialManager->addMaterials(&temp);
-	ui.materialName = "Menumaterial";
-	ui.diffuseTex = "menu.png";
+	ui.materialName = "WEAPON_PICKUP";
+	ui.diffuseTex = "WeaponPowerup.tif";
+	ui.glowTex = "WeaponPowerupGlow.tif";
 	ui.materialID = 10;
-	
-	temp.push_back(ui);
-
-	materialManager->addMaterials(&temp);
-	ui.materialName = "gameover";
-	ui.diffuseTex = "GameOver.png";
-	ui.materialID = 11;
 
 	temp.push_back(ui);
-
 	materialManager->addMaterials(&temp);
-	ui.materialName = "pause";
-	ui.diffuseTex = "PausUI.tif";
-	ui.materialID = 12;
-	temp.push_back(ui);
 
-	materialManager->addMaterials(&temp);
-	ui.materialName = "MenuExit";
-	ui.diffuseTex = "ExitButtonMenu.png";
-	ui.materialID = 13;
-	temp.push_back(ui);
 
-	materialManager->addMaterials(&temp);
-	ui.materialName = "MenuNew";
-	ui.diffuseTex = "NewGameMenu.png";
-	ui.materialID = 14;
-	temp.push_back(ui);
-
-	materialManager->addMaterials(&temp);
-	ui.materialName = "MenuControls";
-	ui.diffuseTex = "ControlsMenuButton.png";
-	ui.materialID = 15;
-	temp.push_back(ui);
-
-	materialManager->addMaterials(&temp);
+	//ui.materialName = "yo-gi-uh";
+	//ui.diffuseTex = "HUD.tif";
+	//ui.materialID = 9;
+	//
+	//temp.push_back(ui);
 	//materialManager->addMaterials(&temp);
-	ui.materialName = "Controls";
-	ui.diffuseTex = "Controls.png";
-	ui.materialID = 16;
-	temp.push_back(ui);
 
+	//ui.materialName = "Menumaterial";
+	//ui.diffuseTex = "menu.png";
+	//ui.materialID = 10;
+	//
+	//temp.push_back(ui);
 	//materialManager->addMaterials(&temp);
+
+	//ui.materialName = "gameover";
+	//ui.diffuseTex = "GameOver.png";
+	//ui.materialID = 11;
+	//temp.push_back(ui);
+	//materialManager->addMaterials(&temp);
+
+
+	//ui.materialName = "pause";
+	//ui.diffuseTex = "PausUI.tif";
+	//ui.materialID = 12;
+	//temp.push_back(ui);
+	//materialManager->addMaterials(&temp);
+
+	//ui.materialName = "MenuExit";
+	//ui.diffuseTex = "ExitButtonMenu.png";
+	//ui.materialID = 13;
+	//temp.push_back(ui);
+	//materialManager->addMaterials(&temp);
+
+	//ui.materialName = "MenuNew";
+	//ui.diffuseTex = "NewGameMenu.png";
+	//ui.materialID = 14;
+	//temp.push_back(ui);
+	//materialManager->addMaterials(&temp);
+
+	//ui.materialName = "MenuControls";
+	//ui.diffuseTex = "ControlsMenuButton.png";
+	//ui.materialID = 15;
+	//temp.push_back(ui);
+	//materialManager->addMaterials(&temp);
+
+	////materialManager->addMaterials(&temp);
+	//ui.materialName = "Controls";
+	//ui.diffuseTex = "Controls.png";
+	//ui.materialID = 16;
+	//temp.push_back(ui);
+
+
 }
 
 void ResourceManager::Release()
