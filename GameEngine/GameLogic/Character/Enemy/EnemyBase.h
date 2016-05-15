@@ -15,6 +15,7 @@ class EnemyBase :
 	public Character
 {
 protected:
+	Vec3 direction; //walking direction
 	RenderInfoEnemy renderInfo;
 	EnemyStateMachine* enemyStateMachine;
 	Player * player;
