@@ -28,6 +28,6 @@ public:
 	void playShotSound();
 	void playEDeathSound();
 
-	void playAmbientGameState(bool play);
+	void stopAmbientGameStateSound();
 };
 

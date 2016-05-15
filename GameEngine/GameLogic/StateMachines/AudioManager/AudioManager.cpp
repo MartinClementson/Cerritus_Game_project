@@ -79,8 +79,8 @@ void AudioManager::playEDeathSound()
 	s_E_death->Play();
 }
 
-void AudioManager::playAmbientGameState(bool play)
+void AudioManager::stopAmbientGameStateSound()
 {
-	s_nightLoop->Play(play);
-	s_musicLoop->Play(play);
+	s_nightLoop->Pause();
+	s_musicLoop->Pause();
 }

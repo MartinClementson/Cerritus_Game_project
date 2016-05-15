@@ -36,6 +36,7 @@ void MainStateMachine::Update(double deltaTime)
 	if (this->activeState == MAIN_GAME_STATE && gameState->isPlayerDead == true)
 	{
 		gameState->isActive = false;
+		audioManager->stopAmbientGameStateSound();
 
 		if (gameOverState)
 		{
