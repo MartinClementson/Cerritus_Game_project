@@ -33,19 +33,17 @@ void EnemySpawn::Update(double deltaTime)
 {
 	if (waves.GetWaveTimer() <= 0)
 	{
-		for (size_t j = 0; j < Alive.size(); j++)
+		/*for (size_t j = 0; j < Alive.size(); j++)
 		{
 			Alive.at(j)->GetStateMachine()->
 				SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
-		}
+		}*/
 
 		for (int i = 0; i < Alive.size(); i++)
 		{
 			Alive.at(i)->Update(deltaTime);
 
-			if (Alive.at(i)->GetHealth() <= 0 &&
-				Alive.at(i)->GetStateMachine()->
-				GetActiveState() == EnemyState::ENEMY_ATTACK_STATE)
+			if (Alive.at(i)->GetHealth() <= 0)
 			{
 				Player* player;
 				player = collision->GetPlayer();
@@ -59,10 +57,10 @@ void EnemySpawn::Update(double deltaTime)
 
 				waveAmount--;
 
-				if (waveAmount != 0)
+				/*if (waveAmount != 0)
 				{
 					RespawnEnemy(i);
-				}
+				}*/
 				//else
 				//{
 				//	/*while (waveTimer < 200)
@@ -82,36 +80,36 @@ void EnemySpawn::Update(double deltaTime)
 				//	SpawnEnemy(waveAmount);
 				//}
 			}
-			else if (Alive.at(i)->GetHealth() <= 0 &&
-				Alive.at(i)->GetStateMachine()->
-				GetActiveState() == EnemyState::ENEMY_HEAL_STATE
-				)
-			{
-				Player* player;
-				player = collision->GetPlayer();
-				player->SetPoints(player->GetPoints() + (10.0f*player->GetMulti()));
-				player->SetMulti(player->GetMulti() + 0.1f);
+			//else if (Alive.at(i)->GetHealth() <= 0 &&
+			//	Alive.at(i)->GetStateMachine()->
+			//	GetActiveState() == EnemyState::ENEMY_HEAL_STATE
+			//	)
+			//{
+			//	Player* player;
+			//	player = collision->GetPlayer();
+			//	player->SetPoints(player->GetPoints() + (10.0f*player->GetMulti()));
+			//	player->SetMulti(player->GetMulti() + 0.1f);
 
-				Alive.at(i)->isAlive = false;
-				Alive.at(i)->SetHealth(100.0f);
-				Alive.at(i)->GetStateMachine()->
-					SetActiveState(EnemyState::ENEMY_DEATH_STATE);
+			//	Alive.at(i)->isAlive = false;
+			//	Alive.at(i)->SetHealth(100.0f);
+			//	Alive.at(i)->GetStateMachine()->
+			//		SetActiveState(EnemyState::ENEMY_DEATH_STATE);
 
-				waveAmount--;
+			//	waveAmount--;
 
-				if (waveAmount != 0)
-				{
-					RespawnEnemy(i);
-				}
-				/*else
-				{
-					waves.SetWaveGroup(currentWave += 1);
-					waves.WaveInformation();
-					waveAmount = waves.GetWaveInformation();
+			//	if (waveAmount != 0)
+			//	{
+			//		RespawnEnemy(i);
+			//	}
+			//	/*else
+			//	{
+			//		waves.SetWaveGroup(currentWave += 1);
+			//		waves.WaveInformation();
+			//		waveAmount = waves.GetWaveInformation();
 
-					SpawnEnemy(waveAmount);
-				}*/
-			}
+			//		SpawnEnemy(waveAmount);
+			//	}*/
+			//}
 		}
 
 		if (!firstSpawn)
@@ -123,11 +121,7 @@ void EnemySpawn::Update(double deltaTime)
 		{
 			if (Alive.at(i)->isAlive == true)
 			{
-				if (collision->PlayerCollision(Alive.at(i)))
-				{
-					Player* player;
-					player = collision->GetPlayer();
-				}
+				collision->PlayerCollision(Alive.at(i));
 			}
 		}
 	}
@@ -148,7 +142,7 @@ void EnemySpawn::Update(double deltaTime)
 				//waves.SetWinCondition(win);
 			}
 			else
-				SpawnEnemy(waveAmount);
+				firstSpawn = false;
 	}
 	waves.Update(deltaTime);
 }	
