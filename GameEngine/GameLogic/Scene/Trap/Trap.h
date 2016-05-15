@@ -22,6 +22,13 @@ public:
 	virtual float GetRadius() { return this->radius; }
 	virtual float GetRadius2() { return this->radius; }
 
+	virtual void TickCurrReloadTime(float dt) { this->currReloadTime += dt; };
+	virtual float GetCurrentReloadTime() { return this->currReloadTime; };
+	virtual void  SetCurrentReloadTime(float time) {  this->currReloadTime = time; };
+	virtual float GetMaxReloadTime()	 { return this->maxReloadTime;  };
+
+	virtual void SetisBeingReloaded(bool x) { this->isBeingReloaded = x; };
+
 
 	void initTrap();
 	bool isActive;
@@ -32,9 +39,11 @@ private:
 	RenderInfoTrap renderInfo;
 	Graphics* grapichs;
 protected:
+	bool isBeingReloaded = false;  //important stuff. to keep track if we are to show a loading bar
 	DirectX::XMFLOAT3 position;
 	DirectX::XMFLOAT3 rotation;
 	float damage;
 	float radius, radius2;
-
+	float currReloadTime = 0.0f; 
+	float maxReloadTime = 2.0f;
 };

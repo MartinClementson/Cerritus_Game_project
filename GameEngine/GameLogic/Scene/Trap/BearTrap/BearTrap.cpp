@@ -50,6 +50,11 @@ void BearTrap::Release()
 
 void BearTrap::Update(double deltaTime)
 {
+	//this->isBeingReloaded = false; //Needs to be reset every frame, in case the player releases the button
+	renderInfo.normalizedReloadVal = -1;
+	if (this->currReloadTime > 0)
+		currReloadTime -=  deltaTime/4;
+	
 	if (this->GetState()->GetTrapState() == TrapState::TRAP_ACTIVE_STATE)
 	{
 		activeTimer += (float)deltaTime;
@@ -86,7 +91,15 @@ void BearTrap::Render()
 {
 	if (this->isActive)
 	{
-		grapichs->QueueRender(&this->renderInfo);
+		
+			if (this->isBeingReloaded)
+				renderInfo.normalizedReloadVal = this->currReloadTime / this->maxReloadTime;
+			
+				
+		
+			grapichs->QueueRender(&this->renderInfo);
+
+			
 	}
 }
 

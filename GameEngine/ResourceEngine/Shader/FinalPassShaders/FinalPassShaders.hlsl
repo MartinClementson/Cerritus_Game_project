@@ -434,12 +434,15 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 		//finalCol = saturate(finalCol);
 
 
-		float4 glow = glowTexture.Sample(linearSampler, input.Uv);
-		glow = glow * glow.a;
-		finalCol = saturate(ambient /** ssao*/ + (diffuse + specular) + glow + overlay);//* shadow));
-		finalCol.r += overlaySample.a; //Laser point color
-		finalCol.w = 1.0f;
+		float4 glow  = glowTexture.Sample(linearSampler, input.Uv);
+		glow		 = glow * glow.a;
+		finalCol	 = saturate(ambient /** ssao*/ + (diffuse + specular) + glow + overlay);//* shadow));
+		finalCol.r  += overlaySample.a; //Laser point color
+		finalCol.w	 = 1.0f;
 
+		float overLayTest = overlaySample.r + overlaySample.g + overlaySample.b;
+		if (overLayTest > 0.1f)
+			return saturate(overlaySample + glow);
 		//justglow
 		//float4 specularSample = specularTexture.Sample(pointSampler, input.Uv);
 	

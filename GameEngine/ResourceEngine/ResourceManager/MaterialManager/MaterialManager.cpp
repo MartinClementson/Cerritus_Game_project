@@ -76,17 +76,17 @@ void MaterialManager::addMaterials(std::vector<importedMaterial>* import)
 			if (!CompareImportMaterials(&import->at(i)))
 			{
 				Material tempMaterial;
-				tempMaterial.materialName = import->at(i).materialName;
-				tempMaterial.materialID = import->at(i).materialID;
+				tempMaterial.materialName   = import->at(i).materialName;
+				tempMaterial.materialID		= import->at(i).materialID;
 
-				tempMaterial.diffuseValue = import->at(i).diffuseValue;
-				tempMaterial.specularValue = import->at(i).specularValue;
+				tempMaterial.diffuseValue   = import->at(i).diffuseValue;
+				tempMaterial.specularValue  = import->at(i).specularValue;
 
 				//getting the IDs for the textures
-				tempMaterial.diffuse_ID = textureManager->GetDiffuseID(import->at(i).diffuseTex);
-				tempMaterial.specular_ID = textureManager->GetSpecularID(import->at(i).specularTex);
-				tempMaterial.normal_ID = textureManager->GetNormalID(import->at(i).normalTex);
-				tempMaterial.glow_ID = textureManager->GetGlowID(import->at(i).glowTex);
+				tempMaterial.diffuse_ID		= textureManager->GetDiffuseID(import->at(i).diffuseTex);
+				tempMaterial.specular_ID	= textureManager->GetSpecularID(import->at(i).specularTex);
+				tempMaterial.normal_ID		= textureManager->GetNormalID(import->at(i).normalTex);
+				tempMaterial.glow_ID		= textureManager->GetGlowID(import->at(i).glowTex);
 
 				materials->push_back(tempMaterial);
 				materials->shrink_to_fit();
@@ -114,10 +114,10 @@ void MaterialManager::addMaterials(std::vector<importedMaterial>* import)
 
 void MaterialManager::GetMaterialRenderInfo(RenderInstructions * toRender)
 {
-	toRender->diffuseMap = textureManager->GetDiffuseTexture(materials->at(toRender->materialID).diffuse_ID);
-	toRender->normalMap = textureManager->GetNormalTexture(materials->at(toRender->materialID).normal_ID);
-	toRender->specularMap = textureManager->GetSpecularTexture(materials->at(toRender->materialID).specular_ID);
-	toRender->glowMap = textureManager->GetGlowTexture(materials->at(toRender->materialID).glow_ID);
+	toRender->diffuseMap	= textureManager->GetDiffuseTexture(materials->at(toRender->materialID).diffuse_ID);
+	toRender->normalMap		= textureManager->GetNormalTexture(materials->at(toRender->materialID).normal_ID);
+	toRender->specularMap	= textureManager->GetSpecularTexture(materials->at(toRender->materialID).specular_ID);
+	toRender->glowMap		= textureManager->GetGlowTexture(materials->at(toRender->materialID).glow_ID);
 }
 
 //RenderInstructions * MaterialManager::GetMaterialRenderInfo(unsigned int materialID)
