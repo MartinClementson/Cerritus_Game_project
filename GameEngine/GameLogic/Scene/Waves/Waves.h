@@ -9,9 +9,8 @@ using namespace DirectX;
 class Waves
 {
 private:
-
-private:
 	int waveNumber = 0;
+	float waveTimer = 0;
 
 public:
 	int switchSpawnPos = 0;
@@ -40,6 +39,7 @@ public:
 	void SetSpawnPositions(XMFLOAT3 spawnPos);
 	XMFLOAT3 GetSpawnPositions();
 
+	float GetWaveTimer() { return this->waveTimer; }
 	void SetWinCondition(bool win);
 	bool GetWinCondition();
 };
