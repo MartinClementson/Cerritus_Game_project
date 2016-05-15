@@ -229,9 +229,7 @@ void GameState::Update(double deltaTime)
 							if (collision->HealerProximity(room1->enemySpawn->
 								Alive.at(p), tmpCloseHealer))
 							{
-								if (room1->enemySpawn->Alive.at(j)->GetStateMachine()->
-									GetActiveState() == ENEMY_HEAL_STATE
-									&& room1->enemySpawn->Alive.at(j)->GetCharType() != CharacterType::HEALER)
+								if (room1->enemySpawn->Alive.at(j)->GetCharType() != CharacterType::HEALER)
 								{
 									room1->enemySpawn->
 										Alive.at(p)->SetHealth(
