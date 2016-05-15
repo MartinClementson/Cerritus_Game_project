@@ -62,12 +62,6 @@ void Scene::Initialize()
 	Pickups.push_back(new Pickup(XMFLOAT3(-40, 1, 10), PickupType::Heal));
 	Pickups.push_back(new Pickup(XMFLOAT3(-50, 1, 20), PickupType::Heal));
 
-	for (size_t i = 0; i < this->bearTraps.size(); i++)
-	{
-		collision->AddTrap(bearTraps.at(i));
-	}
-
-
 	RespawnTimer = 0;
 
 	enemySpawn->Initialize();
@@ -153,34 +147,30 @@ void Scene::Update(double deltaTime)
 		{
 			if (collision->BearTrapPlayerCollision(bearTraps.at(i)))
 			{
-
 				collision->PlayerProxyTrap(bearTraps.at(i));
 
 				for (size_t k = 0; k < enemySpawn->Alive.size(); k++)
 				{
 					collision->EnemyProxTrap(bearTraps.at(i),
-						enemySpawn->Alive.at(k)), bearTraps.at(i)->isActive = false;
+						enemySpawn->Alive.at(k));
 				}
-
+				bearTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_ACTIVE_STATE);
 			}
 		}
 
 			for (size_t k = 0; k < enemySpawn->Alive.size(); k++)
 			{
 				if (collision->BearTrapEnemyCollision(bearTraps.at(i),
-					enemySpawn->Alive.at(k))
-					&& bearTraps.at(i)->isActive)
+					enemySpawn->Alive.at(k)))
 				{
 					collision->PlayerProxyTrap(bearTraps.at(i));
 
 					for (size_t k2 = 0; k2 < enemySpawn->Alive.size(); k2++)
 					{
 						collision->EnemyProxTrap(bearTraps.at(i),
-							enemySpawn->Alive.at(k2))
-							&& bearTraps.at(i)->isActive;
+							enemySpawn->Alive.at(k2));
 					}
 
-					bearTraps.at(i)->isActive = false;
 				}
 					bearTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_ACTIVE_STATE);
 			}	
@@ -191,23 +181,19 @@ void Scene::Update(double deltaTime)
 
 		if (fireTraps.at(i)->GetState()->GetTrapState() != TrapState::TRAP_INACTIVE_STATE)
 		{
-			fireTraps.at(i)->isActive = false;
-		}
-
-		for (size_t k = 0; k < enemySpawn->Alive.size(); k++)
-		{
-			if (collision->FireTrapEnemyCollision(fireTraps.at(i),
-				enemySpawn->Alive.at(k))
-				&& fireTraps.at(i)->isActive)
+			if (collision->FireTrapPlayerCollision(fireTraps.at(i)))
 			{
 				fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_ACTIVE_STATE);
 			}
 
-			if (collision->FireTrapPlayerCollision(fireTraps.at(i)) && fireTraps.at(i)->isActive)
+			for (size_t k = 0; k < enemySpawn->Alive.size(); k++)
 			{
-				fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_ACTIVE_STATE);
+				if (collision->FireTrapEnemyCollision(fireTraps.at(i),
+					enemySpawn->Alive.at(k)))
+				{
+					fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_ACTIVE_STATE);
+				}
 			}
-
 		}
 	}
 

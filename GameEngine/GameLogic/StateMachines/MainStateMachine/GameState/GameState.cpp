@@ -81,6 +81,7 @@ void GameState::Update(double deltaTime)
 			isPlayerDead = true;
 			//isActive = false;
 		}
+
 		XMFLOAT2 mouseXY = input->GetMousePosition();
 
 		XMFLOAT3 dir = Graphics::GetInstance()->GetPlayerDirection(mouseXY, player->GetPosition());
@@ -268,16 +269,16 @@ void GameState::Update(double deltaTime)
 			j++;
 		}
 
-		for (size_t i = 0; i < room1->WeaponUpgrades.size(); i++)
+		for (size_t i = 0; i < room1->Pickups.size(); i++)
 		{
-			if (collision->WeaponPickupCollision(room1->WeaponUpgrades.at(i)))
+			if (collision->WeaponPickupCollision(room1->Pickups.at(i)))
 			{
-				if (room1->WeaponUpgrades.at(i)->GetPickupType() == PickupType::Weapon)
+				if (room1->Pickups.at(i)->GetPickupType() == PickupType::Weapon)
 				{
 					this->player->UpgradeWeapon();
-					room1->WeaponUpgrades.at(i)->SetIsActive(false);
+					room1->Pickups.at(i)->SetIsActive(false);
 				}
-				else if (room1->WeaponUpgrades.at(i)->GetPickupType() == PickupType::Heal)
+				else if (room1->Pickups.at(i)->GetPickupType() == PickupType::Heal)
 				{
 					this->player->SetHealth(player->GetHealth() + 50);
 
@@ -286,7 +287,7 @@ void GameState::Update(double deltaTime)
 					player->SetHealth(player->GetMaxHealth());
 					}
 
-					room1->WeaponUpgrades.at(i)->SetIsActive(false);
+					room1->Pickups.at(i)->SetIsActive(false);
 				}
 			}
 		}
