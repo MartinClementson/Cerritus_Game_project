@@ -31,7 +31,8 @@ void EnemySpawn::Release()
 
 void EnemySpawn::Update(double deltaTime)
 {
-	
+	if (waves.GetWaveTimer() <= 0)
+	{
 		for (size_t j = 0; j < Alive.size(); j++)
 		{
 			Alive.at(j)->GetStateMachine()->
@@ -62,24 +63,24 @@ void EnemySpawn::Update(double deltaTime)
 				{
 					RespawnEnemy(i);
 				}
-				else
-				{
-					while (waveTimer < 200)
-					{
-						waveTimer += deltaTime;
-					}
-			
-						waves.SetWaveGroup(currentWave += 1);
-						waves.WaveInformation();
-						waveAmount = waves.GetWaveInformation();
-						
-						if (waveAmount == 0)
-						{
-							win = true;
-							//waves.SetWinCondition(win);
-						}
-							SpawnEnemy(waveAmount);
-				}
+				//else
+				//{
+				//	/*while (waveTimer < 200)
+				//	{
+				//		waveTimer += deltaTime;
+				//	}*/
+
+				//	waves.SetWaveGroup(currentWave += 1);
+				//	waves.WaveInformation();
+				//	waveAmount = waves.GetWaveInformation();
+
+				//	if (waveAmount == 0)
+				//	{
+				//		win = true;
+				//		//waves.SetWinCondition(win);
+				//	}
+				//	SpawnEnemy(waveAmount);
+				//}
 			}
 			else if (Alive.at(i)->GetHealth() <= 0 &&
 				Alive.at(i)->GetStateMachine()->
@@ -94,7 +95,7 @@ void EnemySpawn::Update(double deltaTime)
 				Alive.at(i)->isAlive = false;
 				Alive.at(i)->SetHealth(100.0f);
 				Alive.at(i)->GetStateMachine()->
-				SetActiveState(EnemyState::ENEMY_DEATH_STATE);
+					SetActiveState(EnemyState::ENEMY_DEATH_STATE);
 
 				waveAmount--;
 
@@ -102,14 +103,14 @@ void EnemySpawn::Update(double deltaTime)
 				{
 					RespawnEnemy(i);
 				}
-				else
+				/*else
 				{
 					waves.SetWaveGroup(currentWave += 1);
 					waves.WaveInformation();
 					waveAmount = waves.GetWaveInformation();
 
 					SpawnEnemy(waveAmount);
-				}
+				}*/
 			}
 		}
 
@@ -129,7 +130,27 @@ void EnemySpawn::Update(double deltaTime)
 				}
 			}
 		}
+	}
+	if (waveAmount == 0)
+	{
+			/*while (waveTimer < 200)
+			{
+			waveTimer += deltaTime;
+			}*/
 
+			waves.SetWaveGroup(currentWave += 1);
+			waves.WaveInformation();
+			waveAmount = waves.GetWaveInformation();
+
+			if (waveAmount == 0)
+			{
+				win = true;
+				//waves.SetWinCondition(win);
+			}
+			else
+				SpawnEnemy(waveAmount);
+	}
+	waves.Update(deltaTime);
 }	
 
 void EnemySpawn::SpawnEnemy(int waveAmount)
@@ -148,20 +169,20 @@ void EnemySpawn::SpawnEnemy(int waveAmount)
 				waves.SpawnPositions(1);
 				spawn = waves.GetSpawnPositions();
 			}
-			if (intSpawn == 2)
+			else if (intSpawn == 2)
 			{
 				waves.SetSpawnPosAdd(x);
 				waves.SpawnPositions(2);
 				spawn = waves.GetSpawnPositions();
 
 			}
-			if (intSpawn == 3)
+			else if (intSpawn == 3)
 			{
 				waves.SetSpawnPosAdd(x);
 				waves.SpawnPositions(3);
 				spawn = waves.GetSpawnPositions();
 			}
-			if (intSpawn == 4)
+			else if (intSpawn == 4)
 			{
 				waves.SetSpawnPosAdd(x);
 				waves.SpawnPositions(4);
@@ -187,20 +208,20 @@ void EnemySpawn::RespawnEnemy(int i)
 		waves.SpawnPositions(1);
 		spawn = waves.GetSpawnPositions();
 	}
-	if (intSpawn == 2)
+	else if (intSpawn == 2)
 	{
 		waves.SetSpawnPosAdd(x);
 		waves.SpawnPositions(2);
 		spawn = waves.GetSpawnPositions();
 
 	}
-	if (intSpawn == 3)
+	else if (intSpawn == 3)
 	{
 		waves.SetSpawnPosAdd(x);
 		waves.SpawnPositions(3);
 		spawn = waves.GetSpawnPositions();
 	}
-	if (intSpawn == 4)
+	else if (intSpawn == 4)
 	{
 		waves.SetSpawnPosAdd(x);
 		waves.SpawnPositions(4);
@@ -228,7 +249,7 @@ void EnemySpawn::InitEnemy()
 			
 			fast = false;
 		}
-		if (spawnPointRandom == 2)
+		else if (spawnPointRandom == 2)
 		{
 
 			waves.SetSpawnPosAdd(b);
@@ -238,7 +259,7 @@ void EnemySpawn::InitEnemy()
 			fast = true;
 
 		}
-		if (spawnPointRandom == 3)
+		else if (spawnPointRandom == 3)
 		{
 			waves.SetSpawnPosAdd(b);
 			waves.SpawnPositions(3);
@@ -247,7 +268,7 @@ void EnemySpawn::InitEnemy()
 			fast = false;
 
 		}
-		if (spawnPointRandom == 4)
+		else if (spawnPointRandom == 4)
 		{
 			waves.SetSpawnPosAdd(b);
 			waves.SpawnPositions(4);
@@ -257,7 +278,7 @@ void EnemySpawn::InitEnemy()
 
 		}
 
-		if (spawnPointRandom == 5)
+		else if (spawnPointRandom == 5)
 		{
 			waves.SetSpawnPosAdd(b);
 			waves.SpawnPositions(1);
