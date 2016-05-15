@@ -46,12 +46,12 @@ void Waves::WaveInformation()
 
 			break;
 		case 2:
-			amountOfStandards = 10;
+			amountOfStandards = 5;
 			SetWaveInformation(amountOfStandards);
 
 			break;
 		case 3:
-			amountOfStandards = 15;
+			amountOfStandards = 4;
 			SetWaveInformation(amountOfStandards);
 
 			break;

@@ -162,6 +162,8 @@ void GameState::Update(double deltaTime)
 					{
 						EnemyBase* tmpCloseHealer = nullptr;
 
+						XMFLOAT3 position;
+						position = room1->enemySpawn->Alive.at(j)->position;
 						XMFLOAT3 healPos;
 						healPos.y = 0;
 						XMFLOAT3 closest;
@@ -196,6 +198,7 @@ void GameState::Update(double deltaTime)
 										tmp.z = -tmp.z;
 
 
+									}
 									if (closest.x > tmp.x && closest.z > tmp.z && healers.at(i)->isAlive)
 									{
 										closest = tmp;

@@ -76,7 +76,7 @@ void EnemySpawn::Update(double deltaTime)
 						if (waveAmount == 0)
 						{
 							win = true;
-							waves.SetWinCondition(win);
+							//waves.SetWinCondition(win);
 						}
 							SpawnEnemy(waveAmount);
 				}
