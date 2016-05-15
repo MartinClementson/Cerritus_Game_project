@@ -274,8 +274,8 @@ void Enemy::AIPatternHeal(EnemyBase* healer, double deltaTime)
 		vect.Normalize();
 
 		//XMFLOAT3 temp = GetPosition();
-		this->position.x += vect.x *(float)deltaTime * movementSpeed*0.7;
-		this->position.z += vect.z *(float)deltaTime * movementSpeed*0.7;
+		this->position.x += vect.x *(float)deltaTime * movementSpeed*0.7f;
+		this->position.z += vect.z *(float)deltaTime * movementSpeed*0.7f;
 		//SetPosition(temp);
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)

@@ -38,7 +38,7 @@ void AudioManager::Initialize()
 	//audioLength = s_shot->GetSampleDurationMS() / 1000.0;
 	s_nightLoop = s_ambient->CreateInstance();
 	s_nightLoop->Play(true);
-	s_nightLoop->SetVolume(0.1);
+	s_nightLoop->SetVolume(0.1f);
 }
 
 void AudioManager::Update(double deltaTime)
