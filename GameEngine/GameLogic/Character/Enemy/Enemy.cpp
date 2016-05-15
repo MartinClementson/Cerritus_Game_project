@@ -1,6 +1,11 @@
 #include "Enemy.h"
 
 using namespace std;
+inline float get_degrees(float radian)
+{
+
+	return (radian * 180) / XM_PI;
+}
 
 EnemyStateMachine * Enemy::GetStateMachine()
 {
@@ -124,6 +129,28 @@ void Enemy::Update(double deltaTime)
 		slowTimer = 0.0f;
 	}
 	enemyStateMachine->Update(deltaTime);
+
+#pragma region Calculate  rotation of mesh
+
+	
+	XMVECTOR meshDirection  = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+	XMVECTOR enemyDirection = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
+
+	//Calculate angle between meshDir and shotDir
+	float cosAngle = XMVector3Dot(enemyDirection, meshDirection).m128_f32[0];
+	float angle = acos(cosAngle);
+	float degrees = get_degrees(angle);
+	////////////////////////////////////////////////////
+
+	if (direction.x < 0)
+		degrees = -degrees;
+
+	rotation.y = degrees;
+
+	
+#pragma endregion
+
+
 	renderInfo.position = position;
 	renderInfo.rotation = rotation;
 	renderInfo.radius = radius;
@@ -232,16 +259,16 @@ void Enemy::AIPattern(Player* player, double deltaTime)
 	{
 		
 		XMFLOAT3 playerPos = player->GetPosition();
-		Vec3 vect;
+		
 
-		vect.x = playerPos.x - GetPosition().x;
-		vect.z = playerPos.z - GetPosition().z;
+		direction.x = playerPos.x - GetPosition().x;
+		direction.z = playerPos.z - GetPosition().z;
 
-		vect.Normalize();
+		direction.Normalize();
 
 		//XMFLOAT3 temp = GetPosition();
-		this->position.x += vect.x *(float)deltaTime * movementSpeed;
-		this->position.z += vect.z *(float)deltaTime * movementSpeed;
+		this->position.x += direction.x *(float)deltaTime * movementSpeed;
+		this->position.z += direction.z *(float)deltaTime * movementSpeed;
 		//SetPosition(temp);
 		
 
@@ -259,17 +286,17 @@ void Enemy::AIPatternHeal(EnemyBase* healer, double deltaTime)
 {
 	if (enemyStateMachine->GetActiveState() == ENEMY_HEAL_STATE)
 	{
-		XMFLOAT3 playerPos = healer->GetPosition();
-		Vec3 vect;
+		XMFLOAT3 healerPos = healer->GetPosition();
+		
 
-		vect.x = playerPos.x - GetPosition().x;
-		vect.z = playerPos.z - GetPosition().z;
+		direction.x = healerPos.x - GetPosition().x;
+		direction.z = healerPos.z - GetPosition().z;
 
-		vect.Normalize();
+		direction.Normalize();
 
 		//XMFLOAT3 temp = GetPosition();
-		this->position.x += vect.x *(float)deltaTime * movementSpeed;
-		this->position.z += vect.z *(float)deltaTime * movementSpeed;
+		this->position.x += direction.x *(float)deltaTime * movementSpeed;
+		this->position.z += direction.z *(float)deltaTime * movementSpeed;
 		//SetPosition(temp);
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)

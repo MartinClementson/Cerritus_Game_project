@@ -18,7 +18,6 @@ class Enemy :
 
 private:
 
-
 	Enemy();
 	//float index;
 public:
