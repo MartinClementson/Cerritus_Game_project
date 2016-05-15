@@ -4,10 +4,10 @@
 
 ResourceManager::ResourceManager()
 {
-	meshManager = new MeshManager();
-	shaderManager = new ShaderManager();
-	brfImporterHandler = new BRFImporterHandler();
-	materialManager = new MaterialManager();
+	meshManager			= new MeshManager();
+	shaderManager		= new ShaderManager();
+	brfImporterHandler  = new BRFImporterHandler();
+	materialManager		= new MaterialManager();
 }
 
 
@@ -27,6 +27,11 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	brfImporterHandler->Initialize(this->meshManager, this->materialManager);
 
 
+
+
+
+
+
 	brfImporterHandler->LoadFile("models/player_Model.BRF", true, true, true);
 	brfImporterHandler->LoadFile("models/enemy_0.BRF", true, true, true);
 	brfImporterHandler->LoadFile("models/slow_Trap.BRF", true, true, true);
@@ -36,38 +41,37 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	brfImporterHandler->LoadFile("models/quadBullet.BRF", true, true, true);
 	
 	
-
-
 	std::vector<importedMaterial> temp;
 	importedMaterial ui;
+
+
+
 	ui.materialName = "yo-gi-uh";
 	ui.diffuseTex = "HUD.tif";
 	ui.materialID = 9;
 	
 	temp.push_back(ui);
-
 	materialManager->addMaterials(&temp);
+	
 	ui.materialName = "Menumaterial";
 	ui.diffuseTex = "menu.png";
 	ui.materialID = 10;
 	
 	temp.push_back(ui);
-
 	materialManager->addMaterials(&temp);
+	
 	ui.materialName = "gameover";
 	ui.diffuseTex = "GameOver.png";
 	ui.materialID = 11;
-
 	temp.push_back(ui);
-
 	materialManager->addMaterials(&temp);
+	
+	
 	ui.materialName = "pause";
 	ui.diffuseTex = "PausUI.tif";
 	ui.materialID = 12;
 	temp.push_back(ui);
-
 	materialManager->addMaterials(&temp);
-
 	ui.materialName = "WaveCounter";
 	ui.diffuseTex = "Numerations.tif";
 
@@ -95,11 +99,27 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	materialManager->addMaterials(&temp);
 	ui.materialName = "WinState";
 	ui.diffuseTex = "win.png";
+
 	ui.materialID = 16;
 
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 
+	ui.materialName = "HEALTH_PICKUP";
+	ui.diffuseTex	= "HeathPickup.tif";
+	//ui.glowTex		= "HeathPickupGlow.tif";
+	ui.materialID = 17;
+	
+	temp.push_back(ui);
+	materialManager->addMaterials(&temp);
+
+	ui.materialName = "WEAPON_PICKUP";
+	ui.diffuseTex = "WeaponPowerup.tif";
+	//ui.glowTex = "WeaponPowerupGlow.tif";
+	ui.materialID = 18;
+
+	temp.push_back(ui);
+	materialManager->addMaterials(&temp);
 }
 
 void ResourceManager::Release()
@@ -120,7 +140,7 @@ void ResourceManager::Release()
 
 		
 
-		if (meshType != MeshEnum::PROJECTILE_1)
+		if (meshType != MeshEnum::PROJECTILE_1 || meshType != MeshEnum::PICKUP_HEAL || meshType != MeshEnum::PICKUP_WEAPON)
 		{
 			currentMesh.worldBuffer.worldMatrix = CalculateWorldMatrix(&object->position, &object->rotation);
 			

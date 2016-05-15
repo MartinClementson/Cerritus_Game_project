@@ -6,6 +6,7 @@
 #include "..\..\..\Structs\ConstantBufferStruct.h"
 #include "../Camera/Frustum/Frustum.h"
 
+
 #define ZOOM 30.0f
 using namespace DirectX;
 
