@@ -51,6 +51,7 @@ void GameState::Initialize(AudioManager* audioManager)
 	room1->AddEnemySpawn(XMFLOAT3(-50.0f, 0.0f, 30.0f));
 	index = 0;
 	OnEnter();
+	collision->InitSceneCol();
 
 }
 
@@ -83,7 +84,7 @@ void GameState::Update(double deltaTime)
 		XMFLOAT3 dir = Graphics::GetInstance()->GetPlayerDirection(mouseXY, player->GetPosition());
 
 
-		player->Update(deltaTime, dir);
+		player->Update(deltaTime, dir, (collision->SceneColIn(deltaTime)));
 
 		room1->Update(deltaTime);
 		for (size_t k = 0; k < room1->enemySpawns.size(); k++)

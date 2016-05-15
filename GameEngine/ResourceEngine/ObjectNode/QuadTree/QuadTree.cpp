@@ -517,7 +517,7 @@ void QuadTree::GetNodeRenderInfo(NodeType * node, std::vector<RenderInstructions
 	if (shadow == false)
 	{
 	bool result;
-	result = frustum->CheckCube(node->position.x, 0.0f, node->position.y, (node->width / 2.0f) * 0.8325);
+	result = frustum->CheckCube(node->position.x, 0.0f, node->position.y, (node->width / 2.0f) * 0.835f);
 
 	//if it can't be seen then none of it's children can either so don't continue
 	if (!result)

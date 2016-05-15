@@ -13,7 +13,7 @@ class Camera : ObjectNode
 {
 private:
 
-	XMFLOAT3 cameraOffset = { 0.0f, ZOOM ,-ZOOM / 1.75 }; //This is the offset from the players position!
+	XMFLOAT3 cameraOffset = { 0.0f, ZOOM ,-ZOOM / 1.75f }; //This is the offset from the players position!
 	XMFLOAT4X4 projection;
 	XMFLOAT4X4 view;
 

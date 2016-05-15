@@ -102,6 +102,17 @@ void LightManager::Initialize()
 
 	this->numActivePointLights += 1;
 
+	this->pointLights[4] = new PointLight();
+	pointLights[4]->lightPosition = DirectX::XMFLOAT4(64.675f, 10.0f, 232.7f, 1.0f); //Pos
+	pointLights[4]->lightLookAt = DirectX::XMFLOAT4(64.675f, -10.0f, 232.7f, 1.0f);	//Direct
+	pointLights[4]->lightDiffuse = DirectX::XMFLOAT4(0.3f, 0.07f, 0.2f, 1.0f);	//Color
+	pointLights[4]->SetMatrices(DirectX::XM_PI*0.8f, 1.0f, 1.0f, 100.0f);
+	pointLights[4]->castShadow = FALSE;
+	pointLights[4]->intensity = 4.0f;
+	pointLights[4]->lightRange = 750.0f;
+
+	this->numActivePointLights += 1;
+
 	//this->pointLights[1] = new PointLight();
 	//pointLights[1]->lightPosition = DirectX::XMFLOAT4(0.0f, 20.0f, 30.0f, 1.0f); //Pos
 	//pointLights[1]->lightLookAt = DirectX::XMFLOAT4(0.0f, -10.0f, 28.0f, 1.0f);	//Direct
@@ -149,17 +160,21 @@ void LightManager::Initialize()
 
 
 	pointLights[0]->attenuation = 0.002f;
+	pointLights[1]->attenuation = 0.002f;
+	pointLights[2]->attenuation = 0.002f;
+	pointLights[3]->attenuation = 0.002f;
+	pointLights[4]->attenuation = 0.002f;
 	/*pointLights[1]->attenuation = 0.02;
 	pointLights[2]->attenuation = 0.02;
 	pointLights[4]->attenuation = 0.02;
 	pointLights[3]->attenuation = 0.02;*/
 
 	this->dirLights[0] = new DirectionalLight();
-	this->dirLights[0]->lightPosition = DirectX::XMFLOAT4(30.0f, 70.0f, 100.0f,1.0f);
-	this->dirLights[0]->lightDiffuse  = DirectX::XMFLOAT4(1.0f, 0.5f, 0.4f, 1.0f);
-	this->dirLights[0]->lightLookAt = DirectX::XMFLOAT4(30.0f, -10.0f, 50.0f, 1.0f);	//Direct
-	this->dirLights[0]->intensity = 6.0;
-	this->dirLights[0]->SetMatrices(1.0f, 0.0f, 120.0f);
+	this->dirLights[0]->lightPosition = DirectX::XMFLOAT4(86.0f, 70.0f, 120.0f,1.0f);
+	this->dirLights[0]->lightDiffuse  = DirectX::XMFLOAT4(1.0f, 0.6f, 0.5f, 1.0f);
+	this->dirLights[0]->lightLookAt = DirectX::XMFLOAT4(0.0f, -10.0f, 75.0f, 1.0f);	//Direct
+	this->dirLights[0]->intensity = 8.0;
+	this->dirLights[0]->SetMatrices(1.0f, 0.01f, 320.0f);
 	this->dirLights[0]->castShadow = TRUE;
 	numActiveDirLights +=1;
 #pragma endregion

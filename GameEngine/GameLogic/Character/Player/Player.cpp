@@ -79,7 +79,7 @@ void Player::Release()
 	projectileSystem->Release();
 }
 
-void Player::Update(double deltaTime, XMFLOAT3 direction)
+void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 {
 	if (VelocityMax == 0.2f)
 	{
@@ -113,35 +113,67 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 	
 	this->direction	 = direction;
 	
-
 #pragma region Calculate movement
-
-	velocity.x		 += acceleration.x * (float)deltaTime - velocity.x * fallOfFactor * (float)deltaTime;
-	velocity.y		  = 0.0f;
-	velocity.z		 += acceleration.z * (float)deltaTime - velocity.z * fallOfFactor * (float)deltaTime;
+	if (collision == true)
+	{
+		velocity.x		 += acceleration.x * (float)deltaTime - velocity.x * fallOfFactor * (float)deltaTime;
+		velocity.y		  = 0.0f;
+		velocity.z		 += acceleration.z * (float)deltaTime - velocity.z * fallOfFactor * (float)deltaTime;
 	
 
-	float currentVelo = velocity.Length();
+		float currentVelo = velocity.Length();
 
-	if (currentVelo > VelocityMax)
-	{
+		if (currentVelo > VelocityMax)
+		{
 
-		Vec3 normalizer			= velocity.Normalize();
-		normalizer				= normalizer * VelocityMax;
-		velocity				= normalizer;
+			Vec3 normalizer			= velocity.Normalize();
+			normalizer				= normalizer * VelocityMax;
+			velocity				= normalizer;
+		}
+
+		if (currentVelo > 0.05f)
+		{
+			position.x				+= velocity.x;
+			position.y				 = Y_OFFSET;
+			position.z				+= velocity.z;
+
+
+		}
+
+
+		acceleration				 = Vec3(0.0f, 0.0f, 0.0f); //reset acceleration for next frame
+
 	}
-
-	if (currentVelo > 0.05f)
+	else if (collision == false)
 	{
-		position.x				+= velocity.x;
-		position.y				 = Y_OFFSET;
-		position.z				+= velocity.z;
+		velocity.x += acceleration.x * (float)deltaTime - velocity.x * fallOfFactor * (float)deltaTime;
+		velocity.y = 0.0f;
+		velocity.z += acceleration.z * (float)deltaTime - velocity.z * fallOfFactor * (float)deltaTime;
 
+
+		float currentVelo = velocity.Length();
+
+		if (currentVelo > VelocityMax)
+		{
+
+			Vec3 normalizer = velocity.Normalize();
+			normalizer = normalizer * VelocityMax;
+			velocity = normalizer;
+		}
+
+		if (currentVelo > 0.05f)
+		{
+			//position.x -= velocity.x;
+			position.y = Y_OFFSET;
+			//position.z -= velocity.z;
+
+
+		}
+
+
+		acceleration = Vec3(0.0f, 0.0f, 0.0f); //reset acceleration for next frame
 
 	}
-
-
-	acceleration				 = Vec3(0.0f, 0.0f, 0.0f); //reset acceleration for next frame
 #pragma endregion
 	
 
@@ -151,7 +183,7 @@ void Player::Update(double deltaTime, XMFLOAT3 direction)
 	XMVECTOR mouseDirection = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
 	XMVECTOR meshDirection = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 
-
+	
 	//Calculate angle between meshDir and shotDir
 	float cosAngle = XMVector3Dot(mouseDirection, meshDirection).m128_f32[0];
 	float angle = acos(cosAngle);

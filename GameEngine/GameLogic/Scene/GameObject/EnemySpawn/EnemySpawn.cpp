@@ -113,6 +113,16 @@ void EnemySpawn::Update(double deltaTime)
 				player = collision->GetPlayer();
 				
 			}
+			if (!collision->SceneColIn(deltaTime, Alive.at(i)))
+			{
+				Alive.at(i)->position.x -= Alive.at(i)->velocity.x * 2;
+				Alive.at(i)->position.z -= Alive.at(i)->velocity.z * 2;
+			}
+			if (collision->SceneColIn(deltaTime, Alive.at(i)))
+			{
+				//Alive.at(i)->position.x += Alive.at(i)->velocity.x;
+				//Alive.at(i)->position.z += Alive.at(i)->velocity.z;
+			}
 		}
 	}
 }

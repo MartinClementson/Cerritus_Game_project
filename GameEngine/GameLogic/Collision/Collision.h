@@ -6,7 +6,11 @@
 #include"../Scene/Trap/FireTrap/FireTrap.h"
 using namespace std;
 using namespace DirectX;
-
+struct SceneCollision
+{
+	XMFLOAT3 Pos;
+	float Rad;
+};
 class Collision
 {
 private:
@@ -19,6 +23,8 @@ private:
 	vector<Enemy*> enemyBox;
 	vector<FireTrap*> fireTrap;
 	vector<BearTrap*> bearTrap;
+	vector<SceneCollision> SceneBoxesIn;
+	vector<SceneCollision> SceneBoxesOut;
 	Player* player;
 	bool enemyInit;
 private:
@@ -30,6 +36,7 @@ public:
 	void AddEnemy(Enemy* enemy);
 	void AddPlayer(Player* player);
 	void AddTrap(BearTrap* bTraps);
+	void InitSceneCol();
 	void ClearTraps();
 
 	bool PlayerProxyTrap(BearTrap * trap);
@@ -45,6 +52,8 @@ public:
 
 
 	bool PlayerCollision(Enemy* enemy);
+	bool SceneColIn(double deltaTime);
+	bool SceneColIn(double deltaTime, Enemy * enemy);
 	bool PlayerDistanceCollision(Enemy * enemy);
 	bool ProjectileEnemyCollision(Projectile* projectile, Enemy* enemy);
 

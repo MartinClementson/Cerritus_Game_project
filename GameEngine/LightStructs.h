@@ -144,7 +144,7 @@ struct DirectionalLight
 
 		DirectX::XMStoreFloat4x4(&this->lightView, DirectX::XMMatrixTranspose(tempView));
 
-		DirectX::XMMATRIX tempProj = DirectX::XMMatrixOrthographicLH((float)SHADOW_WIDTH*0.35f, (float)SHADOW_HEIGHT*0.35f, nearZ, farZ);
+		DirectX::XMMATRIX tempProj = DirectX::XMMatrixOrthographicLH((float)SHADOW_WIDTH*0.99f, (float)SHADOW_HEIGHT*0.99f, nearZ, farZ);
 		//DirectX::XMMATRIX tempProj = DirectX::XMMatrixPerspectiveFovLH(DirectX::XM_PI*0.8f, aspectRatio, nearZ, farZ);
 		DirectX::XMStoreFloat4x4(&this->lightProjection, DirectX::XMMatrixTranspose(tempProj));
 	};
