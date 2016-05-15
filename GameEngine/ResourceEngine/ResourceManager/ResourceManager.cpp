@@ -51,28 +51,28 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 
 	ui.materialName = "yo-gi-uh";
 	ui.diffuseTex = "HUD.tif";
-	ui.materialID = 9;
+	ui.materialID = 13;
 	
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 	
 	ui.materialName = "Menumaterial";
 	ui.diffuseTex = "menu.png";
-	ui.materialID = 10;
+	ui.materialID = 14;
 	
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 	
 	ui.materialName = "gameover";
 	ui.diffuseTex = "GameOver.png";
-	ui.materialID = 11;
+	ui.materialID = 15;
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 	
 	
 	ui.materialName = "pause";
 	ui.diffuseTex = "PausUI.tif";
-	ui.materialID = 12;
+	ui.materialID = 16;
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 	ui.materialName = "WaveCounter";
@@ -82,19 +82,19 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	ui.materialName = "Controls";
 	ui.diffuseTex = "Controls.png";
 
-	ui.materialID = 13;
+	ui.materialID = 17;
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 
 	ui.materialName = "ENUMERATION";
 	ui.diffuseTex = "Numerations.tif";
-	ui.materialID = 14;
+	ui.materialID = 18;
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 
 	ui.materialName = "WAVECOUNTER";
 	ui.diffuseTex = "Numerations.tif";
-	ui.materialID = 15;
+	ui.materialID = 19;
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 
@@ -103,7 +103,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	ui.materialName = "WinState";
 	ui.diffuseTex = "win.png";
 
-	ui.materialID = 16;
+	ui.materialID = 20;
 
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
@@ -111,7 +111,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	ui.materialName = "HEALTH_PICKUP";
 	ui.diffuseTex	= "HeathPickup.tif";
 	//ui.glowTex		= "HeathPickupGlow.tif";
-	ui.materialID = 17;
+	ui.materialID = 21;
 	
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
@@ -119,7 +119,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	ui.materialName = "WEAPON_PICKUP";
 	ui.diffuseTex = "WeaponPowerup.tif";
 	//ui.glowTex = "WeaponPowerupGlow.tif";
-	ui.materialID = 18;
+	ui.materialID = 22;
 
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);

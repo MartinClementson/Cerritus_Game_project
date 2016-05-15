@@ -188,11 +188,11 @@ void Graphics::Render() //manage RenderPasses here
 
 	this->renderer->RenderFinalPass();
 
-	//for (unsigned int i = 0; i < uiObjects->size(); i++)
-	//{
-	//	renderer->Render(uiObjects->at(i));
+	for (unsigned int i = 0; i < uiObjects->size(); i++)
+	{
+		renderer->Render(uiObjects->at(i));
 
-	//}
+	}
 	
 	
 

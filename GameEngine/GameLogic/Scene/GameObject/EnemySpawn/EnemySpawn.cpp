@@ -121,6 +121,16 @@ void EnemySpawn::Update(double deltaTime)
 			if (Alive.at(i)->isAlive == true)
 			{
 				collision->PlayerCollision(Alive.at(i));
+				if (!collision->SceneColIn(deltaTime, Alive.at(i))) //change this
+				{
+					Alive.at(i)->position.x = Alive.at(i)->position.x;
+					Alive.at(i)->position.z = Alive.at(i)->position.z;
+				}
+				if (collision->SceneColIn(deltaTime, Alive.at(i)))
+				{
+					Alive.at(i)->position.x = Alive.at(i)->position.x;
+					Alive.at(i)->position.z = Alive.at(i)->position.z;
+				}
 			}
 		}
 	if (waveAmount == 0)
@@ -139,16 +149,7 @@ void EnemySpawn::Update(double deltaTime)
 				win = true;
 				//waves.SetWinCondition(win);
 			}
-			if (!collision->SceneColIn(deltaTime, Alive.at(i))) //change this
-			{
-				Alive.at(i)->position.x = Alive.at(i)->position.x;
-				Alive.at(i)->position.z = Alive.at(i)->position.z;
-			}
-			if (collision->SceneColIn(deltaTime, Alive.at(i)))
-			{
-				Alive.at(i)->position.x = Alive.at(i)->position.x;
-				Alive.at(i)->position.z = Alive.at(i)->position.z;
-			}
+			
 		
 			else
 				firstSpawn = false;

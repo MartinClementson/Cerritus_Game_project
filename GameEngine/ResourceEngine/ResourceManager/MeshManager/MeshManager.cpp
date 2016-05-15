@@ -135,9 +135,9 @@ void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * to
 	else if (*meshEnum == MeshEnum::PROJECTILE_1)
 		this->gameMeshes->at(4).GetMeshRenderInfo(toRender);
 	else if (*meshEnum == MeshEnum::PICKUP_HEAL)
-			toRender->materialID = 17;
+			toRender->materialID = 21;
 	else if (*meshEnum == MeshEnum::PICKUP_WEAPON)
-			toRender->materialID = 18;
+			toRender->materialID = 22;
 
 	else if (*meshEnum == MeshEnum::PLACEHOLDER)
 		this->GetPlaceHolderMeshInfo(toRender);
@@ -266,8 +266,8 @@ void MeshManager::CreateFullScreenQuad()
 		0, 2, 3
 	};
 
-	this->fullScreenQuad.CreateVertexBuffer(planeVerts, 4);
-	this->fullScreenQuad.CreateIndexBuffer(indices, 6);
+	this->fullScreenQuad.CreateVertexBuffer(planeVerts, 4, false);
+	this->fullScreenQuad.CreateIndexBuffer(indices, 6, false);
 
 }
 
@@ -298,8 +298,8 @@ void MeshManager::CreateKillCountQuad()
 		0, 2, 3
 	};
 
-	this->killCountQuad.CreateVertexBuffer(planeVerts, 4);
-	this->killCountQuad.CreateIndexBuffer(indices, 6);
+	this->killCountQuad.CreateVertexBuffer(planeVerts, 4, false);
+	this->killCountQuad.CreateIndexBuffer(indices, 6, false);
 }
 
 void MeshManager::CreateWaveCountQuad()
@@ -334,8 +334,8 @@ void MeshManager::CreateWaveCountQuad()
 		0, 2, 3
 	};
 
-	this->waveCountQuad.CreateVertexBuffer(planeVerts, 4);
-	this->waveCountQuad.CreateIndexBuffer(indices, 6);
+	this->waveCountQuad.CreateVertexBuffer(planeVerts, 4, false);
+	this->waveCountQuad.CreateIndexBuffer(indices, 6, false);
 }
 
 
@@ -358,42 +358,42 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 	if (*uiEnum == UITextures::HUD)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 8;
+		toRender->materialID = 13;
 	}
 	else if (*uiEnum == UITextures::MENU)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 9;
+		toRender->materialID = 14;
 	}
 	else if (*uiEnum == UITextures::GAMEOVER)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 10;
+		toRender->materialID = 15;
 	}
 	else if (*uiEnum == UITextures::PAUSE)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 11;
+		toRender->materialID = 16;
 	}
 	else if (*uiEnum == UITextures::CONTROLS)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 12;
+		toRender->materialID = 17;
 	}
 	else if (*uiEnum == UITextures::WIN)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 13;
+		toRender->materialID = 18;
 	}
 	if (*uiEnum == UITextures::NUMERATION)
 	{
 		killCountQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 14;
+		toRender->materialID = 19;
 	}
 	if (*uiEnum == UITextures::WAVECOUNTER)
 	{
 		waveCountQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 15;
+		toRender->materialID = 20;
 	}
 	/*else if (*uiEnum == UITextures::NUMERATION)
 	{

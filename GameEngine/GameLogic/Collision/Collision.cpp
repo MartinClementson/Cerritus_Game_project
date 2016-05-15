@@ -513,8 +513,8 @@ bool Collision::SceneColIn(double deltaTime, EnemyBase* enemy)
 					+ pow(enemy->GetPosition().z - SceneBoxesOut.at(i).Pos.z, 2)
 					< pow(enemy->GetRadius2() + SceneBoxesOut.at(i).Rad, 2))
 				{
-					enemy->position.x -= enemy->velocity.x;
-					enemy->position.z -= enemy->velocity.z;
+					enemy->position.x -= enemy->position.x;
+					enemy->position.z -= enemy->position.z;
 					return false;
 				}
 			}
@@ -522,8 +522,8 @@ bool Collision::SceneColIn(double deltaTime, EnemyBase* enemy)
 		}
 
 	}
-	enemy->position.x -= enemy->velocity.x;
-	enemy->position.z -= enemy->velocity.z;
+	enemy->position.x -= enemy->position.x;
+	enemy->position.z -= enemy->position.z;
 	return false;
 }
 bool Collision::PlayerDistanceCollision(EnemyBase* enemy)

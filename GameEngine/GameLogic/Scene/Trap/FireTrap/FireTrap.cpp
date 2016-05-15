@@ -58,7 +58,7 @@ void FireTrap::Update(double deltaTime)
 
 	renderInfo.normalizedReloadVal = -1;
 	if (this->currReloadTime > 0)
-		currReloadTime -= deltaTime / 4;
+		currReloadTime -= (float)(deltaTime / 4);
 	if (this->GetState()->GetTrapState() == TrapState::TRAP_ACTIVE_STATE)
 	{
 		this->activeTimer += (float)deltaTime;
