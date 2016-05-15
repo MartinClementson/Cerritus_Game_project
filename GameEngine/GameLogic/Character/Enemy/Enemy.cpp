@@ -281,7 +281,6 @@ void Enemy::AIPatternHeal(EnemyBase* healer, double deltaTime)
 	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
 	{
 
-
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE)
 	{
@@ -292,7 +291,6 @@ void Enemy::AIPatternHeal(EnemyBase* healer, double deltaTime)
 		//here they go to die 
 	}
 }
-
 
 CharacterType Enemy::GetCharType()
 {
