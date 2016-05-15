@@ -136,6 +136,7 @@ struct InstancedData
 {
 	InstancedData() { ZeroMemory(this, sizeof(this)); };
 	DirectX::XMFLOAT4X4 worldMatrix;
+	unsigned int glow = 0;
 };
 
 struct BillboardData
