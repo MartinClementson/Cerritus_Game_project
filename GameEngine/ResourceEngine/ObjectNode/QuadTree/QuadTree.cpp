@@ -84,7 +84,7 @@ void QuadTree::CalculateMeshDimensions(int count, Float2 & position, float & mes
 
 
 	//Calculate the maximum diameter of the mesh
-	meshWidth = max(maxX, maxZ) * 2.0f;
+	meshWidth = max(maxX, maxZ) * 3.0f;
 
 	return;
 }
@@ -263,22 +263,22 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 	//Create the vertex buffer
 	hr = gDevice->CreateBuffer(&vertexBufferDesc, &vertexData, &parent->vertexBuffer);
 
-	////Set up the description of the index buffer
+	//Set up the description of the index buffer
 
-	//indexBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	//indexBufferDesc.ByteWidth = sizeof(UINT) * indexCount;
-	//indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	//indexBufferDesc.CPUAccessFlags = 0;
-	//indexBufferDesc.MiscFlags = 0;
-	//indexBufferDesc.StructureByteStride = 0;
+	indexBufferDesc.Usage = D3D11_USAGE_IMMUTABLE;
+	indexBufferDesc.ByteWidth = sizeof(UINT) * indexCount;
+	indexBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	indexBufferDesc.CPUAccessFlags = 0;
+	indexBufferDesc.MiscFlags = 0;
+	indexBufferDesc.StructureByteStride = 0;
 
-	////Give the subresource structure a pointer to the index data
-	//indexData.pSysMem = newInd.data();
-	//indexData.SysMemPitch = 0;
-	//indexData.SysMemSlicePitch = 0;
+	//Give the subresource structure a pointer to the index data
+	indexData.pSysMem = newInd.data();
+	indexData.SysMemPitch = 0;
+	indexData.SysMemSlicePitch = 0;
 
-	////Create index buffer
-	//hr = gDevice->CreateBuffer(&indexBufferDesc, &indexData, &parent->indexBuffer);
+	//Create index buffer
+	hr = gDevice->CreateBuffer(&indexBufferDesc, &indexData, &parent->indexBuffer);
 
 	//Delete the vertices and indices arrays, as they are now stored in the buffers
 
@@ -405,7 +405,11 @@ bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, I
 	float width;
 	Float2 position;
 	int materialID = 0;
+	for (unsigned int i = 0; i < terrain->size(); i++)
+	{
+		terrain->at(i).SetMaterialID(i);
 
+	}
 	//prep 1 scenemesh for quadtreeing
 	for (unsigned int i = 0; i < terrain->size(); i++)
 	{
@@ -421,11 +425,15 @@ bool QuadTree::Initialize(std::vector<Mesh> * terrain, ID3D11Device * gDevice, I
 		this->m_indexList->push_back(terrain->at(i).GetIndices());
 		materialID = terrain->at(i).GetMaterialID();
 		//Store the total triangle countW
+		for (size_t j = 0; j < this->vertexCount; j++)
+		{
+			vertextest->push_back(m_vertexList->at(i)[j]);
+		}
 		for (size_t j = 0; j < this->indexCount; j++)
 		{
 			UINT temp = m_indexList->at(i)[j];
 
-			vertextest->push_back(m_vertexList->at(i)[temp]);
+			//vertextest->push_back(m_vertexList->at(i)[temp]);
 			indextest->push_back(temp);
 		}
 		m_triangleCount = indexCount / 3;
@@ -507,7 +515,7 @@ void QuadTree::GetNodeRenderInfo(NodeType * node, std::vector<RenderInstructions
 	int i, count;
 
 	bool result;
-	result = frustum->CheckCube(node->position.x, 0.0f, node->position.y, (node->width / 2.0f) - 12);
+	result = frustum->CheckCube(node->position.x, 0.0f, node->position.y, (node->width / 2.0f));
 
 	//if it can't be seen then none of it's children can either so don't continue
 	if (!result)
@@ -543,8 +551,10 @@ void QuadTree::GetNodeRenderInfo(NodeType * node, std::vector<RenderInstructions
 	tempInstruction.vertexCount		 = &node->VertexCount;
 	tempInstruction.isAnimated		 = &node->isAnimated;
 
-
-	toRender->push_back(tempInstruction);
+	if (tempInstruction.vertexBuffer != nullptr)
+	{
+		toRender->push_back(tempInstruction);
+	}
 
 	//delete tempInstruction;
 }
