@@ -405,9 +405,6 @@ void GameState::ProcessInput(double* deltaTime)
 
 		if (input->IsKeyPressed(KEY_Q))
 		{
-			//if (input->IsKeyHeld(KEY_Q))
-			////audioManager->playEDeathSound();
-			//}
 			for (int i = 0; i < bearTraps.size(); i++)
 			{
 				if (collision->BearTrapActivation(bearTraps.at(i)))
@@ -418,7 +415,7 @@ void GameState::ProcessInput(double* deltaTime)
 						{
 							if (currentTime >= 2)
 							{
-								audioManager->playEDeathSound();
+								audioManager->playEDeathSound(); //temp to know
 								bearTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
 								currentTime = 0;
 							}
@@ -430,9 +427,19 @@ void GameState::ProcessInput(double* deltaTime)
 			}
 			for (int i = 0; i < fireTraps.size(); i++)
 			{
-				if (collision->FireTrapActivation(fireTraps.at(i)))
+				if (fireTraps.at(i)->GetState()->GetTrapState() == TrapState::TRAP_INACTIVE_STATE)
 				{
-					fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
+					if (input->IsKeyHeld(KEY_Q))
+					{
+						if (currentTime >= 2)
+						{
+							audioManager->playEDeathSound();
+							fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
+							currentTime = 0;
+						}
+						else
+							currentTime += (float)*deltaTime;
+					}
 				}
 			}
 		}
