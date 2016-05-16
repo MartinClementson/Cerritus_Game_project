@@ -95,6 +95,12 @@ bool InputHandler::Initialize(HWND* hwndP ,HINSTANCE* hInstance)
 		hr = mouse->Acquire();
 	}
 
+	ShowCursor(TRUE);
+	
+	SetCursor(LoadCursor(NULL, IDC_CROSS));
+	
+	
+	
 	return true;
 }
 
@@ -185,6 +191,7 @@ XMFLOAT2 InputHandler::GetMousePosition()
 	POINT point;
 	ShowCursor(TRUE);
 
+
 	GetCursorPos(&point);
 	ScreenToClient(*this->hwndP, &point);
 		
@@ -250,6 +257,23 @@ bool InputHandler::isMouseClicked(InputKeys* mouseKey)
 	}
 
 	return false;
+}
+
+void InputHandler::SetMouseVisibility(bool x)
+{
+
+	if (x == true)
+	{
+		ShowCursor(TRUE);
+
+		SetCursor(LoadCursor(NULL, IDC_CROSS));
+	}
+	else
+	{
+
+		while (ShowCursor(FALSE) > 0);
+	}
+
 }
 
 InputHandler * InputHandler::GetInstance()

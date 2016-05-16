@@ -81,7 +81,7 @@ HWND InitWindow(HINSTANCE hInstance)
 	wcex.lpszClassName  = L"BasicWindow";
 	wcex.hCursor = LoadCursor(NULL, IDC_CROSS);
 	wcex.hIconSm = LoadIcon(NULL, IDI_WINLOGO);
-	wcex.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+	wcex.hIcon   = LoadIcon(NULL, IDI_APPLICATION);
 	// use the struct to register the new class.
 	// the name of the class is "BasicWindow"
 	if( !RegisterClassEx(&wcex) )
@@ -95,7 +95,7 @@ HWND InitWindow(HINSTANCE hInstance)
 	
 	HWND handle = CreateWindow(
 		L"BasicWindow",			// CLASS, if does not exists fails!
-		L"It'sa working. Waho!",		// Window name (title)
+		L"Cerritus",		// Window name (title)
 		WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT,
 		CW_USEDEFAULT,
