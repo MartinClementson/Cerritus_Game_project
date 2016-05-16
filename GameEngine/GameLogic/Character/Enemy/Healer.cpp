@@ -204,7 +204,7 @@ void Healer::AIPattern(Player* player, double deltaTime)
 		
 		
 #pragma region fleeing pattern
-		if (direction.Length() < 100.0f) //if the player is close. move away from the player
+		if (direction.Length() < 60.0f) //if the player is close. move away from the player
 		{
 			//vect1.x = vect1.x;
 
