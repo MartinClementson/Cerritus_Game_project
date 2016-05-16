@@ -495,7 +495,6 @@ void Graphics::CullGeometry()
 				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].height	= 3.0f;
 				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].width		= 0.15f;
 				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].glow		= 1;
-				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].screenSpace = 0;
 				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].worldPos  = this->gameObjects->at(i)->position + (this->gameObjects->at(i)->direction *(billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].height * 0.9f)); // this is to make sure that if we made a long shot, (like a railgun) we wouldnt want halv of the shot texture behind the character
 
 				instancesToRender[PROJECTILE_INSTANCED]  += 1;

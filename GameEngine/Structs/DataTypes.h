@@ -147,7 +147,6 @@ struct BillboardData
 	float height				= 1.0f;
 	float width					= 1.0f;
 	unsigned int glow			= 0;
-	unsigned int screenSpace	= 0;
 };
 
 struct AnimVert

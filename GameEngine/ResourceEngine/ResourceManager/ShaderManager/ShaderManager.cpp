@@ -752,8 +752,8 @@ bool ShaderManager::CreateBillboardShader()
 					{ "COLOR",			0,  DXGI_FORMAT_R32G32B32_FLOAT,	 0,		 24,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
 		/*SIZE*/	{ "HEIGHT"		,   0,  DXGI_FORMAT_R32_FLOAT,	         0,		 36,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
 					{ "WIDTH"		,   0,  DXGI_FORMAT_R32_FLOAT,	         0,		 40,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
-					{ "GLOW"		,   0,  DXGI_FORMAT_R8_UINT,   	         0,		 44,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
-	/*SS variable*/ { "SCREENSPACE", 0,  DXGI_FORMAT_R8_UINT,   			 1,	     45,		 D3D11_INPUT_PER_VERTEX_DATA		,0 }
+					{ "GLOW"		,   0,  DXGI_FORMAT_R8_UINT,   	         0,		 44,		 D3D11_INPUT_PER_VERTEX_DATA		,0 }
+	
 	};
 
 	hr = this->gDevice->CreateInputLayout(inputDescI, ARRAYSIZE(inputDescI), pVS->GetBufferPointer(), pVS->GetBufferSize(), &this->gVertexLayoutBillboard);
