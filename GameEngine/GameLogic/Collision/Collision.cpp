@@ -533,8 +533,13 @@ bool Collision::SceneColIn(double deltaTime, EnemyBase* enemy)
 		}
 
 	}
-	enemy->position.x -= enemy->position.x;
-	enemy->position.z -= enemy->position.z;
+	Vec3 dir;
+
+	dir.x = 0 - enemy->position.x;
+	dir.z = 0 - enemy->position.z;
+
+	enemy->position.x -= dir.x * (float)deltaTime * enemy->movementSpeed;
+	enemy->position.z -= dir.z * (float)deltaTime * enemy->movementSpeed;
 	return false;
 }
 bool Collision::PlayerDistanceCollision(EnemyBase* enemy)
