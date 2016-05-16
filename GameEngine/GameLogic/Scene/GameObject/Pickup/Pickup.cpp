@@ -115,8 +115,7 @@ void Pickup::SetIsActive(bool active)
 
 void Pickup::Respawn()
 {
-	if(this->pickupType == PickupType::WEAPON)
-	{
-		isActive = true;
-	}
+	
+	isActive = true;
+	
 }

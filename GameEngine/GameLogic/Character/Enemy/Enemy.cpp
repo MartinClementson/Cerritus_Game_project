@@ -95,7 +95,7 @@ void Enemy::Update(double deltaTime)
 	health -= DoT*25*deltaTime;
 
 
-	if (health < (maxHealth / 2) && closestHealer)
+	if (health < (maxHealth / 1.5) && closestHealer)
 	{
   		enemyStateMachine->SetActiveState(ENEMY_HEAL_STATE);
 	}
@@ -240,7 +240,6 @@ void Enemy::Spawn(XMFLOAT3 spawn)
 {
 	this->position = spawn;
 	this->isAlive = true;
-	this->health = 100.0f;
 	this->DoT = 0.0f;
 	this->index = 0.0f;
 	this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
