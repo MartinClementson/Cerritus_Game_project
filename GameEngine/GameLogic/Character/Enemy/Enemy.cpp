@@ -182,6 +182,27 @@ void Enemy::Render()
 	else
 		renderInfo.showHealthBar = false;
 
+#pragma region on fire rendering
+	if (DoTDur > 0.0f)
+	{
+		renderInfo.isOnfire = true;
+		renderInfo.showHealthBar = true;
+
+	}
+	else
+	{
+		renderInfo.isOnfire = false;
+	}
+#pragma endregion
+
+	if (slowTimer > 0.0f)
+	{
+		renderInfo.isSlowed = true;
+		renderInfo.showHealthBar = true;
+	}
+	else
+		renderInfo.isSlowed = false;
+
 
 	graphics->QueueRender(&renderInfo);
 }

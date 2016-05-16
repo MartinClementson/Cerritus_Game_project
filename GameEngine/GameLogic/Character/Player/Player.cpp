@@ -191,6 +191,7 @@ void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 
 	renderInfo.position = position;
 	renderInfo.rotation = rotation;
+	renderInfo.direction = direction;
 #pragma endregion
 	
 
