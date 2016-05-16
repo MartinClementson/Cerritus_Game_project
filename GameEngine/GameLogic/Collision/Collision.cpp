@@ -533,13 +533,15 @@ bool Collision::SceneColIn(double deltaTime, EnemyBase* enemy)
 		}
 
 	}
-	Vec3 dir;
+	//Vec3 dir;
 
-	dir.x = 0 - enemy->position.x;
-	dir.z = 0 - enemy->position.z;
+	//dir.x = 0 - enemy->position.x;
+	//dir.z = 0 - enemy->position.z;
 
-	enemy->position.x -= dir.x * (float)deltaTime * enemy->movementSpeed;
-	enemy->position.z -= dir.z * (float)deltaTime * enemy->movementSpeed;
+	//{ 82.944f, 0.0f, 63.105f + GetSpawnPosAdd() };
+
+	enemy->position.x = 0;
+	enemy->position.z = 0;
 	return false;
 }
 bool Collision::PlayerDistanceCollision(EnemyBase* enemy)

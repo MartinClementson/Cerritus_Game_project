@@ -193,7 +193,7 @@ void EnemySpawn::SpawnEnemy(int waveAmount)
 				spawn = waves.GetSpawnPositions();
 			}
 
-			x += 5;
+			x += 1;
 
 			Alive.at(i)->Spawn(spawn);
 
