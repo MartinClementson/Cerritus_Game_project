@@ -37,7 +37,8 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 	waveCountQuad.Initialize(gDevice, gDeviceContext);
 	CreateWaveCountQuad();
 	
-
+	waveCompleteQuad.Initialize(gDevice, gDeviceContext);
+	CreateWaveCompleteQuad();
 }
 
 void MeshManager::Release()
@@ -56,7 +57,7 @@ void MeshManager::Release()
 	fullScreenQuad.Release(); 
 	killCountQuad.Release();
 	waveCountQuad.Release();
-	
+	waveCompleteQuad.Release();
 }
 
 void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materialID, unsigned int vertexCount, UINT indexCount, std::vector<Vertex> vertices, std::vector<AnimVert> aniVertices, std::vector<UINT> indices, bool isScene)
@@ -141,9 +142,12 @@ void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * to
 
 	else if (*meshEnum == MeshEnum::PLACEHOLDER)
 		this->GetPlaceHolderMeshInfo(toRender);
+	
+
 
 	else
 	{
+		
 		this->gameMeshes->at(5).GetMeshRenderInfo(toRender);
 	}
 
@@ -338,6 +342,51 @@ void MeshManager::CreateWaveCountQuad()
 	this->waveCountQuad.CreateIndexBuffer(indices, 6, false);
 }
 
+void MeshManager::CreateWaveCompleteQuad()
+{
+	Vertex planeVerts[4];
+
+	planeVerts[0].position = Float3(
+		(float)(2.0f * (float)(0.2863f*(float)WIN_WIDTH)) / (float)WIN_HEIGHT - 1.0f,
+		(float)(2.0f * -((float)(0.2217f*(float)WIN_HEIGHT))) / (float)WIN_WIDTH + 1.0f,
+		0.0f);		//0
+	planeVerts[0].uv.x = 0.0f;
+	planeVerts[0].uv.y = 0.0f;
+
+	planeVerts[1].position = Float3(
+		(float)(2.0f * (float)(0.7075f*(float)WIN_WIDTH)) / (float)WIN_HEIGHT - 1.0f,
+		(float)(2.0f * -((float)(0.2217f*(float)WIN_HEIGHT))) / (float)WIN_WIDTH + 1.0f,
+		0.0f);		//1
+	planeVerts[1].uv.x = 1.0f;
+	planeVerts[1].uv.y = 0.0f;
+
+	planeVerts[2].position = Float3(
+		(float)(2.0f * (float)(0.7075f*(float)WIN_WIDTH)) / (float)WIN_HEIGHT - 1.0f,
+		(float)(2.0f * -((float)(0.3283f*(float)WIN_HEIGHT))) / (float)WIN_WIDTH + 1.0f,
+		0.0f);			//2
+	planeVerts[2].uv.x = 1.0f;
+	planeVerts[2].uv.y = 1.0f;
+
+	planeVerts[3].position = Float3(
+		(float)(2.0f * (float)(0.2863f*(float)WIN_WIDTH)) / (float)WIN_HEIGHT - 1.0f,
+		(float)(2.0f * -((float)(0.3283f*(float)WIN_HEIGHT))) / (float)WIN_WIDTH + 1.0f,
+		0.0f);			//3
+	planeVerts[3].uv.x = 0.0f;
+	planeVerts[3].uv.y = 1.0f;
+
+
+
+
+	UINT indices[6] =
+	{
+		0, 1, 2,
+		0, 2, 3
+	};
+
+	this->waveCompleteQuad.CreateVertexBuffer(planeVerts, 4, false);
+	this->waveCompleteQuad.CreateIndexBuffer(indices, 6, false);
+}
+
 
 void MeshManager::GetPlaceHolderMeshInfo(RenderInstructions * toRender)
 {
@@ -394,6 +443,11 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 	{
 		waveCountQuad.GetMeshRenderInfo(toRender);
 		toRender->materialID = 21;
+	}
+	else if (*uiEnum == UITextures::WAVECOMPLETE)
+	{
+		waveCompleteQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 24;
 	}
 	/*else if (*uiEnum == UITextures::NUMERATION)
 	{
