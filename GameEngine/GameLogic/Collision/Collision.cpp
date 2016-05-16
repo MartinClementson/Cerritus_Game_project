@@ -488,7 +488,7 @@ bool Collision::SceneColIn(double deltaTime)
 					//player->position.y = Y_OFFSET;
 					//player->position.z += tempVel.z * temp2.m128_f32[2];
 					player->position.x -= player->GetVelocity().x;
-					player->position.y = Y_OFFSET;
+					//player->position.y = Y_OFFSET;
 					player->position.z -= player->GetVelocity().z;
 					return false;
 				}
@@ -497,7 +497,10 @@ bool Collision::SceneColIn(double deltaTime)
 		}
 
 	}
-		return false;
+	player->position.x -= player->GetVelocity().x;
+	//player->position.y = Y_OFFSET;
+	player->position.z -= player->GetVelocity().z;
+	return false;
 }
 bool Collision::SceneColIn(double deltaTime, EnemyBase* enemy)
 {
