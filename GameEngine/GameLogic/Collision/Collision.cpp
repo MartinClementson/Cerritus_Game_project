@@ -158,7 +158,7 @@ void Collision::InitSceneCol()
 	this->SceneBoxesOut.push_back(temp);
 
 	temp.Pos = { -43.975f,0.0f,185.027f };
-	temp.Rad = 7.283f;
+	temp.Rad = 5.0f;
 	this->SceneBoxesOut.push_back(temp);
 
 	temp.Pos = { 108.338f,0.0f,49.564f };
