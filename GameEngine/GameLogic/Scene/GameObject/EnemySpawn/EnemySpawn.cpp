@@ -4,6 +4,7 @@ EnemySpawn::EnemySpawn()
 {
 	this->collision = Collision::GetInstance();
 	this->firstSpawn = false;
+	this->playWave = true;
 }
 
 EnemySpawn::~EnemySpawn()
@@ -14,8 +15,9 @@ EnemySpawn::~EnemySpawn()
 	}
 }
 
-void EnemySpawn::Initialize()
+void EnemySpawn::Initialize(AudioManager* audioManager)
 {
+	this->audioManager = audioManager;
 	graphics = Graphics::GetInstance();
 	currentWave = 1;
 	waves.SetWaveGroup(currentWave);
@@ -55,7 +57,7 @@ void EnemySpawn::Update(double deltaTime)
 				Alive.at(i)->SetHealth(100.0f);
 				Alive.at(i)->GetStateMachine()->
 					SetActiveState(EnemyState::ENEMY_DEATH_STATE);
-
+				audioManager->playEDeathSound();
 				waveAmount--;
 
 				/*if (waveAmount != 0)
@@ -116,10 +118,17 @@ void EnemySpawn::Update(double deltaTime)
 		if (!firstSpawn)
 		{
 			if (waves.GetWaveTimer() <= 0)
+			{
 				SpawnEnemy(waveAmount);
+			}
 			else
 			{
 				graphics->QueueRender(&WaveComplete);
+				if (waves.GetWaveTimer() <= 6 && playWave)
+				{
+					audioManager->playNewWave();
+					playWave = false;
+				}
 			}
 		}
 
@@ -151,7 +160,7 @@ void EnemySpawn::Update(double deltaTime)
 			waves.WaveInformation();
 			waveAmount = waves.GetWaveInformation();
 			pickupRespawn = true;
-
+			playWave = true;
 			if (waveAmount == 0)
 			{
 				win = true;

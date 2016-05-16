@@ -41,7 +41,7 @@ void GameState::Initialize(AudioManager* audioManager)
 	gameUI->Initialize();
 	//Create room one here
 	timeSincePaused = 0.0f;
-	room1->Initialize();
+	room1->Initialize(audioManager);
 	room1->InitBearTrap();
 	room1->InitFireTrap();
 
@@ -125,12 +125,14 @@ void GameState::Update(double deltaTime)
 
 				if (room1->Pickups.at(i)->GetPickupType() == PickupType::WEAPON)
 				{
+					audioManager->playWeaponPickup();
 					this->player->UpgradeWeapon();
 					room1->Pickups.at(i)->SetIsActive(false);
 				}
 
 				else if (room1->Pickups.at(i)->GetPickupType() == PickupType::HEAL)
 				{
+					audioManager->playHealthPickup();
 					this->player->SetHealth(player->GetHealth() + 50);
 
 					if (player->GetHealth() > player->GetMaxHealth())
@@ -301,8 +303,6 @@ void GameState::Update(double deltaTime)
 					room1->enemySpawn->Alive.at(j)->SetHealth(
 						room1->enemySpawn->Alive.at(j)->GetHealth() - 2.5f);
 					player->projectileSystem->projectiles[i]->SetFired(false);
-					if (room1->enemySpawn->Alive.at(j)->GetHealth() == 0)
-								audioManager->playEDeathSound();
 				}
 
 
