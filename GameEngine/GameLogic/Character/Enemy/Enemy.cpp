@@ -91,7 +91,7 @@ void Enemy::Release()
 void Enemy::Update(double deltaTime)
 {
 
-	health -= DoT*deltaTime;
+	health -= DoT*25*deltaTime;
 
 	if (health < (maxHealth / 2) && closestHealer)
 	{

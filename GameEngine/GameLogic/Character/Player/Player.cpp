@@ -83,7 +83,7 @@ void Player::Release()
 void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 {
 
-	hover += (float)deltaTime;
+	hover += (float)deltaTime; //used in render.
 
 	
 	if (VelocityMax == 0.2f)
@@ -101,13 +101,13 @@ void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 	{
 		DoTDur += (float)deltaTime;
 	}
-	if (DoTDur > 1)
+	if (DoTDur > 3)
 	{
 		DoT = 0.0f;
 		DoTDur = 0.0f;
 	}
 
-	health -= DoT;
+	health -= DoT * (float)deltaTime;
 	
 
 	this->direction	 = direction;
@@ -202,6 +202,7 @@ void Player::Render()
 	renderInfo.position.y =  2 * max(sin(hover)*-1, sin(hover));
 	hover = (hover >= 9999999 ? 0 : hover);
 
+#pragma region healthbar render
 	if (this->health < (maxHealth * 0.95))
 	{
 		renderInfo.showHealthBar = true;
@@ -209,6 +210,29 @@ void Player::Render()
 	}
 	else
 		renderInfo.showHealthBar = false;
+#pragma endregion
+#pragma region on fire rendering
+	if (DoTDur > 0.0f)
+	{
+		renderInfo.isOnfire		 = true;
+		renderInfo.showHealthBar = true;
+
+	}
+	else
+	{
+		renderInfo.isOnfire = false;
+	}
+#pragma endregion
+
+
+	if (slowTimer > 0.0f)
+	{
+		renderInfo.isSlowed = true;
+		renderInfo.showHealthBar = true;
+	}
+	else
+		renderInfo.isSlowed = false;
+
 	graphics->QueueRender(&renderInfo);
 	projectileSystem->Render();
 }

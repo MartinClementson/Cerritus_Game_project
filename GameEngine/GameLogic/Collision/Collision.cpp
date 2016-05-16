@@ -380,7 +380,7 @@ bool Collision::FireTrapPlayerCollision(FireTrap * trap)
 	{
 		if (trap->GetState()->GetTrapState() != TrapState::TRAP_INACTIVE_STATE)
 		{
-			player->DoT = 0.5f;
+			player->DoT = 10.0f;
 		}
  		return true;
 
