@@ -75,7 +75,7 @@ void Scene::InitFireTrap()
 	{
 		XMFLOAT3 tmp; // randomizes the location of the firetrap
 		tmp.x = rand() % 150 - 85.0f;
-		tmp.y = 0.1;
+		tmp.y = 0.1f;
 		tmp.z = rand() % 150 - 65.0f;
 		XMFLOAT3 pos = { tmp.x,tmp.y,tmp.z };
 		fireTraps.push_back(new FireTrap(pos));

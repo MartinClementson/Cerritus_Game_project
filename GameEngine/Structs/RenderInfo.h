@@ -79,6 +79,8 @@ struct RenderInfoChar {
 	XMFLOAT3 position;
 	XMFLOAT3 rotation;
 	float radius;
+	float normalizedHealthVal = 1.0f;
+	bool showHealthBar		  = false;
 	//MeshEnum object;
 	//Shaders shader;
 	//PlayerAnimation playerAnim; //these are enum
