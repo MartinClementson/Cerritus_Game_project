@@ -45,8 +45,8 @@ Scene::~Scene()
 
 void Scene::Initialize()
 {
-	fireTrapAmount = 4;
-	slowTrapAmount = 6;
+	fireTrapAmount = 3;
+	slowTrapAmount = 5;
 	collision->ClearTraps();
 	InitBearTrap();
 	InitFireTrap();
@@ -68,26 +68,27 @@ void Scene::Initialize()
 
 void Scene::InitFireTrap()
 {
-	srand((unsigned int)time(0));
-
-
 	for (int i = 0; i < fireTrapAmount; i++)
 	{
 		XMFLOAT3 tmp; // randomizes the location of the firetrap
-		tmp.x = rand() % 150 - 85.0f;
+		tmp.x = -23.438f;
 		tmp.y = 0.1f;
-		tmp.z = rand() % 150 - 65.0f;
-		XMFLOAT3 pos = { tmp.x,tmp.y,tmp.z };
-		fireTraps.push_back(new FireTrap(pos));
+		tmp.z = 196.672f;
+		fireTraps.push_back(new FireTrap(tmp));
+		tmp.x = 5.722f;
+		tmp.y = 0.1f;
+		tmp.z = -44.001f;
+		fireTraps.push_back(new FireTrap(tmp));
+		tmp.x = -75.777f;
+		tmp.y = 0.1f;
+		tmp.z = 77.070f;
+		fireTraps.push_back(new FireTrap(tmp));
 	}
 
 }
 
 void Scene::InitBearTrap()
 {
-	srand((unsigned int)time(0));
-
-
 	for (int i = 0; i < slowTrapAmount; i++)
 	{
 		XMFLOAT3 tmp; // randomizes the location of the beartrap
@@ -95,12 +96,6 @@ void Scene::InitBearTrap()
 		tmp.y = 0.1f;
 		tmp.z = 246.448f;
 		BearTrap* temp = new BearTrap(tmp);
-		temp->Initialize(tmp, temp->GetRotation());
-		bearTraps.push_back(temp);
-		tmp.x = -59.040f;
-		tmp.y = 0.1f;
-		tmp.z = 222.559f;
-		temp = new BearTrap(tmp);
 		temp->Initialize(tmp, temp->GetRotation());
 		bearTraps.push_back(temp);
 		tmp.x = 39.686f;

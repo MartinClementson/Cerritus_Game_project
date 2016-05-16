@@ -47,6 +47,7 @@ void GameState::Initialize(AudioManager* audioManager)
 
 	index = 0;
 	collision->InitSceneCol();
+	Input::GetInstance()->SetMouseVisibility(false);
 
 	index = 5.0f;
 
@@ -73,6 +74,7 @@ void GameState::Update(double deltaTime)
 
 	if (!pause->isActive)
 	{
+		
 		this->bearTraps = room1->bearTraps;
 		this->fireTraps = room1->fireTraps;
 
@@ -81,7 +83,8 @@ void GameState::Update(double deltaTime)
 		if (player->GetHealth() <= 0)
 		{
 			isPlayerDead = true;
-			//isActive = false;
+
+			isActive = false;
 		}
 
 		XMFLOAT2 mouseXY = input->GetMousePosition();

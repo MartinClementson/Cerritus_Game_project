@@ -30,7 +30,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	brfImporterHandler->LoadFile("models/player_Model.BRF", true, true, true, false);
 	brfImporterHandler->LoadFile("models/EnemyModel.BRF", true, true, true, false);
 	brfImporterHandler->LoadFile("models/Slow_Trap.BRF", true, true, true, false);
-	brfImporterHandler->LoadFile("models/BearTrap.BRF", true, true, true, false);
+	brfImporterHandler->LoadFile("models/Fire_Trap.BRF", true, true, true, false);
 	brfImporterHandler->LoadFile("models/FinalScene2.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
 	brfImporterHandler->LoadFile("models/FinalScene3.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
 	brfImporterHandler->LoadFile("models/FinalScene4.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS

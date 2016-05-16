@@ -271,7 +271,7 @@ bool Collision::FireTrapActivation(FireTrap * trap)
 	float playRad = player->GetRadius();
 
 	trapPos = trap->GetPosition();
-	trapRad = 10;
+	trapRad = 20;
 
 	if (pow(playPos.x - trapPos.x, 2)
 		+ pow(playPos.z - trapPos.z, 2)
