@@ -43,7 +43,7 @@ Scene::~Scene()
 
 }
 
-void Scene::Initialize()
+void Scene::Initialize(AudioManager* audioManager)
 {
 	fireTrapAmount = 3;
 	slowTrapAmount = 5;
@@ -62,7 +62,7 @@ void Scene::Initialize()
 
 	RespawnTimer = 0;
 
-	enemySpawn->Initialize();
+	enemySpawn->Initialize(audioManager);
 
 }
 
