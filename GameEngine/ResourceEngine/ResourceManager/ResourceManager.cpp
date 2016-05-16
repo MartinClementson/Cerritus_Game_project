@@ -123,6 +123,13 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
+
+	ui.materialName = "wave_complete";
+	ui.diffuseTex = "wave.jpg";
+	ui.materialID = 24;
+
+	temp.push_back(ui);
+	materialManager->addMaterials(&temp);
 }
 
 void ResourceManager::Release()
