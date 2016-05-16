@@ -38,7 +38,7 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 	CreateWaveCountQuad();
 	
 	waveCompleteQuad.Initialize(gDevice, gDeviceContext);
-
+	CreateWaveCompleteQuad();
 }
 
 void MeshManager::Release()
@@ -347,32 +347,30 @@ void MeshManager::CreateWaveCompleteQuad()
 		(float)(2.0f * (float)(0.2863f*WIN_WIDTH)) / (float)WIN_HEIGHT - 1.0f,
 		(float)(2.0f * -((float)(0.2217f*WIN_HEIGHT))) / (float)WIN_WIDTH + 1.0f,
 		0.0f);		//0
-	planeVerts[0].uv.x = 0.083f;
-	planeVerts[0].uv.y = 1 - 0.476f;
+	planeVerts[0].uv.x = 0.0f;
+	planeVerts[0].uv.y = 0.0f;
 
 	planeVerts[1].position = Float3(
 		(float)(2.0f * (float)(0.7075f*WIN_WIDTH)) / (float)WIN_HEIGHT - 1.0f,
 		(float)(2.0f * -((float)(0.2217f*WIN_HEIGHT))) / (float)WIN_WIDTH + 1.0f,
-		0.0f);		//3
-	planeVerts[1].uv.x = 0.129f;
-	planeVerts[1].uv.y = 1 - 0.476f;
+		0.0f);		//1
+	planeVerts[1].uv.x = 1.0f;
+	planeVerts[1].uv.y = 0.0f;
 
 	planeVerts[2].position = Float3(
 		(float)(2.0f * (float)(0.2863f*WIN_WIDTH)) / (float)WIN_HEIGHT - 1.0f,
 		(float)(2.0f * -((float)(0.3283f*WIN_HEIGHT))) / (float)WIN_WIDTH + 1.0f,
-		0.0f);			//5
-	planeVerts[2].uv.x = 0.129f;
-	planeVerts[2].uv.y = 1 - 0.423f;
+		0.0f);			//2
+	planeVerts[2].uv.x = 1.0f;
+	planeVerts[2].uv.y = 1.0f;
 
 	planeVerts[3].position = Float3(
 		(float)(2.0f * (float)(0.7075f*WIN_WIDTH)) / (float)WIN_HEIGHT - 1.0f,
 		(float)(2.0f * -((float)(0.3283f*WIN_HEIGHT))) / (float)WIN_WIDTH + 1.0f,
-		0.0f);			//7
-	planeVerts[3].uv.x = 0.083f;
-	planeVerts[3].uv.y = 1 - 0.423f;
+		0.0f);			//3
+	planeVerts[3].uv.x = 0.0f;
+	planeVerts[3].uv.y = 1.0f;
 
-	//offset.enemyOffsetX = 10;
-	//offset.waveOffsetX = 10;
 
 
 
@@ -382,8 +380,8 @@ void MeshManager::CreateWaveCompleteQuad()
 		0, 2, 3
 	};
 
-	this->waveCountQuad.CreateVertexBuffer(planeVerts, 4, false);
-	this->waveCountQuad.CreateIndexBuffer(indices, 6, false);
+	this->waveCompleteQuad.CreateVertexBuffer(planeVerts, 4, false);
+	this->waveCompleteQuad.CreateIndexBuffer(indices, 6, false);
 }
 
 
@@ -445,7 +443,8 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 	}
 	else if (*uiEnum == UITextures::WAVECOMPLETE)
 	{
-
+		waveCompleteQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 24;
 	}
 	/*else if (*uiEnum == UITextures::NUMERATION)
 	{
