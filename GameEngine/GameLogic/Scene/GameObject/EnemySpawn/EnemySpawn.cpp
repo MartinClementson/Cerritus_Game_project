@@ -193,7 +193,7 @@ void EnemySpawn::SpawnEnemy(int waveAmount)
 				spawn = waves.GetSpawnPositions();
 			}
 
-			x += 5;
+			x += 1;
 
 			Alive[i]->Spawn(spawn);
 
@@ -231,7 +231,7 @@ void EnemySpawn::RespawnEnemy(int i)
 		waves.SpawnPositions(4);
 		spawn = waves.GetSpawnPositions();
 	}
-	x += 5;
+	x += 1;
 
 	Alive[i]->Respawn(spawn);
 }
@@ -293,7 +293,7 @@ void EnemySpawn::InitEnemy()
 			Alive[i] = (new Healer(spawn));
 		}
 
-		b += 5;
+		b += 1;
 
 		Alive[i]->Initialize();
 
