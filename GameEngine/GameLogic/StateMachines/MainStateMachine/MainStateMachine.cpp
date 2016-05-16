@@ -72,7 +72,6 @@ void MainStateMachine::Update(double deltaTime)
 			winState->Release();
 			delete winState;
 		}
-
 		this->winState = new WinState();
 		winState->Initialize();
 		winState->isActive = true;
@@ -127,7 +126,6 @@ void MainStateMachine::Update(double deltaTime)
 			gameState->Release();
 			delete gameState;
 		}
-
 		this->gameState = new GameState();
 		gameState->Initialize(audioManager);
 		gameState->isActive = true;

@@ -621,7 +621,7 @@ void Graphics::CullGeometry()
 
 
 			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].direction = XMFLOAT3(0.0f, 1.0f, 0.0f);
-			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].height = 0.1f;
+			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].height = 0.3f;
 			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width = 3.0f * charObjects->at(0)->normalizedHealthVal;
 			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].worldPos = 
 				XMFLOAT3(charObjects->at(0)->position.x - (3.0f - (billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width)), 	   // pos. x - (2 - width)

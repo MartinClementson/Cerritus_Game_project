@@ -37,7 +37,7 @@ public:
 	bool IsKeyHeld(InputKeys* key);
 	XMFLOAT2 GetMousePosition();
 	bool isMouseClicked(InputKeys* mouseKey);
-
+	void SetMouseVisibility(bool x);
 	static InputHandler* GetInstance();
 	
 };
