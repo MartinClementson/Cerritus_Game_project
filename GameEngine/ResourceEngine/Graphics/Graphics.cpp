@@ -578,6 +578,7 @@ void Graphics::CullGeometry()
 			else if (this->trapObjects->at(i)->object == MeshEnum::TRAP_FIRE)
 			{
 				this->instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED][fireTrapIndex].worldMatrix = CalculateWorldMatrix(&this->trapObjects->at(i)->position, &this->trapObjects->at(i)->rotation);
+				this->instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED][fireTrapIndex].glow = (this->trapObjects->at(i)->glow == true) ? 1 : 0;
 				instancesToRender[TRAP_FIRE_INSTANCED] += 1;
 				fireTrapIndex += 1;
 				this->trapObjects->at(i)->render = false; //We don't want to render this with nonInstance rendering
