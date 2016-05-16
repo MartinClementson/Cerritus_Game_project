@@ -22,6 +22,7 @@ private:
 	Mesh fullScreenQuad;
 	Mesh killCountQuad;
 	Mesh waveCountQuad;
+	Mesh waveCompleteQuad;
 	
 	
 
@@ -30,6 +31,7 @@ private:
 	void CreateFullScreenQuad();
 	void CreateKillCountQuad();
 	void CreateWaveCountQuad();
+	void CreateWaveCompleteQuad();
 public:
 	QuadTree* quadTree;
 	MeshManager();
