@@ -57,7 +57,7 @@ void MeshManager::Release()
 	fullScreenQuad.Release(); 
 	killCountQuad.Release();
 	waveCountQuad.Release();
-	
+	waveCompleteQuad.Release();
 }
 
 void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materialID, unsigned int vertexCount, UINT indexCount, std::vector<Vertex> vertices, std::vector<AnimVert> aniVertices, std::vector<UINT> indices, bool isScene)
