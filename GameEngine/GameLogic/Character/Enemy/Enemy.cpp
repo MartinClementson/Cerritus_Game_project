@@ -222,7 +222,7 @@ void Enemy::Spawn(XMFLOAT3 spawn)
 	this->index = 0.0f;
 	this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
 
-	if (this->fast)
+	if (this->fast) //kolla in här sen
 	{
 		this->charType = CharacterType::FAST_ENEMY;
 		this->position = spawn;

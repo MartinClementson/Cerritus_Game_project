@@ -15,6 +15,9 @@ class EnemySpawn :
 private:
 	Graphics* graphics;
 
+	void killEnemy(int index);
+
+	int nrOfAliveEnemies;
 	//std::vector<Enemy*> enemies;
 private:
 	Collision* collision;
@@ -32,8 +35,8 @@ public:
 	int a = 0;
 	bool fast = false;
 	bool win = false;
-
-	std::vector<EnemyBase*> Alive;
+	int GetNrAliveEnemies() { return this->nrOfAliveEnemies; }
+	EnemyBase* Alive[100];
 
 	EnemySpawn();
 	~EnemySpawn();

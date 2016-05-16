@@ -168,27 +168,27 @@ void Scene::Update(double deltaTime)
 			{
 				collision->PlayerProxyTrap(bearTraps.at(i));
 
-				for (size_t k = 0; k < enemySpawn->Alive.size(); k++)
+				for (size_t k = 0; k < enemySpawn->GetNrAliveEnemies(); k++)
 				{
 					collision->EnemyProxTrap(bearTraps.at(i),
-						enemySpawn->Alive.at(k));
+						enemySpawn->Alive[k]);
 				}
 
 				bearTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_INACTIVE_STATE);
 				continue;
 			}
 
-			for (size_t k = 0; k < enemySpawn->Alive.size(); k++)
+			for (size_t k = 0; k < enemySpawn->GetNrAliveEnemies(); k++)
 			{
 				if (collision->BearTrapEnemyCollision(bearTraps.at(i),
-					enemySpawn->Alive.at(k)))
+					enemySpawn->Alive[k]))
 				{
 					collision->PlayerProxyTrap(bearTraps.at(i));
 
-					for (size_t k2 = 0; k2 < enemySpawn->Alive.size(); k2++)
+					for (size_t k2 = 0; k2 < enemySpawn->GetNrAliveEnemies(); k2++)
 					{
 						collision->EnemyProxTrap(bearTraps.at(i),
-							enemySpawn->Alive.at(k2));
+							enemySpawn->Alive[k2]);
 					}
 
 					bearTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_INACTIVE_STATE);
@@ -208,10 +208,10 @@ void Scene::Update(double deltaTime)
 				fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_ACTIVE_STATE);
 			}
 
-			for (size_t k = 0; k < enemySpawn->Alive.size(); k++)
+			for (size_t k = 0; k < enemySpawn->GetNrAliveEnemies(); k++)
 			{
 				if (collision->FireTrapEnemyCollision(fireTraps.at(i),
-					enemySpawn->Alive.at(k)))
+					enemySpawn->Alive[k]))
 				{
 					fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_ACTIVE_STATE);
 				}
