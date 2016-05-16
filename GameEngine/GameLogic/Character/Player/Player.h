@@ -85,12 +85,11 @@ public:
 	float GetHealth();
 	float GetPoints();
 	float GetMulti();
-	bool thrust;
-	bool fall;
-
+	
+	float hover = 0.0f;
 	float GetMaxHealth();
 	
-	float grav = 0.05f;
+	
 
 	UpgradeType		  GetUpgrade();
 	void SetUpgrade(UpgradeType upgrade);
