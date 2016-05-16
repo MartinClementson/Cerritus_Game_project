@@ -19,6 +19,7 @@ private:
 	AudioManager* audioManager;
 	RenderInfoUI WaveComplete;
 
+	bool playWave;
 	//std::vector<Enemy*> enemies;
 private:
 	Collision* collision;

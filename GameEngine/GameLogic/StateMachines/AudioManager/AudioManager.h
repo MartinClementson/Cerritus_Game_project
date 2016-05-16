@@ -16,6 +16,7 @@ private:
 	std::unique_ptr<SoundEffect> s_E_death;
 	std::unique_ptr<SoundEffect> s_weaponPickup;
 	std::unique_ptr<SoundEffect> s_healthPickup;
+	std::unique_ptr<SoundEffect> s_imminentWave;
 	std::unique_ptr<SoundEffectInstance> s_nightLoop;
 	std::unique_ptr<SoundEffectInstance> s_musicLoop;
 	bool s_retryAudio = false;
@@ -31,6 +32,7 @@ public:
 	void playEDeathSound();
 	void playHealthPickup();
 	void playWeaponPickup();
+	void playNewWave();
 
 	void stopAmbientGameStateSound();
 };

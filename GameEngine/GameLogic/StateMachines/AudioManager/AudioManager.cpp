@@ -39,6 +39,7 @@ void AudioManager::Initialize()
 	s_gameTheme.reset(new SoundEffect(s_audEngine->get(), L"sounds/test_teme.wav"));
 	s_healthPickup.reset(new SoundEffect(s_audEngine->get(), L"sounds/health_pickup.wav"));
 	s_weaponPickup.reset(new SoundEffect(s_audEngine->get(), L"sounds/shot_pickup.wav"));
+	s_imminentWave.reset(new SoundEffect(s_audEngine->get(), L"sounds/new_wave.wav"));
 	s_nightLoop = s_ambient->CreateInstance();
 	s_musicLoop = s_gameTheme->CreateInstance();
 	s_nightLoop->Play(true);
@@ -87,6 +88,11 @@ void AudioManager::playHealthPickup()
 void AudioManager::playWeaponPickup()
 {
 	s_weaponPickup->Play();
+}
+
+void AudioManager::playNewWave()
+{
+	s_imminentWave->Play();
 }
 
 void AudioManager::stopAmbientGameStateSound()

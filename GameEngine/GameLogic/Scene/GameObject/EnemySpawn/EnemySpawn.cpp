@@ -4,6 +4,7 @@ EnemySpawn::EnemySpawn()
 {
 	this->collision = Collision::GetInstance();
 	this->firstSpawn = false;
+	this->playWave = true;
 }
 
 EnemySpawn::~EnemySpawn()
@@ -123,7 +124,11 @@ void EnemySpawn::Update(double deltaTime)
 			else
 			{
 				graphics->QueueRender(&WaveComplete);
-
+				if (waves.GetWaveTimer() <= 6 && playWave)
+				{
+					audioManager->playNewWave();
+					playWave = false;
+				}
 			}
 		}
 
@@ -155,7 +160,7 @@ void EnemySpawn::Update(double deltaTime)
 			waves.WaveInformation();
 			waveAmount = waves.GetWaveInformation();
 			pickupRespawn = true;
-
+			playWave = true;
 			if (waveAmount == 0)
 			{
 				win = true;
