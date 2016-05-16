@@ -81,6 +81,8 @@ struct RenderInfoChar {
 	float radius;
 	float normalizedHealthVal = 1.0f;
 	bool showHealthBar		  = false;
+	bool isOnfire			  = false;
+	bool isSlowed			  = false;
 	//MeshEnum object;
 	//Shaders shader;
 	//PlayerAnimation playerAnim; //these are enum
