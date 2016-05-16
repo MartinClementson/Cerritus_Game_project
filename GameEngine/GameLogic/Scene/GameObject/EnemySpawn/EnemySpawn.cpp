@@ -143,6 +143,7 @@ void EnemySpawn::Update(double deltaTime)
 			waves.SetWaveGroup(currentWave += 1);
 			waves.WaveInformation();
 			waveAmount = waves.GetWaveInformation();
+			pickupRespawn = true;
 
 			if (waveAmount == 0)
 			{
