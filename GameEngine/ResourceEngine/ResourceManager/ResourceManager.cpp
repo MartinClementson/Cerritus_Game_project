@@ -187,6 +187,7 @@ void ResourceManager::Release()
 					
 		}*/
 		meshManager->GetFullScreenQuadInfoUI(&uiType, &currentUI);
+	
 		materialManager->GetMaterialRenderInfo(&currentUI);
 		return &currentUI;
 		
