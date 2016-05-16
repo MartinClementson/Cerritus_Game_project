@@ -22,7 +22,7 @@ void EnemySpawn::Initialize()
 	currentWave = 1;
 	waves.SetWaveGroup(currentWave);
 	waves.WaveInformation();
-	waveAmount = waves.GetWaveInformation();
+	nrOfAliveEnemies = waves.GetWaveInformation();
 
 	InitEnemy();
 }
@@ -159,7 +159,7 @@ void EnemySpawn::SpawnEnemy(int waveAmount)
 {
 	float x = 0;
 
-	nrOfAliveEnemies = waveAmount;
+	//nrOfAliveEnemies = waveAmount;
 
 	firstSpawn = true;
 
