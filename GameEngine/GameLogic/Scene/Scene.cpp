@@ -219,7 +219,7 @@ void Scene::Update(double deltaTime)
 		}
 	}
 
-	if (RespawnTimer >= (double)10)
+	/*if (RespawnTimer >= (double)10)
 	{
 		for (int i = 0; i < fireTrapAmount - 1; i++)
 		{
@@ -237,7 +237,7 @@ void Scene::Update(double deltaTime)
 	{
 		RespawnTimer += deltaTime;
 	}
-
+*/
 }
 
 void Scene::Render()
