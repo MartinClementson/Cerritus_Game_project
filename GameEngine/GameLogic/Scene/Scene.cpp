@@ -144,6 +144,13 @@ void Scene::Update(double deltaTime)
 		toWin = true;
 	}
 
+	if (enemySpawn->pickupRespawn == true)
+	{
+		for (size_t i = 0; i < Pickups.size(); i++)
+			Pickups.at(i)->Respawn();
+		enemySpawn->pickupRespawn = false;
+	}
+
 	for (size_t i = 0; i < fireTraps.size(); i++)
 	{
 		fireTraps.at(i)->Update(deltaTime);

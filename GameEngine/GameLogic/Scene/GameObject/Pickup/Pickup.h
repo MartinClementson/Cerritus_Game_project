@@ -39,5 +39,6 @@ public:
 	float GetRadius();
 	bool GetIsActive();
 	void SetIsActive(bool active);
+	void Respawn();
 };
 
