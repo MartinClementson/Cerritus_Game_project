@@ -556,6 +556,7 @@ void Graphics::CullGeometry()
 
 				if (this->trapObjects->at(i)->normalizedReloadVal > 0.0f) // if the trap is being reloaded (Render it as a healthbar
 				{
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow = 0;
 					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].direction = XMFLOAT3(0.0f, 1.0f, 0.0f);
 					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].height    = 0.5f;
 					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width	   = 4.0f * trapObjects->at(i)->normalizedReloadVal;
@@ -567,6 +568,7 @@ void Graphics::CullGeometry()
 					
 					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f - trapObjects->at(i)->normalizedReloadVal ;
 					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + trapObjects->at(i)->normalizedReloadVal;
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.z = 0.0f;
 					billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;
 					healthBarIndex += 1;
 
@@ -588,6 +590,7 @@ void Graphics::CullGeometry()
 
 				if (this->trapObjects->at(i)->normalizedReloadVal > 0.0f) // if the trap is being reloaded (Render it as a healthbar)
 				{
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow = 0;
 					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].direction = XMFLOAT3(0.0f, 1.0f, 0.0f);
 					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].height = 0.5f;
 					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width = 4.0f * trapObjects->at(i)->normalizedReloadVal;
@@ -598,7 +601,7 @@ void Graphics::CullGeometry()
 
 					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f - trapObjects->at(i)->normalizedReloadVal;
 					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + trapObjects->at(i)->normalizedReloadVal;
-					
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.z = 0.0f;
 
 
 					billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;
@@ -628,8 +631,25 @@ void Graphics::CullGeometry()
 					5.0f,																									       //height of the healthbar. 0 == on ground
 					charObjects->at(0)->position.z + 2);																		       // pos z.
 			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color =XMFLOAT3( 0.0f,.0f,0.0f);
-			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f - charObjects->at(0)->normalizedHealthVal;
-			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + charObjects->at(0)->normalizedHealthVal;
+			if (charObjects->at(0)->isOnfire)
+			{
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow	 = 1;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.3f;
+			}
+			else if (charObjects->at(0)->isSlowed)
+			{
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow = 1;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 0.0f;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.75f;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.z = 1.0f;
+			}
+			else
+			{
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow	 = 0;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f - charObjects->at(0)->normalizedHealthVal;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + charObjects->at(0)->normalizedHealthVal;
+			}
 
 
 
