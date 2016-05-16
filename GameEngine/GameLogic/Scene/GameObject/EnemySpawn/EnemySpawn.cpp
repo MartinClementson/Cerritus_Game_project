@@ -16,10 +16,13 @@ EnemySpawn::~EnemySpawn()
 
 void EnemySpawn::Initialize()
 {
+	graphics = Graphics::GetInstance();
 	currentWave = 1;
 	waves.SetWaveGroup(currentWave);
 	waves.WaveInformation();
 	waveAmount = waves.GetWaveInformation();
+
+	WaveComplete.UIobject = UITextures::WAVECOMPLETE;
 
 	InitEnemy();
 }
@@ -114,6 +117,10 @@ void EnemySpawn::Update(double deltaTime)
 		{
 			if (waves.GetWaveTimer() <= 0)
 				SpawnEnemy(waveAmount);
+			else
+			{
+				graphics->QueueRender(&WaveComplete);
+			}
 		}
 
 		for (int i = 0; i < (int)Alive.size(); i++)

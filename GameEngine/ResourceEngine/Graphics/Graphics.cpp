@@ -188,9 +188,9 @@ void Graphics::Render() //manage RenderPasses here
 
 	this->renderer->RenderFinalPass();
 
-	RenderInfoUI temp;
+	/*RenderInfoUI temp;
 	temp.UIobject = UITextures::WAVECOMPLETE;
-	renderer->Render(&temp);
+	renderer->Render(&temp);*/
 	for (unsigned int i = 0; i < uiObjects->size(); i++)
 	{
 		renderer->Render(uiObjects->at(i));
