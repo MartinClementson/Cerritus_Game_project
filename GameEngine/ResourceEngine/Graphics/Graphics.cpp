@@ -471,6 +471,7 @@ void Graphics::CullGeometry()
 				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].height	= 3.0f;
 				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].width		= 0.15f;
 				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].glow		= 1;
+				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].screenSpace = 0;
 				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].worldPos  = this->gameObjects->at(i)->position + (this->gameObjects->at(i)->direction *(billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].height * 0.9f)); // this is to make sure that if we made a long shot, (like a railgun) we wouldnt want halv of the shot texture behind the character
 
 				instancesToRender[PROJECTILE_INSTANCED]  += 1;
@@ -556,9 +557,9 @@ void Graphics::CullGeometry()
 				if (this->trapObjects->at(i)->normalizedReloadVal > 0.0f) // if the trap is being reloaded (Render it as a healthbar
 				{
 					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].direction = XMFLOAT3(0.0f, 1.0f, 0.0f);
-					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].height = 0.5f;
-					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width = 4.0f * trapObjects->at(i)->normalizedReloadVal;
-					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].worldPos =
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].height    = 0.5f;
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width	   = 4.0f * trapObjects->at(i)->normalizedReloadVal;
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].worldPos  =
 						XMFLOAT3(trapObjects->at(i)->position.x - (4.0f - (billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width)), 	   // pos. x - (2 - width)
 							5.0f,																									       //height of the healthbar. 0 == on ground
 							trapObjects->at(i)->position.z + 4);																		       // pos z.
@@ -610,6 +611,37 @@ void Graphics::CullGeometry()
 		}
 
 	}
+
+#pragma region Set up the healthbar for the player
+	if (charObjects->size() > 0)
+	{
+		if (charObjects->at(0)->showHealthBar)
+		{
+
+
+			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].direction = XMFLOAT3(0.0f, 1.0f, 0.0f);
+			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].height = 0.1f;
+			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width = 3.0f * charObjects->at(0)->normalizedHealthVal;
+			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].worldPos = 
+				XMFLOAT3(charObjects->at(0)->position.x - (3.0f - (billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width)), 	   // pos. x - (2 - width)
+					5.0f,																									       //height of the healthbar. 0 == on ground
+					charObjects->at(0)->position.z + 2);																		       // pos z.
+			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color =XMFLOAT3( 0.0f,.0f,0.0f);
+			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f - charObjects->at(0)->normalizedHealthVal;
+			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + charObjects->at(0)->normalizedHealthVal;
+
+
+
+			billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;
+			healthBarIndex += 1;
+		}
+
+	}
+
+	
+
+
+#pragma endregion
 
 
 #pragma endregion
