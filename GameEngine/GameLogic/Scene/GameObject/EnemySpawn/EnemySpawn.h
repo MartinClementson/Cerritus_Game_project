@@ -4,6 +4,8 @@
 #include "../../../Collision/Collision.h"
 #include "../../../Scene/Waves/Waves.h"
 #include "../../../Character/Enemy/Healer.h"
+#include "../../GameLogic/StateMachines/AudioManager/AudioManager.h"
+
 
 #include <time.h>
 #include <stdlib.h>
@@ -14,7 +16,7 @@ class EnemySpawn :
 {
 private:
 	Graphics* graphics;
-
+	AudioManager* audioManager;
 	RenderInfoUI WaveComplete;
 
 	//std::vector<Enemy*> enemies;
@@ -44,7 +46,7 @@ public:
 	bool firstSpawn = false;
 
 	void Release();
-	void Initialize();
+	void Initialize(AudioManager* audioManager);
 	//void GetEnemyInfo(int info);
 	void Render();
 

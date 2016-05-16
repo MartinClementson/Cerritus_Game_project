@@ -41,7 +41,7 @@ void GameState::Initialize(AudioManager* audioManager)
 	gameUI->Initialize();
 	//Create room one here
 	timeSincePaused = 0.0f;
-	room1->Initialize();
+	room1->Initialize(audioManager);
 	room1->InitBearTrap();
 	room1->InitFireTrap();
 
@@ -303,8 +303,6 @@ void GameState::Update(double deltaTime)
 					room1->enemySpawn->Alive.at(j)->SetHealth(
 						room1->enemySpawn->Alive.at(j)->GetHealth() - 10);
 					player->projectileSystem->projectiles[i]->SetFired(false);
-					if (room1->enemySpawn->Alive.at(j)->GetHealth() == 0)
-								audioManager->playEDeathSound();
 				}
 
 
