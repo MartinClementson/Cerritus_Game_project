@@ -15,6 +15,8 @@ class EnemySpawn :
 private:
 	Graphics* graphics;
 
+	RenderInfoUI WaveComplete;
+
 	//std::vector<Enemy*> enemies;
 private:
 	Collision* collision;

@@ -162,6 +162,7 @@ void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 			//position.z -= velocity.z;
 
 
+
 		}
 
 

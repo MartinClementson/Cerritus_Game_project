@@ -43,7 +43,6 @@ struct BILLBOARD_VS_IN
 	float  height		 : HEIGHT;
 	float  width		 : WIDTH;
 	uint   glow			 : GLOW;
-	uint screenSpace	 : SCREENSPACE;
 
 };
 struct BILLBOARD_VS_OUT
@@ -54,7 +53,6 @@ struct BILLBOARD_VS_OUT
 	float  height		 : HEIGHT;
 	float  width		 : WIDTH;
 	uint   glow			 : GLOW;
-	uint screenSpace	 : SCREENSPACE;
 };
 
 struct BILLBOARD_GS_OUT
@@ -94,7 +92,7 @@ BILLBOARD_VS_OUT BILLBOARD_VS(BILLBOARD_VS_IN input )
 	output.width		= input.width;
 	output.height		= input.height;
 	output.glow			= input.glow;
-	output.screenSpace  = input.screenSpace;
+
 
 	return output;
 }
