@@ -197,8 +197,8 @@ void Enemy::Render()
 
 	if (slowTimer > 0.0f)
 	{
-		renderInfo.isSlowed = true;
-		renderInfo.showHealthBar = true;
+		//renderInfo.isSlowed = true;
+		//renderInfo.showHealthBar = true;
 	}
 	else
 		renderInfo.isSlowed = false;
