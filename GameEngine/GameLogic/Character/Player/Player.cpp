@@ -83,7 +83,7 @@ void Player::Release()
 void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 {
 
-	hover += deltaTime;
+	hover += (float)deltaTime;
 
 	
 	if (VelocityMax == 0.2f)
