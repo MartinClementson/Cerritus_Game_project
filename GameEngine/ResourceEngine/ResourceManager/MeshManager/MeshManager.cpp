@@ -347,29 +347,29 @@ void MeshManager::CreateWaveCompleteQuad()
 	Vertex planeVerts[4];
 
 	planeVerts[0].position = Float3(
-		(float)(2.0f * (float)(0.2863f*WIN_WIDTH)) / (float)WIN_HEIGHT - 1.0f,
-		(float)(2.0f * -((float)(0.2217f*WIN_HEIGHT))) / (float)WIN_WIDTH + 1.0f,
+		(float)(2.0f * (float)(0.2863f*(float)WIN_WIDTH)) / (float)WIN_HEIGHT - 1.0f,
+		(float)(2.0f * -((float)(0.2217f*(float)WIN_HEIGHT))) / (float)WIN_WIDTH + 1.0f,
 		0.0f);		//0
 	planeVerts[0].uv.x = 0.0f;
 	planeVerts[0].uv.y = 0.0f;
 
 	planeVerts[1].position = Float3(
-		(float)(2.0f * (float)(0.7075f*WIN_WIDTH)) / (float)WIN_HEIGHT - 1.0f,
-		(float)(2.0f * -((float)(0.2217f*WIN_HEIGHT))) / (float)WIN_WIDTH + 1.0f,
+		(float)(2.0f * (float)(0.7075f*(float)WIN_WIDTH)) / (float)WIN_HEIGHT - 1.0f,
+		(float)(2.0f * -((float)(0.2217f*(float)WIN_HEIGHT))) / (float)WIN_WIDTH + 1.0f,
 		0.0f);		//1
 	planeVerts[1].uv.x = 1.0f;
 	planeVerts[1].uv.y = 0.0f;
 
 	planeVerts[2].position = Float3(
-		(float)(2.0f * (float)(0.7075f*WIN_WIDTH)) / (float)WIN_HEIGHT - 1.0f,
-		(float)(2.0f * -((float)(0.3283f*WIN_HEIGHT))) / (float)WIN_WIDTH + 1.0f,
+		(float)(2.0f * (float)(0.7075f*(float)WIN_WIDTH)) / (float)WIN_HEIGHT - 1.0f,
+		(float)(2.0f * -((float)(0.3283f*(float)WIN_HEIGHT))) / (float)WIN_WIDTH + 1.0f,
 		0.0f);			//2
 	planeVerts[2].uv.x = 1.0f;
 	planeVerts[2].uv.y = 1.0f;
 
 	planeVerts[3].position = Float3(
-		(float)(2.0f * (float)(0.2863f*WIN_WIDTH)) / (float)WIN_HEIGHT - 1.0f,
-		(float)(2.0f * -((float)(0.3283f*WIN_HEIGHT))) / (float)WIN_WIDTH + 1.0f,
+		(float)(2.0f * (float)(0.2863f*(float)WIN_WIDTH)) / (float)WIN_HEIGHT - 1.0f,
+		(float)(2.0f * -((float)(0.3283f*(float)WIN_HEIGHT))) / (float)WIN_WIDTH + 1.0f,
 		0.0f);			//3
 	planeVerts[3].uv.x = 0.0f;
 	planeVerts[3].uv.y = 1.0f;
