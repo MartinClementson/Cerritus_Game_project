@@ -194,8 +194,9 @@ void Healer::AIPattern(Player* player, double deltaTime)
 	if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE)
 	{
 		//XMFLOAT3 playerPos = player->GetPosition();
-		//vect.x = playerPos.x - GetPosition().x;
-		//vect.z = playerPos.z - GetPosition().z; 
+		Vec3 vect1;
+		vect1.x = player->GetPosition().x - GetPosition().x;
+		vect1.z = player->GetPosition().z - GetPosition().z;
 
 		Vec3 vect;
 		vect.x = direction.x - GetPosition().x;
@@ -209,16 +210,16 @@ void Healer::AIPattern(Player* player, double deltaTime)
 			vect.z = direction.z - GetPosition().z;
 		}
 #pragma region fleeing pattern
-		//if (vect.Length() < 50.0f) //if the player is close. move away from the player
-		//{
-		//	vect.x = -vect.x;
-		//	vect.z = -vect.z;
+		if (vect1.Length() > 100.0f) //if the player is close. move away from the player
+		{
+			//vect1.x = vect1.x;
+			vect1.z = vect1.z;
 
-		//	vect.Normalize();
+			vect1.Normalize();
 
-		//	this->position.x += vect.x *(float)deltaTime * movementSpeed;
-		//	this->position.z += vect.z *(float)deltaTime * movementSpeed;
-		//}
+			this->position.x += vect1.x *(float)deltaTime * movementSpeed;
+			this->position.z += vect1.z *(float)deltaTime * movementSpeed;
+		}
 		//else
 		//{
 		//	
