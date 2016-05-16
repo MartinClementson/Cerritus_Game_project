@@ -189,7 +189,8 @@ void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 
 	rotation.y = degrees;
 
-	renderInfo = { position,rotation };
+	renderInfo.position = position;
+	renderInfo.rotation = rotation;
 #pragma endregion
 	
 
@@ -200,6 +201,14 @@ void Player::Render()
 {
 	renderInfo.position.y =  2 * max(sin(hover)*-1, sin(hover));
 	hover = (hover >= 9999999 ? 0 : hover);
+
+	if (this->health < (maxHealth * 0.95))
+	{
+		renderInfo.showHealthBar = true;
+		renderInfo.normalizedHealthVal = health / maxHealth;
+	}
+	else
+		renderInfo.showHealthBar = false;
 	graphics->QueueRender(&renderInfo);
 	projectileSystem->Render();
 }
