@@ -544,7 +544,7 @@ void Graphics::CullGeometry()
 		{
 			if (this->trapObjects->at(i)->object == MeshEnum::TRAP_BEAR)
 			{
-				this->trapObjects->at(i)->position.y += 0.3f;
+				
 				this->instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED][bearTrapIndex].worldMatrix = CalculateWorldMatrix(&this->trapObjects->at(i)->position, &this->trapObjects->at(i)->rotation);
 				this->instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED][bearTrapIndex].glow = (this->trapObjects->at(i)->glow == true) ? 1 : 0 ;
 				instancesToRender[TRAP_BEAR_INSTANCED] += 1;
