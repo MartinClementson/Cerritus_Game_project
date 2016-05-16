@@ -44,6 +44,7 @@ void MenuState::Update(double deltaTime)
 			if (input->isMouseClicked(MOUSE_LEFT))
 			{
 				//fix later
+
 			}
 			ProcessInput(&deltaTime);
 		}
@@ -58,6 +59,7 @@ void MenuState::Update(double deltaTime)
 		if (input->isMouseClicked(MOUSE_LEFT))
 		{
 			//OnExit();
+
 			exitMenu = true;
 		}
 		

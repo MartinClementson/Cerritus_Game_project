@@ -110,6 +110,7 @@ void MainStateMachine::Update(double deltaTime)
 			gameState->Release();
 			delete gameState;
 		}
+
 		this->gameState = new GameState();
 		gameState->Initialize(audioManager);
 		gameState->isActive = true;
