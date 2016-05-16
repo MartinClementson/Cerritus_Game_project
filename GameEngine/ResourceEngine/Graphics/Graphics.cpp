@@ -534,7 +534,7 @@ void Graphics::CullGeometry()
 	for (size_t i = 0; i < this->trapObjects->size(); i++)
 	{
 		//Frustum culling
-		if (renderer->FrustumCheck(trapObjects->at(i)->position, trapObjects->at(i)->radius) == false)
+		if (renderer->FrustumCheck(trapObjects->at(i)->position, 10.0f) == false)
 		{
 			//If its not visible
 			this->trapObjects->at(i)->render = false;
