@@ -81,7 +81,7 @@ HWND InitWindow(HINSTANCE hInstance)
 	wcex.lpfnWndProc    = WndProc;			// Which function is called for events
 	wcex.hInstance      = hInstance;
 	wcex.lpszClassName  = L"BasicWindow";
-	wcex.hCursor = LoadCursor(NULL, IDC_CROSS);
+	//wcex.hCursor = LoadCursor(NULL, IDC_CROSS);
 	wcex.hIconSm = LoadIcon(NULL, IDI_WINLOGO);
 	wcex.hIcon   = LoadIcon(NULL, IDI_APPLICATION);
 	// use the struct to register the new class.

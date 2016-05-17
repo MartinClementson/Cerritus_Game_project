@@ -75,7 +75,7 @@ bool InputHandler::Initialize(HWND* hwndP ,HINSTANCE* hInstance)
 		return false;
 	}
 
-	hr = mouse->SetCooperativeLevel(*hwndP, DISCL_EXCLUSIVE | DISCL_NOWINKEY | DISCL_FOREGROUND);
+	hr = mouse->SetCooperativeLevel(*hwndP, DISCL_NONEXCLUSIVE | DISCL_NOWINKEY | DISCL_FOREGROUND);
 	if (FAILED(hr))
 	{
 		return false;
@@ -158,8 +158,8 @@ bool InputHandler::IsKeyPressed(InputKeys* key)
 	}
 	else if (*key == KEY_X && keyboardState[DIK_X])
 	{
-		mouse->Unacquire();
-		mouse->SetCooperativeLevel(*hwndP, DISCL_NONEXCLUSIVE | DISCL_BACKGROUND);
+		//mouse->Unacquire();
+		//mouse->SetCooperativeLevel(*hwndP, DISCL_NONEXCLUSIVE | DISCL_BACKGROUND);
 		
 		return true;
 	}
@@ -192,7 +192,7 @@ XMFLOAT2 InputHandler::GetMousePosition()
 {
 
 	POINT point;
-	ShowCursor(TRUE);
+	//ShowCursor(TRUE);
 
 
 	GetCursorPos(&point);
@@ -267,9 +267,9 @@ void InputHandler::SetMouseVisibility(bool x)
 
 	if (x == true)
 	{
-		ShowCursor(TRUE);
+		//ShowCursor(TRUE);
 
-		SetCursor(LoadCursor(NULL, IDC_CROSS));
+		//SetCursor(LoadCursor(NULL, IDC_CROSS));
 	}
 	else
 	{
