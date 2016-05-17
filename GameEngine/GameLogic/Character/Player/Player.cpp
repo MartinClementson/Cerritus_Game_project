@@ -60,7 +60,7 @@ void Player::Initialize(AudioManager* audioManager)
 	float hover			 = 0.0f;
 	this->position		 = XMFLOAT3(-5.0f, Y_OFFSET, -5.0f);
 	this->rotation		 = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	VelocityMax			 = 8.0f;
+	VelocityMax			 = 5.0f;
 	slowTimer			 = 0;
 	points				 = 0;
 	multiplier			 = 1;
@@ -93,7 +93,7 @@ void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 	}
 	if (slowTimer > 2.0f)
 	{
-		VelocityMax = 4.0f;
+		VelocityMax = 8.0f;
 		slowTimer = 0.0f;
 	}
 
@@ -113,11 +113,11 @@ void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 	this->direction	 = direction;
 	
 #pragma region Calculate movement
-	velocity.x		 += acceleration.x * (float)deltaTime - velocity.x * fallOfFactor * (float)deltaTime;
-	velocity.y		 += acceleration.y * (float)deltaTime - velocity.y * (fallOfFactor/2) * (float)deltaTime;
-	velocity.z		 += acceleration.z * (float)deltaTime - velocity.z * fallOfFactor * (float)deltaTime;
+	velocity.x		 += acceleration.x * (float)deltaTime - velocity.x  * fallOfFactor * (float)deltaTime;
+	velocity.y		 += acceleration.y * (float)deltaTime - velocity.y  * (fallOfFactor/2) * (float)deltaTime;
+	velocity.z		 += acceleration.z * (float)deltaTime - velocity.z  * fallOfFactor * (float)deltaTime;
 	
-
+	
 		float currentVelo = velocity.Length();
 
 		if (currentVelo > VelocityMax)

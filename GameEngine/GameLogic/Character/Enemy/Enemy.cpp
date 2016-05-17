@@ -24,8 +24,6 @@ Enemy::Enemy(XMFLOAT3 spawn, bool fast)
 	renderInfo.position = position;
 	renderInfo.rotation = rotation;
 	renderInfo.radius = radius;
-
-	this->maxHealth = 75.0f;
 }
 
 Enemy::Enemy()
@@ -42,12 +40,19 @@ void Enemy::Initialize()
 {
 	closestHealer = nullptr;
 	graphics = Graphics::GetInstance();
+
+		
+		
+	
+	
+
 	if (this->fast)
 	{
-		movementSpeed = 25.0f;
+		this->healable = true;
+		movementSpeed = 22.0f;
 		originalMovementSpeed = movementSpeed;
 
-		health = 50.0f;
+		health = 75.0f;
 		this->maxHealth = health;
 		DoT = 0;
 		damage = 5.0f;
@@ -64,9 +69,10 @@ void Enemy::Initialize()
 	}
 	else
 	{
+		this->healable = false;
 		movementSpeed = 18.0f;
 		originalMovementSpeed = movementSpeed;
-		health = 100.0f;
+		health = 200.0f;
 		this->maxHealth = health;
 		DoT = 0;
 		damage = 5.0f;
@@ -95,7 +101,7 @@ void Enemy::Update(double deltaTime)
 	health -= DoT*25*(float)deltaTime;
 
 
-	if (health < (maxHealth / 1.5) && closestHealer)
+	if (health < (maxHealth / 1.5) && closestHealer && this-> healable != false)
 	{
   		enemyStateMachine->SetActiveState(ENEMY_HEAL_STATE);
 	}
@@ -243,6 +249,9 @@ void Enemy::Spawn(XMFLOAT3 spawn)
 	this->DoT = 0.0f;
 	this->index = 0.0f;
 	this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
+	
+	
+	
 
 	if (this->fast)
 	{
@@ -341,7 +350,7 @@ void Enemy::AIPatternHeal(EnemyBase* healer, double deltaTime)
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
 	{
-
+		
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE)
 	{
