@@ -4,6 +4,7 @@ EnemySpawn::EnemySpawn()
 {
 	this->collision = Collision::GetInstance();
 	this->firstSpawn = false;
+	this->playWave = true;
 }
 
 EnemySpawn::~EnemySpawn()
@@ -14,12 +15,16 @@ EnemySpawn::~EnemySpawn()
 	}
 }
 
-void EnemySpawn::Initialize()
+void EnemySpawn::Initialize(AudioManager* audioManager)
 {
+	this->audioManager = audioManager;
+	graphics = Graphics::GetInstance();
 	currentWave = 1;
 	waves.SetWaveGroup(currentWave);
 	waves.WaveInformation();
 	waveAmount = waves.GetWaveInformation();
+
+	WaveComplete.UIobject = UITextures::WAVECOMPLETE;
 
 	InitEnemy();
 }
@@ -52,7 +57,7 @@ void EnemySpawn::Update(double deltaTime)
 				Alive.at(i)->SetHealth(100.0f);
 				Alive.at(i)->GetStateMachine()->
 					SetActiveState(EnemyState::ENEMY_DEATH_STATE);
-
+				audioManager->playEDeathSound();
 				waveAmount--;
 
 				/*if (waveAmount != 0)
@@ -113,7 +118,18 @@ void EnemySpawn::Update(double deltaTime)
 		if (!firstSpawn)
 		{
 			if (waves.GetWaveTimer() <= 0)
+			{
 				SpawnEnemy(waveAmount);
+			}
+			else
+			{
+				graphics->QueueRender(&WaveComplete);
+				if (waves.GetWaveTimer() <= 6 && playWave)
+				{
+					audioManager->playNewWave();
+					playWave = false;
+				}
+			}
 		}
 
 		for (int i = 0; i < (int)Alive.size(); i++)
@@ -121,6 +137,16 @@ void EnemySpawn::Update(double deltaTime)
 			if (Alive.at(i)->isAlive == true)
 			{
 				collision->PlayerCollision(Alive.at(i));
+				if (!collision->SceneColIn(deltaTime, Alive.at(i))) //change this
+				{
+					Alive.at(i)->position.x = Alive.at(i)->position.x;
+					Alive.at(i)->position.z = Alive.at(i)->position.z;
+				}
+				if (collision->SceneColIn(deltaTime, Alive.at(i)))
+				{
+					Alive.at(i)->position.x = Alive.at(i)->position.x;
+					Alive.at(i)->position.z = Alive.at(i)->position.z;
+				}
 			}
 		}
 	if (waveAmount == 0)
@@ -133,12 +159,15 @@ void EnemySpawn::Update(double deltaTime)
 			waves.SetWaveGroup(currentWave += 1);
 			waves.WaveInformation();
 			waveAmount = waves.GetWaveInformation();
-
+			pickupRespawn = true;
+			playWave = true;
 			if (waveAmount == 0)
 			{
 				win = true;
 				//waves.SetWinCondition(win);
 			}
+			
+		
 			else
 				firstSpawn = false;
 	}
@@ -181,7 +210,7 @@ void EnemySpawn::SpawnEnemy(int waveAmount)
 				spawn = waves.GetSpawnPositions();
 			}
 
-			x += 5;
+			x += 1;
 
 			Alive.at(i)->Spawn(spawn);
 

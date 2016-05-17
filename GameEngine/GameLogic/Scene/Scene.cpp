@@ -43,64 +43,84 @@ Scene::~Scene()
 
 }
 
-void Scene::Initialize()
+void Scene::Initialize(AudioManager* audioManager)
 {
-	trapAmount = 4;
+	fireTrapAmount = 3;
+	slowTrapAmount = 5;
 	collision->ClearTraps();
 	InitBearTrap();
 	InitFireTrap();
 
 	
 
-	Pickups.push_back(new Pickup(XMFLOAT3(10, 1, -20), PickupType::WEAPON));
-	Pickups.push_back(new Pickup(XMFLOAT3(20, 1, -10), PickupType::WEAPON));
-	Pickups.push_back(new Pickup(XMFLOAT3(30, 1, 0), PickupType::WEAPON));
-	Pickups.push_back(new Pickup(XMFLOAT3(40, 1, 10), PickupType::WEAPON));
-	Pickups.push_back(new Pickup(XMFLOAT3(50, 1, 20), PickupType::WEAPON));
+	Pickups.push_back(new Pickup(XMFLOAT3(41.765f, 1.0f, 292.007f), PickupType::WEAPON));
+	Pickups.push_back(new Pickup(XMFLOAT3(-74.565f, 1.0f, 146.426f), PickupType::WEAPON));
+	Pickups.push_back(new Pickup(XMFLOAT3(87.982f, 1.0f, -103.119f), PickupType::WEAPON));
 
-	Pickups.push_back(new Pickup(XMFLOAT3(-10, 1, -20), PickupType::HEAL));
-	Pickups.push_back(new Pickup(XMFLOAT3(-20, 1, -10), PickupType::HEAL));
-	Pickups.push_back(new Pickup(XMFLOAT3(-30, 1, 0), PickupType::HEAL));
-	Pickups.push_back(new Pickup(XMFLOAT3(-40, 1, 10), PickupType::HEAL));
-	Pickups.push_back(new Pickup(XMFLOAT3(-50, 1, 20), PickupType::HEAL));
+	Pickups.push_back(new Pickup(XMFLOAT3(79.973f, 1.0f, 98.081f), PickupType::HEAL));
+	Pickups.push_back(new Pickup(XMFLOAT3(-68.137f, 1.0f, 280.096f), PickupType::HEAL));
 
 	RespawnTimer = 0;
 
-	enemySpawn->Initialize();
+	enemySpawn->Initialize(audioManager);
 
 }
 
 void Scene::InitFireTrap()
 {
-	srand((unsigned int)time(0));
-
-
-	for (int i = 0; i < trapAmount; i++)
+	for (int i = 0; i < fireTrapAmount; i++)
 	{
 		XMFLOAT3 tmp; // randomizes the location of the firetrap
-		tmp.x = rand() % 150 - 85.0f;
-		tmp.y = 0;
-		tmp.z = rand() % 150 - 65.0f;
-		XMFLOAT3 pos = { tmp.x,tmp.y,tmp.z };
-		fireTraps.push_back(new FireTrap(pos));
+		tmp.x = -23.438f;
+		tmp.y = 0.1f;
+		tmp.z = 196.672f;
+		fireTraps.push_back(new FireTrap(tmp));
+		tmp.x = 5.722f;
+		tmp.y = 0.1f;
+		tmp.z = -44.001f;
+		fireTraps.push_back(new FireTrap(tmp));
+		tmp.x = -75.777f;
+		tmp.y = 0.1f;
+		tmp.z = 77.070f;
+		fireTraps.push_back(new FireTrap(tmp));
 	}
 
 }
 
 void Scene::InitBearTrap()
 {
-	srand((unsigned int)time(0));
-
-
-	for (int i = 0; i < trapAmount; i++)
+	for (int i = 0; i < slowTrapAmount; i++)
 	{
 		XMFLOAT3 tmp; // randomizes the location of the beartrap
-		tmp.x = rand() % 150 - 65.0f;
-		tmp.y = 0;
-		tmp.z = rand() % 150 - 85.0f;
-		XMFLOAT3 pos = { tmp.x,tmp.y,tmp.z };
-		BearTrap* temp = new BearTrap(pos);
-		temp->Initialize(pos, temp->GetRotation());
+		tmp.x = 29.924f;
+		tmp.y = 0.1f;
+		tmp.z = 246.448f;
+		BearTrap* temp = new BearTrap(tmp);
+		temp->Initialize(tmp, temp->GetRotation());
+		bearTraps.push_back(temp);
+		tmp.x = 39.686f;
+		tmp.y = 0.1f;
+		tmp.z = 172.339f;
+		temp = new BearTrap(tmp);
+		temp->Initialize(tmp, temp->GetRotation());
+		bearTraps.push_back(temp);
+		tmp.x = 30.121f;
+		tmp.y = 0.1f;
+		tmp.z = 34.963f;
+		temp = new BearTrap(tmp);
+		temp->Initialize(tmp, temp->GetRotation());
+		bearTraps.push_back(temp);
+		tmp.x = -60.656f;
+		tmp.y = 0.1f;
+		tmp.z = -26.118f;
+		temp = new BearTrap(tmp);
+		temp->Initialize(tmp, temp->GetRotation());
+		bearTraps.push_back(temp);
+		tmp.x = 39.686f;
+		tmp.y = 0.1f;
+		tmp.z = -70.199f;
+		temp = new BearTrap(tmp);
+		temp->Initialize(tmp, temp->GetRotation());
 		bearTraps.push_back(temp);
 	}
 }
@@ -122,6 +142,13 @@ void Scene::Update(double deltaTime)
 	if (enemySpawn->win == true)
 	{
 		toWin = true;
+	}
+
+	if (enemySpawn->pickupRespawn == true)
+	{
+		for (size_t i = 0; i < Pickups.size(); i++)
+			Pickups.at(i)->Respawn();
+		enemySpawn->pickupRespawn = false;
 	}
 
 	for (size_t i = 0; i < fireTraps.size(); i++)
@@ -199,21 +226,7 @@ void Scene::Update(double deltaTime)
 		}
 	}
 
-	if (RespawnTimer >= (double)10)
-	{
-		for (int i = 0; i < trapAmount - 1; i++)
-		{
-			fireTraps.at(i)->isActive = true;
-			bearTraps.at(i)->isActive = true;
-			RespawnTimer = 0;
-		}
-	}
-
-	else
-	{
-		RespawnTimer += deltaTime;
-	}
-
+	
 }
 
 void Scene::Render()

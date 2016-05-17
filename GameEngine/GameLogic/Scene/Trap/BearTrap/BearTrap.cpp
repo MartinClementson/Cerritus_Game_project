@@ -53,7 +53,7 @@ void BearTrap::Update(double deltaTime)
 	//this->isBeingReloaded = false; //Needs to be reset every frame, in case the player releases the button
 	renderInfo.normalizedReloadVal = -1;
 	if (this->currReloadTime > 0)
-		currReloadTime -=  deltaTime/4;
+		currReloadTime -=  (float)(deltaTime/4);
 	
 	if (this->GetState()->GetTrapState() == TrapState::TRAP_ACTIVE_STATE)
 	{
@@ -72,6 +72,7 @@ void BearTrap::Update(double deltaTime)
 	}
 
 	renderInfo.position = position;
+	renderInfo.position.y = 0.2f;
 	renderInfo.rotation = rotation; // kinda works
 	renderInfo.radius = radius;
 	renderInfo.render = true;

@@ -92,6 +92,7 @@ private:
 	std::vector<RenderInfoEnemy* >*   enemyObjects				   = nullptr;
 	std::vector<RenderInfoChar*  >*   charObjects				   = nullptr;
 	std::vector<RenderInfoTrap*  >*   trapObjects				   = nullptr;
+	std::vector<RenderInfoScene* >*   sceneObjects				   = nullptr;
 
 	InstancedData* instancedWorldDataPerFrame [INSTANCED_WORLD_BUFFER_AMOUNT] = { nullptr }; //this contains the world matrices every frame.
 	unsigned int   instancesToRender		  [INSTANCED_WORLD_BUFFER_AMOUNT] = { }; //The amount of instanced geometry to render, (AFTER CULLING)
@@ -129,6 +130,7 @@ public:
 	void QueueRender(RenderInfoEnemy* object);
 	void QueueRender(RenderInfoChar* object);
 	void QueueRender(RenderInfoTrap* object);
+	void QueueRender(RenderInfoScene* object);
 	
 	XMFLOAT4 mouseWorldPos;
 	

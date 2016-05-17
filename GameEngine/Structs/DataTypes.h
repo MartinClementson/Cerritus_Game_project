@@ -144,9 +144,9 @@ struct BillboardData
 	DirectX::XMFLOAT3 worldPos  = DirectX::XMFLOAT3(0.0f,0.0f,0.0f);
 	DirectX::XMFLOAT3 direction = DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f);
 	DirectX::XMFLOAT3 color		= DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f);
-	float height	  = 1.0f;
-	float width		  = 1.0f;
-	unsigned int glow = 0;
+	float height				= 1.0f;
+	float width					= 1.0f;
+	unsigned int glow			= 0;
 };
 
 struct AnimVert
@@ -224,4 +224,18 @@ struct importedMaterial
 	std::string normalTex;
 	std::string specularTex;
 	std::string glowTex;
+};
+
+struct NodeType
+{
+	Float2 position;
+	float width;
+	unsigned int materialID;
+	bool isAnimated;
+	unsigned int triangleCount;
+	ID3D11Buffer *vertexBuffer;
+	ID3D11Buffer *indexBuffer;
+	UINT VertexCount;
+	UINT IndexCount;
+	NodeType* nodes[4];
 };

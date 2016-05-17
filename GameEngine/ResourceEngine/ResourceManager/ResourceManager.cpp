@@ -27,18 +27,21 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	brfImporterHandler->Initialize(this->meshManager, this->materialManager);
 
 
-
-
-
-
-
-	brfImporterHandler->LoadFile("models/player_Model.BRF", true, true, true);
-	brfImporterHandler->LoadFile("models/enemy_0.BRF", true, true, true);
-	brfImporterHandler->LoadFile("models/slow_Trap.BRF", true, true, true);
-	brfImporterHandler->LoadFile("models/FireTrap.BRF", true, true, true);
-	brfImporterHandler->LoadFile("models/BearTrap.BRF", true, true, true);
-	brfImporterHandler->LoadFile("models/Scene2.BRF", true, true, true);
-	brfImporterHandler->LoadFile("models/quadBullet.BRF", true, true, true);
+	brfImporterHandler->LoadFile("models/playerModel.BRF", true, true, true, false);
+	brfImporterHandler->LoadFile("models/EnemyModel.BRF", true, true, true, false);
+	brfImporterHandler->LoadFile("models/Slow_Trap.BRF", true, true, true, false);
+	brfImporterHandler->LoadFile("models/Fire_Trap.BRF", true, true, true, false);
+	brfImporterHandler->LoadFile("models/FinalScene2.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene3.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene4.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene5.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene6.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene7.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene8.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene9.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene10.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/quadBullet.BRF", true, true, true, false);
+	this->meshManager->CreateQuadTree();
 	
 	
 	std::vector<importedMaterial> temp;
@@ -48,28 +51,28 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 
 	ui.materialName = "yo-gi-uh";
 	ui.diffuseTex = "HUD.tif";
-	ui.materialID = 9;
+	ui.materialID = 14;
 	
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 	
 	ui.materialName = "Menumaterial";
-	ui.diffuseTex = "menu.png";
-	ui.materialID = 10;
+	ui.diffuseTex = "Menu.png";
+	ui.materialID = 15;
 	
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 	
 	ui.materialName = "gameover";
-	ui.diffuseTex = "GameOver.png";
-	ui.materialID = 11;
+	ui.diffuseTex = "Gameover.png";
+	ui.materialID = 16;
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 	
 	
 	ui.materialName = "pause";
-	ui.diffuseTex = "PausUI.tif";
-	ui.materialID = 12;
+	ui.diffuseTex = "pausemenu2.tif";
+	ui.materialID = 17;
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 	ui.materialName = "WaveCounter";
@@ -77,21 +80,20 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 
 	//materialManager->addMaterials(&temp);
 	ui.materialName = "Controls";
-	ui.diffuseTex = "Controls.png";
-
-	ui.materialID = 13;
+	ui.diffuseTex = "instructionsbegin.png";
+	ui.materialID = 18;
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 
 	ui.materialName = "ENUMERATION";
 	ui.diffuseTex = "Numerations.tif";
-	ui.materialID = 14;
+	ui.materialID = 19;
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 
 	ui.materialName = "WAVECOUNTER";
 	ui.diffuseTex = "Numerations.tif";
-	ui.materialID = 15;
+	ui.materialID = 20;
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 
@@ -100,7 +102,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	ui.materialName = "WinState";
 	ui.diffuseTex = "win.png";
 
-	ui.materialID = 16;
+	ui.materialID = 21;
 
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
@@ -108,7 +110,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	ui.materialName = "HEALTH_PICKUP";
 	ui.diffuseTex	= "HeathPickup.tif";
 	//ui.glowTex		= "HeathPickupGlow.tif";
-	ui.materialID = 17;
+	ui.materialID = 22;
 	
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
@@ -116,7 +118,14 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	ui.materialName = "WEAPON_PICKUP";
 	ui.diffuseTex = "WeaponPowerup.tif";
 	//ui.glowTex = "WeaponPowerupGlow.tif";
-	ui.materialID = 18;
+	ui.materialID = 23;
+
+	temp.push_back(ui);
+	materialManager->addMaterials(&temp);
+
+	ui.materialName = "wave_complete";
+	ui.diffuseTex = "wave.jpg";
+	ui.materialID = 24;
 
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
@@ -129,7 +138,6 @@ void ResourceManager::Release()
 	this->brfImporterHandler->Release();
 	this->materialManager->Release();
 }
-
 
 #pragma region GetRenderInfo() overloads
 
@@ -152,7 +160,6 @@ void ResourceManager::Release()
 	
 	
 		return &currentMesh;
-		
 	}
 
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoUI * object)
@@ -179,6 +186,7 @@ void ResourceManager::Release()
 					
 		}*/
 		meshManager->GetFullScreenQuadInfoUI(&uiType, &currentUI);
+	
 		materialManager->GetMaterialRenderInfo(&currentUI);
 		return &currentUI;
 		
@@ -248,6 +256,17 @@ void ResourceManager::Release()
 		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
 		materialManager->GetMaterialRenderInfo(&currentMesh);
 		
+		return &currentMesh;
+	}
+
+	RenderInstructions * ResourceManager::GetRenderInfo(std::vector<RenderInstructions>*	object, Frustum* frustum)
+	{
+		currentMesh = RenderInstructions();
+
+		this->meshManager->quadTree->GetQuadTreeRenderInfo(object, frustum, this->shadowPass);
+		//materialManager->GetMaterialRenderInfo(&object->at(0));	    //Get the material data
+
+
 		return &currentMesh;
 	}
 
@@ -375,7 +394,4 @@ void ResourceManager::Release()
 			gbufferPass = false;
 		}
 	}
-
-	
-
 #pragma endregion

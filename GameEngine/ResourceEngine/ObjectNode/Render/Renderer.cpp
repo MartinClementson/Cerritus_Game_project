@@ -158,6 +158,41 @@ void Renderer::Render(RenderInfoObject * object)
 	//RenderPlaceHolder(&object->position);
 
 }
+//Render scene objects, mostly static stuff
+void Renderer::Render(std::vector<RenderInstructions>* object)
+{
+	RenderInstructions* renderObject;
+	
+	//Send the info of the object into the resource manager
+	//The resource manager gathers all the rendering info and sends back a renderInstruction
+	
+	
+	
+	
+	
+	
+	renderObject = this->resourceManager->GetRenderInfo(object, this->sceneCam->frustum);
+	
+	object->shrink_to_fit();
+
+	XMFLOAT3 tempPos(0.0f, 0.0f, 0.0f);
+	XMFLOAT3 tempRot(0.0f, 0.0f, 0.0f);
+
+	//Render with the given render instruction
+	for (int i = 0; i < object->size(); i++)
+	{
+		//släng in matertial
+		object->at(i).worldBuffer.worldMatrix = this->resourceManager->CalculateWorldMatrix(&tempPos, &tempRot);
+		resourceManager->materialManager->GetMaterialRenderInfo(&object->at(i));
+		this->RenderQuadTree(&object->at(i));
+	}
+
+	//RenderPlaceHolder(&object->position,&object->rotation);
+
+	//RenderPlaceHolder(&object->position);
+
+}
+
 //Render 2d textures for the ui
 void Renderer::Render(RenderInfoUI * object)
 {
@@ -607,7 +642,92 @@ void Renderer::Render(RenderInstructions * object)
 
 }
 
+void Renderer::RenderQuadTree(RenderInstructions * object)
+{
+	this->gDeviceContext->GSSetShaderResources(POINTLIGHTS_BUFFER_INDEX, 1, &pointLightStructuredBuffer);
+	this->gDeviceContext->GSSetShaderResources(DIRLIGHTS_BUFFER_INDEX, 1, &dirLightStructuredBuffer);
+	UpdateWorldBuffer(&object->worldBuffer);
 
+#pragma region Check what vertex is to be used
+
+	//We need to make sure that we use the right kind of vertex when rendering
+	UINT32 vertexSize;
+
+	//if (*object->isAnimated == false)
+		vertexSize = sizeof(Vertex);
+
+	//else if (*object->isAnimated == true)
+		//vertexSize = sizeof(AnimVert);
+
+	//else
+		//MessageBox(NULL, L"An object returned isAnimated as nullptr", L"Error in Renderer", MB_ICONERROR | MB_OK);
+
+#pragma endregion
+
+
+	UINT32 offset = 0;
+
+	//an exception handling can be implemented here to handle if there is no buffer
+	// to set. Then the handling can be to use a standard cube instead.
+
+	this->gDeviceContext->IASetVertexBuffers(0, 1, &object->vertexBuffer, &vertexSize, &offset);
+
+	this->gDeviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+	this->gDeviceContext->IASetIndexBuffer(object->indexBuffer, DXGI_FORMAT_R32_UINT, 0);
+
+
+
+#pragma region Set the objects texture maps to the shader
+
+	SampleBoolStruct sampleBools;
+	if (object->diffuseMap != nullptr)
+	{
+		this->gDeviceContext->PSSetShaderResources(0, 1, &object->diffuseMap);
+		sampleBools.diffuseMap = TRUE;
+	}
+	else
+	{
+		sampleBools.diffuseMap = FALSE;
+	}
+
+	if (object->normalMap != nullptr)
+	{
+		this->gDeviceContext->PSSetShaderResources(1, 1, &object->normalMap);
+		sampleBools.normalMap = TRUE;
+	}
+	else
+	{
+		sampleBools.normalMap = FALSE;
+	}
+
+	if (object->specularMap != nullptr)
+	{
+		this->gDeviceContext->PSSetShaderResources(2, 1, &object->specularMap);
+		sampleBools.specularMap = TRUE;
+	}
+	else
+	{
+		sampleBools.specularMap = FALSE;
+	}
+
+	if (object->glowMap != nullptr)
+	{
+		this->gDeviceContext->PSSetShaderResources(3, 1, &object->glowMap);
+		sampleBools.glowMap = TRUE;
+	}
+	else
+	{
+		sampleBools.glowMap = FALSE;
+	}
+
+	this->UpdateSampleBoolsBuffer(&sampleBools);
+#pragma endregion
+
+
+	this->gDeviceContext->Draw(*object->vertexCount, 0);
+	//this->gDeviceContext->DrawIndexed((UINT)object->indexCount, 0, 0);
+}
 
 void Renderer::RenderInstanced(RenderInstructions * object, ID3D11Buffer* instanceBuffer,unsigned int amount)
 {

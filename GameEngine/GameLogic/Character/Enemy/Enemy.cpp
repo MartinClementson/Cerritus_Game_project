@@ -91,9 +91,11 @@ void Enemy::Release()
 void Enemy::Update(double deltaTime)
 {
 
-	health -= DoT;//deltaTime;
 
-	if (health < (maxHealth / 2) && closestHealer)
+	health -= DoT*25*(float)deltaTime;
+
+
+	if (health < (maxHealth / 1.5) && closestHealer)
 	{
   		enemyStateMachine->SetActiveState(ENEMY_HEAL_STATE);
 	}
@@ -133,11 +135,10 @@ void Enemy::Update(double deltaTime)
 	XMVECTOR meshDirection  = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 	XMVECTOR enemyDirection = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
 
-	//Calculate angle between meshDir and shotDir
+	//Calculate angle between meshDir and enemyDir
 	float cosAngle = XMVector3Dot(enemyDirection, meshDirection).m128_f32[0];
 	float angle = acos(cosAngle);
 	float degrees = get_degrees(angle);
-	////////////////////////////////////////////////////
 
 	if (direction.x < 0)
 		degrees = -degrees;
@@ -160,8 +161,9 @@ float Enemy::GetHealth()
 
 void Enemy::SetHealth(float health)
 {
+	if (health > this->health)
+		this->isBeingHealed = true;
 	this->health		= health;
-	this->isBeingHealed = true;
 }
 
 void Enemy::Render()
@@ -179,6 +181,27 @@ void Enemy::Render()
 	}
 	else
 		renderInfo.showHealthBar = false;
+
+#pragma region on fire rendering
+	if (DoTDur > 0.0f)
+	{
+		renderInfo.isOnfire = true;
+		renderInfo.showHealthBar = true;
+
+	}
+	else
+	{
+		renderInfo.isOnfire = false;
+	}
+#pragma endregion
+
+	if (slowTimer > 0.0f)
+	{
+		//renderInfo.isSlowed = true;
+		//renderInfo.showHealthBar = true;
+	}
+	else
+		renderInfo.isSlowed = false;
 
 
 	graphics->QueueRender(&renderInfo);
@@ -217,7 +240,6 @@ void Enemy::Spawn(XMFLOAT3 spawn)
 {
 	this->position = spawn;
 	this->isAlive = true;
-	this->health = 100.0f;
 	this->DoT = 0.0f;
 	this->index = 0.0f;
 	this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
@@ -271,14 +293,18 @@ void Enemy::AIPattern(Player* player, double deltaTime)
 		direction.x = playerPos.x - GetPosition().x;
 		direction.z = playerPos.z - GetPosition().z;
 
-		direction.Normalize();
+		if (direction.Length() > 3)
+		{
+			direction.Normalize();
 
-		//XMFLOAT3 temp = GetPosition();
-		this->position.x += direction.x *(float)deltaTime * movementSpeed;
-		this->position.z += direction.z *(float)deltaTime * movementSpeed;
-		//SetPosition(temp);
-		
-
+			this->position.x += direction.x *(float)deltaTime * movementSpeed;
+			this->position.z += direction.z *(float)deltaTime * movementSpeed;
+		}
+		else
+		{
+			direction.Normalize();
+			this->position = this->position;
+		}
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
 	{
@@ -300,13 +326,18 @@ void Enemy::AIPatternHeal(EnemyBase* healer, double deltaTime)
 		direction.x = healerPos.x - GetPosition().x;
 		direction.z = healerPos.z - GetPosition().z;
 
-		direction.Normalize();
+		if (direction.Length() > 6)
+		{
+			direction.Normalize();
 
-		//XMFLOAT3 temp = GetPosition();
-
-		this->position.x += direction.x *(float)deltaTime * movementSpeed;
-		this->position.z += direction.z *(float)deltaTime * movementSpeed;
-		//SetPosition(temp);
+			this->position.x += direction.x *(float)deltaTime * movementSpeed;
+			this->position.z += direction.z *(float)deltaTime * movementSpeed;
+		}
+		else
+		{
+			direction.Normalize();
+			this->position = this->position;
+		}
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
 	{

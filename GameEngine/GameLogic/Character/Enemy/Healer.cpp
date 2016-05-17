@@ -194,46 +194,44 @@ void Healer::AIPattern(Player* player, double deltaTime)
 	if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE)
 	{
 		//XMFLOAT3 playerPos = player->GetPosition();
-		//vect.x = playerPos.x - GetPosition().x;
-		//vect.z = playerPos.z - GetPosition().z; 
-
-		Vec3 vect;
-		vect.x = direction.x - GetPosition().x;
-		vect.z = direction.z - GetPosition().z;
-
-		if (vect.Length() < 0.2f) //if we reached the randomized target. Randomize a new one!
-		{
-			RandNewDirection();
 		
-			vect.x = direction.x - GetPosition().x;
-			vect.z = direction.z - GetPosition().z;
-		}
+		XMFLOAT3 playerPos = player->GetPosition();
+
+
+		direction.x = playerPos.x - GetPosition().x;
+		direction.z = playerPos.z - GetPosition().z;
+
+		
+		
 #pragma region fleeing pattern
-		//if (vect.Length() < 50.0f) //if the player is close. move away from the player
-		//{
-		//	vect.x = -vect.x;
-		//	vect.z = -vect.z;
+		if (direction.Length() < 60.0f) //if the player is close. move away from the player
+		{
+			//vect1.x = vect1.x;
 
-		//	vect.Normalize();
+			direction.Normalize();
 
-		//	this->position.x += vect.x *(float)deltaTime * movementSpeed;
-		//	this->position.z += vect.z *(float)deltaTime * movementSpeed;
-		//}
-		//else
-		//{
-		//	
-		//	this->position.x += 0.0f;
-		//	this->position.z += 0.0f;
+			this->position.x -= direction.x *(float)deltaTime * movementSpeed;
+			this->position.z -= direction.z *(float)deltaTime * movementSpeed;
+		}
+		else
+		{
+			
+			if (direction.Length() > 3)
+			{
+				direction.Normalize();
 
-		//}
+				this->position.x += direction.x *(float)deltaTime * movementSpeed;
+				this->position.z += direction.z *(float)deltaTime * movementSpeed;
+			}
+			else
+			{
+				direction.Normalize();
+				this->position = this->position;
+			}
+
+		}
 #pragma endregion
 
-		vect.Normalize();
-
-		//XMFLOAT3 temp = GetPosition();
-		this->position.x += vect.x *(float)deltaTime * movementSpeed;
-		this->position.z += vect.z *(float)deltaTime * movementSpeed;
-		//SetPosition(temp);
 
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
