@@ -71,7 +71,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	
 	
 	ui.materialName = "pause";
-	ui.diffuseTex = "pausemenu2.tif";
+	ui.diffuseTex = "Pausemenu3.tif";
 	ui.materialID = 17;
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);

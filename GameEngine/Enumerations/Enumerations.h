@@ -153,6 +153,7 @@ enum MainStates
 	MAIN_GAME_STATE,
 	MAIN_GAMEOVER_STATE,
 	MAIN_WIN_STATE,
+	MAIN_PAUSE_STATE,
 };
 
 #pragma endregion
