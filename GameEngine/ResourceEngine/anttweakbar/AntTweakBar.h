@@ -21,6 +21,7 @@ public:
 
 	static AntTweakBar* GetInstance();
 
+	TwBar* GetBar() { return this->gMyBar; }
 	bool SendMsg(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 private:
 	AntTweakBar();
