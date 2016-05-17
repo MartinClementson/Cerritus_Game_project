@@ -164,6 +164,10 @@ bool InputHandler::IsKeyPressed(InputKeys* key)
 	{
 		return true;
 	}
+	else if (*key == KEY_ESC && keyboardState[DIK_ESCAPE])
+	{
+		return true;
+	}
 	else if (*key == KEY_LSHIFT && keyboardState[DIK_LSHIFT])
 	{
 		isLshiftPressed = true;
