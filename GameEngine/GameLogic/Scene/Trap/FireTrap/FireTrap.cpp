@@ -18,7 +18,7 @@ FireTrap::FireTrap(XMFLOAT3 position)
 	this->position = position;
 	trapState->Initialize();
 	this->rotation = { 0,0,0 };
-	this->damage = 0.5f;
+	this->damage = 1.5f;
 	Initialize(this->position, this->rotation);
 
 	this->isActive = true;
