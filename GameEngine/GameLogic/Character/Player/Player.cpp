@@ -72,7 +72,7 @@ void Player::Initialize(AudioManager* audioManager)
 	maxHealth			 = health;
 	projectileSystem->Initialize(audioManager);
 	SetUpgrade(UpgradeType::ONE_SHOT);
-	
+	bar->addSlider("health", &health);
 }
 
 void Player::Release()

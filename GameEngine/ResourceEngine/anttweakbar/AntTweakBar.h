@@ -5,13 +5,19 @@
 class AntTweakBar
 {
 public:
-	AntTweakBar();
 	~AntTweakBar();
 
 	void Initialize(ID3D11Device* gDevice);
 	void Update();
 	void Release();
+
+#pragma region functions to add attributes to the tweakbar
+	void addSlider(char* attributeName, float* connectedAttribute);
+#pragma endregion
+
+	static AntTweakBar* GetInstance();
 private:
+	AntTweakBar();
 	TwBar *gMyBar;
 };
 

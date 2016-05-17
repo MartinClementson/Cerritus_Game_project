@@ -69,6 +69,9 @@ void Graphics::Initialize(HWND * window)
 
 	hr				 = CreateDirect3DContext();
 
+	antTweakBar = AntTweakBar::GetInstance();
+	antTweakBar->Initialize(gDevice);
+
 	gameObjects		 = new std::vector<RenderInfoObject*>;
 	charObjects		 = new std::vector<RenderInfoChar*>;
 	uiObjects		 = new std::vector<RenderInfoUI*>;
@@ -111,6 +114,7 @@ void Graphics::Release()
 #pragma region Release custom classes
 
 	renderer->Release();
+	antTweakBar->Release();
 #pragma endregion
 
 
@@ -197,7 +201,7 @@ void Graphics::Render() //manage RenderPasses here
 
 	}
 	
-	
+	antTweakBar->Update();
 
 	
 	FinishFrame();
