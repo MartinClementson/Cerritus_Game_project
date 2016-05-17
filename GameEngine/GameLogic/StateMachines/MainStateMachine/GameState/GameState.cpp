@@ -165,10 +165,11 @@ void GameState::Update(double deltaTime)
 						room1->enemySpawn->Alive.at(p)->
 						GetCharType() != CharacterType::HEALER
 						&&
-						healers.at(0) != nullptr)
+						healers.at(0) != nullptr
+						&& room1->enemySpawn->Alive.at(p)->healable != false)
 					{
+						
 						EnemyBase* tmpCloseHealer = nullptr;
-
 						XMFLOAT3 position;
 						position = room1->enemySpawn->Alive.at(p)->position;
 						XMFLOAT3 healPos;
@@ -217,6 +218,7 @@ void GameState::Update(double deltaTime)
 
 							}
 						}
+					
 
 						room1->enemySpawn->Alive.at(p)->SetClosestHealer(tmpCloseHealer);
 

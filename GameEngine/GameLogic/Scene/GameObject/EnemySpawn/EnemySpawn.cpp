@@ -255,51 +255,59 @@ void EnemySpawn::RespawnEnemy(int i)
 
 void EnemySpawn::InitEnemy()
 {
-	unsigned int amount = 32;
+	unsigned int amount = 80;
 	float b = 0;
 
 	for (size_t i = 0; i < amount; i++)
 	{
-		int spawnPointRandom = rand() % 5 + 1;
-
-		if (spawnPointRandom == 1)
+		if(i % 10 || i == 0)
 		{
-			waves.SetSpawnPosAdd(b);
-			waves.SpawnPositions(1);
-			spawn = waves.GetSpawnPositions();
-			
-			fast = false;
+			int spawnPointRandom = rand() % 4 + 1;
+
+			if (spawnPointRandom == 1)
+			{
+				waves.SetSpawnPosAdd(b);
+				waves.SpawnPositions(1);
+				spawn = waves.GetSpawnPositions();
+
+				fast = false;
+			}
+			else if (spawnPointRandom == 2)
+			{
+
+				waves.SetSpawnPosAdd(b);
+				waves.SpawnPositions(2);
+				spawn = waves.GetSpawnPositions();
+
+				fast = true;
+
+			}
+			else if (spawnPointRandom == 3)
+			{
+				waves.SetSpawnPosAdd(b);
+				waves.SpawnPositions(3);
+				spawn = waves.GetSpawnPositions();
+
+				fast = false;
+
+			}
+			else if (spawnPointRandom == 4)
+			{
+				waves.SetSpawnPosAdd(b);
+				waves.SpawnPositions(4);
+				spawn = waves.GetSpawnPositions();
+
+				fast = true;
+
+			}
+
+
+
+			b += 5;
+
+			Alive.push_back(new Enemy(spawn, fast));
 		}
-		else if (spawnPointRandom == 2)
-		{
-
-			waves.SetSpawnPosAdd(b);
-			waves.SpawnPositions(2);
-			spawn = waves.GetSpawnPositions();
-
-			fast = true;
-
-		}
-		else if (spawnPointRandom == 3)
-		{
-			waves.SetSpawnPosAdd(b);
-			waves.SpawnPositions(3);
-			spawn = waves.GetSpawnPositions();
-
-			fast = false;
-
-		}
-		else if (spawnPointRandom == 4)
-		{
-			waves.SetSpawnPosAdd(b);
-			waves.SpawnPositions(4);
-			spawn = waves.GetSpawnPositions();
-
-			fast = true;
-
-		}
-
-		else if (spawnPointRandom == 5)
+		else
 		{
 			waves.SetSpawnPosAdd(b);
 			waves.SpawnPositions(1);
@@ -307,18 +315,7 @@ void EnemySpawn::InitEnemy()
 
 			Alive.push_back(new Healer(spawn));
 		}
-
-		b += 5;
-
-		Alive.push_back(new Enemy(spawn, fast));
-
-		for (int i = 0; i < (int)Alive.size(); i++)
-		{
-			if (Alive.at(i)->isAlive == true)
-			{
-				collision->AddEnemy(Alive.at(i));
-			}
-		}
+		
 	}
 }
 

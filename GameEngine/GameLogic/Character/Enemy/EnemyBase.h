@@ -26,6 +26,7 @@ protected:
 	
 	EnemyBase();
 public:
+	bool healable = NULL;
 	bool isBeingHealed = false;
 	virtual void Release();
 	int healing;

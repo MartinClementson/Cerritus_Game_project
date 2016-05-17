@@ -43,9 +43,9 @@ void AudioManager::Initialize()
 	s_nightLoop = s_ambient->CreateInstance();
 	s_musicLoop = s_gameTheme->CreateInstance();
 	s_nightLoop->Play(true);
-	s_nightLoop->SetVolume(0.1f);
+	s_nightLoop->SetVolume(0.3f);
 	s_musicLoop->Play(true);
-	s_musicLoop->SetVolume(0.1f);
+	s_musicLoop->SetVolume(0.5f);
 
 	s_audEngine->get()->SetMasterVolume(0.1f);
 }
@@ -74,7 +74,7 @@ void AudioManager::Update(double deltaTime)
 
 void AudioManager::playShotSound()
 {
-	s_shot->Play(0.5f, 0,0);
+	s_shot->Play(0.4f, 0,0);
 }
 
 void AudioManager::playEDeathSound()
