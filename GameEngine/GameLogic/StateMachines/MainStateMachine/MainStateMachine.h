@@ -27,6 +27,6 @@ private:
 	MainStates activeState;//enum
 	EnemySpawn* enemySpawn;
 	
-
+	float timePassed;
 };
 

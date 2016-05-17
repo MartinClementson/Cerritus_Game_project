@@ -323,11 +323,11 @@ void GameState::ProcessInput(double* deltaTime)
 	timeSincePaused += (float)*deltaTime;
 	XMFLOAT2 temp = input->GetMousePosition();
 
-	if (input->IsKeyPressed(KEY_X) && timeSincePaused > (float)*deltaTime)
+	/*if (input->IsKeyPressed(KEY_X) && timeSincePaused > 0.2f)
 	{
-		AntTweakBar::GetInstance()->toggleShowingBar();
 		timeSincePaused = 0;
-	}
+		AntTweakBar::GetInstance()->toggleShowingBar();
+	}*/
 
 	if (death->isActive)
 	{
