@@ -71,14 +71,20 @@ struct RenderInfoEnemy {
 	bool isBeingHealed		  = false;
 	float normalizedHealthVal = 1.0f; //this value is calculated  with currentHealth/maxHealth. This controls the size and color of the healthbar
 	float radius;
-
+	bool isOnfire = false;
+	bool isSlowed = false;
 	//EnemyAnimations enemyAnim;	//these are enum
 };
 
 struct RenderInfoChar {
 	XMFLOAT3 position;
 	XMFLOAT3 rotation;
+	XMFLOAT3 direction;
 	float radius;
+	float normalizedHealthVal = 1.0f;
+	bool showHealthBar		  = false;
+	bool isOnfire			  = false;
+	bool isSlowed			  = false;
 	//MeshEnum object;
 	//Shaders shader;
 	//PlayerAnimation playerAnim; //these are enum
@@ -100,4 +106,11 @@ struct RenderInfoProjectile {
 	XMFLOAT3 direction;
 	float radius;
 
+};
+struct RenderInfoScene {
+	XMFLOAT3 position;
+	XMFLOAT3 rotation;
+	MeshEnum object;
+	bool render = true;
+	float radius;
 };

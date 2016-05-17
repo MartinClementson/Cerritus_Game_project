@@ -17,7 +17,8 @@ private:
 
 	Trap * trap;
 	Collision* collision;
-	int trapAmount;
+	int slowTrapAmount;
+	int fireTrapAmount;
 	double RespawnTimer;
 
 
@@ -34,7 +35,7 @@ public:
 	Scene();
 	virtual ~Scene();
 
-	void Initialize();
+	void Initialize(AudioManager* audioManager);
 	void InitFireTrap();
 	void InitBearTrap();
 	void Release();

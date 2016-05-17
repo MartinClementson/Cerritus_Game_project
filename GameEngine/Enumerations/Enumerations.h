@@ -43,6 +43,7 @@ enum MeshEnum
 	LEVEL_2,
 	LEVEL_3,
 	LEVEL_4,
+	SCENE,
 	PLACEHOLDER,
 	PICKUP_WEAPON,
 	PICKUP_HEAL
@@ -182,7 +183,9 @@ enum InputKeys
 
 
 	MOUSE_RIGHT,
-	MOUSE_LEFT
+	MOUSE_LEFT,
+
+	KEY_LSHIFT
 };
 
 #pragma region MovementDirection

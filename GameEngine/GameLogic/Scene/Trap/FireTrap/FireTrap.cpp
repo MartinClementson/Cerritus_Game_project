@@ -12,18 +12,18 @@ FireTrap::FireTrap(XMFLOAT3 position)
 {
 	graphics = Graphics::GetInstance();
 	
-	dotDuration = 2.5f;
+	dotDuration = 5.0f;
 	trapState = new TrapStateMachine();
 
 	this->position = position;
 	trapState->Initialize();
 	this->rotation = { 0,0,0 };
-	this->damage = 1.0f;
+	this->damage = 0.5f;
 	Initialize(this->position, this->rotation);
 
 	this->isActive = true;
 	this->renderInfo.object = MeshEnum::TRAP_FIRE;
-	radius = 1.0f;
+	radius = 5.0f;
 }
 
 
@@ -34,7 +34,7 @@ FireTrap::~FireTrap()
 
 void FireTrap::Initialize(XMFLOAT3 position,XMFLOAT3 rotation)
 {
-	dotDuration = 2.5f;  
+	dotDuration = 5.0f;  
 
 	this->position = position;
 	
@@ -43,8 +43,8 @@ void FireTrap::Initialize(XMFLOAT3 position,XMFLOAT3 rotation)
 	this->isActive = true;
 	this->renderInfo.object = MeshEnum::TRAP_FIRE;
 	this->renderInfo.radius = radius;
+	radius = 10.0f;
 	this->activeTimer = 0.0f;
-	radius = 1.0f;
 
 }
 
@@ -58,7 +58,7 @@ void FireTrap::Update(double deltaTime)
 
 	renderInfo.normalizedReloadVal = -1;
 	if (this->currReloadTime > 0)
-		currReloadTime -= deltaTime / 4;
+		currReloadTime -= (float)(deltaTime / 4);
 	if (this->GetState()->GetTrapState() == TrapState::TRAP_ACTIVE_STATE)
 	{
 		this->activeTimer += (float)deltaTime;

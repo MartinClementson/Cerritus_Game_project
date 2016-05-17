@@ -84,8 +84,7 @@ public:
 	void Render(RenderInfoEnemy* object);
 	void Render(RenderInfoChar* object);
 	void Render(RenderInfoTrap* object);
-	
-
+	void Render(std::vector<RenderInstructions>* object);
 
 	void RenderInstanced(RenderInfoEnemy* object,  InstancedData* arrayData ,unsigned int amount);
 	void RenderInstanced(RenderInfoObject* object, InstancedData* arrayData, unsigned int amount);
@@ -109,6 +108,7 @@ public:
 	
 private:
 	void Render(RenderInstructions* object);
+	void RenderQuadTree(RenderInstructions* object);
 	void RenderInstanced(RenderInstructions* object, ID3D11Buffer* instanceBuffer, unsigned int amount);
 	void RenderBillBoard(RenderInstructions* object, ID3D11Buffer* instanceBuffer, unsigned int amount);
 

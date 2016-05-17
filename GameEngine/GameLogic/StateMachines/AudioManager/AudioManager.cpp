@@ -37,10 +37,15 @@ void AudioManager::Initialize()
 	s_ambient.reset(new SoundEffect(s_audEngine->get(), L"sounds/NightAmbienceSimple_02.wav"));
 	s_E_death.reset(new SoundEffect(s_audEngine->get(), L"sounds/E_death2.wav"));
 	s_gameTheme.reset(new SoundEffect(s_audEngine->get(), L"sounds/test_teme.wav"));
+	s_healthPickup.reset(new SoundEffect(s_audEngine->get(), L"sounds/health_pickup.wav"));
+	s_weaponPickup.reset(new SoundEffect(s_audEngine->get(), L"sounds/shot_pickup.wav"));
+	s_imminentWave.reset(new SoundEffect(s_audEngine->get(), L"sounds/new_wave.wav"));
 	s_nightLoop = s_ambient->CreateInstance();
 	s_musicLoop = s_gameTheme->CreateInstance();
 	s_nightLoop->Play(true);
 	s_nightLoop->SetVolume(0.1f);
+	s_musicLoop->Play(true);
+	s_musicLoop->SetVolume(0.1f);
 
 	s_audEngine->get()->SetMasterVolume(0.1f);
 }
@@ -75,6 +80,21 @@ void AudioManager::playShotSound()
 void AudioManager::playEDeathSound()
 {
 	s_E_death->Play();
+}
+
+void AudioManager::playHealthPickup()
+{
+	s_healthPickup->Play();
+}
+
+void AudioManager::playWeaponPickup()
+{
+	s_weaponPickup->Play();
+}
+
+void AudioManager::playNewWave()
+{
+	s_imminentWave->Play();
 }
 
 void AudioManager::stopAmbientGameStateSound()

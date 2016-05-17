@@ -3,6 +3,7 @@
 #include "../ResourceManager/ShaderManager/ShaderManager.h"
 #include "../ResourceManager/BRFImporterHandler/BRFImporterHandler.h"
 #include "../ResourceManager/MaterialManager/MaterialManager.h"
+#include "../ObjectNode/Camera/Frustum/Frustum.h"
 //#include "../../GameLogic/GUI/GUI.h"
 #include "../../Structs/RenderInfo.h"
 class ResourceManager
@@ -14,7 +15,7 @@ private:
 	RenderInstructions currentUI1;
 	RenderInstructions currentUI2;
 
-	MaterialManager* materialManager		= nullptr;
+	//MaterialManager* materialManager		= nullptr;
 	MeshManager* meshManager				= nullptr;
 	ShaderManager* shaderManager			= nullptr;
 	BRFImporterHandler* brfImporterHandler	= nullptr;
@@ -27,7 +28,7 @@ public:
 	ResourceManager();
 	~ResourceManager();
 
-
+	MaterialManager* materialManager = nullptr;
 	bool IsShadowPass() { return this->shadowPass; };
 	bool IsGbufferPass() { return this->gbufferPass; };
 
@@ -42,14 +43,15 @@ public:
 	RenderInstructions* GetRenderInfo(RenderInfoEnemy*		object);
 	RenderInstructions* GetRenderInfo(RenderInfoChar*		object);
 	RenderInstructions* GetRenderInfo(RenderInfoTrap*		object);
+	RenderInstructions* GetRenderInfo(std::vector<RenderInstructions>*	object, Frustum* frustum);
 	
 	RenderInstructions* GetPlaceHolderMesh(XMFLOAT3 position);
 	RenderInstructions* GetPlaceHolderMesh(XMFLOAT3 position, XMFLOAT3 rotation);
 	RenderInstructions* GetPlaceHolderPlane();
 	RenderInstructions* GetFullScreenQuad();
 	void SetShader(Shaders type) { this->shaderManager->SetActiveShader(type); };
-private:
 	XMFLOAT4X4 CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation);
+private:
 
 	XMFLOAT4X4 CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation, XMFLOAT3* scale);
 

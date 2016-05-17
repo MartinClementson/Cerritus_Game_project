@@ -67,7 +67,7 @@ public:
 
 	void Initialize (AudioManager* audioManager);
 	void Release	();
-	void Update		(double deltaTime,XMFLOAT3 direction);
+	void Update		(double deltaTime,XMFLOAT3 direction, bool collision);
 	void Render		();
 	void Move		(MovementDirection* dir,int keyAmount, double deltaTime);
 	void Shoot		(InputKeys input, double deltaTime);
@@ -75,18 +75,21 @@ public:
 	XMFLOAT3 GetPosition()  { return this->position; };
 	float GetRadius()		{ return this->radius;   };
 	float GetRadius2()		{ return this->radius2;  };
+	XMFLOAT3 GetDirection() { return this->direction; };
+	Vec3 GetVelocity() { return this->velocity; };
+	Vec3 GetAcceleration() { return this->acceleration; };
+	float GetFalloffFactor() { return this->fallOfFactor; };
 	void  SetHealth(float health);
 	void  SetPoints(float points);
 	void  SetMulti(float multi);
 	float GetHealth();
 	float GetPoints();
 	float GetMulti();
-	bool thrust;
-	bool fall;
-
+	
+	float hover = 0.0f;
 	float GetMaxHealth();
 	
-	float grav = 0.05f;
+	
 
 	UpgradeType		  GetUpgrade();
 	void SetUpgrade(UpgradeType upgrade);

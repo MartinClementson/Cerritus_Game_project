@@ -8,7 +8,11 @@
 
 using namespace std;
 using namespace DirectX;
-
+struct SceneCollision
+{
+	XMFLOAT3 Pos;
+	float Rad;
+};
 class Collision
 {
 private:
@@ -21,6 +25,8 @@ private:
 	vector<EnemyBase*> enemyBox;
 	vector<FireTrap*> fireTrap;
 	vector<BearTrap*> bearTrap;
+	vector<SceneCollision> SceneBoxesIn;
+	vector<SceneCollision> SceneBoxesOut;
 	Player* player;
 	bool enemyInit;
 private:
@@ -32,6 +38,7 @@ public:
 	void AddEnemy(EnemyBase* enemy);
 	void AddPlayer(Player* player);
 	void AddTrap(BearTrap* bTraps);
+	void InitSceneCol();
 	void ClearTraps();
 
 	bool PlayerProxyTrap(BearTrap * trap);
@@ -49,6 +56,8 @@ public:
 	bool FireTrapEnemyCollision(FireTrap* trap, EnemyBase * enemy);
 
 
+	bool SceneColIn(double deltaTime);
+	bool SceneColIn(double deltaTime, EnemyBase * enemy);
 	bool PlayerCollision(EnemyBase* enemy);
 	bool PlayerDistanceCollision(EnemyBase * enemy);
 	bool ProjectileEnemyCollision(Projectile* projectile, EnemyBase* enemy);

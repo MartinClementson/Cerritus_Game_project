@@ -65,7 +65,7 @@ struct SHADOW_VS_IN
 	float2 BiTangent		: TEXCOORD2;
 	float2 Tangent			: TEXCOORD3;
 	float4x4 worldMatrix	: WORLD;
-	unsigned int glow	    : GLOW;
+	uint glow			    : GLOW;
 };
 struct SHADOW_VS_OUT
 {
