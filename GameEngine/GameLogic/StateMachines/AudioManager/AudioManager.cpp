@@ -44,6 +44,8 @@ void AudioManager::Initialize()
 	s_musicLoop = s_gameTheme->CreateInstance();
 	s_nightLoop->Play(true);
 	s_nightLoop->SetVolume(0.1f);
+	s_musicLoop->Play(true);
+	s_musicLoop->SetVolume(0.1f);
 
 	s_audEngine->get()->SetMasterVolume(0.1f);
 }
