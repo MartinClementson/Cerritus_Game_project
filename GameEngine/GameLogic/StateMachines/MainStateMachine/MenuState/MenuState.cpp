@@ -31,6 +31,7 @@ void MenuState::Release()
 
 void MenuState::Update(double deltaTime)
 {
+	time += (float)deltaTime;
 
 	mainUI->Update(deltaTime);
 	XMFLOAT2 mousePos = InputHandler::GetInstance()->GetMousePosition();
@@ -41,10 +42,10 @@ void MenuState::Update(double deltaTime)
 	if (vx > Maxex && vy < Maxey && vx < Minex && vy > Miney)
 	{
 		{
-			if (input->isMouseClicked(MOUSE_LEFT))
+			if (input->isMouseClicked(MOUSE_LEFT) && time > 0.2f)
 			{
 				//fix later
-
+				DestroyWindow(GetActiveWindow());
 			}
 			ProcessInput(&deltaTime);
 		}
@@ -52,17 +53,17 @@ void MenuState::Update(double deltaTime)
 		//OnExit();
 		//shutofgame, release everything no memory leaks are allowed
 	}
+
 	else if (vx > Maxnx && vy < Maxny && vx < Minnx && vy > Minny)
 	{
-		
-
 		if (input->isMouseClicked(MOUSE_LEFT))
 		{
-			//OnExit();
 
 			exitMenu = true;
+			time = 0.0f;
+
 		}
-		
+
 		//OnExit();
 	}
 	else if (vx > Maxcx && vy < Maxcy && vx < Mincx && vy > Mincy)
@@ -82,6 +83,7 @@ void MenuState::Update(double deltaTime)
 			if (input->isMouseClicked(MOUSE_LEFT))
 			{
 				mainUI->setUI(UITextures::MENU);
+				time = 0.0f;
 			}
 		}
 	}
