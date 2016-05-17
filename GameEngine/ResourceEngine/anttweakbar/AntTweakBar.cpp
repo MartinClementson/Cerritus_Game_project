@@ -40,9 +40,9 @@ void AntTweakBar::toggleShowingBar()
 		showBar = true;
 }
 
-void AntTweakBar::addSlider(char * attributeName, float * connectedAttribute)
+void AntTweakBar::addSlider(char * attributeName, float &connectedAttribute)
 {
-	TwAddVarRW(gMyBar, attributeName, TW_TYPE_FLOAT, &connectedAttribute, "");
+	TwAddVarRW(gMyBar, attributeName, TW_TYPE_FLOAT, &connectedAttribute, "min = 0 max = 10");
 }
 
 AntTweakBar * AntTweakBar::GetInstance()
@@ -51,9 +51,3 @@ AntTweakBar * AntTweakBar::GetInstance()
 	return &instance;
 }
 
-bool AntTweakBar::SendMsg(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	if (TwEventWin(hWnd, message, wParam, lParam)) // send event message to AntTweakBar
-		return true;
-	return false;
-}

@@ -44,7 +44,6 @@ Player::Player()
 
 Player::~Player()
 {
-
 	delete this->projectileSystem;
 
 }
@@ -55,7 +54,6 @@ Player::~Player()
 
 void Player::Initialize(AudioManager* audioManager)
 {
-	
 	graphics			 = Graphics::GetInstance();
 	float hover			 = 0.0f;
 	this->position		 = XMFLOAT3(-5.0f, Y_OFFSET, -5.0f);
@@ -72,7 +70,7 @@ void Player::Initialize(AudioManager* audioManager)
 	maxHealth			 = health;
 	projectileSystem->Initialize(audioManager);
 	SetUpgrade(UpgradeType::ONE_SHOT);
-	bar->addSlider("speed", &VelocityMax);
+	//bar->addSlider("speed", *test);
 }
 
 void Player::Release()

@@ -25,7 +25,7 @@ ProjectileSystem::~ProjectileSystem()
 		delete projectiles.at(i);
 
 	}*/
-
+	delete lifeSpan;
 	for (unsigned int i = 0; (int)i < maxProjectiles; i++)
 
 		delete projectiles[i];
@@ -117,7 +117,7 @@ void ProjectileSystem::UpdateProjectiles(double deltaTime)
 		projectiles[i]->Update(deltaTime);
 
 
-		if (projectiles[i]->GetAge() >= lifeSpan || projectiles[i]->GetFired()==false)
+		if (projectiles[i]->GetAge() >= *lifeSpan || projectiles[i]->GetFired()==false)
 		{
 			DeleteProjectile((int)i);
 		}
@@ -173,10 +173,11 @@ void ProjectileSystem::Initialize(AudioManager* audioManager)
 
 	this->audioManager = audioManager;
 	graphics = Graphics::GetInstance();
-	lifeSpan = 2.5f;
+	lifeSpan = new float;
+	*lifeSpan = 2.5f;
 	//maxProjectiles = 100;
 
-
+	AntTweakBar::GetInstance()->addSlider("lifespan", *lifeSpan);
 }
 
 void ProjectileSystem::Release()
