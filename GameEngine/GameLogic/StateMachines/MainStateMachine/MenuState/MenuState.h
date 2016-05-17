@@ -22,7 +22,7 @@ private:
 	GUI* mainUI;
 	GUI* howToUI;
 	Scene* menuScene;
-	float time;
+	float time = 0.0f;
 
 
 #pragma region variables for the buttons

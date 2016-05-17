@@ -371,7 +371,7 @@ void GameState::ProcessInput(double* deltaTime)
 				this->activeState = MAIN_GAME_STATE;
 			}
 		}
-		if (input->IsKeyPressed(KEY_P) && timeSincePaused > 0.2f)
+		if (input->IsKeyPressed(KEY_ESC) && timeSincePaused > 0.2f)
 		{
 			pause->isActive = false;
 			timeSincePaused = 0.0f;
@@ -504,7 +504,7 @@ void GameState::ProcessInput(double* deltaTime)
 		}
 #pragma endregion
 
-		if (input->IsKeyPressed(KEY_P) && timeSincePaused >0.2f)
+		if (input->IsKeyPressed(KEY_ESC) && timeSincePaused >0.2f)
 		{
 			pause->isActive = true;
 			timeSincePaused = 0.0f;
