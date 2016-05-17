@@ -101,12 +101,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\DirectXTK\Inc;$(SolutionDir)\DirectXTK\MakeSpriteFont;$(SolutionDir)\DirectXTK\Src;$(SolutionDir)\ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Headers;$(SolutionDir)\Source\Main;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\David\Documents\GitHub\LitetSpel-Group1\GameEngine\AntTweak\include;$(SolutionDir)\DirectXTK\Inc;$(SolutionDir)\DirectXTK\MakeSpriteFont;$(SolutionDir)\DirectXTK\Src;$(SolutionDir)\ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Headers;$(SolutionDir)\Source\Main;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\David\Documents\GitHub\LitetSpel-Group1\GameEngine\AntTweak\lib;$(SolutionDir)\ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -135,14 +135,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Source\Main;$(SolutionDir)\DirectXTK\Src;$(SolutionDir)\DirectXTK\MakeSpriteFont;$(SolutionDir)\DirectXTK\Inc;$(SolutionDir)\ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\David\Documents\GitHub\LitetSpel-Group1\GameEngine\AntTweak\include;$(SolutionDir)\Source\Main;$(SolutionDir)\DirectXTK\Src;$(SolutionDir)\DirectXTK\MakeSpriteFont;$(SolutionDir)\DirectXTK\Inc;$(SolutionDir)\ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)\ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\David\Documents\GitHub\LitetSpel-Group1\GameEngine\AntTweak\lib;$(SolutionDir)\ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
