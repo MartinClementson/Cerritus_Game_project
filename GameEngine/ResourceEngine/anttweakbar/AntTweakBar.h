@@ -20,6 +20,8 @@ public:
 #pragma endregion
 
 	static AntTweakBar* GetInstance();
+
+	bool SendMsg(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 private:
 	AntTweakBar();
 	TwBar *gMyBar;

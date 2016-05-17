@@ -7,7 +7,7 @@
 #include "./Source/GameTimer/GameTimer.h"
 #include "./ResourceEngine/anttweakbar/AntTweakBar.h"
 
-
+TwBar *test;
 HWND InitWindow(HINSTANCE hInstance);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 void CalculateFPS(HWND& window, GameTimer& time);
@@ -34,6 +34,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		engine->Initialize(&wndHandle, &hInstance);
 
 		GameTimer* time = GameTimer::GetInstance();
+
 
 		time->Reset();
 		// enter message loop, loop until the message WM_QUIT is received.

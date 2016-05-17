@@ -50,3 +50,10 @@ AntTweakBar * AntTweakBar::GetInstance()
 	static AntTweakBar instance;
 	return &instance;
 }
+
+bool AntTweakBar::SendMsg(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	if (TwEventWin(hWnd, message, wParam, lParam)) // send event message to AntTweakBar
+		return true;
+	return false;
+}
