@@ -126,6 +126,8 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 		//		PostQuitMessage(0);
 		//	#endif
 		//	break;
+		default:
+			break;
 		}
 
 	
