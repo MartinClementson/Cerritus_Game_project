@@ -3,7 +3,7 @@
 
 
 AntTweakBar::AntTweakBar()
-{
+{ 
 }
 
 
@@ -15,21 +15,29 @@ void AntTweakBar::Initialize(ID3D11Device * gDevice)
 {
 
 	TwInit(TW_DIRECT3D11, gDevice);
-	TwWindowSize(WIN_HEIGHT, WIN_WIDTH);
+	TwWindowSize((int)WIN_HEIGHT, (int)WIN_WIDTH);
 	
 	gMyBar = TwNewBar("Cerritus TweakBar");
-
 	
 }
 
 void AntTweakBar::Update()
 {
-	TwDraw();
+	if (showBar)
+		TwDraw();
 }
 
 void AntTweakBar::Release()
 {
 	TwTerminate();
+}
+
+void AntTweakBar::toggleShowingBar()
+{
+	if (showBar)
+		showBar = false;
+	else
+		showBar = true;
 }
 
 void AntTweakBar::addSlider(char * attributeName, float * connectedAttribute)
