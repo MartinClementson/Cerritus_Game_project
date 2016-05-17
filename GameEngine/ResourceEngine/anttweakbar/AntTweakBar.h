@@ -20,7 +20,7 @@ public:
 #pragma endregion
 
 	static AntTweakBar* GetInstance();
-
+	bool GetIfShown() { return this->showBar; }
 	TwBar* GetBar() { return this->gMyBar; }
 	bool SendMsg(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 private:

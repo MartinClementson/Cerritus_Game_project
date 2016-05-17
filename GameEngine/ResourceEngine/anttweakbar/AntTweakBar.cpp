@@ -13,7 +13,7 @@ AntTweakBar::~AntTweakBar()
 
 void AntTweakBar::Initialize(ID3D11Device * gDevice)
 {
-
+	
 	TwInit(TW_DIRECT3D11, gDevice);
 	TwWindowSize((int)WIN_HEIGHT, (int)WIN_WIDTH);
 	

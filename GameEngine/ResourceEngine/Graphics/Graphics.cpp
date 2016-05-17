@@ -201,7 +201,7 @@ void Graphics::Render() //manage RenderPasses here
 
 	}
 	
-	antTweakBar->Update();
+	
 
 	
 	FinishFrame();
@@ -360,6 +360,8 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 	memset(billboardsToRender, 0, sizeof(billboardsToRender));
 
 	instanceMeshIndex.Reset();
+
+	antTweakBar->Update();
 
 	this->gSwapChain->Present(VSYNC, 0); //Change front and back buffer after rendering
 	

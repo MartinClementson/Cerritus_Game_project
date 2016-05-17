@@ -97,7 +97,7 @@ bool InputHandler::Initialize(HWND* hwndP ,HINSTANCE* hInstance)
 
 	ShowCursor(TRUE);
 	
-	SetCursor(LoadCursor(NULL, IDC_CROSS));
+	//SetCursor(LoadCursor(NULL, IDC_CROSS));
 	
 	
 	
@@ -158,6 +158,9 @@ bool InputHandler::IsKeyPressed(InputKeys* key)
 	}
 	else if (*key == KEY_X && keyboardState[DIK_X])
 	{
+		mouse->Unacquire();
+		mouse->SetCooperativeLevel(*hwndP, DISCL_NONEXCLUSIVE | DISCL_BACKGROUND);
+		
 		return true;
 	}
 	else if (*key == KEY_C && keyboardState[DIK_C])
