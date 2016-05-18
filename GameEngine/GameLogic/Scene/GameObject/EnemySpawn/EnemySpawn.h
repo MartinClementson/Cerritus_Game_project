@@ -18,6 +18,10 @@ private:
 	Graphics* graphics;
 	AudioManager* audioManager;
 	RenderInfoUI WaveComplete;
+	RenderInfoUI WaveCounter;
+	RenderInfoUI Leftnr;
+	RenderInfoUI Rightnr;
+	RenderInfoUI huden;
 
 	bool playWave;
 	//std::vector<Enemy*> enemies;
@@ -56,6 +60,7 @@ public:
 
 	void SpawnEnemy(int waveAmount);
 	void RespawnEnemy(int i);
+	
 
 };
 

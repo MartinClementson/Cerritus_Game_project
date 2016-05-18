@@ -66,6 +66,8 @@ enum UITextures
 	HEALTHBAR,
 	NUMERATION,
 	WAVECOUNTER,
+	LEFTENEMYNR,
+	RIGHTENEMYNR,
 	AMMO,
 	WAVECOMPLETE,
 	HUD,
@@ -91,6 +93,7 @@ enum UiNumbers
 	EIGHT,
 	NINE,
 	ZERO,
+	BLANK
 };
 #pragma region Lights
 

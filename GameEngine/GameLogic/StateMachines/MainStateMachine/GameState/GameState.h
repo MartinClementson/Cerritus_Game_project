@@ -41,6 +41,9 @@ private:
 	void OnExit();
 
 private:
+	Graphics * grapichs;
+
+	
 
 	vector<EnemyBase*> healers;
 	vector<BearTrap*> bearTraps;

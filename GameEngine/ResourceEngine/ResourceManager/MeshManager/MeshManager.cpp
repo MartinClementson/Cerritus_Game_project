@@ -39,6 +39,9 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 	
 	waveCompleteQuad.Initialize(gDevice, gDeviceContext);
 	CreateWaveCompleteQuad();
+
+	KillCountQuad1.Initialize(gDevice, gDeviceContext);
+	CreateKillCountQuad1();
 }
 
 void MeshManager::Release()
@@ -57,6 +60,7 @@ void MeshManager::Release()
 	fullScreenQuad.Release(); 
 	killCountQuad.Release();
 	waveCountQuad.Release();
+	KillCountQuad1.Release();
 	waveCompleteQuad.Release();
 }
 
@@ -275,21 +279,21 @@ void MeshManager::CreateKillCountQuad()
 	Vertex planeVerts[4];
 
 	planeVerts[0].position = Float3(-1.0f, 1.0f, 0.0f);		//0
-	planeVerts[0].uv.x = 0.035f;
-	planeVerts[0].uv.y = 1-0.577f;
+	planeVerts[0].uv.x = 0.009f;
+	planeVerts[0].uv.y = 1 - 0.934f;
 
-	planeVerts[1].position = Float3(-0.5f, 1.0f, 0.0f);		//3
-	planeVerts[1].uv.x = 0.062f;
-	planeVerts[1].uv.y = 1-0.577f;
+	planeVerts[1].position = Float3(-0.8f, 1.0f, 0.0f);		//3
+	planeVerts[1].uv.x = 0.095f;
+	planeVerts[1].uv.y = 1 - 0.934f;
 	
 
-	planeVerts[2].position = Float3(-0.5f, 0.8f, 0.0f);		//5
-	planeVerts[2].uv.x = 0.062f;
-	planeVerts[2].uv.y = 1-0.525f;
+	planeVerts[2].position = Float3(-0.8f, 0.75f, 0.0f);		//5
+	planeVerts[2].uv.x = 0.095f;
+	planeVerts[2].uv.y = 1 - 0.671f;
 
-	planeVerts[3].position = Float3(-1.0f, 0.8f, 0.0f);		//7
-	planeVerts[3].uv.x = 0.035f;
-	planeVerts[3].uv.y = 1-0.525f;
+	planeVerts[3].position = Float3(-1.0f, 0.75f, 0.0f);		//7
+	planeVerts[3].uv.x = 0.009f;
+	planeVerts[3].uv.y = 1-0.671f;
 
 	UINT indices[6] =
 	{
@@ -303,27 +307,46 @@ void MeshManager::CreateKillCountQuad()
 
 void MeshManager::CreateWaveCountQuad()
 {
-	//wave Counter Quad for the wave numbers
+
 	Vertex planeVerts[4];
 
-	planeVerts[0].position = Float3(0.1f, -0.1f, 0.0f);		//0
-	planeVerts[0].uv.x = 0.083f;
-	planeVerts[0].uv.y = 1 - 0.476f;
+	planeVerts[0].position = Float3(-1.0f, -0.8f, 0.0f);		//0
+	planeVerts[0].uv.x = 0.057;
+	planeVerts[0].uv.y = 1 - 0.470f;
 
-	planeVerts[1].position = Float3(0.2f, -0.1f, 0.0f);		//3
-	planeVerts[1].uv.x = 0.129f;
-	planeVerts[1].uv.y = 1 - 0.476f;
+	planeVerts[1].position = Float3(-0.8f, -0.8f, 0.0f);		//3
+	planeVerts[1].uv.x = 0.234f;
+	planeVerts[1].uv.y = 1 - 0.470f;
 
-	planeVerts[2].position = Float3(0.2f, -0.2f, 0.0f);		//5
-	planeVerts[2].uv.x = 0.129f;
-	planeVerts[2].uv.y = 1 - 0.423f;
-	
-	planeVerts[3].position = Float3(0.1f, -0.2f, 0.0f);		//7
-	planeVerts[3].uv.x = 0.083f;
-	planeVerts[3].uv.y = 1 - 0.423f;
+	planeVerts[2].position = Float3(-0.8f, -1.0f, 0.0f);		//5
+	planeVerts[2].uv.x = 0.234f;
+	planeVerts[2].uv.y = 1 - 0.185f;
 
-	//offset.enemyOffsetX = 10;
-	//offset.waveOffsetX = 10;
+	planeVerts[3].position = Float3(-1.0f, -1.0f, 0.0f);		//7
+	planeVerts[3].uv.x = 0.057f;
+	planeVerts[3].uv.y = 1 - 0.185f;
+
+	//wave Counter Quad for the wave numbers
+	//Vertex planeVerts[4];
+
+	//planeVerts[0].position = Float3(0.1f, -0.1f, 0.0f);		//0
+	//planeVerts[0].uv.x = 0.083f;
+	//planeVerts[0].uv.y = 1 - 0.476f;
+
+	//planeVerts[1].position = Float3(0.2f, -0.1f, 0.0f);		//3
+	//planeVerts[1].uv.x = 0.129f;
+	//planeVerts[1].uv.y = 1 - 0.476f;
+
+	//planeVerts[2].position = Float3(0.2f, -0.2f, 0.0f);		//5
+	//planeVerts[2].uv.x = 0.129f;
+	//planeVerts[2].uv.y = 1 - 0.423f;
+	//
+	//planeVerts[3].position = Float3(0.1f, -0.2f, 0.0f);		//7
+	//planeVerts[3].uv.x = 0.083f;
+	//planeVerts[3].uv.y = 1 - 0.423f;
+
+	////offset.enemyOffsetX = 10;
+	////offset.waveOffsetX = 10;
 
 	UINT indices[6] =
 	{
@@ -333,6 +356,39 @@ void MeshManager::CreateWaveCountQuad()
 
 	this->waveCountQuad.CreateVertexBuffer(planeVerts, 4, false);
 	this->waveCountQuad.CreateIndexBuffer(indices, 6, false);
+}
+
+void MeshManager::CreateKillCountQuad1()
+{
+	Vertex planeVerts[4];
+
+	planeVerts[0].position = Float3(-0.8f, 1.0f, 0.0f);		//0
+	planeVerts[0].uv.x = 0.009f;
+	planeVerts[0].uv.y = 1 - 0.934f;
+
+	planeVerts[1].position = Float3(-0.6f, 1.0f, 0.0f);		//3
+	planeVerts[1].uv.x = 0.095f;
+	planeVerts[1].uv.y = 1 - 0.934f;
+
+
+	planeVerts[2].position = Float3(-0.6f, 0.75f, 0.0f);		//5
+	planeVerts[2].uv.x = 0.095f;
+	planeVerts[2].uv.y = 1 - 0.671f;
+
+	planeVerts[3].position = Float3(-0.8f, 0.75f, 0.0f);		//7
+	planeVerts[3].uv.x = 0.009f;
+	planeVerts[3].uv.y = 1 - 0.671f;
+
+	UINT indices[6] =
+	{
+		0, 1, 2,
+		0, 2, 3
+	};
+
+	this->KillCountQuad1.CreateVertexBuffer(planeVerts, 4, false);
+	this->KillCountQuad1.CreateIndexBuffer(indices, 6, false);
+
+
 }
 
 void MeshManager::CreateWaveCompleteQuad()
@@ -485,6 +541,16 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 	{
 		waveCompleteQuad.GetMeshRenderInfo(toRender);
 		toRender->materialID = 24;
+	}
+	else if (*uiEnum == UITextures::LEFTENEMYNR)
+	{
+		killCountQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 25;
+	}
+	else if (*uiEnum == UITextures::RIGHTENEMYNR)
+	{
+		KillCountQuad1.GetMeshRenderInfo(toRender);
+		toRender->materialID = 26;
 	}
 	/*else if (*uiEnum == UITextures::NUMERATION)
 	{

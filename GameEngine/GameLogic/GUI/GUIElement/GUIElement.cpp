@@ -19,8 +19,8 @@ void GUIElement::Initialize()
 	this->uv = { 0.0f,0.0f,0.0f };
 	this->size = { 0.0f,0.0f,0.0f };
 	grapichs = Graphics::GetInstance();
-	texture = UITextures::HUD;
-	numbers = UiNumbers::ZERO;
+	texture = texture;
+	numbers = numbers;
 }
 
 void GUIElement::Release()
