@@ -129,13 +129,14 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
+
+	this->brfImporterHandler->Release();
 }
 
 void ResourceManager::Release()
 {
 	this->shaderManager->Release();
 	this->meshManager->Release();
-	this->brfImporterHandler->Release();
 	this->materialManager->Release();
 }
 
