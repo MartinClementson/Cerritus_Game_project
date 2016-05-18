@@ -43,7 +43,7 @@ void AntTweakBar::toggleShowingBar()
 void AntTweakBar::addSlider(char * attributeName, float &connectedAttribute)
 {
 	//adresses.push_back(&connectedAttribute);
-	TwAddVarRW(gMyBar, attributeName, TW_TYPE_FLOAT, &connectedAttribute, "min = 0 max = 10");
+	TwAddVarRW(gMyBar, attributeName, TW_TYPE_FLOAT, &connectedAttribute, "min = 0 max = 100");
 	//adresses.shrink_to_fit();
 }
 
