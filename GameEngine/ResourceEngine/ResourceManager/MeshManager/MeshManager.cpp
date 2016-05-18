@@ -388,19 +388,19 @@ void MeshManager::CreateHighscoreCount1()
 	//wave Counter Quad for the wave numbers
 	Vertex planeVerts[4];
 
-	planeVerts[0].position = Float3(0.36f, 0.43f, 0.0f);		//0
+	planeVerts[0].position = Float3(0.26f, 0.43f, 0.0f);		//0
 	planeVerts[0].uv.x = 0.035f;
 	planeVerts[0].uv.y = 1 - 0.577f;
 
-	planeVerts[1].position = Float3(0.26f, 0.43f, 0.0f);		//3
+	planeVerts[1].position = Float3(0.36f, 0.43f, 0.0f);		//3
 	planeVerts[1].uv.x = 0.062f;
 	planeVerts[1].uv.y = 1 - 0.577f;
 
-	planeVerts[2].position = Float3(0.26f, 0.33f, 0.0f);		//5
+	planeVerts[2].position = Float3(0.36f, 0.33f, 0.0f);		//5
 	planeVerts[2].uv.x = 0.062f;
 	planeVerts[2].uv.y = 1 - 0.525f;
 
-	planeVerts[3].position = Float3(0.36f, 0.33f, 0.0f);		//7
+	planeVerts[3].position = Float3(0.26f, 0.33f, 0.0f);		//7
 	planeVerts[3].uv.x = 0.035f;
 	planeVerts[3].uv.y = 1 - 0.525f;
 

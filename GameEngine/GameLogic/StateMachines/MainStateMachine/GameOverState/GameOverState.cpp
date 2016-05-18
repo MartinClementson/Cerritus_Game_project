@@ -111,17 +111,6 @@ float GameOverState::GetPoints()
 	return this->points;
 }
 
-void GameOverState::SetLastHigh(float high)
-{
-	this->lastHighscore = high;
-}
-
-
-void GameOverState::getRenderScreen(UITextures * uiEnum, RenderInstructions * toRender)
-{
-	
-}
-
 void GameOverState::OnEnter()
 {
 	replay = false;
@@ -309,4 +298,38 @@ void GameOverState::QuadNumberPick2(int cases)
 		gameover4.UInumber = UiNumbers::NINE;
 		break;
 	}
+}
+
+void GameOverState::SetLastHigh(float high)
+{
+	this->lastHighscore = high;
+}
+
+float GameOverState::GetLastHigh()
+{
+	return lastHighscore;
+}
+
+void GameOverState::SetHighPlacing()
+{
+	float points = GetPoints();
+	highNumber = points;
+
+	highNumber1 = 0;
+	highNumber1 = highNumber / 100;
+	highNumber1 = (int)highNumber;
+
+	float minusNum = 0;
+	minusNum = 100 * number1;
+
+	highNumber2 = points;
+	highNumber2 = highNumber2 - minusNum;
+	highNumber2 = highNumber2 / 10;
+	highNumber2 = (int)highNumber2;
+
+	float minusNum2 = 0;
+	minusNum2 = 10 * number2;
+
+	highNumber3 = points - minusNum - minusNum2;
+	highNumber3 = (int)highNumber3;
 }

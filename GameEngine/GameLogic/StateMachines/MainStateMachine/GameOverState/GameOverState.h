@@ -20,6 +20,8 @@ public:
 	void SetPoints(float points);
 	float GetPoints();
 	void SetLastHigh(float high);
+	float GetLastHigh();
+	void SetHighPlacing();
 	bool toMenu;
 	void getRenderScreen(UITextures* uiEnum, RenderInstructions* toRender);
 
@@ -46,6 +48,11 @@ private:
 	float number1;
 	float number2;
 	float number3;
+
+	float highNumber;
+	float highNumber1;
+	float highNumber2;
+	float highNumber3;
 	int cases = 0;
 
 
