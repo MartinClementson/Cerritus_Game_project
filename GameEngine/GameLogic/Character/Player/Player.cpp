@@ -44,7 +44,6 @@ Player::Player()
 
 Player::~Player()
 {
-
 	delete this->projectileSystem;
 
 }
@@ -55,7 +54,7 @@ Player::~Player()
 
 void Player::Initialize(AudioManager* audioManager)
 {
-	
+	//bar->addSlider("health", health);
 	graphics			 = Graphics::GetInstance();
 	float hover			 = 0.0f;
 	this->position		 = XMFLOAT3(-5.0f, Y_OFFSET, -5.0f);
@@ -72,7 +71,6 @@ void Player::Initialize(AudioManager* audioManager)
 	maxHealth			 = health;
 	projectileSystem->Initialize(audioManager);
 	SetUpgrade(UpgradeType::ONE_SHOT);
-	
 }
 
 void Player::Release()

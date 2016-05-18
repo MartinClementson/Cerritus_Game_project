@@ -26,6 +26,8 @@ private:
 	MenuState* menuState;
 	MainStates activeState;//enum
 	EnemySpawn* enemySpawn;
+	
+	float timePassed;
 
 };
 

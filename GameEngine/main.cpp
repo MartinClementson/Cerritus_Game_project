@@ -5,9 +5,9 @@
 #include "./Source/LibIncluder.h"
 #include "./Source/EngineClass/Engine.h"
 #include "./Source/GameTimer/GameTimer.h"
+#include "./ResourceEngine/anttweakbar/AntTweakBar.h"
 
-
-
+//TwBar *test;
 HWND InitWindow(HINSTANCE hInstance);
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 void CalculateFPS(HWND& window, GameTimer& time);
@@ -22,8 +22,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	double tempDT = 10.0;
 	// create window
 	HWND wndHandle = InitWindow(hInstance);
-
-
+	//float test = 5;
 	// window is valid
 	if (wndHandle)
 	{
@@ -34,6 +33,9 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		engine->Initialize(&wndHandle, &hInstance);
 
 		GameTimer* time = GameTimer::GetInstance();
+		//test = AntTweakBar::GetInstance()->GetBar();s
+
+		//AntTweakBar::GetInstance()->addSlider("test", test);
 
 		time->Reset();
 		// enter message loop, loop until the message WM_QUIT is received.
@@ -79,7 +81,7 @@ HWND InitWindow(HINSTANCE hInstance)
 	wcex.lpfnWndProc    = WndProc;			// Which function is called for events
 	wcex.hInstance      = hInstance;
 	wcex.lpszClassName  = L"BasicWindow";
-	wcex.hCursor = LoadCursor(NULL, IDC_CROSS);
+	//wcex.hCursor = LoadCursor(NULL, IDC_CROSS);
 	wcex.hIconSm = LoadIcon(NULL, IDI_WINLOGO);
 	wcex.hIcon   = LoadIcon(NULL, IDI_APPLICATION);
 	// use the struct to register the new class.
@@ -111,6 +113,9 @@ HWND InitWindow(HINSTANCE hInstance)
 
 LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
+	if (TwEventWin(hWnd, message, wParam, lParam)) // send event message to AntTweakBar
+		return 0; 
+
 	switch (message) 
 	{
 	case WM_DESTROY:
