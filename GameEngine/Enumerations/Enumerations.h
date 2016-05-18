@@ -42,38 +42,54 @@ enum MeshEnum
 	LEVEL_1,
 	LEVEL_2,
 	LEVEL_3,
-	LEVEL_4
+	LEVEL_4,
+	SCENE,
+	PLACEHOLDER,
+	PICKUP_WEAPON,
+	PICKUP_HEAL
 };
 
 #pragma endregion
+
+enum CharacterType
+{
+	PLAYER,
+	SLOW_ENEMY,
+	FAST_ENEMY,
+	HEALER
+};
 
 #pragma region UI
 
 enum UITextures
 {
 	HEALTHBAR,
+	NUMERATION,
 	WAVECOUNTER,
-	ENEMYSLEFT,
 	AMMO,
 	WAVECOMPLETE,
 	HUD,
 	MENU,
 	PAUSE,
 	GAMEOVER,
-	TEXTATLAS,
-	RESTARTMENU, // newGameMenu
-	RESTARTPAUSE, // restart Pause
-	EXITMENU, // ExitButton menu
-	EXITPAUSE, // Exitbutton Pause 
+	WIN,
 	CONTROLS,
-	CONTROLSBUTTONMENU,//ControlButton Menu
-	CONTROLSEXIT,
-	RESUMEPAUSE, // Resumebutton Pause
 
 };
-
 #pragma endregion
-
+enum UiNumbers
+{
+	ONE,
+	TWO,
+	THREE,
+	FOUR,
+	FIVE,
+	SIX,
+	SEVEN,
+	EIGHT,
+	NINE,
+	ZERO,
+};
 #pragma region Lights
 
 enum LightType
@@ -123,7 +139,8 @@ enum EnemyState
 {
 	ENEMY_IDLE_STATE,
 	ENEMY_ATTACK_STATE,
-	ENEMY_DEATH_STATE
+	ENEMY_DEATH_STATE,
+	ENEMY_HEAL_STATE
 };
 
 #pragma endregion
@@ -134,7 +151,9 @@ enum MainStates
 {
 	MAIN_MENU_STATE,
 	MAIN_GAME_STATE,
-	MAIN_GAMEOVER_STATE
+	MAIN_GAMEOVER_STATE,
+	MAIN_WIN_STATE,
+	MAIN_PAUSE_STATE,
 };
 
 #pragma endregion
@@ -149,6 +168,7 @@ enum InputKeys
 	KEY_A,
 	KEY_S,
 	KEY_D,
+	KEY_Q,
 	KEY_P,
 	KEY_LEFT,
 	KEY_RIGHT,
@@ -164,7 +184,9 @@ enum InputKeys
 
 
 	MOUSE_RIGHT,
-	MOUSE_LEFT
+	MOUSE_LEFT,
+
+	KEY_LSHIFT
 };
 
 #pragma region MovementDirection
@@ -211,6 +233,14 @@ enum UpgradeType
 	THREE_SHOT,
 
 };
+
+enum PickupType
+{
+	WEAPON,
+	HEAL
+};
+
+
 
 enum GbufferTextures
 {

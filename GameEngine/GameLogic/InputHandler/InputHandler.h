@@ -3,13 +3,12 @@
 #include "../../Source/Constants.h"
 #include "../../Enumerations/Enumerations.h"
 #include "../../Structs/DataTypes.h"
+#include "../../ResourceEngine/anttweakbar/AntTweakBar.h"
 
 using namespace DirectX;
 
 class InputHandler
 {
-public:
-	~InputHandler();
 private:
 	LPDIRECTINPUT8 input;
 	LPDIRECTINPUTDEVICE8 keyboard;
@@ -20,6 +19,8 @@ private:
 	float mouseX, mouseY;
 	float lastMouseX, lastMouseY;
 
+	bool isLshiftPressed;
+
 private:
 	void ProcessInput();
 	bool ReadKeyboard();
@@ -28,7 +29,8 @@ private:
 
 	HWND* hwndP;
 public:
-	
+	~InputHandler();
+
 	bool Initialize(HWND* hwndP, HINSTANCE* hInstance);
 	void Release();
 
@@ -36,7 +38,7 @@ public:
 	bool IsKeyHeld(InputKeys* key);
 	XMFLOAT2 GetMousePosition();
 	bool isMouseClicked(InputKeys* mouseKey);
-
+	void SetMouseVisibility(bool x);
 	static InputHandler* GetInstance();
 	
 };

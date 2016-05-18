@@ -148,6 +148,7 @@ struct InstancedData
 {
 	InstancedData() { ZeroMemory(this, sizeof(this)); };
 	DirectX::XMFLOAT4X4 worldMatrix;
+	unsigned int glow = 0;
 };
 
 struct InstancedAnimationData
@@ -168,6 +169,7 @@ struct BillboardData
 	DirectX::XMFLOAT3 color		= DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f);
 	float height				= 1.0f;
 	float width					= 1.0f;
+	unsigned int glow			= 0;
 };
 
 struct BlendShapeVert
@@ -282,4 +284,18 @@ struct importedMaterial
 	std::string normalTex;
 	std::string specularTex;
 	std::string glowTex;
+};
+
+struct NodeType
+{
+	Float2 position;
+	float width;
+	unsigned int materialID;
+	bool isAnimated;
+	unsigned int triangleCount;
+	ID3D11Buffer *vertexBuffer;
+	ID3D11Buffer *indexBuffer;
+	UINT VertexCount;
+	UINT IndexCount;
+	NodeType* nodes[4];
 };

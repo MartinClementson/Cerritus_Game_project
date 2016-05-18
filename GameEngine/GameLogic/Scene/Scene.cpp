@@ -5,23 +5,19 @@ Scene::Scene()
 {
 	/*this->bearTraps = new std::vector<BearTrap>;
 	this->fireTraps = new std::vector<FireTrap>;*/
-	//	this->enemySpawn = new EnemySpawn;
+
+	//enemySpawn = new EnemySpawn;
+
+	this->enemySpawn = new EnemySpawn;
+
 	//this->trap = new Trap;
 	collision = Collision::GetInstance();
-
 }
 
 Scene::~Scene()
 {
 
-	//delete this->enemySpawn;
-	//	delete this->trap;
-
-
-	for (size_t i = 0; i < enemySpawns.size(); i++)
-	{
-		delete this->enemySpawns.at(i);
-	}
+	delete this->enemySpawn;	
 
 	/*delete this->sceneModels;
 	delete this->sceneLights;
@@ -38,77 +34,122 @@ Scene::~Scene()
 		if (bearTraps.at(i))
 			delete bearTraps.at(i);
 	}
+	for (size_t i = 0; i < Pickups.size(); i++)
+	{
+		if (Pickups.at(i))
+			delete Pickups.at(i);
+		
+	}
 
 }
 
-void Scene::Initialize()
+void Scene::Initialize(AudioManager* audioManager)
 {
-	trapAmount = 5;
+	fireTrapAmount = 3;
+	slowTrapAmount = 5;
 	collision->ClearTraps();
 	InitBearTrap();
 	InitFireTrap();
 
-	for (size_t i = 0; i < this->bearTraps.size(); i++)
-	{
-		collision->AddTrap(bearTraps.at(i));
-	}
+	
+
+	Pickups.push_back(new Pickup(XMFLOAT3(41.765f, 1.0f, 292.007f), PickupType::WEAPON));
+	Pickups.push_back(new Pickup(XMFLOAT3(-74.565f, 1.0f, 146.426f), PickupType::WEAPON));
+	Pickups.push_back(new Pickup(XMFLOAT3(87.982f, 1.0f, -103.119f), PickupType::WEAPON));
+
+	Pickups.push_back(new Pickup(XMFLOAT3(79.973f, 1.0f, 98.081f), PickupType::HEAL));
+	Pickups.push_back(new Pickup(XMFLOAT3(-68.137f, 1.0f, 280.096f), PickupType::HEAL));
+
 	RespawnTimer = 0;
+
+	enemySpawn->Initialize(audioManager);
+
 }
 
 void Scene::InitFireTrap()
 {
-	srand((unsigned int)time(0));
-
-
-	for (int i = 0; i < trapAmount; i++)
+	for (int i = 0; i < fireTrapAmount; i++)
 	{
-		XMFLOAT3 tmp; // randomizes the location of the beartrap
-		tmp.x = rand() % 150 - 85.0f;
-		tmp.y = 0;
-		tmp.z = rand() % 150 - 65.0f;
-		XMFLOAT3 pos = { tmp.x,tmp.y,tmp.z };
-		fireTraps.push_back(new FireTrap(pos));
+		XMFLOAT3 tmp; // randomizes the location of the firetrap
+		tmp.x = -23.438f;
+		tmp.y = 0.1f;
+		tmp.z = 196.672f;
+		fireTraps.push_back(new FireTrap(tmp));
+		tmp.x = 5.722f;
+		tmp.y = 0.1f;
+		tmp.z = -44.001f;
+		fireTraps.push_back(new FireTrap(tmp));
+		tmp.x = -75.777f;
+		tmp.y = 0.1f;
+		tmp.z = 77.070f;
+		fireTraps.push_back(new FireTrap(tmp));
 	}
 
 }
 
 void Scene::InitBearTrap()
 {
-	srand((unsigned int)time(0));
-
-
-	for (int i = 0; i < trapAmount; i++)
+	for (int i = 0; i < slowTrapAmount; i++)
 	{
 		XMFLOAT3 tmp; // randomizes the location of the beartrap
-		tmp.x = rand() % 150 - 65.0f;
-		tmp.y = 0;
-		tmp.z = rand() % 150 - 85.0f;
-		XMFLOAT3 pos = { tmp.x,tmp.y,tmp.z };
-		BearTrap* temp = new BearTrap(pos);
-		temp->Initialize(pos, temp->GetRotation());
+		tmp.x = 29.924f;
+		tmp.y = 0.1f;
+		tmp.z = 246.448f;
+		BearTrap* temp = new BearTrap(tmp);
+		temp->Initialize(tmp, temp->GetRotation());
+		bearTraps.push_back(temp);
+		tmp.x = 39.686f;
+		tmp.y = 0.1f;
+		tmp.z = 172.339f;
+		temp = new BearTrap(tmp);
+		temp->Initialize(tmp, temp->GetRotation());
+		bearTraps.push_back(temp);
+		tmp.x = 30.121f;
+		tmp.y = 0.1f;
+		tmp.z = 34.963f;
+		temp = new BearTrap(tmp);
+		temp->Initialize(tmp, temp->GetRotation());
+		bearTraps.push_back(temp);
+		tmp.x = -60.656f;
+		tmp.y = 0.1f;
+		tmp.z = -26.118f;
+		temp = new BearTrap(tmp);
+		temp->Initialize(tmp, temp->GetRotation());
+		bearTraps.push_back(temp);
+		tmp.x = 39.686f;
+		tmp.y = 0.1f;
+		tmp.z = -70.199f;
+		temp = new BearTrap(tmp);
+		temp->Initialize(tmp, temp->GetRotation());
 		bearTraps.push_back(temp);
 	}
 }
 
-void Scene::AddEnemySpawn(XMFLOAT3 spawnPosition)
-{
-	EnemySpawn* spawnPoint = new EnemySpawn();
-	spawnPoint->Initialize(spawnPosition);
-	enemySpawns.push_back(spawnPoint);
-}
-
 void Scene::Release()
 {
-	for (size_t i = 0; i < enemySpawns.size(); i++)
-	{
-
-		this->enemySpawns.at(i)->Release();
-	}
-
+	this->enemySpawn->Release();
 }
 
 void Scene::Update(double deltaTime)
 {
+	for (size_t i = 0; i < Pickups.size(); i++)
+	{
+		Pickups.at(i)->Update(deltaTime);
+	}
+
+	enemySpawn->Update(deltaTime);
+
+	if (enemySpawn->win == true)
+	{
+		toWin = true;
+	}
+
+	if (enemySpawn->pickupRespawn == true)
+	{
+		for (size_t i = 0; i < Pickups.size(); i++)
+			Pickups.at(i)->Respawn();
+		enemySpawn->pickupRespawn = false;
+	}
 
 	for (size_t i = 0; i < fireTraps.size(); i++)
 	{
@@ -117,9 +158,10 @@ void Scene::Update(double deltaTime)
 		if (fireTraps.at(i)->GetDot())
 		{
 			fireTraps.at(i)->GetDamage();
-
 		}
 	}
+
+	
 	for (size_t i = 0; i < bearTraps.size(); i++)
 	{
 		bearTraps.at(i)->Update(deltaTime);
@@ -127,92 +169,64 @@ void Scene::Update(double deltaTime)
 		{
 			bearTraps.at(i)->GetDamage();
 		}
-
-	}
-	for (size_t i = 0; i < enemySpawns.size(); i++)
-	{
-		enemySpawns.at(i)->Update(deltaTime);
-	}
-
-	for (size_t i = 0; i < bearTraps.size(); i++)
-	{
-		if (collision->BearTrapPlayerCollision(bearTraps.at(i)))
+		if (bearTraps.at(i)->GetState()->GetTrapState() != TrapState::TRAP_INACTIVE_STATE)
 		{
-			if (bearTraps.at(i)->isActive)
+			if (collision->BearTrapPlayerCollision(bearTraps.at(i)))
 			{
 				collision->PlayerProxyTrap(bearTraps.at(i));
-				for (size_t j = 0; j < enemySpawns.size(); j++)
-				{
-					for (size_t k = 0; k < enemySpawns.at(j)->Alive.size(); k++)
-					{
-						collision->EnemyProxTrap(bearTraps.at(i),
-							enemySpawns.at(j)->Alive.at(k))
-							&& bearTraps.at(i)->isActive;
 
-					}
+				for (size_t k = 0; k < enemySpawn->Alive.size(); k++)
+				{
+					collision->EnemyProxTrap(bearTraps.at(i),
+						enemySpawn->Alive.at(k));
 				}
-				bearTraps.at(i)->isActive = false;
+
+				bearTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_INACTIVE_STATE);
+				continue;
 			}
 
-		}
-		for (size_t j = 0; j < enemySpawns.size(); j++)
-		{
-			for (size_t k = 0; k < enemySpawns.at(j)->Alive.size(); k++)
+			for (size_t k = 0; k < enemySpawn->Alive.size(); k++)
 			{
 				if (collision->BearTrapEnemyCollision(bearTraps.at(i),
-					enemySpawns.at(j)->Alive.at(k))
-					&& bearTraps.at(i)->isActive)
+					enemySpawn->Alive.at(k)))
 				{
 					collision->PlayerProxyTrap(bearTraps.at(i));
-					for (size_t j2 = 0; j2 < enemySpawns.size(); j2++)
+
+					for (size_t k2 = 0; k2 < enemySpawn->Alive.size(); k2++)
 					{
-						for (size_t k2 = 0; k2 < enemySpawns.at(j2)->Alive.size(); k2++)
-						{
-							collision->EnemyProxTrap(bearTraps.at(i),
-								enemySpawns.at(j2)->Alive.at(k2))
-								&& bearTraps.at(i)->isActive;
-						}
+						collision->EnemyProxTrap(bearTraps.at(i),
+							enemySpawn->Alive.at(k2));
 					}
-					bearTraps.at(i)->isActive = false;
+
+					bearTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_INACTIVE_STATE);
+					continue;
 				}
-			}
+			}	
 		}
 	}
 
 	for (size_t i = 0; i < fireTraps.size(); i++)
 	{
-		if (collision->FireTrapPlayerCollision(fireTraps.at(i)) && fireTraps.at(i)->isActive)
+
+		if (fireTraps.at(i)->GetState()->GetTrapState() != TrapState::TRAP_INACTIVE_STATE)
 		{
-			fireTraps.at(i)->isActive = false;
-		}
-		for (size_t j = 0; j < enemySpawns.size(); j++)
-		{
-			for (size_t k = 0; k < enemySpawns.at(j)->Alive.size(); k++)
+			if (collision->FireTrapPlayerCollision(fireTraps.at(i)))
+			{
+				fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_ACTIVE_STATE);
+			}
+
+			for (size_t k = 0; k < enemySpawn->Alive.size(); k++)
 			{
 				if (collision->FireTrapEnemyCollision(fireTraps.at(i),
-					enemySpawns.at(j)->Alive.at(k))
-					&& fireTraps.at(i)->isActive)
+					enemySpawn->Alive.at(k)))
 				{
-
+					fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_ACTIVE_STATE);
 				}
 			}
 		}
 	}
-	if (RespawnTimer >= (double)10)
-	{
-		for (int i = 0; i < trapAmount - 1; i++)
-		{
-			fireTraps.at(i)->isActive = true;
-			bearTraps.at(i)->isActive = true;
-			RespawnTimer = 0;
-		}
-	}
-	else
-	{
-		RespawnTimer += deltaTime;
-	}
 
-
+	
 }
 
 void Scene::Render()
@@ -234,23 +248,15 @@ void Scene::Render()
 
 	}
 
-	//	enemySpawn->Render();
-
-
-	for (size_t i = 0; i < enemySpawns.size(); i++)
+	for (size_t i = 0; i < Pickups.size(); i++)
 	{
-
-		enemySpawns.at(i)->Render();
+		Pickups.at(i)->Render();
 	}
 
+	enemySpawn->Render();
 }
 
-void Scene::load()
-{
-
-}
-
-void Scene::EvadeTrap(Enemy* enemy, BearTrap* bear, double deltaTime)
+void Scene::EvadeTrap(EnemyBase* enemy, BearTrap* bear, double deltaTime)
 {
 	XMFLOAT3 enemyPos;
 	XMFLOAT3 trapPos;

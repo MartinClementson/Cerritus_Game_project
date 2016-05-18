@@ -32,7 +32,7 @@ bool InputHandler::Initialize(HWND* hwndP ,HINSTANCE* hInstance)
 {
 	//keyboard->Acquire();
 	this->hwndP = hwndP;
-
+	isLshiftPressed = false;
 	HRESULT hr = DirectInput8Create(
 		*hInstance,
 		DIRECTINPUT_VERSION,
@@ -75,7 +75,7 @@ bool InputHandler::Initialize(HWND* hwndP ,HINSTANCE* hInstance)
 		return false;
 	}
 
-	hr = mouse->SetCooperativeLevel(*hwndP, DISCL_EXCLUSIVE | DISCL_NOWINKEY | DISCL_FOREGROUND);
+	hr = mouse->SetCooperativeLevel(*hwndP, DISCL_NONEXCLUSIVE | DISCL_NOWINKEY | DISCL_FOREGROUND);
 	if (FAILED(hr))
 	{
 		return false;
@@ -95,6 +95,12 @@ bool InputHandler::Initialize(HWND* hwndP ,HINSTANCE* hInstance)
 		hr = mouse->Acquire();
 	}
 
+	ShowCursor(TRUE);
+	
+	//SetCursor(LoadCursor(NULL, IDC_CROSS));
+	
+	
+	
 	return true;
 }
 
@@ -124,6 +130,11 @@ bool InputHandler::IsKeyPressed(InputKeys* key)
 	{
 		return true;
 	}
+	else if (*key == KEY_Q && keyboardState[DIK_Q])
+	{
+		
+		return true;
+	}
 	else if (*key == KEY_LEFT && keyboardState[DIK_LEFT])
 	{
 		return true;
@@ -147,22 +158,37 @@ bool InputHandler::IsKeyPressed(InputKeys* key)
 	}
 	else if (*key == KEY_X && keyboardState[DIK_X])
 	{
+		//mouse->Unacquire();
+		//mouse->SetCooperativeLevel(*hwndP, DISCL_NONEXCLUSIVE | DISCL_BACKGROUND);
+		
 		return true;
 	}
 	else if (*key == KEY_C && keyboardState[DIK_C])
-
 	{
+		return true;
+	}
+	else if (*key == KEY_ESC && keyboardState[DIK_ESCAPE])
+	{
+		return true;
+	}
+	else if (*key == KEY_LSHIFT && keyboardState[DIK_LSHIFT])
+	{
+		isLshiftPressed = true;
 		return true;
 	}
 	else
 	{
+		isLshiftPressed = false;
 		return false;
 	}
 }
 
 bool InputHandler::IsKeyHeld(InputKeys* key)
 {
-		
+	if (isLshiftPressed == true)
+	{
+		return true;
+	}
 	return false;
 }
 
@@ -170,7 +196,8 @@ XMFLOAT2 InputHandler::GetMousePosition()
 {
 
 	POINT point;
-	ShowCursor(TRUE);
+	//ShowCursor(TRUE);
+
 
 	GetCursorPos(&point);
 	ScreenToClient(*this->hwndP, &point);
@@ -248,6 +275,23 @@ bool InputHandler::isMouseClicked(InputKeys* mouseKey)
 	}
 
 	return false;
+}
+
+void InputHandler::SetMouseVisibility(bool x)
+{
+
+	if (x == true)
+	{
+		//ShowCursor(TRUE);
+
+		//SetCursor(LoadCursor(NULL, IDC_CROSS));
+	}
+	else
+	{
+
+		while (ShowCursor(FALSE) > 0);
+	}
+
 }
 
 InputHandler * InputHandler::GetInstance()

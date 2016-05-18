@@ -1,10 +1,15 @@
 #pragma once
 #include "../../Source/LibIncluder.h"
 #include "./GUIElement/GUIElement.h"
+
+
+
+
 class GUI
 {
 public:
 	GUI();
+	GUI(UITextures texture);
 	virtual ~GUI();
 	void Initialize();
 	void Release();
@@ -13,16 +18,22 @@ public:
 	RenderInfoUI renderInfo;
 	Graphics* grapichs;
 	UITextures getUI();
-	XMFLOAT2 getPos();
-	void setPos(XMFLOAT2 position);
+	XMFLOAT3 getPos();
+	void setPos(XMFLOAT3 uv);
 	void setUI(UITextures texture);
+	void setUINR(UiNumbers numbers);
+	//void setBlyat(UITextures blyat, UiNumbers numberino);
+	void poop();
+
 
 private:
 	UITextures texture;
+	UiNumbers numbers;
+	/*UITextures texture1;*/
+	//HUDEN blyat;
+	//std::vector<GUI*> items;
 	std::vector<GUIElement*>* items;
-	DirectX::XMFLOAT2 size;
-	DirectX::XMFLOAT2 position;
-	//DirectX::XMFLOAT3 position;
-	//DirectX::XMFLOAT3 rotation;
+	DirectX::XMFLOAT3 size;
+	DirectX::XMFLOAT3 uv;
 };
 

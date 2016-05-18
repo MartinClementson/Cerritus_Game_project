@@ -70,6 +70,9 @@ void Graphics::Initialize(HWND * window)
 
 	hr				 = CreateDirect3DContext();
 
+	antTweakBar = AntTweakBar::GetInstance();
+	antTweakBar->Initialize(gDevice);
+
 	gameObjects		 = new std::vector<RenderInfoObject*>;
 	charObjects		 = new std::vector<RenderInfoChar*>;
 	uiObjects		 = new std::vector<RenderInfoUI*>;
@@ -84,9 +87,17 @@ void Graphics::Initialize(HWND * window)
 	
 	billBoardArray[PROJECTILE_BILLBOARD]			 = new BillboardData[MAX_BILLBOARDED_GEOMETRY];
 	billBoardArray[HEALTH_BAR_BILLBOARD]			 = new BillboardData[MAX_BILLBOARDED_GEOMETRY];
+	billBoardArray[PICKUP_HEALTH_BILLBOARD]			 = new BillboardData[MAX_BILLBOARDED_GEOMETRY];
+	billBoardArray[PICKUP_WEAPON_BILLBOARD]			 = new BillboardData[MAX_BILLBOARDED_GEOMETRY];
 	
 	memset(billBoardArray[PROJECTILE_BILLBOARD],	  0, sizeof(billBoardArray[PROJECTILE_BILLBOARD]));
 	memset(billBoardArray[HEALTH_BAR_BILLBOARD],      0, sizeof(billBoardArray[HEALTH_BAR_BILLBOARD]));
+
+	memset(billBoardArray[PICKUP_HEALTH_BILLBOARD], 0, sizeof(billBoardArray[PICKUP_HEALTH_BILLBOARD]));
+	memset(billBoardArray[PICKUP_WEAPON_BILLBOARD], 0, sizeof(billBoardArray[PICKUP_WEAPON_BILLBOARD]));
+
+
+
 	memset(instancesToRender, 0, sizeof(instancesToRender)); //reset instances to render amount
 	memset(billboardsToRender, 0, sizeof(billboardsToRender));
 	renderer = new Renderer();
@@ -132,6 +143,7 @@ void Graphics::Release()
 #pragma region Release custom classes
 
 	renderer->Release();
+	antTweakBar->Release();
 #pragma endregion
 
 
@@ -229,11 +241,16 @@ void Graphics::Render() //manage RenderPasses here
 
 	this->renderer->RenderFinalPass();
 
+	/*RenderInfoUI temp;
+	temp.UIobject = UITextures::WAVECOMPLETE;
+	renderer->Render(&temp);*/
 	for (unsigned int i = 0; i < uiObjects->size(); i++)
 	{
 		renderer->Render(uiObjects->at(i));
 
 	}
+	
+	
 
 	
 	FinishFrame();
@@ -248,25 +265,13 @@ void Graphics::RenderScene()
 		renderer->Render(charObjects->at(0));
 	}
 #pragma region Temporary code for early testing
-	RenderInfoObject tempInfo;						//TEMPORARY
+	std::vector<RenderInstructions>* tempInfo = new std::vector<RenderInstructions>;						//TEMPORARY
 													//TEMPORARY
-	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
-	tempInfo.rotation = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
-	tempInfo.object = MeshEnum::LEVEL_1;
-	this->renderer->Render(&tempInfo);				//TEMPORARY
-	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
-	tempInfo.rotation = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
-	tempInfo.object = MeshEnum::LEVEL_2;
-	this->renderer->Render(&tempInfo);				//TEMPORARY
-	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
-	tempInfo.rotation = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
-	tempInfo.object = MeshEnum::LEVEL_3;
-	this->renderer->Render(&tempInfo);				//TEMPORARY
-	tempInfo.position = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
-	tempInfo.rotation = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
-	tempInfo.object = MeshEnum::LEVEL_4;
-	this->renderer->Render(&tempInfo);				 //TEMPORARY
+	
+	this->renderer->Render(tempInfo);				//TEMPORARY
 
+
+	delete tempInfo;
 #pragma endregion
 
 
@@ -286,15 +291,19 @@ void Graphics::RenderScene()
 	if (instancesToRender[PROJECTILE_INSTANCED] > 0)
 	{
 		////////////BILLBOARD RENDERING
- 		renderer->RenderBillBoard(
+   		renderer->RenderBillBoard(
 			this->gameObjects->at(instanceMeshIndex.projectileMesh),
-			billBoardArray   [PROJECTILE_BILLBOARD], 
+			billBoardArray[PROJECTILE_BILLBOARD],
 			instancesToRender[PROJECTILE_INSTANCED]);
-
-		//////////////INSTANCE RENDERING
-		//renderer->RenderInstanced(this->gameObjects->at(instanceMeshIndex.projectileMesh),
-			//instancedWorldDataPerFrame[ PROJECTILE_INSTANCED ], instancesToRender[ PROJECTILE_INSTANCED ] );
 	}
+	////Render instanced enemies
+	if (instancesToRender[ENEMY_1_INSTANCED] > 0)
+	{
+		renderer->RenderInstanced(this->enemyObjects->at(instanceMeshIndex.enemy1Mesh ),
+			instancedWorldDataPerFrame[ ENEMY_1_INSTANCED ], instancesToRender[ ENEMY_1_INSTANCED ]);
+	}
+	
+
 
 	if (billboardsToRender[HEALTH_BAR_BILLBOARD] > 0)
 	{
@@ -306,13 +315,27 @@ void Graphics::RenderScene()
 			billboardsToRender[HEALTH_BAR_BILLBOARD]);
 	}
 
-	////Render instanced enemies
-	if (instancesToRender[ENEMY_1_INSTANCED] > 0)
+	if (billboardsToRender[PICKUP_HEALTH_BILLBOARD] > 0)
 	{
-		renderer->RenderInstanced(this->enemyObjects->at(instanceMeshIndex.enemy1Mesh ),
-			instancedWorldDataPerFrame[ ENEMY_1_INSTANCED ], instancesToRender[ ENEMY_1_INSTANCED ]);
+
+		////////////BILLBOARD RENDERING
+		renderer->RenderBillBoard(
+			this->gameObjects->at(instanceMeshIndex.pickupHealth),
+			billBoardArray[PICKUP_HEALTH_BILLBOARD],
+			billboardsToRender[PICKUP_HEALTH_BILLBOARD]);
 	}
-	
+
+	if (billboardsToRender[PICKUP_WEAPON_BILLBOARD] > 0)
+	{
+
+		////////////BILLBOARD RENDERING
+		renderer->RenderBillBoard(
+			this->gameObjects->at(instanceMeshIndex.pickupWeapon),
+			billBoardArray[PICKUP_WEAPON_BILLBOARD],
+			billboardsToRender[PICKUP_WEAPON_BILLBOARD]);
+	}
+
+
 	 //Take back when we have more enemy types
 	/*for (unsigned int i = 0; i < enemyObjects->size(); i++)
 	{
@@ -348,11 +371,7 @@ void Graphics::RenderScene()
 
 	}*/
 
-	/*for (unsigned int i = 0; i < uiObjects->size(); i++)
-	{
-		renderer->Render(uiObjects->at(i));
-
-	}*/
+	
 
 
 
@@ -372,22 +391,26 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 	enemyObjects ->clear();	//clear the queue
 	trapObjects	 ->clear();	//clear the queue
 	uiObjects	 ->clear();	//clear the queue
-
+	
 	memset(instancedWorldDataPerFrame[ENEMY_1_INSTANCED],    0, sizeof(instancedWorldDataPerFrame[ENEMY_1_INSTANCED]   ));	 //reset instance array
 	memset(instancedWorldDataPerFrame[PROJECTILE_INSTANCED], 0, sizeof(instancedWorldDataPerFrame[PROJECTILE_INSTANCED]));   //reset instance array
 	memset(instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED],  0, sizeof(instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED]));	 //reset instance array
 	memset(instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED],  0, sizeof(instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED]));	 //reset instance array
 
-	memset(billBoardArray[PROJECTILE_BILLBOARD], 0, sizeof(billBoardArray[PROJECTILE_BILLBOARD]));
-	memset(billBoardArray[HEALTH_BAR_BILLBOARD], 0, sizeof(billBoardArray[HEALTH_BAR_BILLBOARD]));
-
-
+	memset(billBoardArray[PROJECTILE_BILLBOARD],    0, sizeof(billBoardArray[PROJECTILE_BILLBOARD]));
+	memset(billBoardArray[HEALTH_BAR_BILLBOARD],    0, sizeof(billBoardArray[HEALTH_BAR_BILLBOARD]));
+	memset(billBoardArray[PICKUP_HEALTH_BILLBOARD], 0, sizeof(billBoardArray[PICKUP_HEALTH_BILLBOARD]));
+	memset(billBoardArray[PICKUP_WEAPON_BILLBOARD], 0, sizeof(billBoardArray[PICKUP_WEAPON_BILLBOARD]));
+	
+	
 
 	
 	memset(instancesToRender,  0, sizeof(instancesToRender)); //reset instances to render amount
 	memset(billboardsToRender, 0, sizeof(billboardsToRender));
 
 	instanceMeshIndex.Reset();
+
+	antTweakBar->Update();
 
 	this->gSwapChain->Present(VSYNC, 0); //Change front and back buffer after rendering
 	
@@ -440,19 +463,20 @@ void Graphics::CullGeometry()
 	unsigned int	 healthBarIndex		 = 0;
 	unsigned int	 bearTrapIndex		 = 0;
 	unsigned int	 fireTrapIndex		 = 0;
-
+	unsigned int	 weaponPickupIndex   = 0;
+	unsigned int	 healthPickupIndex   = 0;
 #pragma region Cull enemy objects
 	for (size_t i = 0; i < this->enemyObjects->size(); i++)
 	{
 		//Frustum culling
-		if (renderer->FrustumCheck(enemyObjects->at(i)->position, enemyObjects->at(i)->radius) == false)
+		if (renderer->FrustumCheck(enemyObjects->at(i)->position, enemyObjects->at(i)->radius + 10) == false)
 		{	
 			//If its not visible
 			this->enemyObjects->at(i)->render = false;
-			continue;
+			//continue;
 		}
 		 
-		else {
+		//else {
 
 			//if object is visible and is enemy_1_type
 			this->instancedWorldDataPerFrame[ENEMY_1_INSTANCED][enemyIndex].worldMatrix = CalculateWorldMatrix(&this->enemyObjects->at(i)->position, &this->enemyObjects->at(i)->rotation);
@@ -464,19 +488,46 @@ void Graphics::CullGeometry()
 
 				if (enemyObjects->at(i)->showHealthBar)
 				{
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow = 0;//(enemyObjects->at(i)->isBeingHealed == true) ? 1 : 0; //Funkar inte
 					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].direction  = XMFLOAT3(0.0f, 1.0f, 0.0f);
 					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].height		= 0.1f;
 					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].width		= 2.0f * enemyObjects->at(i)->normalizedHealthVal;
 					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].worldPos	= 
-						XMFLOAT3(	  enemyObjects->at(i)->position.x - (2.0f - (billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width)), 	    // pos. x - (2 - width)
-									  5.0f ,																									    // height of the healthbar. 0 == on ground
-									  enemyObjects->at(i)->position.z);																		        // pos z.
-					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + enemyObjects->at(i)->normalizedHealthVal - 0.2f;		// -0.2f is just to make the red appear sooner
-					billBoardArray    [HEALTH_BAR_BILLBOARD];
+
+						XMFLOAT3(	enemyObjects->at(i)->position.x - (2.0f - (billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width)), 	   // pos. x - (2 - width)
+									5.0f ,																									       //height of the healthbar. 0 == on ground
+									enemyObjects->at(i)->position.z);																		       // pos z.
+					
+
+
+					if (enemyObjects->at(i)->isOnfire)
+					{
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow = 1;
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f;
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.3f;
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.z = 0.0f;
+					}
+					else if (enemyObjects->at(i)->isSlowed)
+					{
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow = 1;
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 0.0f;
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.75f;
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.z = 1.0f;
+					}
+					else
+					{
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow	 = 0;
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f;
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + enemyObjects->at(i)->normalizedHealthVal - 0.2f;		// -0.2f is just to make the red appear sooner
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.z = 0.0f;
+
+					}
+					
+				
 					billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;
 					healthBarIndex							 += 1;
 				}
-		}
+		//}
 		//endif  object is visible
 	}
 #pragma endregion
@@ -497,9 +548,10 @@ void Graphics::CullGeometry()
 
 				//this->instancedWorldDataPerFrame[PROJECTILE_INSTANCED][projectileIndex].worldMatrix = CalculateWorldMatrix(&this->gameObjects->at(i)->position, &this->gameObjects->at(i)->rotation);
 				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].direction = this->gameObjects->at(i)->direction;
-				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].height    = 3.0f;
-				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].width     = 0.15f;
-				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].worldPos  = this->gameObjects->at(i)->position + (this->gameObjects->at(i)->direction *(billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].height * 0.9f));
+				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].height	= 3.0f;
+				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].width		= 0.15f;
+				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].glow		= 1;
+				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].worldPos  = this->gameObjects->at(i)->position + (this->gameObjects->at(i)->direction *(billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].height * 0.9f)); // this is to make sure that if we made a long shot, (like a railgun) we wouldnt want halv of the shot texture behind the character
 
 				instancesToRender[PROJECTILE_INSTANCED]  += 1;
 				projectileIndex							 += 1;
@@ -508,6 +560,44 @@ void Graphics::CullGeometry()
 				if (instanceMeshIndex.projectileMesh == -1) //if this is the first thing we found of that mesh, store the index.
       					instanceMeshIndex.projectileMesh = (int)i;
 			}
+
+
+			else if (this->gameObjects->at(i)->object == MeshEnum::PICKUP_WEAPON)
+			{
+				billBoardArray[PICKUP_WEAPON_BILLBOARD][weaponPickupIndex].color	 = XMFLOAT3(1.0f, 0.0f, 0.0f); //TEMP
+				billBoardArray[PICKUP_WEAPON_BILLBOARD][weaponPickupIndex].direction = XMFLOAT3(0.0f, 0.5f, 0.5f);
+				billBoardArray[PICKUP_WEAPON_BILLBOARD][weaponPickupIndex].height    = 2.0f;
+				billBoardArray[PICKUP_WEAPON_BILLBOARD][weaponPickupIndex].width     = 2.0f;
+				billBoardArray[PICKUP_WEAPON_BILLBOARD][weaponPickupIndex].worldPos = gameObjects->at(i)->position;
+				billBoardArray[PICKUP_WEAPON_BILLBOARD][weaponPickupIndex].worldPos.y += 1.2f;
+				this->gameObjects->at(i)->render = false; //We don't want to render this with nonInstance rendering
+				billboardsToRender[PICKUP_WEAPON_BILLBOARD] += 1;
+				weaponPickupIndex += 1;
+
+				if (instanceMeshIndex.pickupWeapon == -1) //if this is the first thing we found of that mesh, store the index.
+					instanceMeshIndex.pickupWeapon = (int)i;
+			
+			}
+
+			else if (this->gameObjects->at(i)->object == MeshEnum::PICKUP_HEAL)
+			{
+				
+				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].color	 = XMFLOAT3(0.0f, 1.0f, 0.0f); //TEMP
+				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].direction = XMFLOAT3(0.0f, 0.5f, 0.5f);
+				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].height    = 2.0f;
+				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].glow		 = 0;
+				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].width     = 2.0f;
+				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].worldPos  = gameObjects->at(i)->position;
+				billBoardArray[PICKUP_HEALTH_BILLBOARD][healthPickupIndex].worldPos.y += 1.2f;
+				this->gameObjects->at(i)->render = false; //We don't want to render this with nonInstance rendering
+				billboardsToRender[PICKUP_HEALTH_BILLBOARD] += 1;
+				healthPickupIndex += 1;
+
+				if (instanceMeshIndex.pickupHealth == -1) //if this is the first thing we found of that mesh, store the index.
+					instanceMeshIndex.pickupHealth = (int)i;
+			}
+
+
 			else
 				this->gameObjects->at(i)->render = true;
 
@@ -523,7 +613,7 @@ void Graphics::CullGeometry()
 	for (size_t i = 0; i < this->trapObjects->size(); i++)
 	{
 		//Frustum culling
-		if (renderer->FrustumCheck(trapObjects->at(i)->position, trapObjects->at(i)->radius) == false)
+		if (renderer->FrustumCheck(trapObjects->at(i)->position, 10.0f) == false)
 		{
 			//If its not visible
 			this->trapObjects->at(i)->render = false;
@@ -533,28 +623,160 @@ void Graphics::CullGeometry()
 		{
 			if (this->trapObjects->at(i)->object == MeshEnum::TRAP_BEAR)
 			{
+				
 				this->instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED][bearTrapIndex].worldMatrix = CalculateWorldMatrix(&this->trapObjects->at(i)->position, &this->trapObjects->at(i)->rotation);
+				this->instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED][bearTrapIndex].glow = (this->trapObjects->at(i)->glow == true) ? 1 : 0 ;
 				instancesToRender[TRAP_BEAR_INSTANCED] += 1;
 				bearTrapIndex += 1;
 				this->trapObjects->at(i)->render = false; //We don't want to render this with nonInstance rendering
 
 				if (instanceMeshIndex.trapBearMesh == -1) //if this is the first thing we found of that mesh, store the index.
 					instanceMeshIndex.trapBearMesh = (int)i;
+
+				if (this->trapObjects->at(i)->normalizedReloadVal > 0.0f) // if the trap is being reloaded (Render it as a healthbar
+				{
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow = 0;
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].direction = XMFLOAT3(0.0f, 1.0f, 0.0f);
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].height    = 0.5f;
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width	   = 4.0f * trapObjects->at(i)->normalizedReloadVal;
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].worldPos  =
+						XMFLOAT3(trapObjects->at(i)->position.x - (4.0f - (billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width)), 	   // pos. x - (2 - width)
+							5.0f,																									       //height of the healthbar. 0 == on ground
+							trapObjects->at(i)->position.z + 4);																		       // pos z.
+
+					
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f - trapObjects->at(i)->normalizedReloadVal ;
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + trapObjects->at(i)->normalizedReloadVal;
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.z = 0.0f;
+					billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;
+					healthBarIndex += 1;
+
+
+				}
+
 			}
 
 			else if (this->trapObjects->at(i)->object == MeshEnum::TRAP_FIRE)
 			{
 				this->instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED][fireTrapIndex].worldMatrix = CalculateWorldMatrix(&this->trapObjects->at(i)->position, &this->trapObjects->at(i)->rotation);
+				this->instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED][fireTrapIndex].glow = (this->trapObjects->at(i)->glow == true) ? 1 : 0;
 				instancesToRender[TRAP_FIRE_INSTANCED] += 1;
 				fireTrapIndex += 1;
 				this->trapObjects->at(i)->render = false; //We don't want to render this with nonInstance rendering
 
 				if (instanceMeshIndex.trapFireMesh == -1) //if this is the first thing we found of that mesh, store the index.
 					instanceMeshIndex.trapFireMesh = (int)i;
+
+				if (this->trapObjects->at(i)->normalizedReloadVal > 0.0f) // if the trap is being reloaded (Render it as a healthbar)
+				{
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow = 0;
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].direction = XMFLOAT3(0.0f, 1.0f, 0.0f);
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].height = 0.5f;
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width = 4.0f * trapObjects->at(i)->normalizedReloadVal;
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].worldPos =
+						XMFLOAT3(trapObjects->at(i)->position.x - (4.0f - (billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width)), 	   // pos. x - (2 - width)
+							5.0f,																									       //height of the healthbar. 0 == on ground
+							trapObjects->at(i)->position.z +2 );																		       // pos z.
+
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f - trapObjects->at(i)->normalizedReloadVal;
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + trapObjects->at(i)->normalizedReloadVal;
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.z = 0.0f;
+
+
+					billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;
+					healthBarIndex += 1;
+
+
+				}
+
+
 			}
 		}
 
 	}
+
+#pragma region Set up the healthbar for the player
+	if (charObjects->size() > 0)
+	{
+		if (charObjects->at(0)->showHealthBar)
+		{
+
+
+			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].direction = XMFLOAT3(0.0f, 1.0f, 0.0f);
+			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].height = 0.3f;
+			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width = 3.0f * charObjects->at(0)->normalizedHealthVal;
+			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].worldPos = 
+				XMFLOAT3(charObjects->at(0)->position.x - (3.0f - (billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width)), 	   // pos. x - (2 - width)
+					5.0f,																									       //height of the healthbar. 0 == on ground
+					charObjects->at(0)->position.z + 2);																		       // pos z.
+			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color =XMFLOAT3( 0.0f,0.0f,0.0f);
+			if (charObjects->at(0)->isOnfire)
+			{
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow	 = 1;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.3f;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.z = 0.0f;
+			}
+			else if (charObjects->at(0)->isSlowed)
+			{
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow = 1;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 0.0f;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.75f;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.z = 1.0f;
+			}
+			else
+			{
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow	 = 0;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f - charObjects->at(0)->normalizedHealthVal;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + charObjects->at(0)->normalizedHealthVal;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.z = 0.0f;
+			}
+
+
+
+			billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;
+			healthBarIndex += 1;
+		}
+
+
+#pragma region Alternate Laser
+
+		////this->instancedWorldDataPerFrame[PROJECTILE_INSTANCED][projectileIndex].worldMatrix = CalculateWorldMatrix(&this->gameObjects->at(i)->position, &this->gameObjects->at(i)->rotation);
+		//billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].direction = this->charObjects->at(0)->direction;
+		//float x = XMVector3Length(XMLoadFloat3(&this->charObjects->at(0)->direction)).m128_f32[0];
+		//
+
+		//billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].height = x;
+		//billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width = 0.05f;
+		//billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow = 1;
+		//billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].screenSpace = 0;
+		//billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].worldPos = this->charObjects->at(0)->position + (this->charObjects->at(0)->direction *(billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].height)); // this is to make sure that if we made a long shot, (like a railgun) we wouldnt want halv of the shot texture behind the character
+		//billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].worldPos.y = 5.0f;
+		//billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f;
+		//billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f;
+		//billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.z = 0.0f;
+
+		//
+
+		//billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;
+		//healthBarIndex += 1;
+#pragma endregion
+
+
+
+
+
+
+
+	}
+
+	
+
+
+#pragma endregion
+
+
+
 
 
 #pragma endregion
@@ -797,6 +1019,11 @@ void Graphics::QueueRender(RenderInfoChar * object)
 void Graphics::QueueRender(RenderInfoTrap * object)
 {
 	this->trapObjects->push_back(object);
+}
+
+void Graphics::QueueRender(RenderInfoScene * object)
+{
+	this->sceneObjects->push_back(object);
 }
 
 

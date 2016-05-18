@@ -4,6 +4,9 @@
 
 GUIElement::GUIElement()
 {
+
+
+
 }
 
 
@@ -13,9 +16,11 @@ GUIElement::~GUIElement()
 
 void GUIElement::Initialize()
 {
-	this->position = position;
-	this->size = size;
+	this->uv = { 0.0f,0.0f,0.0f };
+	this->size = { 0.0f,0.0f,0.0f };
 	grapichs = Graphics::GetInstance();
+	texture = UITextures::HUD;
+	numbers = UiNumbers::ZERO;
 }
 
 void GUIElement::Release()
@@ -25,11 +30,31 @@ void GUIElement::Release()
 
 void GUIElement::Update(double deltaTime)
 {
-	renderInfo = { size,position };
+	//renderInfo = { size,uv };
 
+	renderInfo.UIobject = texture;
+	renderInfo.UInumber = numbers;
 }
 
 void GUIElement::Render()
 {
+
+	renderInfo.size = size;
+	renderInfo.uv = uv;
+
 	grapichs->QueueRender(&renderInfo);
+}
+
+void GUIElement::setUI(UITextures texture)
+{
+
+	this->texture = texture;
+
+}
+
+void GUIElement::setUINR(UiNumbers numbers)
+{
+
+	this->numbers = numbers;
+
 }

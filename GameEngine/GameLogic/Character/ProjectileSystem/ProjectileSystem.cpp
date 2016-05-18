@@ -20,15 +20,13 @@ ProjectileSystem::~ProjectileSystem()
 {
 	/*for (unsigned int i = 0; i < projectiles.size(); i++)
 	{
-<<<<<<< HEAD
-	if (projectiles.at(i))
-	delete projectiles.at(i);
-=======
+
 		if (projectiles.at(i))
-			delete projectiles.at(i);
->>>>>>> refs/remotes/origin/master
+		delete projectiles.at(i);
+
 	}*/
 	for (unsigned int i = 0; (int)i < maxProjectiles; i++)
+
 		delete projectiles[i];
 }
 
@@ -157,8 +155,8 @@ void ProjectileSystem::SetUpgrade(UpgradeType upgrade)
 	}
 	else if (this->upgrade == UpgradeType::THREE_SHOT)
 	{
-		XMStoreFloat4x4(&rotationMatrix, XMMatrixRotationY(0.4f));
-		XMStoreFloat4x4(&rotationMatrix2, XMMatrixRotationY(-0.4f));
+		XMStoreFloat4x4(&rotationMatrix, XMMatrixRotationY(0.2f));
+		XMStoreFloat4x4(&rotationMatrix2, XMMatrixRotationY(-0.2f));
 	}
 
 
@@ -177,7 +175,7 @@ void ProjectileSystem::Initialize(AudioManager* audioManager)
 	lifeSpan = 2.5f;
 	//maxProjectiles = 100;
 
-
+	//AntTweakBar::GetInstance()->addSlider("lifespan", *lifeSpan);
 }
 
 void ProjectileSystem::Release()
@@ -194,6 +192,7 @@ void ProjectileSystem::Render()
 		{
 			//renderInfo = { projectiles.at(i)->GetPos(),projectiles.at(i)->GetDir() };
 			graphics->QueueRender(&projectiles[i]->renderInfo);
+			
 		}
 	}
 }

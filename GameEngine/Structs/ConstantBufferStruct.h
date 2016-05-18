@@ -24,6 +24,15 @@ struct WorldMatrix
 };
 //WorldMatrix worldMatrix;
 
+struct UV
+{
+	float enemyoffsetX;
+	DirectX::XMFLOAT3 PaddingX;
+	float waveoffsetX;
+	DirectX::XMFLOAT3 PaddingY;
+};
+
+
 
 struct PointLightStruct
 {

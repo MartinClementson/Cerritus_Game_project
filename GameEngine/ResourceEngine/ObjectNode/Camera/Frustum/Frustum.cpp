@@ -95,8 +95,9 @@ bool Frustum::CheckCircle(float xCenter, float yCenter, float zCenter, float rad
 		{
 			return false;
 		}
-		return true;
 	}
+	return true;
+	//return true;
 }
 
 //feed me positions!

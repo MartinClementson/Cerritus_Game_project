@@ -59,7 +59,7 @@ struct GBUFFER_VS_IN
 	float2 Tangent		 : TEXCOORD3;
 	float4x4 worldMatrix : WORLD;
 	//uint vertexID		 : SV_VertexID; <-- for animation
-
+	unsigned int glow	 : GLOW;
 };
 struct GBUFFER_VS_OUT
 {
@@ -69,6 +69,7 @@ struct GBUFFER_VS_OUT
 	float3 BiTangent	 : TEXCOORD2;
 	float3 Tangent		 : TEXCOORD3;
 	float4 wPos			 : WORLDPOS;
+	unsigned int glow : GLOW;
 };
 struct GBUFFER_GS_OUT
 {
@@ -82,6 +83,7 @@ struct GBUFFER_GS_OUT
 	float4 wPos			: WORLDPOS;
 	float4 camPos		: CAMERAPOS;
 	float4 mousePos		: MOUSEPOS;
+	unsigned int glow : GLOW;
 };
 struct GBUFFER_PS_OUT
 {
@@ -109,7 +111,7 @@ GBUFFER_VS_OUT GBUFFER_VS_main(GBUFFER_VS_IN input)
 	output.BiTangent.z  = sqrt(1 - pow(input.BiTangent.x, 2) + pow(input.BiTangent.y, 2));
 	output.Tangent.z	= sqrt(1 - pow(input.Tangent.x, 2) + pow(input.Tangent.y, 2));
 	
-
+	output.glow = input.glow;
 
 	
 
@@ -145,8 +147,10 @@ void GBUFFER_GS_main(
 		element.Tangent		 = input[i].Tangent	   ;
 		element.Uv			 = input[i].Uv;
 		element.wPos		 = input[i].wPos;
+		element.glow		 = input[i].glow;
 		element.camPos		 = camPos;
 		element.mousePos	 = mousePos;
+
 
 		output.Append(element);
 	}
@@ -269,8 +273,15 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	float4 glowSample;
 	if (glowMap)
 	{
-		glowSample = glowTex.Sample(linearSampler, input.Uv);
-		output.glowRes = glowSample;
+		if (input.glow > 0)
+		{
+
+			glowSample = glowTex.Sample(linearSampler, input.Uv);
+			output.glowRes = glowSample;
+		}
+		else
+			output.glowRes = float4 (0, 0, 0, 0);
+
 	}
 	else
 	{

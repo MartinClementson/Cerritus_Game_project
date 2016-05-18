@@ -37,8 +37,9 @@ void BearTrap::Initialize(XMFLOAT3 position, XMFLOAT3 rotation)
 	this->isActive = true;
 	this->renderInfo.object = MeshEnum::TRAP_BEAR;
 	this->renderInfo.radius = radius;
-	radius = 1.0f;
+	radius = 2.0f;
 	radius2 = 3.0f;
+	activeTimer = 0.0f;
 
 }
 
@@ -49,14 +50,41 @@ void BearTrap::Release()
 
 void BearTrap::Update(double deltaTime)
 {
+	//this->isBeingReloaded = false; //Needs to be reset every frame, in case the player releases the button
+	renderInfo.normalizedReloadVal = -1;
+	if (this->currReloadTime > 0)
+		currReloadTime -=  (float)(deltaTime/4);
+	
+	if (this->GetState()->GetTrapState() == TrapState::TRAP_ACTIVE_STATE)
+	{
+		activeTimer += (float)deltaTime;
+	}
+
+	if (activeTimer > 1.0f)
+	{
+		this->GetState()->SetTrapState(TrapState::TRAP_INACTIVE_STATE);
+		activeTimer = 0.0f;
+	}
+
 	if (slow > 0.0f)
 	{
 		slow -= (float)deltaTime; 	
 	}
+
 	renderInfo.position = position;
+	renderInfo.position.y = 0.2f;
 	renderInfo.rotation = rotation; // kinda works
 	renderInfo.radius = radius;
 	renderInfo.render = true;
+
+	if (this->GetState()->GetTrapState() != TrapState::TRAP_INACTIVE_STATE)
+	{
+		renderInfo.glow = true;
+	}
+	else
+	{
+		renderInfo.glow = false;
+	}
 
 }
 
@@ -64,7 +92,15 @@ void BearTrap::Render()
 {
 	if (this->isActive)
 	{
-		grapichs->QueueRender(&this->renderInfo);
+		
+			if (this->isBeingReloaded)
+				renderInfo.normalizedReloadVal = this->currReloadTime / this->maxReloadTime;
+			
+				
+		
+			grapichs->QueueRender(&this->renderInfo);
+
+			
 	}
 }
 

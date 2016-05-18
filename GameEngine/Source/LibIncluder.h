@@ -6,6 +6,9 @@
 #include <DirectXMath.h>
 #include <d3d11sdklayers.h>
 #include "Audio.h"
+#include <cstdlib>
+#include <iostream>
+#include <ctime>
 #ifndef DIRECTINPUT_VERSION
 	#define DIRECTINPUT_VERSION 0x0800
 #endif

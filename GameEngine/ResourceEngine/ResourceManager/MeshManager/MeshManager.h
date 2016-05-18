@@ -4,6 +4,9 @@
 #include "../../../Source/LibIncluder.h"
 #include "../../ObjectNode/Mesh/Mesh.h"
 #include "../../../Enumerations/Enumerations.h"
+#include "../../ObjectNode/QuadTree/QuadTree.h"
+
+
 class MeshManager
 {
 
@@ -63,7 +66,20 @@ private:
 	Mesh* CreateBlendShape(BlendShapeVert* vertices,unsigned int amount);
 	void  CreateFullScreenQuad();
 	void  CreatePlaceHolderAnimation();
+	std::vector<Mesh>* gameMeshes		= nullptr;
+	std::vector<Mesh>* sceneMeshes		= nullptr;
+	Mesh placeHolder;
+	Mesh placeHolderPlane;
+	Mesh fullScreenQuad;
+	Mesh killCountQuad;
+	Mesh waveCountQuad;
+	Mesh waveCompleteQuad;
+	void CreateKillCountQuad();
+	void CreateWaveCountQuad();
+	void CreateWaveCompleteQuad();
+
 public:
+	QuadTree* quadTree;
 	MeshManager();
 	~MeshManager();
 	
@@ -78,9 +94,10 @@ public:
 		UINT indexCount,
 		std::vector<Vertex> vertices,
 		std::vector<AnimVert> aniVertices,
-		std::vector<UINT> indices
+		std::vector<UINT> indices,
+		bool isScene
 		);
-
+	//UVoffset offset;
 	std::vector<Mesh>* GetMeshes() { return this->gameMeshes; }
 	void GetMeshRenderInfo			(MeshEnum* meshEnum, RenderInstructions* toRender);
 
@@ -93,6 +110,14 @@ public:
 		std::vector<Vertex> sourceMesh,
 		std::vector<AnimationInfo> animations
 		);
+
+	std::vector<Mesh>* GetSceneMeshes() { return this->sceneMeshes; }
+	void CreateQuadTree();
+	void GetMeshRenderInfo(MeshEnum* meshEnum, RenderInstructions* toRender);
+
+	
+	void GetKillCountQuadInfoHud(UITextures * uiEnum, RenderInstructions* toRender);
+	void GetWaveCountQuadInfoHud(UITextures*uiEnum, RenderInstructions*toRender);
 
 };
 

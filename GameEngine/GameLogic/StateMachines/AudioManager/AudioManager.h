@@ -12,10 +12,14 @@ private:
 
 	std::unique_ptr<SoundEffect> s_shot;
 	std::unique_ptr<SoundEffect> s_ambient;
+	std::unique_ptr<SoundEffect> s_gameTheme;
+	std::unique_ptr<SoundEffect> s_E_death;
+	std::unique_ptr<SoundEffect> s_weaponPickup;
+	std::unique_ptr<SoundEffect> s_healthPickup;
+	std::unique_ptr<SoundEffect> s_imminentWave;
 	std::unique_ptr<SoundEffectInstance> s_nightLoop;
+	std::unique_ptr<SoundEffectInstance> s_musicLoop;
 	bool s_retryAudio = false;
-	double timeElapsed;
-	double audioLength;
 public:
 	AudioManager();
 	~AudioManager();
@@ -25,5 +29,11 @@ public:
 
 	//functions for playing the sounds
 	void playShotSound();
+	void playEDeathSound();
+	void playHealthPickup();
+	void playWeaponPickup();
+	void playNewWave();
+
+	void stopAmbientGameStateSound();
 };
 
