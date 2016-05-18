@@ -6,6 +6,10 @@ InputHandler::InputHandler()
 {
 }
 
+LPDIRECTINPUTDEVICE8 InputHandler::GetMouse()
+{
+	return mouse;
+}
 
 InputHandler::~InputHandler()
 {

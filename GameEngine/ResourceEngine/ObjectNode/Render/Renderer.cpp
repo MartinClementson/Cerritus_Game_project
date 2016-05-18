@@ -26,6 +26,10 @@ Renderer::Renderer()
 	//sceneLightArray->intensity			 = 1.0f;
 }
 
+void Renderer::Update(double deltaTime)
+{
+	this->sceneCam->Update(deltaTime);
+}
 
 Renderer::~Renderer()
 {
