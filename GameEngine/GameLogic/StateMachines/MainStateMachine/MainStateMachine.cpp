@@ -54,7 +54,8 @@ void MainStateMachine::Update(double deltaTime)
 		gameOverState->Initialize();
 		gameOverState->isActive = true;
 		gameOverState->SetLastHigh(lastHighscore);
-		gameOverState->SetPoints(gameState->GetPoints());
+		float points1 = gameState->GetPoints();
+		gameOverState->SetPoints(points1);
 		if (lastHighscore < gameState->GetPoints())
 		{
 			lastHighscore = gameState->GetPoints();

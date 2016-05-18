@@ -23,11 +23,16 @@ void GameOverState::Initialize()
 	toMenu = false;
 	gameOverGUI->Initialize();
 	gameover.UIobject = UITextures::GAMEOVER;
-	gameover2.UIobject = UITextures::WAVECOUNTER;
-	gameover2.UInumber = UiNumbers::FIVE;
+	gameover2.UIobject = UITextures::HSLEFT;
+	gameover3.UIobject = UITextures::HSMIDDLE;
+	gameover4.UIobject = UITextures::HSRIGHT;
 
-	test = 0;
+	//gameover2.UInumber = UiNumbers::ONE;
 
+	float number = 0;
+	float number1 = 0;
+	float number2 = 0;
+	float number3 = 0;
 }
 
 void GameOverState::Release()
@@ -42,7 +47,11 @@ void GameOverState::Update(double deltaTime)
 	//TIMER, EXIT GAME OPTION, GO TO MENU OPTION
 
 	gameOverGUI->Update(deltaTime);
+	SetPointPlacing();
 
+	QuadNumberPick(number1);
+	QuadNumberPick1(number2);
+	QuadNumberPick2(number3);
 	
 	XMFLOAT2 mousePos = InputHandler::GetInstance()->GetMousePosition();
 
@@ -76,17 +85,20 @@ void GameOverState::Render()
 {
 	graphics->QueueRender(&gameover);
 	graphics->QueueRender(&gameover2);
+	graphics->QueueRender(&gameover3);
+	graphics->QueueRender(&gameover4);
+
 }
 
 void GameOverState::ProcessInput(double * deltaTime)
 {
-	//if (input->IsKeyPressed(KEY_SPACE))
-	//{
-	//	replay = true;
-	//	/*MessageBox(0, L"ENTER",
-	//	L"Continue", MB_OK);*/
-	//	//timeSincePaused = 0.0f;
-	//}
+	if (input->IsKeyPressed(KEY_SPACE))
+	{
+		//replay = true;
+		///*MessageBox(0, L"ENTER",
+		//L"Continue", MB_OK);*/
+		//timeSincePaused = 0.0f;
+	}
 }
 
 void GameOverState::SetPoints(float points)
@@ -118,4 +130,183 @@ void GameOverState::OnEnter()
 void GameOverState::OnExit()
 {
 	replay = true;
+}
+
+void GameOverState::SetPointPlacing()
+{
+	float points = GetPoints();
+	number = points;
+
+	number1 = 0;
+	number1 = number / 100;
+	number1 = (int)number1;
+
+	float minusNum = 0;
+	minusNum = 100 * number1;
+
+	number2 = points;
+	number2 = number2 - minusNum;
+	number2 = number2 / 10;
+	number2 = (int)number2;
+
+	float minusNum2 = 0;
+	minusNum2 = 10 * number2;
+	
+	number3 = points - minusNum - minusNum2;
+	number3 = (int)number3;
+}
+
+int GameOverState::GetNumber1()
+{
+	return number1;
+}
+
+int GameOverState::GetNumber2()
+{
+	return number2;
+}
+
+int GameOverState::GetNumber3()
+{
+	return number3;
+}
+
+void GameOverState::QuadNumberPick(int cases)
+{
+
+	switch (cases)
+	{
+	case 0:
+		gameover2.UInumber = UiNumbers::ZERO;
+		break;
+
+	case 1:
+		gameover2.UInumber = UiNumbers::ONE;
+		break;
+
+	case 2:
+		gameover2.UInumber = UiNumbers::TWO;
+		break;
+
+	case 3:
+		gameover2.UInumber = UiNumbers::THREE;
+		break;
+
+	case 4:
+		gameover2.UInumber = UiNumbers::FOUR;
+		break;
+
+	case 5:
+		gameover2.UInumber = UiNumbers::FIVE;
+		break;
+	case 6:
+		gameover2.UInumber = UiNumbers::SIX;
+		break;
+
+	case 7:
+		gameover2.UInumber = UiNumbers::SEVEN;
+		break;
+
+	case 8:
+		gameover2.UInumber = UiNumbers::EIGHT;
+		break;
+
+	case 9:
+		gameover2.UInumber = UiNumbers::NINE;
+		break;
+	}
+}
+
+
+void GameOverState::QuadNumberPick1(int cases)
+{
+
+	switch (cases)
+	{
+	case 0:
+		gameover3.UInumber = UiNumbers::ZERO;
+		break;
+
+	case 1:
+		gameover3.UInumber = UiNumbers::ONE;
+		break;
+
+	case 2:
+		gameover3.UInumber = UiNumbers::TWO;
+		break;
+
+	case 3:
+		gameover3.UInumber = UiNumbers::THREE;
+		break;
+
+	case 4:
+		gameover3.UInumber = UiNumbers::FOUR;
+		break;
+
+	case 5:
+		gameover3.UInumber = UiNumbers::FIVE;
+		break;
+	case 6:
+		gameover3.UInumber = UiNumbers::SIX;
+		break;
+
+	case 7:
+		gameover3.UInumber = UiNumbers::SEVEN;
+		break;
+
+	case 8:
+		gameover3.UInumber = UiNumbers::EIGHT;
+		break;
+
+	case 9:
+		gameover3.UInumber = UiNumbers::NINE;
+		break;
+	}
+}
+
+
+void GameOverState::QuadNumberPick2(int cases)
+{
+
+	switch (cases)
+	{
+	case 0:
+		gameover4.UInumber = UiNumbers::ZERO;
+		break;
+
+	case 1:
+		gameover4.UInumber = UiNumbers::ONE;
+		break;
+
+	case 2:
+		gameover4.UInumber = UiNumbers::TWO;
+		break;
+
+	case 3:
+		gameover4.UInumber = UiNumbers::THREE;
+		break;
+
+	case 4:
+		gameover4.UInumber = UiNumbers::FOUR;
+		break;
+
+	case 5:
+		gameover4.UInumber = UiNumbers::FIVE;
+		break;
+	case 6:
+		gameover4.UInumber = UiNumbers::SIX;
+		break;
+
+	case 7:
+		gameover4.UInumber = UiNumbers::SEVEN;
+		break;
+
+	case 8:
+		gameover4.UInumber = UiNumbers::EIGHT;
+		break;
+
+	case 9:
+		gameover4.UInumber = UiNumbers::NINE;
+		break;
+	}
 }

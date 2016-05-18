@@ -27,14 +27,33 @@ public:
 private:
 	void OnEnter();
 	void OnExit();
+	void SetPointPlacing();
+	int GetNumber1();
+	int GetNumber2();
+	int GetNumber3();
+
+	void QuadNumberPick(int cases);
+	void QuadNumberPick1(int cases);
+	void QuadNumberPick2(int cases);
+
 	Scene* GameOverScene;
 	GUI* gameOverGUI;
 	int test ;
 	float points;
 	float lastHighscore;
+
+	float number;
+	float number1;
+	float number2;
+	float number3;
+	int cases = 0;
+
+
 	Graphics* graphics;
 	RenderInfoUI gameover;
 	RenderInfoUI gameover2;
+	RenderInfoUI gameover3;
+	RenderInfoUI gameover4;
 
 
 	#pragma region variables for menu
