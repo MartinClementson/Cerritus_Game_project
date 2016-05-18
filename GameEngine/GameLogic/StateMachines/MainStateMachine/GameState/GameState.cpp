@@ -50,6 +50,8 @@ void GameState::Initialize(AudioManager* audioManager)
 	Input::GetInstance()->SetMouseVisibility(false);
 
 	index = 5.0f;
+	//test = 1;
+	//AntTweakBar::GetInstance()->addSlider("testGameState", test);
 
 	OnEnter();
 }

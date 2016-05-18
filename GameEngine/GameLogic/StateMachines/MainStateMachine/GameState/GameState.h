@@ -40,7 +40,7 @@ private:
 	void OnExit();
 
 private:
-
+	float test;
 	vector<EnemyBase*> healers;
 	vector<BearTrap*> bearTraps;
 	vector<FireTrap*> fireTraps;

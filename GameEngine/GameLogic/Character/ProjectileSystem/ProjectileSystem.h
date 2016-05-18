@@ -22,7 +22,7 @@ private:
 	
 
 	unsigned int firedProjectiles;
-	float* lifeSpan;
+	float lifeSpan;
 	int maxProjectiles;
 	RenderInfoObject renderInfo;
 	float timeOffset;

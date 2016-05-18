@@ -22,8 +22,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 	double tempDT = 10.0;
 	// create window
 	HWND wndHandle = InitWindow(hInstance);
-
-
+	//float test = 5;
 	// window is valid
 	if (wndHandle)
 	{
@@ -34,8 +33,9 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 		engine->Initialize(&wndHandle, &hInstance);
 
 		GameTimer* time = GameTimer::GetInstance();
-		//test = AntTweakBar::GetInstance()->GetBar();
+		//test = AntTweakBar::GetInstance()->GetBar();s
 
+		//AntTweakBar::GetInstance()->addSlider("test", test);
 
 		time->Reset();
 		// enter message loop, loop until the message WM_QUIT is received.
