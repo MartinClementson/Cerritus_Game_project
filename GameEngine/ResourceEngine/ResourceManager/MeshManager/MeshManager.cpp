@@ -361,8 +361,8 @@ void MeshManager::CreatePlaceHolderPlane()
 		0, 1, 2,
 		0, 2, 3
 	};
-	this->placeHolderPlane.CreateVertexBuffer(planeVerts, 4);
-	this->placeHolderPlane.CreateIndexBuffer(indices, 6); 
+	this->placeHolderPlane.CreateVertexBuffer(planeVerts, 4, false);
+	this->placeHolderPlane.CreateIndexBuffer(indices, 6, false); 
 	
 }
 

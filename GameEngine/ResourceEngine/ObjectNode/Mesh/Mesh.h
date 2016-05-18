@@ -47,13 +47,11 @@ public:
 	void CreateVertexBuffer(AnimVert* vertices,		unsigned int amount);
 	void CreateBlendShape (BlendShapeVert* vertices, unsigned int amount);
 	void CreateAnimatedMesh(Vertex * vertices, unsigned int vertAmount, std::vector<AnimationInfo>* animations);
-	void CreateIndexBuffer(UINT* indices,unsigned int amount);
 	unsigned int GetVertCount() { return this->vertCount; };
 
 	bool GetIsScene() { return this->isScene; };
 	Vertex* GetVertices() { return this->sceneVerts; };
 	UINT* GetIndices() { return this->sceneIndex; };
-	int GetMaterialID() { return this->materialID; };
 
 	void CreateVertexBuffer(Vertex* vertices, unsigned int amount, bool isScene);
 

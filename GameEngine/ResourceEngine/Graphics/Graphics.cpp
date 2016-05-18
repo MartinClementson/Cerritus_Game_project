@@ -215,7 +215,7 @@ void Graphics::Render() //manage RenderPasses here
 
 	renderer->SetShadowPass(true);
 
-	this->RenderScene();							//Render shadowPass
+	//this->RenderScene();							//Render shadowPass
 
 	gBuffer->SetToRender(depthStencilView);	
 
@@ -230,7 +230,7 @@ void Graphics::Render() //manage RenderPasses here
 
 	//Render blendshape animation
 	if (instancesToRender[ENEMY_1_INSTANCED] > 0)
-		renderer->RenderInstanced(this->enemyObjects->at(instanceMeshIndex.enemy1Mesh),
+ 		renderer->RenderInstanced(this->enemyObjects->at(instanceMeshIndex.enemy1Mesh),
 			instancedAnimationDataPerFrame, 3);
 	RenderScene();									//Render to the gBuffer
 													//Set the gBuffer as a subResource, send in the new RenderTarget

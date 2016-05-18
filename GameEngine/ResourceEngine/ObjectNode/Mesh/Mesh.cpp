@@ -170,7 +170,7 @@ void Mesh::CreateBlendShape(BlendShapeVert * vertices, unsigned int amount)
 void Mesh::CreateAnimatedMesh(Vertex * vertices, unsigned int vertAmount,std::vector<AnimationInfo>* animations)
 {
 
-	this->CreateVertexBuffer(vertices, vertAmount);
+	this->CreateVertexBuffer(vertices, vertAmount, false);
 	for (size_t i = 0; i < animations->size(); i++)
 	{
 		AnimationInfo temp;

@@ -736,6 +736,9 @@
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\SkeletonData.obj">
       <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
     </Object>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MorphData.obj">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
+    </Object>
   </ItemGroup>
   <ItemGroup>
     <Media Include="sounds\Explo1.wav">
