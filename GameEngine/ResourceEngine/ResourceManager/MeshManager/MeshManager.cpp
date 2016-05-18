@@ -157,8 +157,6 @@ void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * to
 
 }
 
-
-
 #pragma region This function creates a cube that we use for early testing
 void MeshManager::CreatePlaceHolder()
 {
@@ -234,9 +232,6 @@ void MeshManager::CreatePlaceHolderPlane()
 		0, 2, 3
 	};
 
-
-	
-
 	this->placeHolderPlane.CreateVertexBuffer(planeVerts, 4, false);
 	this->placeHolderPlane.CreateIndexBuffer(indices, 6, false);
 	
@@ -267,7 +262,7 @@ void MeshManager::CreateFullScreenQuad()
 	UINT indices[6] =
 	{
 		0, 1, 2,
-		0, 2, 3
+		0, 2, 3	
 	};
 
 	this->fullScreenQuad.CreateVertexBuffer(planeVerts, 4, false);
@@ -311,26 +306,24 @@ void MeshManager::CreateWaveCountQuad()
 	//wave Counter Quad for the wave numbers
 	Vertex planeVerts[4];
 
-	planeVerts[0].position = Float3(-1.0f, -0.8f, 0.0f);		//0
+	planeVerts[0].position = Float3(0.1f, -0.1f, 0.0f);		//0
 	planeVerts[0].uv.x = 0.083f;
 	planeVerts[0].uv.y = 1 - 0.476f;
 
-	planeVerts[1].position = Float3(-0.8f, -0.8f, 0.0f);		//3
+	planeVerts[1].position = Float3(0.2f, -0.1f, 0.0f);		//3
 	planeVerts[1].uv.x = 0.129f;
 	planeVerts[1].uv.y = 1 - 0.476f;
 
-	planeVerts[2].position = Float3(-0.8f, -1.0f, 0.0f);		//5
+	planeVerts[2].position = Float3(0.2f, -0.2f, 0.0f);		//5
 	planeVerts[2].uv.x = 0.129f;
 	planeVerts[2].uv.y = 1 - 0.423f;
 	
-	planeVerts[3].position = Float3(-1.0f, -1.0f, 0.0f);		//7
+	planeVerts[3].position = Float3(0.1f, -0.2f, 0.0f);		//7
 	planeVerts[3].uv.x = 0.083f;
 	planeVerts[3].uv.y = 1 - 0.423f;
 
 	//offset.enemyOffsetX = 10;
 	//offset.waveOffsetX = 10;
-
-
 
 	UINT indices[6] =
 	{
@@ -373,8 +366,6 @@ void MeshManager::CreateWaveCompleteQuad()
 	//	0.0f);			//3
 	//planeVerts[3].uv.x = 0.0f;
 	//planeVerts[3].uv.y = 1.0f;
-
-
 
 	//offset.enemyOffsetX = 10;
 	//offset.waveOffsetX = 10;
@@ -434,13 +425,12 @@ void MeshManager::CreateWaveCompleteQuad()
 	this->waveCompleteQuad.CreateIndexBuffer(indices, 6, false);
 }
 
-
 void MeshManager::GetPlaceHolderMeshInfo(RenderInstructions * toRender)
 {
 	//this->gameMeshes->at(1).GetMeshRenderInfo(toRender);
 	placeHolder.GetMeshRenderInfo(toRender);
-
 }
+
 void MeshManager::GetPlaceHolderPlaneInfo(RenderInstructions * toRender)
 {
 	placeHolderPlane.GetMeshRenderInfo(toRender);
@@ -481,15 +471,15 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 		fullScreenQuad.GetMeshRenderInfo(toRender);
 		toRender->materialID = 21;
 	}
-	if (*uiEnum == UITextures::NUMERATION)
+	else if (*uiEnum == UITextures::NUMERATION)
 	{
 		killCountQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 20;
+		toRender->materialID = 19;
 	}
-	if (*uiEnum == UITextures::WAVECOUNTER)
+	else if (*uiEnum == UITextures::WAVECOUNTER)
 	{
 		waveCountQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 21;
+		toRender->materialID = 20;
 	}
 	else if (*uiEnum == UITextures::WAVECOMPLETE)
 	{
@@ -499,31 +489,13 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 	/*else if (*uiEnum == UITextures::NUMERATION)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 15;
+		toRender->materialID = 25;
 	}
 	//else if (*uiEnum == UITextures::RESUMEPAUSE)
-		toRender->materialID = 14;
-
-	}*/
-
-}
-
-void MeshManager::GetKillCountQuadInfoHud(UITextures * uiEnum, RenderInstructions * toRender)
-{
-	//if (*uiEnum == UITextures::NUMERATION)
-	//{
-	//	killCountQuad.GetMeshRenderInfo(toRender);
 	//	toRender->materialID = 14;
-	//}
-}
 
-void MeshManager::GetWaveCountQuadInfoHud(UITextures * uiEnum, RenderInstructions * toRender)
-{
-	/*if (*uiEnum == UITextures::WAVECOUNTER)
-	{
-		waveCountQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 15;
-	}*/
+	//}*/
+
 }
 
 #pragma endregion

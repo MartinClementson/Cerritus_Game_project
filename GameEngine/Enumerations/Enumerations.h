@@ -74,6 +74,8 @@ enum UITextures
 	GAMEOVER,
 	WIN,
 	CONTROLS,
+	HIGHSCORE,
+	LASTSCORE
 
 };
 #pragma endregion

@@ -290,6 +290,30 @@ void Renderer::Render(RenderInfoUI * object)
 
 		}
 	}
+	else if (object->UIobject == UITextures::HIGHSCORE)
+	{
+		switch (object->UInumber)
+		{
+		case UiNumbers::ZERO:
+		{
+			break;
+		}
+			
+		}
+	}
+	else if (object->UIobject == UITextures::LASTSCORE)
+	{
+		switch (object->UInumber)
+		{
+		case UiNumbers::ZERO:
+		{
+			break;
+		}
+			
+		}
+	}
+
+	
 	
 	updateUVBuffer(&meshUv);
 

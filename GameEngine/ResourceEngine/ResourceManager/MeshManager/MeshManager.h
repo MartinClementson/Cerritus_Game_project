@@ -25,7 +25,7 @@ private:
 	Mesh waveCompleteQuad;
 	
 	
-
+private:
 	void CreatePlaceHolder();
 	void CreatePlaceHolderPlane();
 	void CreateFullScreenQuad();
@@ -61,9 +61,6 @@ public:
 	void GetPlaceHolderPlaneInfo(RenderInstructions* toRender);
 	void GetFullScreenQuadInfo(RenderInstructions* toRender);
 	void GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions* toRender);
-	void GetKillCountQuadInfoHud(UITextures * uiEnum, RenderInstructions* toRender);
-	void GetWaveCountQuadInfoHud(UITextures*uiEnum, RenderInstructions*toRender);
-
 	
 };
 

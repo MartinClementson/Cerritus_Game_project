@@ -21,16 +21,23 @@ public:
 	float GetPoints();
 	void SetLastHigh(float high);
 	bool toMenu;
+	void getRenderScreen(UITextures* uiEnum, RenderInstructions* toRender);
+
 
 private:
 	void OnEnter();
 	void OnExit();
 	Scene* GameOverScene;
 	GUI* gameOverGUI;
+	int test ;
 	float points;
 	float lastHighscore;
+	Graphics* graphics;
+	RenderInfoUI gameover;
+	RenderInfoUI gameover2;
 
-#pragma region variables for menu
+
+	#pragma region variables for menu
 	XMFLOAT2 MaxNewGame = { (float)(0.7977f*(float)WIN_WIDTH),(float)(0.6319f*(float)WIN_HEIGHT) };
 	XMFLOAT2 MinNewGame = { (float)(0.9844f*(float)WIN_WIDTH),(float)(0.7653f*(float)WIN_HEIGHT) };
 	float Maxnx = ((2.0f * MaxNewGame.x) / (float)WIN_HEIGHT - 1.0f);

@@ -78,7 +78,11 @@ void GameState::Update(double deltaTime)
 		this->bearTraps = room1->bearTraps;
 		this->fireTraps = room1->fireTraps;
 
-		gameUI->setUI(UITextures::HUD);
+		gameUI->setUI(UITextures::WAVECOUNTER);
+		gameUI->setUINR(UiNumbers::TWO);
+	
+
+		//gameUI->setUI(UITextures::HUD);
 
 		if (player->GetHealth() <= 0)
 		{

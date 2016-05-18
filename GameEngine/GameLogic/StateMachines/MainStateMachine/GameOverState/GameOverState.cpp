@@ -18,10 +18,16 @@ GameOverState::~GameOverState()
 void GameOverState::Initialize()
 {
 	input = Input::GetInstance();
+	graphics = Graphics::GetInstance();
 	replay = false;
 	toMenu = false;
 	gameOverGUI->Initialize();
-	gameOverGUI->setUI(UITextures::GAMEOVER);
+	gameover.UIobject = UITextures::GAMEOVER;
+	gameover2.UIobject = UITextures::WAVECOUNTER;
+	gameover2.UInumber = UiNumbers::FIVE;
+
+	test = 0;
+
 }
 
 void GameOverState::Release()
@@ -31,9 +37,12 @@ void GameOverState::Release()
 
 void GameOverState::Update(double deltaTime)
 {
+
 	//game over screen msg YOU DIED, HIGHSCORE, RESTART OPTION,
 	//TIMER, EXIT GAME OPTION, GO TO MENU OPTION
+
 	gameOverGUI->Update(deltaTime);
+
 	
 	XMFLOAT2 mousePos = InputHandler::GetInstance()->GetMousePosition();
 
@@ -65,13 +74,12 @@ void GameOverState::Update(double deltaTime)
 
 void GameOverState::Render()
 {
-	gameOverGUI->Render();
+	graphics->QueueRender(&gameover);
+	graphics->QueueRender(&gameover2);
 }
 
 void GameOverState::ProcessInput(double * deltaTime)
 {
-
-
 	//if (input->IsKeyPressed(KEY_SPACE))
 	//{
 	//	replay = true;
@@ -79,7 +87,6 @@ void GameOverState::ProcessInput(double * deltaTime)
 	//	L"Continue", MB_OK);*/
 	//	//timeSincePaused = 0.0f;
 	//}
-
 }
 
 void GameOverState::SetPoints(float points)
@@ -95,6 +102,12 @@ float GameOverState::GetPoints()
 void GameOverState::SetLastHigh(float high)
 {
 	this->lastHighscore = high;
+}
+
+
+void GameOverState::getRenderScreen(UITextures * uiEnum, RenderInstructions * toRender)
+{
+	
 }
 
 void GameOverState::OnEnter()

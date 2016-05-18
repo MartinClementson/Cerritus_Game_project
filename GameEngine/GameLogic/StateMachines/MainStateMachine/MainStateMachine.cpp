@@ -59,6 +59,8 @@ void MainStateMachine::Update(double deltaTime)
 		{
 			lastHighscore = gameState->GetPoints();
 		}
+
+
 		
 		this->activeState = MAIN_GAMEOVER_STATE;
 

@@ -30,7 +30,7 @@ void GUIElement::Release()
 
 void GUIElement::Update(double deltaTime)
 {
-	//renderInfo = { size,uv };
+	renderInfo = { size,uv };
 
 	renderInfo.UIobject = texture;
 	renderInfo.UInumber = numbers;
