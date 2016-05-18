@@ -26,6 +26,6 @@ private:
 	TwBar *gMyBar;
 
 	bool showBar = false;
-
+	std::vector<float*> adresses;
 };
 
