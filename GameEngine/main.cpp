@@ -122,16 +122,18 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 		PostQuitMessage(0);
 		break;		
 	case WM_KEYDOWN:
+		break;
+		//switch (wParam)
+		//{
+		////case VK_ESCAPE:
 
-		switch (wParam)
-		{
-		case VK_ESCAPE:
-
-			#ifdef _DEBUG // This button function only works in debug mode. 
-				PostQuitMessage(0);
-			#endif
-			break;
-		}
+		////	#ifdef _DEBUG // This button function only works in debug mode. 
+		////		PostQuitMessage(0);
+		////	#endif
+		////	break;
+		//default:
+		//	break;
+		//}
 
 	
 	}

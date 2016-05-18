@@ -30,6 +30,7 @@ public:
 	float timeSincePaused;
 	float index;
 	float GetPoints();
+	void NewGame();
 	bool toWin = false;
 	bool winBool = false;
 	//EnemyBase* ClosestHealer(vector<EnemyBase*> healers);
@@ -64,6 +65,8 @@ private:
 	Collision* collision;
 	GameTimer* gameTimer;
 	AudioManager* audioManager;
+	MainStates activeState;//enum
+
 
 #pragma region variables for pausemenu
 

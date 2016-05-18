@@ -28,5 +28,6 @@ private:
 	EnemySpawn* enemySpawn;
 	
 	float timePassed;
+
 };
 

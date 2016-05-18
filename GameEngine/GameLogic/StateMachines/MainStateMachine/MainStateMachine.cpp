@@ -193,9 +193,7 @@ void MainStateMachine::Update(double deltaTime)
 		menuState->isActive = true;
 
 		this->activeState = MAIN_MENU_STATE;
-	}
-	//key esc pressed menu
-	
+	}	
 }
 
 void MainStateMachine::Render()

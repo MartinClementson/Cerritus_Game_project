@@ -41,7 +41,7 @@ void Healer::Initialize()
 	this->charType = CharacterType::HEALER;
 	movementSpeed = 5.0f;
 	originalMovementSpeed = movementSpeed;
-	health = 200;
+	health = 100;
 	this->maxHealth = health;
 	damage = 5.0f;
 	rotation = { 0,0,0 };

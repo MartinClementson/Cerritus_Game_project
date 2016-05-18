@@ -167,10 +167,11 @@ void GameState::Update(double deltaTime)
 						room1->enemySpawn->Alive.at(p)->
 						GetCharType() != CharacterType::HEALER
 						&&
-						healers.at(0) != nullptr)
+						healers.at(0) != nullptr
+						&& room1->enemySpawn->Alive.at(p)->healable != false)
 					{
+						
 						EnemyBase* tmpCloseHealer = nullptr;
-
 						XMFLOAT3 position;
 						position = room1->enemySpawn->Alive.at(p)->position;
 						XMFLOAT3 healPos;
@@ -219,6 +220,7 @@ void GameState::Update(double deltaTime)
 
 							}
 						}
+					
 
 						room1->enemySpawn->Alive.at(p)->SetClosestHealer(tmpCloseHealer);
 
@@ -370,10 +372,16 @@ void GameState::ProcessInput(double* deltaTime)
 		{
 			if (input->isMouseClicked(MOUSE_LEFT))
 			{
+				pause->isActive = false;
 
+				NewGame();
+
+				isActive = true;
+
+				this->activeState = MAIN_GAME_STATE;
 			}
 		}
-		if (input->IsKeyPressed(KEY_P) && timeSincePaused > 0.2f)
+		if (input->IsKeyPressed(KEY_ESC) && timeSincePaused > 0.2f)
 		{
 			pause->isActive = false;
 			timeSincePaused = 0.0f;
@@ -506,7 +514,7 @@ void GameState::ProcessInput(double* deltaTime)
 		}
 #pragma endregion
 
-		if (input->IsKeyPressed(KEY_P) && timeSincePaused >0.2f)
+		if (input->IsKeyPressed(KEY_ESC) && timeSincePaused >0.2f)
 		{
 			pause->isActive = true;
 			timeSincePaused = 0.0f;
@@ -564,4 +572,28 @@ void GameState::OnExit()
 float GameState::GetPoints()
 {
 	return player->GetPoints();
+}
+
+void GameState::NewGame()
+{
+	Release();
+
+	delete this->death;
+	delete this->pause;
+	delete this->player;
+	delete this->room1;
+	delete this->menu;
+	delete this->gameUI;
+
+	this->death = new MainDeathState();
+	this->pause = new MainPausedState();
+	this->player = new Player();
+	this->input = Input::GetInstance();
+	this->room1 = new Scene();
+	this->collision = Collision::GetInstance();
+	this->gameTimer = GameTimer::GetInstance();
+	this->menu = new MenuState();
+	this->gameUI = new GUI();
+
+	Initialize(audioManager);
 }
