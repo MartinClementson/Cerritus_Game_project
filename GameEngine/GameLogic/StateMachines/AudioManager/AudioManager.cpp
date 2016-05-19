@@ -143,3 +143,9 @@ void AudioManager::stopAmbientGameStateSound()
 	s_nightLoop->Pause();
 	s_musicLoop->Pause();
 }
+
+AudioManager* AudioManager::GetInstance()
+{
+	static AudioManager instance;
+	return &instance;
+}

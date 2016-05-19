@@ -20,13 +20,15 @@ private:
 	std::unique_ptr<SoundEffect> s_loseAmient;
 	std::unique_ptr<SoundEffect> s_repair;
 	std::unique_ptr<SoundEffect> s_repair_complete;
+
 	std::unique_ptr<SoundEffectInstance> s_nightLoop;
 	std::unique_ptr<SoundEffectInstance> s_musicLoop;
 	std::unique_ptr<SoundEffectInstance> s_loseLoop;
 	std::unique_ptr<SoundEffectInstance> s_repairLoop;
+
 	bool s_retryAudio = false;
-public:
 	AudioManager();
+public:
 	~AudioManager();
 	void Release();
 	void Initialize();
@@ -47,5 +49,7 @@ public:
 	void stopRepairLoop();
 	void stopLoseLoop();
 	void stopAmbientGameStateSound();
+
+	static AudioManager* GetInstance();
 };
 
