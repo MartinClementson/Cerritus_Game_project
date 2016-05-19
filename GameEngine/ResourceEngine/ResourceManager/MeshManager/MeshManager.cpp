@@ -278,22 +278,22 @@ void MeshManager::CreateKillCountQuad()
 {
 	Vertex planeVerts[4];
 
-	planeVerts[0].position = Float3(-1.0f, 1.0f, 0.0f);		//0
-	planeVerts[0].uv.x = 0.009f;
-	planeVerts[0].uv.y = 1 - 0.934f;
+	planeVerts[0].position = Float3(-0.95f, 0.93f, 0.0f);		//0
+	planeVerts[0].uv.x = 0.008f;
+	planeVerts[0].uv.y = 1 - 0.931f;
 
-	planeVerts[1].position = Float3(-0.8f, 1.0f, 0.0f);		//3
-	planeVerts[1].uv.x = 0.095f;
-	planeVerts[1].uv.y = 1 - 0.934f;
+	planeVerts[1].position = Float3(-0.78f, 0.93f, 0.0f);		//3
+	planeVerts[1].uv.x = 0.098f;
+	planeVerts[1].uv.y = 1 - 0.931f;
 	
 
-	planeVerts[2].position = Float3(-0.8f, 0.75f, 0.0f);		//5
-	planeVerts[2].uv.x = 0.095f;
-	planeVerts[2].uv.y = 1 - 0.671f;
+	planeVerts[2].position = Float3(-0.78f, 0.73f, 0.0f);		//5
+	planeVerts[2].uv.x = 0.098f;
+	planeVerts[2].uv.y = 1 - 0.672f;
 
-	planeVerts[3].position = Float3(-1.0f, 0.75f, 0.0f);		//7
-	planeVerts[3].uv.x = 0.009f;
-	planeVerts[3].uv.y = 1-0.671f;
+	planeVerts[3].position = Float3(-0.95f, 0.73f, 0.0f);		//7
+	planeVerts[3].uv.x = 0.008f;
+	planeVerts[3].uv.y = 1-0.672f;
 
 	UINT indices[6] =
 	{
@@ -310,43 +310,22 @@ void MeshManager::CreateWaveCountQuad()
 
 	Vertex planeVerts[4];
 
-	planeVerts[0].position = Float3(-1.0f, -0.8f, 0.0f);		//0
-	planeVerts[0].uv.x = 0.057;
-	planeVerts[0].uv.y = 1 - 0.470f;
+	planeVerts[0].position = Float3(-1.0f, -0.80f, 0.0f);		//0
+	planeVerts[0].uv.x = 0.049f;
+	planeVerts[0].uv.y = 1 - 0.453f;
 
-	planeVerts[1].position = Float3(-0.8f, -0.8f, 0.0f);		//3
-	planeVerts[1].uv.x = 0.234f;
-	planeVerts[1].uv.y = 1 - 0.470f;
+	planeVerts[1].position = Float3(-0.86f, -0.8f, 0.0f);		//3
+	planeVerts[1].uv.x = 0.248f;
+	planeVerts[1].uv.y = 1 - 0.453f;
 
-	planeVerts[2].position = Float3(-0.8f, -1.0f, 0.0f);		//5
-	planeVerts[2].uv.x = 0.234f;
-	planeVerts[2].uv.y = 1 - 0.185f;
+	planeVerts[2].position = Float3(-0.86f, -1.0f, 0.0f);		//5
+	planeVerts[2].uv.x = 0.248f;
+	planeVerts[2].uv.y = 1 - 0.194f;
 
 	planeVerts[3].position = Float3(-1.0f, -1.0f, 0.0f);		//7
-	planeVerts[3].uv.x = 0.057f;
-	planeVerts[3].uv.y = 1 - 0.185f;
+	planeVerts[3].uv.x = 0.049f;
+	planeVerts[3].uv.y = 1 - 0.194f;
 
-	//wave Counter Quad for the wave numbers
-	//Vertex planeVerts[4];
-
-	//planeVerts[0].position = Float3(0.1f, -0.1f, 0.0f);		//0
-	//planeVerts[0].uv.x = 0.083f;
-	//planeVerts[0].uv.y = 1 - 0.476f;
-
-	//planeVerts[1].position = Float3(0.2f, -0.1f, 0.0f);		//3
-	//planeVerts[1].uv.x = 0.129f;
-	//planeVerts[1].uv.y = 1 - 0.476f;
-
-	//planeVerts[2].position = Float3(0.2f, -0.2f, 0.0f);		//5
-	//planeVerts[2].uv.x = 0.129f;
-	//planeVerts[2].uv.y = 1 - 0.423f;
-	//
-	//planeVerts[3].position = Float3(0.1f, -0.2f, 0.0f);		//7
-	//planeVerts[3].uv.x = 0.083f;
-	//planeVerts[3].uv.y = 1 - 0.423f;
-
-	////offset.enemyOffsetX = 10;
-	////offset.waveOffsetX = 10;
 
 	UINT indices[6] =
 	{
@@ -362,22 +341,22 @@ void MeshManager::CreateKillCountQuad1()
 {
 	Vertex planeVerts[4];
 
-	planeVerts[0].position = Float3(-0.8f, 1.0f, 0.0f);		//0
-	planeVerts[0].uv.x = 0.009f;
-	planeVerts[0].uv.y = 1 - 0.934f;
+	planeVerts[0].position = Float3(-0.83f, 0.93f, 0.0f);		//0
+	planeVerts[0].uv.x = 0.008f;
+	planeVerts[0].uv.y = 1 - 0.931f;
 
-	planeVerts[1].position = Float3(-0.6f, 1.0f, 0.0f);		//3
-	planeVerts[1].uv.x = 0.095f;
-	planeVerts[1].uv.y = 1 - 0.934f;
+	planeVerts[1].position = Float3(-0.64f, 0.93f, 0.0f);		//3
+	planeVerts[1].uv.x = 0.098f;
+	planeVerts[1].uv.y = 1 - 0.931f;
 
 
-	planeVerts[2].position = Float3(-0.6f, 0.75f, 0.0f);		//5
-	planeVerts[2].uv.x = 0.095f;
-	planeVerts[2].uv.y = 1 - 0.671f;
+	planeVerts[2].position = Float3(-0.64f, 0.73f, 0.0f);		//5
+	planeVerts[2].uv.x = 0.098f;
+	planeVerts[2].uv.y = 1 - 0.6712;
 
-	planeVerts[3].position = Float3(-0.8f, 0.75f, 0.0f);		//7
-	planeVerts[3].uv.x = 0.009f;
-	planeVerts[3].uv.y = 1 - 0.671f;
+	planeVerts[3].position = Float3(-0.83f, 0.73f, 0.0f);		//7
+	planeVerts[3].uv.x = 0.008f;
+	planeVerts[3].uv.y = 1 - 0.672f;
 
 	UINT indices[6] =
 	{

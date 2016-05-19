@@ -89,7 +89,7 @@ void GameState::Update(double deltaTime)
 		gameUI->setUINR(UiNumbers::TWO);*/
 	
 
-		//gameUI->setUI(UITextures::HUD);
+		gameUI->setUI(UITextures::HUD);
 
 		if (player->GetHealth() <= 0)
 		{
