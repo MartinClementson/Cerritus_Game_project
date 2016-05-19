@@ -101,7 +101,7 @@ bool InputHandler::Initialize(HWND* hwndP ,HINSTANCE* hInstance)
 
 	ShowCursor(TRUE);
 	
-	//SetCursor(LoadCursor(NULL, IDC_CROSS));
+	SetCursor(LoadCursor(NULL, IDC_CROSS));
 	
 	
 	
@@ -224,8 +224,7 @@ XMFLOAT2 InputHandler::GetMousePosition()
 {
 
 	POINT point;
-	//ShowCursor(TRUE);
-
+	ShowCursor(TRUE);
 
 	GetCursorPos(&point);
 	ScreenToClient(*this->hwndP, &point);

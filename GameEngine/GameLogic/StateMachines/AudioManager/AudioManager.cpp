@@ -43,6 +43,8 @@ void AudioManager::Initialize()
 	s_loseAmient.reset(new SoundEffect(s_audEngine->get(), L"sounds/lose.wav"));
 	s_repair.reset(new SoundEffect(s_audEngine->get(), L"sounds/repair.wav"));
 	s_repair_complete.reset(new SoundEffect(s_audEngine->get(), L"sounds/repair_complete.wav"));
+	s_player_Hit.reset(new SoundEffect(s_audEngine->get(), L"sounds/Player_hit.wav"));
+	s_enemy_Hit.reset(new SoundEffect(s_audEngine->get(), L"sounds/emeny_hit2.wav"));
 
 	s_repairLoop = s_repair->CreateInstance();
 	s_nightLoop = s_ambient->CreateInstance();
@@ -56,6 +58,7 @@ void AudioManager::Initialize()
 	s_loseLoop->SetVolume(0.6f);
 	s_repairLoop->Play(true);
 	s_repairLoop->Pause();
+	s_repairLoop->SetVolume(1.2f);
 
 	s_audEngine->get()->SetMasterVolume(0.1f);
 }
@@ -84,7 +87,7 @@ void AudioManager::Update(double deltaTime)
 
 void AudioManager::playShotSound()
 {
-	s_shot->Play(0.4f, 0,0);
+	s_shot->Play(0.5f, 0,0);
 }
 
 void AudioManager::playEDeathSound()
@@ -110,6 +113,16 @@ void AudioManager::playNewWave()
 void AudioManager::playRepairComplete()
 {
 	s_repair_complete->Play(0.7f,0,0);
+}
+
+void AudioManager::playPlayerHit()
+{
+	s_player_Hit->Play();
+}
+
+void AudioManager::playEnemyHit()
+{
+	s_enemy_Hit->Play();
 }
 
 void AudioManager::playInGameLoop()

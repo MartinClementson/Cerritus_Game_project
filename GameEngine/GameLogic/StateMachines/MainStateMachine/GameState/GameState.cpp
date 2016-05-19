@@ -269,6 +269,7 @@ void GameState::Update(double deltaTime)
 							room1->enemySpawn->Alive.at(p)->AIPattern(
 								collision->GetPlayer(),
 								deltaTime);
+							//audioManager->playPlayerHit();
 						}
 
 						else if (collision->EnemyCollision(
@@ -307,6 +308,7 @@ void GameState::Update(double deltaTime)
 					room1->enemySpawn->Alive.at(j)->SetHealth(
 						room1->enemySpawn->Alive.at(j)->GetHealth() - 5.0f);
 					player->projectileSystem->projectiles[i]->SetFired(false);
+					audioManager->playEnemyHit();
 				}
 
 
