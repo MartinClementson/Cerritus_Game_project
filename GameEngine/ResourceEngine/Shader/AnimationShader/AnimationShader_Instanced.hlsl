@@ -51,7 +51,6 @@ SamplerState pointSampler		 : register(s1);
 
 cbuffer cbufferPerFrame			 : register(b0)
 {
-
 	matrix view;
 	matrix projection;
 	matrix invViewProjMatrix;
@@ -61,7 +60,6 @@ cbuffer cbufferPerFrame			 : register(b0)
 	int numSpotLights;
 	int numDirLights;
 	//float3 camLook;
-
 };
 
 
@@ -123,8 +121,8 @@ struct ANIM_PS_OUT
 };
 
 static const float AniTimeSec	 = 10.0f;
-static const uint MAX_FRAMES	 = 3;
-static const uint MESH_VERTICES  = 8;	
+static const uint MAX_FRAMES	 = 4;
+static const uint MESH_VERTICES  = 36;	
 //Vertex shader
 ANIM_VS_OUT ANIM_VS_main(ANIM_VS_IN input)
 {

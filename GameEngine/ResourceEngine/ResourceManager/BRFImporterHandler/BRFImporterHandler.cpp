@@ -10,16 +10,18 @@ BRFImporterHandler::~BRFImporterHandler()
 {
 }
 
-void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material, bool skeleton, bool isScene)
+void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material, bool skeleton, bool morphAnim, bool isScene)
 {
-
-	this->currentFile->LoadFile(fileName, mesh, skeleton, material, false /* MORPH HERE*/);
-
+	
+	this->currentFile->LoadFile(fileName, mesh, skeleton, material, morphAnim);
+	
 	//offset to use for the materials
 	//offsetMaterial += materialID;
 
 #pragma region Loop for reading mesh info & provide to meshManager.
 	unsigned int meshsize = currentFile->fetch->Main()->meshAmount;
+
+	std::vector<Vertex> morphVertices;
 	for (unsigned int i = 0; i < meshsize; i++)
 	{
 #pragma region Statements handling skeletons.
@@ -155,8 +157,11 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 
 #pragma endregion
 
-		this->meshManager->AddMesh(tempHasSkeleton, tempSkeletonID, tempMaterialID, tempVertexCount, tempIndexCount, tempVertices, tempAniVertices, tempIndices, isScene);					//Keep me!
-	}
+		if (!morphAnim)
+			this->meshManager->AddMesh(tempHasSkeleton, tempSkeletonID, tempMaterialID, tempVertexCount, tempIndexCount, tempVertices, tempAniVertices, tempIndices, isScene);					//Keep me!
+		else
+			morphVertices = tempVertices;
+}
 #pragma endregion
 #pragma region Loop for reading material info & provide to materialManager.
 	//temporary vector for the materials
@@ -222,6 +227,46 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 	materialManager->addMaterials(&importedMaterials);
 #pragma endregion
 
+
+#pragma region Load Morph animation
+	if (morphAnim == true)
+	{
+		unsigned int morphAmount = currentFile->fetch->Main()->morphAnimAmount;
+		std::vector<AnimationInfo> animations;
+		for (size_t animation = 0; animation < morphAmount; animation++)
+		{
+			AnimationInfo tempAnim;
+			unsigned int frameAmount  = currentFile->fetch->MorphAnimation(animation)->getMorphAnimationHeader()->numberOfKeyFrames;
+			tempAnim.numberOfFrames	  = frameAmount;
+			tempAnim.animationTime    = 10.0f; //oops forgot to export this. But its ok!
+			
+
+			for (size_t frame = 0; frame < frameAmount; frame++)
+			{
+				FrameData tempFrame;
+				tempFrame.frameID  = currentFile->fetch->MorphAnimation(animation)->getMorphAnimKeyFrame(frame).frameNumber;
+				tempFrame.time	   = currentFile->fetch->MorphAnimation(animation)->getMorphAnimKeyFrame(frame).normalizedTime;
+				unsigned int vertAmount = currentFile->fetch->MorphAnimation(animation)->getMorphAnimationHeader()->vertsPerShape;
+				std::vector<BlendShapeVert> tempFrameMesh;
+
+				for (size_t vert = 0; vert < vertAmount; vert++)
+				{
+					BlendShapeVert tempVert;
+					tempVert.position  = currentFile->fetch->MorphAnimation(animation)->getMorphVertexHeader(frame).at(vert).pos;
+					tempVert.normal    = currentFile->fetch->MorphAnimation(animation)->getMorphVertexHeader(frame).at(vert).normal;
+					tempVert.tangent   = currentFile->fetch->MorphAnimation(animation)->getMorphVertexHeader(frame).at(vert).tangent;
+					tempVert.biTangent = currentFile->fetch->MorphAnimation(animation)->getMorphVertexHeader(frame).at(vert).biTangent;
+					tempFrameMesh.push_back(tempVert);
+				}
+				tempAnim.frames.push_back(tempFrame);
+				tempAnim.meshesPerFrame.push_back(tempFrameMesh);
+			}
+			animations.push_back(tempAnim);
+		}
+		meshManager->CreateAnimationFromMeshes(morphVertices, animations);
+	}
+	
+#pragma endregion
 }
 
 void BRFImporterHandler::Initialize(MeshManager * meshManager, MaterialManager* materialManager)

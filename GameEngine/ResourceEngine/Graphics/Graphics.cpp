@@ -69,9 +69,10 @@ void Graphics::Initialize(HWND * window)
 	this->wndHandle  = window;
 
 	hr				 = CreateDirect3DContext();
-
 	antTweakBar = AntTweakBar::GetInstance();
 	antTweakBar->Initialize(gDevice);
+	antTweakBar->addSlider("AnimSpeed", animationSpeed);
+	animationSpeed = 0.01;
 
 	gameObjects		 = new std::vector<RenderInfoObject*>;
 	charObjects		 = new std::vector<RenderInfoChar*>;
@@ -113,7 +114,7 @@ void Graphics::Initialize(HWND * window)
 
 #pragma region Create three temporary blendshape animations
 
-	XMFLOAT3 pos								    = XMFLOAT3(5.0f, 0.0f, 0.0f);
+	XMFLOAT3 pos								    = XMFLOAT3(5.0f,5.0f, 0.0f);
 	XMFLOAT3 rotation							    = XMFLOAT3(0.0f, 0.0f, 0.0f);
 	instancedAnimationDataPerFrame[0].animation		= 0;
 	instancedAnimationDataPerFrame[0].animationTime = 0;
@@ -129,9 +130,9 @@ void Graphics::Initialize(HWND * window)
 
 	pos.z -= 10;
 	
-	instancedAnimationDataPerFrame[2].animation		= 2;
+	/*instancedAnimationDataPerFrame[2].animation		= 2;
 	instancedAnimationDataPerFrame[2].animationTime = 0;
-	instancedAnimationDataPerFrame[2].worldMatrix = CalculateWorldMatrix(&pos, &rotation);
+	instancedAnimationDataPerFrame[2].worldMatrix = CalculateWorldMatrix(&pos, &rotation);*/
 
 
 #pragma endregion
@@ -186,17 +187,17 @@ void Graphics::Release()
 void Graphics::Render() //manage RenderPasses here
 {
 
-	static bool forward = true;
-	for (size_t i = 0; i < 3; i++)
+	static bool forward;
+	for (size_t i = 0; i < 2; i++)
 	{
 		if (instancedAnimationDataPerFrame[i].animationTime > 1.0f)
 			forward = false;
 		if (instancedAnimationDataPerFrame[i].animationTime < 0.0f)
 			forward = true;
 		if(forward)
-			instancedAnimationDataPerFrame[i].animationTime += 0.001f;
+			instancedAnimationDataPerFrame[i].animationTime += animationSpeed;
 		else													  
-			instancedAnimationDataPerFrame[i].animationTime -= 0.001f;
+			instancedAnimationDataPerFrame[i].animationTime -= animationSpeed;
 	}
 	
 
@@ -215,7 +216,7 @@ void Graphics::Render() //manage RenderPasses here
 
 	renderer->SetShadowPass(true);
 
-	//this->RenderScene();							//Render shadowPass
+	this->RenderScene();							//Render shadowPass
 
 	gBuffer->SetToRender(depthStencilView);	
 
@@ -229,9 +230,14 @@ void Graphics::Render() //manage RenderPasses here
 	this->renderer->SetGbufferPass(true);
 
 	//Render blendshape animation
-	if (instancesToRender[ENEMY_1_INSTANCED] > 0)
- 		renderer->RenderInstanced(this->enemyObjects->at(instanceMeshIndex.enemy1Mesh),
-			instancedAnimationDataPerFrame, 3);
+	if (charObjects->size() > 0)
+	{
+		RenderInfoEnemy temp;
+		temp.position = XMFLOAT3(0.0f, 1.0f, 0.0f);
+		temp.object = MeshEnum::ENEMY_1;
+ 		renderer->RenderInstanced(&temp,
+			instancedAnimationDataPerFrame, 2);
+	}
 	RenderScene();									//Render to the gBuffer
 													//Set the gBuffer as a subResource, send in the new RenderTarget
 	gBuffer->SetToRead(gBackBufferRTV); 
@@ -241,17 +247,8 @@ void Graphics::Render() //manage RenderPasses here
 
 	this->renderer->RenderFinalPass();
 
-	/*RenderInfoUI temp;
-	temp.UIobject = UITextures::WAVECOMPLETE;
-	renderer->Render(&temp);*/
 	for (unsigned int i = 0; i < uiObjects->size(); i++)
-	{
 		renderer->Render(uiObjects->at(i));
-
-	}
-	
-	
-
 	
 	FinishFrame();
 }
@@ -267,16 +264,9 @@ void Graphics::RenderScene()
 #pragma region Temporary code for early testing
 	std::vector<RenderInstructions>* tempInfo = new std::vector<RenderInstructions>;						//TEMPORARY
 													//TEMPORARY
-	
 	this->renderer->Render(tempInfo);				//TEMPORARY
-
-
 	delete tempInfo;
 #pragma endregion
-
-
-
-
 
 	for (unsigned int i = 0; i < gameObjects->size(); i++)
 	{
@@ -284,9 +274,7 @@ void Graphics::RenderScene()
 			continue;
 		else
 			renderer->Render(gameObjects->at(i));
-
 	}
-
 	//Render instanced projectiles
 	if (instancesToRender[PROJECTILE_INSTANCED] > 0)
 	{
@@ -302,8 +290,6 @@ void Graphics::RenderScene()
 		renderer->RenderInstanced(this->enemyObjects->at(instanceMeshIndex.enemy1Mesh ),
 			instancedWorldDataPerFrame[ ENEMY_1_INSTANCED ], instancesToRender[ ENEMY_1_INSTANCED ]);
 	}
-	
-
 
 	if (billboardsToRender[HEALTH_BAR_BILLBOARD] > 0)
 	{

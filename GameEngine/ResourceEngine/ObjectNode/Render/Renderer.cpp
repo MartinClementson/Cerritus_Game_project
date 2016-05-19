@@ -849,7 +849,7 @@ void Renderer::RenderInstanced(RenderInstructions * object, ID3D11Buffer* instan
 	gDeviceContext->PSSetConstantBuffers(CBUFFERPERFRAME_INDEX, 1, &this->cbufferPerFrame);
 	
 	
-	this->gDeviceContext->DrawIndexedInstanced((UINT)*object->indexCount, amount, 0, 0, 0);
+	this->gDeviceContext->DrawInstanced((UINT)*object->vertexCount, amount, 0, 0);
 }
 
 void Renderer::RenderBillBoard(RenderInstructions * object, ID3D11Buffer * instanceBuffer, unsigned int amount)

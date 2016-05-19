@@ -6,7 +6,7 @@
 #include "..\..\..\Structs\ConstantBufferStruct.h"
 #include "../Camera/Frustum/Frustum.h"
 
-#define ZOOM 25.0f
+#define ZOOM 10.0f
 using namespace DirectX;
 
 class Camera : ObjectNode

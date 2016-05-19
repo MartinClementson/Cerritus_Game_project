@@ -12,6 +12,14 @@ struct Float2
 		this->y = y;
 	}
 	Float2() {};
+
+	Float2& operator=(double* pos)
+	{
+		this->x = float(pos[0]);
+		this->y = float(pos[1]);
+
+		return *this;
+	}
 };
 
 struct Float3
@@ -27,6 +35,23 @@ struct Float3
 		this->z = z;
 	}
 	Float3() {};
+
+	Float3(double* pos)
+	{
+		this->x = float(pos[0]);
+		this->y = float(pos[1]);
+		this->z = float(pos[2]);
+
+	}
+
+	Float3& operator=(double* pos)
+	{
+		this->x = float(pos[0]);
+		this->y = float(pos[1]);
+		this->z = float(pos[2]);
+
+		return *this;
+	}
 };
 
 struct Float4
@@ -203,7 +228,7 @@ struct gpuAnimHeader
 
 struct AnimationInfo
 {
-	unsigned int numberOfFrames = 0;
+	unsigned int numberOfFrames = 0; // the amount of meshes
 	float		  animationTime = 0;
 	std::vector<std::vector<BlendShapeVert>> meshesPerFrame; //a 2d array of all the shapes belonging to the animation
 	std::vector<FrameData> frames;

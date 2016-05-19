@@ -46,7 +46,7 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 
 	//animatedMeshes->push_back(Mesh());
 	//animatedMeshes->at(0).Initialize(gDevice,gDeviceContext);
-	CreatePlaceHolderAnimation();
+	//CreatePlaceHolderAnimation();
 
 	unsigned int tempNrFrames[1] = {2};
 	float tempNrTime[1]			 = { 5.0f };
@@ -154,11 +154,8 @@ void MeshManager::Release()
 {
 	for (size_t i = 0; i < gameMeshes->size(); i++)
 		gameMeshes->at(i).Release();
-
 	for (size_t i = 0; i < animatedMeshes->size(); i++)
 		animatedMeshes->at(i).Release();
-	
-
 	for (size_t i = 0; i < morphAnimStructuredBuffersSRV.size(); i++)
 	{
 			morphAnimStructuredBuffersSRV.at(i)->Release();
@@ -168,7 +165,6 @@ void MeshManager::Release()
 	}
 	animHeaderStructuredBuffersSRV->Release();
 	animHeaderStructuredBuffers	  ->Release();
-
 
 	for (size_t i = 0; i < blendShapeMeshes->size(); i++)
 		for (size_t j = 0; j < blendShapeMeshes->at(i).size(); j++)
@@ -634,9 +630,9 @@ void MeshManager::GetPlaceHolderMeshInfo(RenderInstructions * toRender)
 	}
 	this->gDeviceContext->VSSetShaderResources(ANIMHEADER_BUFFER_INDEX, 1, &animHeaderStructuredBuffersSRV);
 
-	
+	this->animatedMeshes->at(0).GetMeshRenderInfo(toRender);
 	//this->gameMeshes->at(1).GetMeshRenderInfo(toRender);
-	placeHolder.GetMeshRenderInfo(toRender);
+	//placeHolder.GetMeshRenderInfo(toRender);
 
 }
 void MeshManager::GetPlaceHolderPlaneInfo(RenderInstructions * toRender)
@@ -1051,7 +1047,7 @@ void MeshManager::CreateAnimationFromMeshes(std::vector<Vertex> sourceMesh, std:
 			if (FAILED(hr))
 				MessageBox(NULL, L"Failed to update frame buffer", L"Error", MB_ICONERROR | MB_OK);
 
-			memcpy(mapRes.pData, (void*)frames, sizeof(BlendShapeVert) * amount);
+			memcpy(mapRes.pData, (void*)frames, sizeof(FrameData) * animatedMeshes->at(meshIndex).animations.at(i).numberOfFrames);
 			gDeviceContext->Unmap(animFrameStructuredBuffers.at(bufferIndex), 0);
 			this->gDeviceContext->VSSetShaderResources(MORPHANIM_BUFFER_START_INDEX + (UINT)bufferIndex * 2 + 1, 1, &animFrameStructuredBuffersSRV.at(bufferIndex));
 			delete frames;

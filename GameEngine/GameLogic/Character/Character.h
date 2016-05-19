@@ -20,6 +20,7 @@ protected:
 	Graphics* graphics;
 	Animation* animations;
 	Model* meshes;
+	float len;
 
 public:
 	XMFLOAT3 position;

@@ -184,6 +184,7 @@ void Mesh::CreateAnimatedMesh(Vertex * vertices, unsigned int vertAmount,std::ve
 		this->animationCount += 1; 
 	}
 	this->isAnimated = true;
+	this->isBlendShape = false;
 }
 
 

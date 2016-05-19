@@ -117,7 +117,7 @@ private:
 	void SetShadowMap();
 
 	void CullGeometry();
-
+	float animationSpeed;
 	XMFLOAT4X4 CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation);
 	XMFLOAT4X4 CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation, XMFLOAT3* scale);
 

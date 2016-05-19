@@ -9,8 +9,6 @@ ResourceManager::ResourceManager()
 	brfImporterHandler  = new BRFImporterHandler();
 	materialManager		= new MaterialManager();
 }
-
-
 ResourceManager::~ResourceManager()
 {
 	delete meshManager;
@@ -27,20 +25,21 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	brfImporterHandler->Initialize(this->meshManager, this->materialManager);
 
 
-	brfImporterHandler->LoadFile("models/playerModel.BRF", true, true, true, false);
-	brfImporterHandler->LoadFile("models/EnemyModel.BRF", true, true, true, false);
-	brfImporterHandler->LoadFile("models/Slow_Trap.BRF", true, true, true, false);
-	brfImporterHandler->LoadFile("models/Fire_Trap.BRF", true, true, true, false);
-	brfImporterHandler->LoadFile("models/FinalScene2.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene3.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene4.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene5.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene6.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene7.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene8.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene9.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene10.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/quadBullet.BRF", true, true, true, false);
+	brfImporterHandler->LoadFile("models/playerModel.BRF",  true, true, true, false ,false);
+	brfImporterHandler->LoadFile("models/EnemyModel.BRF",   true, true, true, false ,false);
+	brfImporterHandler->LoadFile("models/Slow_Trap.BRF",	true, true, true, false ,false);
+	brfImporterHandler->LoadFile("models/Fire_Trap.BRF",	true, true, true, false ,false);
+	brfImporterHandler->LoadFile("models/FinalScene2.BRF",  true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene3.BRF",  true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene4.BRF",  true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene5.BRF",  true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene6.BRF",  true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene7.BRF",  true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene8.BRF",  true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene9.BRF",  true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene10.BRF", true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/quadBullet.BRF",   true, true, true, false ,false);
+    brfImporterHandler->LoadFile("models/morphAnim.BRF",		true, false, false, true  ,false);
 	this->meshManager->CreateQuadTree();
 	
 	
@@ -277,6 +276,7 @@ void ResourceManager::Release()
 		//meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
 
 		meshManager->GetPlaceHolderMeshInfo(&currentMesh);
+		//meshManager->GetMeshRenderInfo
 		//materialManager->GetMaterialRenderInfo(&currentMesh);
 
 
