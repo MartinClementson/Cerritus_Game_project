@@ -168,7 +168,7 @@ void GameState::Update(double deltaTime)
 						GetCharType() != CharacterType::HEALER
 						&&
 						healers.at(0) != nullptr
-						&& room1->enemySpawn->Alive.at(p)->healable != false)
+						&& room1->enemySpawn->Alive[p]->healable != false)
 					{
 						
 						EnemyBase* tmpCloseHealer = nullptr;
@@ -308,8 +308,7 @@ void GameState::Update(double deltaTime)
 					room1->enemySpawn->Alive[j]->SetHealth(
 						room1->enemySpawn->Alive[j]->GetHealth() - 5.0f);
 					player->projectileSystem->projectiles[i]->SetFired(false);
-					if (room1->enemySpawn->Alive[j]->GetHealth() == 0)
-								audioManager->playEDeathSound();
+					audioManager->playEnemyHit();
 				}
 
 

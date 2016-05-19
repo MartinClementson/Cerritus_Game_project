@@ -6,11 +6,8 @@ EnemySpawn::EnemySpawn()
 {
 	this->collision = Collision::GetInstance();
 	this->firstSpawn = false;
-<<<<<<< HEAD
 	nrOfAliveEnemies = 0;
-=======
 	this->playWave = true;
->>>>>>> refs/remotes/origin/master
 }
 
 EnemySpawn::~EnemySpawn()
@@ -267,7 +264,7 @@ void EnemySpawn::InitEnemy()
 		//nrOfAliveEnemies++;
 		int spawnPointRandom = rand() % 5 + 1;
 
-		if (spawnPointRandom == 1)
+		/*if (spawnPointRandom == 1)
 		{
 			waves.SetSpawnPosAdd(b);
 			waves.SpawnPositions(1);
@@ -275,7 +272,7 @@ void EnemySpawn::InitEnemy()
 			
 			fast = false;
 			Alive[i] = (new Enemy(spawn, fast));
-		}
+		}*/
 		if (i % 10 || i == 0)
 		{
 			int spawnPointRandom = rand() % 4 + 1;
@@ -321,6 +318,7 @@ void EnemySpawn::InitEnemy()
 			b += 5;
 
 			//Alive.push_back(new Enemy(spawn, fast));
+			Alive[i] = (new Enemy(spawn, fast));
 		}
 		else
 		{
