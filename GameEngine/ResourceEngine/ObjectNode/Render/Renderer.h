@@ -72,6 +72,8 @@ public:
 	Renderer();
 	~Renderer();
 
+	void Update(double deltaTime);
+
 	void Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDeviceContext);
 	void Release();
 	
@@ -120,5 +122,5 @@ private:
 	void updateUVBuffer(UV* uvstruct);
 	bool CreateBuffers();
 public:
-	void UpdateCamera(XMFLOAT3 position) { this->sceneCam->Updateview(position); this->UpdateCbufferPerFrame(); };
+	void UpdateCamera(XMFLOAT3 position) { this->sceneCam->UpdateView(position); this->UpdateCbufferPerFrame(); };
 };

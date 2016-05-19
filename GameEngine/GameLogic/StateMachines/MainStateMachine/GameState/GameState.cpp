@@ -82,7 +82,7 @@ void GameState::Update(double deltaTime)
 
 		if (player->GetHealth() <= 0)
 		{
-			isPlayerDead = true;
+			//isPlayerDead = true;
 
 			//isActive = false;
 		}
@@ -323,6 +323,7 @@ void GameState::Update(double deltaTime)
 void GameState::ProcessInput(double* deltaTime)
 {
 	timeSincePaused += (float)*deltaTime;
+	timer += (float)*deltaTime;
 	XMFLOAT2 temp = input->GetMousePosition();
 
 	if (death->isActive)
@@ -484,6 +485,7 @@ void GameState::ProcessInput(double* deltaTime)
 		{
 			currentTime = 0;
 		}
+		
 		/*for (size_t i = 0; i < bearTraps.size(); i++)
 		{
 			if (input->IsKeyPressed(KEY_Q) && collision->BearTrapActivation(bearTraps.at(i)))
@@ -526,10 +528,6 @@ void GameState::ProcessInput(double* deltaTime)
 		else if (input->IsKeyPressed(KEY_X))
 		{
 			player->Shoot(KEY_X, deltaTime[0]);
-		}
-		else if (input->IsKeyPressed(KEY_C))
-		{
-			player->Shoot(KEY_C, deltaTime[0]);
 		}
 	}
 }
