@@ -53,7 +53,7 @@ void AudioManager::Initialize()
 	s_nightLoop->SetVolume(0.3f);
 	//s_musicLoop->Play(true);
 	s_musicLoop->SetVolume(0.5f);
-	s_loseLoop->SetVolume(0.5f);
+	s_loseLoop->SetVolume(0.6f);
 	s_repairLoop->Play(true);
 	s_repairLoop->Pause();
 
@@ -109,7 +109,7 @@ void AudioManager::playNewWave()
 
 void AudioManager::playRepairComplete()
 {
-	s_repair_complete->Play();
+	s_repair_complete->Play(0.7f,0,0);
 }
 
 void AudioManager::playInGameLoop()
@@ -135,7 +135,7 @@ void AudioManager::stopRepairLoop()
 
 void AudioManager::stopLoseLoop()
 {
-	s_loseLoop->Play(false);
+	s_loseLoop->Pause();
 }
 
 void AudioManager::stopAmbientGameStateSound()
