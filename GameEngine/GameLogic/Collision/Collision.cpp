@@ -426,6 +426,7 @@ bool Collision::PlayerCollision(EnemyBase* enemy)
 			enemy->movementSpeed = 0;
 			player->DowngradeWeapon();
 			player->SetHealth(player->GetHealth() - 15.0f);
+			AudioManager::GetInstance()->playPlayerHit();
 		}
 		return true;
 	}

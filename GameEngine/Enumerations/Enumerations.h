@@ -182,6 +182,9 @@ enum InputKeys
 	KEY_X,
 	KEY_C,
 
+	KEY_PGUP,
+	KEY_PGDWN,
+
 
 	MOUSE_RIGHT,
 	MOUSE_LEFT,

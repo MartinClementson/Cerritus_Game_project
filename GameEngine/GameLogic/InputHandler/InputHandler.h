@@ -27,9 +27,11 @@ private:
 	bool ReadMouse();
 	InputHandler();
 
+
 	HWND* hwndP;
 public:
 	~InputHandler();
+	LPDIRECTINPUTDEVICE8 GetMouse();
 
 	bool Initialize(HWND* hwndP, HINSTANCE* hInstance);
 	void Release();
