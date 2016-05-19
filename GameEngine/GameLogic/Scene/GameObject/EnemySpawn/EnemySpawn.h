@@ -19,6 +19,9 @@ private:
 	AudioManager* audioManager;
 	RenderInfoUI WaveComplete;
 
+	void killEnemy(int index);
+
+	int nrOfAliveEnemies;
 	bool playWave;
 	//std::vector<Enemy*> enemies;
 private:
@@ -37,9 +40,10 @@ public:
 	int a = 0;
 	bool fast = false;
 	bool win = false;
+	int GetNrAliveEnemies() { return this->nrOfAliveEnemies; }
+	EnemyBase* Alive[100];
 	bool pickupRespawn = false;
 
-	std::vector<EnemyBase*> Alive;
 
 	EnemySpawn();
 	~EnemySpawn();

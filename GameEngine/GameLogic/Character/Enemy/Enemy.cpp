@@ -253,7 +253,7 @@ void Enemy::Spawn(XMFLOAT3 spawn)
 	
 	
 
-	if (this->fast)
+	if (this->fast) //kolla in här sen
 	{
 		this->charType = CharacterType::FAST_ENEMY;
 		this->position = spawn;
