@@ -105,6 +105,11 @@ void Graphics::Initialize(HWND * window)
 	shadowBuffer->Initialize(this->gDevice, this->gDeviceContext);
 }
 
+void Graphics::Update(double deltaTime)
+{
+	renderer->Update(deltaTime);
+}
+
 void Graphics::Release()
 {
 
@@ -153,6 +158,7 @@ void Graphics::Release()
 void Graphics::Render() //manage RenderPasses here
 {
 	if (charObjects->size() > 0)
+		
 		renderer->UpdateCamera(charObjects->at(0)->position);
 
 

@@ -46,3 +46,8 @@ Input* Input::GetInstance()
 	static Input instance;
 	return &instance;
 }
+
+LPDIRECTINPUTDEVICE8 Input::GetMouse()
+{
+	return inputHandling->GetMouse();
+}

@@ -21,5 +21,6 @@ public:
 	void SetMouseVisibility(bool x) { inputHandling->SetMouseVisibility(x); };
 
 	static Input* GetInstance();
+	LPDIRECTINPUTDEVICE8 GetMouse();
 };
 

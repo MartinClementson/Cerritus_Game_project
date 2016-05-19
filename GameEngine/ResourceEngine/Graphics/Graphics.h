@@ -121,6 +121,7 @@ private:
 public:
 	~Graphics();
 
+	void Update(double deltaTime);
 	void Initialize(HWND* window);
 	void Release();
 
