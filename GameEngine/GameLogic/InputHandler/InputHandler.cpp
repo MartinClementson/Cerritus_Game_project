@@ -177,6 +177,30 @@ bool InputHandler::IsKeyPressed(InputKeys* key)
 		isLshiftPressed = true;
 		return true;
 	}
+	else if (*key == KEY_UP && keyboardState[DIK_UP])
+	{
+		return true;
+	}
+	else if (*key == KEY_DOWN && keyboardState[DIK_DOWN])
+	{
+		return true;
+	}
+	else if (*key == KEY_LEFT && keyboardState[DIK_LEFT])
+	{
+		return true;
+	}
+	else if (*key == KEY_RIGHT && keyboardState[DIK_RIGHT])
+	{
+		return true;
+	}
+	else if (*key == KEY_PGUP && keyboardState[DIK_PGUP])
+	{
+		return true;
+	}
+	else if (*key == KEY_PGDWN && keyboardState[DIK_PGDN])
+	{
+		return true;
+	}
 	else
 	{
 		isLshiftPressed = false;

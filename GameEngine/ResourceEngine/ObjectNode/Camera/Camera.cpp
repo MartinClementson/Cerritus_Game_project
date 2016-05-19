@@ -21,49 +21,50 @@ void Camera::ProcessInput(double deltaTime)
 {
 
 	
-	timer += deltaTime;
+	timer += (float)deltaTime;
 
 	if (input->IsKeyPressed(KEY_C) && timer > 0.2f)
 	{
 		if (this->freeCam == false)
 		{
 			DIMouse = input->GetMouse();
+			//ShowCursor(TRUE);
 			this->freeCam = true;
 		}
 		else if (this->freeCam == true)
 		{
 			DIMouse = input->GetMouse();
+			//ShowCursor(FALSE);
 			this->freeCam = false;
 		}
 		timer = 0.0f;
 	}
 	if (freeCam)
 	{
-
-		float speed = 15.0f * deltaTime;
+		float speed = 25.0f * (float)deltaTime;
 
 		DIMouse->GetDeviceState(sizeof(DIMOUSESTATE), &mouseState);
-		if (input->IsKeyPressed(KEY_A))
+		if (input->IsKeyPressed(KEY_LEFT))
 		{
 			moveLeftRight -= speed;
 		}
-		if (input->IsKeyPressed(KEY_D))
+		if (input->IsKeyPressed(KEY_RIGHT))
 		{
 			moveLeftRight += speed;
 		}
-		if (input->IsKeyPressed(KEY_W))
+		if (input->IsKeyPressed(KEY_UP))
 		{
 			moveBackForward += speed;
 		}
-		if (input->IsKeyPressed(KEY_S))
+		if (input->IsKeyPressed(KEY_DOWN))
 		{
 			moveBackForward -= speed;
 		}
-		if (input->IsKeyPressed(KEY_LSHIFT))
+		if (input->IsKeyPressed(KEY_PGDWN))
 		{
 			moveupDown -= speed;
 		}
-		if (input->IsKeyPressed(KEY_SPACE))
+		if (input->IsKeyPressed(KEY_PGUP))
 		{
 			moveupDown += speed;
 		}
@@ -78,8 +79,6 @@ void Camera::ProcessInput(double deltaTime)
 
 		FreeCamera(deltaTime);
 	}
-
-	
 
 }
 
@@ -154,7 +153,6 @@ void Camera::FreeCamera(double deltaTime)
 	XMMATRIX RotateYTempMatrix;
 	RotateYTempMatrix = XMMatrixRotationY(camYaw); // Finding the new right and forward directions of the camera by  using a rotation matrix 
 												   //which will be rotated on the Y-axis, since its a first perosn camera we need to keep our cam forward and right pointing only in x and z axis
-	XMStoreFloat4(&camTarget, camTargetVector);
 												   // transforming the cameras right up and forwards vectors using the matrix just defined.
 												   // also rotating the default right up and default foward vectors and set the result in the right up and foward vectors.
 	/**/ camRight = XMVector3TransformCoord(defaultRight, RotateYTempMatrix);
@@ -173,6 +171,9 @@ void Camera::FreeCamera(double deltaTime)
 
 	//Update the position of the camera to follow the player
 
+	camTargetVector = camPositionVector + camTargetVector;
+
+	XMStoreFloat4(&camTarget, camTargetVector);
 
 
 	
@@ -187,8 +188,6 @@ void Camera::FreeCamera(double deltaTime)
 		(XMLoadFloat4(&camPosition)),
 		(XMLoadFloat4(&camTarget)),
 		(XMLoadFloat4(&camUp)));
-
-
 
 
 	XMStoreFloat4x4(&camMatrices.camView, XMMatrixTranspose(tempView));
@@ -216,9 +215,6 @@ void Camera::FreeCamera(double deltaTime)
 	XMStoreFloat4x4(&frustumViewFloat, frustumView);
 
 	frustum->CreateFrustum(200.0f, frustumProjFloat, frustumViewFloat);
-	
-
-
 
 }
 
