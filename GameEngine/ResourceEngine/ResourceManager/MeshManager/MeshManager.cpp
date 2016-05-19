@@ -127,20 +127,18 @@ void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * to
 
 	else if (*meshEnum == MeshEnum::ENEMY_1)
 		this->gameMeshes->at(1).GetMeshRenderInfo(toRender);
-	else if (*meshEnum == MeshEnum::ENEMY_2)
-		this->gameMeshes->at(2).GetMeshRenderInfo(toRender);
 	else if (*meshEnum == MeshEnum::TRAP_BEAR)
 	{
-		this->gameMeshes->at(3).GetMeshRenderInfo(toRender);
+		this->gameMeshes->at(2).GetMeshRenderInfo(toRender);
 	}
 	else if (*meshEnum == MeshEnum::TRAP_FIRE)
-		this->gameMeshes->at(4).GetMeshRenderInfo(toRender);
+		this->gameMeshes->at(3).GetMeshRenderInfo(toRender);
 	else if (*meshEnum == MeshEnum::PROJECTILE_1)
-		this->gameMeshes->at(5).GetMeshRenderInfo(toRender);
+		this->gameMeshes->at(4).GetMeshRenderInfo(toRender);
 	else if (*meshEnum == MeshEnum::PICKUP_HEAL)
-			toRender->materialID = 23;
+			toRender->materialID = 22;
 	else if (*meshEnum == MeshEnum::PICKUP_WEAPON)
-			toRender->materialID = 24;
+			toRender->materialID = 23;
 
 	else if (*meshEnum == MeshEnum::PLACEHOLDER)
 		this->GetPlaceHolderMeshInfo(toRender);
@@ -456,47 +454,47 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 	if (*uiEnum == UITextures::HUD)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 15;
+		toRender->materialID = 14;
 	}
 	else if (*uiEnum == UITextures::MENU)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 16;
+		toRender->materialID = 15;
 	}
 	else if (*uiEnum == UITextures::GAMEOVER)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 17;
+		toRender->materialID = 16;
 	}
 	else if (*uiEnum == UITextures::PAUSE)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 18;
+		toRender->materialID = 17;
 	}
 	else if (*uiEnum == UITextures::CONTROLS)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 19;
+		toRender->materialID = 18;
 	}
 	else if (*uiEnum == UITextures::WIN)
 	{
 		fullScreenQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 22;
+		toRender->materialID = 21;
 	}
 	if (*uiEnum == UITextures::NUMERATION)
 	{
 		killCountQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 21;
+		toRender->materialID = 20;
 	}
 	if (*uiEnum == UITextures::WAVECOUNTER)
 	{
 		waveCountQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 22;
+		toRender->materialID = 21;
 	}
 	else if (*uiEnum == UITextures::WAVECOMPLETE)
 	{
 		waveCompleteQuad.GetMeshRenderInfo(toRender);
-		toRender->materialID = 25;
+		toRender->materialID = 24;
 	}
 	/*else if (*uiEnum == UITextures::NUMERATION)
 	{
