@@ -20,7 +20,7 @@ void MenuState::Initialize()
 	mainUI->Initialize();
 
 	mainUI->setUI(UITextures::MENU);
-
+	
 
 }
 
@@ -54,6 +54,7 @@ void MenuState::Update(double deltaTime)
 	{
 		if (input->isMouseClicked(MOUSE_LEFT))
 		{
+			AudioManager::GetInstance()->playInGameLoop();
 			exitMenu = true;
 		}
 

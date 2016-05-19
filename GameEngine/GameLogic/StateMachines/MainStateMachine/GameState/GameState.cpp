@@ -269,6 +269,7 @@ void GameState::Update(double deltaTime)
 							room1->enemySpawn->Alive.at(p)->AIPattern(
 								collision->GetPlayer(),
 								deltaTime);
+							//audioManager->playPlayerHit();
 						}
 
 						else if (collision->EnemyCollision(
@@ -307,6 +308,7 @@ void GameState::Update(double deltaTime)
 					room1->enemySpawn->Alive.at(j)->SetHealth(
 						room1->enemySpawn->Alive.at(j)->GetHealth() - 5.0f);
 					player->projectileSystem->projectiles[i]->SetFired(false);
+					audioManager->playEnemyHit();
 				}
 
 
@@ -444,9 +446,10 @@ void GameState::ProcessInput(double* deltaTime)
 					{
 						if (bearTraps.at(i)->GetState()->GetTrapState() == TrapState::TRAP_INACTIVE_STATE)
 						{
+							audioManager->playRepairLoop();
 							if (bearTraps.at(i)->GetCurrentReloadTime() >= 2)
 							{
-								audioManager->playEDeathSound(); //temp to know
+								audioManager->playRepairComplete();
 								bearTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
 								bearTraps.at(i)->SetCurrentReloadTime(0);
 								bearTraps.at(i)->SetisBeingReloaded(false);
@@ -469,10 +472,10 @@ void GameState::ProcessInput(double* deltaTime)
 
 						if (fireTraps.at(i)->GetState()->GetTrapState() == TrapState::TRAP_INACTIVE_STATE)
 						{
-							
+							audioManager->playRepairLoop();
 								if (fireTraps.at(i)->GetCurrentReloadTime() >= 2)
 								{
-									audioManager->playEDeathSound();
+									audioManager->playRepairComplete();
 									fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
 									fireTraps.at(i)->SetCurrentReloadTime(0);
 									fireTraps.at(i)->SetisBeingReloaded(false);
@@ -491,6 +494,7 @@ void GameState::ProcessInput(double* deltaTime)
 		}
 		else
 		{
+			audioManager->stopRepairLoop();
 			currentTime = 0;
 		}
 		
