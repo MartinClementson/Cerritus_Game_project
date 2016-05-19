@@ -6,7 +6,7 @@ MainStateMachine::MainStateMachine()
 	this->gameOverState = new GameOverState();
 	this->winState = new WinState();
 	this->menuState = new MenuState();
-	this->audioManager = new AudioManager();
+	this->audioManager = AudioManager::GetInstance();
 }
 
 
@@ -16,7 +16,7 @@ MainStateMachine::~MainStateMachine()
 	delete this->gameOverState;
 	delete this->winState;
 	delete this->menuState;
-	delete this->audioManager;
+	//delete this->audioManager;
 }
 
 void MainStateMachine::Update(double deltaTime)
@@ -52,6 +52,7 @@ void MainStateMachine::Update(double deltaTime)
 	{
 		gameState->isActive = false;
 		audioManager->stopAmbientGameStateSound();
+		audioManager->playLoseLoop();
 
 		if (gameOverState)
 		{
@@ -129,6 +130,8 @@ void MainStateMachine::Update(double deltaTime)
 	if (this->activeState == MAIN_GAMEOVER_STATE && gameOverState->replay == true)
 	{
 		gameOverState->isActive = false;
+		audioManager->playInGameLoop();
+		audioManager->stopLoseLoop();
 		
 
 		if (gameState)
@@ -145,7 +148,7 @@ void MainStateMachine::Update(double deltaTime)
 	else if (this->activeState == MAIN_GAMEOVER_STATE && gameOverState->toMenu == true)
 	{
 		gameOverState->isActive = false;
-		
+		audioManager->stopLoseLoop();
 
 		if (menuState)
 		{
