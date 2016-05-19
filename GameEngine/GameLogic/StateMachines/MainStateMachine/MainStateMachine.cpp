@@ -76,6 +76,8 @@ void MainStateMachine::Update(double deltaTime)
 	if (this->activeState == MAIN_GAME_STATE && gameState->toWin == true)
 	{
 		gameState->isActive = false;
+		audioManager->stopAmbientGameStateSound();
+		audioManager->playWinLoop();
 
 		if (winState)
 		{
@@ -97,6 +99,7 @@ void MainStateMachine::Update(double deltaTime)
 	}
 	if (this->activeState == MAIN_GAME_STATE && gameState->toMenu == true)
 	{
+		audioManager->playMainMenuLoop();
 		gameState->isActive = false;
 		if (menuState)
 		{
@@ -132,6 +135,7 @@ void MainStateMachine::Update(double deltaTime)
 		gameOverState->isActive = false;
 		audioManager->playInGameLoop();
 		audioManager->stopLoseLoop();
+		audioManager->stopWinLoop();
 		
 
 		if (gameState)
@@ -149,6 +153,8 @@ void MainStateMachine::Update(double deltaTime)
 	{
 		gameOverState->isActive = false;
 		audioManager->stopLoseLoop();
+		//audioManager->stopWinLoop();
+		audioManager->playMainMenuLoop();
 
 		if (menuState)
 		{
@@ -166,7 +172,8 @@ void MainStateMachine::Update(double deltaTime)
 	if (this->activeState == MAIN_WIN_STATE && winState->replay == true)
 	{
 		winState->isActive = false;
-
+		audioManager->stopWinLoop();
+		audioManager->playInGameLoop();
 
 		if (gameState)
 		{
@@ -183,7 +190,8 @@ void MainStateMachine::Update(double deltaTime)
 	else if (this->activeState == MAIN_WIN_STATE && winState->toMenu == true)
 	{
 		winState->isActive = false;
-
+		audioManager->stopWinLoop();
+		audioManager->playMainMenuLoop();
 
 		if (menuState)
 		{

@@ -66,6 +66,7 @@ void AudioManager::Initialize()
 	s_repairLoop->Pause();
 	s_repairLoop->SetVolume(1.2f);
 
+	s_mainMenuLoop->Play(true);
 	s_audEngine->get()->SetMasterVolume(0.1f);
 }
 
