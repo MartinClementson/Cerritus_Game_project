@@ -358,46 +358,46 @@ void Renderer::Render(RenderInfoUI * object)
 		{
 		case UiNumbers::ONE:
 		{
-			meshUv.enemyoffsetX = 0.028f;
+			meshUv.enemyoffsetX = 0.095f;
 			break;
 		}
 		case UiNumbers::TWO:
 		{
-			meshUv.enemyoffsetX = 0.028f * 2;
+			meshUv.enemyoffsetX = 0.191f;
 			break;
 		}
 		case UiNumbers::THREE:
 		{
-			meshUv.enemyoffsetX = 0.028f * 3;
+			meshUv.enemyoffsetX = 0.291f;
 			break;
 		}
 		case UiNumbers::FOUR:
 		{
-			meshUv.enemyoffsetX = 0.028f * 4;
+			meshUv.enemyoffsetX = 0.391f;
 			break;
 		}
 		case UiNumbers::FIVE:
-		{	meshUv.enemyoffsetX = 0.028f * 5;
+		{	meshUv.enemyoffsetX = 0.492f;
 		break;
 		}
 		case UiNumbers::SIX:
 		{
-			meshUv.enemyoffsetX = 0.028f * 6;
+			meshUv.enemyoffsetX = 0.593f;
 			break;
 		}
 		case UiNumbers::SEVEN:
 		{
-			meshUv.enemyoffsetX = 0.028f * 7;
+			meshUv.enemyoffsetX = 0.693f;
 			break;
 		}
 		case UiNumbers::EIGHT:
 		{
-			meshUv.enemyoffsetX = 0.028f * 8;
+			meshUv.enemyoffsetX = 0.793f;
 			break;
 		}
 		case UiNumbers::NINE:
 		{
-			meshUv.enemyoffsetX = 0.028f * 9;
+			meshUv.enemyoffsetX = 0.893f;
 			break;
 		}
 		case UiNumbers::ZERO:
@@ -413,54 +413,55 @@ void Renderer::Render(RenderInfoUI * object)
 		switch (object->UInumber)
 		{
 		case UiNumbers::ONE:
-		{
-			meshUv.enemyoffsetX = 0.028f;
-			break;
-		}
+			{
+				meshUv.enemyoffsetX = 0.095f;
+				break;
+			}
 		case UiNumbers::TWO:
-		{
-			meshUv.enemyoffsetX = 0.028f * 2;
-			break;
-		}
+			{
+				meshUv.enemyoffsetX = 0.191f;
+				break;
+			}
 		case UiNumbers::THREE:
-		{
-			meshUv.enemyoffsetX = 0.028f * 3;
-			break;
-		}
+			{
+				meshUv.enemyoffsetX = 0.291f;
+				break;
+			}
 		case UiNumbers::FOUR:
-		{
-			meshUv.enemyoffsetX = 0.028f * 4;
-			break;
-		}
+			{
+				meshUv.enemyoffsetX = 0.391f;
+				break;
+			}
 		case UiNumbers::FIVE:
-		{	meshUv.enemyoffsetX = 0.028f * 5;
-		break;
-		}
+			{	
+				meshUv.enemyoffsetX = 0.492f;
+				break;
+			}
 		case UiNumbers::SIX:
-		{
-			meshUv.enemyoffsetX = 0.028f * 6;
-			break;
-		}
+			{
+				meshUv.enemyoffsetX = 0.593f;
+				break;
+			}
 		case UiNumbers::SEVEN:
-		{
-			meshUv.enemyoffsetX = 0.028f * 7;
-			break;
-		}
+			{
+				meshUv.enemyoffsetX = 0.693f;
+				break;
+			}
 		case UiNumbers::EIGHT:
-		{
-			meshUv.enemyoffsetX = 0.028f * 8;
-			break;
-		}
+			{
+				meshUv.enemyoffsetX = 0.793f;
+				break;
+			}
 		case UiNumbers::NINE:
-		{
-			meshUv.enemyoffsetX = 0.028f * 9;
-			break;
-		}
+			{
+				meshUv.enemyoffsetX = 0.893f;
+				break;
+			}
 		case UiNumbers::ZERO:
-		{
-			meshUv.enemyoffsetX = 0.0f;
-			break;
-		}
+			{
+				meshUv.enemyoffsetX = 0.0f;
+				break;
+			}
 
 		}
 	}
@@ -468,55 +469,56 @@ void Renderer::Render(RenderInfoUI * object)
 	{
 		switch (object->UInumber)
 		{
-		case UiNumbers::ONE:
-		{
-			meshUv.enemyoffsetX = 0.028f;
-			break;
-		}
-		case UiNumbers::TWO:
-		{
-			meshUv.enemyoffsetX = 0.028f * 2;
-			break;
-		}
-		case UiNumbers::THREE:
-		{
-			meshUv.enemyoffsetX = 0.028f * 3;
-			break;
-		}
-		case UiNumbers::FOUR:
-		{
-			meshUv.enemyoffsetX = 0.028f * 4;
-			break;
-		}
-		case UiNumbers::FIVE:
-		{	meshUv.enemyoffsetX = 0.028f * 5;
-		break;
-		}
-		case UiNumbers::SIX:
-		{
-			meshUv.enemyoffsetX = 0.028f * 6;
-			break;
-		}
-		case UiNumbers::SEVEN:
-		{
-			meshUv.enemyoffsetX = 0.028f * 7;
-			break;
-		}
-		case UiNumbers::EIGHT:
-		{
-			meshUv.enemyoffsetX = 0.028f * 8;
-			break;
-		}
-		case UiNumbers::NINE:
-		{
-			meshUv.enemyoffsetX = 0.028f * 9;
-			break;
-		}
-		case UiNumbers::ZERO:
-		{
-			meshUv.enemyoffsetX = 0.0f;
-			break;
-		}
+			case UiNumbers::ONE:
+				{
+					meshUv.enemyoffsetX = 0.095f;
+					break;
+				}
+			case UiNumbers::TWO:
+				{
+					meshUv.enemyoffsetX = 0.191f;
+					break;
+				}
+			case UiNumbers::THREE:
+				{
+					meshUv.enemyoffsetX = 0.291f;
+					break;
+				}
+			case UiNumbers::FOUR:
+				{
+					meshUv.enemyoffsetX = 0.391f;
+					break;
+				}
+			case UiNumbers::FIVE:
+				{
+					meshUv.enemyoffsetX = 0.492f;
+					break;
+				}
+			case UiNumbers::SIX:
+				{
+					meshUv.enemyoffsetX = 0.593f;
+					break;
+				}
+			case UiNumbers::SEVEN:
+				{
+					meshUv.enemyoffsetX = 0.693f;
+					break;
+				}
+			case UiNumbers::EIGHT:
+				{
+					meshUv.enemyoffsetX = 0.793f;
+					break;
+				}
+			case UiNumbers::NINE:
+				{
+					meshUv.enemyoffsetX = 0.893f;
+					break;
+				}
+			case UiNumbers::ZERO:
+				{
+					meshUv.enemyoffsetX = 0.0f;
+					break;
+				}
 
 		}
 	}
@@ -525,56 +527,57 @@ void Renderer::Render(RenderInfoUI * object)
 		
 		switch (object->UInumber)
 		{
-		case UiNumbers::ONE:
-		{
-			meshUv.enemyoffsetX = 0.028f;
-			break;
-		}
-		case UiNumbers::TWO:
-		{
-			meshUv.enemyoffsetX = 0.028f * 2;
-			break;
-		}
-		case UiNumbers::THREE:
-		{
-			meshUv.enemyoffsetX = 0.028f * 3;
-			break;
-		}
-		case UiNumbers::FOUR:
-		{
-			meshUv.enemyoffsetX = 0.028f * 4;
-			break;
-		}
-		case UiNumbers::FIVE:
-		{	
-			meshUv.enemyoffsetX = 0.028f * 5;
-			break;
-		}
-		case UiNumbers::SIX:
-		{
-			meshUv.enemyoffsetX = 0.028f * 6;
-			break;
-		}
-		case UiNumbers::SEVEN:
-		{
-			meshUv.enemyoffsetX = 0.028f * 7;
-			break;
-		}
-		case UiNumbers::EIGHT:
-		{
-			meshUv.enemyoffsetX = 0.028f * 8;
-			break;
-		}
-		case UiNumbers::NINE:
-		{
-			meshUv.enemyoffsetX = 0.028f * 9;
-			break;
-		}
-		case UiNumbers::ZERO:
-		{
-			meshUv.enemyoffsetX = 0.0f;
-			break;
-		}
+		
+			case UiNumbers::ONE:
+				{
+					meshUv.enemyoffsetX = 0.095f;
+					break;
+				}
+			case UiNumbers::TWO:
+				{
+					meshUv.enemyoffsetX = 0.191f;
+					break;
+				}
+			case UiNumbers::THREE:
+				{
+					meshUv.enemyoffsetX = 0.291f;
+					break;
+				}
+			case UiNumbers::FOUR:
+				{
+					meshUv.enemyoffsetX = 0.391f;
+					break;
+				}
+			case UiNumbers::FIVE:
+				{	
+					meshUv.enemyoffsetX = 0.492f;
+					break;
+				}
+			case UiNumbers::SIX:
+				{
+					meshUv.enemyoffsetX = 0.593f;
+					break;
+				}
+			case UiNumbers::SEVEN:
+				{
+					meshUv.enemyoffsetX = 0.693f;
+					break;
+				}
+			case UiNumbers::EIGHT:
+				{
+					meshUv.enemyoffsetX = 0.793f;
+					break;
+				}
+			case UiNumbers::NINE:
+				{
+					meshUv.enemyoffsetX = 0.893f;
+					break;
+				}
+			case UiNumbers::ZERO:
+			{
+				meshUv.enemyoffsetX = 0.0f;
+				break;
+			}
 
 		}
 	}
@@ -583,55 +586,56 @@ void Renderer::Render(RenderInfoUI * object)
 
 		switch (object->UInumber)
 		{
-		case UiNumbers::ONE:
-		{
-			meshUv.enemyoffsetX = 0.028f;
-			break;
-		}
-		case UiNumbers::TWO:
-		{
-			meshUv.enemyoffsetX = 0.028f * 2;
-			break;
-		}
-		case UiNumbers::THREE:
-		{
-			meshUv.enemyoffsetX = 0.028f * 3;
-			break;
-		}
-		case UiNumbers::FOUR:
-		{
-			meshUv.enemyoffsetX = 0.028f * 4;
-			break;
-		}
-		case UiNumbers::FIVE:
-		{	meshUv.enemyoffsetX = 0.028f * 5;
-		break;
-		}
-		case UiNumbers::SIX:
-		{
-			meshUv.enemyoffsetX = 0.028f * 6;
-			break;
-		}
-		case UiNumbers::SEVEN:
-		{
-			meshUv.enemyoffsetX = 0.028f * 7;
-			break;
-		}
-		case UiNumbers::EIGHT:
-		{
-			meshUv.enemyoffsetX = 0.028f * 8;
-			break;
-		}
-		case UiNumbers::NINE:
-		{
-			meshUv.enemyoffsetX = 0.028f * 9;
-			break;
-		}
-		case UiNumbers::ZERO:
-		{
-			meshUv.enemyoffsetX = 0.0f;
-			break;
-		}
+			case UiNumbers::ONE:
+			{
+				meshUv.enemyoffsetX = 0.095f;
+				break;
+			}
+			case UiNumbers::TWO:
+			{
+				meshUv.enemyoffsetX = 0.191f;
+				break;
+			}
+			case UiNumbers::THREE:
+			{
+				meshUv.enemyoffsetX = 0.291f;
+				break;
+			}
+			case UiNumbers::FOUR:
+			{
+				meshUv.enemyoffsetX = 0.391f;
+				break;
+			}
+			case UiNumbers::FIVE:
+			{	
+				meshUv.enemyoffsetX = 0.492f;
+				break;
+			}
+			case UiNumbers::SIX:
+			{
+				meshUv.enemyoffsetX = 0.593f;
+				break;
+			}
+			case UiNumbers::SEVEN:
+			{
+				meshUv.enemyoffsetX = 0.693f;
+				break;
+			}
+			case UiNumbers::EIGHT:
+			{
+				meshUv.enemyoffsetX = 0.793f;
+				break;
+			}
+			case UiNumbers::NINE:
+			{
+				meshUv.enemyoffsetX = 0.893f;
+				break;
+			}
+			case UiNumbers::ZERO:
+			{
+				meshUv.enemyoffsetX = 0.0f;
+				break;
+			}
 
 		}
 	}
@@ -640,55 +644,56 @@ void Renderer::Render(RenderInfoUI * object)
 
 		switch (object->UInumber)
 		{
-		case UiNumbers::ONE:
-		{
-			meshUv.enemyoffsetX = 0.028f;
-			break;
-		}
-		case UiNumbers::TWO:
-		{
-			meshUv.enemyoffsetX = 0.028f * 2;
-			break;
-		}
-		case UiNumbers::THREE:
-		{
-			meshUv.enemyoffsetX = 0.028f * 3;
-			break;
-		}
-		case UiNumbers::FOUR:
-		{
-			meshUv.enemyoffsetX = 0.028f * 4;
-			break;
-		}
-		case UiNumbers::FIVE:
-		{	meshUv.enemyoffsetX = 0.028f * 5;
-		break;
-		}
-		case UiNumbers::SIX:
-		{
-			meshUv.enemyoffsetX = 0.028f * 6;
-			break;
-		}
-		case UiNumbers::SEVEN:
-		{
-			meshUv.enemyoffsetX = 0.028f * 7;
-			break;
-		}
-		case UiNumbers::EIGHT:
-		{
-			meshUv.enemyoffsetX = 0.028f * 8;
-			break;
-		}
-		case UiNumbers::NINE:
-		{
-			meshUv.enemyoffsetX = 0.028f * 9;
-			break;
-		}
-		case UiNumbers::ZERO:
-		{
-			meshUv.enemyoffsetX = 0.0f;
-			break;
-		}
+			case UiNumbers::ONE:
+			{
+				meshUv.enemyoffsetX = 0.095f;
+				break;
+			}
+			case UiNumbers::TWO:
+			{
+				meshUv.enemyoffsetX = 0.191f;
+				break;
+			}
+			case UiNumbers::THREE:
+			{
+				meshUv.enemyoffsetX = 0.291f;
+				break;
+			}
+			case UiNumbers::FOUR:
+			{
+				meshUv.enemyoffsetX = 0.391f;
+				break;
+			}
+			case UiNumbers::FIVE:
+			{
+				meshUv.enemyoffsetX = 0.492f;
+				break;
+			}
+			case UiNumbers::SIX:
+			{
+				meshUv.enemyoffsetX = 0.593f;
+				break;
+			}
+			case UiNumbers::SEVEN:
+			{
+				meshUv.enemyoffsetX = 0.693f;
+				break;
+			}
+			case UiNumbers::EIGHT:
+			{
+				meshUv.enemyoffsetX = 0.793f;
+				break;
+			}
+			case UiNumbers::NINE:
+			{
+				meshUv.enemyoffsetX = 0.893f;
+				break;
+			}
+			case UiNumbers::ZERO:
+			{
+				meshUv.enemyoffsetX = 0.0f;
+				break;
+			}
 
 		}
 	}

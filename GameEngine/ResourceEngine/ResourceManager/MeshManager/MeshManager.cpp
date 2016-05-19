@@ -399,20 +399,20 @@ void MeshManager::CreateHighscoreCount()
 	Vertex planeVerts[4];
 
 	planeVerts[0].position = Float3(0.15f, 0.23f, 0.0f);		//0
-	planeVerts[0].uv.x = 0.035f;
-	planeVerts[0].uv.y = 1 - 0.577f;
+	planeVerts[0].uv.x = 0.008f;
+	planeVerts[0].uv.y = 1 - 0.931f;
 
 	planeVerts[1].position = Float3(0.25f, 0.23f, 0.0f);		//3
-	planeVerts[1].uv.x = 0.062f;
-	planeVerts[1].uv.y = 1 - 0.577f;
+	planeVerts[1].uv.x = 0.098f;
+	planeVerts[1].uv.y = 1 - 0.931f;
 
 	planeVerts[2].position = Float3(0.25f, 0.13f, 0.0f);		//5
-	planeVerts[2].uv.x = 0.062f;
-	planeVerts[2].uv.y = 1 - 0.525f;
+	planeVerts[2].uv.x = 0.098f;
+	planeVerts[2].uv.y = 1 - 0.672f;
 
 	planeVerts[3].position = Float3(0.15f, 0.13f, 0.0f);		//7
-	planeVerts[3].uv.x = 0.035f;
-	planeVerts[3].uv.y = 1 - 0.525f;
+	planeVerts[3].uv.x = 0.008f;
+	planeVerts[3].uv.y = 1 - 0.672f;
 
 	//offset.enemyOffsetX = 10;
 	//offset.waveOffsetX = 10;
@@ -433,20 +433,20 @@ void MeshManager::CreateHighscoreCount1()
 	Vertex planeVerts[4];
 
 	planeVerts[0].position = Float3(0.26f, 0.23f, 0.0f);		//0
-	planeVerts[0].uv.x = 0.035f;
-	planeVerts[0].uv.y = 1 - 0.577f;
+	planeVerts[0].uv.x = 0.008f;
+	planeVerts[0].uv.y = 1 - 0.931f;
 
 	planeVerts[1].position = Float3(0.36f, 0.23f, 0.0f);		//3
-	planeVerts[1].uv.x = 0.062f;
-	planeVerts[1].uv.y = 1 - 0.577f;
+	planeVerts[1].uv.x = 0.098f;
+	planeVerts[1].uv.y = 1 - 0.931f;
 
 	planeVerts[2].position = Float3(0.36f, 0.13f, 0.0f);		//5
-	planeVerts[2].uv.x = 0.062f;
-	planeVerts[2].uv.y = 1 - 0.525f;
+	planeVerts[2].uv.x = 0.098f;
+	planeVerts[2].uv.y = 1 - 0.672f;
 
 	planeVerts[3].position = Float3(0.26f, 0.13f, 0.0f);		//7
-	planeVerts[3].uv.x = 0.035f;
-	planeVerts[3].uv.y = 1 - 0.525f;
+	planeVerts[3].uv.x = 0.008f;
+	planeVerts[3].uv.y = 1 - 0.672f;
 
 	//offset.enemyOffsetX = 10;
 	//offset.waveOffsetX = 10;
@@ -467,20 +467,20 @@ void MeshManager::CreateHighscoreCount2()
 	Vertex planeVerts[4];
 
 	planeVerts[0].position = Float3(0.38f, 0.23f, 0.0f);		//0
-	planeVerts[0].uv.x = 0.035f;
-	planeVerts[0].uv.y = 1 - 0.577f;
+	planeVerts[0].uv.x = 0.008f;
+	planeVerts[0].uv.y = 1 - 0.931f;
 
 	planeVerts[1].position = Float3(0.48f, 0.23f, 0.0f);		//3
-	planeVerts[1].uv.x = 0.062f;
-	planeVerts[1].uv.y = 1 - 0.577f;
+	planeVerts[1].uv.x = 0.098f;
+	planeVerts[1].uv.y = 1 - 0.931f;
 
 	planeVerts[2].position = Float3(0.48f, 0.13f, 0.0f);		//5
-	planeVerts[2].uv.x = 0.062f;
-	planeVerts[2].uv.y = 1 - 0.525f;
+	planeVerts[2].uv.x = 0.098f;
+	planeVerts[2].uv.y = 1 - 0.672f;
 
 	planeVerts[3].position = Float3(0.38f, 0.13f, 0.0f);		//7
-	planeVerts[3].uv.x = 0.035f;
-	planeVerts[3].uv.y = 1 - 0.525f;
+	planeVerts[3].uv.x = 0.008f;
+	planeVerts[3].uv.y = 1 - 0.672f;
 
 	//offset.enemyOffsetX = 10;
 	//offset.waveOffsetX = 10;
@@ -502,20 +502,20 @@ void MeshManager::CreateScoreCount()
 	Vertex planeVerts[4];
 
 	planeVerts[0].position = Float3(0.15f, 0.43f, 0.0f);		//0
-	planeVerts[0].uv.x = 0.035f;
-	planeVerts[0].uv.y = 1 - 0.577f;
+	planeVerts[0].uv.x = 0.008f;
+	planeVerts[0].uv.y = 1 - 0.931f;
 
 	planeVerts[1].position = Float3(0.25f, 0.43f, 0.0f);		//3
-	planeVerts[1].uv.x = 0.062f;
-	planeVerts[1].uv.y = 1 - 0.577f;
+	planeVerts[1].uv.x = 0.098f;
+	planeVerts[1].uv.y = 1 - 0.931f;
 
 	planeVerts[2].position = Float3(0.25f, 0.33f, 0.0f);		//5
-	planeVerts[2].uv.x = 0.062f;
-	planeVerts[2].uv.y = 1 - 0.525f;
+	planeVerts[2].uv.x = 0.098f;
+	planeVerts[2].uv.y = 1 - 0.672f;
 
 	planeVerts[3].position = Float3(0.15f, 0.33f, 0.0f);		//7
-	planeVerts[3].uv.x = 0.035f;
-	planeVerts[3].uv.y = 1 - 0.525f;
+	planeVerts[3].uv.x = 0.008f;
+	planeVerts[3].uv.y = 1 - 0.672f;
 
 	//offset.enemyOffsetX = 10;
 	//offset.waveOffsetX = 10;
@@ -536,20 +536,20 @@ void MeshManager::CreateScoreCount1()
 	Vertex planeVerts[4];
 
 	planeVerts[0].position = Float3(0.26f, 0.43f, 0.0f);		//0
-	planeVerts[0].uv.x = 0.035f;
-	planeVerts[0].uv.y = 1 - 0.577f;
+	planeVerts[0].uv.x = 0.008f;
+	planeVerts[0].uv.y = 1 - 0.931f;
 
 	planeVerts[1].position = Float3(0.36f, 0.43f, 0.0f);		//3
-	planeVerts[1].uv.x = 0.062f;
-	planeVerts[1].uv.y = 1 - 0.577f;
+	planeVerts[1].uv.x = 0.098f;
+	planeVerts[1].uv.y = 1 - 0.931f;
 
 	planeVerts[2].position = Float3(0.36f, 0.33f, 0.0f);		//5
-	planeVerts[2].uv.x = 0.062f;
-	planeVerts[2].uv.y = 1 - 0.525f;
+	planeVerts[2].uv.x = 0.098f;
+	planeVerts[2].uv.y = 1 - 0.672f;
 
 	planeVerts[3].position = Float3(0.26f, 0.33f, 0.0f);		//7
-	planeVerts[3].uv.x = 0.035f;
-	planeVerts[3].uv.y = 1 - 0.525f;
+	planeVerts[3].uv.x = 0.008f;
+	planeVerts[3].uv.y = 1 - 0.672f;
 
 	//offset.enemyOffsetX = 10;
 	//offset.waveOffsetX = 10;
@@ -570,20 +570,20 @@ void MeshManager::CreateScoreCount2()
 	Vertex planeVerts[4];
 
 	planeVerts[0].position = Float3(0.38f, 0.43f, 0.0f);		//0
-	planeVerts[0].uv.x = 0.035f;
-	planeVerts[0].uv.y = 1 - 0.577f;
+	planeVerts[0].uv.x = 0.008f;
+	planeVerts[0].uv.y = 1 - 0.931f;
 
 	planeVerts[1].position = Float3(0.48f, 0.43f, 0.0f);		//3
-	planeVerts[1].uv.x = 0.062f;
-	planeVerts[1].uv.y = 1 - 0.577f;
+	planeVerts[1].uv.x = 0.098f;
+	planeVerts[1].uv.y = 1 - 0.931f;
 
 	planeVerts[2].position = Float3(0.48f, 0.33f, 0.0f);		//5
-	planeVerts[2].uv.x = 0.062f;
-	planeVerts[2].uv.y = 1 - 0.525f;
+	planeVerts[2].uv.x = 0.098f;
+	planeVerts[2].uv.y = 1 - 0.672f;
 
 	planeVerts[3].position = Float3(0.38f, 0.33f, 0.0f);		//7
-	planeVerts[3].uv.x = 0.035f;
-	planeVerts[3].uv.y = 1 - 0.525f;
+	planeVerts[3].uv.x = 0.008f;
+	planeVerts[3].uv.y = 1 - 0.672f;
 
 	//offset.enemyOffsetX = 10;
 	//offset.waveOffsetX = 10;
