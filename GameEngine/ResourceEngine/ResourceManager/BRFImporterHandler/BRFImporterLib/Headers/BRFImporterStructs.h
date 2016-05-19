@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 namespace BRFImporterLib
 {
 	//STRUCTS WITH #PRAGMA REGION IN ORDER: 1. STATIC 2. DYNAMICS OF THAT STATIC, REPEAT
@@ -64,8 +63,9 @@ namespace BRFImporterLib
 		double uv[2];
 		double tangent[2];
 		double biTangent[2];
+		//unsigned int weightAmmount[4];
 	};
-	struct WeightsHeader
+	struct WeigthsHeader
 	{
 		double influence;
 		unsigned int jointID;
@@ -139,10 +139,10 @@ namespace BRFImporterLib
 	struct LightHeader
 	{
 		unsigned int spotCount;
-		unsigned int ambientCount;
-		unsigned int directionalCount;
 		unsigned int areaCount;
 		unsigned int pointCount;
+		unsigned int directionalCount;
+
 	};
 #pragma endregion
 #pragma region LightHeader Dynamics
@@ -153,17 +153,12 @@ namespace BRFImporterLib
 		double pos[3];
 		double rot[3];
 		double scale[3];
-		double outerAngle;
+		double spotRadius;
 		double color[3];
 		double intensity;
-	};
-	struct AmbLightHeader //POSSIBLY DEFUNCT
-	{
-		unsigned int objectID;
-		unsigned int parentID;		// 0 = Default
-		double pos[3];
-		double color[3];
-		double intensity;
+		double lookAtLH[3];//new
+		double lightRange;//new
+		double attenuation;//new
 	};
 	struct AreaLightHeader
 	{
@@ -182,6 +177,9 @@ namespace BRFImporterLib
 		double pos[3];
 		double color[3];
 		double intensity;
+		double lookAtLH[3];//new
+		double lightRange;//new
+		double attenuation;//new
 	};
 	struct DirLightHeader
 	{
@@ -191,6 +189,7 @@ namespace BRFImporterLib
 		double rot[3];
 		double color[3];
 		double intensity;
+		double lookAtLH[3];//new
 	};
 #pragma endregion
 #pragma region GroupHeader
@@ -208,15 +207,30 @@ namespace BRFImporterLib
 #pragma region MorphAnimHeader
 	struct MorphAnimHeader
 	{
-		unsigned int vertices;
+		unsigned int vertsPerShape; // one keyframe == one mesh
+		unsigned int numberOfKeyFrames;
+		unsigned int animationTimeInFrames; //in frames (the same as the last keyframe)
 		unsigned int shapeID;
 	};
 #pragma endregion
+
+
 #pragma region MorphAnimHeader Dynamics
+	struct MorphAnimKeyFrameHeader
+	{
+		unsigned int frameNumber;
+		double normalizedTime;
+
+	};
+
 	struct MorphVertexHeader
 	{
 		double pos[3];
-		unsigned int vertIndex;
+		double normal[3];
+		double tangent[2];
+		double biTangent[2];
+		/*double pos[3];
+		unsigned int vertIndex;*/
 	};
 #pragma endregion
 #pragma region AttributeHeader

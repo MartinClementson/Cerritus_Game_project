@@ -67,7 +67,7 @@ void Player::Initialize(AudioManager* audioManager)
 	radius2				 = 2.0f;
 	DoT					 = 0.0f;
 	DoTDur				 = 0.0f;
-	health				 = 100.0f;
+	health				 = 125.0f;
 	maxHealth			 = health;
 	projectileSystem->Initialize(audioManager);
 	SetUpgrade(UpgradeType::ONE_SHOT);
@@ -112,7 +112,7 @@ void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 	
 #pragma region Calculate movement
 	velocity.x		 += acceleration.x * (float)deltaTime - velocity.x  * fallOfFactor * (float)deltaTime;
-	velocity.y		 += acceleration.y * (float)deltaTime - velocity.y  * (fallOfFactor/2) * (float)deltaTime;
+	//velocity.y		 += acceleration.y * (float)deltaTime - velocity.y  * (fallOfFactor/2) * (float)deltaTime;
 	velocity.z		 += acceleration.z * (float)deltaTime - velocity.z  * fallOfFactor * (float)deltaTime;
 	
 	
@@ -129,7 +129,7 @@ void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 	if (currentVelo > 0.0f)
 	{
 		position.x				+= velocity.x;
-		position.y				+= velocity.y;
+		//position.y				+= velocity.y;
 		position.z				+= velocity.z;
 
 
@@ -156,7 +156,7 @@ void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 		if (currentVelo > 0.05f)
 		{
 			//position.x -= velocity.x;
-			position.y = Y_OFFSET;
+			//position.y = Y_OFFSET;
 			//position.z -= velocity.z;
 
 
@@ -244,21 +244,51 @@ void Player::Move(MovementDirection* dir, int keyAmount, double deltaTime)
 	{
 		if (dir[i] == UP)
 		{
-			acceleration.z = maxAcceleration / keyAmount;
+			if (keyAmount >= 2)
+			{
+				acceleration.z = maxAcceleration / 1.414213562373095f;
+			}
+			else
+			{
+				acceleration.z = maxAcceleration / keyAmount;
+			}
 		}
 
 		if (dir[i] == DOWN)
 		{
-			acceleration.z = -maxAcceleration / keyAmount;
+			if (keyAmount >= 2)
+			{
+				acceleration.z = -maxAcceleration / 1.414213562373095f;
+			}
+			else
+			{
+				acceleration.z = -maxAcceleration / keyAmount;
+			}
 		}
 		
 		if (dir[i] == LEFT)
 		{
-			acceleration.x = -maxAcceleration / keyAmount;
+			if (keyAmount >= 2)
+			{
+				acceleration.x = -maxAcceleration / 1.414213562373095f;
+			}
+			else
+			{
+				acceleration.x = -maxAcceleration / keyAmount;
+			}
+			
 		}
 		if (dir[i] == RIGHT)
 		{
-			acceleration.x = maxAcceleration / keyAmount;
+			if (keyAmount >= 2)
+			{
+				acceleration.x = maxAcceleration / 1.414213562373095f;
+			}
+			else
+			{
+				acceleration.x = maxAcceleration / keyAmount;
+			}
+			
 		}
 
 
