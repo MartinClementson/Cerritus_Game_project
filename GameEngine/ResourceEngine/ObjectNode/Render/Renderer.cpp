@@ -1471,7 +1471,7 @@ bool Renderer::CreateBuffers()
 void Renderer::UpdateCamera(XMFLOAT3 position)
 {
 	
-		this->sceneCam->Updateview(position);
+		this->sceneCam->UpdateView(position);
 		this->UpdateCbufferPerFrame();
 		this->lightmanager.UpdateWorldLight(position);
 		this->MapLightBufferStructures(true, false);
