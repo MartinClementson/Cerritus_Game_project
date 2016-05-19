@@ -28,13 +28,11 @@ void Camera::ProcessInput(double deltaTime)
 		if (this->freeCam == false)
 		{
 			DIMouse = input->GetMouse();
-			//ShowCursor(TRUE);
 			this->freeCam = true;
 		}
 		else if (this->freeCam == true)
 		{
 			DIMouse = input->GetMouse();
-			//ShowCursor(FALSE);
 			this->freeCam = false;
 		}
 		timer = 0.0f;
