@@ -26,7 +26,6 @@ void Engine::Initialize(HWND* window, HINSTANCE *hInstance)
 	}
 	graphics->Initialize(window);
 	game->Initialize();
-
 }
 
 void Engine::Release()

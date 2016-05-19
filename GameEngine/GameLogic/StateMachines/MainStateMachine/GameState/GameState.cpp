@@ -50,6 +50,8 @@ void GameState::Initialize(AudioManager* audioManager)
 	Input::GetInstance()->SetMouseVisibility(false);
 
 	index = 5.0f;
+	//test = 1;
+	//AntTweakBar::GetInstance()->addSlider("testGameState", test);
 
 	OnEnter();
 }
@@ -325,6 +327,12 @@ void GameState::ProcessInput(double* deltaTime)
 	timeSincePaused += (float)*deltaTime;
 	timer += (float)*deltaTime;
 	XMFLOAT2 temp = input->GetMousePosition();
+
+	/*if (input->IsKeyPressed(KEY_X) && timeSincePaused > 0.2f)
+	{
+		timeSincePaused = 0;
+		AntTweakBar::GetInstance()->toggleShowingBar();
+	}*/
 
 	if (death->isActive)
 	{

@@ -108,10 +108,9 @@ private:
 	MeshEnum meshID;//enum
 	RenderInfoChar renderInfo;
 
-
+	AntTweakBar *bar = AntTweakBar::GetInstance();
 	XMFLOAT3 direction;
 	//Collision();
-
 
 	
 	Vec3 velocity			= Vec3(0.1f,0.1f,0.1f);

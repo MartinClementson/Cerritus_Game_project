@@ -21,7 +21,16 @@ MainStateMachine::~MainStateMachine()
 
 void MainStateMachine::Update(double deltaTime)
 {
+	if (timePassed < 10.0f)
+		timePassed += (float)deltaTime;
+
 	audioManager->Update(deltaTime);
+
+	if (Input::GetInstance()->IsKeyPressed(KEY_X) && timePassed > 0.2f)
+	{
+		timePassed = 0;
+		AntTweakBar::GetInstance()->toggleShowingBar();
+	}
 	if (gameState->isActive)
 	{
 		gameState->Update(deltaTime);
@@ -220,6 +229,7 @@ void MainStateMachine::Initialize()
 	this->delay = 0.0f;
 	this->lastHighscore = 0.0f;
 	gameState->toMenu = true;
+	timePassed = 0;
 }
 
 void MainStateMachine::Release()
