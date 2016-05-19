@@ -239,11 +239,11 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 		for (size_t animation = 0; animation < morphAmount; animation++)
 		{
 			AnimationInfo tempAnim;
-			unsigned int frameAmount  = currentFile->fetch->MorphAnimation(animation)->getMorphAnimationHeader()->numberOfKeyFrames;
+			unsigned int frameAmount  = currentFile->fetch->MorphAnimation(unsigned int(animation))->getMorphAnimationHeader()->numberOfKeyFrames;
 			tempAnim.frames.reserve(frameAmount);
 			tempAnim.numberOfFrames	  = frameAmount;
 			tempAnim.animationTime    = 10.0f; //oops forgot to export this. But its ok!
-			tempAnim.meshesPerFrame.reserve(frameAmount);
+			tempAnim.meshesPerFrame.reserve(size_t(frameAmount));
 			for (size_t frame = 0; frame < frameAmount; frame++)
 			{
 				FrameData tempFrame;
