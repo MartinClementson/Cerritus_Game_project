@@ -24,7 +24,14 @@ private:
 	Mesh waveCountQuad;
 	Mesh KillCountQuad1;
 	Mesh waveCompleteQuad;
-	
+
+	Mesh highScoreCountQuad;
+	Mesh highScoreCountQuad1;
+	Mesh highScoreCountQuad2;	
+
+	Mesh ScoreCountQuad;
+	Mesh ScoreCountQuad1;
+	Mesh ScoreCountQuad2;
 	
 private:
 	void CreatePlaceHolder();
@@ -33,6 +40,17 @@ private:
 	void CreateKillCountQuad();
 	void CreateWaveCountQuad();
 	void CreateKillCountQuad1();
+
+	void CreateHighscoreCount();
+	void CreateHighscoreCount1();
+	void CreateHighscoreCount2();
+
+	void CreateScoreCount();
+
+	void CreateScoreCount1();
+
+	void CreateScoreCount2();
+
 	void CreateWaveCompleteQuad();
 public:
 	QuadTree* quadTree;

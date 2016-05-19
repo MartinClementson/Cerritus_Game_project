@@ -20,6 +20,8 @@ public:
 	void SetPoints(float points);
 	float GetPoints();
 	void SetLastHigh(float high);
+	float GetLastHigh();
+	void SetHighPlacing();
 	bool toMenu;
 	void getRenderScreen(UITextures* uiEnum, RenderInstructions* toRender);
 
@@ -27,14 +29,50 @@ public:
 private:
 	void OnEnter();
 	void OnExit();
+	void SetPointPlacing();
+	int GetNumber1();
+	int GetNumber2();
+	int GetNumber3();
+
+	int GetScoreNumber1();
+	int GetScoreNumber2();
+	int GetScoreNumber3();
+
+	void QuadNumberPick(int cases);
+	void QuadNumberPick1(int cases);
+	void QuadNumberPick2(int cases);
+
+	void QuadNumberPickScore(int cases);
+	void QuadNumberPickScore1(int cases);
+	void QuadNumberPickScore2(int cases);
+
 	Scene* GameOverScene;
 	GUI* gameOverGUI;
 	int test ;
 	float points;
 	float lastHighscore;
+
+	float number;
+	float number1;
+	float number2;
+	float number3;
+
+	float highNumber;
+	float highNumber1;
+	float highNumber2;
+	float highNumber3;
+	int cases = 0;
+
+
 	Graphics* graphics;
 	RenderInfoUI gameover;
 	RenderInfoUI gameover2;
+	RenderInfoUI gameover3;
+	RenderInfoUI gameover4;
+
+	RenderInfoUI gameover5;
+	RenderInfoUI gameover6;
+	RenderInfoUI gameover7;
 
 
 	#pragma region variables for menu

@@ -58,7 +58,7 @@ void EnemySpawn::Update(double deltaTime)
 			{
 				Player* player;
 				player = collision->GetPlayer();
-				player->SetPoints(player->GetPoints() + (10.0f*player->GetMulti()));
+				player->SetPoints(player->GetPoints() + (6.0f*player->GetMulti()));
 				player->SetMulti(player->GetMulti() + 0.1f);
 
 				Alive.at(i)->isAlive = false;

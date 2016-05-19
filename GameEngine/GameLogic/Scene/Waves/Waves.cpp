@@ -29,7 +29,7 @@ void Waves::Update(double deltaTime)
 void Waves::SetWaveGroup(int wave)
 {
 	this->waveNumber = wave;
-	waveTimer = 20.0f;
+	waveTimer = 2;
 }
 
 int Waves::GetWaveGroup()
@@ -43,22 +43,22 @@ void Waves::WaveInformation()
 	switch (waveNumber)
 	{
 		case 1:
-			amountOfStandards = 10;
+			amountOfStandards = 2;
 			SetWaveInformation(amountOfStandards);
 
 			break;
 		case 2:
-			amountOfStandards = 20;
+			amountOfStandards = 0;
 			SetWaveInformation(amountOfStandards);
 
 			break;
 		case 3:
-			amountOfStandards = 30;
+			amountOfStandards = 4;
 			SetWaveInformation(amountOfStandards);
 
 			break;
 		case 4: 
-			amountOfStandards = 40;
+			amountOfStandards = 5;
 			SetWaveInformation(amountOfStandards);
 
 			break;
