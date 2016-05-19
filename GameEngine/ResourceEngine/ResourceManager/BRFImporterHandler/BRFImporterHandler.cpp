@@ -255,7 +255,7 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 				tempFrameMesh.reserve(vertAmount);
 				
 
-				std::vector<BRFImporterLib::MorphVertexHeader>* currmesh = currentFile->fetch->MorphAnimation(animation)->getMorphVertexHeaderVector(frame);
+				std::vector<BRFImporterLib::MorphVertexHeader>* currmesh = currentFile->fetch->MorphAnimation(unsigned int(animation))->getMorphVertexHeaderVector(unsigned int(frame));
 				for (size_t vert = 0; vert < vertAmount; vert++)
 				{
 					BlendShapeVert tempVert;
