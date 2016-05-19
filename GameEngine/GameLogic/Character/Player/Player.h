@@ -103,6 +103,7 @@ public:
 	ProjectileSystem* projectileSystem;
 	float VelocityMax; 
 	float slowTimer;
+	Vec3 acceleration		= Vec3(0.0f, 0.0f, 0.0f);
 
 private:
 	MeshEnum meshID;//enum
@@ -114,7 +115,6 @@ private:
 
 	
 	Vec3 velocity			= Vec3(0.1f,0.1f,0.1f);
-	Vec3 acceleration		= Vec3(0.0f, 0.0f, 0.0f);
 	float fallOfFactor		= 8.0f; //the bigger number, the faster fallOff , this is like friction
 	float maxAcceleration	= 6.0f;
 	float points;

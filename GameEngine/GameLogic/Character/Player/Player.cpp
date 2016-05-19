@@ -136,37 +136,11 @@ void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 		acceleration				 = Vec3(0.0f, 0.0f, 0.0f); //reset acceleration for next frame
 
 	}
-	else if (collision == false)
-	{
-		velocity.x += acceleration.x * (float)deltaTime - velocity.x * fallOfFactor * (float)deltaTime;
-		velocity.y = 0.0f;
-		velocity.z += acceleration.z * (float)deltaTime - velocity.z * fallOfFactor * (float)deltaTime;
 
-
-		float currentVelo = velocity.Length();
-
-		if (currentVelo > VelocityMax)
-		{
-
-			Vec3 normalizer = velocity.Normalize();
-			normalizer = normalizer * VelocityMax;
-			velocity = normalizer;
-		}
-
-		if (currentVelo > 0.05f)
-		{
-			//position.x -= velocity.x;
-			//position.y = Y_OFFSET;
-			//position.z -= velocity.z;
-
-
-
-		}
-
-
-		acceleration = Vec3(0.0f, 0.0f, 0.0f); //reset acceleration for next frame
-
-	}
+	//else if (collision == false)
+	//{
+	//	acceleration = Vec3(0.0f, 0.0f, 0.0f); //reset acceleration for next frame
+	//}
 #pragma endregion
 	
 
