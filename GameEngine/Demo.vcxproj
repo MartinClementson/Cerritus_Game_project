@@ -371,7 +371,9 @@
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\LightData.obj" />
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MaterialData.obj" />
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MeshData.obj" />
-    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MorphData.obj" />
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MorphData.obj">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </Object>
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\SkeletonData.obj" />
   </ItemGroup>
   <ItemGroup>
