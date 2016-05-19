@@ -233,29 +233,37 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 	{
 		unsigned int morphAmount = currentFile->fetch->Main()->morphAnimAmount;
 		std::vector<AnimationInfo> animations;
+		animations.reserve(morphAmount);
+		
+
 		for (size_t animation = 0; animation < morphAmount; animation++)
 		{
 			AnimationInfo tempAnim;
 			unsigned int frameAmount  = currentFile->fetch->MorphAnimation(animation)->getMorphAnimationHeader()->numberOfKeyFrames;
+			tempAnim.frames.reserve(frameAmount);
 			tempAnim.numberOfFrames	  = frameAmount;
 			tempAnim.animationTime    = 10.0f; //oops forgot to export this. But its ok!
-			
-
+			tempAnim.meshesPerFrame.reserve(frameAmount);
 			for (size_t frame = 0; frame < frameAmount; frame++)
 			{
 				FrameData tempFrame;
 				tempFrame.frameID  = currentFile->fetch->MorphAnimation(animation)->getMorphAnimKeyFrame(frame).frameNumber;
 				tempFrame.time	   = currentFile->fetch->MorphAnimation(animation)->getMorphAnimKeyFrame(frame).normalizedTime;
 				unsigned int vertAmount = currentFile->fetch->MorphAnimation(animation)->getMorphAnimationHeader()->vertsPerShape;
-				std::vector<BlendShapeVert> tempFrameMesh;
 
+				std::vector<BlendShapeVert> tempFrameMesh;
+				tempFrameMesh.reserve(vertAmount);
+				
+
+				std::vector<BRFImporterLib::MorphVertexHeader>* currmesh = &currentFile->fetch->MorphAnimation(animation)->getMorphVertexHeader(frame);
 				for (size_t vert = 0; vert < vertAmount; vert++)
 				{
 					BlendShapeVert tempVert;
-					tempVert.position  = currentFile->fetch->MorphAnimation(animation)->getMorphVertexHeader(frame).at(vert).pos;
-					tempVert.normal    = currentFile->fetch->MorphAnimation(animation)->getMorphVertexHeader(frame).at(vert).normal;
-					tempVert.tangent   = currentFile->fetch->MorphAnimation(animation)->getMorphVertexHeader(frame).at(vert).tangent;
-					tempVert.biTangent = currentFile->fetch->MorphAnimation(animation)->getMorphVertexHeader(frame).at(vert).biTangent;
+					BRFImporterLib::MorphVertexHeader* currVert = &currmesh->at(vert);
+					tempVert.position  = currVert->pos;
+					tempVert.normal    = currVert->normal;
+					tempVert.tangent   = currVert->tangent;
+					tempVert.biTangent = currVert->biTangent;
 					tempFrameMesh.push_back(tempVert);
 				}
 				tempAnim.frames.push_back(tempFrame);
@@ -263,6 +271,13 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 			}
 			animations.push_back(tempAnim);
 		}
+		/*std::vector<AnimationInfo> revAnim;
+		revAnim.reserve(animations.size());
+		for (size_t i = 0; i < animations.size(); i++)
+		{
+			revAnim.push_back(animations.at(animations.size() - 1 - i));
+
+		}*/
 		meshManager->CreateAnimationFromMeshes(morphVertices, animations);
 	}
 	

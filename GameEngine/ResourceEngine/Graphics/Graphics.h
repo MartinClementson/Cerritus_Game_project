@@ -118,6 +118,7 @@ private:
 
 	void CullGeometry();
 	float animationSpeed;
+	float animation = 0;
 	XMFLOAT4X4 CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation);
 	XMFLOAT4X4 CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation, XMFLOAT3* scale);
 

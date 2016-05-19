@@ -72,6 +72,7 @@ void Graphics::Initialize(HWND * window)
 	antTweakBar = AntTweakBar::GetInstance();
 	antTweakBar->Initialize(gDevice);
 	antTweakBar->addSlider("AnimSpeed", animationSpeed);
+	antTweakBar->addSlider("Animation", animation);
 	animationSpeed = 0.01;
 
 	gameObjects		 = new std::vector<RenderInfoObject*>;
@@ -121,14 +122,14 @@ void Graphics::Initialize(HWND * window)
 	instancedAnimationDataPerFrame[0].worldMatrix   = CalculateWorldMatrix(&pos, &rotation);
 
 
-	pos.x += 10;
+	/*pos.x += 10;
 	rotation.y = 45.0f;
 	instancedAnimationDataPerFrame[1].animation		= 1;
 	instancedAnimationDataPerFrame[1].animationTime = 0;
 	instancedAnimationDataPerFrame[1].worldMatrix   = CalculateWorldMatrix(&pos, &rotation);
 
 
-	pos.z -= 10;
+	pos.z -= 10;*/
 	
 	/*instancedAnimationDataPerFrame[2].animation		= 2;
 	instancedAnimationDataPerFrame[2].animationTime = 0;
@@ -188,7 +189,7 @@ void Graphics::Render() //manage RenderPasses here
 {
 
 	static bool forward;
-	for (size_t i = 0; i < 2; i++)
+	for (size_t i = 0; i < 1; i++)
 	{
 		if (instancedAnimationDataPerFrame[i].animationTime > 1.0f)
 			forward = false;
@@ -198,9 +199,10 @@ void Graphics::Render() //manage RenderPasses here
 			instancedAnimationDataPerFrame[i].animationTime += animationSpeed;
 		else													  
 			instancedAnimationDataPerFrame[i].animationTime -= animationSpeed;
+		
+		instancedAnimationDataPerFrame[i].animation = UINT(animation);
 	}
 	
-
 
 	if (charObjects->size() > 0)
 		renderer->UpdateCamera(charObjects->at(0)->position);
@@ -236,7 +238,7 @@ void Graphics::Render() //manage RenderPasses here
 		temp.position = XMFLOAT3(0.0f, 1.0f, 0.0f);
 		temp.object = MeshEnum::ENEMY_1;
  		renderer->RenderInstanced(&temp,
-			instancedAnimationDataPerFrame, 2);
+			instancedAnimationDataPerFrame, 1);
 	}
 	RenderScene();									//Render to the gBuffer
 													//Set the gBuffer as a subResource, send in the new RenderTarget

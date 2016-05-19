@@ -39,7 +39,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	brfImporterHandler->LoadFile("models/FinalScene9.BRF",  true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
 	brfImporterHandler->LoadFile("models/FinalScene10.BRF", true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
 	brfImporterHandler->LoadFile("models/quadBullet.BRF",   true, true, true, false ,false);
-    brfImporterHandler->LoadFile("models/morphAnim.BRF",		true, false, false, true  ,false);
+    brfImporterHandler->LoadFile("models/Enemy_animated.BRF",		true, false, false, true  ,false);
 	this->meshManager->CreateQuadTree();
 	
 	
