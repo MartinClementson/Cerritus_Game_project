@@ -41,16 +41,21 @@ void AudioManager::Initialize()
 	s_weaponPickup.reset(new SoundEffect(s_audEngine->get(), L"sounds/shot_pickup.wav"));
 	s_imminentWave.reset(new SoundEffect(s_audEngine->get(), L"sounds/new_wave.wav"));
 	s_loseAmient.reset(new SoundEffect(s_audEngine->get(), L"sounds/lose.wav"));
+	s_repair.reset(new SoundEffect(s_audEngine->get(), L"sounds/repair.wav"));
+	s_repair_complete.reset(new SoundEffect(s_audEngine->get(), L"sounds/repair_complete.wav"));
 
+	s_repairLoop = s_repair->CreateInstance();
 	s_nightLoop = s_ambient->CreateInstance();
 	s_musicLoop = s_gameTheme->CreateInstance();
 	s_loseLoop = s_loseAmient->CreateInstance();
 
-	s_nightLoop->Play(true);
+	//s_nightLoop->Play(true);
 	s_nightLoop->SetVolume(0.3f);
-	s_musicLoop->Play(true);
+	//s_musicLoop->Play(true);
 	s_musicLoop->SetVolume(0.5f);
 	s_loseLoop->SetVolume(0.5f);
+	s_repairLoop->Play(true);
+	s_repairLoop->Pause();
 
 	s_audEngine->get()->SetMasterVolume(0.1f);
 }
@@ -102,10 +107,35 @@ void AudioManager::playNewWave()
 	s_imminentWave->Play(1.5f,0,0);
 }
 
+void AudioManager::playRepairComplete()
+{
+	s_repair_complete->Play();
+}
+
 void AudioManager::playInGameLoop()
 {
 	s_musicLoop->Play(true);
 	s_nightLoop->Play(true);
+}
+
+void AudioManager::playLoseLoop()
+{
+	s_loseLoop->Play(true);
+}
+
+void AudioManager::playRepairLoop()
+{
+	s_repairLoop->Resume();
+}
+
+void AudioManager::stopRepairLoop()
+{
+	s_repairLoop->Pause();
+}
+
+void AudioManager::stopLoseLoop()
+{
+	s_loseLoop->Play(false);
 }
 
 void AudioManager::stopAmbientGameStateSound()
