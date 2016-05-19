@@ -424,12 +424,15 @@ bool Collision::PlayerCollision(EnemyBase* enemy)
 		if (enemy->isAlive && enemy->movementSpeed > 0) //kolla in denna senare, tima attack med animation
 		{
 			enemy->movementSpeed = 0;
+			enemy->SetAnimation(EnemyAnimations::ENEMY_ATTACK);
 			player->DowngradeWeapon();
 			player->SetHealth(player->GetHealth() - 15.0f);
 			AudioManager::GetInstance()->playPlayerHit();
 		}
 		return true;
 	}
+	else
+		enemy->SetAnimation(EnemyAnimations::ENEMY_WALK);
 	return false;
 }
 

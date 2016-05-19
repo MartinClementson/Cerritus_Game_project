@@ -35,10 +35,10 @@ void ShaderManager::Release()
 
 
 	//Shaders for the Animation
-	SAFE_RELEASE(ANIMATION_VS);
-	SAFE_RELEASE(ANIMATION_GS);
-	SAFE_RELEASE(ANIMATION_PS);
-	SAFE_RELEASE(gVertexLayoutAnimation);
+	SAFE_RELEASE(INSTANCED_ANIMATION_VS);
+	SAFE_RELEASE(INSTANCED_ANIMATION_GS);
+	SAFE_RELEASE(INSTANCED_ANIMATION_PS);
+	SAFE_RELEASE(gInstancedAnimationLayout);
 
 	//Shaders for the gbuffer
 	SAFE_RELEASE(GBUFFER_VS);
@@ -114,12 +114,12 @@ void ShaderManager::SetActiveShader(Shaders shader)
 	case ANIMATION_SHADER:
 		
 
-			this->gDeviceContext->VSSetShader(ANIMATION_VS, nullptr, 0);
+			this->gDeviceContext->VSSetShader(INSTANCED_ANIMATION_VS, nullptr, 0);
 			this->gDeviceContext->HSSetShader(nullptr, nullptr, 0);
 			this->gDeviceContext->DSSetShader(nullptr, nullptr, 0);
-			this->gDeviceContext->GSSetShader(ANIMATION_GS, nullptr, 0);
-			this->gDeviceContext->PSSetShader(ANIMATION_PS, nullptr, 0);
-			this->gDeviceContext->IASetInputLayout(gVertexLayoutAnimation);
+			this->gDeviceContext->GSSetShader(INSTANCED_ANIMATION_GS, nullptr, 0);
+			this->gDeviceContext->PSSetShader(INSTANCED_ANIMATION_PS, nullptr, 0);
+			this->gDeviceContext->IASetInputLayout(gInstancedAnimationLayout);
 			
 		break;
 
@@ -229,21 +229,23 @@ void ShaderManager::SetActiveShader(Shaders shader)
 void ShaderManager::CreateShaders()
 {
 	if (!CreateFinalPassShaders())
-		MessageBox(NULL, L"Error compiling FinalPassShaders shaders", L"Shader error", MB_ICONERROR | MB_OK);
-	if (!CreateGbufferShader())
-		MessageBox(NULL, L"Error compiling Gbuffer shaders", L"Shader error", MB_ICONERROR | MB_OK);
-	if (!CreateShadowShader())
-		MessageBox(NULL, L"Error compiling Shadow shaders", L"Shader error", MB_ICONERROR | MB_OK);
-	if(!CreateUiShader())
-		MessageBox(NULL, L"Error compiling UI shaders", L"Shader error", MB_ICONERROR | MB_OK);
-	if (!CreateInstancedGbufferShader())
-		MessageBox(NULL, L"Error compiling Instanced Gbuffer shaders", L"Shader error", MB_ICONERROR | MB_OK);
-	if (!CreateInstancedShadowShader())
-		MessageBox(NULL, L"Error compiling instanced Shadow shaders", L"Shader error", MB_ICONERROR | MB_OK);
-	if (!CreateBlurComputeShader())
-		MessageBox(NULL, L"Error compiling compute shader", L"Shader error", MB_ICONERROR | MB_OK);
-	if (!CreateBillboardShader())
-		MessageBox(NULL, L"Error compiling instanced Shadow shaders", L"Shader error", MB_ICONERROR | MB_OK);
+		MessageBox(NULL, L"Error compiling FinalPassShaders shaders", L"Shader error",	  MB_ICONERROR | MB_OK);
+	if (!CreateGbufferShader())															  
+		MessageBox(NULL, L"Error compiling Gbuffer shaders", L"Shader error",			  MB_ICONERROR | MB_OK);
+	if (!CreateShadowShader())															  
+		MessageBox(NULL, L"Error compiling Shadow shaders", L"Shader error",			  MB_ICONERROR | MB_OK);
+	if(!CreateUiShader())																  
+		MessageBox(NULL, L"Error compiling UI shaders", L"Shader error",			      MB_ICONERROR | MB_OK);
+	if (!CreateInstancedGbufferShader())												  
+		MessageBox(NULL, L"Error compiling Instanced Gbuffer shaders", L"Shader error",   MB_ICONERROR | MB_OK);
+	if (!CreateInstancedShadowShader())													  
+		MessageBox(NULL, L"Error compiling instanced Shadow shaders", L"Shader error",	  MB_ICONERROR | MB_OK);
+	if (!CreateBlurComputeShader())														  
+		MessageBox(NULL, L"Error compiling compute shader", L"Shader error",			  MB_ICONERROR | MB_OK);
+	if (!CreateBillboardShader())														  
+		MessageBox(NULL, L"Error compiling instanced Shadow shaders", L"Shader error",	  MB_ICONERROR | MB_OK);
+	if (!CreateAnimationShader())
+		MessageBox(NULL, L"Error compiling instanced Animation shaders", L"Shader error", MB_ICONERROR | MB_OK);
 }
 
 
@@ -400,7 +402,96 @@ bool ShaderManager::CreateFinalPassShaders()
 
 bool ShaderManager::CreateAnimationShader()
 {
-	return false;
+	HRESULT hr;
+	//Load the shaders
+
+	ID3DBlob* pVS = nullptr;
+
+	D3DCompileFromFile(
+		L"ResourceEngine/Shader/AnimationShader/AnimationShader_Instanced.hlsl",
+		nullptr,
+		nullptr,
+		"ANIM_VS_main",
+		"vs_5_0",
+		0,
+		0,
+		&pVS,
+		nullptr);
+
+	hr = this->gDevice->CreateVertexShader(pVS->GetBufferPointer(), pVS->GetBufferSize(), nullptr, &INSTANCED_ANIMATION_VS);
+	if (FAILED(hr))
+		MessageBox(NULL, L"Error creating instanced layout", L"Shader error", MB_ICONERROR | MB_OK);
+
+
+
+	//Create instanced vert layout
+	D3D11_INPUT_ELEMENT_DESC inputDescI[] =
+	{
+		/*POSITION*/		{ "POSITION",	0,  DXGI_FORMAT_R32G32B32_FLOAT,	 0,		 0,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*NORMAL*/			{ "TEXCOORD",	0,	DXGI_FORMAT_R32G32B32_FLOAT ,	 0,		12,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*UV*/				{ "TEXCOORD",	1,	DXGI_FORMAT_R32G32_FLOAT,		 0,		24,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*BITANGENT*/		{ "TEXCOORD",	2,  DXGI_FORMAT_R32G32_FLOAT,		 0,		32,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*TANGENT*/			{ "TEXCOORD",	3,  DXGI_FORMAT_R32G32_FLOAT,		 0,		40,		 D3D11_INPUT_PER_VERTEX_DATA		,0 },
+		/*WORLD MATRIX*/	{ "WORLD",		0,	DXGI_FORMAT_R32G32B32A32_FLOAT,	 1,		0,		 D3D11_INPUT_PER_INSTANCE_DATA		,1 },
+		/*WORLD MATRIX*/	{ "WORLD",		1,	DXGI_FORMAT_R32G32B32A32_FLOAT,	 1,		16,		 D3D11_INPUT_PER_INSTANCE_DATA		,1 },
+		/*WORLD MATRIX*/	{ "WORLD",		2,	DXGI_FORMAT_R32G32B32A32_FLOAT,	 1,		32,		 D3D11_INPUT_PER_INSTANCE_DATA		,1 },
+		/*WORLD MATRIX*/	{ "WORLD",		3,	DXGI_FORMAT_R32G32B32A32_FLOAT,	 1,		48,		 D3D11_INPUT_PER_INSTANCE_DATA		,1 },
+		/*Animation Index*/ { "ANIMATION",	0,	DXGI_FORMAT_R32_UINT ,			 1,		64,		 D3D11_INPUT_PER_INSTANCE_DATA		,1 },
+		/*Animation Time*/  { "ANIMTIME",	0,	DXGI_FORMAT_R32_FLOAT,			 1,		68,		 D3D11_INPUT_PER_INSTANCE_DATA		,1 }
+	
+	};
+
+	hr = this->gDevice->CreateInputLayout(inputDescI, ARRAYSIZE(inputDescI), pVS->GetBufferPointer(), pVS->GetBufferSize(), &this->gInstancedAnimationLayout);
+	pVS->Release();
+	if (FAILED(hr))
+		MessageBox(NULL, L"Error creating instanced layout", L"Shader error", MB_ICONERROR | MB_OK);
+
+
+
+
+	//Geometry shader
+	ID3DBlob* pGS = nullptr;
+	D3DCompileFromFile(
+		L"ResourceEngine/Shader/AnimationShader/AnimationShader_Instanced.hlsl",
+		nullptr,
+		nullptr,
+		"ANIM_GS_main",
+		"gs_5_0",
+		0,
+		0,
+		&pGS,
+		nullptr);
+
+	hr = this->gDevice->CreateGeometryShader(pGS->GetBufferPointer(), pGS->GetBufferSize(), nullptr, &INSTANCED_ANIMATION_GS);
+	pGS->Release();
+
+	if (FAILED(hr))
+		return false;
+
+
+
+	ID3DBlob *pPs = nullptr;
+	D3DCompileFromFile(
+		L"ResourceEngine/Shader/AnimationShader/AnimationShader_Instanced.hlsl",
+		nullptr,
+		nullptr,
+		"ANIM_PS_main",
+		"ps_5_0",
+		0,
+		0,
+		&pPs,
+		nullptr);
+
+	hr = this->gDevice->CreatePixelShader(pPs->GetBufferPointer(), pPs->GetBufferSize(), nullptr, &INSTANCED_ANIMATION_PS);
+	pPs->Release();
+
+	if (FAILED(hr))
+		return false;
+
+
+
+
+	return true;
 }
 
 bool ShaderManager::CreateGbufferShader()
@@ -760,7 +851,6 @@ bool ShaderManager::CreateBillboardShader()
 	pVS->Release();
 	if (FAILED(hr))
 		MessageBox(NULL, L"Error creating billboard layout", L"Shader error", MB_ICONERROR | MB_OK);
-
 
 
 

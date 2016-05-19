@@ -334,7 +334,7 @@ void Player::Shoot(InputKeys input, double deltaTime)
 float Player::GetHealth()
 {
 
-	return   this->health;
+	return this->health;
 
 }
 

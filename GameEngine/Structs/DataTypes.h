@@ -12,6 +12,14 @@ struct Float2
 		this->y = y;
 	}
 	Float2() {};
+
+	Float2& operator=(double* pos)
+	{
+		this->x = float(pos[0]);
+		this->y = float(pos[1]);
+
+		return *this;
+	}
 };
 
 struct Float3
@@ -27,6 +35,23 @@ struct Float3
 		this->z = z;
 	}
 	Float3() {};
+
+	Float3(double* pos)
+	{
+		this->x = float(pos[0]);
+		this->y = float(pos[1]);
+		this->z = float(pos[2]);
+
+	}
+
+	Float3& operator=(double* pos)
+	{
+		this->x = float(pos[0]);
+		this->y = float(pos[1]);
+		this->z = float(pos[2]);
+
+		return *this;
+	}
 };
 
 struct Float4
@@ -97,7 +122,19 @@ struct Double3
 	}
 };
 
-
+struct FrameData
+{
+	FrameData() { ZeroMemory(this, sizeof(this)); };
+	FrameData(unsigned int ID, float time)
+	{
+		this->frameID = ID;
+		this->time = time;
+	}
+	unsigned int frameID;
+	DirectX::XMFLOAT3 padID;
+	float time;
+	DirectX::XMFLOAT3 padTime;
+};
 
 
 struct Vertex
@@ -110,19 +147,19 @@ struct Vertex
 
 	Vertex(Float3 pos, Float3 normal, Float2 uv, Float2 tangent, Float2 biTangent)
 	{
-		this->position.x = pos.x;
-		this->position.y = pos.y;
-		this->position.z = pos.z;
+		this->position.x  = pos.x;
+		this->position.y  = pos.y;
+		this->position.z  = pos.z;
+						  
+		this->normal.x	  = normal.x;
+		this->normal.y	  = normal.y;
+		this->normal.z	  = normal.z;
+						  
+		this->uv.x		  = uv.x;
+		this->uv.y		  = uv.y;
 
-		this->normal.x = normal.x;
-		this->normal.y = normal.y;
-		this->normal.z = normal.z;
-
-		this->uv.x = uv.x;
-		this->uv.y = uv.y;
-
-		this->tangent.x = tangent.x;
-		this->tangent.y = tangent.y;
+		this->tangent.x   = tangent.x;
+		this->tangent.y   = tangent.y;
 
 		this->biTangent.x = biTangent.x;
 		this->biTangent.y = biTangent.y;
@@ -139,14 +176,62 @@ struct InstancedData
 	unsigned int glow = 0;
 };
 
+struct InstancedAnimationData
+{
+	InstancedAnimationData() { ZeroMemory(this, sizeof(this)); };
+	DirectX::XMFLOAT4X4 worldMatrix;
+	UINT animation;
+	//DirectX::XMFLOAT3 padAnim;
+	float animationTime;
+	//DirectX::XMFLOAT3 padAnimTime;
+
+};
+
 struct BillboardData
 {
 	DirectX::XMFLOAT3 worldPos  = DirectX::XMFLOAT3(0.0f,0.0f,0.0f);
 	DirectX::XMFLOAT3 direction = DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f);
-	DirectX::XMFLOAT3 color		= DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f);
+	DirectX::XMFLOAT3 color		= DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f);
 	float height				= 1.0f;
 	float width					= 1.0f;
 	unsigned int glow			= 0;
+};
+
+struct BlendShapeVert
+{
+	Float3 position;
+	float padP;
+	Float3 normal;
+	float padN;
+	Float2 biTangent;
+	Float2 tangent;
+	float influence = 0;
+	Float3 padI;
+
+};
+
+
+struct BlendShapeBuffer
+{
+	BlendShapeVert* BlendShapeVertArray = nullptr;
+	unsigned int* amount;
+
+
+};
+struct gpuAnimHeader
+{
+	unsigned int frames;
+	DirectX::XMFLOAT3 padFrames;
+	unsigned int verticesAmount;
+	DirectX::XMFLOAT3 padVerts;
+};
+
+struct AnimationInfo
+{
+	unsigned int numberOfFrames = 0; // the amount of meshes
+	float		  animationTime = 0;
+	std::vector<std::vector<BlendShapeVert>> meshesPerFrame; //a 2d array of all the shapes belonging to the animation
+	std::vector<FrameData> frames;
 };
 
 struct AnimVert

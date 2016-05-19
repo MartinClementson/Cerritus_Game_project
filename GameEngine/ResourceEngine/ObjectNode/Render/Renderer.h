@@ -25,6 +25,7 @@ enum LIGHTBUFFERS {
 enum INSTANCED_BUFFERS
 {
 	INSTANCED_WORLD,
+	INSTANCED_ANIMATION,
 	BILLBOARD_BUFFER
 };
 
@@ -88,9 +89,12 @@ public:
 	void Render(RenderInfoTrap* object);
 	void Render(std::vector<RenderInstructions>* object);
 
-	void RenderInstanced(RenderInfoEnemy* object,  InstancedData* arrayData ,unsigned int amount);
-	void RenderInstanced(RenderInfoObject* object, InstancedData* arrayData, unsigned int amount);
-	void RenderInstanced(RenderInfoTrap* object,   InstancedData* arrayData, unsigned int amount);
+	void RenderInstanced(RenderInfoEnemy*	 object,   InstancedData* arrayData ,unsigned int amount);
+	void RenderInstanced(RenderInfoObject*   object,   InstancedData* arrayData, unsigned int amount);
+	void RenderInstanced(RenderInfoTrap*	 object,   InstancedData* arrayData, unsigned int amount);
+
+	//Instanced animation
+	void RenderInstanced(RenderInfoEnemy*	 object, InstancedAnimationData* arrayData, unsigned int amount);
 
 	void RenderBillBoard(RenderInfoObject* object, BillboardData* arrayData, unsigned int amount);
 
@@ -111,10 +115,11 @@ public:
 private:
 	void Render(RenderInstructions* object);
 	void RenderQuadTree(RenderInstructions* object);
+	void RenderInstancedAnimation(RenderInstructions* object, ID3D11Buffer* instanceBuffer, unsigned int amount);
 	void RenderInstanced(RenderInstructions* object, ID3D11Buffer* instanceBuffer, unsigned int amount);
 	void RenderBillBoard(RenderInstructions* object, ID3D11Buffer* instanceBuffer, unsigned int amount);
 
-	void MapLightBufferStructures();
+	void MapLightBufferStructures(bool dirLight, bool pointLights);
 	void UpdateCbufferPerFrame();
 	void UpdateLightBuffer();
 	void UpdateWorldBuffer(WorldMatrix* worldStruct);
@@ -122,5 +127,7 @@ private:
 	void updateUVBuffer(UV* uvstruct);
 	bool CreateBuffers();
 public:
-	void UpdateCamera(XMFLOAT3 position) { this->sceneCam->UpdateView(position); this->UpdateCbufferPerFrame(); };
+
+	void UpdateCamera(XMFLOAT3 position);
+
 };

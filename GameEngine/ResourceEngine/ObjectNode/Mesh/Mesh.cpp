@@ -15,15 +15,24 @@ Mesh::Mesh()
 	
 }
 
+Mesh::Mesh(ID3D11Device * gDevice, ID3D11DeviceContext * gDeviceContext)
+{
+	this->Initialize(gDevice, gDeviceContext);
+}
+
 
 Mesh::~Mesh()
 {
-	if (vertices != nullptr)
-		delete vertices;
-
+	if (vertices	 != nullptr)
+		delete[] vertices;
 	if (animVertices != nullptr)
-		delete animVertices;
-
+		delete[] animVertices;
+	if (blendVerts	 != nullptr)
+	{
+		delete[] blendVerts;
+		blendVerts = nullptr;
+	}
+	
 
 }
 
@@ -54,6 +63,22 @@ void Mesh::GetMeshRenderInfo(RenderInstructions * toRender)
 	toRender->materialID	=	 this->materialID;
 }
 
+BlendShapeBuffer  Mesh::GetMeshBlendShape()
+{
+	BlendShapeBuffer temp;
+	if (isBlendShape)
+	{
+		temp.BlendShapeVertArray = this->blendVerts;
+		temp.amount = &this->vertCount;
+	}
+	else
+		temp.amount = 0;
+
+
+	return temp;
+}
+
+
 void Mesh::CreateVertexBuffer(Vertex * vertices, unsigned int amount, bool isScene)
 {
 
@@ -70,12 +95,12 @@ void Mesh::CreateVertexBuffer(Vertex * vertices, unsigned int amount, bool isSce
 	
 	
 
+
 		D3D11_BUFFER_DESC bufferDesc;
 		memset(&bufferDesc, 0, sizeof(bufferDesc));
 		bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		bufferDesc.Usage = D3D11_USAGE_DEFAULT;
 		bufferDesc.ByteWidth = sizeof(Vertex)* amount;
-
 
 
 		D3D11_SUBRESOURCE_DATA data;
@@ -123,6 +148,45 @@ void Mesh::CreateVertexBuffer(AnimVert * vertices, unsigned int amount)
 	this->vertCount = amount;
 	this->isScene = isScene;
 }
+
+
+void Mesh::CreateBlendShape(BlendShapeVert * vertices, unsigned int amount)
+{
+	this->isBlendShape = true;
+	this->isAnimated   = false; //Since it's a blend shape, (a target) then it can't be a source(animated).
+	this->vertCount	   = amount;
+
+	if (blendVerts != nullptr)
+		delete[] blendVerts;
+	
+
+	blendVerts = new BlendShapeVert[amount];
+	memcpy(this->blendVerts, vertices, sizeof(BlendShapeVert)*amount);
+
+	
+
+}
+
+void Mesh::CreateAnimatedMesh(Vertex * vertices, unsigned int vertAmount,std::vector<AnimationInfo>* animations)
+{
+
+	this->CreateVertexBuffer(vertices, vertAmount, false);
+	for (size_t i = 0; i < animations->size(); i++)
+	{
+		AnimationInfo temp;
+		temp.animationTime  = animations->at(i).animationTime;
+		temp.numberOfFrames = animations->at(i).numberOfFrames;
+		temp.frames			= animations->at(i).frames;
+		for (size_t j = 0; j < animations->at(i).numberOfFrames; j++) //Every frame in the animation is a mesh (blend shape)
+			CreateBlendShape(animations->at(i).meshesPerFrame.at(j).data(), (unsigned int)animations->at(i).meshesPerFrame.at(j).size());
+		
+		this->animations.push_back(temp);
+		this->animationCount += 1; 
+	}
+	this->isAnimated = true;
+	this->isBlendShape = false;
+}
+
 
 void Mesh::CreateIndexBuffer(UINT * indices, unsigned int amount, bool isScene)
 {

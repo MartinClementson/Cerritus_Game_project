@@ -26,7 +26,7 @@ public:
 	BRFImporterHandler();
 	~BRFImporterHandler();
 
-	void LoadFile(std::string fileName, bool mesh, bool material, bool skeleton, bool isScene);
+	void LoadFile(std::string fileName, bool mesh, bool material, bool skeleton,bool morphAnim, bool isScene);
 
 	void Initialize(MeshManager* meshManager, MaterialManager* materialManager);
 	void Release();

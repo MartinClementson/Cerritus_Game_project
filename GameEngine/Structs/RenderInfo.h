@@ -73,7 +73,8 @@ struct RenderInfoEnemy {
 	float radius;
 	bool isOnfire = false;
 	bool isSlowed = false;
-	//EnemyAnimations enemyAnim;	//these are enum
+	EnemyAnimations enemyAnim;	
+	float animationTime; // 0.0 - 1.0
 };
 
 struct RenderInfoChar {

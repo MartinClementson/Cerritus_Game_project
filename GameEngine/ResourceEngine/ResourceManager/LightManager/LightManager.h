@@ -21,6 +21,7 @@ private:
 	PointLightStruct pointLightStruct;
 	SpotLightStruct  spotLightStruct  ;
 	DirLightStruct  dirLightStruct	  ;
+	DirectX::XMFLOAT4 sunPosition = DirectX::XMFLOAT4(86.0f, 70.0f, 120.0f, 1.0f);
 
 public:
 	LightManager();
@@ -31,6 +32,7 @@ public:
 	int GetNumActivePointLights()	 {  return this->numActivePointLights; };
 	int GetNumActiveSpotLights()	 {	return this->numActiveSpotLights;  };
 	int GetNumActiveDirLights()		 {	return this->numActiveDirLights;   };
+	void UpdateWorldLight(const DirectX::XMFLOAT3& position);
 	PointLightStruct* GetPointLightStruct();
 	SpotLightStruct*  GetSpotLightStruct();
 	DirLightStruct*		GetDirLightStruct();
