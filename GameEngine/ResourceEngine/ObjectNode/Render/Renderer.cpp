@@ -458,15 +458,176 @@ void Renderer::Render(RenderInfoUI * object)
 
 		}
 	}
-	else if (object->UIobject == UITextures::LASTSCORE)
+	else if (object->UIobject == UITextures::SLEFT)
 	{
+		
 		switch (object->UInumber)
 		{
-		case UiNumbers::ZERO:
+		case UiNumbers::ONE:
 		{
+			meshUv.enemyoffsetX = 0.028f;
 			break;
 		}
-			
+		case UiNumbers::TWO:
+		{
+			meshUv.enemyoffsetX = 0.028f * 2;
+			break;
+		}
+		case UiNumbers::THREE:
+		{
+			meshUv.enemyoffsetX = 0.028f * 3;
+			break;
+		}
+		case UiNumbers::FOUR:
+		{
+			meshUv.enemyoffsetX = 0.028f * 4;
+			break;
+		}
+		case UiNumbers::FIVE:
+		{	
+			meshUv.enemyoffsetX = 0.028f * 5;
+			break;
+		}
+		case UiNumbers::SIX:
+		{
+			meshUv.enemyoffsetX = 0.028f * 6;
+			break;
+		}
+		case UiNumbers::SEVEN:
+		{
+			meshUv.enemyoffsetX = 0.028f * 7;
+			break;
+		}
+		case UiNumbers::EIGHT:
+		{
+			meshUv.enemyoffsetX = 0.028f * 8;
+			break;
+		}
+		case UiNumbers::NINE:
+		{
+			meshUv.enemyoffsetX = 0.028f * 9;
+			break;
+		}
+		case UiNumbers::ZERO:
+		{
+			meshUv.enemyoffsetX = 0.0f;
+			break;
+		}
+
+		}
+	}
+	else if (object->UIobject == UITextures::SMIDDLE)
+	{
+
+		switch (object->UInumber)
+		{
+		case UiNumbers::ONE:
+		{
+			meshUv.enemyoffsetX = 0.028f;
+			break;
+		}
+		case UiNumbers::TWO:
+		{
+			meshUv.enemyoffsetX = 0.028f * 2;
+			break;
+		}
+		case UiNumbers::THREE:
+		{
+			meshUv.enemyoffsetX = 0.028f * 3;
+			break;
+		}
+		case UiNumbers::FOUR:
+		{
+			meshUv.enemyoffsetX = 0.028f * 4;
+			break;
+		}
+		case UiNumbers::FIVE:
+		{	meshUv.enemyoffsetX = 0.028f * 5;
+		break;
+		}
+		case UiNumbers::SIX:
+		{
+			meshUv.enemyoffsetX = 0.028f * 6;
+			break;
+		}
+		case UiNumbers::SEVEN:
+		{
+			meshUv.enemyoffsetX = 0.028f * 7;
+			break;
+		}
+		case UiNumbers::EIGHT:
+		{
+			meshUv.enemyoffsetX = 0.028f * 8;
+			break;
+		}
+		case UiNumbers::NINE:
+		{
+			meshUv.enemyoffsetX = 0.028f * 9;
+			break;
+		}
+		case UiNumbers::ZERO:
+		{
+			meshUv.enemyoffsetX = 0.0f;
+			break;
+		}
+
+		}
+	}
+	else if (object->UIobject == UITextures::SRIGHT)
+	{
+
+		switch (object->UInumber)
+		{
+		case UiNumbers::ONE:
+		{
+			meshUv.enemyoffsetX = 0.028f;
+			break;
+		}
+		case UiNumbers::TWO:
+		{
+			meshUv.enemyoffsetX = 0.028f * 2;
+			break;
+		}
+		case UiNumbers::THREE:
+		{
+			meshUv.enemyoffsetX = 0.028f * 3;
+			break;
+		}
+		case UiNumbers::FOUR:
+		{
+			meshUv.enemyoffsetX = 0.028f * 4;
+			break;
+		}
+		case UiNumbers::FIVE:
+		{	meshUv.enemyoffsetX = 0.028f * 5;
+		break;
+		}
+		case UiNumbers::SIX:
+		{
+			meshUv.enemyoffsetX = 0.028f * 6;
+			break;
+		}
+		case UiNumbers::SEVEN:
+		{
+			meshUv.enemyoffsetX = 0.028f * 7;
+			break;
+		}
+		case UiNumbers::EIGHT:
+		{
+			meshUv.enemyoffsetX = 0.028f * 8;
+			break;
+		}
+		case UiNumbers::NINE:
+		{
+			meshUv.enemyoffsetX = 0.028f * 9;
+			break;
+		}
+		case UiNumbers::ZERO:
+		{
+			meshUv.enemyoffsetX = 0.0f;
+			break;
+		}
+
 		}
 	}
 

@@ -27,6 +27,10 @@ private:
 	Mesh highScoreCountQuad;
 	Mesh highScoreCountQuad1;
 	Mesh highScoreCountQuad2;	
+
+	Mesh ScoreCountQuad;
+	Mesh ScoreCountQuad1;
+	Mesh ScoreCountQuad2;
 	
 private:
 	void CreatePlaceHolder();
@@ -38,6 +42,12 @@ private:
 	void CreateHighscoreCount();
 	void CreateHighscoreCount1();
 	void CreateHighscoreCount2();
+
+	void CreateScoreCount();
+
+	void CreateScoreCount1();
+
+	void CreateScoreCount2();
 
 	void CreateWaveCompleteQuad();
 public:

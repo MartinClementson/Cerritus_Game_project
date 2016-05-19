@@ -22,14 +22,53 @@ public:
 	void SetPoints(float points);
 	float GetPoints();
 	void SetLastHigh(float high);
+	float GetLastHigh();
+	void SetPointPlacing();
+
+	int GetNumber1();
+	int GetNumber2();
+	int GetNumber3();
+	void QuadNumberPick(int cases);
+	void QuadNumberPick1(int cases);
+	void QuadNumberPick2(int cases);
+	void SetHighPlacing();
+	int GetScoreNumber1();
+	int GetScoreNumber2();
+	int GetScoreNumber3();
+	void QuadNumberPickScore(int cases);
+	void QuadNumberPickScore1(int cases);
 	bool toMenu;
 
 private:
+	void QuadNumberPickScore2(int cases);
 	void OnEnter();
 	void OnExit();
 	GUI* WinUI;
 	float points;
 	float lastHighscore;
+
+	float number;
+	float number1;
+	float number2;
+	float number3;
+
+	float highNumber;
+	float highNumber1;
+	float highNumber2;
+	float highNumber3;
+	int cases = 0;
+
+
+	Graphics* graphics;
+	RenderInfoUI win;
+	RenderInfoUI win2;
+	RenderInfoUI win3;
+	RenderInfoUI win4;
+
+	RenderInfoUI win5;
+	RenderInfoUI win6;
+	RenderInfoUI win7;
+
 #pragma region variables for menu
 	XMFLOAT2 MaxNewGame = { (float)(0.7977f*(float)WIN_WIDTH),(float)(0.6319f*(float)WIN_HEIGHT) };
 	XMFLOAT2 MinNewGame = { (float)(0.9844f*(float)WIN_WIDTH),(float)(0.7653f*(float)WIN_HEIGHT) };

@@ -27,12 +27,18 @@ void GameOverState::Initialize()
 	gameover3.UIobject = UITextures::HSMIDDLE;
 	gameover4.UIobject = UITextures::HSRIGHT;
 
-	//gameover2.UInumber = UiNumbers::ONE;
+	gameover5.UIobject = UITextures::SLEFT;
+	gameover6.UIobject = UITextures::SMIDDLE;
+	gameover7.UIobject = UITextures::SRIGHT;
 
 	float number = 0;
 	float number1 = 0;
 	float number2 = 0;
 	float number3 = 0;
+
+	float highNumber1 = 0;
+	float highNumber2 = 0;
+	float highNumber3 = 0;
 }
 
 void GameOverState::Release()
@@ -52,6 +58,12 @@ void GameOverState::Update(double deltaTime)
 	QuadNumberPick(number1);
 	QuadNumberPick1(number2);
 	QuadNumberPick2(number3);
+
+	SetHighPlacing();
+
+	QuadNumberPickScore(highNumber1);
+	QuadNumberPickScore1(highNumber2);
+	QuadNumberPickScore2(highNumber3);
 	
 	XMFLOAT2 mousePos = InputHandler::GetInstance()->GetMousePosition();
 
@@ -84,9 +96,14 @@ void GameOverState::Update(double deltaTime)
 void GameOverState::Render()
 {
 	graphics->QueueRender(&gameover);
+
 	graphics->QueueRender(&gameover2);
 	graphics->QueueRender(&gameover3);
 	graphics->QueueRender(&gameover4);
+
+	graphics->QueueRender(&gameover5);
+	graphics->QueueRender(&gameover6);
+	graphics->QueueRender(&gameover7);
 
 }
 
@@ -312,7 +329,7 @@ float GameOverState::GetLastHigh()
 
 void GameOverState::SetHighPlacing()
 {
-	float points = GetPoints();
+	float points = GetLastHigh();
 	highNumber = points;
 
 	highNumber1 = 0;
@@ -332,4 +349,157 @@ void GameOverState::SetHighPlacing()
 
 	highNumber3 = points - minusNum - minusNum2;
 	highNumber3 = (int)highNumber3;
+}
+
+int GameOverState::GetScoreNumber1()
+{
+	return highNumber1;
+}
+
+int GameOverState::GetScoreNumber2()
+{
+	return highNumber2;
+}
+
+int GameOverState::GetScoreNumber3()
+{
+	return highNumber3;
+}
+
+void GameOverState::QuadNumberPickScore(int cases)
+{
+
+	switch (cases)
+	{
+	case 0:
+		gameover5.UInumber = UiNumbers::ZERO;
+		break;
+
+	case 1:
+		gameover5.UInumber = UiNumbers::ONE;
+		break;
+
+	case 2:
+		gameover5.UInumber = UiNumbers::TWO;
+		break;
+
+	case 3:
+		gameover5.UInumber = UiNumbers::THREE;
+		break;
+
+	case 4:
+		gameover5.UInumber = UiNumbers::FOUR;
+		break;
+
+	case 5:
+		gameover5.UInumber = UiNumbers::FIVE;
+		break;
+	case 6:
+		gameover5.UInumber = UiNumbers::SIX;
+		break;
+
+	case 7:
+		gameover5.UInumber = UiNumbers::SEVEN;
+		break;
+
+	case 8:
+		gameover5.UInumber = UiNumbers::EIGHT;
+		break;
+
+	case 9:
+		gameover5.UInumber = UiNumbers::NINE;
+		break;
+	}
+}
+
+void GameOverState::QuadNumberPickScore1(int cases)
+{
+
+	switch (cases)
+	{
+	case 0:
+		gameover6.UInumber = UiNumbers::ZERO;
+		break;
+
+	case 1:
+		gameover6.UInumber = UiNumbers::ONE;
+		break;
+
+	case 2:
+		gameover6.UInumber = UiNumbers::TWO;
+		break;
+
+	case 3:
+		gameover6.UInumber = UiNumbers::THREE;
+		break;
+
+	case 4:
+		gameover6.UInumber = UiNumbers::FOUR;
+		break;
+
+	case 5:
+		gameover6.UInumber = UiNumbers::FIVE;
+		break;
+	case 6:
+		gameover6.UInumber = UiNumbers::SIX;
+		break;
+
+	case 7:
+		gameover6.UInumber = UiNumbers::SEVEN;
+		break;
+
+	case 8:
+		gameover6.UInumber = UiNumbers::EIGHT;
+		break;
+
+	case 9:
+		gameover6.UInumber = UiNumbers::NINE;
+		break;
+	}
+}
+
+void GameOverState::QuadNumberPickScore2(int cases)
+{
+
+	switch (cases)
+	{
+	case 0:
+		gameover7.UInumber = UiNumbers::ZERO;
+		break;
+
+	case 1:
+		gameover7.UInumber = UiNumbers::ONE;
+		break;
+
+	case 2:
+		gameover7.UInumber = UiNumbers::TWO;
+		break;
+
+	case 3:
+		gameover7.UInumber = UiNumbers::THREE;
+		break;
+
+	case 4:
+		gameover7.UInumber = UiNumbers::FOUR;
+		break;
+
+	case 5:
+		gameover7.UInumber = UiNumbers::FIVE;
+		break;
+	case 6:
+		gameover7.UInumber = UiNumbers::SIX;
+		break;
+
+	case 7:
+		gameover7.UInumber = UiNumbers::SEVEN;
+		break;
+
+	case 8:
+		gameover7.UInumber = UiNumbers::EIGHT;
+		break;
+
+	case 9:
+		gameover7.UInumber = UiNumbers::NINE;
+		break;
+	}
 }

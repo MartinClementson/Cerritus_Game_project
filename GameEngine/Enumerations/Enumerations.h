@@ -77,7 +77,9 @@ enum UITextures
 	HSLEFT,
 	HSMIDDLE,
 	HSRIGHT,
-	LASTSCORE
+	SLEFT,
+	SMIDDLE,
+	SRIGHT,
 
 };
 #pragma endregion

@@ -40,6 +40,7 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 	waveCompleteQuad.Initialize(gDevice, gDeviceContext);
 	CreateWaveCompleteQuad();
 
+
 	highScoreCountQuad.Initialize(gDevice, gDeviceContext);
 	CreateHighscoreCount();
 
@@ -48,6 +49,16 @@ void MeshManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDevice
 
 	highScoreCountQuad2.Initialize(gDevice, gDeviceContext);
 	CreateHighscoreCount2();
+
+
+	ScoreCountQuad.Initialize(gDevice, gDeviceContext);
+	CreateScoreCount();
+
+	ScoreCountQuad1.Initialize(gDevice, gDeviceContext);
+	CreateScoreCount1();
+
+	ScoreCountQuad2.Initialize(gDevice, gDeviceContext);
+	CreateScoreCount2();
 
 }
 
@@ -68,9 +79,14 @@ void MeshManager::Release()
 	killCountQuad.Release();
 	waveCountQuad.Release();
 	waveCompleteQuad.Release();
+
 	highScoreCountQuad.Release();
 	highScoreCountQuad1.Release();
 	highScoreCountQuad2.Release();
+
+	ScoreCountQuad.Release();
+	ScoreCountQuad1.Release();
+	ScoreCountQuad2.Release();
 }
 
 void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materialID, unsigned int vertexCount, UINT indexCount, std::vector<Vertex> vertices, std::vector<AnimVert> aniVertices, std::vector<UINT> indices, bool isScene)
@@ -124,9 +140,6 @@ void MeshManager::AddMesh(bool hasSkeleton, unsigned int skeletonID, int materia
 		delete[] newIndices;
 	}
 }
-
-
-
 
 void MeshManager::CreateQuadTree()
 {
@@ -354,6 +367,108 @@ void MeshManager::CreateHighscoreCount()
 	//wave Counter Quad for the wave numbers
 	Vertex planeVerts[4];
 
+	planeVerts[0].position = Float3(0.15f, 0.23f, 0.0f);		//0
+	planeVerts[0].uv.x = 0.035f;
+	planeVerts[0].uv.y = 1 - 0.577f;
+
+	planeVerts[1].position = Float3(0.25f, 0.23f, 0.0f);		//3
+	planeVerts[1].uv.x = 0.062f;
+	planeVerts[1].uv.y = 1 - 0.577f;
+
+	planeVerts[2].position = Float3(0.25f, 0.13f, 0.0f);		//5
+	planeVerts[2].uv.x = 0.062f;
+	planeVerts[2].uv.y = 1 - 0.525f;
+
+	planeVerts[3].position = Float3(0.15f, 0.13f, 0.0f);		//7
+	planeVerts[3].uv.x = 0.035f;
+	planeVerts[3].uv.y = 1 - 0.525f;
+
+	//offset.enemyOffsetX = 10;
+	//offset.waveOffsetX = 10;
+
+	UINT indices[6] =
+	{
+		0, 1, 2,
+		0, 2, 3
+	};
+
+	this->highScoreCountQuad.CreateVertexBuffer(planeVerts, 4, false);
+	this->highScoreCountQuad.CreateIndexBuffer(indices, 6, false);
+}
+
+void MeshManager::CreateHighscoreCount1()
+{
+	//wave Counter Quad for the wave numbers
+	Vertex planeVerts[4];
+
+	planeVerts[0].position = Float3(0.26f, 0.23f, 0.0f);		//0
+	planeVerts[0].uv.x = 0.035f;
+	planeVerts[0].uv.y = 1 - 0.577f;
+
+	planeVerts[1].position = Float3(0.36f, 0.23f, 0.0f);		//3
+	planeVerts[1].uv.x = 0.062f;
+	planeVerts[1].uv.y = 1 - 0.577f;
+
+	planeVerts[2].position = Float3(0.36f, 0.13f, 0.0f);		//5
+	planeVerts[2].uv.x = 0.062f;
+	planeVerts[2].uv.y = 1 - 0.525f;
+
+	planeVerts[3].position = Float3(0.26f, 0.13f, 0.0f);		//7
+	planeVerts[3].uv.x = 0.035f;
+	planeVerts[3].uv.y = 1 - 0.525f;
+
+	//offset.enemyOffsetX = 10;
+	//offset.waveOffsetX = 10;
+
+	UINT indices[6] =
+	{
+		0, 1, 2,
+		0, 2, 3
+	};
+
+	this->highScoreCountQuad1.CreateVertexBuffer(planeVerts, 4, false);
+	this->highScoreCountQuad1.CreateIndexBuffer(indices, 6, false);
+}
+
+void MeshManager::CreateHighscoreCount2()
+{
+	//wave Counter Quad for the wave numbers
+	Vertex planeVerts[4];
+
+	planeVerts[0].position = Float3(0.38f, 0.23f, 0.0f);		//0
+	planeVerts[0].uv.x = 0.035f;
+	planeVerts[0].uv.y = 1 - 0.577f;
+
+	planeVerts[1].position = Float3(0.48f, 0.23f, 0.0f);		//3
+	planeVerts[1].uv.x = 0.062f;
+	planeVerts[1].uv.y = 1 - 0.577f;
+
+	planeVerts[2].position = Float3(0.48f, 0.13f, 0.0f);		//5
+	planeVerts[2].uv.x = 0.062f;
+	planeVerts[2].uv.y = 1 - 0.525f;
+
+	planeVerts[3].position = Float3(0.38f, 0.13f, 0.0f);		//7
+	planeVerts[3].uv.x = 0.035f;
+	planeVerts[3].uv.y = 1 - 0.525f;
+
+	//offset.enemyOffsetX = 10;
+	//offset.waveOffsetX = 10;
+
+	UINT indices[6] =
+	{
+		0, 1, 2,
+		0, 2, 3
+	};
+
+	this->highScoreCountQuad2.CreateVertexBuffer(planeVerts, 4, false);
+	this->highScoreCountQuad2.CreateIndexBuffer(indices, 6, false);
+}
+
+void MeshManager::CreateScoreCount()
+{
+	//wave Counter Quad for the wave numbers
+	Vertex planeVerts[4];
+
 	planeVerts[0].position = Float3(0.15f, 0.43f, 0.0f);		//0
 	planeVerts[0].uv.x = 0.035f;
 	planeVerts[0].uv.y = 1 - 0.577f;
@@ -379,11 +494,11 @@ void MeshManager::CreateHighscoreCount()
 		0, 2, 3
 	};
 
-	this->highScoreCountQuad.CreateVertexBuffer(planeVerts, 4, false);
-	this->highScoreCountQuad.CreateIndexBuffer(indices, 6, false);
+	this->ScoreCountQuad.CreateVertexBuffer(planeVerts, 4, false);
+	this->ScoreCountQuad.CreateIndexBuffer(indices, 6, false);
 }
 
-void MeshManager::CreateHighscoreCount1()
+void MeshManager::CreateScoreCount1()
 {
 	//wave Counter Quad for the wave numbers
 	Vertex planeVerts[4];
@@ -413,11 +528,11 @@ void MeshManager::CreateHighscoreCount1()
 		0, 2, 3
 	};
 
-	this->highScoreCountQuad1.CreateVertexBuffer(planeVerts, 4, false);
-	this->highScoreCountQuad1.CreateIndexBuffer(indices, 6, false);
+	this->ScoreCountQuad1.CreateVertexBuffer(planeVerts, 4, false);
+	this->ScoreCountQuad1.CreateIndexBuffer(indices, 6, false);
 }
 
-void MeshManager::CreateHighscoreCount2()
+void MeshManager::CreateScoreCount2()
 {
 	//wave Counter Quad for the wave numbers
 	Vertex planeVerts[4];
@@ -447,8 +562,8 @@ void MeshManager::CreateHighscoreCount2()
 		0, 2, 3
 	};
 
-	this->highScoreCountQuad2.CreateVertexBuffer(planeVerts, 4, false);
-	this->highScoreCountQuad2.CreateIndexBuffer(indices, 6, false);
+	this->ScoreCountQuad2.CreateVertexBuffer(planeVerts, 4, false);
+	this->ScoreCountQuad2.CreateIndexBuffer(indices, 6, false);
 }
 
 void MeshManager::CreateWaveCompleteQuad()
@@ -615,6 +730,21 @@ void MeshManager::GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions
 	else if (*uiEnum == UITextures::HSRIGHT)
 	{
 		highScoreCountQuad2.GetMeshRenderInfo(toRender);
+		toRender->materialID = 19;
+	}
+	else if (*uiEnum == UITextures::SLEFT)
+	{
+		ScoreCountQuad.GetMeshRenderInfo(toRender);
+		toRender->materialID = 19;
+	}
+	else if (*uiEnum == UITextures::SMIDDLE)
+	{
+		ScoreCountQuad1.GetMeshRenderInfo(toRender);
+		toRender->materialID = 19;
+	}
+	else if (*uiEnum == UITextures::SRIGHT)
+	{
+		ScoreCountQuad2.GetMeshRenderInfo(toRender);
 		toRender->materialID = 19;
 	}
 

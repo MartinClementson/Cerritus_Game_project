@@ -34,9 +34,17 @@ private:
 	int GetNumber2();
 	int GetNumber3();
 
+	int GetScoreNumber1();
+	int GetScoreNumber2();
+	int GetScoreNumber3();
+
 	void QuadNumberPick(int cases);
 	void QuadNumberPick1(int cases);
 	void QuadNumberPick2(int cases);
+
+	void QuadNumberPickScore(int cases);
+	void QuadNumberPickScore1(int cases);
+	void QuadNumberPickScore2(int cases);
 
 	Scene* GameOverScene;
 	GUI* gameOverGUI;
@@ -61,6 +69,10 @@ private:
 	RenderInfoUI gameover2;
 	RenderInfoUI gameover3;
 	RenderInfoUI gameover4;
+
+	RenderInfoUI gameover5;
+	RenderInfoUI gameover6;
+	RenderInfoUI gameover7;
 
 
 	#pragma region variables for menu
