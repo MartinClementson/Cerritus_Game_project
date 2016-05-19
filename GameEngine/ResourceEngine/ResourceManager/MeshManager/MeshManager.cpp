@@ -383,8 +383,16 @@ void MeshManager::CreateKillCountQuad1()
 	planeVerts[3].position = Float3(-0.83f, 0.73f, 0.0f);		//7
 	planeVerts[3].uv.x = 0.008f;
 	planeVerts[3].uv.y = 1 - 0.672f;
+	UINT indices[6] =
+	{
+		0, 1, 2,
+		0, 2, 3
+	};
 
+	this->KillCountQuad1.CreateVertexBuffer(planeVerts, 4, false);
+	this->KillCountQuad1.CreateIndexBuffer(indices, 6, false);
 
+}
 void MeshManager::CreateHighscoreCount()
 {
 	//wave Counter Quad for the wave numbers
