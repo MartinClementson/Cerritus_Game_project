@@ -66,7 +66,6 @@ struct SHADOW_VS_IN
 	float2 Tangent			: TEXCOORD3;
 	float4x4 worldMatrix	: WORLD;
 	uint glow			    : GLOW;
-	uint screenSpace		: SCREENSPACE;
 };
 struct SHADOW_VS_OUT
 {

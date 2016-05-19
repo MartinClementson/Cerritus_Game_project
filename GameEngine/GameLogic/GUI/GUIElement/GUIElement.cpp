@@ -34,8 +34,6 @@ void GUIElement::Update(double deltaTime)
 
 	renderInfo.UIobject = texture;
 	renderInfo.UInumber = numbers;
-
-
 }
 
 void GUIElement::Render()

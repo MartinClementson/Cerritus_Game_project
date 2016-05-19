@@ -13,6 +13,7 @@
 #include "../../AudioManager/AudioManager.h"
 #include "../../../Scene/Waves/Waves.h"
 
+
 class GameState :
 	public StateClass
 {
@@ -30,17 +31,37 @@ public:
 	float timeSincePaused;
 	float index;
 	float GetPoints();
+	void NewGame();
 	bool toWin = false;
 	bool winBool = false;
 	//EnemyBase* ClosestHealer(vector<EnemyBase*> healers);
 	bool toMenu;
+	float timer = 0.0f;
+
+	XMVECTOR defaultForward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+	XMVECTOR defaultRight = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+	XMVECTOR camForward = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+	XMVECTOR camRight = XMVectorSet(1.0f, 0.0f, 0.0f, 0.0f);
+
+	XMVECTOR defaultUp = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+	XMVECTOR camUpDown = XMVectorSet(0.0f, 1.0f, 0.0f, 0.0f);
+
+	XMMATRIX camRotationMatrix;
+	XMMATRIX groundWorld;
+
+	float moveLeftRight = 0.0f;		// Used to move along the camFoward and camRight vectors
+	float moveBackForward = 0.0f;   // Used to move along the camFoward and camRight vectors
+	float moveupDown = 0.0f;
+
+	float camYaw = 0.0f;
+	float camPitch = 0.0f;
 
 private:
 	void OnEnter();
 	void OnExit();
 
 private:
-
+	float test;
 	vector<EnemyBase*> healers;
 	vector<BearTrap*> bearTraps;
 	vector<FireTrap*> fireTraps;
@@ -64,6 +85,8 @@ private:
 	Collision* collision;
 	GameTimer* gameTimer;
 	AudioManager* audioManager;
+	MainStates activeState;//enum
+
 
 #pragma region variables for pausemenu
 

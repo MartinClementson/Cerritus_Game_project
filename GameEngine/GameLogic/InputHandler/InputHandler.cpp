@@ -6,6 +6,10 @@ InputHandler::InputHandler()
 {
 }
 
+LPDIRECTINPUTDEVICE8 InputHandler::GetMouse()
+{
+	return mouse;
+}
 
 InputHandler::~InputHandler()
 {
@@ -75,7 +79,7 @@ bool InputHandler::Initialize(HWND* hwndP ,HINSTANCE* hInstance)
 		return false;
 	}
 
-	hr = mouse->SetCooperativeLevel(*hwndP, DISCL_EXCLUSIVE | DISCL_NOWINKEY | DISCL_FOREGROUND);
+	hr = mouse->SetCooperativeLevel(*hwndP, DISCL_NONEXCLUSIVE | DISCL_NOWINKEY | DISCL_FOREGROUND);
 	if (FAILED(hr))
 	{
 		return false;
@@ -158,15 +162,46 @@ bool InputHandler::IsKeyPressed(InputKeys* key)
 	}
 	else if (*key == KEY_X && keyboardState[DIK_X])
 	{
+		//mouse->Unacquire();
+		//mouse->SetCooperativeLevel(*hwndP, DISCL_NONEXCLUSIVE | DISCL_BACKGROUND);
+		
 		return true;
 	}
 	else if (*key == KEY_C && keyboardState[DIK_C])
 	{
 		return true;
 	}
+	else if (*key == KEY_ESC && keyboardState[DIK_ESCAPE])
+	{
+		return true;
+	}
 	else if (*key == KEY_LSHIFT && keyboardState[DIK_LSHIFT])
 	{
 		isLshiftPressed = true;
+		return true;
+	}
+	else if (*key == KEY_UP && keyboardState[DIK_UP])
+	{
+		return true;
+	}
+	else if (*key == KEY_DOWN && keyboardState[DIK_DOWN])
+	{
+		return true;
+	}
+	else if (*key == KEY_LEFT && keyboardState[DIK_LEFT])
+	{
+		return true;
+	}
+	else if (*key == KEY_RIGHT && keyboardState[DIK_RIGHT])
+	{
+		return true;
+	}
+	else if (*key == KEY_PGUP && keyboardState[DIK_PGUP])
+	{
+		return true;
+	}
+	else if (*key == KEY_PGDWN && keyboardState[DIK_PGDN])
+	{
 		return true;
 	}
 	else
@@ -190,7 +225,6 @@ XMFLOAT2 InputHandler::GetMousePosition()
 
 	POINT point;
 	ShowCursor(TRUE);
-
 
 	GetCursorPos(&point);
 	ScreenToClient(*this->hwndP, &point);
@@ -264,9 +298,9 @@ void InputHandler::SetMouseVisibility(bool x)
 
 	if (x == true)
 	{
-		ShowCursor(TRUE);
+		//ShowCursor(TRUE);
 
-		SetCursor(LoadCursor(NULL, IDC_CROSS));
+		//SetCursor(LoadCursor(NULL, IDC_CROSS));
 	}
 	else
 	{

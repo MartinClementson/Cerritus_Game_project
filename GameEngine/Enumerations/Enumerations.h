@@ -153,6 +153,7 @@ enum MainStates
 	MAIN_GAME_STATE,
 	MAIN_GAMEOVER_STATE,
 	MAIN_WIN_STATE,
+	MAIN_PAUSE_STATE,
 };
 
 #pragma endregion
@@ -180,6 +181,9 @@ enum InputKeys
 	KEY_Z,
 	KEY_X,
 	KEY_C,
+
+	KEY_PGUP,
+	KEY_PGDWN,
 
 
 	MOUSE_RIGHT,

@@ -4,7 +4,7 @@
 
 Character::Character()
 {
-
+	//AntTweakBar::GetInstance()->addSlider("health", health);
 }
 
 

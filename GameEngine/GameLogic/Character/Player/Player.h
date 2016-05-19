@@ -57,7 +57,7 @@ struct Vec3
 
 
 #define Y_OFFSET 0.0f //Because the mesh shall hover
-#define VELOCITY_MAX 4.0f
+#define VELOCITY_MAX 500.0f
 class Player :
 	public Character
 {
@@ -108,16 +108,15 @@ private:
 	MeshEnum meshID;//enum
 	RenderInfoChar renderInfo;
 
-
+	AntTweakBar *bar = AntTweakBar::GetInstance();
 	XMFLOAT3 direction;
 	//Collision();
-
 
 	
 	Vec3 velocity			= Vec3(0.1f,0.1f,0.1f);
 	Vec3 acceleration		= Vec3(0.0f, 0.0f, 0.0f);
 	float fallOfFactor		= 8.0f; //the bigger number, the faster fallOff , this is like friction
-	float maxAcceleration	= 5.0f;
+	float maxAcceleration	= 6.0f;
 	float points;
 	float multiplier;
 
