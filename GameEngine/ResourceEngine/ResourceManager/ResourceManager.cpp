@@ -29,6 +29,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 
 	brfImporterHandler->LoadFile("models/playerModel.BRF", true, true, true, false);
 	brfImporterHandler->LoadFile("models/EnemyModel.BRF", true, true, true, false);
+	brfImporterHandler->LoadFile("models/EnemyModelHealer.BRF", true, true, true, false);
 	brfImporterHandler->LoadFile("models/Slow_Trap.BRF", true, true, true, false);
 	brfImporterHandler->LoadFile("models/Fire_Trap.BRF", true, true, true, false);
 	brfImporterHandler->LoadFile("models/FinalScene2.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
@@ -51,28 +52,28 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 
 	ui.materialName = "yo-gi-uh";
 	ui.diffuseTex = "HUD.tif";
-	ui.materialID = 14;
+	ui.materialID = 15;
 	
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 	
 	ui.materialName = "Menumaterial";
 	ui.diffuseTex = "Menu.png";
-	ui.materialID = 15;
+	ui.materialID = 16;
 	
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 	
 	ui.materialName = "gameover";
 	ui.diffuseTex = "Gameover.png";
-	ui.materialID = 16;
+	ui.materialID = 17;
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 	
 	
 	ui.materialName = "pause";
 	ui.diffuseTex = "Pausemenu3.tif";
-	ui.materialID = 17;
+	ui.materialID = 18;
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 	ui.materialName = "WaveCounter";
@@ -81,19 +82,19 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	//materialManager->addMaterials(&temp);
 	ui.materialName = "Controls";
 	ui.diffuseTex = "instructionsbegin.png";
-	ui.materialID = 18;
+	ui.materialID = 19;
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 
 	ui.materialName = "ENUMERATION";
 	ui.diffuseTex = "Numerations.tif";
-	ui.materialID = 19;
+	ui.materialID = 20;
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 
 	ui.materialName = "WAVECOUNTER";
 	ui.diffuseTex = "Numerations.tif";
-	ui.materialID = 20;
+	ui.materialID = 21;
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 
@@ -102,7 +103,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	ui.materialName = "WinState";
 	ui.diffuseTex = "win.png";
 
-	ui.materialID = 21;
+	ui.materialID = 22;
 
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
@@ -110,7 +111,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	ui.materialName = "HEALTH_PICKUP";
 	ui.diffuseTex	= "HeathPickup.tif";
 	//ui.glowTex		= "HeathPickupGlow.tif";
-	ui.materialID = 22;
+	ui.materialID = 23;
 	
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
@@ -118,14 +119,14 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	ui.materialName = "WEAPON_PICKUP";
 	ui.diffuseTex = "WeaponPowerup.tif";
 	//ui.glowTex = "WeaponPowerupGlow.tif";
-	ui.materialID = 23;
+	ui.materialID = 24;
 
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 
 	ui.materialName = "wave_complete";
 	ui.diffuseTex = "wave.jpg";
-	ui.materialID = 24;
+	ui.materialID = 25;
 
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);

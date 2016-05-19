@@ -128,7 +128,7 @@ void QuadTree::CreateTreeNode(NodeType * parent, Float2 position, float width, I
 	parent->nodes[2] = 0;
 	parent->nodes[3] = 0;
 	parent->isAnimated = false;
-	parent->materialID = materialID+4;
+	parent->materialID = materialID+5;
 
 	//Count the number of triangles that are inside this node
 	numTriangles = CountTriangles(position, width);
