@@ -474,12 +474,12 @@ bool Collision::SceneColIn(double deltaTime)
 	{
 		if (pow(playFuturePos.x - SceneBoxesIn.at(i).Pos.x, 2) + pow(playFuturePos.z - SceneBoxesIn.at(i).Pos.z, 2) < pow(playRad + SceneBoxesIn.at(i).Rad, 2))
 		{
-			for (size_t i = 0; i < SceneBoxesOut.size(); i++)
+			for (size_t j = 0; j < SceneBoxesOut.size(); j++)
 			{
-				if (pow(playFuturePos.x - SceneBoxesOut.at(i).Pos.x, 2) + pow(playFuturePos.z - SceneBoxesOut.at(i).Pos.z, 2) < pow(playRad + SceneBoxesOut.at(i).Rad, 2))
+				if (pow(playFuturePos.x - SceneBoxesOut.at(j).Pos.x, 2) + pow(playFuturePos.z - SceneBoxesOut.at(j).Pos.z, 2) < pow(playRad + SceneBoxesOut.at(j).Rad, 2))
 				{
 					hitx = false;
-					XMFLOAT3 temp = SceneBoxesOut.at(i).Pos - playFuturePos;
+					XMFLOAT3 temp =  playFuturePos - SceneBoxesOut.at(j).Pos;
 					XMVECTOR temp2 = { temp.x, temp.y, temp.z };
 					XMVECTOR temp3 = { 0.0f, 1.0f, 0.0f };
 
@@ -487,7 +487,7 @@ bool Collision::SceneColIn(double deltaTime)
 					temp2 = DirectX::XMVector3Cross(temp2, temp3);
 					temp2 = DirectX::XMVector3Normalize(temp2);
 
-					player->acceleration.z = player->acceleration.x * temp2.m128_f32[2] * 1.5;
+					player->acceleration.z = player->acceleration.z * temp2.m128_f32[2] * 1.5;
 
 
 
@@ -501,13 +501,13 @@ bool Collision::SceneColIn(double deltaTime)
 	{
 		if (pow(playFuturePos.x - SceneBoxesIn.at(i).Pos.x, 2) + pow(playFuturePos.z - SceneBoxesIn.at(i).Pos.z, 2) < pow(playRad + SceneBoxesIn.at(i).Rad, 2))
 		{
-			for (size_t i = 0; i < SceneBoxesOut.size(); i++)
+			for (size_t j = 0; j < SceneBoxesOut.size(); j++)
 			{
-				if (pow(playFuturePos.x - SceneBoxesOut.at(i).Pos.x, 2) + pow(playFuturePos.z - SceneBoxesOut.at(i).Pos.z, 2) < pow(playRad + SceneBoxesOut.at(i).Rad, 2))
+				if (pow(playFuturePos.x - SceneBoxesOut.at(j).Pos.x, 2) + pow(playFuturePos.z - SceneBoxesOut.at(j).Pos.z, 2) < pow(playRad + SceneBoxesOut.at(j).Rad, 2))
 				{
 					hitz = false;
 
-					XMFLOAT3 temp = SceneBoxesOut.at(i).Pos - playFuturePos;
+					XMFLOAT3 temp = playFuturePos - SceneBoxesOut.at(j).Pos;
 					XMVECTOR temp2 = { temp.x, temp.y, temp.z };
 					XMVECTOR temp3 = { 0.0f, 1.0f, 0.0f };
 
@@ -515,7 +515,7 @@ bool Collision::SceneColIn(double deltaTime)
 					temp2 = DirectX::XMVector3Cross(temp2, temp3);
 					temp2 = DirectX::XMVector3Normalize(temp2);
 
-					player->acceleration.x = player->acceleration.z * temp2.m128_f32[0];
+					player->acceleration.x = player->acceleration.x * temp2.m128_f32[0];
 				}
 			}
 
