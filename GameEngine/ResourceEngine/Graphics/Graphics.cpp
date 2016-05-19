@@ -69,6 +69,9 @@ void Graphics::Initialize(HWND * window)
 
 	hr				 = CreateDirect3DContext();
 
+	antTweakBar = AntTweakBar::GetInstance();
+	antTweakBar->Initialize(gDevice);
+
 	gameObjects		 = new std::vector<RenderInfoObject*>;
 	charObjects		 = new std::vector<RenderInfoChar*>;
 	uiObjects		 = new std::vector<RenderInfoUI*>;
@@ -105,12 +108,18 @@ void Graphics::Initialize(HWND * window)
 	shadowBuffer->Initialize(this->gDevice, this->gDeviceContext);
 }
 
+void Graphics::Update(double deltaTime)
+{
+	renderer->Update(deltaTime);
+}
+
 void Graphics::Release()
 {
 
 #pragma region Release custom classes
 
 	renderer->Release();
+	antTweakBar->Release();
 #pragma endregion
 
 
@@ -153,6 +162,7 @@ void Graphics::Release()
 void Graphics::Render() //manage RenderPasses here
 {
 	if (charObjects->size() > 0)
+		
 		renderer->UpdateCamera(charObjects->at(0)->position);
 
 
@@ -188,6 +198,9 @@ void Graphics::Render() //manage RenderPasses here
 
 	this->renderer->RenderFinalPass();
 
+	/*RenderInfoUI temp;
+	temp.UIobject = UITextures::WAVECOMPLETE;
+	renderer->Render(&temp);*/
 	for (unsigned int i = 0; i < uiObjects->size(); i++)
 	{
 		renderer->Render(uiObjects->at(i));
@@ -211,9 +224,7 @@ void Graphics::RenderScene()
 #pragma region Temporary code for early testing
 	std::vector<RenderInstructions>* tempInfo = new std::vector<RenderInstructions>;						//TEMPORARY
 													//TEMPORARY
-	//tempInfo.position = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
-	//tempInfo.rotation = XMFLOAT3(0.0f, 0.0f, 0.0f); //TEMPORARY
-	//tempInfo.object = MeshEnum::SCENE;
+	
 	this->renderer->Render(tempInfo);				//TEMPORARY
 
 
@@ -356,6 +367,8 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 
 	instanceMeshIndex.Reset();
 
+	antTweakBar->Update();
+
 	this->gSwapChain->Present(VSYNC, 0); //Change front and back buffer after rendering
 	
 	float clearColor[] = { 0, 0, 1, 1 };
@@ -441,8 +454,31 @@ void Graphics::CullGeometry()
 									5.0f ,																									       //height of the healthbar. 0 == on ground
 									enemyObjects->at(i)->position.z);																		       // pos z.
 					
-					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x     = 1.0f;
-					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + enemyObjects->at(i)->normalizedHealthVal - 0.2f;		// -0.2f is just to make the red appear sooner
+
+
+					if (enemyObjects->at(i)->isOnfire)
+					{
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow = 1;
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f;
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.3f;
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.z = 0.0f;
+					}
+					else if (enemyObjects->at(i)->isSlowed)
+					{
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow = 1;
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 0.0f;
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.75f;
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.z = 1.0f;
+					}
+					else
+					{
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow	 = 0;
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f;
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + enemyObjects->at(i)->normalizedHealthVal - 0.2f;		// -0.2f is just to make the red appear sooner
+						billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.z = 0.0f;
+
+					}
+					
 					
 					billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;
 					healthBarIndex							 += 1;
@@ -471,7 +507,6 @@ void Graphics::CullGeometry()
 				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].height	= 3.0f;
 				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].width		= 0.15f;
 				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].glow		= 1;
-				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].screenSpace = 0;
 				billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].worldPos  = this->gameObjects->at(i)->position + (this->gameObjects->at(i)->direction *(billBoardArray[PROJECTILE_BILLBOARD][projectileIndex].height * 0.9f)); // this is to make sure that if we made a long shot, (like a railgun) we wouldnt want halv of the shot texture behind the character
 
 				instancesToRender[PROJECTILE_INSTANCED]  += 1;
@@ -556,6 +591,7 @@ void Graphics::CullGeometry()
 
 				if (this->trapObjects->at(i)->normalizedReloadVal > 0.0f) // if the trap is being reloaded (Render it as a healthbar
 				{
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow = 0;
 					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].direction = XMFLOAT3(0.0f, 1.0f, 0.0f);
 					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].height    = 0.5f;
 					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width	   = 4.0f * trapObjects->at(i)->normalizedReloadVal;
@@ -567,6 +603,7 @@ void Graphics::CullGeometry()
 					
 					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f - trapObjects->at(i)->normalizedReloadVal ;
 					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + trapObjects->at(i)->normalizedReloadVal;
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.z = 0.0f;
 					billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;
 					healthBarIndex += 1;
 
@@ -588,6 +625,7 @@ void Graphics::CullGeometry()
 
 				if (this->trapObjects->at(i)->normalizedReloadVal > 0.0f) // if the trap is being reloaded (Render it as a healthbar)
 				{
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow = 0;
 					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].direction = XMFLOAT3(0.0f, 1.0f, 0.0f);
 					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].height = 0.5f;
 					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width = 4.0f * trapObjects->at(i)->normalizedReloadVal;
@@ -598,7 +636,7 @@ void Graphics::CullGeometry()
 
 					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f - trapObjects->at(i)->normalizedReloadVal;
 					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + trapObjects->at(i)->normalizedReloadVal;
-					
+					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.z = 0.0f;
 
 
 					billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;
@@ -627,9 +665,28 @@ void Graphics::CullGeometry()
 				XMFLOAT3(charObjects->at(0)->position.x - (3.0f - (billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width)), 	   // pos. x - (2 - width)
 					5.0f,																									       //height of the healthbar. 0 == on ground
 					charObjects->at(0)->position.z + 2);																		       // pos z.
-			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color =XMFLOAT3( 0.0f,.0f,0.0f);
-			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f - charObjects->at(0)->normalizedHealthVal;
-			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + charObjects->at(0)->normalizedHealthVal;
+			billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color =XMFLOAT3( 0.0f,0.0f,0.0f);
+			if (charObjects->at(0)->isOnfire)
+			{
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow	 = 1;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.3f;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.z = 0.0f;
+			}
+			else if (charObjects->at(0)->isSlowed)
+			{
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow = 1;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 0.0f;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.75f;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.z = 1.0f;
+			}
+			else
+			{
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow	 = 0;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f - charObjects->at(0)->normalizedHealthVal;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f + charObjects->at(0)->normalizedHealthVal;
+				billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.z = 0.0f;
+			}
 
 
 
@@ -637,12 +694,45 @@ void Graphics::CullGeometry()
 			healthBarIndex += 1;
 		}
 
+
+#pragma region Alternate Laser
+
+		////this->instancedWorldDataPerFrame[PROJECTILE_INSTANCED][projectileIndex].worldMatrix = CalculateWorldMatrix(&this->gameObjects->at(i)->position, &this->gameObjects->at(i)->rotation);
+		//billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].direction = this->charObjects->at(0)->direction;
+		//float x = XMVector3Length(XMLoadFloat3(&this->charObjects->at(0)->direction)).m128_f32[0];
+		//
+
+		//billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].height = x;
+		//billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].width = 0.05f;
+		//billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow = 1;
+		//billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].screenSpace = 0;
+		//billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].worldPos = this->charObjects->at(0)->position + (this->charObjects->at(0)->direction *(billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].height)); // this is to make sure that if we made a long shot, (like a railgun) we wouldnt want halv of the shot texture behind the character
+		//billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].worldPos.y = 5.0f;
+		//billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.x = 1.0f;
+		//billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.y = 0.0f;
+		//billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].color.z = 0.0f;
+
+		//
+
+		//billboardsToRender[HEALTH_BAR_BILLBOARD] += 1;
+		//healthBarIndex += 1;
+#pragma endregion
+
+
+
+
+
+
+
 	}
 
 	
 
 
 #pragma endregion
+
+
+
 
 
 #pragma endregion

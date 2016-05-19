@@ -44,7 +44,6 @@ Player::Player()
 
 Player::~Player()
 {
-
 	delete this->projectileSystem;
 
 }
@@ -55,12 +54,12 @@ Player::~Player()
 
 void Player::Initialize(AudioManager* audioManager)
 {
-	
+	//bar->addSlider("health", health);
 	graphics			 = Graphics::GetInstance();
 	float hover			 = 0.0f;
 	this->position		 = XMFLOAT3(-5.0f, Y_OFFSET, -5.0f);
 	this->rotation		 = XMFLOAT3(0.0f, 0.0f, 0.0f);
-	VelocityMax			 = 8.0f;
+	VelocityMax			 = 5.0f;
 	slowTimer			 = 0;
 	points				 = 0;
 	multiplier			 = 1;
@@ -68,11 +67,10 @@ void Player::Initialize(AudioManager* audioManager)
 	radius2				 = 2.0f;
 	DoT					 = 0.0f;
 	DoTDur				 = 0.0f;
-	health				 = 100.0f;
+	health				 = 125.0f;
 	maxHealth			 = health;
 	projectileSystem->Initialize(audioManager);
 	SetUpgrade(UpgradeType::ONE_SHOT);
-	
 }
 
 void Player::Release()
@@ -83,7 +81,7 @@ void Player::Release()
 void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 {
 
-	hover += (float)deltaTime;
+	hover += (float)deltaTime; //used in render.
 
 	
 	if (VelocityMax == 0.2f)
@@ -93,7 +91,7 @@ void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 	}
 	if (slowTimer > 2.0f)
 	{
-		VelocityMax = 4.0f;
+		VelocityMax = 8.0f;
 		slowTimer = 0.0f;
 	}
 
@@ -101,23 +99,23 @@ void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 	{
 		DoTDur += (float)deltaTime;
 	}
-	if (DoTDur > 1)
+	if (DoTDur > 3)
 	{
 		DoT = 0.0f;
 		DoTDur = 0.0f;
 	}
 
-	health -= DoT;
+	health -= DoT * (float)deltaTime;
 	
 
 	this->direction	 = direction;
 	
 #pragma region Calculate movement
-	velocity.x		 += acceleration.x * (float)deltaTime - velocity.x * fallOfFactor * (float)deltaTime;
-	velocity.y		 += acceleration.y * (float)deltaTime - velocity.y * (fallOfFactor/2) * (float)deltaTime;
-	velocity.z		 += acceleration.z * (float)deltaTime - velocity.z * fallOfFactor * (float)deltaTime;
+	velocity.x		 += acceleration.x * (float)deltaTime - velocity.x  * fallOfFactor * (float)deltaTime;
+	//velocity.y		 += acceleration.y * (float)deltaTime - velocity.y  * (fallOfFactor/2) * (float)deltaTime;
+	velocity.z		 += acceleration.z * (float)deltaTime - velocity.z  * fallOfFactor * (float)deltaTime;
 	
-
+	
 		float currentVelo = velocity.Length();
 
 		if (currentVelo > VelocityMax)
@@ -131,7 +129,7 @@ void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 	if (currentVelo > 0.0f)
 	{
 		position.x				+= velocity.x;
-		position.y				+= velocity.y;
+		//position.y				+= velocity.y;
 		position.z				+= velocity.z;
 
 
@@ -158,8 +156,9 @@ void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 		if (currentVelo > 0.05f)
 		{
 			//position.x -= velocity.x;
-			position.y = Y_OFFSET;
+			//position.y = Y_OFFSET;
 			//position.z -= velocity.z;
+
 
 
 		}
@@ -191,6 +190,7 @@ void Player::Update(double deltaTime, XMFLOAT3 direction, bool collision)
 
 	renderInfo.position = position;
 	renderInfo.rotation = rotation;
+	renderInfo.direction = direction;
 #pragma endregion
 	
 
@@ -202,6 +202,7 @@ void Player::Render()
 	renderInfo.position.y =  2 * max(sin(hover)*-1, sin(hover));
 	hover = (hover >= 9999999 ? 0 : hover);
 
+#pragma region healthbar render
 	if (this->health < (maxHealth * 0.95))
 	{
 		renderInfo.showHealthBar = true;
@@ -209,6 +210,29 @@ void Player::Render()
 	}
 	else
 		renderInfo.showHealthBar = false;
+#pragma endregion
+#pragma region on fire rendering
+	if (DoTDur > 0.0f)
+	{
+		renderInfo.isOnfire		 = true;
+		renderInfo.showHealthBar = true;
+
+	}
+	else
+	{
+		renderInfo.isOnfire = false;
+	}
+#pragma endregion
+
+
+	if (slowTimer > 0.0f)
+	{
+		renderInfo.isSlowed = true;
+		renderInfo.showHealthBar = true;
+	}
+	else
+		renderInfo.isSlowed = false;
+
 	graphics->QueueRender(&renderInfo);
 	projectileSystem->Render();
 }
@@ -220,21 +244,51 @@ void Player::Move(MovementDirection* dir, int keyAmount, double deltaTime)
 	{
 		if (dir[i] == UP)
 		{
-			acceleration.z = maxAcceleration / keyAmount;
+			if (keyAmount >= 2)
+			{
+				acceleration.z = maxAcceleration / 1.414213562373095f;
+			}
+			else
+			{
+				acceleration.z = maxAcceleration / keyAmount;
+			}
 		}
 
 		if (dir[i] == DOWN)
 		{
-			acceleration.z = -maxAcceleration / keyAmount;
+			if (keyAmount >= 2)
+			{
+				acceleration.z = -maxAcceleration / 1.414213562373095f;
+			}
+			else
+			{
+				acceleration.z = -maxAcceleration / keyAmount;
+			}
 		}
 		
 		if (dir[i] == LEFT)
 		{
-			acceleration.x = -maxAcceleration / keyAmount;
+			if (keyAmount >= 2)
+			{
+				acceleration.x = -maxAcceleration / 1.414213562373095f;
+			}
+			else
+			{
+				acceleration.x = -maxAcceleration / keyAmount;
+			}
+			
 		}
 		if (dir[i] == RIGHT)
 		{
-			acceleration.x = maxAcceleration / keyAmount;
+			if (keyAmount >= 2)
+			{
+				acceleration.x = maxAcceleration / 1.414213562373095f;
+			}
+			else
+			{
+				acceleration.x = maxAcceleration / keyAmount;
+			}
+			
 		}
 
 

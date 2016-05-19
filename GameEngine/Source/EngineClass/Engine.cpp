@@ -26,7 +26,6 @@ void Engine::Initialize(HWND* window, HINSTANCE *hInstance)
 	}
 	graphics->Initialize(window);
 	game->Initialize();
-
 }
 
 void Engine::Release()
@@ -45,6 +44,7 @@ void Engine::Frame(double * deltaTime)
 void Engine::Update(double* deltaTime)
 {
 	game->Update(deltaTime[0]);
+	graphics->Update(*deltaTime);
 }
 
 void Engine::Render()

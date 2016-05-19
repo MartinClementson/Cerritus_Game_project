@@ -35,7 +35,7 @@ public:
 	Scene();
 	virtual ~Scene();
 
-	void Initialize();
+	void Initialize(AudioManager* audioManager);
 	void InitFireTrap();
 	void InitBearTrap();
 	void Release();

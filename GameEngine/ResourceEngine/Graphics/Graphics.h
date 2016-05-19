@@ -9,6 +9,7 @@
 #include "../ObjectNode/Render/Renderer.h"
 #include "Gbuffer\Gbuffer.h"
 #include "../Graphics/ShadowBuffer/ShadowBuffer.h"
+#include "../anttweakbar/AntTweakBar.h"
 
 #pragma endregion
 
@@ -94,6 +95,8 @@ private:
 	std::vector<RenderInfoTrap*  >*   trapObjects				   = nullptr;
 	std::vector<RenderInfoScene* >*   sceneObjects				   = nullptr;
 
+	AntTweakBar* antTweakBar									   = nullptr;
+
 	InstancedData* instancedWorldDataPerFrame [INSTANCED_WORLD_BUFFER_AMOUNT] = { nullptr }; //this contains the world matrices every frame.
 	unsigned int   instancesToRender		  [INSTANCED_WORLD_BUFFER_AMOUNT] = { }; //The amount of instanced geometry to render, (AFTER CULLING)
 
@@ -121,6 +124,7 @@ private:
 public:
 	~Graphics();
 
+	void Update(double deltaTime);
 	void Initialize(HWND* window);
 	void Release();
 

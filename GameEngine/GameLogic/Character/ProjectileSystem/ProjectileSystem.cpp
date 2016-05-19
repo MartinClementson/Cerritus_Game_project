@@ -25,7 +25,6 @@ ProjectileSystem::~ProjectileSystem()
 		delete projectiles.at(i);
 
 	}*/
-
 	for (unsigned int i = 0; (int)i < maxProjectiles; i++)
 
 		delete projectiles[i];
@@ -176,7 +175,7 @@ void ProjectileSystem::Initialize(AudioManager* audioManager)
 	lifeSpan = 2.5f;
 	//maxProjectiles = 100;
 
-
+	//AntTweakBar::GetInstance()->addSlider("lifespan", *lifeSpan);
 }
 
 void ProjectileSystem::Release()

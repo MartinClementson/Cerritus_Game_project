@@ -27,7 +27,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	brfImporterHandler->Initialize(this->meshManager, this->materialManager);
 
 
-	brfImporterHandler->LoadFile("models/player_Model.BRF", true, true, true, false);
+	brfImporterHandler->LoadFile("models/playerModel.BRF", true, true, true, false);
 	brfImporterHandler->LoadFile("models/EnemyModel.BRF", true, true, true, false);
 	brfImporterHandler->LoadFile("models/Slow_Trap.BRF", true, true, true, false);
 	brfImporterHandler->LoadFile("models/Fire_Trap.BRF", true, true, true, false);
@@ -57,21 +57,21 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	materialManager->addMaterials(&temp);
 	
 	ui.materialName = "Menumaterial";
-	ui.diffuseTex = "menu.png";
+	ui.diffuseTex = "Menu.png";
 	ui.materialID = 15;
 	
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 	
 	ui.materialName = "gameover";
-	ui.diffuseTex = "GameOver.png";
+	ui.diffuseTex = "Gameover.png";
 	ui.materialID = 16;
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 	
 	
 	ui.materialName = "pause";
-	ui.diffuseTex = "PausUI.tif";
+	ui.diffuseTex = "Pausemenu3.tif";
 	ui.materialID = 17;
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
@@ -80,8 +80,7 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 
 	//materialManager->addMaterials(&temp);
 	ui.materialName = "Controls";
-	ui.diffuseTex = "Controls.png";
-
+	ui.diffuseTex = "instructionsbegin.png";
 	ui.materialID = 18;
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
@@ -130,13 +129,14 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
+
+	this->brfImporterHandler->Release();
 }
 
 void ResourceManager::Release()
 {
 	this->shaderManager->Release();
 	this->meshManager->Release();
-	this->brfImporterHandler->Release();
 	this->materialManager->Release();
 }
 
@@ -187,6 +187,7 @@ void ResourceManager::Release()
 					
 		}*/
 		meshManager->GetFullScreenQuadInfoUI(&uiType, &currentUI);
+	
 		materialManager->GetMaterialRenderInfo(&currentUI);
 		return &currentUI;
 		

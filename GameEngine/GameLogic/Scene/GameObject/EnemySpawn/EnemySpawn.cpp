@@ -6,7 +6,11 @@ EnemySpawn::EnemySpawn()
 {
 	this->collision = Collision::GetInstance();
 	this->firstSpawn = false;
+<<<<<<< HEAD
 	nrOfAliveEnemies = 0;
+=======
+	this->playWave = true;
+>>>>>>> refs/remotes/origin/master
 }
 
 EnemySpawn::~EnemySpawn()
@@ -17,12 +21,16 @@ EnemySpawn::~EnemySpawn()
 	}
 }
 
-void EnemySpawn::Initialize()
+void EnemySpawn::Initialize(AudioManager* audioManager)
 {
+	this->audioManager = audioManager;
+	graphics = Graphics::GetInstance();
 	currentWave = 1;
 	waves.SetWaveGroup(currentWave);
 	waves.WaveInformation();
 	nrOfAliveEnemies = waves.GetWaveInformation();
+
+	WaveComplete.UIobject = UITextures::WAVECOMPLETE;
 
 	InitEnemy();
 }
@@ -50,7 +58,7 @@ void EnemySpawn::Update(double deltaTime)
 				player = collision->GetPlayer();
 				player->SetPoints(player->GetPoints() + (10.0f*player->GetMulti()));
 				player->SetMulti(player->GetMulti() + 0.1f);
-
+				audioManager->playEDeathSound();
 				killEnemy(i);
 				//waveAmount--;
 				/*if (waveAmount != 0)
@@ -112,6 +120,15 @@ void EnemySpawn::Update(double deltaTime)
 		{
 			if (waves.GetWaveTimer() <= 0)
 				SpawnEnemy(nrOfAliveEnemies);
+			else
+			{
+				graphics->QueueRender(&WaveComplete);
+				if (waves.GetWaveTimer() <= 6 && playWave)
+				{
+					audioManager->playNewWave();
+					playWave = false;
+				}
+			}
 		}
 
 		for (int i = 0; i < nrOfAliveEnemies; i++)
@@ -142,6 +159,10 @@ void EnemySpawn::Update(double deltaTime)
 			waves.WaveInformation();
 			nrOfAliveEnemies = waves.GetWaveInformation();
 
+			
+			//waveAmount = waves.GetWaveInformation();
+			pickupRespawn = true;
+			playWave = true;
 			if (nrOfAliveEnemies == 0)
 			{
 				win = true;
@@ -238,7 +259,7 @@ void EnemySpawn::RespawnEnemy(int i)
 
 void EnemySpawn::InitEnemy()
 {
-	//unsigned int amount = 32;
+	unsigned int amount = 80;
 	float b = 0;
 
 	for (size_t i = 0; i < 100; i++)
@@ -255,36 +276,53 @@ void EnemySpawn::InitEnemy()
 			fast = false;
 			Alive[i] = (new Enemy(spawn, fast));
 		}
-		else if (spawnPointRandom == 2)
+		if (i % 10 || i == 0)
 		{
+			int spawnPointRandom = rand() % 4 + 1;
 
-			waves.SetSpawnPosAdd(b);
-			waves.SpawnPositions(2);
-			spawn = waves.GetSpawnPositions();
+			if (spawnPointRandom == 1)
+			{
+				waves.SetSpawnPosAdd(b);
+				waves.SpawnPositions(1);
+				spawn = waves.GetSpawnPositions();
+				fast = false;
+			}
+			else if (spawnPointRandom == 2)
+			{
 
-			fast = true;
-			Alive[i] = (new Enemy(spawn, fast));
+				waves.SetSpawnPosAdd(b);
+				waves.SpawnPositions(2);
+				spawn = waves.GetSpawnPositions();
+
+				fast = true;
+
+			}
+			else if (spawnPointRandom == 3)
+			{
+				waves.SetSpawnPosAdd(b);
+				waves.SpawnPositions(3);
+				spawn = waves.GetSpawnPositions();
+
+				fast = false;
+
+			}
+			else if (spawnPointRandom == 4)
+			{
+				waves.SetSpawnPosAdd(b);
+				waves.SpawnPositions(4);
+				spawn = waves.GetSpawnPositions();
+
+				fast = true;
+
+			}
+
+
+
+			b += 5;
+
+			//Alive.push_back(new Enemy(spawn, fast));
 		}
-		else if (spawnPointRandom == 3)
-		{
-			waves.SetSpawnPosAdd(b);
-			waves.SpawnPositions(3);
-			spawn = waves.GetSpawnPositions();
-
-			fast = false;
-			Alive[i] = (new Enemy(spawn, fast));
-		}
-		else if (spawnPointRandom == 4)
-		{
-			waves.SetSpawnPosAdd(b);
-			waves.SpawnPositions(4);
-			spawn = waves.GetSpawnPositions();
-
-			fast = true;
-			Alive[i] = (new Enemy(spawn, fast));
-		}
-
-		else if (spawnPointRandom == 5)
+		else
 		{
 			waves.SetSpawnPosAdd(b);
 			waves.SpawnPositions(1);

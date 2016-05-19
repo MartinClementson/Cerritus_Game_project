@@ -22,6 +22,8 @@ private:
 	GUI* mainUI;
 	GUI* howToUI;
 	Scene* menuScene;
+	float time = 0.0f;
+
 
 #pragma region variables for the buttons
 	XMFLOAT2 Maxexit = { (float)(0.035f*WIN_WIDTH),(float)(0.825f*WIN_HEIGHT) };

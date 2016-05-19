@@ -55,22 +55,6 @@ void Pickup::Release()
 
 void Pickup::Update(double deltaTime)
 {
-	if (isActive == false)
-	{
-		respawnTimer += (float)deltaTime;
-	}
-
-	if(respawnTimer >= 10.0f && this->pickupType == PickupType::WEAPON)
-	{
-		isActive = true;
-		respawnTimer = 0.0f;
-	}
-
-	if (respawnTimer >= 30.0f && this->pickupType == PickupType::HEAL)
-	{
-		isActive = true;
-		respawnTimer = 0.0f;
-	}
 
 	if (down == false)
 	{
@@ -127,4 +111,11 @@ bool Pickup::GetIsActive()
 void Pickup::SetIsActive(bool active)
 {
 	this->isActive = active;
+}
+
+void Pickup::Respawn()
+{
+	
+	isActive = true;
+	
 }

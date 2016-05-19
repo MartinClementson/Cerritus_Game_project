@@ -101,12 +101,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\DirectXTK\Inc;$(SolutionDir)\DirectXTK\MakeSpriteFont;$(SolutionDir)\DirectXTK\Src;$(SolutionDir)\ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Headers;$(SolutionDir)\Source\Main;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\AntTweak\include;$(SolutionDir)\DirectXTK\Inc;$(SolutionDir)\DirectXTK\MakeSpriteFont;$(SolutionDir)\DirectXTK\Src;$(SolutionDir)\ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Headers;$(SolutionDir)\Source\Main;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\AntTweak\lib;$(SolutionDir)\ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -135,14 +135,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)\Source\Main;$(SolutionDir)\DirectXTK\Src;$(SolutionDir)\DirectXTK\MakeSpriteFont;$(SolutionDir)\DirectXTK\Inc;$(SolutionDir)\ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\David\Documents\GitHub\LitetSpel-Group1\GameEngine\AntTweak\include;$(SolutionDir)\Source\Main;$(SolutionDir)\DirectXTK\Src;$(SolutionDir)\DirectXTK\MakeSpriteFont;$(SolutionDir)\DirectXTK\Inc;$(SolutionDir)\ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Headers;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)\ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)\AntTweak\lib;$(SolutionDir)\ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Libraries;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -191,6 +191,7 @@
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\InactiveState\InactiveState.cpp" />
     <ClCompile Include="GameLogic\StateMachines\TrapStateMachine\TrapStateMachine.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ResourceEngine\anttweakbar\AntTweakBar.cpp" />
     <ClCompile Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.cpp" />
     <ClCompile Include="ResourceEngine\Graphics\Graphics.cpp" />
     <ClCompile Include="ResourceEngine\Graphics\ShadowBuffer\ShadowBuffer.cpp" />
@@ -258,6 +259,7 @@
     <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\InactiveState\InactiveState.h" />
     <ClInclude Include="GameLogic\StateMachines\TrapStateMachine\TrapStateMachine.h" />
     <ClInclude Include="LightStructs.h" />
+    <ClInclude Include="ResourceEngine\anttweakbar\AntTweakBar.h" />
     <ClInclude Include="ResourceEngine\Graphics\Gbuffer\Gbuffer.h" />
     <ClInclude Include="ResourceEngine\Graphics\Graphics.h" />
     <ClInclude Include="ResourceEngine\Graphics\ShadowBuffer\ShadowBuffer.h" />
@@ -369,6 +371,7 @@
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\LightData.obj" />
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MaterialData.obj" />
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MeshData.obj" />
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MorphData.obj" />
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\SkeletonData.obj" />
   </ItemGroup>
   <ItemGroup>

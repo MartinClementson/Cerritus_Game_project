@@ -24,8 +24,6 @@ Enemy::Enemy(XMFLOAT3 spawn, bool fast)
 	renderInfo.position = position;
 	renderInfo.rotation = rotation;
 	renderInfo.radius = radius;
-
-	this->maxHealth = 75.0f;
 }
 
 Enemy::Enemy()
@@ -42,12 +40,19 @@ void Enemy::Initialize()
 {
 	closestHealer = nullptr;
 	graphics = Graphics::GetInstance();
+
+		
+		
+	
+	
+
 	if (this->fast)
 	{
-		movementSpeed = 25.0f;
+		this->healable = true;
+		movementSpeed = 22.0f;
 		originalMovementSpeed = movementSpeed;
 
-		health = 50.0f;
+		health = 75.0f;
 		this->maxHealth = health;
 		DoT = 0;
 		damage = 5.0f;
@@ -64,9 +69,10 @@ void Enemy::Initialize()
 	}
 	else
 	{
+		this->healable = false;
 		movementSpeed = 18.0f;
 		originalMovementSpeed = movementSpeed;
-		health = 100.0f;
+		health = 200.0f;
 		this->maxHealth = health;
 		DoT = 0;
 		damage = 5.0f;
@@ -91,9 +97,11 @@ void Enemy::Release()
 void Enemy::Update(double deltaTime)
 {
 
-	health -= DoT*deltaTime;
 
-	if (health < (maxHealth / 2) && closestHealer)
+	health -= DoT*25*(float)deltaTime;
+
+
+	if (health < (maxHealth / 1.5) && closestHealer && this-> healable != false)
 	{
   		enemyStateMachine->SetActiveState(ENEMY_HEAL_STATE);
 	}
@@ -180,6 +188,27 @@ void Enemy::Render()
 	else
 		renderInfo.showHealthBar = false;
 
+#pragma region on fire rendering
+	if (DoTDur > 0.0f)
+	{
+		renderInfo.isOnfire = true;
+		renderInfo.showHealthBar = true;
+
+	}
+	else
+	{
+		renderInfo.isOnfire = false;
+	}
+#pragma endregion
+
+	if (slowTimer > 0.0f)
+	{
+		//renderInfo.isSlowed = true;
+		//renderInfo.showHealthBar = true;
+	}
+	else
+		renderInfo.isSlowed = false;
+
 
 	graphics->QueueRender(&renderInfo);
 }
@@ -217,10 +246,12 @@ void Enemy::Spawn(XMFLOAT3 spawn)
 {
 	this->position = spawn;
 	this->isAlive = true;
-	this->health = 100.0f;
 	this->DoT = 0.0f;
 	this->index = 0.0f;
 	this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
+	
+	
+	
 
 	if (this->fast) //kolla in här sen
 	{
@@ -319,7 +350,7 @@ void Enemy::AIPatternHeal(EnemyBase* healer, double deltaTime)
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)
 	{
-
+		
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE)
 	{

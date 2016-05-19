@@ -41,7 +41,7 @@ void GameState::Initialize(AudioManager* audioManager)
 	gameUI->Initialize();
 	//Create room one here
 	timeSincePaused = 0.0f;
-	room1->Initialize();
+	room1->Initialize(audioManager);
 	room1->InitBearTrap();
 	room1->InitFireTrap();
 
@@ -50,6 +50,8 @@ void GameState::Initialize(AudioManager* audioManager)
 	Input::GetInstance()->SetMouseVisibility(false);
 
 	index = 5.0f;
+	//test = 1;
+	//AntTweakBar::GetInstance()->addSlider("testGameState", test);
 
 	OnEnter();
 }
@@ -84,7 +86,7 @@ void GameState::Update(double deltaTime)
 		{
 			isPlayerDead = true;
 
-			isActive = false;
+			//isActive = false;
 		}
 
 		XMFLOAT2 mouseXY = input->GetMousePosition();
@@ -125,12 +127,14 @@ void GameState::Update(double deltaTime)
 
 				if (room1->Pickups.at(i)->GetPickupType() == PickupType::WEAPON)
 				{
+					audioManager->playWeaponPickup();
 					this->player->UpgradeWeapon();
 					room1->Pickups.at(i)->SetIsActive(false);
 				}
 
 				else if (room1->Pickups.at(i)->GetPickupType() == PickupType::HEAL)
 				{
+					audioManager->playHealthPickup();
 					this->player->SetHealth(player->GetHealth() + 50);
 
 					if (player->GetHealth() > player->GetMaxHealth())
@@ -163,10 +167,11 @@ void GameState::Update(double deltaTime)
 						room1->enemySpawn->Alive[p]->
 						GetCharType() != CharacterType::HEALER
 						&&
-						healers.at(0) != nullptr)
+						healers.at(0) != nullptr
+						&& room1->enemySpawn->Alive.at(p)->healable != false)
 					{
+						
 						EnemyBase* tmpCloseHealer = nullptr;
-
 						XMFLOAT3 position;
 						position = room1->enemySpawn->Alive[p]->position;
 						XMFLOAT3 healPos;
@@ -215,6 +220,7 @@ void GameState::Update(double deltaTime)
 
 							}
 						}
+					
 
 						room1->enemySpawn->Alive[p]->SetClosestHealer(tmpCloseHealer);
 
@@ -263,6 +269,7 @@ void GameState::Update(double deltaTime)
 							room1->enemySpawn->Alive[p]->AIPattern(
 								collision->GetPlayer(),
 								deltaTime);
+							//audioManager->playPlayerHit();
 						}
 
 						else if (collision->EnemyCollision(
@@ -299,7 +306,7 @@ void GameState::Update(double deltaTime)
 					Alive[j]->isAlive == true)
 				{
 					room1->enemySpawn->Alive[j]->SetHealth(
-						room1->enemySpawn->Alive[j]->GetHealth() - 10);
+						room1->enemySpawn->Alive[j]->GetHealth() - 5.0f);
 					player->projectileSystem->projectiles[i]->SetFired(false);
 					if (room1->enemySpawn->Alive[j]->GetHealth() == 0)
 								audioManager->playEDeathSound();
@@ -321,7 +328,14 @@ void GameState::Update(double deltaTime)
 void GameState::ProcessInput(double* deltaTime)
 {
 	timeSincePaused += (float)*deltaTime;
+	timer += (float)*deltaTime;
 	XMFLOAT2 temp = input->GetMousePosition();
+
+	/*if (input->IsKeyPressed(KEY_X) && timeSincePaused > 0.2f)
+	{
+		timeSincePaused = 0;
+		AntTweakBar::GetInstance()->toggleShowingBar();
+	}*/
 
 	if (death->isActive)
 	{
@@ -362,10 +376,16 @@ void GameState::ProcessInput(double* deltaTime)
 		{
 			if (input->isMouseClicked(MOUSE_LEFT))
 			{
+				pause->isActive = false;
 
+				NewGame();
+
+				isActive = true;
+
+				this->activeState = MAIN_GAME_STATE;
 			}
 		}
-		if (input->IsKeyPressed(KEY_ENTER) && timeSincePaused > 0.2f)
+		if (input->IsKeyPressed(KEY_ESC) && timeSincePaused > 0.2f)
 		{
 			pause->isActive = false;
 			timeSincePaused = 0.0f;
@@ -427,9 +447,10 @@ void GameState::ProcessInput(double* deltaTime)
 					{
 						if (bearTraps.at(i)->GetState()->GetTrapState() == TrapState::TRAP_INACTIVE_STATE)
 						{
+							audioManager->playRepairLoop();
 							if (bearTraps.at(i)->GetCurrentReloadTime() >= 2)
 							{
-								audioManager->playEDeathSound(); //temp to know
+								audioManager->playRepairComplete();
 								bearTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
 								bearTraps.at(i)->SetCurrentReloadTime(0);
 								bearTraps.at(i)->SetisBeingReloaded(false);
@@ -452,10 +473,10 @@ void GameState::ProcessInput(double* deltaTime)
 
 						if (fireTraps.at(i)->GetState()->GetTrapState() == TrapState::TRAP_INACTIVE_STATE)
 						{
-							
+							audioManager->playRepairLoop();
 								if (fireTraps.at(i)->GetCurrentReloadTime() >= 2)
 								{
-									audioManager->playEDeathSound();
+									audioManager->playRepairComplete();
 									fireTraps.at(i)->GetState()->SetTrapState(TrapState::TRAP_IDLE_STATE);
 									fireTraps.at(i)->SetCurrentReloadTime(0);
 									fireTraps.at(i)->SetisBeingReloaded(false);
@@ -474,8 +495,10 @@ void GameState::ProcessInput(double* deltaTime)
 		}
 		else
 		{
+			audioManager->stopRepairLoop();
 			currentTime = 0;
 		}
+		
 		/*for (size_t i = 0; i < bearTraps.size(); i++)
 		{
 			if (input->IsKeyPressed(KEY_Q) && collision->BearTrapActivation(bearTraps.at(i)))
@@ -498,7 +521,7 @@ void GameState::ProcessInput(double* deltaTime)
 		}
 #pragma endregion
 
-		if (input->IsKeyPressed(KEY_ENTER) && timeSincePaused >0.2f)
+		if (input->IsKeyPressed(KEY_ESC) && timeSincePaused >0.2f)
 		{
 			pause->isActive = true;
 			timeSincePaused = 0.0f;
@@ -518,10 +541,6 @@ void GameState::ProcessInput(double* deltaTime)
 		else if (input->IsKeyPressed(KEY_X))
 		{
 			player->Shoot(KEY_X, deltaTime[0]);
-		}
-		else if (input->IsKeyPressed(KEY_C))
-		{
-			player->Shoot(KEY_C, deltaTime[0]);
 		}
 	}
 }
@@ -556,4 +575,28 @@ void GameState::OnExit()
 float GameState::GetPoints()
 {
 	return player->GetPoints();
+}
+
+void GameState::NewGame()
+{
+	Release();
+
+	delete this->death;
+	delete this->pause;
+	delete this->player;
+	delete this->room1;
+	delete this->menu;
+	delete this->gameUI;
+
+	this->death = new MainDeathState();
+	this->pause = new MainPausedState();
+	this->player = new Player();
+	this->input = Input::GetInstance();
+	this->room1 = new Scene();
+	this->collision = Collision::GetInstance();
+	this->gameTimer = GameTimer::GetInstance();
+	this->menu = new MenuState();
+	this->gameUI = new GUI();
+
+	Initialize(audioManager);
 }

@@ -41,7 +41,7 @@ void Healer::Initialize()
 	this->charType = CharacterType::HEALER;
 	movementSpeed = 5.0f;
 	originalMovementSpeed = movementSpeed;
-	health = 200;
+	health = 100;
 	this->maxHealth = health;
 	damage = 5.0f;
 	rotation = { 0,0,0 };
@@ -194,47 +194,44 @@ void Healer::AIPattern(Player* player, double deltaTime)
 	if (enemyStateMachine->GetActiveState() == ENEMY_ATTACK_STATE)
 	{
 		//XMFLOAT3 playerPos = player->GetPosition();
-		Vec3 vect1;
-		vect1.x = player->GetPosition().x - GetPosition().x;
-		vect1.z = player->GetPosition().z - GetPosition().z;
-
-		Vec3 vect;
-		vect.x = direction.x - GetPosition().x;
-		vect.z = direction.z - GetPosition().z;
-
-		if (vect.Length() < 0.2f) //if we reached the randomized target. Randomize a new one!
-		{
-			RandNewDirection();
 		
-			vect.x = direction.x - GetPosition().x;
-			vect.z = direction.z - GetPosition().z;
-		}
+		XMFLOAT3 playerPos = player->GetPosition();
+
+
+		direction.x = playerPos.x - GetPosition().x;
+		direction.z = playerPos.z - GetPosition().z;
+
+		
+		
 #pragma region fleeing pattern
-		if (vect1.Length() > 100.0f) //if the player is close. move away from the player
+		if (direction.Length() < 60.0f) //if the player is close. move away from the player
 		{
 			//vect1.x = vect1.x;
-			vect1.z = vect1.z;
 
-			vect1.Normalize();
+			direction.Normalize();
 
-			this->position.x += vect1.x *(float)deltaTime * movementSpeed;
-			this->position.z += vect1.z *(float)deltaTime * movementSpeed;
+			this->position.x -= direction.x *(float)deltaTime * movementSpeed;
+			this->position.z -= direction.z *(float)deltaTime * movementSpeed;
 		}
-		//else
-		//{
-		//	
-		//	this->position.x += 0.0f;
-		//	this->position.z += 0.0f;
+		else
+		{
+			
+			if (direction.Length() > 3)
+			{
+				direction.Normalize();
 
-		//}
+				this->position.x += direction.x *(float)deltaTime * movementSpeed;
+				this->position.z += direction.z *(float)deltaTime * movementSpeed;
+			}
+			else
+			{
+				direction.Normalize();
+				this->position = this->position;
+			}
+
+		}
 #pragma endregion
 
-		vect.Normalize();
-
-		//XMFLOAT3 temp = GetPosition();
-		this->position.x += vect.x *(float)deltaTime * movementSpeed;
-		this->position.z += vect.z *(float)deltaTime * movementSpeed;
-		//SetPosition(temp);
 
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)

@@ -5,6 +5,7 @@
 #include <MeshData.h>
 #include <MaterialData.h>
 #include <SkeletonData.h>
+#include <MorphData.h>
 
 #include "../MeshManager/MeshManager.h"
 #include "../ShaderManager/ShaderManager.h"

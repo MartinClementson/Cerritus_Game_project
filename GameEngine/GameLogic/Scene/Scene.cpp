@@ -43,7 +43,7 @@ Scene::~Scene()
 
 }
 
-void Scene::Initialize()
+void Scene::Initialize(AudioManager* audioManager)
 {
 	fireTrapAmount = 3;
 	slowTrapAmount = 5;
@@ -62,7 +62,7 @@ void Scene::Initialize()
 
 	RespawnTimer = 0;
 
-	enemySpawn->Initialize();
+	enemySpawn->Initialize(audioManager);
 
 }
 
@@ -144,6 +144,13 @@ void Scene::Update(double deltaTime)
 		toWin = true;
 	}
 
+	if (enemySpawn->pickupRespawn == true)
+	{
+		for (size_t i = 0; i < Pickups.size(); i++)
+			Pickups.at(i)->Respawn();
+		enemySpawn->pickupRespawn = false;
+	}
+
 	for (size_t i = 0; i < fireTraps.size(); i++)
 	{
 		fireTraps.at(i)->Update(deltaTime);
@@ -219,25 +226,7 @@ void Scene::Update(double deltaTime)
 		}
 	}
 
-	if (RespawnTimer >= (double)10)
-	{
-		for (int i = 0; i < fireTrapAmount - 1; i++)
-		{
-			fireTraps.at(i)->isActive = true;
-			RespawnTimer = 0;
-		}
-		for (int i = 0; i < slowTrapAmount - 1; i++)
-		{
-			bearTraps.at(i)->isActive = true;
-			RespawnTimer = 0;
-		}
-	}
-
-	else
-	{
-		RespawnTimer += deltaTime;
-	}
-
+	
 }
 
 void Scene::Render()
