@@ -58,6 +58,7 @@ struct GBUFFER_VS_IN
 	float2 BiTangent	 : TEXCOORD2;
 	float2 Tangent		 : TEXCOORD3;
 	float4x4 worldMatrix : WORLD;
+	//uint vertexID		 : SV_VertexID; <-- for animation
 	unsigned int glow	 : GLOW;
 };
 struct GBUFFER_VS_OUT

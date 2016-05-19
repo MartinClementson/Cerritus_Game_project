@@ -29,69 +29,69 @@ private:
 	
 
 	// pointers to the main device and context
-	ID3D11Device *gDevice							 = nullptr;
-	ID3D11DeviceContext* gDeviceContext				 = nullptr;
+	ID3D11Device *gDevice								 = nullptr;
+	ID3D11DeviceContext* gDeviceContext					 = nullptr;
 
 	//SamplerStates
-	ID3D11SamplerState* linearSampleState			 = nullptr;
-	ID3D11SamplerState* pointSampleState			 = nullptr;
+	ID3D11SamplerState* linearSampleState				 = nullptr;
+	ID3D11SamplerState* pointSampleState				 = nullptr;
 
 	//Shaders for phong shading
-	ID3D11VertexShader*		FINAL_VS				 = nullptr;
-	ID3D11PixelShader*		FINAL_PS				 = nullptr;
-	ID3D11InputLayout*		gVertexLayoutFinal		 = nullptr;
+	ID3D11VertexShader*		FINAL_VS					 = nullptr;
+	ID3D11PixelShader*		FINAL_PS					 = nullptr;
+	ID3D11InputLayout*		gVertexLayoutFinal			 = nullptr;
 
 
 	//Shaders for the Animation
-	ID3D11VertexShader*		ANIMATION_VS			 = nullptr;
-	ID3D11GeometryShader*	ANIMATION_GS			 = nullptr;
-	ID3D11PixelShader*		ANIMATION_PS			 = nullptr;
-	ID3D11InputLayout*		gVertexLayoutAnimation   = nullptr;
+	ID3D11VertexShader*		INSTANCED_ANIMATION_VS		 = nullptr;
+	ID3D11GeometryShader*	INSTANCED_ANIMATION_GS		 = nullptr;
+	ID3D11PixelShader*		INSTANCED_ANIMATION_PS		 = nullptr;
+	ID3D11InputLayout*		gInstancedAnimationLayout    = nullptr;
 
 	//Shaders for GBuffer
-	ID3D11VertexShader*		GBUFFER_VS				 = nullptr;
-	ID3D11GeometryShader*	GBUFFER_GS				 = nullptr;
-	ID3D11PixelShader*		GBUFFER_PS				 = nullptr;
-	ID3D11InputLayout*		gVertexLayoutGBuffer	 = nullptr;
+	ID3D11VertexShader*		GBUFFER_VS					 = nullptr;
+	ID3D11GeometryShader*	GBUFFER_GS					 = nullptr;
+	ID3D11PixelShader*		GBUFFER_PS					 = nullptr;
+	ID3D11InputLayout*		gVertexLayoutGBuffer		 = nullptr;
 
 	//Shaders for GBuffer INSTANCED
-	ID3D11VertexShader*		INSTANCED_GBUFFER_VS	= nullptr;
-	ID3D11GeometryShader*	INSTANCED_GBUFFER_GS	= nullptr;
-	ID3D11PixelShader*		INSTANCED_GBUFFER_PS	= nullptr;
-	ID3D11InputLayout*		mInstancedGbufferLayout = nullptr;
+	ID3D11VertexShader*		INSTANCED_GBUFFER_VS		 = nullptr;
+	ID3D11GeometryShader*	INSTANCED_GBUFFER_GS		 = nullptr;
+	ID3D11PixelShader*		INSTANCED_GBUFFER_PS		 = nullptr;
+	ID3D11InputLayout*		mInstancedGbufferLayout		 = nullptr;
 
 	//Shaders for ShadowShader
-	ID3D11VertexShader*		SHADOW_VS				 = nullptr;
-	ID3D11GeometryShader*	SHADOW_GS				 = nullptr;
+	ID3D11VertexShader*		SHADOW_VS					 = nullptr;
+	ID3D11GeometryShader*	SHADOW_GS					 = nullptr;
 	//USE GBUFFER VERTEXLAYOUT!
 
 	//Shaders for InstancedShadowShader
-	ID3D11VertexShader*		INSTANCED_SHADOW_VS	   = nullptr;
-	ID3D11GeometryShader*	INSTANCED_SHADOW_GS	   = nullptr;
+	ID3D11VertexShader*		INSTANCED_SHADOW_VS			 = nullptr;
+	ID3D11GeometryShader*	INSTANCED_SHADOW_GS			 = nullptr;
 	//USE INSTANCEDGBUFFER VERTEXLAYOUT!
 
 	//Shaders for particle shading
-	ID3D11VertexShader*		PARTICLE_VS				 = nullptr;
-	ID3D11GeometryShader*	PARTICLE_GS				 = nullptr;
-	ID3D11PixelShader*		PARTICLE_PS				 = nullptr;
-	ID3D11InputLayout*		gVertexLayoutParticle	 = nullptr;
+	ID3D11VertexShader*		PARTICLE_VS					 = nullptr;
+	ID3D11GeometryShader*	PARTICLE_GS					 = nullptr;
+	ID3D11PixelShader*		PARTICLE_PS					 = nullptr;
+	ID3D11InputLayout*		gVertexLayoutParticle		 = nullptr;
 
 
 	//Shaders for billboard shading
-	ID3D11VertexShader*		BILLBOARD_VS			 = nullptr;
-	ID3D11GeometryShader*	BILLBOARD_GS			 = nullptr;
-	ID3D11PixelShader*		BILLBOARD_PS			 = nullptr;
-	ID3D11InputLayout*		gVertexLayoutBillboard	 = nullptr;
+	ID3D11VertexShader*		BILLBOARD_VS				 = nullptr;
+	ID3D11GeometryShader*	BILLBOARD_GS				 = nullptr;
+	ID3D11PixelShader*		BILLBOARD_PS				 = nullptr;
+	ID3D11InputLayout*		gVertexLayoutBillboard		 = nullptr;
 
 	//Shaders for UI 
-	ID3D11VertexShader*		UI_VS					= nullptr;
-	ID3D11GeometryShader*	UI_GS					= nullptr;
-	ID3D11PixelShader*		UI_PS					= nullptr;
-	ID3D11InputLayout*		gVertexLayoutUI			= nullptr;
+	ID3D11VertexShader*		UI_VS						= nullptr;
+	ID3D11GeometryShader*	UI_GS						= nullptr;
+	ID3D11PixelShader*		UI_PS						= nullptr;
+	ID3D11InputLayout*		gVertexLayoutUI				= nullptr;
 
 	//ComputeShaders
-	ID3D11ComputeShader*	BLUR_CS					= nullptr;
-	ID3D11ComputeShader*	BLUR_SECOND_CS			= nullptr;
+	ID3D11ComputeShader*	BLUR_CS						= nullptr;
+	ID3D11ComputeShader*	BLUR_SECOND_CS				= nullptr;
 
 	//Input layout for instanced geometry
 	

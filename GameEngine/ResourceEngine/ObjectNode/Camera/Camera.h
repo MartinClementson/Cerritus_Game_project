@@ -48,9 +48,9 @@ private:
 	XMVECTOR camPositionVector = XMVectorSet(0, 2, 0, 0);
 	XMVECTOR camTargetVector = XMVectorSet(0, 0, 0, 0);
 
-	XMFLOAT4 camPosition	= { 0, 1, 1, 1  };
-	XMFLOAT4 camTarget		= { 1, 0, -1,  1  };
-	XMFLOAT4 camUp			= { 0, 1, 0,  0  };
+	XMFLOAT4 camPosition	= { 0,  1,  1,   1    };
+	XMFLOAT4 camTarget		= { 1,  0, -1,   1    };
+	XMFLOAT4 camUp			= { 0,  1,  0,   0    };
 
 	float camYaw = 0.0f;
 	float camPitch = 0.0f;

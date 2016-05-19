@@ -20,7 +20,8 @@ Enemy::Enemy(XMFLOAT3 spawn, bool fast)
 	this->enemyStateMachine = new EnemyStateMachine();
 	enemyStateMachine->Initialize();
 	this->graphics = Graphics::GetInstance();
-
+	this->animation = EnemyAnimations::ENEMY_WALK;
+	this->animationTime = 0.0f;
 	renderInfo.position = position;
 	renderInfo.rotation = rotation;
 	renderInfo.radius = radius;
@@ -42,8 +43,7 @@ void Enemy::Initialize()
 	graphics = Graphics::GetInstance();
 
 		
-		
-	
+	//EnemyBase::Initialize();
 	
 
 	if (this->fast)
@@ -155,6 +155,12 @@ void Enemy::Update(double deltaTime)
 #pragma endregion
 
 
+
+	if (this->animationTime >= 0.9f)
+		this->animationTime = 0.00f;
+
+	this->animationTime += animationSpeed * (this->animation == EnemyAnimations::ENEMY_WALK ? movementSpeed : 5.0f);
+
 	renderInfo.position = position;
 	renderInfo.rotation = rotation;
 	renderInfo.radius = radius;
@@ -174,12 +180,15 @@ void Enemy::SetHealth(float health)
 
 void Enemy::Render()
 {
-	renderInfo.object = ENEMY_1;
-	renderInfo.position = position;
-	renderInfo.rotation = rotation;
-	renderInfo.radius = radius;
-	renderInfo.render = true;
-	renderInfo.isBeingHealed = this->isBeingHealed;
+	renderInfo.object			= ENEMY_1;
+	renderInfo.position			= position;
+	renderInfo.enemyAnim		= this->animation;
+	renderInfo.animationTime	= min(this->animationTime , 1.0f );
+	renderInfo.rotation			= rotation;
+	renderInfo.radius			= radius;
+	renderInfo.render			= true;
+	renderInfo.isBeingHealed	= this->isBeingHealed;
+
 	if (this->health < (maxHealth * 0.95))
 	{
 		renderInfo.showHealthBar = true;

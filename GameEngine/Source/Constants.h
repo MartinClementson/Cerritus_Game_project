@@ -4,8 +4,8 @@
 #define WIN_HEIGHT 504.0
 
 
-#define SHADOW_WIDTH  512.0f //IF YOU CHANGE THIS SIZE; CHANGE IT IN THE FINAL PASS AS WELL.
-#define SHADOW_HEIGHT 512.0f
+#define SHADOW_WIDTH  1024.0f //IF YOU CHANGE THIS SIZE; CHANGE IT IN THE FINAL PASS AS WELL.
+#define SHADOW_HEIGHT 1024.0f
 
 //////////////////////////////////////////
 //DIS IS BECAUSE JOHAN ASKED ME TO CHANGE AMOUNT OF TEXTURES TO MUCH
@@ -18,8 +18,8 @@
 #define MAX_NUM_DIRLIGHTS	1
 #define MAX_NUM_SPOTLIGHTS	2
 
-#define UNIQUE_INSTANCED_BUFFER_AMOUNT 2 //atm, only two unique buffers are used, for world matrix and billboard
-#define INSTANCED_WORLD_BUFFER_AMOUNT  4
+#define UNIQUE_INSTANCED_BUFFER_AMOUNT 3 //atm, three unique buffers are used, for world matrix, animation and billboard
+#define INSTANCED_WORLD_BUFFER_AMOUNT  5
 
 
 #define MAX_INSTANCED_GEOMETRY   200
@@ -54,3 +54,6 @@
 #define SPOTLIGHTS_BUFFER_INDEX			 7  // TEXTURE INDEX
 #define POINTLIGHTS_BUFFER_INDEX		 8  // TEXTURE INDEX
 #define DIRLIGHTS_BUFFER_INDEX			 9  // TEXTURE INDEX
+
+#define ANIMHEADER_BUFFER_INDEX			 10 // TEXTURE INDEX
+#define MORPHANIM_BUFFER_START_INDEX     11	//Texture INDEX + amount of Animations
