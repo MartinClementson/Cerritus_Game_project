@@ -17,8 +17,10 @@ private:
 	std::unique_ptr<SoundEffect> s_weaponPickup;
 	std::unique_ptr<SoundEffect> s_healthPickup;
 	std::unique_ptr<SoundEffect> s_imminentWave;
+	std::unique_ptr<SoundEffect> s_loseAmient;
 	std::unique_ptr<SoundEffectInstance> s_nightLoop;
 	std::unique_ptr<SoundEffectInstance> s_musicLoop;
+	std::unique_ptr<SoundEffectInstance> s_loseLoop;
 	bool s_retryAudio = false;
 public:
 	AudioManager();
@@ -33,6 +35,7 @@ public:
 	void playHealthPickup();
 	void playWeaponPickup();
 	void playNewWave();
+	void playInGameLoop();
 
 	void stopAmbientGameStateSound();
 };

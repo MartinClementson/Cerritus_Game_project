@@ -33,19 +33,24 @@ void AudioManager::Initialize()
 
 	//loading the shoot sound
 	//prefix to the soundfolder is "sounds/"
-	s_shot.reset(new SoundEffect(s_audEngine->get(), L"sounds/shot_less.wav"));
+	s_shot.reset(new SoundEffect(s_audEngine->get(), L"sounds/shot.wav"));
 	s_ambient.reset(new SoundEffect(s_audEngine->get(), L"sounds/NightAmbienceSimple_02.wav"));
 	s_E_death.reset(new SoundEffect(s_audEngine->get(), L"sounds/E_death2.wav"));
 	s_gameTheme.reset(new SoundEffect(s_audEngine->get(), L"sounds/test_teme.wav"));
 	s_healthPickup.reset(new SoundEffect(s_audEngine->get(), L"sounds/health_pickup.wav"));
 	s_weaponPickup.reset(new SoundEffect(s_audEngine->get(), L"sounds/shot_pickup.wav"));
 	s_imminentWave.reset(new SoundEffect(s_audEngine->get(), L"sounds/new_wave.wav"));
+	s_loseAmient.reset(new SoundEffect(s_audEngine->get(), L"sounds/lose.wav"));
+
 	s_nightLoop = s_ambient->CreateInstance();
 	s_musicLoop = s_gameTheme->CreateInstance();
+	s_loseLoop = s_loseAmient->CreateInstance();
+
 	s_nightLoop->Play(true);
 	s_nightLoop->SetVolume(0.3f);
 	s_musicLoop->Play(true);
 	s_musicLoop->SetVolume(0.5f);
+	s_loseLoop->SetVolume(0.5f);
 
 	s_audEngine->get()->SetMasterVolume(0.1f);
 }
@@ -95,6 +100,12 @@ void AudioManager::playWeaponPickup()
 void AudioManager::playNewWave()
 {
 	s_imminentWave->Play();
+}
+
+void AudioManager::playInGameLoop()
+{
+	s_musicLoop->Play(true);
+	s_nightLoop->Play(true);
 }
 
 void AudioManager::stopAmbientGameStateSound()
