@@ -71,9 +71,9 @@ void Graphics::Initialize(HWND * window)
 	hr				 = CreateDirect3DContext();
 	antTweakBar = AntTweakBar::GetInstance();
 	antTweakBar->Initialize(gDevice);
-	antTweakBar->addSlider("AnimSpeed", animationSpeed);
-	antTweakBar->addSlider("Animation", animation);
-	animationSpeed = 0.01;
+	//antTweakBar->addSlider("AnimSpeed", animationSpeed);
+	//antTweakBar->addSlider("Animation", animation);
+	
 
 	gameObjects		 = new std::vector<RenderInfoObject*>;
 	charObjects		 = new std::vector<RenderInfoChar*>;
@@ -83,6 +83,7 @@ void Graphics::Initialize(HWND * window)
 
 	instancedAnimationDataPerFrame					 = new InstancedAnimationData[MAX_INSTANCED_GEOMETRY];
 	instancedWorldDataPerFrame[ENEMY_1_INSTANCED]    = new InstancedData[MAX_INSTANCED_GEOMETRY];
+	instancedWorldDataPerFrame[ENEMY_2_INSTANCED]	 = new InstancedData[MAX_INSTANCED_GEOMETRY];
 	instancedWorldDataPerFrame[PROJECTILE_INSTANCED] = new InstancedData[MAX_INSTANCED_GEOMETRY];
 	instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED]	 = new InstancedData[MAX_INSTANCED_GEOMETRY];
 	instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED]	 = new InstancedData[MAX_INSTANCED_GEOMETRY];
@@ -116,24 +117,24 @@ void Graphics::Initialize(HWND * window)
 #pragma region Create three temporary blendshape animations
 
 	XMFLOAT3 pos								    = XMFLOAT3(5.0f,5.0f, 0.0f);
-	XMFLOAT3 rotation							    = XMFLOAT3(0.0f, 0.0f, 0.0f);
+	XMFLOAT3 rotation							    = XMFLOAT3(0.0f, 180.0f, 0.0f);
 	instancedAnimationDataPerFrame[0].animation		= 0;
 	instancedAnimationDataPerFrame[0].animationTime = 0;
 	instancedAnimationDataPerFrame[0].worldMatrix   = CalculateWorldMatrix(&pos, &rotation);
 
 
-	/*pos.x += 10;
-	rotation.y = 45.0f;
+	pos.x += 10;
+	//rotation.y = 180.0f;
 	instancedAnimationDataPerFrame[1].animation		= 1;
 	instancedAnimationDataPerFrame[1].animationTime = 0;
 	instancedAnimationDataPerFrame[1].worldMatrix   = CalculateWorldMatrix(&pos, &rotation);
 
 
-	pos.z -= 10;*/
-	
-	/*instancedAnimationDataPerFrame[2].animation		= 2;
+	pos.x -= 20;
+	rotation.y = 45.0f;
+	instancedAnimationDataPerFrame[2].animation		= 2;
 	instancedAnimationDataPerFrame[2].animationTime = 0;
-	instancedAnimationDataPerFrame[2].worldMatrix = CalculateWorldMatrix(&pos, &rotation);*/
+	instancedAnimationDataPerFrame[2].worldMatrix = CalculateWorldMatrix(&pos, &rotation);
 
 
 #pragma endregion
@@ -188,21 +189,7 @@ void Graphics::Release()
 void Graphics::Render() //manage RenderPasses here
 {
 
-	static bool forward;
-	for (size_t i = 0; i < 1; i++)
-	{
-		if (instancedAnimationDataPerFrame[i].animationTime > 1.0f)
-			forward = false;
-		if (instancedAnimationDataPerFrame[i].animationTime < 0.0f)
-			forward = true;
-		if(forward)
-			instancedAnimationDataPerFrame[i].animationTime += animationSpeed;
-		else													  
-			instancedAnimationDataPerFrame[i].animationTime -= animationSpeed;
-		
-		instancedAnimationDataPerFrame[i].animation = UINT(animation);
-	}
-	
+
 
 	if (charObjects->size() > 0)
 		renderer->UpdateCamera(charObjects->at(0)->position);
@@ -231,14 +218,13 @@ void Graphics::Render() //manage RenderPasses here
 	//Set The gbuffer pass
 	this->renderer->SetGbufferPass(true);
 
-	//Render blendshape animation
-	if (charObjects->size() > 0)
+
+
+	if (instancesToRender[ENEMY_1_INSTANCED] > 0)
 	{
-		RenderInfoEnemy temp;
-		temp.position = XMFLOAT3(0.0f, 1.0f, 0.0f);
-		temp.object = MeshEnum::ENEMY_1;
- 		renderer->RenderInstanced(&temp,
-			instancedAnimationDataPerFrame, 1);
+
+		renderer->RenderInstanced(this->enemyObjects->at(instanceMeshIndex.enemy1Mesh),
+			instancedAnimationDataPerFrame, instancesToRender[ENEMY_1_INSTANCED]);
 	}
 	RenderScene();									//Render to the gBuffer
 													//Set the gBuffer as a subResource, send in the new RenderTarget
@@ -287,10 +273,10 @@ void Graphics::RenderScene()
 			instancesToRender[PROJECTILE_INSTANCED]);
 	}
 	////Render instanced enemies
-	if (instancesToRender[ENEMY_1_INSTANCED] > 0)
+	if (instancesToRender[ENEMY_2_INSTANCED] > 0)
 	{
-		renderer->RenderInstanced(this->enemyObjects->at(instanceMeshIndex.enemy1Mesh ),
-			instancedWorldDataPerFrame[ ENEMY_1_INSTANCED ], instancesToRender[ ENEMY_1_INSTANCED ]);
+		renderer->RenderInstanced(this->enemyObjects->at(instanceMeshIndex.enemy2Mesh ),
+			instancedWorldDataPerFrame[ ENEMY_2_INSTANCED ], instancesToRender[ ENEMY_2_INSTANCED ]);
 	}
 
 	if (billboardsToRender[HEALTH_BAR_BILLBOARD] > 0)
@@ -381,6 +367,7 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 	uiObjects	 ->clear();	//clear the queue
 	
 	memset(instancedWorldDataPerFrame[ENEMY_1_INSTANCED],    0, sizeof(instancedWorldDataPerFrame[ENEMY_1_INSTANCED]   ));	 //reset instance array
+	memset(instancedWorldDataPerFrame[ENEMY_2_INSTANCED],	 0, sizeof(instancedWorldDataPerFrame[ENEMY_2_INSTANCED]));		 //reset instance array
 	memset(instancedWorldDataPerFrame[PROJECTILE_INSTANCED], 0, sizeof(instancedWorldDataPerFrame[PROJECTILE_INSTANCED]));   //reset instance array
 	memset(instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED],  0, sizeof(instancedWorldDataPerFrame[TRAP_BEAR_INSTANCED]));	 //reset instance array
 	memset(instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED],  0, sizeof(instancedWorldDataPerFrame[TRAP_FIRE_INSTANCED]));	 //reset instance array
@@ -392,7 +379,7 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 	
 	
 
-	
+	memset(instancedAnimationDataPerFrame, 0, sizeof(instancedAnimationDataPerFrame));
 	memset(instancesToRender,  0, sizeof(instancesToRender)); //reset instances to render amount
 	memset(billboardsToRender, 0, sizeof(billboardsToRender));
 
@@ -448,6 +435,7 @@ void Graphics::CullGeometry()
 	//Do frustum culling here, the things that are seen have their world matrices calculated. and added to instanced array
 	unsigned int	 projectileIndex	 = 0;
 	unsigned int	 enemyIndex			 = 0;
+	unsigned int	 healerIndex		 = 0;
 	unsigned int	 healthBarIndex		 = 0;
 	unsigned int	 bearTrapIndex		 = 0;
 	unsigned int	 fireTrapIndex		 = 0;
@@ -461,22 +449,42 @@ void Graphics::CullGeometry()
 		{	
 			//If its not visible
 			this->enemyObjects->at(i)->render = false;
-			//continue;
+			continue;
 		}
 		 
 		//else {
 
 			//if object is visible and is enemy_1_type
-			this->instancedWorldDataPerFrame[ENEMY_1_INSTANCED][enemyIndex].worldMatrix = CalculateWorldMatrix(&this->enemyObjects->at(i)->position, &this->enemyObjects->at(i)->rotation);
+		//	this->instancedWorldDataPerFrame[ENEMY_1_INSTANCED][enemyIndex].worldMatrix = CalculateWorldMatrix(&this->enemyObjects->at(i)->position, &this->enemyObjects->at(i)->rotation);
+
+		if (enemyObjects->at(i)->object == MeshEnum::ENEMY_1)
+		{
+
+			instancedAnimationDataPerFrame[enemyIndex].animation	 = this->enemyObjects->at(i)->enemyAnim;
+			instancedAnimationDataPerFrame[enemyIndex].animationTime = this->enemyObjects->at(i)->animationTime;
+			instancedAnimationDataPerFrame[enemyIndex].worldMatrix   = CalculateWorldMatrix(&this->enemyObjects->at(i)->position, &this->enemyObjects->at(i)->rotation);
+
 			instancesToRender				[ENEMY_1_INSTANCED] += 1;
 			enemyIndex										    += 1;
+		}
+		else
+		{
+			instancedWorldDataPerFrame[ENEMY_2_INSTANCED][healerIndex].worldMatrix = CalculateWorldMatrix(&this->enemyObjects->at(i)->position, &this->enemyObjects->at(i)->rotation);
+			instancedWorldDataPerFrame[ENEMY_2_INSTANCED][healerIndex].glow = 0;
+			instancesToRender[ENEMY_2_INSTANCED]				 += 1;
+			healerIndex											 += 1;
+			if (instanceMeshIndex.enemy2Mesh == -1) //if this is the first thing we found of that mesh, store the index.
+				instanceMeshIndex.enemy2Mesh = (int)i;
+
+		}
+
 			this->enemyObjects->at(i)->render = false; //Remove this object from normal rendering, since we render instanced
 				if (instanceMeshIndex.enemy1Mesh == -1) //if this is the first thing we found of that mesh, store the index.
 					instanceMeshIndex.enemy1Mesh = (int)i;
 
 				if (enemyObjects->at(i)->showHealthBar)
 				{
-					billBoardArray[HEALTH_BAR_BILLBOARD][healthBarIndex].glow = 0;//(enemyObjects->at(i)->isBeingHealed == true) ? 1 : 0; //Funkar inte
+					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].glow = 0;//(enemyObjects->at(i)->isBeingHealed == true) ? 1 : 0; //Funkar inte
 					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].direction  = XMFLOAT3(0.0f, 1.0f, 0.0f);
 					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].height		= 0.1f;
 					billBoardArray	  [HEALTH_BAR_BILLBOARD][healthBarIndex].width		= 2.0f * enemyObjects->at(i)->normalizedHealthVal;

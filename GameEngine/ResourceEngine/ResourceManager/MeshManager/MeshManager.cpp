@@ -248,6 +248,21 @@ void MeshManager::GetMeshRenderInfo(MeshEnum * meshEnum, RenderInstructions * to
 		this->gameMeshes->at(0).GetMeshRenderInfo(toRender);
 
 	else if (*meshEnum == MeshEnum::ENEMY_1)
+	{
+		for (UINT i = 0; i < morphAnimStructuredBuffersSRV.size(); i++)
+		{
+			this->gDeviceContext->VSSetShaderResources(MORPHANIM_BUFFER_START_INDEX + i * 2, 1, &morphAnimStructuredBuffersSRV.at(i)); //animation data
+			this->gDeviceContext->VSSetShaderResources(MORPHANIM_BUFFER_START_INDEX + i * 2 + 1, 1, &animFrameStructuredBuffersSRV.at(i)); //Frame data
+
+		}
+		this->gDeviceContext->VSSetShaderResources(ANIMHEADER_BUFFER_INDEX, 1, &animHeaderStructuredBuffersSRV);
+
+		this->animatedMeshes->at(0).GetMeshRenderInfo(toRender);
+		toRender->materialID = this->gameMeshes->at(1).GetMaterialID();
+
+
+	}
+	else if (*meshEnum == MeshEnum::ENEMY_2)
 		this->gameMeshes->at(1).GetMeshRenderInfo(toRender);
 	else if (*meshEnum == MeshEnum::TRAP_BEAR)
 	{

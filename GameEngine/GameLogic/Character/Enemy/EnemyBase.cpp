@@ -33,6 +33,7 @@ EnemyBase::~EnemyBase()
 
 void EnemyBase::Initialize()
 {
+	AntTweakBar::GetInstance()->addSlider("Animation Speed", this->animationSpeed);
 }
 
 void EnemyBase::Update(double deltaTime)

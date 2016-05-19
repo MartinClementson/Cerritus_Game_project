@@ -130,6 +130,7 @@ void Healer::Render()
 	renderInfo.radius = radius;
 	renderInfo.render = true;
 	renderInfo.isBeingHealed = this->isBeingHealed;
+	renderInfo.object = MeshEnum::ENEMY_2;
 	if (this->health < (maxHealth * 0.95))
 	{
 		renderInfo.showHealthBar = true;

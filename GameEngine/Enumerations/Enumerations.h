@@ -5,10 +5,9 @@
 #pragma region EnemyAnimation
 enum EnemyAnimations
 {
-	ENEMY_WALK,
-	ENEMY_DIE,
-	ENEMY_JUMP,
-	ENEMY_ATTACK
+	ENEMY_ATTACK = 0,
+	ENEMY_DIE = 1,
+	ENEMY_WALK = 2
 };
 #pragma endregion
 
@@ -36,6 +35,7 @@ enum MeshEnum
 {
 	MAIN_CHARACTER,
 	ENEMY_1,
+	ENEMY_2,
 	PROJECTILE_1,
 	TRAP_BEAR,
 	TRAP_FIRE,

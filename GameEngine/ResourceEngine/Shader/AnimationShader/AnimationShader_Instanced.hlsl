@@ -443,7 +443,7 @@ ANIM_PS_OUT ANIM_PS_main(ANIM_GS_OUT input)
 
 	float depth = input.Pos.z / input.Pos.w;
 	output.normalRes.a = depth;
-	output.overlayRes.r = 1.0f;
+	//output.overlayRes.r = 1.0f;
 	output.overlayRes.a = col.x; //Alpha == laserpointer color
 								 //output.depthRes = float4(depth, depth, depth, 1.0);
 

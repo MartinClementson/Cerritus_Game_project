@@ -136,7 +136,7 @@ float sampleShadowStencils(float4 worldPos, matrix lightView, matrix lightProj,i
 
 	float4 shadowSample = float4(1, 1, 1, 1);
 	float tempCooef = 0;
-	float SMAP_SIZE = 512.0f;
+	float SMAP_SIZE = 1024.0f;
 	
 	float bias;
 	float dx = 1.0f / SMAP_SIZE;
@@ -194,12 +194,12 @@ float sampleShadowStencils(float4 worldPos, matrix lightView, matrix lightProj,i
 		//16 samples == -2 till 2
 		//8 samples == -1 till 1
 		[unroll]
-		for (int k = -1; k < 1; k++) 
+		for (int k = -2; k < 2; k++) 
 			[unroll]
-			for (int l = -1; l < 1; l++)
+			for (int l = -2; l < 2; l++)
 				shadowSamples += shadowTex.Sample( linearSampler , float3(smTex + float2(dx * k, dx * l),0) ).r + bias < depth ? 0.0f : 1.0f;
 
-			float shadowFactor = shadowSamples  *0.125f;//division by 8      // * 0.0625f; // division by 16.0f;
+			float shadowFactor = shadowSamples   * 0.0625f; // division by 16.0f;    //0.125f;//division by 8      // 
 
 
 		//tempCooef += shadowcooef;

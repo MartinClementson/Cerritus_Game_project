@@ -23,7 +23,8 @@
 #define BILLBOARDED_ARRAYS	4 //atm . projectiles and health bars, and pickups
 enum instancedGeometryArray
 {									   
-	ENEMY_1_INSTANCED,				   
+	ENEMY_1_INSTANCED,
+	ENEMY_2_INSTANCED,
 	PROJECTILE_INSTANCED,										
 	TRAP_BEAR_INSTANCED,										
 	TRAP_FIRE_INSTANCED											
@@ -43,14 +44,16 @@ class Graphics
 	{												  
 		 int projectileMesh			= -1;		 //This is used for instancing,
 		 int enemy1Mesh				= -1;		 //when we render instanced we need to keep track of
-		 int trapBearMesh		    = -1;		 // what mesh to use. Some arrays have mixed meshes
-		 int trapFireMesh		    = -1;		 // (for example objects array) so we can't
-		 int pickupWeapon			= -1;		 // use the mesh at index 0.
-		 int pickupHealth			= -1;		 //With this struct we keep track of the mesh 
+		 int enemy2Mesh				= -1;		 // what mesh to use. Some arrays have mixed meshes
+		 int trapBearMesh		    = -1;		 // (for example objects array) so we can't
+		 int trapFireMesh		    = -1;		 // use the mesh at index 0.
+		 int pickupWeapon			= -1;		 //With this struct we keep track of the mesh 
+		 int pickupHealth			= -1;		 
 												
 		void Reset() {								
 			this->projectileMesh	= -1;			
-			this->enemy1Mesh		= -1;			
+			this->enemy1Mesh		= -1;
+			this->enemy2Mesh		= -1;
 			this->trapBearMesh		= -1;			
 			this->trapFireMesh		= -1;
 			this->pickupWeapon		= -1;
@@ -117,8 +120,6 @@ private:
 	void SetShadowMap();
 
 	void CullGeometry();
-	float animationSpeed;
-	float animation = 0;
 	XMFLOAT4X4 CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation);
 	XMFLOAT4X4 CalculateWorldMatrix(XMFLOAT3* position, XMFLOAT3* rotation, XMFLOAT3* scale);
 

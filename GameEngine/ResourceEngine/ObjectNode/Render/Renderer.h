@@ -113,10 +113,11 @@ public:
 private:
 	void Render(RenderInstructions* object);
 	void RenderQuadTree(RenderInstructions* object);
+	void RenderInstancedAnimation(RenderInstructions* object, ID3D11Buffer* instanceBuffer, unsigned int amount);
 	void RenderInstanced(RenderInstructions* object, ID3D11Buffer* instanceBuffer, unsigned int amount);
 	void RenderBillBoard(RenderInstructions* object, ID3D11Buffer* instanceBuffer, unsigned int amount);
 
-	void MapLightBufferStructures();
+	void MapLightBufferStructures(bool dirLight, bool pointLights);
 	void UpdateCbufferPerFrame();
 	void UpdateLightBuffer();
 	void UpdateWorldBuffer(WorldMatrix* worldStruct);
@@ -124,5 +125,6 @@ private:
 	void updateUVBuffer(UV* uvstruct);
 	bool CreateBuffers();
 public:
-	void UpdateCamera(XMFLOAT3 position) { this->sceneCam->Updateview(position); this->UpdateCbufferPerFrame(); };
+	void UpdateCamera(XMFLOAT3 position);
+	
 };

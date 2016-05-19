@@ -25,20 +25,20 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	brfImporterHandler->Initialize(this->meshManager, this->materialManager);
 
 
-	brfImporterHandler->LoadFile("models/playerModel.BRF",  true, true, true, false ,false);
-	brfImporterHandler->LoadFile("models/EnemyModel.BRF",   true, true, true, false ,false);
-	brfImporterHandler->LoadFile("models/Slow_Trap.BRF",	true, true, true, false ,false);
-	brfImporterHandler->LoadFile("models/Fire_Trap.BRF",	true, true, true, false ,false);
-	brfImporterHandler->LoadFile("models/FinalScene2.BRF",  true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene3.BRF",  true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene4.BRF",  true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene5.BRF",  true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene6.BRF",  true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene7.BRF",  true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene8.BRF",  true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene9.BRF",  true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene10.BRF", true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/quadBullet.BRF",   true, true, true, false ,false);
+	brfImporterHandler->LoadFile("models/playerModel.BRF",		    true, true, true, false ,false);
+	brfImporterHandler->LoadFile("models/EnemyModelHealer.BRF",     true, true, true, false ,false);
+	brfImporterHandler->LoadFile("models/Slow_Trap.BRF",		    true, true, true, false ,false);
+	brfImporterHandler->LoadFile("models/Fire_Trap.BRF",		    true, true, true, false ,false);
+	brfImporterHandler->LoadFile("models/FinalScene2.BRF",		    true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene3.BRF",		    true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene4.BRF",		    true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene5.BRF",		    true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene6.BRF",		    true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene7.BRF",		    true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene8.BRF",		    true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene9.BRF",		    true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene10.BRF",		    true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/quadBullet.BRF",		    true, true, true, false ,false);
     brfImporterHandler->LoadFile("models/Enemy_animated.BRF",		true, false, false, true  ,false);
 	this->meshManager->CreateQuadTree();
 	
@@ -194,12 +194,12 @@ void ResourceManager::Release()
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoEnemy * object)
 	{
 		currentMesh							= RenderInstructions();
-		MeshEnum meshType					= MeshEnum::ENEMY_1;//temporary
+		MeshEnum meshType					= object->object;//temporary
 
-		if (     meshType == MeshEnum::ENEMY_1 && gbufferPass == true)
+		if (     meshType == MeshEnum::ENEMY_2 && gbufferPass == true)
 			shaderManager->SetActiveShader(Shaders::GBUFFER_SHADER_INSTANCED);
 		
-		else if (meshType == MeshEnum::ENEMY_1 && shadowPass  == true)
+		else if (meshType == MeshEnum::ENEMY_2 && shadowPass  == true)
 			shaderManager->SetActiveShader(Shaders::SHADOW_SHADER_INSTANCED);
 
 		else
@@ -262,7 +262,7 @@ void ResourceManager::Release()
 	{
 
 		currentMesh = RenderInstructions();
-		MeshEnum meshType = MeshEnum::ENEMY_1;//temporary
+		MeshEnum meshType = object->object;
 
 		shaderManager->SetActiveShader(Shaders::ANIMATION_SHADER);
 		/*if (meshType == MeshEnum::ENEMY_1 && gbufferPass == true)
@@ -273,11 +273,11 @@ void ResourceManager::Release()
 
 		
 
-		//meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
+		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
 
-		meshManager->GetPlaceHolderMeshInfo(&currentMesh);
+		//meshManager->GetPlaceHolderMeshInfo(&currentMesh);
 		//meshManager->GetMeshRenderInfo
-		//materialManager->GetMaterialRenderInfo(&currentMesh);
+		materialManager->GetMaterialRenderInfo(&currentMesh);
 
 
 		return &currentMesh;
