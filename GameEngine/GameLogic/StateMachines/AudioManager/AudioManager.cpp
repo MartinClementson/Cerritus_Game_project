@@ -99,7 +99,7 @@ void AudioManager::playWeaponPickup()
 
 void AudioManager::playNewWave()
 {
-	s_imminentWave->Play();
+	s_imminentWave->Play(1.5f,0,0);
 }
 
 void AudioManager::playInGameLoop()
