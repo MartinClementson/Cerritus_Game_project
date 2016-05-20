@@ -460,8 +460,8 @@ Mesh* MeshManager::CreateBlendShape(BlendShapeVert * vertices, unsigned int amou
 	toReturn->Initialize(gDevice, gDeviceContext);
 	toReturn->CreateBlendShape(vertices, amount);
 
-	this->placeHolderPlane.CreateVertexBuffer(planeVerts, 4, false);
-	this->placeHolderPlane.CreateIndexBuffer(indices, 6, false);	
+	//this->placeHolderPlane.CreateVertexBuffer(planeVerts, 4, false);
+	//this->placeHolderPlane.CreateIndexBuffer(indices, 6, false);	
 
 	return toReturn;
 

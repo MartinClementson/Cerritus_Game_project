@@ -76,6 +76,7 @@ public:
 		{
 			this->animation = animation; 
 			animationTime = 0.0f; 
+			//deathAnim = false;
 		}
 	
 	};

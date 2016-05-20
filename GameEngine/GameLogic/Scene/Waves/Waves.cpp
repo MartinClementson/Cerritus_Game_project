@@ -43,17 +43,17 @@ void Waves::WaveInformation()
 	switch (waveNumber)
 	{
 		case 1:
-			amountOfStandards = 10;
+			amountOfStandards = 3;
 			SetWaveInformation(amountOfStandards);
 
 			break;
 		case 2:
-			amountOfStandards = 20;
+			amountOfStandards = 2;
 			SetWaveInformation(amountOfStandards);
 
 			break;
 		case 3:
-			amountOfStandards = 30;
+			amountOfStandards = 0;
 			SetWaveInformation(amountOfStandards);
 
 			break;

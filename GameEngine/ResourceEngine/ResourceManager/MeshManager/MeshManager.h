@@ -60,11 +60,10 @@ private:
 #pragma endregion
 
 	int   animationBufferCount = 0;
-	void  CreatePlaceHolder();
-	void  CreatePlaceHolderPlane();
+
 	Mesh* CreatePlaceHolderBlendShape();
 	Mesh* CreateBlendShape(BlendShapeVert* vertices,unsigned int amount);
-	void  CreateFullScreenQuad();
+
 	void  CreatePlaceHolderAnimation();
 	
 	std::vector<Mesh>* sceneMeshes		= nullptr;
@@ -140,13 +139,9 @@ public:
 	std::vector<Mesh>* GetSceneMeshes() { return this->sceneMeshes; }
 	void CreateQuadTree();
 	
-	void GetKillCountQuadInfoHud(UITextures * uiEnum, RenderInstructions* toRender);
-	void GetWaveCountQuadInfoHud(UITextures*uiEnum, RenderInstructions*toRender);
+	/*void GetKillCountQuadInfoHud(UITextures * uiEnum, RenderInstructions* toRender);
+	void GetWaveCountQuadInfoHud(UITextures*uiEnum, RenderInstructions*toRender);*/
 
-	void GetPlaceHolderMeshInfo(RenderInstructions* toRender);
-	void GetPlaceHolderPlaneInfo(RenderInstructions* toRender);
-	void GetFullScreenQuadInfo(RenderInstructions* toRender);
-	void GetFullScreenQuadInfoUI(UITextures* uiEnum, RenderInstructions* toRender);
 	
 };
 

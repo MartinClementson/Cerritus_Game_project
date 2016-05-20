@@ -45,26 +45,18 @@ void EnemySpawn::Release()
 
 void EnemySpawn::Update(double deltaTime)
 {
-		/*for (size_t j = 0; j < Alive.size(); j++)
-		{
-			Alive.at(j)->GetStateMachine()->
-				SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
-		}*/
-		
 
 		for (int i = 0; i < nrOfAliveEnemies; i++)
 		{
 			Alive[i]->Update(deltaTime);
 			if (Alive[i]->GetHealth() <= 0)
-			Alive.at(i)->Update(deltaTime);			
-			if (Alive.at(i)->GetHealth() <= 0)
 			{
 
 				Alive[i]->GetStateMachine()->
 					SetActiveState(EnemyState::ENEMY_DEATH_STATE);
 				Player* player;
 				player = collision->GetPlayer();
-				player->SetPoints(player->GetPoints() + (3.0f*player->GetMulti()));
+				player->SetPoints(player->GetPoints() + (1.0f*player->GetMulti()));
 				player->SetMulti(player->GetMulti() + 0.1f);
 
 				if (Alive[i]->deathAnim == false)
@@ -77,59 +69,29 @@ void EnemySpawn::Update(double deltaTime)
 				{
 					killEnemy(i);
 				}
-				//waveAmount--;
-				/*if (waveAmount != 0)
-				{
-					RespawnEnemy(i);
-				}*/
-				//else
-				//{
-				//	/*while (waveTimer < 200)
-				//	{
-				//		waveTimer += deltaTime;
-				//	}*/
-
-				//	waves.SetWaveGroup(currentWave += 1);
-				//	waves.WaveInformation();
-				//	waveAmount = waves.GetWaveInformation();
-
-				//	if (waveAmount == 0)
-				//	{
-				//		win = true;
-				//		//waves.SetWinCondition(win);
-				//	}
-				//	SpawnEnemy(waveAmount);
-				//}
-
-				Alive.at(i)->isAlive = false;
-				Alive.at(i)->SetHealth(100.0f);
-				Alive.at(i)->GetStateMachine()->
-					SetActiveState(EnemyState::ENEMY_DEATH_STATE);
-				audioManager->playEDeathSound();
-				waveAmount--;
 				
-				if (waveAmount == 39)
+				if (nrOfAliveEnemies == 39)
 				{
 					Leftnr.UInumber = UiNumbers::THREE;
 					Rightnr.UInumber = UiNumbers::NINE;
 
 
 				}
-				else if (waveAmount == 38)
+				else if (nrOfAliveEnemies == 38)
 				{
 					Leftnr.UInumber = UiNumbers::THREE;
 					Rightnr.UInumber = UiNumbers::EIGHT;
 
 					//grapichs->QueueRender(&Leftnr);
 				}
-				else if (waveAmount == 37)
+				else if (nrOfAliveEnemies == 37)
 				{
 					Leftnr.UInumber = UiNumbers::THREE;
 					Rightnr.UInumber = UiNumbers::SEVEN;
 
 					//grapichs->QueueRender(&Leftnr);
 				}
-				else if (waveAmount == 36)
+				else if (nrOfAliveEnemies == 36)
 				{
 					Leftnr.UInumber = UiNumbers::THREE;
 					Rightnr.UInumber = UiNumbers::SIX;
@@ -137,7 +99,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 35)
+				else if (nrOfAliveEnemies == 35)
 				{
 					Leftnr.UInumber = UiNumbers::THREE;
 					Rightnr.UInumber = UiNumbers::FIVE;
@@ -145,7 +107,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 34)
+				else if (nrOfAliveEnemies == 34)
 				{
 					Leftnr.UInumber = UiNumbers::THREE;
 					Rightnr.UInumber = UiNumbers::FOUR;
@@ -153,7 +115,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 33)
+				else if (nrOfAliveEnemies == 33)
 				{
 					Leftnr.UInumber = UiNumbers::THREE;
 					Rightnr.UInumber = UiNumbers::THREE;
@@ -161,7 +123,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 32)
+				else if (nrOfAliveEnemies == 32)
 				{
 					Leftnr.UInumber = UiNumbers::THREE;
 					Rightnr.UInumber = UiNumbers::TWO;
@@ -169,7 +131,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 31)
+				else if (nrOfAliveEnemies == 31)
 				{
 					Leftnr.UInumber = UiNumbers::THREE;
 					Rightnr.UInumber = UiNumbers::ONE;
@@ -178,7 +140,7 @@ void EnemySpawn::Update(double deltaTime)
 
 				}
 				
-				else if (waveAmount == 29)
+				else if (nrOfAliveEnemies == 29)
 				{
 					Leftnr.UInumber = UiNumbers::TWO;
 					Rightnr.UInumber = UiNumbers::NINE;
@@ -186,7 +148,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 28)
+				else if (nrOfAliveEnemies == 28)
 				{
 					Leftnr.UInumber = UiNumbers::TWO;
 					Rightnr.UInumber = UiNumbers::EIGHT;
@@ -194,7 +156,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 27)
+				else if (nrOfAliveEnemies == 27)
 				{
 					Leftnr.UInumber = UiNumbers::TWO;
 					Rightnr.UInumber = UiNumbers::SEVEN;
@@ -202,7 +164,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 26)
+				else if (nrOfAliveEnemies == 26)
 				{
 					Leftnr.UInumber = UiNumbers::TWO;
 					Rightnr.UInumber = UiNumbers::SIX;
@@ -210,7 +172,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 25)
+				else if (nrOfAliveEnemies == 25)
 				{
 					Leftnr.UInumber = UiNumbers::TWO;
 					Rightnr.UInumber = UiNumbers::FIVE;
@@ -218,7 +180,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 24)
+				else if (nrOfAliveEnemies == 24)
 				{
 					Leftnr.UInumber = UiNumbers::TWO;
 					Rightnr.UInumber = UiNumbers::FOUR;
@@ -226,7 +188,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 23)
+				else if (nrOfAliveEnemies == 23)
 				{
 					Leftnr.UInumber = UiNumbers::TWO;
 					Rightnr.UInumber = UiNumbers::THREE;
@@ -234,7 +196,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 22)
+				else if (nrOfAliveEnemies == 22)
 				{
 					Leftnr.UInumber = UiNumbers::TWO;
 					Rightnr.UInumber = UiNumbers::TWO;
@@ -242,7 +204,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 21)
+				else if (nrOfAliveEnemies == 21)
 				{
 					Leftnr.UInumber = UiNumbers::TWO;
 					Rightnr.UInumber = UiNumbers::ONE;
@@ -251,7 +213,7 @@ void EnemySpawn::Update(double deltaTime)
 
 				}
 				
-				else if (waveAmount == 19)
+				else if (nrOfAliveEnemies == 19)
 				{
 					Leftnr.UInumber = UiNumbers::ONE;
 					Rightnr.UInumber = UiNumbers::NINE;
@@ -259,7 +221,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 18)
+				else if (nrOfAliveEnemies == 18)
 				{
 					Leftnr.UInumber = UiNumbers::ONE;
 					Rightnr.UInumber = UiNumbers::EIGHT;
@@ -267,7 +229,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 17)
+				else if (nrOfAliveEnemies == 17)
 				{
 					Leftnr.UInumber = UiNumbers::ONE;
 					Rightnr.UInumber = UiNumbers::SEVEN;
@@ -275,7 +237,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 16)
+				else if (nrOfAliveEnemies == 16)
 				{
 					Leftnr.UInumber = UiNumbers::ONE;
 					Rightnr.UInumber = UiNumbers::SIX;
@@ -283,7 +245,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 15)
+				else if (nrOfAliveEnemies == 15)
 				{
 					Leftnr.UInumber = UiNumbers::ONE;
 					Rightnr.UInumber = UiNumbers::FIVE;
@@ -291,7 +253,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 14)
+				else if (nrOfAliveEnemies == 14)
 				{
 					Leftnr.UInumber = UiNumbers::ONE;
 					Rightnr.UInumber = UiNumbers::FOUR;
@@ -299,7 +261,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 13)
+				else if (nrOfAliveEnemies == 13)
 				{
 					Leftnr.UInumber = UiNumbers::ONE;
 					Rightnr.UInumber = UiNumbers::THREE;
@@ -307,7 +269,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 12)
+				else if (nrOfAliveEnemies == 12)
 				{
 					Leftnr.UInumber = UiNumbers::ONE;
 					Rightnr.UInumber = UiNumbers::TWO;
@@ -315,7 +277,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 11)
+				else if (nrOfAliveEnemies == 11)
 				{
 					Leftnr.UInumber = UiNumbers::ONE;
 					Rightnr.UInumber = UiNumbers::ONE;
@@ -324,49 +286,49 @@ void EnemySpawn::Update(double deltaTime)
 
 				}
 
-				else if (waveAmount == 9)
+				else if (nrOfAliveEnemies == 9)
 				{
 					Leftnr.UInumber = UiNumbers::ZERO;
 					Leftnr.UIobject = UITextures::LEFTENEMYNR;
 					Rightnr.UInumber = UiNumbers::NINE;
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 				}
-				else if (waveAmount == 8)
+				else if (nrOfAliveEnemies == 8)
 				{
 					Leftnr.UInumber = UiNumbers::ZERO;
 					Leftnr.UIobject = UITextures::LEFTENEMYNR;
 					Rightnr.UInumber = UiNumbers::EIGHT;
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 				}
-				else if (waveAmount == 7)
+				else if (nrOfAliveEnemies == 7)
 				{
 					Leftnr.UInumber = UiNumbers::ZERO;
 					Leftnr.UIobject = UITextures::LEFTENEMYNR;
 					Rightnr.UInumber = UiNumbers::SEVEN;
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 				}
-				else if (waveAmount == 6)
+				else if (nrOfAliveEnemies == 6)
 				{
 					Leftnr.UInumber = UiNumbers::ZERO;
 					Leftnr.UIobject = UITextures::LEFTENEMYNR;
 					Rightnr.UInumber = UiNumbers::SIX;
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 				}
-				else if (waveAmount == 5)
+				else if (nrOfAliveEnemies == 5)
 				{
 					Leftnr.UInumber = UiNumbers::ZERO;
 					Leftnr.UIobject = UITextures::LEFTENEMYNR;
 					Rightnr.UInumber = UiNumbers::FIVE;
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 				}
-				else if (waveAmount == 4)
+				else if (nrOfAliveEnemies == 4)
 				{
 					Leftnr.UInumber = UiNumbers::ZERO;
 					Leftnr.UIobject = UITextures::LEFTENEMYNR;
 					Rightnr.UInumber = UiNumbers::FOUR;
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 				}
-				else if (waveAmount == 3)
+				else if (nrOfAliveEnemies == 3)
 				{
 					Leftnr.UInumber = UiNumbers::ZERO;
 					Leftnr.UIobject = UITextures::LEFTENEMYNR;
@@ -374,7 +336,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 2)
+				else if (nrOfAliveEnemies == 2)
 				{
 					Leftnr.UInumber = UiNumbers::ZERO;
 					Leftnr.UIobject = UITextures::LEFTENEMYNR;
@@ -382,7 +344,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 1)
+				else if (nrOfAliveEnemies == 1)
 				{
 					Leftnr.UInumber = UiNumbers::ZERO;
 					Leftnr.UIobject = UITextures::LEFTENEMYNR;
@@ -390,7 +352,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 10)
+				else if (nrOfAliveEnemies == 10)
 				{
 
 					Leftnr.UInumber = UiNumbers::ONE;
@@ -399,13 +361,13 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 40)
+				else if (nrOfAliveEnemies == 40)
 				{
 					Leftnr.UInumber = UiNumbers::FOUR;
 					Rightnr.UInumber = UiNumbers::ZERO;
 
 				}
-				else if (waveAmount == 20)
+				else if (nrOfAliveEnemies == 20)
 				{
 					Leftnr.UInumber = UiNumbers::TWO;
 					Rightnr.UInumber = UiNumbers::ZERO;
@@ -413,7 +375,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 30)
+				else if (nrOfAliveEnemies == 30)
 				{
 					Leftnr.UInumber = UiNumbers::THREE;
 					Rightnr.UInumber = UiNumbers::ZERO;
@@ -421,13 +383,13 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				else if (waveAmount == 0)
+				else if (nrOfAliveEnemies == 0)
 				{
 					Rightnr.UInumber = UiNumbers::ZERO;			
 					Rightnr.UIobject = UITextures::LEFTENEMYNR;			
 				}
 
-				Alive.at(i)->Update(deltaTime);
+				//Alive.at(i)->Update(deltaTime);
 
 			}
 
@@ -436,14 +398,10 @@ void EnemySpawn::Update(double deltaTime)
 		if (!firstSpawn)
 		{
 			if (waves.GetWaveTimer() <= 0)
-
-				SpawnEnemy(nrOfAliveEnemies);
-
 			{
-				SpawnEnemy(waveAmount);
-
+				SpawnEnemy(nrOfAliveEnemies);
 				
-				if (waveAmount == 10)
+				if (nrOfAliveEnemies == 10)
 				{
 					WaveCounter.UIobject = UITextures::WAVECOUNTER;
 					WaveCounter.UInumber = UiNumbers::ONE;
@@ -453,7 +411,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 				
 				}
-				if (waveAmount == 40)
+				if (nrOfAliveEnemies == 40)
 				{
 					WaveCounter.UIobject = UITextures::WAVECOUNTER;
 					WaveCounter.UInumber = UiNumbers::FOUR;
@@ -463,7 +421,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 					
 				}
-				if (waveAmount == 20)
+				if (nrOfAliveEnemies == 20)
 				{
 					WaveCounter.UIobject = UITextures::WAVECOUNTER;
 					WaveCounter.UInumber = UiNumbers::TWO;
@@ -473,7 +431,7 @@ void EnemySpawn::Update(double deltaTime)
 					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
 
 				}
-				if (waveAmount == 30)
+				if (nrOfAliveEnemies == 30)
 				{
 					WaveCounter.UIobject = UITextures::WAVECOUNTER;
 					WaveCounter.UInumber = UiNumbers::THREE;
@@ -516,23 +474,15 @@ void EnemySpawn::Update(double deltaTime)
 		}
 	if (nrOfAliveEnemies == 0)
 	{
-			/*while (waveTimer < 200)
-			{
-			waveTimer += deltaTime;
-			}*/
-
 			waves.SetWaveGroup(currentWave += 1);
 			waves.WaveInformation();
 			nrOfAliveEnemies = waves.GetWaveInformation();
 
-			
-			//waveAmount = waves.GetWaveInformation();
 			pickupRespawn = true;
 			playWave = true;
 			if (nrOfAliveEnemies == 0)
 			{
 				win = true;
-				//waves.SetWinCondition(win);
 			}
 			
 		
@@ -545,8 +495,6 @@ void EnemySpawn::Update(double deltaTime)
 void EnemySpawn::SpawnEnemy(int waveAmount)
 {
 	float x = 0;
-
-	//nrOfAliveEnemies = waveAmount;
 
 	firstSpawn = true;
 
@@ -682,11 +630,8 @@ void EnemySpawn::InitEnemy()
 
 			}
 
-
-
 			b += 5;
 
-			//Alive.push_back(new Enemy(spawn, fast));
 			Alive[i] = (new Enemy(spawn, fast));
 		}
 		else
@@ -729,7 +674,7 @@ void EnemySpawn::Render()
 
 void EnemySpawn::killEnemy(int index)
 {
-	//Alive[index]->isAlive = false;
+	Alive[index]->isAlive = false;
 	Alive[index]->SetHealth(100.0f);
 	nrOfAliveEnemies--;
 
