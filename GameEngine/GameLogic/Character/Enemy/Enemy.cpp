@@ -156,6 +156,9 @@ void Enemy::Update(double deltaTime)
 	if (direction.x < 0)
 		degrees = -degrees;
 
+	if (std::isnan(degrees))
+		degrees = 0;
+
 	rotation.y = degrees;
 
 
