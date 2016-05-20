@@ -42,7 +42,7 @@ void MenuState::Update(double deltaTime)
 	if (vx > Maxex && vy < Maxey && vx < Minex && vy > Miney)
 	{
 		{
-			if (input->isMouseClicked(MOUSE_LEFT) && time > 2.0f)
+			if (input->isMouseClicked(MOUSE_LEFT) && time > 4.0f)
 			{
 				//fix later
 				DestroyWindow(GetActiveWindow());
