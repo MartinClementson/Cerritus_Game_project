@@ -31,7 +31,7 @@ void MenuState::Release()
 
 void MenuState::Update(double deltaTime)
 {
-	time += (float)deltaTime;
+	time += timeValue * (float)deltaTime;
 
 	mainUI->Update(deltaTime);
 	XMFLOAT2 mousePos = InputHandler::GetInstance()->GetMousePosition();
@@ -42,7 +42,7 @@ void MenuState::Update(double deltaTime)
 	if (vx > Maxex && vy < Maxey && vx < Minex && vy > Miney)
 	{
 		{
-			if (input->isMouseClicked(MOUSE_LEFT) && time > 3.0f)
+			if (input->isMouseClicked(MOUSE_LEFT) && time > 2.0f)
 			{
 				//fix later
 				DestroyWindow(GetActiveWindow());

@@ -49,15 +49,13 @@ void EnemySpawn::Update(double deltaTime)
 		for (int i = 0; i < nrOfAliveEnemies; i++)
 		{
 			Alive[i]->Update(deltaTime);
+
 			if (Alive[i]->GetHealth() <= 0)
 			{
-
 				Alive[i]->GetStateMachine()->
-					SetActiveState(EnemyState::ENEMY_DEATH_STATE);
+				SetActiveState(EnemyState::ENEMY_DEATH_STATE);
 				Player* player;
 				player = collision->GetPlayer();
-				player->SetPoints(player->GetPoints() + (1.0f*player->GetMulti()));
-				player->SetMulti(player->GetMulti() + 0.1f);
 
 				if (Alive[i]->deathAnim == false)
 				{
@@ -67,6 +65,8 @@ void EnemySpawn::Update(double deltaTime)
 
 				if (Alive[i]->timeToDie == true)
 				{
+					player->SetPoints(player->GetPoints() + (1.0f*player->GetMulti()));
+					player->SetMulti(player->GetMulti() + 0.1f);
 					killEnemy(i);
 				}
 				
