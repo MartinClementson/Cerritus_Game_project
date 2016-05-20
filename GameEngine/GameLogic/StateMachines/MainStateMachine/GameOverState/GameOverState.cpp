@@ -28,8 +28,12 @@ void GameOverState::Initialize()
 	gameover4.UIobject = UITextures::HSRIGHT;
 
 	gameover5.UIobject = UITextures::SLEFT;
+	gameover5.UInumber = UiNumbers::EIGHT;
 	gameover6.UIobject = UITextures::SMIDDLE;
+	gameover6.UInumber = UiNumbers::SIX;
 	gameover7.UIobject = UITextures::SRIGHT;
+	gameover7.UInumber = UiNumbers::FIVE;
+
 
 	float number = 0;
 	float number1 = 0;
@@ -60,7 +64,6 @@ void GameOverState::Update(double deltaTime)
 	QuadNumberPick2(number3);
 
 	SetHighPlacing();
-
 	QuadNumberPickScore(highNumber1);
 	QuadNumberPickScore1(highNumber2);
 	QuadNumberPickScore2(highNumber3);
@@ -140,8 +143,9 @@ void GameOverState::OnExit()
 
 void GameOverState::SetPointPlacing()
 {
-	float points = GetPoints();
-	number = points;
+	float points1 = 0;
+	points1 = GetPoints();
+	number = points1;
 
 	number1 = 0;
 	number1 = number / 100;
@@ -150,7 +154,7 @@ void GameOverState::SetPointPlacing()
 	float minusNum = 0;
 	minusNum = 100 * number1;
 
-	number2 = points;
+	number2 = points1;
 	number2 = number2 - minusNum;
 	number2 = number2 / 10;
 	number2 = (int)number2;
@@ -158,7 +162,7 @@ void GameOverState::SetPointPlacing()
 	float minusNum2 = 0;
 	minusNum2 = 10 * number2;
 	
-	number3 = points - minusNum - minusNum2;
+	number3 = points1 - minusNum - minusNum2;
 	number3 = (int)number3;
 }
 
@@ -329,26 +333,37 @@ float GameOverState::GetLastHigh()
 
 void GameOverState::SetHighPlacing()
 {
-	float points = GetLastHigh();
-	highNumber = points;
+	float points1 = 0;
+	points1 = GetLastHigh();
+	highNumber = points1;
 
 	highNumber1 = 0;
 	highNumber1 = highNumber / 100;
-	highNumber1 = (int)highNumber;
+	highNumber1 = (int)highNumber1;
 
 	float minusNum = 0;
-	minusNum = 100 * number1;
+	minusNum = 100 * highNumber1;
 
-	highNumber2 = points;
+	highNumber2 = points1;
 	highNumber2 = highNumber2 - minusNum;
 	highNumber2 = highNumber2 / 10;
 	highNumber2 = (int)highNumber2;
-
+	 
 	float minusNum2 = 0;
-	minusNum2 = 10 * number2;
+	minusNum2 = 10 * highNumber2;
 
-	highNumber3 = points - minusNum - minusNum2;
+	highNumber3 = points1 - minusNum - minusNum2;
 	highNumber3 = (int)highNumber3;
+
+	SetLastHighScoreNumbers(highNumber1, highNumber2, highNumber3);
+
+}
+
+void GameOverState::SetLastHighScoreNumbers(int HN1, int HN2, int HN3)
+{
+	this->highNumber1 = HN1;
+	this->highNumber2 = HN2;
+	this->highNumber3 = HN3;
 }
 
 int GameOverState::GetScoreNumber1()

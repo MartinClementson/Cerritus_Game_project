@@ -34,6 +34,8 @@ private:
 	int GetNumber2();
 	int GetNumber3();
 
+	void SetLastHighScoreNumbers(int HN1, int HN2, int HN3);
+
 	int GetScoreNumber1();
 	int GetScoreNumber2();
 	int GetScoreNumber3();

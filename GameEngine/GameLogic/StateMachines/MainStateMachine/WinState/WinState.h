@@ -32,6 +32,7 @@ public:
 	void QuadNumberPick1(int cases);
 	void QuadNumberPick2(int cases);
 	void SetHighPlacing();
+	void SetLastHighScoreNumbers(int HN1, int HN2, int HN3);
 	int GetScoreNumber1();
 	int GetScoreNumber2();
 	int GetScoreNumber3();
