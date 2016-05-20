@@ -368,7 +368,7 @@ void EnemySpawn::Render()
 
 void EnemySpawn::killEnemy(int index)
 {
-	Alive[index]->isAlive = false;
+	//Alive[index]->isAlive = false;
 	Alive[index]->SetHealth(100.0f);
 	nrOfAliveEnemies--;
 
