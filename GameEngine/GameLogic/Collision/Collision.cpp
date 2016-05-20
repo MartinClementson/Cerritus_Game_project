@@ -10,6 +10,15 @@ inline DirectX::XMFLOAT3 operator-(DirectX::XMFLOAT3 a, DirectX::XMFLOAT3 b) {
 
 	return result;
 }
+inline DirectX::XMFLOAT3 operator+(DirectX::XMFLOAT3 a, float b) {
+	DirectX::XMFLOAT3 result;
+
+	result.x = a.x + b;
+	result.y = a.y + b;
+	result.z = a.z + b;
+
+	return result;
+}
 Collision::Collision()
 {
 
@@ -466,133 +475,123 @@ bool Collision::SceneColIn(double deltaTime)
 		playFuturePos.y = Y_OFFSET;
 		playFuturePos.z += tempVel.z;
 	}
-	bool hitx = true;
-	bool hitz = true;
-	//(pow(playFuturePos.x - SceneBoxesIn.at(i).Pos.x, 2) + pow(playFuturePos.z - SceneBoxesIn.at(i).Pos.z, 2) < pow(playRad + SceneBoxesIn.at(i).Rad, 2))
-	//(pow(playFuturePos.x - SceneBoxesOut.at(i).Pos.x, 2) + pow(playFuturePos.z - SceneBoxesOut.at(i).Pos.z, 2) < pow(playRad + SceneBoxesOut.at(i).Rad, 2))
-	for (size_t i = 0; i < SceneBoxesIn.size(); i++)
-	{
-		if (pow(playFuturePos.x - SceneBoxesIn.at(i).Pos.x, 2) + pow(playFuturePos.z - SceneBoxesIn.at(i).Pos.z, 2) < pow(playRad + SceneBoxesIn.at(i).Rad, 2))
-		{
-			for (size_t j = 0; j < SceneBoxesOut.size(); j++)
-			{
-				if (pow(playFuturePos.x - SceneBoxesOut.at(j).Pos.x, 2) + pow(playFuturePos.z - SceneBoxesOut.at(j).Pos.z, 2) < pow(playRad + SceneBoxesOut.at(j).Rad, 2))
-				{
-					hitx = false;
-					XMFLOAT3 temp =  playFuturePos - SceneBoxesOut.at(j).Pos;
-					XMVECTOR temp2 = { temp.x, temp.y, temp.z };
-					XMVECTOR temp3 = { 0.0f, 1.0f, 0.0f };
-
-					temp2 = DirectX::XMVector3Normalize(temp2);
-					temp2 = DirectX::XMVector3Cross(temp2, temp3);
-					temp2 = DirectX::XMVector3Normalize(temp2);
-
-					player->acceleration.z = player->acceleration.z * temp2.m128_f32[2] * 1.5;
-
-
-
-
-				}
-			}
-		}
-
-	}
-	for (size_t i = 0; i < SceneBoxesIn.size(); i++)
-	{
-		if (pow(playFuturePos.x - SceneBoxesIn.at(i).Pos.x, 2) + pow(playFuturePos.z - SceneBoxesIn.at(i).Pos.z, 2) < pow(playRad + SceneBoxesIn.at(i).Rad, 2))
-		{
-			for (size_t j = 0; j < SceneBoxesOut.size(); j++)
-			{
-				if (pow(playFuturePos.x - SceneBoxesOut.at(j).Pos.x, 2) + pow(playFuturePos.z - SceneBoxesOut.at(j).Pos.z, 2) < pow(playRad + SceneBoxesOut.at(j).Rad, 2))
-				{
-					hitz = false;
-
-					XMFLOAT3 temp = playFuturePos - SceneBoxesOut.at(j).Pos;
-					XMVECTOR temp2 = { temp.x, temp.y, temp.z };
-					XMVECTOR temp3 = { 0.0f, 1.0f, 0.0f };
-
-					temp2 = DirectX::XMVector3Normalize(temp2);
-					temp2 = DirectX::XMVector3Cross(temp2, temp3);
-					temp2 = DirectX::XMVector3Normalize(temp2);
-
-					player->acceleration.x = player->acceleration.x * temp2.m128_f32[0];
-				}
-			}
-
-		}
-
-	}
-	if (hitx == false || hitz == false)
-	{
-		if (hitx == false)
-		{
-			//player->position.z -= player->GetVelocity().z;
-		}
-		if (hitz == false)
-		{
-			//player->position.x -= player->GetVelocity().x;
-		}
-		return false;
-	}
-	else if (playerPos.x == player->position.x || playerPos.z == player->position.z)
-	{
-		if (hitx == true)
-		{
-			return true;
-		}
-		if (hitz == true)
-		{
-			return true;
-		}
-		return true;
-	}
-	else
-	{
-		//player->position.x -= player->GetVelocity().x;
-		//player->position.y = Y_OFFSET;
-		//player->position.z -= player->GetVelocity().z;
-		return false;
-	}
-
-
-
+	//bool hitx = true;
+	//bool hitz = true;
+	//XMVECTOR tempX;
+	//XMVECTOR tempZ;
+	////(pow(playFuturePos.x - SceneBoxesIn.at(i).Pos.x, 2) + pow(playFuturePos.z - SceneBoxesIn.at(i).Pos.z, 2) < pow(playRad + SceneBoxesIn.at(i).Rad, 2))
+	////(pow(playFuturePos.x - SceneBoxesOut.at(i).Pos.x, 2) + pow(playFuturePos.z - SceneBoxesOut.at(i).Pos.z, 2) < pow(playRad + SceneBoxesOut.at(i).Rad, 2))
 	//for (size_t i = 0; i < SceneBoxesIn.size(); i++)
 	//{
-	//	if (pow(playFuturePos.x - SceneBoxesIn.at(i).Pos.x, 2)
-	//		+ pow(playFuturePos.z - SceneBoxesIn.at(i).Pos.z, 2)
-	//		< pow(playRad + SceneBoxesIn.at(i).Rad, 2))
+	//	if (pow(playFuturePos.x - SceneBoxesIn.at(i).Pos.x, 2) + pow(playFuturePos.z - SceneBoxesIn.at(i).Pos.z, 2) < pow(playRad + SceneBoxesIn.at(i).Rad, 2))
 	//	{
-	//		for (size_t i = 0; i < SceneBoxesOut.size(); i++)
+	//		for (size_t j = 0; j < SceneBoxesOut.size(); j++)
 	//		{
-	//			if (pow(playFuturePos.x - SceneBoxesOut.at(i).Pos.x, 2)
-	//				+ pow(playFuturePos.z - SceneBoxesOut.at(i).Pos.z, 2)
-	//				< pow(playRad + SceneBoxesOut.at(i).Rad, 2))
+	//			if (pow(playFuturePos.x - SceneBoxesOut.at(j).Pos.x, 2) + pow(playFuturePos.z - SceneBoxesOut.at(j).Pos.z, 2) < pow(playRad + SceneBoxesOut.at(j).Rad, 2))
 	//			{
-	//				//XMFLOAT3 temp = SceneBoxesOut.at(i).Pos - playFuturePos;
-	//				//XMVECTOR temp2 = { temp.x, temp.y, temp.z };
-	//				//XMVECTOR temp3 = { 0.0f, 1.0f, 0.0f };
+	//				hitx = false;
+	//				XMFLOAT3 temp =  playFuturePos - SceneBoxesOut.at(j).Pos;
+	//				tempX = { temp.x, temp.y, temp.z };
+	//				XMVECTOR temp3 = { 0.0f, 1.0f, 0.0f };
 
-	//				//temp2 = DirectX::XMVector3Normalize(temp2);
-	//				//temp2 = DirectX::XMVector3Cross(temp2, temp3);
-	//				//temp2 = DirectX::XMVector3Normalize(temp2);
-
-	//				//player->position.x += tempVel.x * temp2.m128_f32[0];
-	//				//player->position.y = Y_OFFSET;
-	//				//player->position.z += tempVel.z * temp2.m128_f32[2];
-	//				player->position.x -= player->GetVelocity().x;
-	//				//player->position.y = Y_OFFSET;
-	//				player->position.z -= player->GetVelocity().z;
-	//				return false;
+	//				tempX = DirectX::XMVector3Normalize(tempX);
+	//				tempX = DirectX::XMVector3Cross(tempX, temp3);
+	//				tempX = DirectX::XMVector3Normalize(tempX);
 	//			}
 	//		}
-	//		return true;
+
 	//	}
 
 	//}
+	//for (size_t i = 0; i < SceneBoxesIn.size(); i++)
+	//{
+	//	if (pow(playFuturePos.x - SceneBoxesIn.at(i).Pos.x, 2) + pow(playFuturePos.z - SceneBoxesIn.at(i).Pos.z, 2) < pow(playRad + SceneBoxesIn.at(i).Rad, 2))
+	//	{
+	//		for (size_t j = 0; j < SceneBoxesOut.size(); j++)
+	//		{
+	//			if (pow(playFuturePos.x - SceneBoxesOut.at(j).Pos.x, 2) + pow(playFuturePos.z - SceneBoxesOut.at(j).Pos.z, 2) < pow(playRad + SceneBoxesOut.at(j).Rad, 2))
+	//			{
+	//				hitz = false;
+
+	//				XMFLOAT3 temp = playFuturePos - SceneBoxesOut.at(j).Pos;
+	//				tempZ = { temp.x, temp.y, temp.z };
+	//				XMVECTOR temp3 = { 0.0f, 1.0f, 0.0f };
+
+	//				tempZ = DirectX::XMVector3Normalize(tempZ);
+	//				tempZ = DirectX::XMVector3Cross(tempZ, temp3);
+	//				tempZ = DirectX::XMVector3Normalize(tempZ);
+	//			}
+	//		}
+	//	}
+	//}
+	//if (hitx == false || hitz == false)
+	//{
+	//	if (hitx == false)
+	//	{
+	//		player->position.z -= player->GetVelocity().z;
+	//		player->acceleration.z = player->acceleration.z * tempX.m128_f32[2];
+	//	}
+	//	if (hitz == false)
+	//	{
+	//		player->position.x -= player->GetVelocity().x;
+	//		player->acceleration.x = player->acceleration.x * tempZ.m128_f32[0];
+	//	}
+	//	return false;
+	//}
+	//else if (playerPos.x == player->position.x || playerPos.z == player->position.z)
+	//{
+	//	if (hitx == true)
+	//	{
+	//		return true;
+	//	}
+	//	if (hitz == true)
+	//	{
+	//		return true;
+	//	}
+	//	return true;
+	//}
 	//player->position.x -= player->GetVelocity().x;
-	////player->position.y = Y_OFFSET;
 	//player->position.z -= player->GetVelocity().z;
 	//return false;
+
+
+	for (size_t i = 0; i < SceneBoxesIn.size(); i++)
+	{
+		if (pow(playFuturePos.x - SceneBoxesIn.at(i).Pos.x, 2)
+			+ pow(playFuturePos.z - SceneBoxesIn.at(i).Pos.z, 2)
+			< pow(playRad + SceneBoxesIn.at(i).Rad, 2))
+		{
+			for (size_t i = 0; i < SceneBoxesOut.size(); i++)
+			{
+				if (pow(playFuturePos.x - SceneBoxesOut.at(i).Pos.x, 2)
+					+ pow(playFuturePos.z - SceneBoxesOut.at(i).Pos.z, 2)
+					< pow(playRad + SceneBoxesOut.at(i).Rad, 2))
+				{
+					//XMFLOAT3 temp = SceneBoxesOut.at(i).Pos - playFuturePos;
+					//XMVECTOR temp2 = { temp.x, temp.y, temp.z };
+					//XMVECTOR temp3 = { 0.0f, 1.0f, 0.0f };
+
+					//temp2 = DirectX::XMVector3Normalize(temp2);
+					//temp2 = DirectX::XMVector3Cross(temp2, temp3);
+					//temp2 = DirectX::XMVector3Normalize(temp2);
+
+					//player->position.x += tempVel.x * temp2.m128_f32[0];
+					//player->position.y = Y_OFFSET;
+					//player->position.z += tempVel.z * temp2.m128_f32[2];
+					player->position.x -= player->GetVelocity().x;
+					//player->position.y = Y_OFFSET;
+					player->position.z -= player->GetVelocity().z;
+					return false;
+				}
+			}
+			return true;
+		}
+
+	}
+	player->position.x -= player->GetVelocity().x;
+	//player->position.y = Y_OFFSET;
+	player->position.z -= player->GetVelocity().z;
+	return false;
 }
 bool Collision::SceneColIn(double deltaTime, EnemyBase* enemy)
 {
