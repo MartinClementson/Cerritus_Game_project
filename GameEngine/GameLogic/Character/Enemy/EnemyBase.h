@@ -80,4 +80,7 @@ public:
 	
 	};
 
+	bool timeToDie = false;
+	bool deathAnim = false;
+
 };

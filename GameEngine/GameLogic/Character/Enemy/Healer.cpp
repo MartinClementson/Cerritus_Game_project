@@ -30,6 +30,11 @@ void Healer::Update(double deltaTime)
 		slowTimer = 0.0f;
 	}
 
+	if (health <= 0)
+	{
+		timeToDie = true;
+	}
+
 	enemyStateMachine->Update(deltaTime);
 	renderInfo.position = position;
 	renderInfo.rotation = rotation;

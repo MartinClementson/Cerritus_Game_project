@@ -51,12 +51,24 @@ void EnemySpawn::Update(double deltaTime)
 
 			if (Alive[i]->GetHealth() <= 0)
 			{
+
+				Alive[i]->GetStateMachine()->
+					SetActiveState(EnemyState::ENEMY_DEATH_STATE);
 				Player* player;
 				player = collision->GetPlayer();
 				player->SetPoints(player->GetPoints() + (10.0f*player->GetMulti()));
 				player->SetMulti(player->GetMulti() + 0.1f);
-				audioManager->playEDeathSound();
-				killEnemy(i);
+
+				if (Alive[i]->deathAnim == false)
+				{
+					Alive[i]->deathAnim = true;
+					audioManager->playEDeathSound();
+				}
+
+				if (Alive[i]->timeToDie == true)
+				{
+					killEnemy(i);
+				}
 				//waveAmount--;
 				/*if (waveAmount != 0)
 				{
@@ -358,9 +370,6 @@ void EnemySpawn::killEnemy(int index)
 {
 	Alive[index]->isAlive = false;
 	Alive[index]->SetHealth(100.0f);
-	Alive[index]->GetStateMachine()->
-		SetActiveState(EnemyState::ENEMY_DEATH_STATE);
-
 	nrOfAliveEnemies--;
 
 	//swapping
