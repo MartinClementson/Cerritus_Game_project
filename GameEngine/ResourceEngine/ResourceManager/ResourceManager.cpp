@@ -123,13 +123,31 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	materialManager->addMaterials(&temp);
 
 	ui.materialName = "wave_complete";
-	ui.diffuseTex = "wave.jpg";
+	ui.diffuseTex = "wavecompleted.tif";
 	ui.materialID = 24;
 
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 
+
 	this->brfImporterHandler->Release();
+
+	materialManager->addMaterials(&temp);
+
+	ui.materialName = "LEFTENEMYNR";
+	ui.diffuseTex = "Numerations.tif";
+	ui.materialID = 25;
+
+	temp.push_back(ui);
+	materialManager->addMaterials(&temp);
+	materialManager->addMaterials(&temp);
+
+	ui.materialName = "RIGHTENEMYNR";
+	ui.diffuseTex = "Numerations.tif";
+	ui.materialID = 26;
+
+	temp.push_back(ui);
+	materialManager->addMaterials(&temp);
 }
 
 void ResourceManager::Release()

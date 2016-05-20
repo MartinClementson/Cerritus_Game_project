@@ -61,7 +61,11 @@ private:
 	void OnExit();
 
 private:
+
 	float test;
+
+	Graphics * grapichs;
+
 	vector<EnemyBase*> healers;
 	vector<BearTrap*> bearTraps;
 	vector<FireTrap*> fireTraps;

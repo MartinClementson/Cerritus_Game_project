@@ -64,11 +64,16 @@ void MainStateMachine::Update(double deltaTime)
 		gameOverState->Initialize();
 		gameOverState->isActive = true;
 		gameOverState->SetLastHigh(lastHighscore);
-		gameOverState->SetPoints(gameState->GetPoints());
+		float points1 = gameState->GetPoints();
+		gameOverState->SetPoints(points1);
+
 		if (lastHighscore < gameState->GetPoints())
 		{
 			lastHighscore = gameState->GetPoints();
+			gameOverState->SetLastHigh(lastHighscore);
 		}
+
+
 		
 		this->activeState = MAIN_GAMEOVER_STATE;
 
@@ -86,10 +91,14 @@ void MainStateMachine::Update(double deltaTime)
 		winState->Initialize();
 		winState->isActive = true;
 		winState->SetLastHigh(lastHighscore);
+		float points1 = gameState->GetPoints();
 		winState->SetPoints(gameState->GetPoints());
+
 		if (lastHighscore < gameState->GetPoints())
 		{
 			lastHighscore = gameState->GetPoints();
+			winState->SetLastHigh(lastHighscore);
+
 		}
 
 		this->activeState = MAIN_WIN_STATE;

@@ -44,7 +44,14 @@ void GameState::Initialize(AudioManager* audioManager)
 	room1->Initialize(audioManager);
 	room1->InitBearTrap();
 	room1->InitFireTrap();
-
+	grapichs = Graphics::GetInstance();
+	
+	/*WaveCounter.UIobject = UITextures::WAVECOUNTER;
+	WaveCounter.UInumber = UiNumbers::ZERO;*/
+	/*Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+	Rightnr.UInumber = UiNumbers::EIGHT;
+	Leftnr.UIobject = UITextures::LEFTENEMYNR;
+	Leftnr.UInumber = UiNumbers::ONE;*/
 	index = 0;
 	collision->InitSceneCol();
 	Input::GetInstance()->SetMouseVisibility(false);
@@ -79,6 +86,10 @@ void GameState::Update(double deltaTime)
 		
 		this->bearTraps = room1->bearTraps;
 		this->fireTraps = room1->fireTraps;
+
+		/*gameUI->setUI(UITextures::WAVECOUNTER);
+		gameUI->setUINR(UiNumbers::TWO);*/
+	
 
 		gameUI->setUI(UITextures::HUD);
 
@@ -321,6 +332,7 @@ void GameState::Update(double deltaTime)
 	else if (pause->isActive)
 	{
 		gameUI->setUI(UITextures::PAUSE);
+		//Leftnr.UInumber = UiNumbers::SIX;
 	}
 }
 
