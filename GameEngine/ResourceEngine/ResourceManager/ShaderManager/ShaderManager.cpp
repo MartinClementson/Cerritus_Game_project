@@ -1,6 +1,6 @@
 #include "ShaderManager.h"
 
-
+#define COMPILATIONFLAGS D3DCOMPILE_OPTIMIZATION_LEVEL3
 
 
 ShaderManager::ShaderManager()
@@ -352,7 +352,7 @@ bool ShaderManager::CreateFinalPassShaders()
 		nullptr,
 		"VS_main",
 		"vs_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pVS,
 		nullptr);
@@ -383,7 +383,7 @@ bool ShaderManager::CreateFinalPassShaders()
 		nullptr,
 		"PS_main",
 		"ps_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pPs,
 		nullptr);
@@ -413,7 +413,7 @@ bool ShaderManager::CreateAnimationShader()
 		nullptr,
 		"ANIM_VS_main",
 		"vs_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pVS,
 		nullptr);
@@ -457,7 +457,7 @@ bool ShaderManager::CreateAnimationShader()
 		nullptr,
 		"ANIM_GS_main",
 		"gs_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pGS,
 		nullptr);
@@ -477,7 +477,7 @@ bool ShaderManager::CreateAnimationShader()
 		nullptr,
 		"ANIM_PS_main",
 		"ps_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pPs,
 		nullptr);
@@ -508,7 +508,7 @@ bool ShaderManager::CreateGbufferShader()
 		nullptr,
 		"GBUFFER_VS_main",
 		"vs_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pVS,
 		nullptr);
@@ -541,7 +541,7 @@ bool ShaderManager::CreateGbufferShader()
 		nullptr,
 		"GBUFFER_GS_main",
 		"gs_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pGS,
 		nullptr);
@@ -561,7 +561,7 @@ bool ShaderManager::CreateGbufferShader()
 		nullptr,
 		"GBUFFER_PS_main",
 		"ps_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pPs,
 		nullptr);
@@ -591,7 +591,7 @@ bool ShaderManager::CreateInstancedGbufferShader()
 		nullptr,
 		"GBUFFER_VS_main",
 		"vs_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pVS,
 		nullptr);
@@ -633,7 +633,7 @@ bool ShaderManager::CreateInstancedGbufferShader()
 		nullptr,
 		"GBUFFER_GS_main",
 		"gs_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pGS,
 		nullptr);
@@ -653,7 +653,7 @@ bool ShaderManager::CreateInstancedGbufferShader()
 		nullptr,
 		"GBUFFER_PS_main",
 		"ps_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pPs,
 		nullptr);
@@ -683,7 +683,7 @@ bool ShaderManager::CreateShadowShader()
 		nullptr,
 		"SHADOW_VS_main",
 		"vs_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pVS,
 		nullptr);
@@ -701,7 +701,7 @@ bool ShaderManager::CreateShadowShader()
 		nullptr,
 		"SHADOW_GS_main",
 		"gs_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pGS,
 		nullptr);
@@ -728,7 +728,7 @@ bool ShaderManager::CreateInstancedShadowShader()
 		nullptr,
 		"SHADOW_VS_main",
 		"vs_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pVS,
 		nullptr);
@@ -746,7 +746,7 @@ bool ShaderManager::CreateInstancedShadowShader()
 		nullptr,
 		"SHADOW_GS_main",
 		"gs_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pGS,
 		nullptr);
@@ -771,7 +771,7 @@ bool ShaderManager::CreateBlurComputeShader()
 		nullptr,
 		"main",
 		"cs_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pCs,
 		nullptr);
@@ -790,7 +790,7 @@ bool ShaderManager::CreateBlurComputeShader()
 		nullptr,
 		"main",
 		"cs_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pCss,
 		nullptr);
@@ -824,7 +824,7 @@ bool ShaderManager::CreateBillboardShader()
 		nullptr,
 		"BILLBOARD_VS",
 		"vs_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pVS,
 		nullptr);
@@ -862,7 +862,7 @@ bool ShaderManager::CreateBillboardShader()
 		nullptr,
 		"BILLBOARD_GS",
 		"gs_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pGS,
 		nullptr);
@@ -882,7 +882,7 @@ bool ShaderManager::CreateBillboardShader()
 		nullptr,
 		"BILLBOARD_PS",
 		"ps_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pPs,
 		nullptr);
@@ -911,7 +911,7 @@ bool ShaderManager::CreateUiShader()
 		nullptr,
 		"VS_main",
 		"vs_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pVS,
 		nullptr);
@@ -938,7 +938,7 @@ bool ShaderManager::CreateUiShader()
 		nullptr,
 		"PS_main",
 		"ps_5_0",
-		0,
+		COMPILATIONFLAGS,
 		0,
 		&pPs,
 		nullptr);
