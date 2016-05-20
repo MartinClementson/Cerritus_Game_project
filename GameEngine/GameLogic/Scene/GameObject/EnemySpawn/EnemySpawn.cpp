@@ -28,6 +28,12 @@ void EnemySpawn::Initialize(AudioManager* audioManager)
 	nrOfAliveEnemies = waves.GetWaveInformation();
 
 	WaveComplete.UIobject = UITextures::WAVECOMPLETE;
+	WaveCounter.UIobject = UITextures::WAVECOUNTER;
+	Leftnr.UIobject = UITextures::LEFTENEMYNR;
+	Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+	//huden.UIobject = UITextures::HUD;
+	//Leftnr.UInumber = UiNumbers::ZERO;
+	//Rightnr.UInumber = UiNumbers::ZERO;
 
 	InitEnemy();
 }
@@ -39,11 +45,6 @@ void EnemySpawn::Release()
 
 void EnemySpawn::Update(double deltaTime)
 {
-		/*for (size_t j = 0; j < Alive.size(); j++)
-		{
-			Alive.at(j)->GetStateMachine()->
-				SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
-		}*/
 
 		for (int i = 0; i < nrOfAliveEnemies; i++)
 		{
@@ -51,13 +52,10 @@ void EnemySpawn::Update(double deltaTime)
 
 			if (Alive[i]->GetHealth() <= 0)
 			{
-
 				Alive[i]->GetStateMachine()->
-					SetActiveState(EnemyState::ENEMY_DEATH_STATE);
+				SetActiveState(EnemyState::ENEMY_DEATH_STATE);
 				Player* player;
 				player = collision->GetPlayer();
-				player->SetPoints(player->GetPoints() + (10.0f*player->GetMulti()));
-				player->SetMulti(player->GetMulti() + 0.1f);
 
 				if (Alive[i]->deathAnim == false)
 				{
@@ -67,68 +65,385 @@ void EnemySpawn::Update(double deltaTime)
 
 				if (Alive[i]->timeToDie == true)
 				{
+					player->SetPoints(player->GetPoints() + (1.0f*player->GetMulti()));
+					player->SetMulti(player->GetMulti() + 0.1f);
 					killEnemy(i);
 				}
-				//waveAmount--;
-				/*if (waveAmount != 0)
+				
+				if (nrOfAliveEnemies == 39)
 				{
-					RespawnEnemy(i);
-				}*/
-				//else
-				//{
-				//	/*while (waveTimer < 200)
-				//	{
-				//		waveTimer += deltaTime;
-				//	}*/
+					Leftnr.UInumber = UiNumbers::THREE;
+					Rightnr.UInumber = UiNumbers::NINE;
 
-				//	waves.SetWaveGroup(currentWave += 1);
-				//	waves.WaveInformation();
-				//	waveAmount = waves.GetWaveInformation();
 
-				//	if (waveAmount == 0)
-				//	{
-				//		win = true;
-				//		//waves.SetWinCondition(win);
-				//	}
-				//	SpawnEnemy(waveAmount);
-				//}
+				}
+				else if (nrOfAliveEnemies == 38)
+				{
+					Leftnr.UInumber = UiNumbers::THREE;
+					Rightnr.UInumber = UiNumbers::EIGHT;
+
+					//grapichs->QueueRender(&Leftnr);
+				}
+				else if (nrOfAliveEnemies == 37)
+				{
+					Leftnr.UInumber = UiNumbers::THREE;
+					Rightnr.UInumber = UiNumbers::SEVEN;
+
+					//grapichs->QueueRender(&Leftnr);
+				}
+				else if (nrOfAliveEnemies == 36)
+				{
+					Leftnr.UInumber = UiNumbers::THREE;
+					Rightnr.UInumber = UiNumbers::SIX;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 35)
+				{
+					Leftnr.UInumber = UiNumbers::THREE;
+					Rightnr.UInumber = UiNumbers::FIVE;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 34)
+				{
+					Leftnr.UInumber = UiNumbers::THREE;
+					Rightnr.UInumber = UiNumbers::FOUR;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 33)
+				{
+					Leftnr.UInumber = UiNumbers::THREE;
+					Rightnr.UInumber = UiNumbers::THREE;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 32)
+				{
+					Leftnr.UInumber = UiNumbers::THREE;
+					Rightnr.UInumber = UiNumbers::TWO;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 31)
+				{
+					Leftnr.UInumber = UiNumbers::THREE;
+					Rightnr.UInumber = UiNumbers::ONE;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				
+				else if (nrOfAliveEnemies == 29)
+				{
+					Leftnr.UInumber = UiNumbers::TWO;
+					Rightnr.UInumber = UiNumbers::NINE;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 28)
+				{
+					Leftnr.UInumber = UiNumbers::TWO;
+					Rightnr.UInumber = UiNumbers::EIGHT;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 27)
+				{
+					Leftnr.UInumber = UiNumbers::TWO;
+					Rightnr.UInumber = UiNumbers::SEVEN;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 26)
+				{
+					Leftnr.UInumber = UiNumbers::TWO;
+					Rightnr.UInumber = UiNumbers::SIX;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 25)
+				{
+					Leftnr.UInumber = UiNumbers::TWO;
+					Rightnr.UInumber = UiNumbers::FIVE;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 24)
+				{
+					Leftnr.UInumber = UiNumbers::TWO;
+					Rightnr.UInumber = UiNumbers::FOUR;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 23)
+				{
+					Leftnr.UInumber = UiNumbers::TWO;
+					Rightnr.UInumber = UiNumbers::THREE;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 22)
+				{
+					Leftnr.UInumber = UiNumbers::TWO;
+					Rightnr.UInumber = UiNumbers::TWO;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 21)
+				{
+					Leftnr.UInumber = UiNumbers::TWO;
+					Rightnr.UInumber = UiNumbers::ONE;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				
+				else if (nrOfAliveEnemies == 19)
+				{
+					Leftnr.UInumber = UiNumbers::ONE;
+					Rightnr.UInumber = UiNumbers::NINE;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 18)
+				{
+					Leftnr.UInumber = UiNumbers::ONE;
+					Rightnr.UInumber = UiNumbers::EIGHT;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 17)
+				{
+					Leftnr.UInumber = UiNumbers::ONE;
+					Rightnr.UInumber = UiNumbers::SEVEN;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 16)
+				{
+					Leftnr.UInumber = UiNumbers::ONE;
+					Rightnr.UInumber = UiNumbers::SIX;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 15)
+				{
+					Leftnr.UInumber = UiNumbers::ONE;
+					Rightnr.UInumber = UiNumbers::FIVE;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 14)
+				{
+					Leftnr.UInumber = UiNumbers::ONE;
+					Rightnr.UInumber = UiNumbers::FOUR;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 13)
+				{
+					Leftnr.UInumber = UiNumbers::ONE;
+					Rightnr.UInumber = UiNumbers::THREE;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 12)
+				{
+					Leftnr.UInumber = UiNumbers::ONE;
+					Rightnr.UInumber = UiNumbers::TWO;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 11)
+				{
+					Leftnr.UInumber = UiNumbers::ONE;
+					Rightnr.UInumber = UiNumbers::ONE;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+
+				else if (nrOfAliveEnemies == 9)
+				{
+					Leftnr.UInumber = UiNumbers::ZERO;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UInumber = UiNumbers::NINE;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+				}
+				else if (nrOfAliveEnemies == 8)
+				{
+					Leftnr.UInumber = UiNumbers::ZERO;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UInumber = UiNumbers::EIGHT;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+				}
+				else if (nrOfAliveEnemies == 7)
+				{
+					Leftnr.UInumber = UiNumbers::ZERO;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UInumber = UiNumbers::SEVEN;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+				}
+				else if (nrOfAliveEnemies == 6)
+				{
+					Leftnr.UInumber = UiNumbers::ZERO;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UInumber = UiNumbers::SIX;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+				}
+				else if (nrOfAliveEnemies == 5)
+				{
+					Leftnr.UInumber = UiNumbers::ZERO;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UInumber = UiNumbers::FIVE;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+				}
+				else if (nrOfAliveEnemies == 4)
+				{
+					Leftnr.UInumber = UiNumbers::ZERO;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UInumber = UiNumbers::FOUR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+				}
+				else if (nrOfAliveEnemies == 3)
+				{
+					Leftnr.UInumber = UiNumbers::ZERO;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UInumber = UiNumbers::THREE;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 2)
+				{
+					Leftnr.UInumber = UiNumbers::ZERO;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UInumber = UiNumbers::TWO;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 1)
+				{
+					Leftnr.UInumber = UiNumbers::ZERO;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UInumber = UiNumbers::ONE;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 10)
+				{
+
+					Leftnr.UInumber = UiNumbers::ONE;
+					Rightnr.UInumber = UiNumbers::ZERO;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 40)
+				{
+					Leftnr.UInumber = UiNumbers::FOUR;
+					Rightnr.UInumber = UiNumbers::ZERO;
+
+				}
+				else if (nrOfAliveEnemies == 20)
+				{
+					Leftnr.UInumber = UiNumbers::TWO;
+					Rightnr.UInumber = UiNumbers::ZERO;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 30)
+				{
+					Leftnr.UInumber = UiNumbers::THREE;
+					Rightnr.UInumber = UiNumbers::ZERO;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				else if (nrOfAliveEnemies == 0)
+				{
+					Rightnr.UInumber = UiNumbers::ZERO;			
+					Rightnr.UIobject = UITextures::LEFTENEMYNR;			
+				}
+
+				//Alive.at(i)->Update(deltaTime);
+
 			}
-			//else if (Alive.at(i)->GetHealth() <= 0 &&
-			//	Alive.at(i)->GetStateMachine()->
-			//	GetActiveState() == EnemyState::ENEMY_HEAL_STATE
-			//	)
-			//{
-			//	Player* player;
-			//	player = collision->GetPlayer();
-			//	player->SetPoints(player->GetPoints() + (10.0f*player->GetMulti()));
-			//	player->SetMulti(player->GetMulti() + 0.1f);
 
-			//	Alive.at(i)->isAlive = false;
-			//	Alive.at(i)->SetHealth(100.0f);
-			//	Alive.at(i)->GetStateMachine()->
-			//		SetActiveState(EnemyState::ENEMY_DEATH_STATE);
-
-			//	waveAmount--;
-
-			//	if (waveAmount != 0)
-			//	{
-			//		RespawnEnemy(i);
-			//	}
-			//	/*else
-			//	{
-			//		waves.SetWaveGroup(currentWave += 1);
-			//		waves.WaveInformation();
-			//		waveAmount = waves.GetWaveInformation();
-
-			//		SpawnEnemy(waveAmount);
-			//	}*/
-			//}
 		}
 
 		if (!firstSpawn)
 		{
 			if (waves.GetWaveTimer() <= 0)
+			{
 				SpawnEnemy(nrOfAliveEnemies);
+				
+				if (nrOfAliveEnemies == 10)
+				{
+					WaveCounter.UIobject = UITextures::WAVECOUNTER;
+					WaveCounter.UInumber = UiNumbers::ONE;
+					Leftnr.UInumber = UiNumbers::ONE;
+					Rightnr.UInumber = UiNumbers::ZERO;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+				
+				}
+				if (nrOfAliveEnemies == 40)
+				{
+					WaveCounter.UIobject = UITextures::WAVECOUNTER;
+					WaveCounter.UInumber = UiNumbers::FOUR;
+					Leftnr.UInumber = UiNumbers::FOUR;
+					Rightnr.UInumber = UiNumbers::ZERO;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+					
+				}
+				if (nrOfAliveEnemies == 20)
+				{
+					WaveCounter.UIobject = UITextures::WAVECOUNTER;
+					WaveCounter.UInumber = UiNumbers::TWO;
+					Leftnr.UInumber = UiNumbers::TWO;
+					Rightnr.UInumber = UiNumbers::ZERO;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				if (nrOfAliveEnemies == 30)
+				{
+					WaveCounter.UIobject = UITextures::WAVECOUNTER;
+					WaveCounter.UInumber = UiNumbers::THREE;
+					Leftnr.UInumber = UiNumbers::THREE;
+					Rightnr.UInumber = UiNumbers::ZERO;
+					Leftnr.UIobject = UITextures::LEFTENEMYNR;
+					Rightnr.UIobject = UITextures::RIGHTENEMYNR;
+
+				}
+				
+				//waveCounter changes. 
+			}
 			else
 			{
 				graphics->QueueRender(&WaveComplete);
@@ -159,23 +474,15 @@ void EnemySpawn::Update(double deltaTime)
 		}
 	if (nrOfAliveEnemies == 0)
 	{
-			/*while (waveTimer < 200)
-			{
-			waveTimer += deltaTime;
-			}*/
-
 			waves.SetWaveGroup(currentWave += 1);
 			waves.WaveInformation();
 			nrOfAliveEnemies = waves.GetWaveInformation();
 
-			
-			//waveAmount = waves.GetWaveInformation();
 			pickupRespawn = true;
 			playWave = true;
 			if (nrOfAliveEnemies == 0)
 			{
 				win = true;
-				//waves.SetWinCondition(win);
 			}
 			
 		
@@ -188,8 +495,6 @@ void EnemySpawn::Update(double deltaTime)
 void EnemySpawn::SpawnEnemy(int waveAmount)
 {
 	float x = 0;
-
-	//nrOfAliveEnemies = waveAmount;
 
 	firstSpawn = true;
 
@@ -325,11 +630,8 @@ void EnemySpawn::InitEnemy()
 
 			}
 
-
-
 			b += 5;
 
-			//Alive.push_back(new Enemy(spawn, fast));
 			Alive[i] = (new Enemy(spawn, fast));
 		}
 		else
@@ -364,11 +666,15 @@ void EnemySpawn::Render()
 			Alive[i]->Render();
 		}
 	}
+	graphics->QueueRender(&Rightnr);
+	graphics->QueueRender(&Leftnr);
+	graphics->QueueRender(&WaveCounter);
+	//graphics->QueueRender(&huden);
 }
 
 void EnemySpawn::killEnemy(int index)
 {
-	//Alive[index]->isAlive = false;
+	Alive[index]->isAlive = false;
 	Alive[index]->SetHealth(100.0f);
 	nrOfAliveEnemies--;
 

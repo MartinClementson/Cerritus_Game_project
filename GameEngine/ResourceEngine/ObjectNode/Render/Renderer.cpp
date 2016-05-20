@@ -204,53 +204,54 @@ void Renderer::Render(RenderInfoUI * object)
 
 	//Check which enum, Switch for different enums 0 - 9 
 	UV meshUv;
-	if (object->UIobject == UITextures::NUMERATION)
+	if (object->UIobject == UITextures::LEFTENEMYNR)
 	{
 
 		switch (object->UInumber)
 		{
 			case UiNumbers::ONE:
 			{
-				meshUv.enemyoffsetX = 0.028f;
+				meshUv.enemyoffsetX = 0.095f;
 				break;
 			}
 			case UiNumbers::TWO:
 			{
-				meshUv.enemyoffsetX = 0.028f *2 ;
+				meshUv.enemyoffsetX = 0.191f;
 				break;
 			}
 			case UiNumbers::THREE:
 			{
-				meshUv.enemyoffsetX = 0.028f * 3;
+				meshUv.enemyoffsetX = 0.291f;
 				break;
 			}
 			case UiNumbers::FOUR:
 			{
-				meshUv.enemyoffsetX = 0.028f * 4;
+				meshUv.enemyoffsetX = 0.391f;
 				break;
 			}
 			case UiNumbers::FIVE:
-			{	meshUv.enemyoffsetX = 0.028f * 5;
+			{
+				meshUv.enemyoffsetX = 0.492f;
 				break;
 			}
 			case UiNumbers::SIX:
 			{
-				meshUv.enemyoffsetX = 0.028f * 6;
+				meshUv.enemyoffsetX = 0.593f;
 				break;
 			}
 			case UiNumbers::SEVEN:
 			{
-				meshUv.enemyoffsetX = 0.028f * 7;
+				meshUv.enemyoffsetX = 0.693f;
 				break;
 			}
 			case UiNumbers::EIGHT:
 			{
-				meshUv.enemyoffsetX = 0.028f * 8;
+				meshUv.enemyoffsetX = 0.793f;
 				break;
 			}
 			case UiNumbers::NINE:
 			{
-				meshUv.enemyoffsetX = 0.028f * 9;
+				meshUv.enemyoffsetX = 0.893f;
 				break;
 			}
 			case UiNumbers::ZERO:
@@ -258,7 +259,74 @@ void Renderer::Render(RenderInfoUI * object)
 				meshUv.enemyoffsetX = 0.0f;
 				break;
 			}
+			case UiNumbers::BLANK:
+			{
+				meshUv.enemyoffsetX = 0.096f * 12;
+				break;
+			}
 				
+		}
+	}
+	else if (object->UIobject == UITextures::RIGHTENEMYNR)
+	{
+		switch (object->UInumber)
+		{
+		case UiNumbers::ONE:
+		{
+			meshUv.enemyoffsetX = 0.095f;
+			break;
+		}
+		case UiNumbers::TWO:
+		{
+			meshUv.enemyoffsetX = 0.191f;
+			break;
+		}
+		case UiNumbers::THREE:
+		{
+			meshUv.enemyoffsetX = 0.291f;
+			break;
+		}
+		case UiNumbers::FOUR:
+		{
+			meshUv.enemyoffsetX = 0.391f;
+			break;
+		}
+		case UiNumbers::FIVE:
+		{	meshUv.enemyoffsetX = 0.492f;
+		break;
+		}
+		case UiNumbers::SIX:
+		{
+			meshUv.enemyoffsetX = 0.593f;
+			break;
+		}
+		case UiNumbers::SEVEN:
+		{
+			meshUv.enemyoffsetX = 0.693f;
+			break;
+		}
+		case UiNumbers::EIGHT:
+		{
+			meshUv.enemyoffsetX = 0.793f;
+			break;
+		}
+		case UiNumbers::NINE:
+		{
+			meshUv.enemyoffsetX = 0.893f;
+			break;
+		}
+		case UiNumbers::ZERO:
+		{
+			meshUv.enemyoffsetX = 0.0f;
+			break;
+		}
+		case UiNumbers::BLANK:
+		{
+			meshUv.enemyoffsetX = 0.094f * 12;
+			
+			break;
+		}
+
 		}
 	}
 
@@ -273,27 +341,368 @@ void Renderer::Render(RenderInfoUI * object)
 			}
 			case UiNumbers::TWO:
 			{
-				meshUv.waveoffsetX = 0.056f;
+				meshUv.waveoffsetX = 0.218f;
 				break;
 			}
 			case UiNumbers::THREE:
 			{
-				meshUv.waveoffsetX = 0.056f * 2;
+				meshUv.waveoffsetX = 0.446f;
 				break;
 			}
 			case UiNumbers::FOUR:
 			{
-				meshUv.waveoffsetX = 0.056f * 3;
+				meshUv.waveoffsetX = 0.68f;
 				break;
 			}
-			case UiNumbers::FIVE:
+		}
+	}
+	else if (object->UIobject == UITextures::HSLEFT)
+	{
+		switch (object->UInumber)
+		{
+		case UiNumbers::ONE:
+		{
+			meshUv.enemyoffsetX = 0.095f;
+			break;
+		}
+		case UiNumbers::TWO:
+		{
+			meshUv.enemyoffsetX = 0.191f;
+			break;
+		}
+		case UiNumbers::THREE:
+		{
+			meshUv.enemyoffsetX = 0.291f;
+			break;
+		}
+		case UiNumbers::FOUR:
+		{
+			meshUv.enemyoffsetX = 0.391f;
+			break;
+		}
+		case UiNumbers::FIVE:
+		{	meshUv.enemyoffsetX = 0.492f;
+		break;
+		}
+		case UiNumbers::SIX:
+		{
+			meshUv.enemyoffsetX = 0.593f;
+			break;
+		}
+		case UiNumbers::SEVEN:
+		{
+			meshUv.enemyoffsetX = 0.693f;
+			break;
+		}
+		case UiNumbers::EIGHT:
+		{
+			meshUv.enemyoffsetX = 0.793f;
+			break;
+		}
+		case UiNumbers::NINE:
+		{
+			meshUv.enemyoffsetX = 0.893f;
+			break;
+		}
+		case UiNumbers::ZERO:
+		{
+			meshUv.enemyoffsetX = 0.0f;
+			break;
+		}
+
+		}
+	}
+	else if (object->UIobject == UITextures::HSMIDDLE)
+	{
+		switch (object->UInumber)
+		{
+		case UiNumbers::ONE:
+			{
+				meshUv.enemyoffsetX = 0.095f;
+				break;
+			}
+		case UiNumbers::TWO:
+			{
+				meshUv.enemyoffsetX = 0.191f;
+				break;
+			}
+		case UiNumbers::THREE:
+			{
+				meshUv.enemyoffsetX = 0.291f;
+				break;
+			}
+		case UiNumbers::FOUR:
+			{
+				meshUv.enemyoffsetX = 0.391f;
+				break;
+			}
+		case UiNumbers::FIVE:
 			{	
-				meshUv.waveoffsetX = 0.056f * 4;
+				meshUv.enemyoffsetX = 0.492f;
+				break;
+			}
+		case UiNumbers::SIX:
+			{
+				meshUv.enemyoffsetX = 0.593f;
+				break;
+			}
+		case UiNumbers::SEVEN:
+			{
+				meshUv.enemyoffsetX = 0.693f;
+				break;
+			}
+		case UiNumbers::EIGHT:
+			{
+				meshUv.enemyoffsetX = 0.793f;
+				break;
+			}
+		case UiNumbers::NINE:
+			{
+				meshUv.enemyoffsetX = 0.893f;
+				break;
+			}
+		case UiNumbers::ZERO:
+			{
+				meshUv.enemyoffsetX = 0.0f;
 				break;
 			}
 
 		}
 	}
+	else if (object->UIobject == UITextures::HSRIGHT)
+	{
+		switch (object->UInumber)
+		{
+			case UiNumbers::ONE:
+				{
+					meshUv.enemyoffsetX = 0.095f;
+					break;
+				}
+			case UiNumbers::TWO:
+				{
+					meshUv.enemyoffsetX = 0.191f;
+					break;
+				}
+			case UiNumbers::THREE:
+				{
+					meshUv.enemyoffsetX = 0.291f;
+					break;
+				}
+			case UiNumbers::FOUR:
+				{
+					meshUv.enemyoffsetX = 0.391f;
+					break;
+				}
+			case UiNumbers::FIVE:
+				{
+					meshUv.enemyoffsetX = 0.492f;
+					break;
+				}
+			case UiNumbers::SIX:
+				{
+					meshUv.enemyoffsetX = 0.593f;
+					break;
+				}
+			case UiNumbers::SEVEN:
+				{
+					meshUv.enemyoffsetX = 0.693f;
+					break;
+				}
+			case UiNumbers::EIGHT:
+				{
+					meshUv.enemyoffsetX = 0.793f;
+					break;
+				}
+			case UiNumbers::NINE:
+				{
+					meshUv.enemyoffsetX = 0.893f;
+					break;
+				}
+			case UiNumbers::ZERO:
+				{
+					meshUv.enemyoffsetX = 0.0f;
+					break;
+				}
+
+		}
+	}
+	else if (object->UIobject == UITextures::SLEFT)
+	{
+		
+		switch (object->UInumber)
+		{
+		
+			case UiNumbers::ONE:
+				{
+					meshUv.enemyoffsetX = 0.095f;
+					break;
+				}
+			case UiNumbers::TWO:
+				{
+					meshUv.enemyoffsetX = 0.191f;
+					break;
+				}
+			case UiNumbers::THREE:
+				{
+					meshUv.enemyoffsetX = 0.291f;
+					break;
+				}
+			case UiNumbers::FOUR:
+				{
+					meshUv.enemyoffsetX = 0.391f;
+					break;
+				}
+			case UiNumbers::FIVE:
+				{	
+					meshUv.enemyoffsetX = 0.492f;
+					break;
+				}
+			case UiNumbers::SIX:
+				{
+					meshUv.enemyoffsetX = 0.593f;
+					break;
+				}
+			case UiNumbers::SEVEN:
+				{
+					meshUv.enemyoffsetX = 0.693f;
+					break;
+				}
+			case UiNumbers::EIGHT:
+				{
+					meshUv.enemyoffsetX = 0.793f;
+					break;
+				}
+			case UiNumbers::NINE:
+				{
+					meshUv.enemyoffsetX = 0.893f;
+					break;
+				}
+			case UiNumbers::ZERO:
+			{
+				meshUv.enemyoffsetX = 0.0f;
+				break;
+			}
+
+		}
+	}
+	else if (object->UIobject == UITextures::SMIDDLE)
+	{
+
+		switch (object->UInumber)
+		{
+			case UiNumbers::ONE:
+			{
+				meshUv.enemyoffsetX = 0.095f;
+				break;
+			}
+			case UiNumbers::TWO:
+			{
+				meshUv.enemyoffsetX = 0.191f;
+				break;
+			}
+			case UiNumbers::THREE:
+			{
+				meshUv.enemyoffsetX = 0.291f;
+				break;
+			}
+			case UiNumbers::FOUR:
+			{
+				meshUv.enemyoffsetX = 0.391f;
+				break;
+			}
+			case UiNumbers::FIVE:
+			{	
+				meshUv.enemyoffsetX = 0.492f;
+				break;
+			}
+			case UiNumbers::SIX:
+			{
+				meshUv.enemyoffsetX = 0.593f;
+				break;
+			}
+			case UiNumbers::SEVEN:
+			{
+				meshUv.enemyoffsetX = 0.693f;
+				break;
+			}
+			case UiNumbers::EIGHT:
+			{
+				meshUv.enemyoffsetX = 0.793f;
+				break;
+			}
+			case UiNumbers::NINE:
+			{
+				meshUv.enemyoffsetX = 0.893f;
+				break;
+			}
+			case UiNumbers::ZERO:
+			{
+				meshUv.enemyoffsetX = 0.0f;
+				break;
+			}
+
+		}
+	}
+	else if (object->UIobject == UITextures::SRIGHT)
+	{
+
+		switch (object->UInumber)
+		{
+			case UiNumbers::ONE:
+			{
+				meshUv.enemyoffsetX = 0.095f;
+				break;
+			}
+			case UiNumbers::TWO:
+			{
+				meshUv.enemyoffsetX = 0.191f;
+				break;
+			}
+			case UiNumbers::THREE:
+			{
+				meshUv.enemyoffsetX = 0.291f;
+				break;
+			}
+			case UiNumbers::FOUR:
+			{
+				meshUv.enemyoffsetX = 0.391f;
+				break;
+			}
+			case UiNumbers::FIVE:
+			{
+				meshUv.enemyoffsetX = 0.492f;
+				break;
+			}
+			case UiNumbers::SIX:
+			{
+				meshUv.enemyoffsetX = 0.593f;
+				break;
+			}
+			case UiNumbers::SEVEN:
+			{
+				meshUv.enemyoffsetX = 0.693f;
+				break;
+			}
+			case UiNumbers::EIGHT:
+			{
+				meshUv.enemyoffsetX = 0.793f;
+				break;
+			}
+			case UiNumbers::NINE:
+			{
+				meshUv.enemyoffsetX = 0.893f;
+				break;
+			}
+			case UiNumbers::ZERO:
+			{
+				meshUv.enemyoffsetX = 0.0f;
+				break;
+			}
+
+		}
+	}
+
+	
 	
 	updateUVBuffer(&meshUv);
 

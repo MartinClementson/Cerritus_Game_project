@@ -60,20 +60,47 @@ private:
 #pragma endregion
 
 	int   animationBufferCount = 0;
-	void  CreatePlaceHolder();
-	void  CreatePlaceHolderPlane();
+
 	Mesh* CreatePlaceHolderBlendShape();
 	Mesh* CreateBlendShape(BlendShapeVert* vertices,unsigned int amount);
-	void  CreateFullScreenQuad();
+
 	void  CreatePlaceHolderAnimation();
 	
 	std::vector<Mesh>* sceneMeshes		= nullptr;
 	Mesh fullScreenQuad;
 	Mesh killCountQuad;
 	Mesh waveCountQuad;
+	Mesh KillCountQuad1;
 	Mesh waveCompleteQuad;
+
+
+	Mesh highScoreCountQuad;
+	Mesh highScoreCountQuad1;
+	Mesh highScoreCountQuad2;	
+
+	Mesh ScoreCountQuad;
+	Mesh ScoreCountQuad1;
+	Mesh ScoreCountQuad2;
+	
+private:
+	void CreatePlaceHolder();
+	void CreatePlaceHolderPlane();
+	void CreateFullScreenQuad();
+
 	void CreateKillCountQuad();
 	void CreateWaveCountQuad();
+	void CreateKillCountQuad1();
+
+	void CreateHighscoreCount();
+	void CreateHighscoreCount1();
+	void CreateHighscoreCount2();
+
+	void CreateScoreCount();
+
+	void CreateScoreCount1();
+
+	void CreateScoreCount2();
+
 	void CreateWaveCompleteQuad();
 
 public:
@@ -111,10 +138,10 @@ public:
 
 	std::vector<Mesh>* GetSceneMeshes() { return this->sceneMeshes; }
 	void CreateQuadTree();
+	
+	/*void GetKillCountQuadInfoHud(UITextures * uiEnum, RenderInstructions* toRender);
+	void GetWaveCountQuadInfoHud(UITextures*uiEnum, RenderInstructions*toRender);*/
 
 	
-	void GetKillCountQuadInfoHud(UITextures * uiEnum, RenderInstructions* toRender);
-	void GetWaveCountQuadInfoHud(UITextures*uiEnum, RenderInstructions*toRender);
-
 };
 
