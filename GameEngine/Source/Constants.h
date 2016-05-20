@@ -5,7 +5,7 @@
 
 
 #define SHADOW_WIDTH  1024.0f //IF YOU CHANGE THIS SIZE; CHANGE IT IN THE FINAL PASS AS WELL.
-#define SHADOW_HEIGHT 1024.0f
+#define SHADOW_HEIGHT 1024.0f // Thats right, to lazy for cbuffers
 
 //////////////////////////////////////////
 //DIS IS BECAUSE JOHAN ASKED ME TO CHANGE AMOUNT OF TEXTURES TO MUCH
