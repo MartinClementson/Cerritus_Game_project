@@ -184,7 +184,7 @@ void Enemy::Update(double deltaTime)
 
 	if (this->animation == EnemyAnimations::ENEMY_ATTACK)
 	{
-		this->animationTime += animationSpeed *20.0f;
+		this->animationTime += animationSpeed * 20.0f;
 	}
 	else if(this->animation == EnemyAnimations::ENEMY_WALK)
 	{
