@@ -874,7 +874,7 @@ HRESULT Graphics::CreateDirect3DContext()
 		NULL,
 		D3D_DRIVER_TYPE_HARDWARE,
 		NULL,
-		NULL,
+		0,
 		NULL,
 		NULL,
 		D3D11_SDK_VERSION,
@@ -893,12 +893,12 @@ HRESULT Graphics::CreateDirect3DContext()
 
 
 
-	if (DEBUG == 2)
-	{
-		hr = gDevice->QueryInterface(__uuidof(ID3D11Debug), (void**)&debug);
-		if (FAILED(hr))MessageBox(*wndHandle, L"ERROR INITIALIZING DEBUG", L"Error", MB_ICONERROR | MB_OK); 
+	//if (DEBUG == 2)
+	//{
+	//	hr = gDevice->QueryInterface(__uuidof(ID3D11Debug), (void**)&debug);
+	//	if (FAILED(hr))MessageBox(*wndHandle, L"ERROR INITIALIZING DEBUG", L"Error", MB_ICONERROR | MB_OK); 
 
-	}
+	//}
 
 
 
