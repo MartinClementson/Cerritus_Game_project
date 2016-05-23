@@ -59,14 +59,14 @@ void GameOverState::Update(double deltaTime)
 	gameOverGUI->Update(deltaTime);
 	SetPointPlacing();
 
-	QuadNumberPick(number1);
-	QuadNumberPick1(number2);
-	QuadNumberPick2(number3);
+	QuadNumberPick((int)number1);
+	QuadNumberPick1((int)number2);
+	QuadNumberPick2((int)number3);
 
 	SetHighPlacing();
-	QuadNumberPickScore(highNumber1);
-	QuadNumberPickScore1(highNumber2);
-	QuadNumberPickScore2(highNumber3);
+	QuadNumberPickScore((int)highNumber1);
+	QuadNumberPickScore1((int)highNumber2);
+	QuadNumberPickScore2((int)highNumber3);
 	
 	XMFLOAT2 mousePos = InputHandler::GetInstance()->GetMousePosition();
 
@@ -149,7 +149,7 @@ void GameOverState::SetPointPlacing()
 
 	number1 = 0;
 	number1 = number / 100;
-	number1 = (int)number1;
+	number1 = (float)((int)number1);
 
 	float minusNum = 0;
 	minusNum = 100 * number1;
@@ -157,28 +157,28 @@ void GameOverState::SetPointPlacing()
 	number2 = points1;
 	number2 = number2 - minusNum;
 	number2 = number2 / 10;
-	number2 = (int)number2;
+	number2 = (float)((int)number2);
 
 	float minusNum2 = 0;
 	minusNum2 = 10 * number2;
 	
 	number3 = points1 - minusNum - minusNum2;
-	number3 = (int)number3;
+	number3 = (float)((int)number3);
 }
 
 int GameOverState::GetNumber1()
 {
-	return number1;
+	return (int)number1;
 }
 
 int GameOverState::GetNumber2()
 {
-	return number2;
+	return (int)number2;
 }
 
 int GameOverState::GetNumber3()
 {
-	return number3;
+	return (int)number3;
 }
 
 void GameOverState::QuadNumberPick(int cases)
@@ -339,7 +339,7 @@ void GameOverState::SetHighPlacing()
 
 	highNumber1 = 0;
 	highNumber1 = highNumber / 100;
-	highNumber1 = (int)highNumber1;
+	highNumber1 = (float)((int)highNumber1);
 
 	float minusNum = 0;
 	minusNum = 100 * highNumber1;
@@ -347,38 +347,38 @@ void GameOverState::SetHighPlacing()
 	highNumber2 = points1;
 	highNumber2 = highNumber2 - minusNum;
 	highNumber2 = highNumber2 / 10;
-	highNumber2 = (int)highNumber2;
+	highNumber2 = (float)((int)highNumber2);
 	 
 	float minusNum2 = 0;
 	minusNum2 = 10 * highNumber2;
 
 	highNumber3 = points1 - minusNum - minusNum2;
-	highNumber3 = (int)highNumber3;
+	highNumber3 = (float)((int)highNumber3);
 
-	SetLastHighScoreNumbers(highNumber1, highNumber2, highNumber3);
+	SetLastHighScoreNumbers((int)highNumber1, (int)highNumber2, (int)highNumber3);
 
 }
 
 void GameOverState::SetLastHighScoreNumbers(int HN1, int HN2, int HN3)
 {
-	this->highNumber1 = HN1;
-	this->highNumber2 = HN2;
-	this->highNumber3 = HN3;
+	this->highNumber1 = (float)HN1;
+	this->highNumber2 = (float)HN2;
+	this->highNumber3 = (float)HN3;
 }
 
 int GameOverState::GetScoreNumber1()
 {
-	return highNumber1;
+	return (int)highNumber1;
 }
 
 int GameOverState::GetScoreNumber2()
 {
-	return highNumber2;
+	return (int)highNumber2;
 }
 
 int GameOverState::GetScoreNumber3()
 {
-	return highNumber3;
+	return (int)highNumber3;
 }
 
 void GameOverState::QuadNumberPickScore(int cases)
