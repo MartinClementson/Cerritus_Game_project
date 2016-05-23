@@ -6,7 +6,7 @@ public:
 	virtual ~Animation();
 	void Initialize();
 	void Release();
-	void Update(double deltaTime);
+	void Update();
 	void Render();
 };
 

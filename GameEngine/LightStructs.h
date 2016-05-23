@@ -133,7 +133,7 @@ struct DirectionalLight
 
 
 
-	void SetMatrices(float aspectRatio, float nearZ, float farZ) {
+	void SetMatrices(float nearZ, float farZ) {
 
 
 		

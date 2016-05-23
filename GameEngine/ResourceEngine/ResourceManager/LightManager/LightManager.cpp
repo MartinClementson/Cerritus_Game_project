@@ -183,7 +183,7 @@ void LightManager::Initialize()
 	this->dirLights[0]->lightDiffuse  = DirectX::XMFLOAT4(1.0f, 0.6f, 0.5f, 1.0f);
 	this->dirLights[0]->lightLookAt = DirectX::XMFLOAT4(0.0f, -10.0f, 75.0f, 1.0f);	//Direct
 	this->dirLights[0]->intensity = 8.0;
-	this->dirLights[0]->SetMatrices(1.0f, 0.01f, 320.0f);
+	this->dirLights[0]->SetMatrices(0.01f, 320.0f);
 	this->dirLights[0]->castShadow = TRUE;
 	numActiveDirLights +=1;
 #pragma endregion
@@ -216,7 +216,7 @@ void LightManager::UpdateWorldLight(const DirectX::XMFLOAT3 & position)
 	this->dirLights[0]->lightPosition = newPos;
 	this->dirLights[0]->lightDiffuse = DirectX::XMFLOAT4(1.0f, 0.6f, 0.5f, 1.0f);
 	this->dirLights[0]->intensity = 8.0;
-	this->dirLights[0]->SetMatrices(1.0f, 30.f, 220.0f);
+	this->dirLights[0]->SetMatrices(30.f, 220.0f);
 
 
 }

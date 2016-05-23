@@ -24,7 +24,7 @@ void Character::Release()
 
 }
 
-void Character::Update(double deltaTime)
+void Character::Update()
 {
 
 }

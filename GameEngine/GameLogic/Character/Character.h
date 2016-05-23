@@ -29,7 +29,7 @@ public:
 
 	virtual void Initialize();
 	virtual void Release();
-	virtual void Update(double deltaTime);
+	virtual void Update();
 	virtual void Render();
 	virtual XMFLOAT3 GetPosition();
 	float DoT;
