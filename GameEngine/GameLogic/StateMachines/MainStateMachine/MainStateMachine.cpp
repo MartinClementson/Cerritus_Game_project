@@ -117,6 +117,7 @@ void MainStateMachine::Update(double deltaTime)
 	if (this->activeState == MAIN_MENU_STATE && menuState->exitMenu == true)
 	{
 		menuState->isActive = false;
+		audioManager->stopMainMenuLoop();
 
 		if (gameState)
 		{

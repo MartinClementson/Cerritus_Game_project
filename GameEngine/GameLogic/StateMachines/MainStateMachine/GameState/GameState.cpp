@@ -354,7 +354,7 @@ void GameState::ProcessInput(double* deltaTime)
 
 			if (input->isMouseClicked(MOUSE_LEFT))
 			{
-
+				audioManager->stopAmbientGameStateSound();
 				toMenu = true;
 				menu->isActive = true;
 				//pause->isActive = false;
