@@ -15,7 +15,6 @@ public:
 	void Release();
 	void Update(double deltaTime);
 	void Render();
-	void ProcessInput(double* deltaTime);
 	Input* input;
 	bool replay;
 

@@ -32,14 +32,14 @@ void WinState::Initialize()
 	win6.UIobject = UITextures::SMIDDLE;
 	win7.UIobject = UITextures::SRIGHT;
 
-	float number = 0;
-	float number1 = 0;
-	float number2 = 0;
-	float number3 = 0;
+	this->number  = 0;
+	this->number1 = 0;
+	this->number2 = 0;
+	this->number3 = 0;
 
-	float highNumber1 = 0;
-	float highNumber2 = 0;
-	float highNumber3 = 0;
+	this->highNumber1 = 0;
+	this->highNumber2 = 0;
+	this->highNumber3 = 0;
 }
 
 void WinState::Release()
@@ -87,8 +87,6 @@ void WinState::Update(double deltaTime)
 	}
 
 	//replay = true;
-
-	ProcessInput(&deltaTime);
 }
 
 void WinState::Render()
@@ -106,19 +104,8 @@ void WinState::Render()
 	graphics->QueueRender(&win7);
 }
 
-void WinState::ProcessInput(double * deltaTime)
-{
 
 
-	//if (input->IsKeyPressed(KEY_SPACE))
-	//{
-	//	replay = true;
-	//	/*MessageBox(0, L"ENTER",
-	//	L"Continue", MB_OK);*/
-	//	//timeSincePaused = 0.0f;
-	//}
-
-}
 
 void WinState::SetPoints(float points)
 {
