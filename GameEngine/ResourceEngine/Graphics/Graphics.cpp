@@ -467,7 +467,7 @@ void Graphics::CullGeometry()
 		{
 
 			instancedAnimationDataPerFrame[enemyIndex].animation	 = this->enemyObjects->at(i)->enemyAnim;
-			instancedAnimationDataPerFrame[enemyIndex].animationTime = min(max(0.0f, this->enemyObjects->at(i)->animationTime),1.0);
+			instancedAnimationDataPerFrame[enemyIndex].animationTime = (float)min(max(0.0f, this->enemyObjects->at(i)->animationTime),1.0);
 			instancedAnimationDataPerFrame[enemyIndex].worldMatrix   = CalculateWorldMatrix(&this->enemyObjects->at(i)->position, &this->enemyObjects->at(i)->rotation);
 			
 			instancesToRender				[ENEMY_1_INSTANCED] += 1;

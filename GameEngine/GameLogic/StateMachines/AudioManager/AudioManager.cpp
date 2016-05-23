@@ -41,25 +41,32 @@ void AudioManager::Initialize()
 	s_weaponPickup.reset(new SoundEffect(s_audEngine->get(), L"sounds/shot_pickup.wav"));
 	s_imminentWave.reset(new SoundEffect(s_audEngine->get(), L"sounds/new_wave.wav"));
 	s_loseAmient.reset(new SoundEffect(s_audEngine->get(), L"sounds/lose.wav"));
-	s_repair.reset(new SoundEffect(s_audEngine->get(), L"sounds/repair.wav"));
+	s_repair.reset(new SoundEffect(s_audEngine->get(), L"sounds/repair2.wav"));
 	s_repair_complete.reset(new SoundEffect(s_audEngine->get(), L"sounds/repair_complete.wav"));
 	s_player_Hit.reset(new SoundEffect(s_audEngine->get(), L"sounds/Player_hit.wav"));
-	s_enemy_Hit.reset(new SoundEffect(s_audEngine->get(), L"sounds/emeny_hit2.wav"));
+	s_enemy_Hit.reset(new SoundEffect(s_audEngine->get(), L"sounds/enemy_hit3.wav"));
+	s_mainMenu.reset(new SoundEffect(s_audEngine->get(), L"sounds/main_menu.wav"));
+	s_winMenu.reset(new SoundEffect(s_audEngine->get(), L"sounds/win_theme.wav"));
 
 	s_repairLoop = s_repair->CreateInstance();
 	s_nightLoop = s_ambient->CreateInstance();
 	s_musicLoop = s_gameTheme->CreateInstance();
 	s_loseLoop = s_loseAmient->CreateInstance();
+	s_mainMenuLoop = s_mainMenu->CreateInstance();
+	s_winLoop = s_winMenu->CreateInstance();
 
 	//s_nightLoop->Play(true);
 	s_nightLoop->SetVolume(0.3f);
 	//s_musicLoop->Play(true);
+	s_mainMenuLoop->SetVolume(0.5f);
 	s_musicLoop->SetVolume(0.5f);
+	s_winLoop->SetVolume(0.5f);
 	s_loseLoop->SetVolume(0.6f);
 	s_repairLoop->Play(true);
 	s_repairLoop->Pause();
 	s_repairLoop->SetVolume(1.2f);
 
+	s_mainMenuLoop->Play(true);
 	s_audEngine->get()->SetMasterVolume(0.1f);
 }
 
@@ -141,6 +148,16 @@ void AudioManager::playRepairLoop()
 	s_repairLoop->Resume();
 }
 
+void AudioManager::playMainMenuLoop()
+{
+	s_mainMenuLoop->Play(true);
+}
+
+void AudioManager::playWinLoop()
+{
+	s_winLoop->Play(true);
+}
+
 void AudioManager::stopRepairLoop()
 {
 	s_repairLoop->Pause();
@@ -155,6 +172,16 @@ void AudioManager::stopAmbientGameStateSound()
 {
 	s_nightLoop->Pause();
 	s_musicLoop->Pause();
+}
+
+void AudioManager::stopMainMenuLoop()
+{
+	s_mainMenuLoop->Pause();
+}
+
+void AudioManager::stopWinLoop()
+{
+	s_winLoop->Pause();
 }
 
 AudioManager* AudioManager::GetInstance()

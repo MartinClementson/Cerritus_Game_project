@@ -65,7 +65,7 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 */
 				//if (!projectiles[i]->GetFired())
 				//{
-					float xRoulette = rand() % 10 + 1; //left hand or right hand shot? who knows!
+					int xRoulette = rand() % 10 + 1; //left hand or right hand shot? who knows!
 					int xMul = (xRoulette > 5 ? 1 : -1);
 
 					positionOffset.x *= xMul;

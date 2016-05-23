@@ -579,7 +579,7 @@ void MeshManager::CreateKillCountQuad1()
 
 	planeVerts[2].position = Float3(-0.64f, 0.73f, 0.0f);		//5
 	planeVerts[2].uv.x = 0.098f;
-	planeVerts[2].uv.y = 1 - 0.6712;
+	planeVerts[2].uv.y = 1 - 0.6712f;
 
 	planeVerts[3].position = Float3(-0.83f, 0.73f, 0.0f);		//7
 	planeVerts[3].uv.x = 0.008f;

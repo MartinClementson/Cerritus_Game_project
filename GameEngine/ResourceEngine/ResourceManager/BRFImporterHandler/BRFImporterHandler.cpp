@@ -248,7 +248,7 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 			{
 				FrameData tempFrame;
 				tempFrame.frameID  = currentFile->fetch->MorphAnimation(unsigned int(animation))->getMorphAnimKeyFrame(unsigned int(frame)).frameNumber;
-				tempFrame.time	   = currentFile->fetch->MorphAnimation(unsigned int(animation))->getMorphAnimKeyFrame(unsigned int(frame)).normalizedTime;
+				tempFrame.time	   = (float)currentFile->fetch->MorphAnimation(unsigned int(animation))->getMorphAnimKeyFrame(unsigned int(frame)).normalizedTime;
 				unsigned int vertAmount = currentFile->fetch->MorphAnimation(unsigned int(animation))->getMorphAnimationHeader()->vertsPerShape;
 
 				std::vector<BlendShapeVert> tempFrameMesh;
