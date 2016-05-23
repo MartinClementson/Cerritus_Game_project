@@ -860,18 +860,31 @@ HRESULT Graphics::CreateDirect3DContext()
 	scd.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 	scd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 
+
+	D3D_FEATURE_LEVEL MaxSupportedFeatureLevel = D3D_FEATURE_LEVEL_9_1;
+	D3D_FEATURE_LEVEL FeatureLevels[] = {
+		D3D_FEATURE_LEVEL_11_1,
+		D3D_FEATURE_LEVEL_11_0,
+		D3D_FEATURE_LEVEL_10_1,
+		D3D_FEATURE_LEVEL_10_0,
+		D3D_FEATURE_LEVEL_9_3,
+		D3D_FEATURE_LEVEL_9_2,
+		D3D_FEATURE_LEVEL_9_1
+	};
+	D3D_FEATURE_LEVEL initiatedFeatureLevel;
+
 	HRESULT hr = D3D11CreateDeviceAndSwapChain(
 		NULL,
 		D3D_DRIVER_TYPE_HARDWARE,
 		NULL,
 		0,
-		NULL,
-		NULL,
+		FeatureLevels,
+		ARRAYSIZE(FeatureLevels),
 		D3D11_SDK_VERSION,
 		&scd,
 		&this->gSwapChain,
 		&this->gDevice,
-		NULL,
+		&initiatedFeatureLevel,
 		&this->gDeviceContext);
 
 	if (FAILED(hr))

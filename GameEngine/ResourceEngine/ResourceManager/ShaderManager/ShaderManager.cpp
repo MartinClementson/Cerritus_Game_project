@@ -1,6 +1,8 @@
 #include "ShaderManager.h"
 
-#define COMPILATIONFLAGS D3DCOMPILE_OPTIMIZATION_LEVEL3
+#define COMPILATIONFLAGS 0
+
+//D3DCOMPILE_OPTIMIZATION_LEVEL3
 
 
 ShaderManager::ShaderManager()
@@ -356,7 +358,7 @@ bool ShaderManager::CreateFinalPassShaders()
 		0,
 		&pVS,
 		nullptr);
-
+	
 	hr = this->gDevice->CreateVertexShader(pVS->GetBufferPointer(), pVS->GetBufferSize(), nullptr, &FINAL_VS);
 
 	if (FAILED(hr))
