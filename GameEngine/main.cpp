@@ -5,7 +5,6 @@
 #include "./Source/LibIncluder.h"
 #include "./Source/EngineClass/Engine.h"
 #include "./Source/GameTimer/GameTimer.h"
-#include "./ResourceEngine/anttweakbar/AntTweakBar.h"
 
 //TwBar *test;
 HWND InitWindow(HINSTANCE hInstance);
@@ -113,9 +112,6 @@ HWND InitWindow(HINSTANCE hInstance)
 
 LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam )
 {
-	if (TwEventWin(hWnd, message, wParam, lParam)) // send event message to AntTweakBar
-		return 0; 
-
 	switch (message) 
 	{
 	case WM_DESTROY:

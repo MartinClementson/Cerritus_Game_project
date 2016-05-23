@@ -29,7 +29,7 @@ void MainStateMachine::Update(double deltaTime)
 	if (Input::GetInstance()->IsKeyPressed(KEY_X) && timePassed > 0.2f)
 	{
 		timePassed = 0;
-		AntTweakBar::GetInstance()->toggleShowingBar();
+		
 	}
 	if (gameState->isActive)
 	{

@@ -69,10 +69,7 @@ void Graphics::Initialize(HWND * window)
 	this->wndHandle  = window;
 
 	hr				 = CreateDirect3DContext();
-	antTweakBar = AntTweakBar::GetInstance();
-	antTweakBar->Initialize(gDevice);
-	//antTweakBar->addSlider("AnimSpeed", animationSpeed);
-	//antTweakBar->addSlider("Animation", animation);
+
 	
 
 	gameObjects		 = new std::vector<RenderInfoObject*>;
@@ -151,7 +148,7 @@ void Graphics::Release()
 #pragma region Release custom classes
 
 	renderer->Release();
-	antTweakBar->Release();
+
 #pragma endregion
 
 
@@ -384,7 +381,7 @@ void Graphics::FinishFrame() // this one clears the graphics for this frame. So 
 
 	instanceMeshIndex.Reset();
 
-	antTweakBar->Update();
+
 
 	this->gSwapChain->Present(VSYNC, 0); //Change front and back buffer after rendering
 	

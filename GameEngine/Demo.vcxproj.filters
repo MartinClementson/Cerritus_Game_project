@@ -260,9 +260,6 @@
     <Filter Include="GameLogic\GUI\Collision">
       <UniqueIdentifier>{56761173-6038-415a-adf6-16361a84dd24}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ResourceEngine\TweakBar">
-      <UniqueIdentifier>{34aa42b6-3cda-4512-9b91-0ccd612a7a9f}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameLogic\Animation\Animation.cpp">
@@ -459,9 +456,6 @@
     </ClCompile>
     <ClCompile Include="GameLogic\StateMachines\MainStateMachine\WinState\WinState.cpp">
       <Filter>GameLogic\StateMachines\MainStateMachene\WinState</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceEngine\anttweakbar\AntTweakBar.cpp">
-      <Filter>ResourceEngine\TweakBar</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -677,9 +671,6 @@
     </ClInclude>
     <ClInclude Include="GameLogic\StateMachines\MainStateMachine\WinState\WinState.h">
       <Filter>GameLogic\StateMachines\MainStateMachene\WinState</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceEngine\anttweakbar\AntTweakBar.h">
-      <Filter>ResourceEngine\TweakBar</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

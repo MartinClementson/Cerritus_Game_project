@@ -3,7 +3,6 @@
 #include "../../Source/Constants.h"
 #include "../../Enumerations/Enumerations.h"
 #include "../../Structs/DataTypes.h"
-#include "../../ResourceEngine/anttweakbar/AntTweakBar.h"
 
 using namespace DirectX;
 
