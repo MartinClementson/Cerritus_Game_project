@@ -1850,24 +1850,24 @@ bool Renderer::CreateBuffers()
 
 	//Light buffer for structured buffer
 	//D3D11_BUFFER_DESC lightBufferDesc;
-	ZeroMemory(&lightBufferDesc, sizeof(lightBufferDesc));
-	lightBufferDesc.BindFlags			 = D3D11_BIND_SHADER_RESOURCE;
-	lightBufferDesc.Usage				 = D3D11_USAGE_DYNAMIC;
-	lightBufferDesc.CPUAccessFlags		 = D3D11_CPU_ACCESS_WRITE;
-	lightBufferDesc.MiscFlags			 = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+	//ZeroMemory(&lightBufferDesc, sizeof(lightBufferDesc));
+	//lightBufferDesc.BindFlags			 = D3D11_BIND_SHADER_RESOURCE;
+	//lightBufferDesc.Usage				 = D3D11_USAGE_DYNAMIC;
+	//lightBufferDesc.CPUAccessFlags		 = D3D11_CPU_ACCESS_WRITE;
+	//lightBufferDesc.MiscFlags			 = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
 	lightBufferDesc.ByteWidth			 = sizeof(DirLightStruct);
 	lightBufferDesc.StructureByteStride  = sizeof(DirectionalLight);
 
 	if (FAILED(hr = gDevice->CreateBuffer(&lightBufferDesc, nullptr, &lightBuffers[BUFFER_DIRLIGHTS])))
 		MessageBox(NULL, L"Failed to create DirLight buffer, first", L"Error", MB_ICONERROR | MB_OK);
 
-	D3D11_SHADER_RESOURCE_VIEW_DESC srvDescDir;
-	srvDescDir.Format = DXGI_FORMAT_UNKNOWN;
-	srvDescDir.ViewDimension = D3D11_SRV_DIMENSION_BUFFEREX;
-	srvDescDir.Buffer.ElementOffset = 0;
-	srvDescDir.Buffer.ElementWidth = sizeof(DirectionalLight);
-	srvDescDir.Buffer.NumElements = MAX_NUM_DIRLIGHTS;
-	if (FAILED(hr = gDevice->CreateShaderResourceView(lightBuffers[BUFFER_DIRLIGHTS], &srvDescDir, &dirLightStructuredBuffer)))
+	//D3D11_SHADER_RESOURCE_VIEW_DESC srvDescDir;
+	//srvDescDir.Format = DXGI_FORMAT_UNKNOWN;
+	//srvDescDir.ViewDimension = D3D11_SRV_DIMENSION_BUFFEREX;
+	//srvDescDir.Buffer.ElementOffset = 0;
+	srvDesc.Buffer.ElementWidth = sizeof(DirectionalLight);
+	srvDesc.Buffer.NumElements = MAX_NUM_DIRLIGHTS;
+	if (FAILED(hr = gDevice->CreateShaderResourceView(lightBuffers[BUFFER_DIRLIGHTS], &srvDesc, &dirLightStructuredBuffer)))
 		MessageBox(NULL, L"Failed to create DirLight buffer, second", L"Error", MB_ICONERROR | MB_OK);
 
 
