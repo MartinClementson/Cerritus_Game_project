@@ -240,7 +240,6 @@ ID3D11ShaderResourceView * TextureManager::GetDiffuseTexture(int diffuseID)
 			return nullptr;
 		}
 	}
-	return nullptr;
 }
 
 ID3D11ShaderResourceView * TextureManager::GetNormalTexture(int normalID)
@@ -258,7 +257,6 @@ ID3D11ShaderResourceView * TextureManager::GetNormalTexture(int normalID)
 			return nullptr;
 		}
 	}
-	return nullptr;
 }
 
 ID3D11ShaderResourceView * TextureManager::GetSpecularTexture(int specularID)
@@ -276,7 +274,6 @@ ID3D11ShaderResourceView * TextureManager::GetSpecularTexture(int specularID)
 			return nullptr;
 		}
 	}
-	return nullptr;
 }
 
 ID3D11ShaderResourceView * TextureManager::GetGlowTexture(int glowID)
@@ -294,5 +291,4 @@ ID3D11ShaderResourceView * TextureManager::GetGlowTexture(int glowID)
 			return nullptr;
 		}
 	}
-	return nullptr;
 }

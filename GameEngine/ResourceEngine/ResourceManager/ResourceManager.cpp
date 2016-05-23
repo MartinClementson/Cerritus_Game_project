@@ -300,8 +300,6 @@ void ResourceManager::Release()
 
 
 		return &currentMesh;
-
-		return nullptr;
 	}
 	RenderInstructions * ResourceManager::GetRenderInfo(std::vector<RenderInstructions>*	object, Frustum* frustum)
 	{

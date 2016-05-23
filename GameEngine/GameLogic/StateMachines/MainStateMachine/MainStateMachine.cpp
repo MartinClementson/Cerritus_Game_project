@@ -93,7 +93,7 @@ void MainStateMachine::Update(double deltaTime)
 		winState->Initialize();
 		winState->isActive = true;
 		winState->SetLastHigh(lastHighscore);
-		float points1 = gameState->GetPoints();
+		//float points1 = gameState->GetPoints();
 		winState->SetPoints(gameState->GetPoints());
 
 		if (lastHighscore < gameState->GetPoints())
