@@ -185,8 +185,8 @@ void Graphics::Release()
 			SAFE_RELEASE(debug);
 		}
 	}
-	//while (gDevice->Release() > 0);
-	SAFE_RELEASE(gDevice);
+	while (gDevice->Release() > 0);
+	//SAFE_RELEASE(gDevice);
 
 	
 }
@@ -874,7 +874,7 @@ HRESULT Graphics::CreateDirect3DContext()
 		NULL,
 		D3D_DRIVER_TYPE_HARDWARE,
 		NULL,
-		DEBUG,
+		NULL,
 		NULL,
 		NULL,
 		D3D11_SDK_VERSION,
