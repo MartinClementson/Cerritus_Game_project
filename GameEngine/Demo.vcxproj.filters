@@ -718,31 +718,31 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\Fetch.obj">
-      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
-    </Object>
-    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\FileData.obj">
-      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
-    </Object>
-    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\LightData.obj">
-      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
-    </Object>
-    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MaterialData.obj">
-      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
-    </Object>
-    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MeshData.obj">
-      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
-    </Object>
-    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\SkeletonData.obj">
-      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
-    </Object>
-    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MorphData.obj">
-      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
-    </Object>
-  </ItemGroup>
-  <ItemGroup>
     <Media Include="sounds\Explo1.wav">
       <Filter>GameLogic\StateMachines\MainStateMachene\AudioManager</Filter>
     </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\Fetch.obj">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
+    </Object>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\FileData.obj">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
+    </Object>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\LightData.obj">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
+    </Object>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\MaterialData.obj">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
+    </Object>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\MeshData.obj">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
+    </Object>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\MorphData.obj">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
+    </Object>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\SkeletonData.obj">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
+    </Object>
   </ItemGroup>
 </Project>

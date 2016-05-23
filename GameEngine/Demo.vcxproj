@@ -375,21 +375,21 @@
     </FxCompile>
   </ItemGroup>
   <ItemGroup>
-    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\Fetch.obj" />
-    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\FileData.obj" />
-    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\LightData.obj" />
-    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MaterialData.obj" />
-    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MeshData.obj" />
-    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\MorphData.obj" />
-    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib\Objects\SkeletonData.obj" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="DirectXTK\Audio\DirectXTKAudio_Desktop_2015_Win8.vcxproj">
       <Project>{4f150a30-cecb-49d1-8283-6a3f57438cf5}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Media Include="sounds\Explo1.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\Fetch.obj" />
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\FileData.obj" />
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\LightData.obj" />
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\MaterialData.obj" />
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\MeshData.obj" />
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\MorphData.obj" />
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\SkeletonData.obj" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

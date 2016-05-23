@@ -1859,16 +1859,16 @@ bool Renderer::CreateBuffers()
 	lightBufferDesc.StructureByteStride  = sizeof(DirectionalLight);
 
 	if (FAILED(hr = gDevice->CreateBuffer(&lightBufferDesc, nullptr, &lightBuffers[BUFFER_DIRLIGHTS])))
-		MessageBox(NULL, L"Failed to create DirLight buffer", L"Error", MB_ICONERROR | MB_OK);
+		MessageBox(NULL, L"Failed to create DirLight buffer, first", L"Error", MB_ICONERROR | MB_OK);
 
 	D3D11_SHADER_RESOURCE_VIEW_DESC srvDescDir;
 	srvDescDir.Format = DXGI_FORMAT_UNKNOWN;
 	srvDescDir.ViewDimension = D3D11_SRV_DIMENSION_BUFFEREX;
 	srvDescDir.Buffer.ElementOffset = 0;
-	
+	srvDescDir.Buffer.ElementWidth = sizeof(DirectionalLight);
 	srvDescDir.Buffer.NumElements = MAX_NUM_DIRLIGHTS;
 	if (FAILED(hr = gDevice->CreateShaderResourceView(lightBuffers[BUFFER_DIRLIGHTS], &srvDescDir, &dirLightStructuredBuffer)))
-		MessageBox(NULL, L"Failed to create DirLight buffer", L"Error", MB_ICONERROR | MB_OK);
+		MessageBox(NULL, L"Failed to create DirLight buffer, second", L"Error", MB_ICONERROR | MB_OK);
 
 
 	this->gDeviceContext->GSSetShaderResources(DIRLIGHTS_BUFFER_INDEX, 1, &dirLightStructuredBuffer);
