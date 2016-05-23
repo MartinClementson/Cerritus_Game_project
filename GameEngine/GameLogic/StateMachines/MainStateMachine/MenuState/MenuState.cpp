@@ -31,7 +31,7 @@ void MenuState::Release()
 
 void MenuState::Update(double deltaTime)
 {
-	time += timeValue * (float)deltaTime;
+	time += (float)deltaTime;
 
 	mainUI->Update(deltaTime);
 	XMFLOAT2 mousePos = InputHandler::GetInstance()->GetMousePosition();
@@ -42,7 +42,12 @@ void MenuState::Update(double deltaTime)
 	if (vx > Maxex && vy < Maxey && vx < Minex && vy > Miney)
 	{
 		{
-			if (input->isMouseClicked(MOUSE_LEFT) && time > 4.0f)
+			if (mainUI->getUI() == UITextures::CONTROLS && input->isMouseClicked(MOUSE_LEFT))
+			{
+				mainUI->setUI(UITextures::MENU);
+				time = 0.0f;
+			}
+			else if (input->isMouseClicked(MOUSE_LEFT) && time > 0.2f)
 			{
 				//fix later
 				DestroyWindow(GetActiveWindow());
@@ -65,14 +70,14 @@ void MenuState::Update(double deltaTime)
 		if (input->isMouseClicked(MOUSE_LEFT))
 		{
 			mainUI->setUI(UITextures::CONTROLS);
-			time = 0.0f;
+			//time = 0.0f;
 
 
 		}
 		//go to control screen
 	}
 
-	if (mainUI->getUI() == UITextures::CONTROLS)
+	/*if (mainUI->getUI() == UITextures::CONTROLS)
 	{
 		if (vx > MaxEcx && vy < MaxEcy && vx < MinEcx && vy > MinEcy)
 		{
@@ -81,9 +86,9 @@ void MenuState::Update(double deltaTime)
 				mainUI->setUI(UITextures::MENU);
 			}
 		}
-	}
+	}*/
 
-	ProcessInput(&deltaTime);
+	//ProcessInput(&deltaTime);
 	
 }
 
