@@ -23,6 +23,9 @@ protected:
 	CharacterType charType;
 	float maxHealth;
 	EnemyBase* closestHealer;
+	float animationTime;
+	float animationSpeed = 0.003f;
+	EnemyAnimations animation;
 	
 	EnemyBase();
 public:
@@ -67,5 +70,18 @@ public:
 
 	float originalMovementSpeed = 0;
 	float slowTimer;
+	void SetAnimation(EnemyAnimations animation)
+	{ 
+		if( this->animation != animation)
+		{
+			this->animation = animation; 
+			animationTime = 0.0f; 
+			//deathAnim = false;
+		}
+	
+	};
+
+	bool timeToDie = false;
+	bool deathAnim = false;
 
 };

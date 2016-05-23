@@ -1,4 +1,20 @@
 #include "ProjectileSystem.h"
+
+
+
+inline DirectX::XMFLOAT3 operator+(DirectX::XMFLOAT3 a, DirectX::XMFLOAT3 b) {
+	DirectX::XMFLOAT3 result;
+
+	result.x = a.x + b.x;
+	result.y = a.y + b.y;
+	result.z = a.z + b.z;
+
+	return result;
+}
+#define offsetX 1.052f
+#define offsetY 0.0f
+#define offsetZ 1.5f
+
 float get_degrees(float radian);
 inline float get_degrees(float radian)
 {
@@ -8,6 +24,7 @@ inline float get_degrees(float radian)
 
 ProjectileSystem::ProjectileSystem()
 {
+	positionOffset = XMFLOAT3(offsetX, offsetY, offsetZ);
 	timeOffset = 0;
 	maxProjectiles = 200;
 	firedProjectiles = 0;
@@ -48,11 +65,16 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 */
 				//if (!projectiles[i]->GetFired())
 				//{
+					float xRoulette = rand() % 10 + 1; //left hand or right hand shot? who knows!
+					int xMul = (xRoulette > 5 ? 1 : -1);
+
+					positionOffset.x *= xMul;
+
 					XMFLOAT3 rotation(0.0f, 0.0f, 0.0f); //Legacy, now rotation is handled in billboard shader
 					if (GetUpgrade() == UpgradeType::ONE_SHOT)
 					{
 				
-						projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
+						projectiles[firedProjectiles]->Initialize(origin + positionOffset, direction, rotation);
 						firedProjectiles++;
 						audioManager->playShotSound();
 						//break;
@@ -62,7 +84,7 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 						XMVECTOR tmp = XMVector3TransformCoord(XMLoadFloat3(&direction), XMLoadFloat4x4(&rotationMatrix));
 						XMStoreFloat3(&direction, tmp);
 						
-						projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
+						projectiles[firedProjectiles]->Initialize(origin + positionOffset, direction, rotation);
 						firedProjectiles++;
 						///////////////////////////////////////////////////
 						direction = originalDirection;
@@ -70,7 +92,7 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 						tmp = XMVector3TransformCoord(XMLoadFloat3(&direction), XMLoadFloat4x4(&rotationMatrix2));
 						XMStoreFloat3(&direction, tmp);
 						
-						projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
+						projectiles[firedProjectiles]->Initialize(origin + positionOffset, direction, rotation);
 						firedProjectiles++;
 						audioManager->playShotSound();
 						//break;
@@ -78,13 +100,13 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 					else if (GetUpgrade() == UpgradeType::THREE_SHOT)
 					{
 				
-						projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
+						projectiles[firedProjectiles]->Initialize(origin + positionOffset, direction, rotation);
 						firedProjectiles++;
 						////////////////////////////////////////////////////
 						XMVECTOR tmp = XMVector3TransformCoord(XMLoadFloat3(&direction), XMLoadFloat4x4(&rotationMatrix));
 						XMStoreFloat3(&direction, tmp);
 						
-						projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
+						projectiles[firedProjectiles]->Initialize(origin + positionOffset, direction, rotation);
 						firedProjectiles++;
 
 						////////////////////////////////////////////////////
@@ -92,7 +114,7 @@ void ProjectileSystem::FireProjectile(XMFLOAT3 origin, XMFLOAT3 direction)
 						tmp = XMVector3TransformCoord(XMLoadFloat3(&direction), XMLoadFloat4x4(&rotationMatrix2));
 						XMStoreFloat3(&direction, tmp);
 				
-						projectiles[firedProjectiles]->Initialize(origin, direction, rotation);
+						projectiles[firedProjectiles]->Initialize(origin + positionOffset, direction, rotation);
 						firedProjectiles++;
 						audioManager->playShotSound(); 
 						//break;

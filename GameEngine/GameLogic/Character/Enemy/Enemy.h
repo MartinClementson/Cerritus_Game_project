@@ -53,4 +53,5 @@ public:
 	void Respawn(XMFLOAT3 spawn);
 	float GetMaxHealth();
 	void Spawn(XMFLOAT3 spawn);
+	
 };

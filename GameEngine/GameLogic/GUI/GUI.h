@@ -22,8 +22,6 @@ public:
 	void setPos(XMFLOAT3 uv);
 	void setUI(UITextures texture);
 	void setUINR(UiNumbers numbers);
-	//void setBlyat(UITextures blyat, UiNumbers numberino);
-	void poop();
 
 
 private:

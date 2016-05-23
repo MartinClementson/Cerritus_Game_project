@@ -278,8 +278,19 @@ XMFLOAT2 InputHandler::GetMousePosition()
 
 bool InputHandler::isMouseClicked(InputKeys* mouseKey)
 {
-	mouse->GetDeviceState(sizeof(DIMOUSESTATE),(LPVOID)&mouseState);
+	HRESULT hr;
+	hr = mouse->GetDeviceState(sizeof(DIMOUSESTATE),(LPVOID)&mouseState);
 
+	if (FAILED(hr)) //it fails if the game is tabbed out
+	{
+		hr = mouse->Acquire(); //reaquire
+		if (FAILED(hr))
+		{
+			hr = mouse->Acquire();
+		}
+
+	}
+	
 	if (*mouseKey == MOUSE_LEFT && mouseState.rgbButtons[0] & 0x80)
 	{
 	return true;

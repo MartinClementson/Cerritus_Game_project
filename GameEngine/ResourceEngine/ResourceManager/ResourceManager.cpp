@@ -9,8 +9,6 @@ ResourceManager::ResourceManager()
 	brfImporterHandler  = new BRFImporterHandler();
 	materialManager		= new MaterialManager();
 }
-
-
 ResourceManager::~ResourceManager()
 {
 	delete meshManager;
@@ -27,20 +25,21 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	brfImporterHandler->Initialize(this->meshManager, this->materialManager);
 
 
-	brfImporterHandler->LoadFile("models/playerModel.BRF", true, true, true, false);
-	brfImporterHandler->LoadFile("models/EnemyModel.BRF", true, true, true, false);
-	brfImporterHandler->LoadFile("models/Slow_Trap.BRF", true, true, true, false);
-	brfImporterHandler->LoadFile("models/Fire_Trap.BRF", true, true, true, false);
-	brfImporterHandler->LoadFile("models/FinalScene2.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene3.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene4.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene5.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene6.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene7.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene8.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene9.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/FinalScene10.BRF", true, true, true, true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
-	brfImporterHandler->LoadFile("models/quadBullet.BRF", true, true, true, false);
+	brfImporterHandler->LoadFile("models/playerModel.BRF",		    true, true, true, false ,false);
+	brfImporterHandler->LoadFile("models/EnemyModelHealer.BRF",     true, true, true, false ,false);
+	brfImporterHandler->LoadFile("models/Slow_Trap.BRF",		    true, true, true, false ,false);
+	brfImporterHandler->LoadFile("models/Fire_Trap.BRF",		    true, true, true, false ,false);
+	brfImporterHandler->LoadFile("models/FinalScene2.BRF",		    true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene3.BRF",		    true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene4.BRF",		    true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene5.BRF",		    true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene6.BRF",		    true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene7.BRF",		    true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene8.BRF",		    true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene9.BRF",		    true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/FinalScene10.BRF",		    true, true, true, false ,true); //SET ME TO TRUE OCNE QWUADTREEE QORKS
+	brfImporterHandler->LoadFile("models/quadBullet.BRF",		    true, true, true, false ,false);
+    brfImporterHandler->LoadFile("models/Enemy_animated.BRF",		true, false, false, true  ,false);
 	this->meshManager->CreateQuadTree();
 	
 	
@@ -124,13 +123,31 @@ void ResourceManager::Initialize(ID3D11Device *gDevice, ID3D11DeviceContext* gDe
 	materialManager->addMaterials(&temp);
 
 	ui.materialName = "wave_complete";
-	ui.diffuseTex = "wave.jpg";
+	ui.diffuseTex = "wavecompleted.tif";
 	ui.materialID = 24;
 
 	temp.push_back(ui);
 	materialManager->addMaterials(&temp);
 
+
 	this->brfImporterHandler->Release();
+
+	materialManager->addMaterials(&temp);
+
+	ui.materialName = "LEFTENEMYNR";
+	ui.diffuseTex = "Numerations.tif";
+	ui.materialID = 25;
+
+	temp.push_back(ui);
+	materialManager->addMaterials(&temp);
+	materialManager->addMaterials(&temp);
+
+	ui.materialName = "RIGHTENEMYNR";
+	ui.diffuseTex = "Numerations.tif";
+	ui.materialID = 26;
+
+	temp.push_back(ui);
+	materialManager->addMaterials(&temp);
 }
 
 void ResourceManager::Release()
@@ -196,12 +213,12 @@ void ResourceManager::Release()
 	RenderInstructions * ResourceManager::GetRenderInfo(RenderInfoEnemy * object)
 	{
 		currentMesh							= RenderInstructions();
-		MeshEnum meshType					= MeshEnum::ENEMY_1;//temporary
+		MeshEnum meshType					= object->object;//temporary
 
-		if (     meshType == MeshEnum::ENEMY_1 && gbufferPass == true)
+		if (     meshType == MeshEnum::ENEMY_2 && gbufferPass == true)
 			shaderManager->SetActiveShader(Shaders::GBUFFER_SHADER_INSTANCED);
 		
-		else if (meshType == MeshEnum::ENEMY_1 && shadowPass  == true)
+		else if (meshType == MeshEnum::ENEMY_2 && shadowPass  == true)
 			shaderManager->SetActiveShader(Shaders::SHADOW_SHADER_INSTANCED);
 
 		else
@@ -260,6 +277,32 @@ void ResourceManager::Release()
 		return &currentMesh;
 	}
 
+	RenderInstructions * ResourceManager::GetAnimationRenderInfo(RenderInfoEnemy * object)
+	{
+
+		currentMesh = RenderInstructions();
+		MeshEnum meshType = object->object;
+
+		shaderManager->SetActiveShader(Shaders::ANIMATION_SHADER);
+		/*if (meshType == MeshEnum::ENEMY_1 && gbufferPass == true)
+			shaderManager->SetActiveShader(Shaders::GBUFFER_SHADER_INSTANCED);
+
+		else if (meshType == MeshEnum::ENEMY_1 && shadowPass == true)
+			shaderManager->SetActiveShader(Shaders::SHADOW_SHADER_INSTANCED);*/
+
+		
+
+		meshManager->GetMeshRenderInfo(&meshType, &currentMesh);
+
+		//meshManager->GetPlaceHolderMeshInfo(&currentMesh);
+		//meshManager->GetMeshRenderInfo
+		materialManager->GetMaterialRenderInfo(&currentMesh);
+
+
+		return &currentMesh;
+
+		return nullptr;
+	}
 	RenderInstructions * ResourceManager::GetRenderInfo(std::vector<RenderInstructions>*	object, Frustum* frustum)
 	{
 		currentMesh = RenderInstructions();

@@ -1,6 +1,15 @@
 #include "LightManager.h"
 
+inline DirectX::XMFLOAT4 operator-(DirectX::XMFLOAT4 a, DirectX::XMFLOAT4 b) {
+	DirectX::XMFLOAT4 result;
 
+	result.x = a.x - b.x;
+	result.y = a.y - b.y;
+	result.z = a.z - b.z;
+	result.w = a.w - b.w;
+
+	return result;
+}
 
 LightManager::LightManager()
 {
@@ -170,7 +179,7 @@ void LightManager::Initialize()
 	pointLights[3]->attenuation = 0.02;*/
 
 	this->dirLights[0] = new DirectionalLight();
-	this->dirLights[0]->lightPosition = DirectX::XMFLOAT4(86.0f, 70.0f, 120.0f,1.0f);
+	this->dirLights[0]->lightPosition = sunPosition;
 	this->dirLights[0]->lightDiffuse  = DirectX::XMFLOAT4(1.0f, 0.6f, 0.5f, 1.0f);
 	this->dirLights[0]->lightLookAt = DirectX::XMFLOAT4(0.0f, -10.0f, 75.0f, 1.0f);	//Direct
 	this->dirLights[0]->intensity = 8.0;
@@ -183,6 +192,32 @@ void LightManager::Initialize()
 }
 void LightManager::Release()			  
 {
+
+}
+
+void LightManager::UpdateWorldLight(const DirectX::XMFLOAT3 & position)
+{
+
+	DirectX::XMFLOAT4 newPos;
+	newPos.x = sunPosition.x + position.x;
+	newPos.y = sunPosition.y;
+	newPos.z = sunPosition.z + position.z;
+	newPos.w = 1.0;
+
+	DirectX::XMFLOAT4 moveVector = newPos - this->dirLights[0]->lightPosition  ;
+
+	DirectX::XMMATRIX translate = DirectX::XMMatrixTranslationFromVector(DirectX::XMLoadFloat4(&moveVector));
+
+	 DirectX::XMVECTOR newLookAt = DirectX::XMVector3TransformCoord(DirectX::XMLoadFloat4(&this->dirLights[0]->lightLookAt), translate);
+	 DirectX::XMStoreFloat4(&this->dirLights[0]->lightLookAt, newLookAt);
+	 
+	DirectX::XMFLOAT4(0.0f, -10.0f, 75.0f, 1.0f);	//Direct
+
+	this->dirLights[0]->lightPosition = newPos;
+	this->dirLights[0]->lightDiffuse = DirectX::XMFLOAT4(1.0f, 0.6f, 0.5f, 1.0f);
+	this->dirLights[0]->intensity = 8.0;
+	this->dirLights[0]->SetMatrices(1.0f, 30.f, 220.0f);
+
 
 }
 
