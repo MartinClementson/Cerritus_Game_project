@@ -18,6 +18,10 @@ private:
 	Graphics* graphics;
 	AudioManager* audioManager;
 	RenderInfoUI WaveComplete;
+	RenderInfoUI WaveCounter;
+	RenderInfoUI Leftnr;
+	RenderInfoUI Rightnr;
+	RenderInfoUI huden;
 
 	void killEnemy(int index);
 
@@ -60,6 +64,7 @@ public:
 
 	void SpawnEnemy(int waveAmount);
 	void RespawnEnemy(int i);
+	
 
 };
 

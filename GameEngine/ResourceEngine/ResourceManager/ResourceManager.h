@@ -43,6 +43,8 @@ public:
 	RenderInstructions* GetRenderInfo(RenderInfoEnemy*		object);
 	RenderInstructions* GetRenderInfo(RenderInfoChar*		object);
 	RenderInstructions* GetRenderInfo(RenderInfoTrap*		object);
+	RenderInstructions* GetAnimationRenderInfo(RenderInfoEnemy*		object);
+
 	RenderInstructions* GetRenderInfo(std::vector<RenderInstructions>*	object, Frustum* frustum);
 	
 	RenderInstructions* GetPlaceHolderMesh(XMFLOAT3 position);

@@ -10,16 +10,18 @@ BRFImporterHandler::~BRFImporterHandler()
 {
 }
 
-void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material, bool skeleton, bool isScene)
+void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material, bool skeleton, bool morphAnim, bool isScene)
 {
-
-	this->currentFile->LoadFile(fileName, mesh, skeleton, material, false /*morph*/);
-
+	
+	this->currentFile->LoadFile(fileName, mesh, skeleton, material, morphAnim);
+	
 	//offset to use for the materials
 	//offsetMaterial += materialID;
 
 #pragma region Loop for reading mesh info & provide to meshManager.
 	unsigned int meshsize = currentFile->fetch->Main()->meshAmount;
+
+	std::vector<Vertex> morphVertices;
 	for (unsigned int i = 0; i < meshsize; i++)
 	{
 #pragma region Statements handling skeletons.
@@ -155,8 +157,11 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 
 #pragma endregion
 
-		this->meshManager->AddMesh(tempHasSkeleton, tempSkeletonID, tempMaterialID, tempVertexCount, tempIndexCount, tempVertices, tempAniVertices, tempIndices, isScene);					//Keep me!
-	}
+		if (!morphAnim)
+			this->meshManager->AddMesh(tempHasSkeleton, tempSkeletonID, tempMaterialID, tempVertexCount, tempIndexCount, tempVertices, tempAniVertices, tempIndices, isScene);					//Keep me!
+		else
+			morphVertices = tempVertices;
+}
 #pragma endregion
 #pragma region Loop for reading material info & provide to materialManager.
 	//temporary vector for the materials
@@ -222,6 +227,61 @@ void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material
 	materialManager->addMaterials(&importedMaterials);
 #pragma endregion
 
+
+#pragma region Load Morph animation
+	if (morphAnim == true)
+	{
+		unsigned int morphAmount = currentFile->fetch->Main()->morphAnimAmount;
+		std::vector<AnimationInfo> animations;
+		animations.reserve(morphAmount);
+		
+
+		for (size_t animation = 0; animation < morphAmount; animation++)
+		{
+			AnimationInfo tempAnim;
+			unsigned int frameAmount  = currentFile->fetch->MorphAnimation(unsigned int(animation))->getMorphAnimationHeader()->numberOfKeyFrames;
+			tempAnim.frames.reserve(frameAmount);
+			tempAnim.numberOfFrames	  = frameAmount;
+			tempAnim.animationTime    = 10.0f; //oops forgot to export this. But its ok!
+			tempAnim.meshesPerFrame.reserve(size_t(frameAmount));
+			for (size_t frame = 0; frame < frameAmount; frame++)
+			{
+				FrameData tempFrame;
+				tempFrame.frameID  = currentFile->fetch->MorphAnimation(unsigned int(animation))->getMorphAnimKeyFrame(unsigned int(frame)).frameNumber;
+				tempFrame.time	   = currentFile->fetch->MorphAnimation(unsigned int(animation))->getMorphAnimKeyFrame(unsigned int(frame)).normalizedTime;
+				unsigned int vertAmount = currentFile->fetch->MorphAnimation(unsigned int(animation))->getMorphAnimationHeader()->vertsPerShape;
+
+				std::vector<BlendShapeVert> tempFrameMesh;
+				tempFrameMesh.reserve(vertAmount);
+				
+
+				std::vector<BRFImporterLib::MorphVertexHeader>* currmesh = currentFile->fetch->MorphAnimation(unsigned int(animation))->getMorphVertexHeaderVector(unsigned int(frame));
+				for (size_t vert = 0; vert < vertAmount; vert++)
+				{
+					BlendShapeVert tempVert;
+					BRFImporterLib::MorphVertexHeader* currVert = &currmesh->at(vert);
+					tempVert.position  = currVert->pos;
+					tempVert.normal    = currVert->normal;
+					tempVert.tangent   = currVert->tangent;
+					tempVert.biTangent = currVert->biTangent;
+					tempFrameMesh.push_back(tempVert);
+				}
+				tempAnim.frames.push_back(tempFrame);
+				tempAnim.meshesPerFrame.push_back(tempFrameMesh);
+			}
+			animations.push_back(tempAnim);
+		}
+		/*std::vector<AnimationInfo> revAnim;
+		revAnim.reserve(animations.size());
+		for (size_t i = 0; i < animations.size(); i++)
+		{
+			revAnim.push_back(animations.at(animations.size() - 1 - i));
+
+		}*/
+		meshManager->CreateAnimationFromMeshes(morphVertices, animations);
+	}
+	
+#pragma endregion
 }
 
 void BRFImporterHandler::Initialize(MeshManager * meshManager, MaterialManager* materialManager)

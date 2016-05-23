@@ -20,7 +20,8 @@ Enemy::Enemy(XMFLOAT3 spawn, bool fast)
 	this->enemyStateMachine = new EnemyStateMachine();
 	enemyStateMachine->Initialize();
 	this->graphics = Graphics::GetInstance();
-
+	this->animation = EnemyAnimations::ENEMY_WALK;
+	this->animationTime = 0.0f;
 	renderInfo.position = position;
 	renderInfo.rotation = rotation;
 	renderInfo.radius = radius;
@@ -40,10 +41,10 @@ void Enemy::Initialize()
 {
 	closestHealer = nullptr;
 	graphics = Graphics::GetInstance();
-
+	this->deathAnim = false;
+	this->timeToDie = false;
 		
-		
-	
+	//EnemyBase::Initialize();
 	
 
 	if (this->fast)
@@ -98,14 +99,14 @@ void Enemy::Update(double deltaTime)
 {
 
 
-	health -= DoT*25*(float)deltaTime;
+	health -= DoT * 25 * (float)deltaTime;
 
 
-	if (health < (maxHealth / 1.5) && closestHealer && this-> healable != false)
+	if (health < (maxHealth / 1.5) && closestHealer && this->healable != false)
 	{
-  		enemyStateMachine->SetActiveState(ENEMY_HEAL_STATE);
+		enemyStateMachine->SetActiveState(ENEMY_HEAL_STATE);
 	}
-	else if(health >= maxHealth)
+	else if (health >= maxHealth)
 	{
 		GetStateMachine()->SetActiveState(ENEMY_ATTACK_STATE);
 	}
@@ -124,21 +125,27 @@ void Enemy::Update(double deltaTime)
 		DoT = 0;
 		DoTDur = 0;
 	}
+
+	if (movementSpeed == 0 && slowTimer >= 0.7f)
+	{
+		movementSpeed = originalMovementSpeed;
+		slowTimer = 0.0f;
+	}
 	if (movementSpeed != originalMovementSpeed)
 	{
 		slowTimer += (float)deltaTime;
 	}
-	if (slowTimer >= 2)
+	if (slowTimer >= 2.0f)
 	{
 		movementSpeed = originalMovementSpeed;
 		slowTimer = 0.0f;
 	}
 	enemyStateMachine->Update(deltaTime);
 
-#pragma region Calculate  rotation of mesh
+#pragma region Calculate rotation of mesh
 
-	
-	XMVECTOR meshDirection  = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
+
+	XMVECTOR meshDirection = XMVectorSet(0.0f, 0.0f, 1.0f, 0.0f);
 	XMVECTOR enemyDirection = XMVectorSet(direction.x, 0.0f, direction.z, 0.0f);
 
 	//Calculate angle between meshDir and enemyDir
@@ -149,11 +156,47 @@ void Enemy::Update(double deltaTime)
 	if (direction.x < 0)
 		degrees = -degrees;
 
+	if (std::isnan(degrees))
+		degrees = 0;
+
 	rotation.y = degrees;
 
-	
+
 #pragma endregion
 
+	
+
+	if (this->animationTime >= 0.9f)
+	{
+		this->animationTime = 0.00f;
+		if (this->animation == EnemyAnimations::ENEMY_ATTACK)
+		{
+			this->animation = EnemyAnimations::ENEMY_WALK;
+		}
+		else if (this->animation == EnemyAnimations::ENEMY_DIE)
+		{
+			this->timeToDie = true;
+		}
+	}
+
+	if (deathAnim && this->animation != EnemyAnimations::ENEMY_DIE)
+	{
+		this->animation = EnemyAnimations::ENEMY_DIE;
+		this->animationTime = 0.00f;
+	}
+
+	if (this->animation == EnemyAnimations::ENEMY_ATTACK)
+	{
+		this->animationTime += animationSpeed * 20.0f;
+	}
+	else if(this->animation == EnemyAnimations::ENEMY_WALK)
+	{
+		this->animationTime += animationSpeed * movementSpeed ;
+	}
+	else if (this->animation == EnemyAnimations::ENEMY_DIE)
+	{
+		this->animationTime += animationSpeed * 5.0f;
+	}
 
 	renderInfo.position = position;
 	renderInfo.rotation = rotation;
@@ -174,12 +217,15 @@ void Enemy::SetHealth(float health)
 
 void Enemy::Render()
 {
-	renderInfo.object = ENEMY_1;
-	renderInfo.position = position;
-	renderInfo.rotation = rotation;
-	renderInfo.radius = radius;
-	renderInfo.render = true;
-	renderInfo.isBeingHealed = this->isBeingHealed;
+	renderInfo.object			= ENEMY_1;
+	renderInfo.position			= position;
+	renderInfo.enemyAnim		= this->animation;
+	renderInfo.animationTime	= min(this->animationTime , 1.0f );
+	renderInfo.rotation			= rotation;
+	renderInfo.radius			= radius;
+	renderInfo.render			= true;
+	renderInfo.isBeingHealed	= this->isBeingHealed;
+
 	if (this->health < (maxHealth * 0.95))
 	{
 		renderInfo.showHealthBar = true;
@@ -215,7 +261,9 @@ void Enemy::Render()
 
 void Enemy::Respawn(XMFLOAT3 spawn)
 {
-
+	this->deathAnim = false;
+	this->timeToDie = false;
+	this->animation = EnemyAnimations::ENEMY_WALK;
 	if (this->fast)
 	{
 		this->position = spawn;
@@ -249,7 +297,9 @@ void Enemy::Spawn(XMFLOAT3 spawn)
 	this->DoT = 0.0f;
 	this->index = 0.0f;
 	this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_ATTACK_STATE);
-	
+	this->deathAnim = false;
+	this->animation = EnemyAnimations::ENEMY_WALK;
+	this->timeToDie = false;
 	
 	
 
@@ -302,7 +352,7 @@ void Enemy::AIPattern(Player* player, double deltaTime)
 		direction.x = playerPos.x - GetPosition().x;
 		direction.z = playerPos.z - GetPosition().z;
 
-		if (direction.Length() > 3)
+		if (direction.Length() > 1)
 		{
 			direction.Normalize();
 
@@ -388,9 +438,21 @@ void Enemy::EnemyWithEnemyCollision(EnemyBase* enemy, EnemyBase* enemys, double 
 
 		dir.Normalize();
 
-	
-		enemys->position.x -= dir.x * (float)deltaTime * movementSpeed;
-		enemys->position.z -= dir.z * (float)deltaTime * movementSpeed;
+		if (enemys->deathAnim)
+		{
+			enemy->position.x += dir.x * (float)deltaTime * movementSpeed;
+			enemy->position.z += dir.z * (float)deltaTime * movementSpeed;
+		}
+		else if (enemy->deathAnim)
+		{
+			enemys->position.x -= dir.x * (float)deltaTime * movementSpeed;
+			enemys->position.z -= dir.z * (float)deltaTime * movementSpeed;
+		}
+		else
+		{
+			enemys->position.x -= dir.x * (float)deltaTime * movementSpeed;
+			enemys->position.z -= dir.z * (float)deltaTime * movementSpeed;
+		}
 		
 	}
 	else if (enemyStateMachine->GetActiveState() == ENEMY_IDLE_STATE)

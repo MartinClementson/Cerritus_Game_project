@@ -19,8 +19,8 @@ void GUIElement::Initialize()
 	this->uv = { 0.0f,0.0f,0.0f };
 	this->size = { 0.0f,0.0f,0.0f };
 	grapichs = Graphics::GetInstance();
-	texture = UITextures::HUD;
-	numbers = UiNumbers::ZERO;
+	texture = texture;
+	numbers = numbers;
 }
 
 void GUIElement::Release()
@@ -30,7 +30,7 @@ void GUIElement::Release()
 
 void GUIElement::Update(double deltaTime)
 {
-	//renderInfo = { size,uv };
+	renderInfo = { size,uv };
 
 	renderInfo.UIobject = texture;
 	renderInfo.UInumber = numbers;

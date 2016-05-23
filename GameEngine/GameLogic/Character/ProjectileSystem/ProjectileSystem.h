@@ -15,7 +15,7 @@ public:
 	virtual ~ProjectileSystem();
 
 private:
-
+	XMFLOAT3 positionOffset;
 	XMFLOAT4X4 rotationMatrix;
 	XMFLOAT4X4 rotationMatrix2;
 	//Projectile firedProjectiles[100];

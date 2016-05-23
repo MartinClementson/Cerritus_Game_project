@@ -199,7 +199,7 @@ projectileSystem->UpdateProjectiles(deltaTime);
 
 void Player::Render()
 {
-	renderInfo.position.y =  2 * max(sin(hover)*-1, sin(hover));
+	renderInfo.position.y =  1.3f * max(sin(hover)*-1, sin(hover));
 	hover = (hover >= 9999999 ? 0 : hover);
 
 #pragma region healthbar render
@@ -311,7 +311,8 @@ void Player::Shoot(InputKeys input, double deltaTime)
 	
 	if (input == MOUSE_LEFT)
 	{
-		projectileSystem->FireProjectile(this->position, direction);
+		//XMFLOAT3 pos = this->renderInfo.position
+		projectileSystem->FireProjectile(this->renderInfo.position, direction);
 	}
 	else if (input == KEY_SPACE)
 	{
@@ -334,7 +335,7 @@ void Player::Shoot(InputKeys input, double deltaTime)
 float Player::GetHealth()
 {
 
-	return   this->health;
+	return this->health;
 
 }
 
