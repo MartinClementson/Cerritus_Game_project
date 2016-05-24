@@ -247,7 +247,7 @@ void Graphics::RenderScene()
 	}
 #pragma region Temporary code for early testing
 	std::vector<RenderInstructions>* tempInfo = new std::vector<RenderInstructions>;						//TEMPORARY
-													//TEMPORARY
+	//												//TEMPORARY
 	this->renderer->Render(tempInfo);				//TEMPORARY
 	delete tempInfo;
 #pragma endregion
@@ -441,12 +441,12 @@ void Graphics::CullGeometry()
 	for (size_t i = 0; i < this->enemyObjects->size(); i++)
 	{
 		//Frustum culling
-		if (renderer->FrustumCheck(enemyObjects->at(i)->position, enemyObjects->at(i)->radius + 10) == false)
-		{	
-			//If its not visible
-			this->enemyObjects->at(i)->render = false;
-			continue;
-		}
+		//if (renderer->FrustumCheck(enemyObjects->at(i)->position, enemyObjects->at(i)->radius + 10) == false)
+		//{	
+		//	//If its not visible
+		//	this->enemyObjects->at(i)->render = false;
+		//	continue;
+		//}
 		 
 		//else {
 
@@ -462,6 +462,8 @@ void Graphics::CullGeometry()
 			
 			instancesToRender				[ENEMY_1_INSTANCED] += 1;
 			enemyIndex										    += 1;
+			if (instanceMeshIndex.enemy1Mesh == -1) //if this is the first thing we found of that mesh, store the index.
+				instanceMeshIndex.enemy1Mesh = (int)i;
 		}
 		else
 		{
@@ -475,8 +477,6 @@ void Graphics::CullGeometry()
 		}
 
 			this->enemyObjects->at(i)->render = false; //Remove this object from normal rendering, since we render instanced
-				if (instanceMeshIndex.enemy1Mesh == -1) //if this is the first thing we found of that mesh, store the index.
-					instanceMeshIndex.enemy1Mesh = (int)i;
 
 				if (enemyObjects->at(i)->showHealthBar)
 				{

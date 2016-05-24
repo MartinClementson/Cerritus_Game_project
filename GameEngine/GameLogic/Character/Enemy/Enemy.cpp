@@ -22,6 +22,9 @@ Enemy::Enemy(XMFLOAT3 spawn, bool fast)
 	this->graphics = Graphics::GetInstance();
 	this->animation = EnemyAnimations::ENEMY_WALK;
 	this->animationTime = 0.0f;
+	this->direction.x = 5;
+	this->direction.y = 0;
+	this->direction.z = 0;
 	renderInfo.position = position;
 	renderInfo.rotation = rotation;
 	renderInfo.radius = radius;
@@ -44,6 +47,9 @@ void Enemy::Initialize()
 	this->deathAnim = false;
 	this->timeToDie = false;
 		
+	this->direction.x = 5;
+	this->direction.y = 0;
+	this->direction.z = 0;
 	//EnemyBase::Initialize();
 	
 
@@ -159,6 +165,12 @@ void Enemy::Update(double deltaTime)
 	if (std::isnan(degrees))
 		degrees = 0;
 
+	if (std::isnan(direction.x))
+		degrees = 0;
+	if (std::isnan(direction.y))
+		degrees = 0;
+	if (std::isnan(direction.z))
+		degrees = 0;
 	rotation.y = degrees;
 
 
@@ -221,7 +233,7 @@ void Enemy::Render()
 	renderInfo.position			= position;
 	renderInfo.enemyAnim		= this->animation;
 	renderInfo.animationTime	= min(this->animationTime , 1.0f );
-	renderInfo.rotation			= rotation;
+	renderInfo.rotation			= XMFLOAT3(0.0f,rotation.y,0.0f);
 	renderInfo.radius			= radius;
 	renderInfo.render			= true;
 	renderInfo.isBeingHealed	= this->isBeingHealed;
@@ -293,6 +305,12 @@ float Enemy::GetMaxHealth()
 void Enemy::Spawn(XMFLOAT3 spawn)
 {
 	this->position = spawn;
+	if (isnan(spawn.x))
+		position.x = 0.0f;
+	if (isnan(spawn.y))
+		position.x = 0.0f;
+	if (isnan(spawn.z))
+		position.x = 0.0f;
 	this->isAlive = true;
 	this->DoT = 0.0f;
 	this->index = 0.0f;
@@ -300,27 +318,29 @@ void Enemy::Spawn(XMFLOAT3 spawn)
 	this->deathAnim = false;
 	this->animation = EnemyAnimations::ENEMY_WALK;
 	this->timeToDie = false;
-	
+	this->direction.x = 5;
+	this->direction.y = 0;
+	this->direction.z = 0;
 	
 
 	if (this->fast) //kolla in här sen
 	{
 		this->charType = CharacterType::FAST_ENEMY;
 		this->position = spawn;
-		this->isAlive = true;
-		this->health = maxHealth;
-		this->DoT = 0.0f;
-		this->index = 0.0f;
+		this->isAlive  = true;
+		this->health   = maxHealth;
+		this->DoT      = 0.0f;
+		this->index    = 0.0f;
 		//this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_HEAL_STATE);
 	}
 	else
 	{
 		this->charType = CharacterType::SLOW_ENEMY;
 		this->position = spawn;
-		this->isAlive = true;
-		this->health = maxHealth;
-		this->DoT = 0.0f;
-		this->index = 0.0f;
+		this->isAlive  = true;
+		this->health   = maxHealth;
+		this->DoT      = 0.0f;
+		this->index    = 0.0f;
 		//this->GetStateMachine()->SetActiveState(EnemyState::ENEMY_HEAL_STATE);
 	}
 }
@@ -348,9 +368,17 @@ void Enemy::AIPattern(Player* player, double deltaTime)
 		
 		XMFLOAT3 playerPos = player->GetPosition();
 		
-
+		float u = GetPosition().x;
+		float i = GetPosition().z;
 		direction.x = playerPos.x - GetPosition().x;
 		direction.z = playerPos.z - GetPosition().z;
+
+		if (std::isnan(direction.x))
+			direction.x = 0;
+		if (std::isnan(direction.z))
+			direction.x = 0;
+		if (std::isnan(direction.y))
+			direction.x = 0;
 
 		if (direction.Length() > 1)
 		{
@@ -384,7 +412,13 @@ void Enemy::AIPatternHeal(EnemyBase* healer, double deltaTime)
 
 		direction.x = healerPos.x - GetPosition().x;
 		direction.z = healerPos.z - GetPosition().z;
-
+		if (std::isnan(direction.x))
+			direction.x = 0;
+		if (std::isnan(direction.z))
+			direction.x = 0;
+		if (std::isnan(direction.y))
+			direction.x = 0;
+		
 		if (direction.Length() > 6)
 		{
 			direction.Normalize();
