@@ -344,8 +344,8 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 		for (int i = 0; i < numPointLights; i++)
 		{
 
-			if (diffuseSamp.a > 0.1)
-			{
+			/*if (diffuseSamp.a > 0.1)
+			{*/
 
 				ComputePointLight(pointlights[i], pixelMat, worldPos, v,
 					A, D, S);
@@ -368,14 +368,14 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 						diffuse += D;
 						specular += S;
 					}
-			}
+			//}
 
 		}
 		//[unroll]
 		for (int d = 0; d < numDirLights; d++)
 		{
-			if (diffuseSamp.a > 0.1)
-			{
+			/*if (diffuseSamp.a > 0.1)
+			{*/
 					ComputeDirectionalLight(dirLights[d], pixelMat, v, A, D, S);
 				if (dirLights[d].castShadow != 0) //if the light casts shadows
 				{
@@ -395,7 +395,7 @@ float4 PS_main(VS_OUT input) : SV_TARGET
 					diffuse  += D;
 					specular += S;
 				}
-			}
+			//}
 
 		}
 

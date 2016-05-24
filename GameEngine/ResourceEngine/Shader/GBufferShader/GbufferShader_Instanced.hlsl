@@ -199,10 +199,6 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 	float laserFalloff = 0.4f;
 
 
-
-
-
-
 	float3 start = camPos.xyz - float3(0.0f, 9.7f, -14.0f);
 	float3 stop = input.mousePos.xyz;
 	stop.y = 0.0f;
@@ -294,6 +290,9 @@ GBUFFER_PS_OUT GBUFFER_PS_main(GBUFFER_GS_OUT input)
 
 	float depth = input.Pos.z / input.Pos.w;
 	output.normalRes.a = depth;
+	output.overlayRes.x = 0.0f;
+	output.overlayRes.y = 0.0f;
+	output.overlayRes.z = 0.0f;
 	output.overlayRes.a = col.x; //Alpha == laserpointer color
 	//output.depthRes = float4(depth, depth, depth, 1.0);
 

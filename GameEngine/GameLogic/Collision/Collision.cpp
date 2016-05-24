@@ -544,8 +544,8 @@ bool Collision::SceneColIn(double deltaTime, EnemyBase* enemy)
 
 	//{ 82.944f, 0.0f, 63.105f + GetSpawnPosAdd() };
 
-	enemy->position.x = 0;
-	enemy->position.z = 0;
+	/*enemy->position.x = 0;
+	enemy->position.z = 0;*/
 	return false;
 }
 bool Collision::PlayerDistanceCollision(EnemyBase* enemy)
