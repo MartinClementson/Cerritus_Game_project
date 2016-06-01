@@ -735,5 +735,8 @@
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\SkeletonData.obj">
       <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
     </Object>
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\GroupData.obj">
+      <Filter>ResourceEngine\ResourceManager\BRFImporterHandler\BRFImporterLib</Filter>
+    </Object>
   </ItemGroup>
 </Project>

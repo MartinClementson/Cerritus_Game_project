@@ -13,7 +13,7 @@ BRFImporterHandler::~BRFImporterHandler()
 void BRFImporterHandler::LoadFile(std::string fileName, bool mesh, bool material, bool skeleton, bool morphAnim, bool isScene)
 {
 	
-	this->currentFile->LoadFile(fileName, mesh, skeleton, material, morphAnim);
+	this->currentFile->LoadFile(fileName, mesh, skeleton, material, false,morphAnim, false);
 	
 	//offset to use for the materials
 	//offsetMaterial += materialID;

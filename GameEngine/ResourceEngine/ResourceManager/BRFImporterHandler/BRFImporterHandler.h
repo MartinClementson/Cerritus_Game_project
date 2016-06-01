@@ -6,6 +6,8 @@
 #include <MaterialData.h>
 #include <SkeletonData.h>
 #include <MorphData.h>
+#include <GroupData.h>
+#include <LightData.h>
 
 #include "../MeshManager/MeshManager.h"
 #include "../ShaderManager/ShaderManager.h"

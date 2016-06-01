@@ -26,8 +26,8 @@ namespace BRFImporterLib
 
 		MeshHeader* GetMeshData();
 		VertexHeaderNoSkeleton GetVertexNoSkeletonData(unsigned int vert);
-		VertexHeader GetVertexData(unsigned int vert);
-		IndexHeader GetIndexData(unsigned int ind);
+		VertexHeader  GetVertexData(unsigned int vert);
+		IndexHeader	  GetIndexData( unsigned int ind);
 		WeigthsHeader GetWeightData(unsigned int vert);
 		//CON DECON
 		MeshData();

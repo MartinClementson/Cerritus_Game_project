@@ -400,6 +400,7 @@
   <ItemGroup>
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\Fetch.obj" />
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\FileData.obj" />
+    <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\GroupData.obj" />
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\LightData.obj" />
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\MaterialData.obj" />
     <Object Include="ResourceEngine\ResourceManager\BRFImporterHandler\BRFRelease\Objects\MeshData.obj" />
